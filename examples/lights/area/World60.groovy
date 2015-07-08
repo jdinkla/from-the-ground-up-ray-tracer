@@ -13,15 +13,15 @@ sampler1.mapSamplesToUnitDisk()
 def r1
 def r2
 
-int numSamples = 2
+int numSamples = 16
 
 builder.world(id: "World60") {
 
     tracer(type: AreaLighting)
 
-    camera(d: 2000, eye: p(20, 10, 120), lookAt: p(20, 10, 0))
+    camera(d: 1000, eye: p(20, 10, 40), lookAt: p(20, 10, 0))
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.0)
+    ambientLight(color: RGBColor.WHITE, ls: 1.0)
 
     materials {
         phong(id: "green", cd: c(0, 1, 0), ka: 0.0, kd: 0.75, ks: 0.25, exp: 10)

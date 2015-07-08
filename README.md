@@ -68,6 +68,10 @@ Then choose an example from the `examples` directory.
 
 Some examples require PLY files that are available on the net.
 
+Here is another example:
+
+![Rendered image](http://dinkla.net/images/rendered/VariousObjectsWithReflections.png)
+
 Keywords
 --------
 ray tracing, rendering, Java, Groovy, DSL, ambient occlusion
