@@ -3,7 +3,12 @@ Ray Tracer in Groovy and Java
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
-by Kevin Suffern i implemented the code in Java classes.
+by Kevin Suffern i
+
+* translated the C++ code to Java
+* made the code more object oriented
+* made the code thread-safe for parallel execution
+* wrote a DSL for easy scene creation and manipulation
 
 For easier manipulation of scenes i implemented a DSL for scenes.
 
