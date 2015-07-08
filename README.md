@@ -3,7 +3,7 @@ Ray Tracer in Groovy and Java
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
-by Kevin Suffern i
+by Kevin Suffern I
 
 * translated the C++ code to Java
 * made the code more object oriented
