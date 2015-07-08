@@ -1,0 +1,51 @@
+group 'net.dinkla.raytracer'
+
+version '1.0'
+
+apply plugin: 'groovy'
+
+sourceCompatibility = 8
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src', 'examples']
+        }
+    }
+
+    test {
+        groovy {
+            srcDirs = ['test']
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile 'log4j:log4j:1.2.17'
+    testCompile 'org.testng:testng:6.9.4'
+}
+
+test.useTestNG()
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.dinkla.raytracer.gui.swing.SwingGui2'
+    }
+}
+
+task exec_cmd(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "net.dinkla.raytracer.gui.CommandLineUi"
+}
+
+task exec_gui(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "net.dinkla.raytracer.gui.swing.SwingGui2"
+}
+
+
