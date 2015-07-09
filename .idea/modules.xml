@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/net.dinkla.raytracer.iml" filepath="$PROJECT_DIR$/net.dinkla.raytracer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/groovy-java-ray-tracer.iml" filepath="$PROJECT_DIR$/groovy-java-ray-tracer.iml" />
     </modules>
   </component>
 </project>
