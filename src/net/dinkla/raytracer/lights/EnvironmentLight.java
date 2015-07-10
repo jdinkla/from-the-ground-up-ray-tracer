@@ -3,7 +3,6 @@ package net.dinkla.raytracer.lights;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.materials.Material;
-import net.dinkla.raytracer.math.Point2D;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.Vector3D;

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ import java.util.List;
  */
 public abstract class Generator {
 
-    public abstract void generateSamples(int numSamples, int numSets, List<Point2D> samples);
+    public abstract void generateSamples(int numSamples, int numSets, List<Point2DF> samples);
     
 }

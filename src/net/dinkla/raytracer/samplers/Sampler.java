@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.math.Random;
 
@@ -22,8 +22,8 @@ public class Sampler {
     protected int numSets;
 
 	protected ArrayList<Integer> shuffledIndices;
-    protected ArrayList<Point2D> samples;
-	protected ArrayList<Point2D> diskSamples;
+    protected ArrayList<Point2DF> samples;
+	protected ArrayList<Point2DF> diskSamples;
 	protected ArrayList<Point3D> hemisphereSamples;
 	protected ArrayList<Point3D> sphereSamples;
 
@@ -37,7 +37,7 @@ public class Sampler {
         count = 0;
         jump = 0;
         setupShuffledIndices();
-        samples = new ArrayList<Point2D>();
+        samples = new ArrayList<Point2DF>();
         samples.ensureCapacity(numSamples * numSets);
         sampler.generateSamples(numSamples, numSets, samples);
     }
@@ -65,7 +65,7 @@ public class Sampler {
 
     }
 
-    public Point2D sampleUnitSquare() {
+    public Point2DF sampleUnitSquare() {
 	    if (count % numSamples == 0) {
 		    jump = Random.randInt(numSets) * numSamples;
         }
@@ -74,7 +74,7 @@ public class Sampler {
 	    return (samples.get(index2));
     }
     
-    public Point2D sampleUnitDisk() {
+    public Point2DF sampleUnitDisk() {
         if (count % numSamples == 0) {
             jump = Random.randInt(numSets) * numSamples;
         }
@@ -95,17 +95,17 @@ public class Sampler {
         return (sphereSamples.get(jump + shuffledIndices.get(jump + count++ % numSamples)));
     }
     
-    public Point2D sampleOneSet() {
+    public Point2DF sampleOneSet() {
         return samples.get(count++ % numSamples);  
     }
 
     public void mapSamplesToUnitDisk() {
 	    int size = samples.size();
 	    float r, phi;		
-	    diskSamples = new ArrayList<Point2D>(size);
+	    diskSamples = new ArrayList<Point2DF>(size);
         for (int j = 0; j < size; j++) {
-            Point2D p = samples.get(j);
-            Point2D sp = new Point2D(2.0f * p.x - 1.0f, 2.0f * p.y - 1.0f);
+            Point2DF p = samples.get(j);
+            Point2DF sp = new Point2DF(2.0f * p.x - 1.0f, 2.0f * p.y - 1.0f);
             if (sp.x > -sp.y) {			// sectors 1 and 2
                 if (sp.x > sp.y) {		// sector 1
                     r = sp.x;
@@ -130,7 +130,7 @@ public class Sampler {
                 }
             }
             phi *= Math.PI / 4.0f;
-            diskSamples.add(new Point2D((float) (r * Math.cos(phi)), (float) (r * Math.sin(phi))));
+            diskSamples.add(new Point2DF((float) (r * Math.cos(phi)), (float) (r * Math.sin(phi))));
         }
     }
 
@@ -154,7 +154,7 @@ public class Sampler {
         float r, phi;
         sphereSamples = new ArrayList<Point3D>(numSamples * numSets);
 	    for (int j = 0; j < numSamples * numSets; j++) {
-            Point2D p = samples.get(j);
+            Point2DF p = samples.get(j);
             z 	= 1.0f - 2.0f * p.x;
             r 	= (float) Math.sqrt(1.0 - z * z);
             phi = (float) (2 * Math.PI * p.y);
@@ -164,26 +164,26 @@ public class Sampler {
         }
     }
 
-    protected static void shuffleXCoordinates(int numSamples, int numSets, List<Point2D> samples) {
+    protected static void shuffleXCoordinates(int numSamples, int numSets, List<Point2DF> samples) {
         for (int p = 0; p < numSets; p++) {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
                 float temp = samples.get(source).x;
-                samples.set(source, new Point2D(samples.get(target).x, samples.get(source).y));
-                samples.set(target, new Point2D(temp, samples.get(target).y));
+                samples.set(source, new Point2DF(samples.get(target).x, samples.get(source).y));
+                samples.set(target, new Point2DF(temp, samples.get(target).y));
             }
         }
     }
 
-    protected static void shuffleYCoordinates(int numSamples, int numSets, List<Point2D> samples) {
+    protected static void shuffleYCoordinates(int numSamples, int numSets, List<Point2DF> samples) {
         for (int p = 0; p < numSets; p++) {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
                 float temp = samples.get(i + p * numSamples + 1).y;
-                samples.set(source, new Point2D(samples.get(source).x, samples.get(target).y));
-                samples.set(target, new Point2D(samples.get(target).x, temp));
+                samples.set(source, new Point2DF(samples.get(source).x, samples.get(target).y));
+                samples.set(target, new Point2DF(samples.get(target).x, temp));
             }
         }
     }

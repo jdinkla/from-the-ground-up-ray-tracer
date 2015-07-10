@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 
 import java.util.List;
 
@@ -26,10 +26,10 @@ public class Hammersley extends Generator {
         return (x);
     }
 
-    public void generateSamples(int numSamples, int numSets, List<Point2D> samples) {
+    public void generateSamples(int numSamples, int numSets, List<Point2DF> samples) {
         for (int p = 0; p < numSets; p++) {
             for (int j = 0; j < numSamples; j++) {
-                Point2D pv = new Point2D((float) j / (float) numSamples, phi(j));
+                Point2DF pv = new Point2DF((float) j / (float) numSamples, phi(j));
                 samples.add(pv);
             }
         }

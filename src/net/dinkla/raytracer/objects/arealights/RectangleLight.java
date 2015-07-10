@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects.arealights;
 
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.lights.ILightSource;
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.math.Vector3D;
 import net.dinkla.raytracer.objects.Rectangle;
@@ -31,7 +31,7 @@ public class RectangleLight extends Rectangle implements ILightSource {
     }
 
     public Point3D sample() {
-        Point2D sp = sampler.sampleUnitSquare();
+        Point2DF sp = sampler.sampleUnitSquare();
         return p0.plus(a.mult(sp.x)).plus(b.mult(sp.y));
     }
     

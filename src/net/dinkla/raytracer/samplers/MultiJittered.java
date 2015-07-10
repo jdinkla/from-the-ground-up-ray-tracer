@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import net.dinkla.raytracer.math.Random;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MultiJittered extends Generator {
 
-    public void generateSamples(int numSamples, int numSets, List<Point2D> samples) {
+    public void generateSamples(int numSamples, int numSets, List<Point2DF> samples) {
         int n = (int) Math.sqrt((float)numSamples);
         float subcell_width = 1.0f / ((float) numSamples);
 
@@ -25,7 +25,7 @@ public class MultiJittered extends Generator {
                     final int target = i * n + j + p * numSamples;
                     final float x = (i * n + j) * subcell_width + Random.randFloat(0, subcell_width);
                     final float y = (j * n + i) * subcell_width + Random.randFloat(0, subcell_width);
-                    samples.add(target, new Point2D(x, y));
+                    samples.add(target, new Point2DF(x, y));
                 }
             }
         }
@@ -38,8 +38,8 @@ public class MultiJittered extends Generator {
                     int source = i * n + j + p * numSamples;
                     int target = i * n + k + p * numSamples;
                     float temp = samples.get(source).x;
-                    samples.set(source, new Point2D(samples.get(target).x, samples.get(source).y));
-                    samples.set(target, new Point2D(temp, samples.get(target).y));
+                    samples.set(source, new Point2DF(samples.get(target).x, samples.get(source).y));
+                    samples.set(target, new Point2DF(temp, samples.get(target).y));
                 }
             }
         }
@@ -52,8 +52,8 @@ public class MultiJittered extends Generator {
                     int target = k * n + i + p * numSamples;
                     int source = j * n + i + p * numSamples;
                     float temp = samples.get(source).y;
-                    samples.set(source, new Point2D(samples.get(source).x, samples.get(target).y));
-                    samples.set(target, new Point2D(samples.get(target).x, temp));
+                    samples.set(source, new Point2DF(samples.get(source).x, samples.get(target).y));
+                    samples.set(target, new Point2DF(samples.get(target).x, temp));
                 }
             }
         }

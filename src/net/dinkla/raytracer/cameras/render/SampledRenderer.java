@@ -3,7 +3,7 @@ package net.dinkla.raytracer.cameras.render;
 import net.dinkla.raytracer.cameras.lenses.ILens;
 import net.dinkla.raytracer.colors.ColorAccumulator;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.samplers.MultiJittered;
 import net.dinkla.raytracer.samplers.Sampler;
@@ -34,7 +34,7 @@ public class SampledRenderer<C extends Color> implements ISingleRayRenderer {
     public Color render(int r, int c) {
         ColorAccumulator<C> color = new ColorAccumulator<C>();
         for (int j = 0; j < numSamples; j++) {
-            Point2D sp = sampler.sampleUnitSquare();
+            Point2DF sp = sampler.sampleUnitSquare();
             Ray ray = lens.getRaySampled(r, c, sp);
             color.plus(tracer.trace(ray));
         }

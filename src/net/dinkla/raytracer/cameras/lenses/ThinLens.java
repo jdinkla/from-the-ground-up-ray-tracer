@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.cameras.lenses;
 
 import net.dinkla.raytracer.ViewPlane;
-import net.dinkla.raytracer.cameras.lenses.AbstractLens;
 import net.dinkla.raytracer.math.*;
 import net.dinkla.raytracer.samplers.Sampler;
 
@@ -34,24 +33,24 @@ public class ThinLens extends AbstractLens {
         return getRay(x, y);
     }
 
-    public Ray getRaySampled(int r, int c, Point2D sp) {
+    public Ray getRaySampled(int r, int c, Point2DF sp) {
         float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres() + sp.x));
         float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres() + sp.y));
         return getRay(x, y);
     }
 
     private Ray getRay(float x, float y) {
-        Point2D pp = new Point2D(x, y);
-        Point2D dp = sampler.sampleUnitDisk();
-        Point2D lp = new Point2D(dp.x * lensRadius, dp.y * lensRadius);
+        Point2DF pp = new Point2DF(x, y);
+        Point2DF dp = sampler.sampleUnitDisk();
+        Point2DF lp = new Point2DF(dp.x * lensRadius, dp.y * lensRadius);
 //        Point3D o = eye.plus(u.mult(lp.x)).plus(v.mult(lp.y));
         Point3D o = eye.plus(uvw.pp(lp.x, lp.y, 0));
         Ray ray = new Ray(eye, getRayDirection(pp, lp));
         return ray;
     }
     
-    protected Vector3D getRayDirection(final Point2D pixel, final Point2D lens) {
-        final Point2D p = new Point2D(pixel.x * f/d, pixel.y * f/d);
+    protected Vector3D getRayDirection(final Point2DF pixel, final Point2DF lens) {
+        final Point2DF p = new Point2DF(pixel.x * f/d, pixel.y * f/d);
 //        final Vector3D v1 = u.mult(p.x - lens.x);
 //        final Vector3D v2 = v.mult(p.y - lens.y);
 //        final Vector3D v3 = w.mult(f);

@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Histogram;
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -22,7 +22,7 @@ public abstract class GeneratorTest {
     static final int NUM_SAMPLES = 10000;
     static final int NUM_SETS = 10;
 
-    protected List<Point2D> samples = new ArrayList<Point2D>();
+    protected List<Point2DF> samples = new ArrayList<Point2DF>();
 
     @BeforeTest
     public abstract void initialize();
@@ -34,7 +34,7 @@ public abstract class GeneratorTest {
 
     @Test
     public void betweenZeroAndOne() {
-        for (Point2D p : samples) {
+        for (Point2DF p : samples) {
             assert p.x >= 0.0f && p.x < 1.0f;
             assert p.y >= 0.0f && p.y < 1.0f;
         }
@@ -46,7 +46,7 @@ public abstract class GeneratorTest {
         Histogram histY = new Histogram();
         Histogram histXY = new Histogram();
 
-        for (Point2D p : samples) {
+        for (Point2DF p : samples) {
             final int x = (int) (p.x * 10);
             final int y = (int) (p.y * 10);
             histX.add(x);

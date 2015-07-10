@@ -1,7 +1,5 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
-import net.dinkla.raytracer.math.Point3D;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
@@ -25,7 +23,7 @@ public class SamplerTest {
     public void testSampleUnitDisk() throws Exception {
 //        s.mapSamplesToUnitDisk();
 //        for (int i=0; i<NUM; i++) {
-//            Point2D p = s.sampleUnitDisk();
+//            Point2DF p = s.sampleUnitDisk();
 //            assertTrue(0 <= p.x);
 //            assertTrue(p.x < 1);
 //            assertTrue(0 <= p.y);

@@ -25,11 +25,11 @@ public class FishEye extends AbstractLens {
         maxPsi = 1.0f;
     }
 
-    public Ray getRaySampled(int r, int c, Point2D sp) {
+    public Ray getRaySampled(int r, int c, Point2DF sp) {
         Ray ray = null;
         final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres() + sp.x);
         final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres() + sp.y);
-        final Point2D pp = new Point2D(x, y);
+        final Point2DF pp = new Point2DF(x, y);
         RayDirection rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         if (rd.rSquared <= 1) {
             ray = new Ray(eye, rd.direction);
@@ -41,7 +41,7 @@ public class FishEye extends AbstractLens {
         Ray ray = null;
         final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres());
         final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres());
-        final Point2D pp = new Point2D(x, y);
+        final Point2DF pp = new Point2DF(x, y);
         RayDirection rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         if (rd.rSquared <= 1) {
             ray = new Ray(eye, rd.direction);
@@ -49,7 +49,7 @@ public class FishEye extends AbstractLens {
         return ray;
     }
 
-    protected RayDirection getRayDirection(Point2D pp, Resolution resolution, float s) {
+    protected RayDirection getRayDirection(Point2DF pp, Resolution resolution, float s) {
         RayDirection rd = new RayDirection();
         float x = 2.0f / (s * resolution.hres()) * pp.x;
         float y = 2.0f / (s * resolution.vres()) * pp.y;

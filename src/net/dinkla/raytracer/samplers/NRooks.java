@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Point2D;
+import net.dinkla.raytracer.math.Point2DF;
 import net.dinkla.raytracer.math.Random;
 
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class NRooks extends Generator {
 
-    public void generateSamples(int numSamples, int numSets, List<Point2D> samples) {
+    public void generateSamples(int numSamples, int numSets, List<Point2DF> samples) {
         for (int p = 0; p < numSets; p++) {
             for (int j = 0; j < numSamples; j++) {
                 final float x = (j + Random.randFloat()) / numSamples;
                 final float y = (j + Random.randFloat()) / numSamples;
-                samples.add(new Point2D(x, y));
+                samples.add(new Point2DF(x, y));
             }
         }
 
