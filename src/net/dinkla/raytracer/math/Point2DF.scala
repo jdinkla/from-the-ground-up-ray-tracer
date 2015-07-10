@@ -9,7 +9,7 @@ final class Point2DF(x2: Float, y2: Float) extends Point2D[Float](x2, y2) {
    override val x: Float = x2
    override val y: Float = y2
 
-   override def length: Float = math.sqrt(sqrLength).toFloat
+   override def length: Float = scala.math.sqrt(sqrLength).toFloat
 
    override def unary_-(): Point2D[Float] = new Point2DF(-x, -y)
 

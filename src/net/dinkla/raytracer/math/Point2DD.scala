@@ -5,7 +5,7 @@ package net.dinkla.raytracer.math
   */
 final class Point2DD(x: Double, y: Double) extends Point2D[Double](x, y) {
 
-   override def length: Double = math.sqrt(sqrLength)
+   override def length: Double = scala.math.sqrt(sqrLength)
 
    override def unary_-(): Point2DD = new Point2DD(-x, -y)
 

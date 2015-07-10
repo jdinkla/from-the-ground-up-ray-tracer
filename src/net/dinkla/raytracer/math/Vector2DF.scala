@@ -5,7 +5,7 @@ package net.dinkla.raytracer.math
   */
 final class Vector2DF(x: Float, y: Float) extends Vector2D[Float](x, y) {
 
-   override def length: Float = math.sqrt(sqrLength).toFloat
+   override def length: Float = scala.math.sqrt(sqrLength).toFloat
 
    override def unary_-(): Vector2D[Float] = new Vector2DF(-x, -y)
 
