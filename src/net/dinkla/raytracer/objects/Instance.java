@@ -52,8 +52,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        Point3DF ro = trans.invMatrix.mult(ray.o);
-        Vector3DF rd = trans.invMatrix.mult(ray.d);
+        Point3DF ro = trans.invMatrix.mult(ray.getO());
+        Vector3DF rd = trans.invMatrix.mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.hit(invRay, sr)) {
             // TODO: Instance hit?
@@ -71,8 +71,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Point3DF ro = trans.invMatrix.mult(ray.o);
-        Vector3DF rd = trans.invMatrix.mult(ray.d);
+        Point3DF ro = trans.invMatrix.mult(ray.getO());
+        Vector3DF rd = trans.invMatrix.mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.shadowHit(invRay, tmin)) {
             return true;

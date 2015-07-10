@@ -15,7 +15,8 @@ final class Point3DF(x2: Float, y2: Float, z2: Float) extends Point3D[Float](x2,
 
    //override def plus(v: Vector3D[Float]): Point3D[Float] = new Point3DF(x + v.x, y + v.y, z + v.z)
 
-   override def plus(p: Point3D[Float]): Vector3DF = new Vector3DF(x + p.x, y + p.y, z + p.z)
+  override def plus(p: Point3D[Float]): Vector3DF = new Vector3DF(x + p.x, y + p.y, z + p.z)
+  override def +(v: Vector3D[Float]): Point3DF = plus(v)
 
    override def plus(f: Float): Point3DF = new Point3DF(x + f, y + f, z + f)
 

@@ -48,8 +48,8 @@ public class Rectangle extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        final float nom = p0.minus(ray.o).dot(normal);
-        final float denom = ray.d.dot(normal);
+        final float nom = p0.minus(ray.getO()).dot(normal);
+        final float denom = ray.getD().dot(normal);
         final float t = nom / denom;
 
         if (t <= MathUtils.K_EPSILON) {
@@ -77,8 +77,8 @@ public class Rectangle extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        final float nom = p0.minus(ray.o).dot(normal);
-        final float denom = ray.d.dot(normal);
+        final float nom = p0.minus(ray.getO()).dot(normal);
+        final float denom = ray.getD().dot(normal);
         final float t = nom / denom;
 
         if (t <= MathUtils.K_EPSILON) {

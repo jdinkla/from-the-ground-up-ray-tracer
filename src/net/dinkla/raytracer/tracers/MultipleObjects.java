@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.tracers;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.WrappedFloat;
@@ -23,8 +22,8 @@ public class MultipleObjects<C extends Color> extends Tracer<C> {
     @Override
     public C trace(Ray ray) {
         assert(null != ray);
-        assert(null != ray.o);
-        assert(null != ray.d);
+        assert(null != ray.getO());
+        assert(null != ray.getD());
         Shade sr = new Shade();
         if (world.hit(ray, sr)) {
             sr.ray = ray;

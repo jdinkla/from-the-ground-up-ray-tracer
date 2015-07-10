@@ -47,7 +47,7 @@ public class Transparent extends Phong {
     @Override
     public Color shade(World world, Shade sr) {
         Color l = super.shade(world, sr);
-        Vector3DF wo = sr.ray.d.mult(-1);
+        Vector3DF wo = sr.ray.getD().mult(-1);
         BRDF.Sample brdf = reflectiveBrdf.sampleF(sr, wo);
         // trace reflected ray
         Ray reflectedRay = new Ray(sr.getHitPoint(), brdf.wi);

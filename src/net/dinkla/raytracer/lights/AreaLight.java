@@ -52,7 +52,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
     }
 
     public boolean inShadow(World<C> world, Ray ray, Shade sr, Sample sample) {
-        float d = sample.samplePoint.minus(ray.o).dot(ray.d);
+        float d = sample.samplePoint.minus(ray.getO()).dot(ray.getD());
         return world.inShadow(ray, sr, d);
     }
 

@@ -34,18 +34,18 @@ public class SmoothTriangle extends GeometricObject {
     public boolean hit(final Ray ray, Hit sr) {
         float a = v0.x() - v1.x();
         float b = v0.x() - v2.x();
-        float c = ray.d.x();
-        float d = v0.x() - ray.o.x();
+        float c = ray.getD().x();
+        float d = v0.x() - ray.getO().x();
 
         float e = v0.y() - v1.y();
         float f = v0.y() - v2.y();
-        float g = ray.d.y();
-        float h = v0.y() - ray.o.y();
+        float g = ray.getD().y();
+        float h = v0.y() - ray.getO().y();
 
         float i = v0.z() - v1.z();
         float j = v0.z() - v2.z();
-        float k = ray.d.z();
-        float l = v0.z() - ray.o.z();
+        float k = ray.getD().z();
+        float l = v0.z() - ray.getO().z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;
@@ -99,18 +99,18 @@ public class SmoothTriangle extends GeometricObject {
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
         float a = v0.x() - v1.x();
         float b = v0.x() - v2.x();
-        float c = ray.d.x();
-        float d = v0.x() - ray.o.x();
+        float c = ray.getD().x();
+        float d = v0.x() - ray.getO().x();
 
         float e = v0.y() - v1.y();
         float f = v0.y() - v2.y();
-        float g = ray.d.y();
-        float h = v0.y() - ray.o.y();
+        float g = ray.getD().y();
+        float h = v0.y() - ray.getO().y();
 
         float i = v0.z() - v1.z();
         float j = v0.z() - v2.z();
-        float k = ray.d.z();
-        float l = v0.z() - ray.o.z();
+        float k = ray.getD().z();
+        float l = v0.z() - ray.getO().z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;

@@ -145,12 +145,12 @@ public class SparseGrid extends Grid {
             return false;
         }
 
-        float ox = ray.o.x();
-        float oy = ray.o.y();
-        float oz = ray.o.z();
-        float dx = ray.d.x();
-        float dy = ray.d.y();
-        float dz = ray.d.z();
+        float ox = ray.getO().x();
+        float oy = ray.getO().y();
+        float oz = ray.getO().z();
+        float dx = ray.getD().x();
+        float dy = ray.getD().y();
+        float dz = ray.getD().z();
 
         float x0 = bbox.p.x();
         float y0 = bbox.p.y();
@@ -216,7 +216,7 @@ public class SparseGrid extends Grid {
 
         int ix, iy, iz;
 
-        if (bbox.inside(ray.o)) {              // does the ray start inside the grid?
+        if (bbox.inside(ray.getO())) {              // does the ray start inside the grid?
             ix = (int) MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0, nx - 1);
             iy = (int) MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0, ny - 1);
             iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);

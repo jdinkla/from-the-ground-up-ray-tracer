@@ -28,13 +28,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final double x1 = (double) ray.o.x();
-        final double y1 = (double) ray.o.y();
-        final double z1 = (double) ray.o.z();
+        final double x1 = (double) ray.getO().x();
+        final double y1 = (double) ray.getO().y();
+        final double z1 = (double) ray.getO().z();
 
-        final double d1 = (double) ray.d.x();
-        final double d2 = (double) ray.d.y();
-        final double d3 = (double) ray.d.z();
+        final double d1 = (double) ray.getD().x();
+        final double d2 = (double) ray.getD().y();
+        final double d3 = (double) ray.getD().z();
 
         double coeffs[] = new double[5];
         double roots[] = new double[4];
@@ -78,13 +78,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final float x1 = (float) ray.o.x();
-        final float y1 = (float) ray.o.y();
-        final float z1 = (float) ray.o.z();
+        final float x1 = (float) ray.getO().x();
+        final float y1 = (float) ray.getO().y();
+        final float z1 = (float) ray.getO().z();
 
-        final float d1 = (float) ray.d.x();
-        final float d2 = (float) ray.d.y();
-        final float d3 = (float) ray.d.z();
+        final float d1 = (float) ray.getD().x();
+        final float d2 = (float) ray.getD().y();
+        final float d3 = (float) ray.getD().z();
 
         float coeffs[] = new float[5];
         float roots[] = new float[4];

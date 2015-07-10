@@ -34,9 +34,9 @@ public class Sphere extends GeometricObject {
     @Override
     public boolean hit(final Ray ray, Hit sr) {
         float t;
-        Vector3DF temp = ray.o.minus(center);
-        float a = ray.d.dot(ray.d);
-        float b = temp.mult(2).dot(ray.d);
+        Vector3DF temp = ray.getO().minus(center);
+        float a = ray.getD().dot(ray.getD());
+        float b = temp.mult(2).dot(ray.getD());
         float c = temp.dot(temp) - radius * radius;
         float disc = b * b - 4 * a * c;
 
@@ -48,13 +48,13 @@ public class Sphere extends GeometricObject {
             t = (-b - e) / denom;
             if (t > MathUtils.K_EPSILON) {
                 sr.setT(t);
-                sr.setNormal(new Normal(ray.d.mult(t).plus(temp).mult(1.0f/radius)));
+                sr.setNormal(new Normal(ray.getD().mult(t).plus(temp).mult(1.0f/radius)));
                 return true;
             }
             t = (-b + e) / denom;
             if (t > MathUtils.K_EPSILON) {
                 sr.setT(t);
-                sr.setNormal(new Normal(ray.d.mult(t).plus(temp).mult(1.0f/radius)));
+                sr.setNormal(new Normal(ray.getD().mult(t).plus(temp).mult(1.0f/radius)));
                 return true;
             }
         }
@@ -64,9 +64,9 @@ public class Sphere extends GeometricObject {
     @Override
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
         float t;
-        Vector3DF temp = ray.o.minus(center);
-        float a = ray.d.dot(ray.d);
-        float b = temp.mult(2).dot(ray.d);
+        Vector3DF temp = ray.getO().minus(center);
+        float a = ray.getD().dot(ray.getD());
+        float b = temp.mult(2).dot(ray.getD());
         float c = temp.dot(temp) - radius * radius;
         float disc = b * b - 4 * a * c;
 

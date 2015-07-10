@@ -29,9 +29,9 @@ public class Plane extends GeometricObject {
     @Override
     public boolean hit(final Ray ray, Hit sr) {
         // (point - ray.o) * normal / (ray.d * normal)
-        Vector3DF v = point.minus(ray.o);
+        Vector3DF v = point.minus(ray.getO());
         float nom = v.dot(normal);
-        float denom = ray.d.dot(normal);
+        float denom = ray.getD().dot(normal);
 
         float t = nom / denom;
         if (t  > MathUtils.K_EPSILON) {
@@ -45,9 +45,9 @@ public class Plane extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Vector3DF v = point.minus(ray.o);
+        Vector3DF v = point.minus(ray.getO());
         float nom = v.dot(normal);
-        float denom = ray.d.dot(normal);
+        float denom = ray.getD().dot(normal);
         float t = nom / denom;
         if (t  > MathUtils.K_EPSILON) {
             tmin.setT(t);

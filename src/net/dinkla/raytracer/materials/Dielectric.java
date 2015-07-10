@@ -38,7 +38,7 @@ public class Dielectric extends Phong {
     @Override
     public Color shade(World world, Shade sr) {
         Color L = super.shade(world, sr);
-        Vector3DF wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.getD().negate();
         WrappedFloat t = WrappedFloat.createMax();
         BRDF.Sample sample = fresnelBrdf.sampleF(sr, wo);
         Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);

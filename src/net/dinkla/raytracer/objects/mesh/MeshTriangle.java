@@ -51,16 +51,16 @@ public class MeshTriangle extends GeometricObject {
 
         float a = p0.x() - p1.x();
         float b = p0.x() - p2.x();
-        float c = ray.d.x();
-        float d = p0.x() - ray.o.x();
+        float c = ray.getD().x();
+        float d = p0.x() - ray.getO().x();
         float e = p0.y() - p1.y();
         float f = p0.y() - p2.y();
-        float g = ray.d.y();
-        float h = p0.y() - ray.o.y();
+        float g = ray.getD().y();
+        float h = p0.y() - ray.getO().y();
         float i = p0.z() - p1.z();
         float j = p0.z() - p2.z();
-        float k = ray.d.z();
-        float l = p0.z() - ray.o.z();
+        float k = ray.getD().z();
+        float l = p0.z() - ray.getO().z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;
