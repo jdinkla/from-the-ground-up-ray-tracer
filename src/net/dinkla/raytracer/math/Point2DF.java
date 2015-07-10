@@ -1,12 +1,15 @@
+/*
 package net.dinkla.raytracer.math;
 
+*/
 /**
  * Created by IntelliJ IDEA.
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 15:17:43
  * To change this template use File | Settings | File Templates.
- */
+ *//*
+
 public class Point2DF extends Element2D {
 
     public Point2DF(float x, float y) {
@@ -29,4 +32,4 @@ public class Point2DF extends Element2D {
         return new Point2DF(x - v.x, y - v.y);
     }
 
-}
+}*/

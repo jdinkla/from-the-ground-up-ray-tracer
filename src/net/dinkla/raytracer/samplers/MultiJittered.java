@@ -37,9 +37,9 @@ public class MultiJittered extends Generator {
                     int k = Random.randInt(j, n);
                     int source = i * n + j + p * numSamples;
                     int target = i * n + k + p * numSamples;
-                    float temp = samples.get(source).x;
-                    samples.set(source, new Point2DF(samples.get(target).x, samples.get(source).y));
-                    samples.set(target, new Point2DF(temp, samples.get(target).y));
+                    float temp = samples.get(source).x();
+                    samples.set(source, new Point2DF(samples.get(target).x(), samples.get(source).y()));
+                    samples.set(target, new Point2DF(temp, samples.get(target).y()));
                 }
             }
         }
@@ -51,9 +51,9 @@ public class MultiJittered extends Generator {
                     int k = Random.randInt(j, n);
                     int target = k * n + i + p * numSamples;
                     int source = j * n + i + p * numSamples;
-                    float temp = samples.get(source).y;
-                    samples.set(source, new Point2DF(samples.get(source).x, samples.get(target).y));
-                    samples.set(target, new Point2DF(samples.get(target).x, temp));
+                    float temp = samples.get(source).y();
+                    samples.set(source, new Point2DF(samples.get(source).x(), samples.get(target).y()));
+                    samples.set(target, new Point2DF(samples.get(target).x(), temp));
                 }
             }
         }

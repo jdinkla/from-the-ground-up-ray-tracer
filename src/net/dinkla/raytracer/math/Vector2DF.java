@@ -1,12 +1,15 @@
+/*
 package net.dinkla.raytracer.math;
 
+*/
 /**
  * Created by IntelliJ IDEA.
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 15:17:35
  * To change this template use File | Settings | File Templates.
- */
+ *//*
+
 public class Vector2DF extends Element2D {
 
     public Vector2DF(final float x, final float y) {
@@ -38,4 +41,4 @@ public class Vector2DF extends Element2D {
         return new Vector2DF(x / l, y / l);
     }
 
-}
+}*/

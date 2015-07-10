@@ -31,7 +31,7 @@ public class DiskLight extends Disk implements ILightSource {
     public Point3D sample() {
         Point2DF sp = sampler.sampleUnitDisk();
         assert(null != sampler);
-        Vector2DF v = new Vector2DF(sp.x * radius, sp.y * radius);
-        return center.plus(new Vector3D(v.x, v.y, 0));
+        Vector2DF v = new Vector2DF(sp.x() * radius, sp.y() * radius);
+        return center.plus(new Vector3D((float) v.x(), (float) v.y(), 0.0f));
     }
 }

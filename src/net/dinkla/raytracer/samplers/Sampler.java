@@ -105,26 +105,26 @@ public class Sampler {
 	    diskSamples = new ArrayList<Point2DF>(size);
         for (int j = 0; j < size; j++) {
             Point2DF p = samples.get(j);
-            Point2DF sp = new Point2DF(2.0f * p.x - 1.0f, 2.0f * p.y - 1.0f);
-            if (sp.x > -sp.y) {			// sectors 1 and 2
-                if (sp.x > sp.y) {		// sector 1
-                    r = sp.x;
-                    phi = sp.y / sp.x;
+            Point2DF sp = new Point2DF(2.0f * p.x() - 1.0f, 2.0f * p.y() - 1.0f);
+            if (sp.x() > -sp.y()) {			// sectors 1 and 2
+                if (sp.x() > sp.y()) {		// sector 1
+                    r = sp.x();
+                    phi = sp.y() / sp.x();
                 }
                 else {					// sector 2
-                    r = sp.y;
-                    phi = 2 - sp.x / sp.y;
+                    r = sp.y();
+                    phi = 2 - sp.x() / sp.y();
                 }
             }
             else {						// sectors 3 and 4
-                if (sp.x < sp.y) {		// sector 3
-                    r = -sp.x;
-                    phi = 4 + sp.y / sp.x;
+                if (sp.x() < sp.y()) {		// sector 3
+                    r = -sp.x();
+                    phi = 4 + sp.y() / sp.x();
                 }
                 else {					// sector 4
-                    r = -sp.y;
-                    if (sp.y != 0.0)	// avoid division by zero at origin
-                        phi = 6 - sp.x / sp.y;
+                    r = -sp.y();
+                    if (sp.y() != 0.0)	// avoid division by zero at origin
+                        phi = 6 - sp.x() / sp.y();
                     else
                         phi  = 0.0f;
                 }
@@ -138,9 +138,9 @@ public class Sampler {
     	int size = samples.size();
         hemisphereSamples = new ArrayList<Point3D>(numSamples * numSets);
         for (int j = 0; j < size; j++) {
-            float cos_phi = (float) Math.cos(2.0 * Math.PI * samples.get(j).x);
-            float sin_phi = (float) Math.sin(2.0 * Math.PI * samples.get(j).x);
-            float cos_theta = (float) Math.pow((1.0 - samples.get(j).y), 1.0 / (exp + 1.0));
+            float cos_phi = (float) Math.cos(2.0 * Math.PI * samples.get(j).x());
+            float sin_phi = (float) Math.sin(2.0 * Math.PI * samples.get(j).x());
+            float cos_theta = (float) Math.pow((1.0 - samples.get(j).y()), 1.0 / (exp + 1.0));
             float sin_theta = (float) Math.sqrt (1.0 - cos_theta * cos_theta);
             float pu = sin_theta * cos_phi;
             float pv = sin_theta * sin_phi;
@@ -155,9 +155,9 @@ public class Sampler {
         sphereSamples = new ArrayList<Point3D>(numSamples * numSets);
 	    for (int j = 0; j < numSamples * numSets; j++) {
             Point2DF p = samples.get(j);
-            z 	= 1.0f - 2.0f * p.x;
+            z 	= 1.0f - 2.0f * p.x();
             r 	= (float) Math.sqrt(1.0 - z * z);
-            phi = (float) (2 * Math.PI * p.y);
+            phi = (float) (2 * Math.PI * p.y());
             x 	= (float) (r * Math.cos(phi));
             y 	= (float) (r * Math.sin(phi));
             sphereSamples.add(new Point3D(x, y, z));
@@ -169,9 +169,9 @@ public class Sampler {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
-                float temp = samples.get(source).x;
-                samples.set(source, new Point2DF(samples.get(target).x, samples.get(source).y));
-                samples.set(target, new Point2DF(temp, samples.get(target).y));
+                float temp = samples.get(source).x();
+                samples.set(source, new Point2DF(samples.get(target).x(), samples.get(source).y()));
+                samples.set(target, new Point2DF(temp, samples.get(target).y()));
             }
         }
     }
@@ -181,9 +181,9 @@ public class Sampler {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
-                float temp = samples.get(i + p * numSamples + 1).y;
-                samples.set(source, new Point2DF(samples.get(source).x, samples.get(target).y));
-                samples.set(target, new Point2DF(samples.get(target).x, temp));
+                float temp = samples.get(i + p * numSamples + 1).y();
+                samples.set(source, new Point2DF(samples.get(source).x(), samples.get(target).y()));
+                samples.set(target, new Point2DF(samples.get(target).x(), temp));
             }
         }
     }
