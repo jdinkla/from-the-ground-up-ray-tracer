@@ -3,6 +3,7 @@ group 'net.dinkla.raytracer'
 version '1.0'
 
 apply plugin: 'groovy'
+apply plugin: 'scala'
 
 sourceCompatibility = 8
 
@@ -11,10 +12,16 @@ sourceSets {
         groovy {
             srcDirs = ['src', 'examples']
         }
+        scala {
+            srcDirs = ['src', 'examples']
+        }
     }
 
     test {
         groovy {
+            srcDirs = ['test']
+        }
+        scala {
             srcDirs = ['test']
         }
     }
@@ -26,6 +33,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile 'org.scala-lang:scala-library:2.11.7'
     compile 'log4j:log4j:1.2.17'
     testCompile 'org.testng:testng:6.9.4'
 }

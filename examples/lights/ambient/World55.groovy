@@ -2,13 +2,11 @@
 // !!! DO NOT CHANGED. USED FOR BENCHMARKS !!!
 //
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.samplers.PureRandom
 import net.dinkla.raytracer.samplers.MultiJittered;
 
 /*

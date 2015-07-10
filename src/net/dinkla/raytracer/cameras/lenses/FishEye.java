@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.cameras.lenses;
 
 import net.dinkla.raytracer.ViewPlane;
-import net.dinkla.raytracer.cameras.lenses.AbstractLens;
 import net.dinkla.raytracer.math.*;
 import net.dinkla.raytracer.utilities.Resolution;
 
@@ -28,8 +27,8 @@ public class FishEye extends AbstractLens {
 
     public Ray getRaySampled(int r, int c, Point2D sp) {
         Ray ray = null;
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres + sp.x);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres + sp.y);
+        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres() + sp.x);
+        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres() + sp.y);
         final Point2D pp = new Point2D(x, y);
         RayDirection rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         if (rd.rSquared <= 1) {
@@ -40,8 +39,8 @@ public class FishEye extends AbstractLens {
 
     public Ray getRaySingle(int r, int c) {
         Ray ray = null;
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres);
+        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres());
+        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres());
         final Point2D pp = new Point2D(x, y);
         RayDirection rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         if (rd.rSquared <= 1) {
@@ -52,8 +51,8 @@ public class FishEye extends AbstractLens {
 
     protected RayDirection getRayDirection(Point2D pp, Resolution resolution, float s) {
         RayDirection rd = new RayDirection();
-        float x = 2.0f / (s * resolution.hres) * pp.x;
-        float y = 2.0f / (s * resolution.vres) * pp.y;
+        float x = 2.0f / (s * resolution.hres()) * pp.x;
+        float y = 2.0f / (s * resolution.vres()) * pp.y;
         float rSquared = x * x + y * y;
         if (rSquared <= 1) {
             float r = (float) Math.sqrt(rSquared);

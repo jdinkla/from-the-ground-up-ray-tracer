@@ -34,7 +34,7 @@ public class ImageFrame extends JFrame implements IFilm {
         film.initialize(1, resolution);
         canvas = new ImageCanvas(film.getImg());
         add(canvas);
-        setSize(resolution.hres, resolution.vres+22);
+        setSize(resolution.hres(), resolution.vres()+22);
         addWindowListener(
                 new WindowAdapter() {
                     public void windowClosing(WindowEvent ev) {

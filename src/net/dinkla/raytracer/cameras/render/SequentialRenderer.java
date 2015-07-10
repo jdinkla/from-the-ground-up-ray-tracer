@@ -24,8 +24,8 @@ public class SequentialRenderer<C extends Color> implements IRenderer {
     }
 
     public void render(IFilm film, int frame) {
-        for (int r = 0; r < film.getResolution().vres; r++) {
-            for (int c = 0; c < film.getResolution().hres; c++) {
+        for (int r = 0; r < film.getResolution().vres(); r++) {
+            for (int c = 0; c < film.getResolution().hres(); c++) {
                 C color = (C) render.render(r, c);
                 color = (C) color.mult(exposureTime);
                 color = corrector.correct(color);

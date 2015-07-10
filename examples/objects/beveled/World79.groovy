@@ -1,4 +1,3 @@
-import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.cameras.render.SampledRenderer
 

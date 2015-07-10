@@ -27,15 +27,15 @@ public class Pinhole extends AbstractLens {
     }
 
     public Ray getRaySingle(int r, int c) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres));
+        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres()));
+        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres()));
         Ray ray = new Ray(eye, getRayDirection(x, y));
         return ray;
     }
     
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y));
+        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres() + sp.x));
+        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres() + sp.y));
         Ray ray = new Ray(eye, getRayDirection(x, y));
         return ray;
     }

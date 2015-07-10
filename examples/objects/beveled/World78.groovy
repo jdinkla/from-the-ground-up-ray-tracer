@@ -1,5 +1,4 @@
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.cameras.render.SampledRenderer
 import net.dinkla.raytracer.utilities.Resolution
 
 final def r = new java.util.Random()

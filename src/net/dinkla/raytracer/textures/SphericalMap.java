@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.textures;
 
-import net.dinkla.raytracer.math.MathUtils;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.utilities.Resolution;
 
@@ -31,8 +30,8 @@ public class SphericalMap extends Mapping {
 //        float v = 1 - theta * MathUtils.INV_PI;
         float v = (float) (1 - theta * invPI);
 
-        result.column = (int) ((res.hres -1) * u);
-        result.row = (int) ((res.vres -1) * v);
+        result.column = (int) ((res.hres() -1) * u);
+        result.row = (int) ((res.vres() -1) * v);
 
         return result;
     }

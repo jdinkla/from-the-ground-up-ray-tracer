@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.films;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.utilities.Resolution;
 
 import java.awt.image.BufferedImage;
@@ -23,14 +22,14 @@ public class BufferedImageFilm implements IFilm {
 
     public void initialize(int numFrames, Resolution resolution) {
         this.resolution = resolution;
-        img = new BufferedImage(resolution.hres, resolution.vres, BufferedImage.TYPE_INT_RGB);
+        img = new BufferedImage(resolution.hres(), resolution.vres(), BufferedImage.TYPE_INT_RGB);
     }
 
     public void finish() {
     }
 
     public void setPixel(int frame, int x, int y, Color color) {
-        img.setRGB(x, resolution.vres - 1 - y, color.asInt());
+        img.setRGB(x, resolution.vres() - 1 - y, color.asInt());
     }
 
     public void setBlock(int frame, int x, int y, int width, int height, Color color) {
@@ -38,7 +37,7 @@ public class BufferedImageFilm implements IFilm {
         pixel = img.getColorModel().getDataElements(color.asInt(), pixel);
         for (int j=0; j < height; j++) {
             for (int i=0; i < width; i++) {
-                img.getRaster().setDataElements(x+i, resolution.vres - 1 - y - j, pixel);
+                img.getRaster().setDataElements(x+i, resolution.vres() - 1 - y - j, pixel);
             }
         }
     }

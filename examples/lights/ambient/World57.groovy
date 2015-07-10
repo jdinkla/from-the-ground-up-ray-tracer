@@ -9,7 +9,6 @@ import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.cameras.render.SampledRenderer
-import net.dinkla.raytracer.cameras.render.SampledRenderer
 
 /*
 30 13373 ms

@@ -2,6 +2,7 @@ package net.dinkla.raytracer.gui;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.colors.RGBColor;
+import net.dinkla.raytracer.colors.RGBColor2;
 import net.dinkla.raytracer.films.IFilm;
 import net.dinkla.raytracer.films.PngFilm;
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode;
@@ -25,39 +26,33 @@ public class CommandLineUi {
 
     static final Logger LOGGER = Logger.getLogger(CommandLineUi.class);
 
-    public static void main(String[] args) {
+    public static void render(String fileNameIn, String fileNameOut) {
+        LOGGER.info("Rendering " + fileNameIn + " to " + fileNameOut);
 
-        Counter.PAUSE = true;
-        
+        Counter.PAUSE = false;
         Color.black = RGBColor.BLACK;
         Color.error = RGBColor.RED;
         Color.white = RGBColor.WHITE;
 
-        if (args.length != 2) {
-            throw new RuntimeException("CommandLineUI expects input filename and output filename as arguments");
-        }
-
-        String fileNameIn = args[0];
-        String fileNameOut = args[1];
-
-        LOGGER.info("Rendering " + fileNameIn + " to " + fileNameOut);
-
-        World w = WorldBuilder.create(new File(fileNameIn));
+        World w = new World<RGBColor2>();
+        WorldBuilder builder = new WorldBuilder<RGBColor2>(w);
+        builder.build(new File(fileNameIn));
         w.initialize();
 
         PngFilm png = new PngFilm(fileNameOut);
         png.initialize(1, w.getViewPlane().resolution);
-        w.getCamera().render((IFilm) png, 0);
+        w.render((IFilm) png);
         png.finish();
-
-        Counter.stats(30);
-
-        System.out.println("Hits");
-        InnerNode.hits.println();
-
-        System.out.println("fails");
-        InnerNode.fails.println();
-
     }
+
+    public static void main(String[] args) {
+        if (args.length != 2) {
+            throw new RuntimeException("CommandLineUI expects input filename and output filename as arguments");
+        }
+        String fileNameIn = args[0];
+        String fileNameOut = args[1];
+        render(fileNameIn, fileNameOut);
+    }
+
 
 }

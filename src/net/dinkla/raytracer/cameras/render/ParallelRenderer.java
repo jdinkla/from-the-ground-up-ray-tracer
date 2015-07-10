@@ -64,14 +64,14 @@ public class ParallelRenderer implements IRenderer {
     protected void createWorkers(IFilm film) {
         final Resolution res = film.getResolution();
         int vertFactor = numThreads/4;
-        if (res.vres % vertFactor == 0) {
+        if (res.vres() % vertFactor == 0) {
             worker = new Worker[numThreads];
-            int yStep = film.getResolution().vres / vertFactor;
+            int yStep = film.getResolution().vres() / vertFactor;
             for (int i = 0; i < numThreads / 4; i++) {
-                worker[4*i]   = new Worker(0,            1*res.hres/4, i * yStep, (i + 1) * yStep);
-                worker[4*i+1] = new Worker(1*res.hres/4, 2*res.hres/4, i * yStep, (i + 1) * yStep);
-                worker[4*i+2] = new Worker(2*res.hres/4, 3*res.hres/4, i * yStep, (i + 1) * yStep);
-                worker[4*i+3] = new Worker(3*res.hres/4, 4*res.hres/4, i * yStep, (i + 1) * yStep);
+                worker[4*i]   = new Worker(0,            1*res.hres()/4, i * yStep, (i + 1) * yStep);
+                worker[4*i+1] = new Worker(1*res.hres()/4, 2*res.hres()/4, i * yStep, (i + 1) * yStep);
+                worker[4*i+2] = new Worker(2*res.hres()/4, 3*res.hres()/4, i * yStep, (i + 1) * yStep);
+                worker[4*i+3] = new Worker(3*res.hres()/4, 4*res.hres()/4, i * yStep, (i + 1) * yStep);
             }
         } else {
             throw new RuntimeException("viewPlane.vres % numThreads != 0");

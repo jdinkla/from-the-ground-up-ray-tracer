@@ -2,8 +2,6 @@ package objects.acceleration.kdtree
 
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
-import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Simple2Builder
 
 //String path = 'F://opt/rendering/ply'

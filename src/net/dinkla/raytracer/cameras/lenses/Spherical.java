@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.cameras.lenses;
 
 import net.dinkla.raytracer.ViewPlane;
-import net.dinkla.raytracer.cameras.lenses.AbstractLens;
 import net.dinkla.raytracer.math.*;
 import net.dinkla.raytracer.utilities.Resolution;
 
@@ -24,8 +23,8 @@ public class Spherical extends AbstractLens {
     }
 
     public Ray getRaySingle(int r, int c) {
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres);
+        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres());
+        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres());
         final Point2D pp = new Point2D(x, y);
         Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
@@ -33,8 +32,8 @@ public class Spherical extends AbstractLens {
     }
 
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres + sp.x);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres + sp.y);
+        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres() + sp.x);
+        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres() + sp.y);
         final Point2D pp = new Point2D(x, y);
         Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
@@ -42,8 +41,8 @@ public class Spherical extends AbstractLens {
     }
 
     protected Vector3D getRayDirection(Point2D pp, Resolution resolution, float s) {
-        float x = 2.0f / (s * resolution.hres) * pp.x;
-        float y = 2.0f / (s * resolution.vres) * pp.y;
+        float x = 2.0f / (s * resolution.hres()) * pp.x;
+        float y = 2.0f / (s * resolution.vres()) * pp.y;
 
         float lambda = x * maxLambda * MathUtils.PI_ON_180;
         float psi = y * maxPsi * MathUtils.PI_ON_180;

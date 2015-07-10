@@ -29,14 +29,14 @@ public class ThinLens extends AbstractLens {
     }
 
     public Ray getRaySingle(int r, int c) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres));
+        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres()));
+        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres()));
         return getRay(x, y);
     }
 
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y));
+        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres() + sp.x));
+        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres() + sp.y));
         return getRay(x, y);
     }
 

@@ -49,8 +49,8 @@ public class LightProbeMap extends Mapping {
         float u = (1.0f + r * cosBeta) * 0.5f;
         float v = (1.0f + r * sinBeta) * 0.5f;
 
-        result.column = (int) ((res.hres -1) * u);
-        result.row = (int) ((res.vres -1) * v);
+        result.column = (int) ((res.hres() -1) * u);
+        result.row = (int) ((res.vres() -1) * v);
 
         return result;
     }

@@ -17,6 +17,6 @@ abstract public class Mapping {
         public int column;
     }
 
-    public abstract Mapped getTexelCoordinates(final Point3D p, final Resolution res); 
+    public abstract Mapped getTexelCoordinates(final Point3D p, final Resolution res);
 
 }

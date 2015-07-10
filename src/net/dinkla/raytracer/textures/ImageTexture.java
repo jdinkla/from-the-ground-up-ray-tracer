@@ -3,9 +3,7 @@ package net.dinkla.raytracer.textures;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Histogram;
-import net.dinkla.raytracer.math.MathUtils;
 import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.objects.Sphere;
 import net.dinkla.raytracer.utilities.Resolution;
 
 import javax.imageio.ImageIO;
@@ -66,8 +64,8 @@ public class ImageTexture<C extends Color> extends Texture<C> {
 //            row = 0;
 //        }
 
-        if (column >= res.hres) {
-            column = res.hres -1;
+        if (column >= res.hres()) {
+            column = res.hres() -1;
         }
 
         if (column < 0) {
@@ -77,7 +75,7 @@ public class ImageTexture<C extends Color> extends Texture<C> {
         hRow.add(row);
         hColumn.add(column);
         try {
-            rgb = image.getRGB(column, res.vres - 1 - row);
+            rgb = image.getRGB(column, res.vres() - 1 - row);
             if (rgb == 0) {
                 int a = 3;
             }

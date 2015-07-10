@@ -1,9 +1,7 @@
 
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.Instance
-import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.objects.acceleration.Grid
 
 //Grid ply1 = builder.ply(file: "/Users/jorndinkla/Downloads/rendering/ply-examples/PLYFiles/Horse97K.ply",

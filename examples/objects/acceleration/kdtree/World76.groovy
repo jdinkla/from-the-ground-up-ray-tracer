@@ -1,12 +1,6 @@
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
-import net.dinkla.raytracer.objects.acceleration.kdtree.Simple2Builder
-import net.dinkla.raytracer.objects.acceleration.kdtree.SpatialMedianBuilder
-import net.dinkla.raytracer.objects.acceleration.kdtree.ObjectMedianBuilder
-import net.dinkla.raytracer.objects.acceleration.kdtree.ObjectMedian2Builder
-import net.dinkla.raytracer.objects.acceleration.kdtree.TestBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.Test2Builder
 
 String path = '/opt/rendering/ply'

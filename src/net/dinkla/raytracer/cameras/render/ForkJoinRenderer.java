@@ -7,7 +7,6 @@ import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.films.IFilm;
 import net.dinkla.raytracer.utilities.Resolution;
 
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
@@ -41,7 +40,7 @@ public class ForkJoinRenderer implements IRenderer {
         this.film = film;
         final Resolution res = film.getResolution();
 
-        Master master = new Master(sizeGrid, res.hres, res.vres);
+        Master master = new Master(sizeGrid, res.hres(), res.vres());
         pool.invoke(master);
         pool.shutdown();
         this.film = null;

@@ -2,7 +2,6 @@
 
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.Instance
 
 def ply1 = builder.ply(file: "/opt/rendering/ply/bunny/Bunny16K.ply", smooth: true)
