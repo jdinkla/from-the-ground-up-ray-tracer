@@ -57,7 +57,7 @@ public class Spherical extends AbstractLens {
         float cosTheta = (float) Math.cos(theta);
 
 //        Vector3DF direction = u.mult(sinTheta * sinPhi).plus(v.mult(cosTheta)).plus(w.mult(sinTheta * cosPhi));
-        Vector3DF direction = uvw.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi);
+        Vector3DF direction = new Vector3DF(uvw.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi));
         return direction;
     }
 }

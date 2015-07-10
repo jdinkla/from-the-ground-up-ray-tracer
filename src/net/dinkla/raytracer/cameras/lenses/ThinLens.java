@@ -55,7 +55,7 @@ public class ThinLens extends AbstractLens {
 //        final Vector3DF v2 = v.mult(p.y - lens.y);
 //        final Vector3DF v3 = w.mult(f);
         //final Vector3DF dir = v1.plus(v2).minus(v3).normalize();
-        final Vector3DF dir = uvw.pm(1, 1, 1).normalize();
+        final Vector3DF dir = new Vector3DF(uvw.pm(1, 1, 1).normalize());
         return dir;
     }
 

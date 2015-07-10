@@ -34,7 +34,7 @@ public class EnvironmentLight<C extends Color> extends Light<C> {
         v = new Vector3DF(0.0034f, 1.0f, 0.0071f).cross(w);
         u = v.cross(w);
         Point3DF sp = sampler.sampleHemisphere();
-        wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z)); 
+        wi = u.mult(sp.getX()).plus(v.mult(sp.getY())).plus(w.mult(sp.getZ()));
         return wi;
     }
 

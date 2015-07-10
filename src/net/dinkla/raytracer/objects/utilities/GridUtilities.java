@@ -125,9 +125,9 @@ public class GridUtilities {
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)));
 
             SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-            triangle.setN0(new Normal(new Vector3DF(v0)));
-            triangle.setN1(new Normal(new Vector3DF(v1)));
-            triangle.setN2(new Normal(new Vector3DF(v2)));
+            triangle.setN0(new Normal(v0.toVector()));
+            triangle.setN1(new Normal(v1.toVector()));
+            triangle.setN2(new Normal(v2.toVector()));
             list.add(triangle);
         }
 
@@ -147,9 +147,9 @@ public class GridUtilities {
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))	);
 
             SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-            triangle.setN0(new Normal(new Vector3DF(v0)));
-            triangle.setN1(new Normal(new Vector3DF(v1)));
-            triangle.setN2(new Normal(new Vector3DF(v2)));
+            triangle.setN0(new Normal(v0.toVector()));
+            triangle.setN1(new Normal(v1.toVector()));
+            triangle.setN2(new Normal(v2.toVector()));
             list.add(triangle);
         }
 
@@ -173,9 +173,9 @@ public class GridUtilities {
                             (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
                 SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-                triangle.setN0(new Normal(new Vector3DF(v0)));
-                triangle.setN1(new Normal(new Vector3DF(v1)));
-                triangle.setN2(new Normal(new Vector3DF(v2)));
+                triangle.setN0(new Normal(v0.toVector()));
+                triangle.setN1(new Normal(v1.toVector()));
+                triangle.setN2(new Normal(v2.toVector()));
                 list.add(triangle);
 
 
@@ -196,9 +196,9 @@ public class GridUtilities {
                                 (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))	);
 
                 SmoothTriangle triangle2 = new SmoothTriangle(v0, v1, v2);
-                triangle2.setN0(new Normal(new Vector3DF(v0)));
-                triangle2.setN1(new Normal(new Vector3DF(v1)));
-                triangle2.setN2(new Normal(new Vector3DF(v2)));
+                triangle.setN0(new Normal(v0.toVector()));
+                triangle.setN1(new Normal(v1.toVector()));
+                triangle.setN2(new Normal(v2.toVector()));
                 list.add(triangle2);
             }
         }

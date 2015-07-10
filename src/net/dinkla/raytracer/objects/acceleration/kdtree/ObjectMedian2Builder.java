@@ -85,7 +85,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.X;
             ListUtilities.sortByAxis(objects, axis);
             GeometricObject median = objects.get(medianIndex);
-            splitX = median.getBoundingBox().q.ith(axis);
+            splitX = (float)median.getBoundingBox().q.ith(axis);
             ListUtilities.splitByAxis(objects, splitX, axis, objectsLx, objectsRx);
             int weightX = weight(objectsLx.size(), objectsRx.size(), size);
 
@@ -93,7 +93,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.Y;
             ListUtilities.sortByAxis(objects, axis);
             median = objects.get(medianIndex);
-            splitY = median.getBoundingBox().q.ith(axis);
+            splitY = (float)median.getBoundingBox().q.ith(axis);
             ListUtilities.splitByAxis(objects, splitY, axis, objectsLy, objectsRy);
             int weightY = weight(objectsLy.size(), objectsRy.size(), size);
 
@@ -101,7 +101,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.Z;
             ListUtilities.sortByAxis(objects, axis);
             median = objects.get(medianIndex);
-            splitZ = median.getBoundingBox().q.ith(axis);
+            splitZ = (float)median.getBoundingBox().q.ith(axis);
             ListUtilities.splitByAxis(objects, splitZ, axis, objectsLz, objectsRz);
             int weightZ = weight(objectsLz.size(), objectsRz.size(), size);
 
@@ -131,8 +131,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLx);
                 BBox bR = BBox.create(objectsRx);
 
-                Point3DF q1x = new Point3DF(splitX, bL.q.y, bL.q.z);
-                Point3DF p2x = new Point3DF(splitX, bR.p.y, bR.p.z);
+                Point3DF q1x = new Point3DF(splitX, bL.q.getY(), bL.q.getZ());
+                Point3DF p2x = new Point3DF(splitX, bR.p.getY(), bR.p.getZ());
 
                 voxelL = new BBox(bL.p, q1x);
                 voxelR = new BBox(p2x, bR.q);
@@ -146,8 +146,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLy);
                 BBox bR = BBox.create(objectsRy);
 
-                Point3DF q1 = new Point3DF(bL.q.x, splitY, bL.q.z);
-                Point3DF p2 = new Point3DF(bR.p.x, splitY, bR.p.z);
+                Point3DF q1 = new Point3DF(bL.q.getX(), splitY, bL.q.getZ());
+                Point3DF p2 = new Point3DF(bR.p.getX(), splitY, bR.p.getZ());
 
                 voxelL = new BBox(bL.p, q1);
                 voxelR = new BBox(p2, bR.q);
@@ -161,8 +161,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLz);
                 BBox bR = BBox.create(objectsRz);
 
-                Point3DF q1 = new Point3DF(bL.q.x, bL.q.y, splitZ);
-                Point3DF p2 = new Point3DF(bR.p.x, bR.p.y, splitZ);
+                Point3DF q1 = new Point3DF(bL.q.getX(), bL.q.getY(), splitZ);
+                Point3DF p2 = new Point3DF(bR.p.getX(), bR.p.getY(), splitZ);
 
                 voxelL = new BBox(bL.p, q1);
                 voxelR = new BBox(p2, bR.q);

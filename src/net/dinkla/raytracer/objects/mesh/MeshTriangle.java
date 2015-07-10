@@ -49,18 +49,18 @@ public class MeshTriangle extends GeometricObject {
         Point3DF p1 = mesh.vertices.get(index1);
         Point3DF p2 = mesh.vertices.get(index2);
 
-        float a = p0.x - p1.x;
-        float b = p0.x - p2.x;
-        float c = ray.d.x;
-        float d = p0.x - ray.o.x;
-        float e = p0.y - p1.y;
-        float f = p0.y - p2.y;
-        float g = ray.d.y;
-        float h = p0.y - ray.o.y;
-        float i = p0.z - p1.z;
-        float j = p0.z - p2.z;
-        float k = ray.d.z;
-        float l = p0.z - ray.o.z;
+        float a = p0.x() - p1.x();
+        float b = p0.x() - p2.x();
+        float c = ray.d.x();
+        float d = p0.x() - ray.o.x();
+        float e = p0.y() - p1.y();
+        float f = p0.y() - p2.y();
+        float g = ray.d.y();
+        float h = p0.y() - ray.o.y();
+        float i = p0.z() - p1.z();
+        float j = p0.z() - p2.z();
+        float k = ray.d.z();
+        float l = p0.z() - ray.o.z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;

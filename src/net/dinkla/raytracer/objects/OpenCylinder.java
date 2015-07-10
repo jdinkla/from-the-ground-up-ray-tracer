@@ -29,12 +29,12 @@ public class OpenCylinder extends GeometricObject {
     public boolean hit(final Ray ray, Hit sr) {
 
         float t;
-        float ox = ray.o.x;
-        float oy = ray.o.y;
-        float oz = ray.o.z;
-        float dx = ray.d.x;
-        float dy = ray.d.y;
-        float dz = ray.d.z;
+        float ox = ray.o.x();
+        float oy = ray.o.y();
+        float oz = ray.o.z();
+        float dx = ray.d.x();
+        float dy = ray.d.y();
+        float dz = ray.d.z();
 
         float a = dx * dx + dz * dz;
         float b = 2.0f * (ox * dx + oz * dz);
@@ -84,12 +84,12 @@ public class OpenCylinder extends GeometricObject {
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
         float t;
-        float ox = ray.o.x;
-        float oy = ray.o.y;
-        float oz = ray.o.z;
-        float dx = ray.d.x;
-        float dy = ray.d.y;
-        float dz = ray.d.z;
+        float ox = ray.o.x();
+        float oy = ray.o.y();
+        float oz = ray.o.z();
+        float dx = ray.d.x();
+        float dy = ray.d.y();
+        float dz = ray.d.z();
 
         float a = dx * dx + dz * dz;
         float b = 2.0f * (ox * dx + oz * dz);

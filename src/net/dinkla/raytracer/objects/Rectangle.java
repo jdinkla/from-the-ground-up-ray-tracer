@@ -60,12 +60,12 @@ public class Rectangle extends GeometricObject {
         final Vector3DF d = p.minus(p0);
 
         final float ddota = d.dot(a);
-        if (ddota < 0 || ddota > a.sqrLength()) {
+        if (ddota < 0 || ddota > (float)a.sqrLength()) {
             return false;
         }
 
         final float ddotb = d.dot(b);
-        if (ddotb < 0 || ddotb > b.sqrLength()) {
+        if (ddotb < 0 || ddotb > (float)b.sqrLength()) {
             return false;
         }
         
@@ -89,12 +89,12 @@ public class Rectangle extends GeometricObject {
         final Vector3DF d = p.minus(p0);
 
         final float ddota = d.dot(a);
-        if (ddota < 0 || ddota > a.sqrLength()) {
+        if (ddota < 0 || ddota > (float) a.sqrLength()) {
             return false;
         }
 
         final float ddotb = d.dot(b);
-        if (ddotb < 0 || ddotb > b.sqrLength()) {
+        if (ddotb < 0 || ddotb > (float)b.sqrLength()) {
             return false;
         }
 
@@ -113,45 +113,45 @@ public class Rectangle extends GeometricObject {
 
         float x0 = Float.POSITIVE_INFINITY;
         float x1 = Float.NEGATIVE_INFINITY;
-        if (v0.x < x0) {
-            x0 = v0.x;
+        if (v0.x() < x0) {
+            x0 = v0.x();
         }
-        if (v1.x < x0) {
-            x0 = v1.x;
+        if (v1.x() < x0) {
+            x0 = v1.x();
         }
-        if (v0.x > x1) {
-            x1 = v0.x;
+        if (v0.x() > x1) {
+            x1 = v0.x();
         }
-        if (v1.x > x1) {
-            x1 = v1.x;
+        if (v1.x() > x1) {
+            x1 = v1.x();
         }
         float y0 = Float.POSITIVE_INFINITY;
         float y1 = Float.NEGATIVE_INFINITY;
-        if (v0.y < y0) {
-            y0 = v0.y;
+        if (v0.y() < y0) {
+            y0 = v0.y();
         }
-        if (v1.y < y0) {
-            y0 = v1.y;
+        if (v1.y() < y0) {
+            y0 = v1.y();
         }
-        if (v0.y > y1) {
-            y1 = v0.y;
+        if (v0.y() > y1) {
+            y1 = v0.y();
         }
-        if (v1.y > y1) {
-            y1 = v1.y;
+        if (v1.y() > y1) {
+            y1 = v1.y();
         }
         float z0 = Float.POSITIVE_INFINITY;
         float z1 = Float.NEGATIVE_INFINITY;
-        if (v0.z < z0) {
-            z0 = v0.z;
+        if (v0.z() < z0) {
+            z0 = v0.z();
         }
-        if (v1.z < z0) {
-            z0 = v1.z;
+        if (v1.z() < z0) {
+            z0 = v1.z();
         }
-        if (v0.z > z1) {
-            z1 = v0.z;
+        if (v0.z() > z1) {
+            z1 = v0.z();
         }
-        if (v1.z > z1) {
-            z1 = v1.z;
+        if (v1.z() > z1) {
+            z1 = v1.z();
         }
         return new BBox(new Point3DF(x0, y0, z0), new Point3DF(x1, y1, z1));
     }

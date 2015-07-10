@@ -45,7 +45,12 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
         }
         float cosThetaTSqr = 1.0f - (1.0f - cosThetaI * cosThetaI) / (eta * eta);
         float cosThetaT = (float) Math.sqrt(cosThetaTSqr);
-        result.wt = wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta));
+        //result.wt = (float) wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta));
+
+        Vector3DF tmp1 = wo.mult(-eta);
+        Vector3DF tmp2 = n.mult(cosThetaT - cosThetaI / eta);
+        result.wt = new Vector3DF(tmp1.minus(tmp2));
+
         float f1 = kt / (eta*eta);
         float f2 = sr.getNormal().dot(result.wt);
         result.color = (C) C.getWhite().mult(f1 / Math.abs(f2));

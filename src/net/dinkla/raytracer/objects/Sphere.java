@@ -20,7 +20,7 @@ public class Sphere extends GeometricObject {
     protected BBox bbox;
 
     public Sphere(float radius) {
-        this.center = Point3DF.ORIGIN;
+        this.center = Point3D$.MODULE$.ORIGIN();
         this.radius = radius;
         bbox = null;
     }

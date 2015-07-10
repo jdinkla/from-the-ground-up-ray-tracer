@@ -23,10 +23,10 @@ public class BBox {
     
     public BBox(final Point3DF p, final Point3DF q) {
         if (null != p && null != q) {
-            if (p.x > q.x || p.y > q.y || p.z > q.z) {
+            if (p.x() > q.x() || p.y() > q.y() || p.z() > q.z()) {
                 int a = 2;
             }
-            assert p.x <= q.x && p.y <= q.y && p.z <= q.z;
+            assert p.x() <= q.x() && p.y() <= q.y() && p.z() <= q.z();
         }
         this.p = p;
         this.q = q;
@@ -39,9 +39,9 @@ public class BBox {
      * @return      True, if the point r is inside the bounding box.
      */
     public boolean inside(final Point3DF r) {
-        boolean isX = r.x > p.x && r.x < q.x;
-        boolean isY = r.y > p.y && r.y < q.y;
-        boolean isZ = r.z > p.z && r.z < q.z;
+        boolean isX = r.x() > p.x() && r.x() < q.x();
+        boolean isY = r.y() > p.y() && r.y() < q.y();
+        boolean isZ = r.z() > p.z() && r.z() < q.z();
         return (isX && isY && isZ);
     }
 
@@ -70,31 +70,31 @@ public class BBox {
         float tx_min, ty_min, tz_min;
         float tx_max, ty_max, tz_max;
 
-        float a = 1.0f / ray.d.x;
+        float a = 1.0f / (float) ray.d.x();
         if (a >= 0) {
-            tx_min = (p.x - ray.o.x) * a;
-            tx_max = (q.x - ray.o.x) * a;
+            tx_min = (p.x() - ray.o.x()) * a;
+            tx_max = (q.x() - ray.o.x()) * a;
         } else {
-            tx_min = (q.x - ray.o.x) * a;
-            tx_max = (p.x - ray.o.x) * a;
+            tx_min = (q.x() - ray.o.x()) * a;
+            tx_max = (p.x() - ray.o.x()) * a;
         }
 
-        float b = 1.0f / ray.d.y;
+        float b = 1.0f / (float) ray.d.y();
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b;
-            ty_max = (q.y - ray.o.y) * b;
+            ty_min = (p.y() - ray.o.y()) * b;
+            ty_max = (q.y() - ray.o.y()) * b;
         } else {
-            ty_min = (q.y - ray.o.y) * b;
-            ty_max = (p.y - ray.o.y) * b;
+            ty_min = (q.y() - ray.o.y()) * b;
+            ty_max = (p.y() - ray.o.y()) * b;
         }
 
-        float c = 1.0f / ray.d.z;
+        float c = 1.0f / (float)ray.d.z();
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c;
-            tz_max = (q.z - ray.o.z) * c;
+            tz_min = (p.z() - ray.o.z()) * c;
+            tz_max = (q.z() - ray.o.z()) * c;
         } else {
-            tz_min = (q.z - ray.o.z) * c;
-            tz_max = (p.z - ray.o.z) * c;
+            tz_min = (q.z() - ray.o.z()) * c;
+            tz_max = (p.z() - ray.o.z()) * c;
         }
 
         float t0, t1;
@@ -132,31 +132,31 @@ public class BBox {
         float tx_min, ty_min, tz_min;
         float tx_max, ty_max, tz_max;
 
-        float a = 1.0f / ray.d.x;
+        float a = 1.0f / (float)ray.d.x();
         if (a >= 0) {
-            tx_min = (p.x - ray.o.x) * a;
-            tx_max = (q.x - ray.o.x) * a;
+            tx_min = (p.x() - ray.o.x()) * a;
+            tx_max = (q.x() - ray.o.x()) * a;
         } else {
-            tx_min = (q.x - ray.o.x) * a;
-            tx_max = (p.x - ray.o.x) * a;
+            tx_min = (q.x() - ray.o.x()) * a;
+            tx_max = (p.x() - ray.o.x()) * a;
         }
 
-        float b = 1.0f / ray.d.y;
+        float b = 1.0f / (float)ray.d.y();
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b;
-            ty_max = (q.y - ray.o.y) * b;
+            ty_min = (p.y() - ray.o.y()) * b;
+            ty_max = (q.y() - ray.o.y()) * b;
         } else {
-            ty_min = (q.y - ray.o.y) * b;
-            ty_max = (p.y - ray.o.y) * b;
+            ty_min = (q.y() - ray.o.y()) * b;
+            ty_max = (p.y() - ray.o.y()) * b;
         }
 
-        float c = 1.0f / ray.d.z;
+        float c = 1.0f / (float)ray.d.z();
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c;
-            tz_max = (q.z - ray.o.z) * c;
+            tz_min = (p.z() - ray.o.z()) * c;
+            tz_max = (q.z() - ray.o.z()) * c;
         } else {
-            tz_min = (q.z - ray.o.z) * c;
-            tz_max = (p.z - ray.o.z) * c;
+            tz_min = (q.z() - ray.o.z()) * c;
+            tz_max = (p.z() - ray.o.z()) * c;
         }
 
         float t0, t1;
@@ -188,63 +188,63 @@ public class BBox {
     static public BBox create(final Point3DF v0, final Point3DF v1, final Point3DF v2) {
         float x0 = Float.POSITIVE_INFINITY;
         float x1 = Float.NEGATIVE_INFINITY;
-        if (v0.x < x0) {
-            x0 = v0.x;
+        if (v0.x() < x0) {
+            x0 = v0.x();
         }
-        if (v1.x < x0) {
-            x0 = v1.x;
+        if (v1.x() < x0) {
+            x0 = v1.x();
         }
-        if (v2.x < x0) {
-            x0 = v2.x;
+        if (v2.x() < x0) {
+            x0 = v2.x();
         }
-        if (v0.x > x1) {
-            x1 = v0.x;
+        if (v0.x() > x1) {
+            x1 = v0.x();
         }
-        if (v1.x > x1) {
-            x1 = v1.x;
+        if (v1.x() > x1) {
+            x1 = v1.x();
         }
-        if (v2.x > x1) {
-            x1 = v2.x;
+        if (v2.x() > x1) {
+            x1 = v2.x();
         }
         float y0 = Float.POSITIVE_INFINITY;
         float y1 = Float.NEGATIVE_INFINITY;
-        if (v0.y < y0) {
-            y0 = v0.y;
+        if (v0.y() < y0) {
+            y0 = v0.y();
         }
-        if (v1.y < y0) {
-            y0 = v1.y;
+        if (v1.y() < y0) {
+            y0 = v1.y();
         }
-        if (v2.y < y0) {
-            y0 = v2.y;
+        if (v2.y() < y0) {
+            y0 = v2.y();
         }
-        if (v0.y > y1) {
-            y1 = v0.y;
+        if (v0.y() > y1) {
+            y1 = v0.y();
         }
-        if (v1.y > y1) {
-            y1 = v1.y;
+        if (v1.y() > y1) {
+            y1 = v1.y();
         }
-        if (v2.y > y1) {
-            y1 = v2.y;
+        if (v2.y() > y1) {
+            y1 = v2.y();
         }
         float z0 = Float.POSITIVE_INFINITY;
         float z1 = Float.NEGATIVE_INFINITY;
-        if (v0.z < z0) {
-            z0 = v0.z;
+        if (v0.z() < z0) {
+            z0 = v0.z();
         }
-        if (v1.z < z0) {
-            z0 = v1.z;
+        if (v1.z() < z0) {
+            z0 = v1.z();
         }
-        if (v2.z < z0) {
-            z0 = v2.z;
+        if (v2.z() < z0) {
+            z0 = v2.z();
         }
-        if (v0.z > z1) {
-            z1 = v0.z;
+        if (v0.z() > z1) {
+            z1 = v0.z();
         }
-        if (v1.z > z1) {
-            z1 = v1.z;
+        if (v1.z() > z1) {
+            z1 = v1.z();
         }
-        if (v2.z > z1) {
-            z1 = v2.z;
+        if (v2.z() > z1) {
+            z1 = v2.z();
         }
         return new BBox(new Point3DF(x0 - MathUtils.K_EPSILON, y0 - MathUtils.K_EPSILON, z0 - MathUtils.K_EPSILON),
                 new Point3DF(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON));
@@ -265,14 +265,14 @@ public class BBox {
             return 0;
         } else {
             Vector3DF width = q.minus(p);
-            return width.x * width.y * width.z;
+            return width.x() * width.y() * width.z();
         }
     }
 
     public boolean isContainedIn(final BBox bbox) {
-        boolean bX = bbox.p.x <= p.x && q.x <= bbox.q.x;
-        boolean bY = bbox.p.y <= p.y && q.y <= bbox.q.y;
-        boolean bZ = bbox.p.z <= p.z && q.z <= bbox.q.z;
+        boolean bX = bbox.p.x() <= p.x() && q.x() <= bbox.q.x();
+        boolean bY = bbox.p.y() <= p.y() && q.y() <= bbox.q.y();
+        boolean bZ = bbox.p.z() <= p.z() && q.z() <= bbox.q.z();
         return bX && bY && bZ;
     }    
 
@@ -285,13 +285,13 @@ public class BBox {
         if (isContainedIn(bbox)) {
             return this;
         }
-        float px = Math.max(p.x, bbox.p.x);
-        float py = Math.max(p.y, bbox.p.y);
-        float pz = Math.max(p.z, bbox.p.z);
+        float px = Math.max(p.x(), bbox.p.x());
+        float py = Math.max(p.y(), bbox.p.y());
+        float pz = Math.max(p.z(), bbox.p.z());
 
-        float qx = Math.min(q.x, bbox.q.x);
-        float qy = Math.min(q.y, bbox.q.y);
-        float qz = Math.min(q.z, bbox.q.z);
+        float qx = Math.min(q.x(), bbox.q.x());
+        float qy = Math.min(q.y(), bbox.q.y());
+        float qz = Math.min(q.z(), bbox.q.z());
 
         return new BBox(new Point3DF(px, py, pz), new Point3DF(qx, qy, qz));
     }
@@ -300,11 +300,11 @@ public class BBox {
     public BBox splitLeft(final Axis axis, final float split) {
         switch(axis) {
             case X:
-                return new BBox(p, new Point3DF(split, q.y, q.z));
+                return new BBox(p, new Point3DF(split, (float)q.y(), (float)q.z()));
             case Y:
-                return new BBox(p, new Point3DF(q.x, split, q.z));
+                return new BBox(p, new Point3DF((float)q.x(), split, (float)q.z()));
             case Z:
-                return new BBox(p, new Point3DF(q.x, q.y, split));
+                return new BBox(p, new Point3DF((float)q.x(), (float)q.y(), split));
         }
         return null;
     }
@@ -312,11 +312,11 @@ public class BBox {
     public BBox splitRight(final Axis axis, final float split) {
         switch(axis) {
             case X:
-                return new BBox(new Point3DF(split, p.y, p.z), q);
+                return new BBox(new Point3DF(split, p.y(), p.z()), q);
             case Y:
-                return new BBox(new Point3DF(p.x, split, p.z), q);
+                return new BBox(new Point3DF(p.x(), split, p.z()), q);
             case Z:
-                return new BBox(new Point3DF(p.x, p.y, split), q);
+                return new BBox(new Point3DF(p.x(), p.y(), split), q);
         }
         return null;
     }

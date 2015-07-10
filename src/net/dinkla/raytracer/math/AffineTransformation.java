@@ -20,7 +20,7 @@ public class AffineTransformation {
     }
     
     public void translate(Vector3DF v) {
-        translate(v.x, v.y, v.z);
+        translate(v.x(), v.y(), v.z());
     }
 
     public void translate(final float x, final float y, final float z) {
@@ -38,7 +38,7 @@ public class AffineTransformation {
     }
 
     public void scale(Vector3DF v) {
-        scale(v.x, v.y, v.z);
+        scale(v.x(), v.y(), v.z());
     }
 
     public void scale(final float x, final float y, final float z) {

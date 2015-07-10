@@ -58,7 +58,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
 
     public float G(Shade sr, Sample sample) {
         float nDotD = sample.getNDotD();
-        float d2 = sample.samplePoint.distanceSquared(sr.getHitPoint());        
+        float d2 = (float)sample.samplePoint.distanceSquared(sr.getHitPoint());
         return nDotD / d2;
     }
 

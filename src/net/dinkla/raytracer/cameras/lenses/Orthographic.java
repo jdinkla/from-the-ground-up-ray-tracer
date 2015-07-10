@@ -22,14 +22,14 @@ public class Orthographic extends AbstractLens {
     public Ray getRaySampled(int r, int c, Point2DF sp) {
         int x = (int) (viewPlane.size * (c - 0.5 * (viewPlane.resolution.hres() - 1) + sp.x()));
         int y = (int) (viewPlane.size * (r - 0.5 * (viewPlane.resolution.vres() - 1) + sp.y()));
-        Ray ray = new Ray(new Point3DF(x, y, zw), Vector3DF.BACK);
+        Ray ray = new Ray(new Point3DF(x, y, zw), Vector3D$.MODULE$.BACK());
         return ray;
     }
 
     public Ray getRaySingle(int r, int c) {
         int x = (int) (viewPlane.size * (c - 0.5 * (viewPlane.resolution.hres() - 1)));
         int y = (int) (viewPlane.size * (r - 0.5 * (viewPlane.resolution.vres() - 1)));
-        Ray ray = new Ray(new Point3DF(x, y, zw), Vector3DF.BACK);
+        Ray ray = new Ray(new Point3DF(x, y, zw), Vector3D$.MODULE$.BACK());
         return ray;
     }
 }

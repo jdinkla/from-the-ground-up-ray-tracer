@@ -19,8 +19,8 @@ public class SphericalMap extends Mapping {
     public Mapped getTexelCoordinates(Point3DF p, Resolution res) {
         Mapped result = new Mapped();
 
-        float theta = (float) Math.acos(p.y);
-        float phi = (float) Math.atan2(p.x, p.z);
+        float theta = (float) Math.acos(p.y());
+        float phi = (float) Math.atan2(p.x(), p.z());
         if (phi < 0) {
             phi += 2.0f * Math.PI;
         }

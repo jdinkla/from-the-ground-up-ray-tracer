@@ -41,7 +41,10 @@ public class PointLight<C extends Color> extends Light<C> {
 
     @Override
     public Vector3DF getDirection(Shade sr) {
-        return new Vector3DF(location.minus(new Vector3DF(sr.getHitPoint()))).normalize();
+        Point3DF p = sr.getHitPoint();
+//        Vector3DF v = p.toVector();
+        return new Vector3DF(location.minus(p)).normalize();
+//        return new Vector3DF(location.minus(new Vector3DF(sr.getHitPoint()))).normalize();
     }
 
     @Override

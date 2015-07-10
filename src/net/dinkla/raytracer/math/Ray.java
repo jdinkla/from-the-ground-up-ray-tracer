@@ -23,7 +23,7 @@ public class Ray {
     }
 
     public Point3DF linear(final float t) {
-        return o.plus(d.mult(t));        
+        return o.plus(d.mult(t));
     }
 
     @Override

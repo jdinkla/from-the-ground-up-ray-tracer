@@ -25,27 +25,27 @@ public class SmoothTriangle extends GeometricObject {
         this.v0 = v0;
         this.v1 = v1;
         this.v2 = v2;
-        n0 = Normal.UP;
-        n1 = Normal.UP;
-        n2 = Normal.UP;
+        n0 = Normal$.MODULE$.UP();
+        n1 = Normal$.MODULE$.UP();
+        n2 = Normal$.MODULE$.UP();
     }
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        float a = v0.x - v1.x;
-        float b = v0.x - v2.x;
-        float c = ray.d.x;
-        float d = v0.x - ray.o.x;
+        float a = v0.x() - v1.x();
+        float b = v0.x() - v2.x();
+        float c = ray.d.x();
+        float d = v0.x() - ray.o.x();
 
-        float e = v0.y - v1.y;
-        float f = v0.y - v2.y;
-        float g = ray.d.y;
-        float h = v0.y - ray.o.y;
+        float e = v0.y() - v1.y();
+        float f = v0.y() - v2.y();
+        float g = ray.d.y();
+        float h = v0.y() - ray.o.y();
 
-        float i = v0.z - v1.z;
-        float j = v0.z - v2.z;
-        float k = ray.d.z;
-        float l = v0.z - ray.o.z;
+        float i = v0.z() - v1.z();
+        float j = v0.z() - v2.z();
+        float k = ray.d.z();
+        float l = v0.z() - ray.o.z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;
@@ -97,20 +97,20 @@ public class SmoothTriangle extends GeometricObject {
 
     @Override
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
-        float a = v0.x - v1.x;
-        float b = v0.x - v2.x;
-        float c = ray.d.x;
-        float d = v0.x - ray.o.x;
+        float a = v0.x() - v1.x();
+        float b = v0.x() - v2.x();
+        float c = ray.d.x();
+        float d = v0.x() - ray.o.x();
 
-        float e = v0.y - v1.y;
-        float f = v0.y - v2.y;
-        float g = ray.d.y;
-        float h = v0.y - ray.o.y;
+        float e = v0.y() - v1.y();
+        float f = v0.y() - v2.y();
+        float g = ray.d.y();
+        float h = v0.y() - ray.o.y();
 
-        float i = v0.z - v1.z;
-        float j = v0.z - v2.z;
-        float k = ray.d.z;
-        float l = v0.z - ray.o.z;
+        float i = v0.z() - v1.z();
+        float j = v0.z() - v2.z();
+        float k = ray.d.z();
+        float l = v0.z() - ray.o.z();
 
         float m = f * k - g * j;
         float n = h * k - g * l;

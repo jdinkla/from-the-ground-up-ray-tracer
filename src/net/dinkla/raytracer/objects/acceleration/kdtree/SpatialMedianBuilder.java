@@ -55,59 +55,59 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
 
         if (depth % 3 == 0) {
             // x
-            split = mid.x;
+            split = mid.x();
 
-            Point3DF q1 = new Point3DF(mid.x, voxel.q.y, voxel.q.z);
+            Point3DF q1 = new Point3DF(mid.x(), voxel.q.y(), voxel.q.z());
             voxelL = new BBox(voxel.p, q1);
 
-            Point3DF p2 = new Point3DF(mid.x, voxel.p.y, voxel.p.z);
+            Point3DF p2 = new Point3DF(mid.x(), voxel.p.y(), voxel.p.z());
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.x <= split) {
+                if (bbox.p.x() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.x >= split) {
+                if (bbox.q.x() >= split) {
                     objectsR.add(object);
                 }
             }
 
         } else if (depth % 3 == 1) {
             // y
-            split = mid.y;
+            split = mid.y();
 
-            Point3DF q1 = new Point3DF(voxel.q.x, mid.y, voxel.q.z);
+            Point3DF q1 = new Point3DF(voxel.q.x(), mid.y(), voxel.q.z());
             voxelL = new BBox(voxel.p, q1);
 
-            Point3DF p2 = new Point3DF(voxel.p.x, mid.y, voxel.p.z);
+            Point3DF p2 = new Point3DF(voxel.p.x(), mid.y(), voxel.p.z());
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.y <= split) {
+                if (bbox.p.y() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.y >= split) {
+                if (bbox.q.y() >= split) {
                     objectsR.add(object);
                 }
             }
         } else if (depth % 3 == 2) {
             // z
-            split = mid.z;
+            split = mid.z();
 
-            Point3DF q1 = new Point3DF(voxel.q.x, voxel.q.y, mid.z);
+            Point3DF q1 = new Point3DF(voxel.q.x(), voxel.q.y(), mid.z());
             voxelL = new BBox(voxel.p, q1);
 
-            Point3DF p2 = new Point3DF(voxel.p.x, voxel.p.y, mid.z);
+            Point3DF p2 = new Point3DF(voxel.p.x(), voxel.p.y(), mid.z());
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.z <= split) {
+                if (bbox.p.z() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.z >= split) {
+                if (bbox.q.z() >= split) {
                     objectsR.add(object);
                 }
             }

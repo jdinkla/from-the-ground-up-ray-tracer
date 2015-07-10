@@ -32,7 +32,7 @@ public class Disk extends GeometricObject {
             return false;
         }
         Point3DF p = ray.linear(t);
-        if (center.distanceSquared(p) < radius * radius)  {
+        if ((float)center.distanceSquared(p) < radius * radius)  {
             sr.setT(t);
             sr.setNormal(normal);
 //            sr.localHitPoint = p;
@@ -51,7 +51,7 @@ public class Disk extends GeometricObject {
             return false;
         }
         Point3DF p = ray.linear(t);
-        if (center.distanceSquared(p) < radius * radius)  {
+        if ((float)center.distanceSquared(p) < radius * radius)  {
             tmin.setT(t);
             return true;
         } else {

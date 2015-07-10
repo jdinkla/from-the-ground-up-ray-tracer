@@ -74,9 +74,9 @@ public class AffineTransformationTest {
     }
 
     private void assertEq(Point3DF p, Point3DF q) {
-        assertEquals(p.x, q.x, DELTA, "x differs in " + p + " and " + q);
-        assertEquals(p.y, q.y, DELTA, "y differs in " + p + " and " + q);
-        assertEquals(p.z, q.z, DELTA, "z differs in " + p + " and " + q);       
+        assertEquals(p.getX(), q.getX(), DELTA, "x differs in " + p + " and " + q);
+        assertEquals(p.getY(), q.getY(), DELTA, "y differs in " + p + " and " + q);
+        assertEquals(p.getZ(), q.getZ(), DELTA, "z differs in " + p + " and " + q);
     }
 
     private void testT(AffineTransformation t, final Point3DF p, final Point3DF pInv, final Point3DF pFor) {

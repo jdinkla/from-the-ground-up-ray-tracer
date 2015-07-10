@@ -62,10 +62,10 @@ public class FishEye extends AbstractLens {
             float sinAlpha = (float) y / r;
             float cosAlpha = (float) x / r;
 //            rd.direction = uvw.u.mult(sinPsi * cosAlpha).plus(uvw.v.mult(sinPsi * sinAlpha)).minus(uvw.w.mult(cosPsi));
-            rd.direction = uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi);
+            rd.direction = new Vector3DF(uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi));
             rd.rSquared = rSquared;
         } else {
-           rd.direction = Vector3DF.ZERO;
+           rd.direction = Vector3D$.MODULE$.ZERO();
         }
         return rd;
 

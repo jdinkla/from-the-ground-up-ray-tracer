@@ -18,14 +18,14 @@ public class PointUtilities {
         float y = Float.POSITIVE_INFINITY;
         float z = Float.POSITIVE_INFINITY;
         for (Point3DF p : points) {
-            if (p.x < x) {
-                x = p.x;
+            if (p.x() < x) {
+                x = p.x();
             }
-            if (p.y < y) {
-                y = p.y;
+            if (p.y() < y) {
+                y = p.y();
             }
-            if (p.z < z) {
-                z = p.z;
+            if (p.z() < z) {
+                z = p.z();
             }
         }
         final Point3DF p = new Point3DF(x, y, z);
@@ -37,14 +37,14 @@ public class PointUtilities {
         float y = Float.NEGATIVE_INFINITY;
         float z = Float.NEGATIVE_INFINITY;
         for (Point3DF p : points) {
-            if (p.x > x) {
-                x = p.x;
+            if (p.x() > x) {
+                x = p.x();
             }
-            if (p.y > y) {
-                y = p.y;
+            if (p.y() > y) {
+                y = p.y();
             }
-            if (p.z > z) {
-                z = p.z;
+            if (p.z() > z) {
+                z = p.z();
             }
         }
         final Point3DF p = new Point3DF(x, y, z);
@@ -57,14 +57,14 @@ public class PointUtilities {
         float z = Float.POSITIVE_INFINITY;
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
-            if (bbox.p.x < x) {
-                x = bbox.p.x;
+            if (bbox.p.x() < x) {
+                x = bbox.p.x();
             }
-            if (bbox.p.y < y) {
-                y = bbox.p.y;
+            if (bbox.p.y() < y) {
+                y = bbox.p.y();
             }
-            if (bbox.p.z < z) {
-                z = bbox.p.z;
+            if (bbox.p.z() < z) {
+                z = bbox.p.z();
             }
         }
         final Point3DF p = new Point3DF(x - MathUtils.K_EPSILON, y - MathUtils.K_EPSILON, z - MathUtils.K_EPSILON);
@@ -77,14 +77,14 @@ public class PointUtilities {
         float z = Float.NEGATIVE_INFINITY;
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
-            if (bbox.q.x > x) {
-                x = bbox.q.x;
+            if (bbox.q.x() > x) {
+                x = bbox.q.x();
             }
-            if (bbox.q.y > y) {
-                y = bbox.q.y;
+            if (bbox.q.y() > y) {
+                y = bbox.q.y();
             }
-            if (bbox.q.z > z) {
-                z = bbox.q.z;
+            if (bbox.q.z() > z) {
+                z = bbox.q.z();
             }
         }
         final Point3DF p = new Point3DF(x + MathUtils.K_EPSILON, y + MathUtils.K_EPSILON, z + MathUtils.K_EPSILON);

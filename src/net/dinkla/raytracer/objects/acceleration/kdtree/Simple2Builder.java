@@ -77,12 +77,12 @@ public class Simple2Builder implements IKDTreeBuilder {
         List<GeometricObject> objectsLz = new ArrayList<GeometricObject>();
         List<GeometricObject> objectsRz = new ArrayList<GeometricObject>();
 
-        split = mid.x;
+        split = mid.x();
 
-        Point3DF q1 = new Point3DF(mid.x, voxel.q.y, voxel.q.z);
+        Point3DF q1 = new Point3DF(mid.x(), voxel.q.y(), voxel.q.z());
         voxelLx = new BBox(voxel.p, q1);
 
-        Point3DF p2 = new Point3DF(mid.x, voxel.p.y, voxel.p.z);
+        Point3DF p2 = new Point3DF(mid.x(), voxel.p.y(), voxel.p.z());
         voxelRx = new BBox(p2, voxel.q);
 
         int bothX = 0;
@@ -92,11 +92,11 @@ public class Simple2Builder implements IKDTreeBuilder {
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
             boolean isBoth = false;
-            if (bbox.p.x <= split) {
+            if (bbox.p.x() <= split) {
                 objectsLx.add(object);
                 isBoth = true;
             }
-            if (bbox.q.x >= split) {
+            if (bbox.q.x() >= split) {
                 objectsRx.add(object);
                 if (isBoth) {
                     bothX++;
@@ -104,22 +104,22 @@ public class Simple2Builder implements IKDTreeBuilder {
             }
         }
 
-        split = mid.y;
+        split = mid.y();
 
-        Point3DF q1y = new Point3DF(voxel.q.x, mid.y, voxel.q.z);
+        Point3DF q1y = new Point3DF(voxel.q.x(), mid.y(), voxel.q.z());
         voxelLy = new BBox(voxel.p, q1y);
 
-        Point3DF p2y = new Point3DF(voxel.p.x, mid.y, voxel.p.z);
+        Point3DF p2y = new Point3DF(voxel.p.x(), mid.y(), voxel.p.z());
         voxelRy = new BBox(p2y, voxel.q);
 
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
             boolean isBoth = false;
-            if (bbox.p.y <= split) {
+            if (bbox.p.y() <= split) {
                 objectsLy.add(object);
                 isBoth = true;
             }
-            if (bbox.q.y >= split) {
+            if (bbox.q.y() >= split) {
                 objectsRy.add(object);
                 if (isBoth) {
                     bothY++;
@@ -127,22 +127,22 @@ public class Simple2Builder implements IKDTreeBuilder {
             }
         }
 
-        split = mid.z;
+        split = mid.z();
 
-        Point3DF q1z = new Point3DF(voxel.q.x, voxel.q.y, mid.z);
+        Point3DF q1z = new Point3DF(voxel.q.x(), voxel.q.y(), mid.z());
         voxelLz = new BBox(voxel.p, q1z);
 
-        Point3DF p2z = new Point3DF(voxel.p.x, voxel.p.y, mid.z);
+        Point3DF p2z = new Point3DF(voxel.p.x(), voxel.p.y(), mid.z());
         voxelRz = new BBox(p2z, voxel.q);
 
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
             boolean isBoth = false;
-            if (bbox.p.z <= split) {
+            if (bbox.p.z() <= split) {
                 objectsLz.add(object);
                 isBoth = true;
             }
-            if (bbox.q.z >= split) {
+            if (bbox.q.z() >= split) {
                 objectsRz.add(object);
                 if (isBoth) {
                     bothZ++;

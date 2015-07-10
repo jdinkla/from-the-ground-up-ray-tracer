@@ -28,13 +28,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final double x1 = ray.o.x;
-        final double y1 = ray.o.y;
-        final double z1 = ray.o.z;
+        final double x1 = (double) ray.o.x();
+        final double y1 = (double) ray.o.y();
+        final double z1 = (double) ray.o.z();
 
-        final double d1 = ray.d.x;
-        final double d2 = ray.d.y;
-        final double d3 = ray.d.z;
+        final double d1 = (double) ray.d.x();
+        final double d2 = (double) ray.d.y();
+        final double d3 = (double) ray.d.z();
 
         double coeffs[] = new double[5];
         double roots[] = new double[4];
@@ -78,13 +78,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final float x1 = ray.o.x;
-        final float y1 = ray.o.y;
-        final float z1 = ray.o.z;
+        final float x1 = (float) ray.o.x();
+        final float y1 = (float) ray.o.y();
+        final float z1 = (float) ray.o.z();
 
-        final float d1 = ray.d.x;
-        final float d2 = ray.d.y;
-        final float d3 = ray.d.z;
+        final float d1 = (float) ray.d.x();
+        final float d2 = (float) ray.d.y();
+        final float d3 = (float) ray.d.z();
 
         float coeffs[] = new float[5];
         float roots[] = new float[4];
@@ -136,11 +136,11 @@ public class Torus extends GeometricObject {
 
     private Normal computeNormal(Point3DF p) {
         final double paramSquared = a * a + b * b;
-        final double sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
+        final double sumSquared = (double) p.toVector().sqrLength(); //  p.x * p.x + p.y * p.y + p.z * p.z;
         final double diff = sumSquared - paramSquared;
-        final double x = 4.0 * p.x * diff;
-        final double y = 4.0 * p.y * (diff + 2.0 * a * a);
-        final double z = 4.0 * p.z * diff;
+        final double x = 4.0 * (double)p.x() * diff;
+        final double y = 4.0 * (double)p.y() * (diff + 2.0 * a * a);
+        final double z = 4.0 * (double)p.z() * diff;
         final Normal normal = new Normal((float)x, (float)y, (float)z).normalize();
         return normal;
     }

@@ -63,10 +63,10 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
         final Vector3DF v = u.cross(w);
 
         final Point3DF sp = sampler.sampleHemisphere();
-        sample.wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z));
+        sample.wi = u.mult(sp.x()).plus(v.mult(sp.y())).plus(w.mult(sp.z()));
         final float nDotWi = sr.getNormal().dot(sample.wi);
         if (nDotWi < 0) {
-            sample.wi = u.mult(-sp.x).plus(v.mult(-sp.y)).plus(w.mult(-sp.z));
+            sample.wi = u.mult(-sp.x()).plus(v.mult(-sp.y())).plus(w.mult(-sp.z()));
         }
 
         final float phongLobe = (float) Math.pow(sample.wi.dot(r), exp);

@@ -73,7 +73,7 @@ public class InnerNode extends AbstractNode {
                     Hit srL = new Hit(pair.hit);
                     srL.setT(hit.t1);
                     Hit srR = new Hit(pair.hit);
-                    if (ray.o.ith(axis) < node.getSplit()) {
+                    if ((float)ray.o.ith(axis) < node.getSplit()) {
                         stack.push(new Pair(node.left, srL));
                         stack.push(new Pair(node.right, srR));
                     } else {
@@ -105,7 +105,7 @@ public class InnerNode extends AbstractNode {
 //        Counter.count("KDTree.InnerNode.hit");
 
         // On which side does the ray start? 
-        if (ray.o.ith(axis) < split) {
+        if ((float)ray.o.ith(axis) < split) {
 //                Counter.count("KDTree.InnerNode.hit.LR.L");
             Hit srL = new Hit(sr);
             srL.setT(hit.t1);
@@ -155,7 +155,7 @@ public class InnerNode extends AbstractNode {
 
         // Side
         Side side = null;
-        if (ray.o.ith(axis) < split) {
+        if ((float)ray.o.ith(axis) < split) {
             side = Side.Left;
 //            Counter.count("KDTree.InnerNode.Side.L");
         } else {

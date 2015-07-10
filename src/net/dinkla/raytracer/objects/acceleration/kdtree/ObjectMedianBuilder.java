@@ -56,14 +56,14 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
 
         // Find the axis width the largest difference
         Axis axis = null;
-        if (width.x > width.y) {
-            if (width.x > width.z) {
+        if (width.x() > width.y()) {
+            if (width.x() > width.z()) {
                 axis = Axis.X;
             } else {
                 axis = Axis.Z;
             }
         } else {
-            if (width.y > width.z) {
+            if (width.y() > width.z()) {
                 axis = axis.Y;
             } else {
                 axis = axis.Z;
@@ -81,17 +81,17 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
                 final BBox bboxQ = oQ.getBoundingBox();
                 final Point3DF p = bboxP.q;
                 final Point3DF q = bboxQ.q;
-                return Float.compare(p.ith(axis2), q.ith(axis2));
+                return Float.compare((float)p.ith(axis2), (float)q.ith(axis2));
             }
         });
 
         int size = objects.size();
-        float minAxis = objects.get(0).getBoundingBox().p.ith(axis);
-        float maxAxis = objects.get(objects.size()-1).getBoundingBox().p.ith(axis);
+        float minAxis = (float)objects.get(0).getBoundingBox().p.ith(axis);
+        float maxAxis = (float)objects.get(objects.size()-1).getBoundingBox().p.ith(axis);
         float fwidth = maxAxis - minAxis;
 
         GeometricObject med = objects.get(size / 2);
-        split = med.getBoundingBox().p.ith(axis);
+        split = (float)med.getBoundingBox().p.ith(axis);
 
         List<GeometricObject> objectsL = new ArrayList<GeometricObject>();
         List<GeometricObject> objectsR = new ArrayList<GeometricObject>();
@@ -100,10 +100,10 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             // x
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.x <= split) {
+                if (bbox.p.x() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.x >= split) {
+                if (bbox.q.x() >= split) {
                     objectsR.add(object);
                 }
             }
@@ -111,8 +111,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3DF q1 = new Point3DF(split, bL.q.y, bL.q.z);
-            Point3DF p2 = new Point3DF(split, bR.p.y, bR.p.z);
+            Point3DF q1 = new Point3DF(split, bL.q.y(), bL.q.z());
+            Point3DF p2 = new Point3DF(split, bR.p.y(), bR.p.z());
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);
@@ -120,18 +120,18 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             // y
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.y <= split) {
+                if (bbox.p.y() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.y >= split) {
+                if (bbox.q.y() >= split) {
                     objectsR.add(object);
                 }
             }
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3DF q1 = new Point3DF(bL.q.x, split, bL.q.z);
-            Point3DF p2 = new Point3DF(bR.p.x, split, bR.p.z);
+            Point3DF q1 = new Point3DF(bL.q.x(), split, bL.q.z());
+            Point3DF p2 = new Point3DF(bR.p.x(), split, bR.p.z());
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);
@@ -139,10 +139,10 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             // z
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.z <= split) {
+                if (bbox.p.z() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.z >= split) {
+                if (bbox.q.z() >= split) {
                     objectsR.add(object);
                 }
             }
@@ -150,8 +150,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3DF q1 = new Point3DF(bL.q.x, bL.q.y, split);
-            Point3DF p2 = new Point3DF(bR.p.x, bR.p.y, split);
+            Point3DF q1 = new Point3DF(bL.q.x(), bL.q.y(), split);
+            Point3DF p2 = new Point3DF(bR.p.x(), bR.p.y(), split);
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);

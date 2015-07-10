@@ -23,10 +23,10 @@ public class ListUtilities {
         objectsR.clear();
         for (GeometricObject object : objects) {
             BBox bbox = object.getBoundingBox();
-            if (bbox.p.ith(axis) <= split) {
+            if ((float)bbox.p.ith(axis) <= split) {
                 objectsL.add(object);
             }
-            if (bbox.q.ith(axis) >= split) {
+            if ((float)bbox.q.ith(axis) >= split) {
                 objectsR.add(object);
             }
         }
@@ -46,12 +46,12 @@ public class ListUtilities {
                 final BBox bboxQ = oQ.getBoundingBox();
                 final Point3DF p = bboxP.q;
 
-                final float pP = bboxP.p.ith(axis);
-                final float widthP = bboxP.q.ith(axis) - pP;
+                final float pP = (float)bboxP.p.ith(axis);
+                final float widthP = (float)bboxP.q.ith(axis) - pP;
                 final float medP = pP + 0.5f * widthP;
 
-                final float pQ = bboxQ.p.ith(axis);
-                final float widthQ = bboxQ.q.ith(axis) - pQ;
+                final float pQ = (float)bboxQ.p.ith(axis);
+                final float widthQ = (float)bboxQ.q.ith(axis) - pQ;
                 final float medQ = pQ + 0.5f * widthQ;
 
                 final Point3DF q = bboxQ.q;

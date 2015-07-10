@@ -90,15 +90,15 @@ public class Instance extends GeometricObject {
         float vy[] = new float[8];
         float vz[] = new float[8];
 
-        vx[0] = objectBbox.p.x; vy[0] = objectBbox.p.y; vz[0] = objectBbox.p.z;
-        vx[1] = objectBbox.q.x; vy[1] = objectBbox.p.y; vz[1] = objectBbox.p.z;
-        vx[2] = objectBbox.q.x; vy[2] = objectBbox.q.y; vz[2] = objectBbox.p.z;
-        vx[3] = objectBbox.p.x; vy[3] = objectBbox.q.y; vz[3] = objectBbox.p.z;
+        vx[0] = objectBbox.p.x(); vy[0] = objectBbox.p.y(); vz[0] = objectBbox.p.z();
+        vx[1] = objectBbox.q.x(); vy[1] = objectBbox.p.y(); vz[1] = objectBbox.p.z();
+        vx[2] = objectBbox.q.x(); vy[2] = objectBbox.q.y(); vz[2] = objectBbox.p.z();
+        vx[3] = objectBbox.p.x(); vy[3] = objectBbox.q.y(); vz[3] = objectBbox.p.z();
 
-        vx[4] = objectBbox.p.x; vy[4] = objectBbox.p.y; vz[4] = objectBbox.q.z;
-        vx[5] = objectBbox.q.x; vy[5] = objectBbox.p.y; vz[5] = objectBbox.q.z;
-        vx[6] = objectBbox.q.x; vy[6] = objectBbox.q.y; vz[6] = objectBbox.q.z;
-        vx[7] = objectBbox.p.x; vy[7] = objectBbox.q.y; vz[7] = objectBbox.q.z;
+        vx[4] = objectBbox.p.x(); vy[4] = objectBbox.p.y(); vz[4] = objectBbox.q.z();
+        vx[5] = objectBbox.q.x(); vy[5] = objectBbox.p.y(); vz[5] = objectBbox.q.z();
+        vx[6] = objectBbox.q.x(); vy[6] = objectBbox.q.y(); vz[6] = objectBbox.q.z();
+        vx[7] = objectBbox.p.x(); vy[7] = objectBbox.q.y(); vz[7] = objectBbox.q.z();
 
         // Transform these using the forward matrix
         for (int i=0; i<8;i++) {
@@ -113,18 +113,18 @@ public class Instance extends GeometricObject {
         float z0 = MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++)  {
-            if (v[j].x < x0)
-                x0 = v[j].x;
+            if (v[j].x() < x0)
+                x0 = v[j].x();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].y < y0)
-                y0 = v[j].y;
+            if (v[j].y() < y0)
+                y0 = v[j].y();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].z < z0)
-                z0 = v[j].z;
+            if (v[j].z() < z0)
+                z0 = v[j].z();
         }
 
         // Compute the minimum values
@@ -134,18 +134,18 @@ public class Instance extends GeometricObject {
         float z1 = -MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].x > x1)
-                x1 = v[j].x;
+            if (v[j].x() > x1)
+                x1 = v[j].x();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].y > y1)
-                y1 = v[j].y;
+            if (v[j].y() > y1)
+                y1 = v[j].y();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].z > z1)
-                z1 = v[j].z;
+            if (v[j].z() > z1)
+                z1 = v[j].z();
         }
 
         // Assign values to the bounding box

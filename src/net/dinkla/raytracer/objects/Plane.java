@@ -17,8 +17,8 @@ public class Plane extends GeometricObject {
     public Normal normal;
 
     public Plane() {
-        this.point = Point3DF.ORIGIN;
-        this.normal = Normal.UP;
+        this.point = Point3D$.MODULE$.ORIGIN();
+        this.normal = Normal$.MODULE$.UP();
     }
     
     public Plane(Point3DF point, Normal normal) {
@@ -59,7 +59,7 @@ public class Plane extends GeometricObject {
 
     @Override
     public BBox getBoundingBox() {
-        return new BBox(Point3DF.MIN, Point3DF.MAX);
+        return new BBox(Point3D$.MODULE$.MIN(), Point3D$.MODULE$.MAX());
     }
 
     @Override

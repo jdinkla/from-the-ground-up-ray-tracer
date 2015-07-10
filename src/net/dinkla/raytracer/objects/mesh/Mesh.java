@@ -2,6 +2,7 @@ package net.dinkla.raytracer.objects.mesh;
 
 import net.dinkla.raytracer.materials.Material;
 import net.dinkla.raytracer.math.Normal;
+import net.dinkla.raytracer.math.Normal$;
 import net.dinkla.raytracer.math.Point3DF;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class Mesh {
         normals.ensureCapacity(vertices.size());
 
         for (int index = 0; index < vertices.size(); index++) {
-            Normal normal = Normal.ZERO;
+            Normal normal = Normal$.MODULE$.ZERO();
 
 //            for (int j = 0; j < vertexFaces.get(index).size(); j++) {
 //                normal = new Normal(normal.plus(objects.get(vertexFaces.get(index).get(j)).getNormal()));
@@ -62,8 +63,8 @@ public class Mesh {
 
             // The following code attempts to avoid (nan, nan, nan) normalised normals when all components = 0
 
-            if (normal.x == 0.0 && normal.y == 0.0 && normal.z == 0.0) {
-                normal = new Normal(normal.x, 1.0f, normal.z);
+            if (normal.x() == 0.0 && normal.y() == 0.0 && normal.z() == 0.0) {
+                normal = new Normal(normal.x(), 1.0f, normal.z());
             } else {
                 normal = normal.normalize();
             }

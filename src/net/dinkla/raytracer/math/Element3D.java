@@ -1,14 +1,17 @@
+/*
 package net.dinkla.raytracer.math;
 
 import static java.lang.Math.sqrt;
 
+*/
 /**
  * Created by IntelliJ IDEA.
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 16:23:15
  * To change this template use File | Settings | File Templates.
- */
+ *//*
+
 public class Element3D {
 
     public final float x;
@@ -70,3 +73,4 @@ public class Element3D {
 
 
 }
+*/

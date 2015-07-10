@@ -22,16 +22,16 @@ public class MathUtils {
     }
 
     public static Point3DF minMin(Point3DF p, Point3DF q, Point3DF r) {
-        float x = Math.min(Math.min(p.x, q.x), r.x);
-        float y = Math.min(Math.min(p.y, q.y), r.y);
-        float z = Math.min(Math.min(p.z, q.z), r.z);
+        float x = Math.min(Math.min(p.x(), q.x()), r.x());
+        float y = Math.min(Math.min(p.y(), q.y()), r.y());
+        float z = Math.min(Math.min(p.z(), q.z()), r.z());
         return new Point3DF(x, y, z);
     }
 
     public static Point3DF maxMax(Point3DF p, Point3DF q, Point3DF r) {
-        float x = Math.max(Math.max(p.x, q.x), r.x);
-        float y = Math.max(Math.max(p.y, q.y), r.y);
-        float z = Math.max(Math.max(p.z, q.z), r.z);
+        float x = Math.max(Math.max(p.x(), q.x()), r.x());
+        float y = Math.max(Math.max(p.y(), q.y()), r.y());
+        float z = Math.max(Math.max(p.z(), q.z()), r.z());
         return new Point3DF(x, y, z);
     }
 

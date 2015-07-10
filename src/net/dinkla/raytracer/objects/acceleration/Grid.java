@@ -64,9 +64,9 @@ public class Grid extends Compound {
         timer.start();
         bbox = getBoundingBox();        // TODO: wird in initialize() aufgerufen !!!
 
-        float wx = bbox.q.x - bbox.p.x;
-        float wy = bbox.q.y - bbox.p.y;
-        float wz = bbox.q.z - bbox.p.z;
+        float wx = bbox.q.x() - bbox.p.x();
+        float wy = bbox.q.y() - bbox.p.y();
+        float wz = bbox.q.z() - bbox.p.z();
 
         float s = (float) Math.pow(wx * wy * wz / objects.size(), (1.0 / 3));
         nx = (int) (multiplier * wx / s + 1);
@@ -99,13 +99,13 @@ public class Grid extends Compound {
 
             BBox objBbox = object.getBoundingBox();
 
-            int ixmin = (int) MathUtils.clamp((objBbox.p.x - bbox.p.x) * nx / wx, 0, nx - 1);
-            int iymin = (int) MathUtils.clamp((objBbox.p.y - bbox.p.y) * ny / wy, 0, ny - 1);
-            int izmin = (int) MathUtils.clamp((objBbox.p.z - bbox.p.z) * nz / wz, 0, nz - 1);
+            int ixmin = (int) MathUtils.clamp((objBbox.p.x() - bbox.p.x()) * nx / wx, 0, nx - 1);
+            int iymin = (int) MathUtils.clamp((objBbox.p.y() - bbox.p.y()) * ny / wy, 0, ny - 1);
+            int izmin = (int) MathUtils.clamp((objBbox.p.z() - bbox.p.z()) * nz / wz, 0, nz - 1);
 
-            int ixmax = (int) MathUtils.clamp((objBbox.q.x - bbox.p.x) * nx / wx, 0, nx - 1);
-            int iymax = (int) MathUtils.clamp((objBbox.q.y - bbox.p.y) * ny / wy, 0, ny - 1);
-            int izmax = (int) MathUtils.clamp((objBbox.q.z - bbox.p.z) * nz / wz, 0, nz - 1);
+            int ixmax = (int) MathUtils.clamp((objBbox.q.x() - bbox.p.x()) * nx / wx, 0, nx - 1);
+            int iymax = (int) MathUtils.clamp((objBbox.q.y() - bbox.p.y()) * ny / wy, 0, ny - 1);
+            int izmax = (int) MathUtils.clamp((objBbox.q.z() - bbox.p.z()) * nz / wz, 0, nz - 1);
 
             for (int iz = izmin; iz <= izmax; iz++) {
                 for (int iy = iymin; iy <= iymax; iy++) {
@@ -189,19 +189,19 @@ public class Grid extends Compound {
         }
         Counter.count("Grid.hit");
         
-        float ox = ray.o.x;
-        float oy = ray.o.y;
-        float oz = ray.o.z;
-        float dx = ray.d.x;
-        float dy = ray.d.y;
-        float dz = ray.d.z;
+        float ox = ray.o.x();
+        float oy = ray.o.y();
+        float oz = ray.o.z();
+        float dx = ray.d.x();
+        float dy = ray.d.y();
+        float dz = ray.d.z();
 
-        float x0 = bbox.p.x;
-        float y0 = bbox.p.y;
-        float z0 = bbox.p.z;
-        float x1 = bbox.q.x;
-        float y1 = bbox.q.y;
-        float z1 = bbox.q.z;
+        float x0 = bbox.p.x();
+        float y0 = bbox.p.y();
+        float z0 = bbox.p.z();
+        float x1 = bbox.q.x();
+        float y1 = bbox.q.y();
+        float z1 = bbox.q.z();
 
         float tx_min, ty_min, tz_min;
         float tx_max, ty_max, tz_max;
@@ -268,9 +268,9 @@ public class Grid extends Compound {
             iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
         } else {
             Point3DF p = ray.linear(t0);  // initial hit point with grid's bounding box
-            ix = (int) MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
-            iy = (int) MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
-            iz = (int) MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0, nz - 1);
+            ix = (int) MathUtils.clamp((p.x() - x0) * nx / (x1 - x0), 0, nx - 1);
+            iy = (int) MathUtils.clamp((p.y() - y0) * ny / (y1 - y0), 0, ny - 1);
+            iz = (int) MathUtils.clamp((p.z() - z0) * nz / (z1 - z0), 0, nz - 1);
         }
 
         // ray parameter increments per cell in the x, y, and z directions
@@ -395,19 +395,19 @@ public class Grid extends Compound {
 //            return false;
 //        }
 //
-//        float ox = ray.o.x;
-//        float oy = ray.o.y;
-//        float oz = ray.o.z;
-//        float dx = ray.d.x;
-//        float dy = ray.d.y;
-//        float dz = ray.d.z;
+//        float ox = ray.o.x();
+//        float oy = ray.o.y();
+//        float oz = ray.o.z();
+//        float dx = ray.d.x();
+//        float dy = ray.d.y();
+//        float dz = ray.d.z();
 //
-//        float x0 = bbox.p.x;
-//        float y0 = bbox.p.y;
-//        float z0 = bbox.p.z;
-//        float x1 = bbox.q.x;
-//        float y1 = bbox.q.y;
-//        float z1 = bbox.q.z;
+//        float x0 = bbox.p.x();
+//        float y0 = bbox.p.y();
+//        float z0 = bbox.p.z();
+//        float x1 = bbox.q.x();
+//        float y1 = bbox.q.y();
+//        float z1 = bbox.q.z();
 //
 //        float tx_min, ty_min, tz_min;
 //        float tx_max, ty_max, tz_max;
@@ -472,9 +472,9 @@ public class Grid extends Compound {
 //            iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
 //        } else {
 //            Point3DF p = ray.linear(t0);  // initial hit point with grid's bounding box
-//            ix = (int) MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
-//            iy = (int) MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
-//            iz = (int) MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0, nz - 1);
+//            ix = (int) MathUtils.clamp((p.x() - x0) * nx / (x1 - x0), 0, nx - 1);
+//            iy = (int) MathUtils.clamp((p.y() - y0) * ny / (y1 - y0), 0, ny - 1);
+//            iz = (int) MathUtils.clamp((p.z() - z0) * nz / (z1 - z0), 0, nz - 1);
 //        }
 //
 //        // ray parameter increments per cell in the x, y, and z directions
