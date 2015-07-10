@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.lenses;
 
 import net.dinkla.raytracer.math.Basis;
 import net.dinkla.raytracer.math.Point2DF;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
 
 /**
@@ -18,9 +18,9 @@ public interface ILens {
 
     public Ray getRaySampled(int r, int c, Point2DF sp);
 
-    public Point3D getEye();
+    public Point3DF getEye();
 
-    public void setEye(Point3D eye);
+    public void setEye(Point3DF eye);
 
     public Basis getUvw();
 

@@ -1,7 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
 
 def t1 = builder.smoothTriangle(a: p(-0.25, 0, 0.2), b: p(0.25, 0.1, -0.1), c: p(0.23, -0.2, +0.025))
 def t2 = builder.smoothTriangle(a: p(0, -1, 0), b: p(0.75, 0.4, -0.025), c: p(-0.05, 0, +0.025))

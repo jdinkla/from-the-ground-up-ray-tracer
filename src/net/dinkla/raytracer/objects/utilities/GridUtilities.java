@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.objects.utilities;
 
 import net.dinkla.raytracer.math.Normal;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.objects.SmoothTriangle;
 import net.dinkla.raytracer.objects.Triangle;
 
@@ -29,13 +29,13 @@ public class GridUtilities {
         for (int j = 0; j <= horizontalSteps - 1; j++) {
             // define vertices
 
-            Point3D v0 = new Point3D(0, 1, 0); 						// top (north pole)
+            Point3DF v0 = new Point3DF(0, 1, 0); 						// top (north pole)
 
-            Point3D v1 = new Point3D((float) (sin(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// bottom left
+            Point3DF v1 = new Point3DF((float) (sin(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// bottom left
                         (float) (cos(PI * k / verticalSteps)),
                         (float) (cos(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)));
 
-            Point3D v2 = new Point3D((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// bottom  right
+            Point3DF v2 = new Point3DF((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// bottom  right
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)));
 
@@ -48,13 +48,13 @@ public class GridUtilities {
         for (int j = 0; j <= horizontalSteps - 1; j++) {
             // define vertices
 
-            Point3D v0 = new Point3D((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top left
+            Point3DF v0 = new Point3DF((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top left
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
-            Point3D v1 = new Point3D(0, -1, 0);																		// bottom (south pole)
+            Point3DF v1 = new Point3DF(0, -1, 0);																		// bottom (south pole)
 
-            Point3D v2 = new Point3D((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// top right
+            Point3DF v2 = new Point3DF((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// top right
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))	);
 
@@ -69,15 +69,15 @@ public class GridUtilities {
 
                 // vertices
 
-                Point3D v0 = new Point3D((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 				// bottom left, use k + 1, j
+                Point3DF v0 = new Point3DF((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 				// bottom left, use k + 1, j
                             (float)(cos(PI * (k + 1) / verticalSteps)),
                             (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))	);
 
-                Point3D v1 = new Point3D((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 		// bottom  right, use k + 1, j + 1
+                Point3DF v1 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 		// bottom  right, use k + 1, j + 1
                             (float)(cos(PI * (k + 1) / verticalSteps)),
                             (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)	));
 
-                Point3D v2 = new Point3D((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 					// top left, 	use k, j
+                Point3DF v2 = new Point3DF((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 					// top left, 	use k, j
                             (float)(cos(PI * k / verticalSteps)),
                             (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
@@ -89,15 +89,15 @@ public class GridUtilities {
 
                 // vertices
 
-                v0 = new Point3D((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top right, use k, j + 1
+                v0 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top right, use k, j + 1
                                 (float)(cos(PI * k / verticalSteps)),
                                 (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)) );
 
-                v1 = new Point3D ((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 				// top left, 	use k, j
+                v1 = new Point3DF((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 				// top left, 	use k, j
                                 (float)(cos(PI * k / verticalSteps)),
                                 (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
-                v2 = new Point3D ((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 	// bottom  right, use k + 1, j + 1
+                v2 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 	// bottom  right, use k + 1, j + 1
                                 (float)(cos(PI * (k + 1) / verticalSteps)),
                                 (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))	);
 
@@ -114,20 +114,20 @@ public class GridUtilities {
         for (int j = 0; j <= horizontalSteps - 1; j++) {
             // define vertices
 
-            Point3D v0 = new Point3D(0, 1, 0); 						// top (north pole)
+            Point3DF v0 = new Point3DF(0, 1, 0); 						// top (north pole)
 
-            Point3D v1 = new Point3D((float) (sin(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// bottom left
+            Point3DF v1 = new Point3DF((float) (sin(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// bottom left
                         (float) (cos(PI * k / verticalSteps)),
                         (float) (cos(2.0f * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)));
 
-            Point3D v2 = new Point3D((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// bottom  right
+            Point3DF v2 = new Point3DF((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// bottom  right
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)));
 
             SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-            triangle.setN0(new Normal(new Vector3D(v0)));
-            triangle.setN1(new Normal(new Vector3D(v1)));
-            triangle.setN2(new Normal(new Vector3D(v2)));
+            triangle.setN0(new Normal(new Vector3DF(v0)));
+            triangle.setN1(new Normal(new Vector3DF(v1)));
+            triangle.setN2(new Normal(new Vector3DF(v2)));
             list.add(triangle);
         }
 
@@ -136,20 +136,20 @@ public class GridUtilities {
         for (int j = 0; j <= horizontalSteps - 1; j++) {
             // define vertices
 
-            Point3D v0 = new Point3D((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top left
+            Point3DF v0 = new Point3DF((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top left
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
-            Point3D v1 = new Point3D(0, -1, 0);																		// bottom (south pole)
+            Point3DF v1 = new Point3DF(0, -1, 0);																		// bottom (south pole)
 
-            Point3D v2 = new Point3D((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// top right
+            Point3DF v2 = new Point3DF((float)(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 		// top right
                         (float)(cos(PI * k / verticalSteps)),
                         (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))	);
 
             SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-            triangle.setN0(new Normal(new Vector3D(v0)));
-            triangle.setN1(new Normal(new Vector3D(v1)));
-            triangle.setN2(new Normal(new Vector3D(v2)));
+            triangle.setN0(new Normal(new Vector3DF(v0)));
+            triangle.setN1(new Normal(new Vector3DF(v1)));
+            triangle.setN2(new Normal(new Vector3DF(v2)));
             list.add(triangle);
         }
 
@@ -160,22 +160,22 @@ public class GridUtilities {
 
                 // vertices
 
-                Point3D v0 = new Point3D((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 				// bottom left, use k + 1, j
+                Point3DF v0 = new Point3DF((float)(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 				// bottom left, use k + 1, j
                             (float)(cos(PI * (k + 1) / verticalSteps)),
                             (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))	);
 
-                Point3D v1 = new Point3D((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 		// bottom  right, use k + 1, j + 1
+                Point3DF v1 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 		// bottom  right, use k + 1, j + 1
                             (float)(cos(PI * (k + 1) / verticalSteps)),
                             (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)	));
 
-                Point3D v2 = new Point3D((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 					// top left, 	use k, j
+                Point3DF v2 = new Point3DF((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 					// top left, 	use k, j
                             (float)(cos(PI * k / verticalSteps)),
                             (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
                 SmoothTriangle triangle = new SmoothTriangle(v0, v1, v2);
-                triangle.setN0(new Normal(new Vector3D(v0)));
-                triangle.setN1(new Normal(new Vector3D(v1)));
-                triangle.setN2(new Normal(new Vector3D(v2)));
+                triangle.setN0(new Normal(new Vector3DF(v0)));
+                triangle.setN1(new Normal(new Vector3DF(v1)));
+                triangle.setN2(new Normal(new Vector3DF(v2)));
                 list.add(triangle);
 
 
@@ -183,22 +183,22 @@ public class GridUtilities {
 
                 // vertices
 
-                v0 = new Point3D((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top right, use k, j + 1
+                v0 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)), 			// top right, use k, j + 1
                                 (float)(cos(PI * k / verticalSteps)),
                                 (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps)) );
 
-                v1 = new Point3D ((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 				// top left, 	use k, j
+                v1 = new Point3DF((float)(	sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)), 				// top left, 	use k, j
                                 (float)(cos(PI * k / verticalSteps)),
                                 (float)(cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps)	));
 
-                v2 = new Point3D ((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 	// bottom  right, use k + 1, j + 1
+                v2 = new Point3DF((float)(	sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps)), 	// bottom  right, use k + 1, j + 1
                                 (float)(cos(PI * (k + 1) / verticalSteps)),
                                 (float)(cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))	);
 
                 SmoothTriangle triangle2 = new SmoothTriangle(v0, v1, v2);
-                triangle2.setN0(new Normal(new Vector3D(v0)));
-                triangle2.setN1(new Normal(new Vector3D(v1)));
-                triangle2.setN2(new Normal(new Vector3D(v2)));
+                triangle2.setN0(new Normal(new Vector3DF(v0)));
+                triangle2.setN1(new Normal(new Vector3DF(v1)));
+                triangle2.setN2(new Normal(new Vector3DF(v2)));
                 list.add(triangle2);
             }
         }

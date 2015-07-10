@@ -19,7 +19,7 @@ public class AffineTransformation {
         invMatrix = new Matrix();
     }
     
-    public void translate(Vector3D v) {
+    public void translate(Vector3DF v) {
         translate(v.x, v.y, v.z);
     }
 
@@ -37,7 +37,7 @@ public class AffineTransformation {
         forwardMatrix = translationMatrix.mult(forwardMatrix);
     }
 
-    public void scale(Vector3D v) {
+    public void scale(Vector3DF v) {
         scale(v.x, v.y, v.z);
     }
 

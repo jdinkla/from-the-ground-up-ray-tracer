@@ -22,7 +22,7 @@ public class Instance extends GeometricObject {
         this.trans = new AffineTransformation();
     }
 
-    public void translate(Vector3D v) {
+    public void translate(Vector3DF v) {
         trans.translate(v);
     }
 
@@ -30,7 +30,7 @@ public class Instance extends GeometricObject {
         trans.translate(x, y, z);
     }
 
-    public void scale(Vector3D v) {
+    public void scale(Vector3DF v) {
         trans.scale(v);
     }
 
@@ -52,8 +52,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        Point3D ro = trans.invMatrix.mult(ray.o);
-        Vector3D rd = trans.invMatrix.mult(ray.d); 
+        Point3DF ro = trans.invMatrix.mult(ray.o);
+        Vector3DF rd = trans.invMatrix.mult(ray.d);
         Ray invRay = new Ray(ro, rd);
         if (object.hit(invRay, sr)) {
             // TODO: Instance hit?
@@ -71,8 +71,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Point3D ro = trans.invMatrix.mult(ray.o);
-        Vector3D rd = trans.invMatrix.mult(ray.d);
+        Point3DF ro = trans.invMatrix.mult(ray.o);
+        Vector3DF rd = trans.invMatrix.mult(ray.d);
         Ray invRay = new Ray(ro, rd);
         if (object.shadowHit(invRay, tmin)) {
             return true;
@@ -84,7 +84,7 @@ public class Instance extends GeometricObject {
     public BBox getBoundingBox() {
         BBox objectBbox = object.getBoundingBox();
 
-        Point3D v[] = new Point3D[8];
+        Point3DF v[] = new Point3DF[8];
 
         float vx[] = new float[8];
         float vy[] = new float[8];
@@ -102,7 +102,7 @@ public class Instance extends GeometricObject {
 
         // Transform these using the forward matrix
         for (int i=0; i<8;i++) {
-            v[i] = new Point3D(vx[i], vy[i], vz[i]);
+            v[i] = new Point3DF(vx[i], vy[i], vz[i]);
             v[i] = trans.forwardMatrix.mult(v[i]);
 
         }
@@ -149,7 +149,7 @@ public class Instance extends GeometricObject {
         }
 
         // Assign values to the bounding box
-        BBox bbox = new BBox(new Point3D(x0, y0, z0), new Point3D(x1, y1, z1));
+        BBox bbox = new BBox(new Point3DF(x0, y0, z0), new Point3DF(x1, y1, z1));
         return bbox;
     }
 

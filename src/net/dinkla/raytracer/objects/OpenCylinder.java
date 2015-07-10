@@ -127,8 +127,8 @@ public class OpenCylinder extends GeometricObject {
     @Override
     public BBox getBoundingBox() {
         // TODO: better bbox of open cylinder // throw new RuntimeException("OpenCylinder.getBoundingBox");
-        Point3D p = new Point3D(-radius - MathUtils.K_EPSILON, y0, -radius - MathUtils.K_EPSILON);
-        Point3D q = new Point3D(radius + MathUtils.K_EPSILON, y1, radius + MathUtils.K_EPSILON);
+        Point3DF p = new Point3DF(-radius - MathUtils.K_EPSILON, y0, -radius - MathUtils.K_EPSILON);
+        Point3DF q = new Point3DF(radius + MathUtils.K_EPSILON, y1, radius + MathUtils.K_EPSILON);
         return new BBox(p, q);
     }
 

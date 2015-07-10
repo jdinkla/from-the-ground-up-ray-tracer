@@ -1,10 +1,8 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
 
 float sqrt200 = (float) Math.sqrt(200)
-def r1 = builder.alignedBox(p: Point3D.ORIGIN, q: p(sqrt200, 10, 0.52))
+def r1 = builder.alignedBox(p: Point3DF.ORIGIN, q: p(sqrt200, 10, 0.52))
 
 builder.world(id: "World29") {
 
@@ -43,7 +41,7 @@ builder.world(id: "World29") {
     }
 
     objects {
-         rectangle(p0: Point3D.ORIGIN, a: v(10, 0, 10), b: v(-10, 0, 10), material: "m1")
+         rectangle(p0: Point3DF.ORIGIN, a: v(10, 0, 10), b: v(-10, 0, 10), material: "m1")
 
          sphere(material: "red", center: p(0, 0, 0), radius: 1)
 

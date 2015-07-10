@@ -2,11 +2,10 @@ package net.dinkla.raytracer.materials;
 
 import net.dinkla.raytracer.brdf.BRDF;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.brdf.GlossySpecular;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.worlds.World;
 
@@ -37,7 +36,7 @@ public class GlossyReflector extends Phong {
     @Override
     public Color areaLightShade(World world, Shade sr) {
         Color L = super.areaLightShade(world, sr);
-        final Vector3D wo = sr.ray.d.negate();
+        final Vector3DF wo = sr.ray.d.negate();
         final BRDF.Sample result = glossySpecularBrdf.sampleF(sr, wo);
         final Ray reflectedRay = new Ray(sr.getHitPoint(), result.wi);
         final Color r = world.getTracer().trace(reflectedRay, sr.depth +1);

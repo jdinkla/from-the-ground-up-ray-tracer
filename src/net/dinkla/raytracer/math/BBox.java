@@ -13,15 +13,15 @@ import java.util.List;
  */
 public class BBox {
 
-    public final Point3D p;
-    public final Point3D q;
+    public final Point3DF p;
+    public final Point3DF q;
 
     public BBox() {
         p = null;
         q = null;
     }
     
-    public BBox(final Point3D p, final Point3D q) {
+    public BBox(final Point3DF p, final Point3DF q) {
         if (null != p && null != q) {
             if (p.x > q.x || p.y > q.y || p.z > q.z) {
                 int a = 2;
@@ -38,7 +38,7 @@ public class BBox {
      * @param r     A point.
      * @return      True, if the point r is inside the bounding box.
      */
-    public boolean inside(final Point3D r) {
+    public boolean inside(final Point3DF r) {
         boolean isX = r.x > p.x && r.x < q.x;
         boolean isY = r.y > p.y && r.y < q.y;
         boolean isZ = r.z > p.z && r.z < q.z;
@@ -185,7 +185,7 @@ public class BBox {
         return (t0 < t1 && t1 > MathUtils.K_EPSILON);
     }
 
-    static public BBox create(final Point3D v0, final Point3D v1, final Point3D v2) {
+    static public BBox create(final Point3DF v0, final Point3DF v1, final Point3DF v2) {
         float x0 = Float.POSITIVE_INFINITY;
         float x1 = Float.NEGATIVE_INFINITY;
         if (v0.x < x0) {
@@ -246,14 +246,14 @@ public class BBox {
         if (v2.z > z1) {
             z1 = v2.z;
         }
-        return new BBox(new Point3D(x0 - MathUtils.K_EPSILON, y0 - MathUtils.K_EPSILON, z0 - MathUtils.K_EPSILON),
-                new Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON));
+        return new BBox(new Point3DF(x0 - MathUtils.K_EPSILON, y0 - MathUtils.K_EPSILON, z0 - MathUtils.K_EPSILON),
+                new Point3DF(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON));
     }
 
     public static BBox create(final List<GeometricObject> objects) {
         if (objects.size() > 0) {
-            Point3D p = PointUtilities.minCoordinates(objects);
-            Point3D q = PointUtilities.maxCoordinates(objects);
+            Point3DF p = PointUtilities.minCoordinates(objects);
+            Point3DF q = PointUtilities.maxCoordinates(objects);
             return new BBox(p, q);
         } else {
             return new BBox();
@@ -264,7 +264,7 @@ public class BBox {
         if (null == p) {
             return 0;
         } else {
-            Vector3D width = q.minus(p);
+            Vector3DF width = q.minus(p);
             return width.x * width.y * width.z;
         }
     }
@@ -293,18 +293,18 @@ public class BBox {
         float qy = Math.min(q.y, bbox.q.y);
         float qz = Math.min(q.z, bbox.q.z);
 
-        return new BBox(new Point3D(px, py, pz), new Point3D(qx, qy, qz));
+        return new BBox(new Point3DF(px, py, pz), new Point3DF(qx, qy, qz));
     }
 
 
     public BBox splitLeft(final Axis axis, final float split) {
         switch(axis) {
             case X:
-                return new BBox(p, new Point3D(split, q.y, q.z));
+                return new BBox(p, new Point3DF(split, q.y, q.z));
             case Y:
-                return new BBox(p, new Point3D(q.x, split, q.z));
+                return new BBox(p, new Point3DF(q.x, split, q.z));
             case Z:
-                return new BBox(p, new Point3D(q.x, q.y, split));
+                return new BBox(p, new Point3DF(q.x, q.y, split));
         }
         return null;
     }
@@ -312,11 +312,11 @@ public class BBox {
     public BBox splitRight(final Axis axis, final float split) {
         switch(axis) {
             case X:
-                return new BBox(new Point3D(split, p.y, p.z), q);
+                return new BBox(new Point3DF(split, p.y, p.z), q);
             case Y:
-                return new BBox(new Point3D(p.x, split, p.z), q);
+                return new BBox(new Point3DF(p.x, split, p.z), q);
             case Z:
-                return new BBox(new Point3D(p.x, p.y, split), q);
+                return new BBox(new Point3DF(p.x, p.y, split), q);
         }
         return null;
     }

@@ -3,9 +3,9 @@ package net.dinkla.raytracer.lights;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.materials.Material;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.worlds.World;
 
@@ -20,8 +20,8 @@ public class EnvironmentLight<C extends Color> extends Light<C> {
 
     public Sampler sampler;
     public Material<C> material;
-    public Vector3D u, v, w;
-    public Vector3D wi;
+    public Vector3DF u, v, w;
+    public Vector3DF wi;
 
     @Override
     public boolean inShadow(World<C> world, Ray ray, Shade sr) {
@@ -29,11 +29,11 @@ public class EnvironmentLight<C extends Color> extends Light<C> {
     }
 
     @Override
-    public Vector3D getDirection(Shade sr) {
-        w = new Vector3D(sr.getNormal());
-        v = new Vector3D(0.0034f, 1.0f, 0.0071f).cross(w);
+    public Vector3DF getDirection(Shade sr) {
+        w = new Vector3DF(sr.getNormal());
+        v = new Vector3DF(0.0034f, 1.0f, 0.0071f).cross(w);
         u = v.cross(w);
-        Point3D sp = sampler.sampleHemisphere();
+        Point3DF sp = sampler.sampleHemisphere();
         wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z)); 
         return wi;
     }

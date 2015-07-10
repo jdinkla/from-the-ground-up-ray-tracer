@@ -30,18 +30,18 @@ public class Matrix {
         return product;
     }
 
-    public Point3D mult(Point3D p) {
+    public Point3DF mult(Point3DF p) {
         final float x = m[0][0] * p.x + m[0][1] * p.y + m[0][2] * p.z + m[0][3];
         final float y = m[1][0] * p.x + m[1][1] * p.y + m[1][2] * p.z + m[1][3];
         final float z = m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z + m[2][3];
-        return new Point3D(x, y, z);
+        return new Point3DF(x, y, z);
     }
 
-    public Vector3D mult(Vector3D v) {
+    public Vector3DF mult(Vector3DF v) {
         final float x = m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z;
         final float y = m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z;
         final float z = m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z;
-        return new Vector3D(x, y, z);
+        return new Vector3DF(x, y, z);
     }
 
     // transformed m^t * n 

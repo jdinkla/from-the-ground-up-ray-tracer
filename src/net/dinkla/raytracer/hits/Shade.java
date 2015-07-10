@@ -38,11 +38,11 @@ public class Shade extends Hit {
         return depth;
     }
 
-    public Point3D getHitPoint() {
+    public Point3DF getHitPoint() {
         return ray.linear(t);
     }
 
-    public Point3D getLocalHitPoint() {
+    public Point3DF getLocalHitPoint() {
         return ray.linear(t);
     }
 

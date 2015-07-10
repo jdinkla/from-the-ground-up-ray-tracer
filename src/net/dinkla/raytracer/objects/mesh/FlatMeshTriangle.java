@@ -2,10 +2,8 @@ package net.dinkla.raytracer.objects.mesh;
 
 import net.dinkla.raytracer.hits.Hit;
 import net.dinkla.raytracer.math.MathUtils;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.objects.mesh.Mesh;
-import net.dinkla.raytracer.objects.mesh.MeshTriangle;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,9 +24,9 @@ public class FlatMeshTriangle extends MeshTriangle {
 
     @Override
     public boolean hit(Ray ray, Hit sr) {
-        Point3D v0 = mesh.vertices.get(index0);
-        Point3D v1 = mesh.vertices.get(index1);
-        Point3D v2 = mesh.vertices.get(index2);
+        Point3DF v0 = mesh.vertices.get(index0);
+        Point3DF v1 = mesh.vertices.get(index1);
+        Point3DF v2 = mesh.vertices.get(index2);
 
         float a = v0.x - v1.x, b = v0.x - v2.x, c = ray.d.x, d = v0.x - ray.o.x;
         float e = v0.y - v1.y, f = v0.y - v2.y, g = ray.d.y, h = v0.y - ray.o.y;

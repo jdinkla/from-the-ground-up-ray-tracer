@@ -18,13 +18,13 @@ import static org.testng.Assert.assertEquals;
 public class SphereTest {
 
     // Sphere
-    Point3D point;
+    Point3DF point;
     float radius;
     Sphere sphere;
     
     // Ray
-    Point3D o;
-    Vector3D d;
+    Point3DF o;
+    Vector3DF d;
     Ray ray;
 
     // Sample
@@ -37,55 +37,55 @@ public class SphereTest {
 
     @Test
     public void hit0() {
-        point = new Point3D(0, 0, 0);
+        point = new Point3DF(0, 0, 0);
         radius = 1.0f;
         sphere = new Sphere(point, radius);
 
-        o = new Point3D(0, 0, -2);
-        d = new Vector3D(0, 0, 1);
+        o = new Point3DF(0, 0, -2);
+        d = new Vector3DF(0, 0, 1);
         ray = new Ray(o, d);
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
         assertEquals(sr.getT(), 1.0f, MathUtils.K_EPSILON);
-//        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, -1));
+//        assertEquals(sr.getLocalHitPoint(), new Point3DF(0, 0, -1));
         assertEquals(sr.getNormal(), new Normal(0, 0, -1));
 
         /*
         isHit = sphere.hit(ray, tmin, sr);
         assert isHit;
         assertEquals(tmin.value, 2.0f);
-        assertEquals(sr.localHitPoint, new Point3D(0, 0, 1));
+        assertEquals(sr.localHitPoint, new Point3DF(0, 0, 1));
         */
     }
 
     // ray starts in the sphere
     @Test
     public void hit1() {
-        point = new Point3D(0, 0, 0);
+        point = new Point3DF(0, 0, 0);
         radius = 1.0f;
         sphere = new Sphere(point, radius);
 
-        o = new Point3D(0, 0, 0);
-        d = new Vector3D(0, 0, 1);
+        o = new Point3DF(0, 0, 0);
+        d = new Vector3DF(0, 0, 1);
         ray = new Ray(o, d);
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
         assertEquals(sr.getT(), 1.0f, MathUtils.K_EPSILON);
-//        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, 1));
+//        assertEquals(sr.getLocalHitPoint(), new Point3DF(0, 0, 1));
         assertEquals(sr.getNormal(), new Normal(0, 0, 1));
     }
 
     @Test
     public void boundingBox() {
-        point = new Point3D(0, 0, 0);
+        point = new Point3DF(0, 0, 0);
         radius = 1.0f;
         sphere = new Sphere(point, radius);
 
         BBox bbox = sphere.getBoundingBox();
-        assertEquals(bbox.p, new Point3D(-1, -1, -1));
-        assertEquals(bbox.q, new Point3D(1, 1, 1));        
+        assertEquals(bbox.p, new Point3DF(-1, -1, -1));
+        assertEquals(bbox.q, new Point3DF(1, 1, 1));
     }
 
 }

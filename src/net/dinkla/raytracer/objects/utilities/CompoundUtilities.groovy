@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.mesh.Mesh
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.math.PointUtilities
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import org.apache.log4j.Logger
@@ -22,11 +22,11 @@ class CompoundUtilities {
         Mesh newMesh = new Mesh()
         Compound newCompound = compound.class.newInstance(newMesh)
 
-        Point3D min = PointUtilities.minPoints(compound.getMesh().vertices)
+        Point3DF min = PointUtilities.minPoints(compound.getMesh().vertices)
         LOGGER.info("PLY: minimum=" + min)
 
-        for (Point3D p: compound.getMesh().vertices) {
-            newMesh.vertices.add(new Point3D(p.minus(min)))
+        for (Point3DF p: compound.getMesh().vertices) {
+            newMesh.vertices.add(new Point3DF(p.minus(min)))
         }
 
         for (MeshTriangle tri: compound.objects) {
@@ -42,23 +42,23 @@ class CompoundUtilities {
         Mesh newMesh = new Mesh()
         Compound newCompound = compound.class.newInstance(newMesh)
 
-        Point3D min = PointUtilities.minPoints(compound.getMesh().vertices)
+        Point3DF min = PointUtilities.minPoints(compound.getMesh().vertices)
         LOGGER.info("PLY: minimum=" + min)
 
-        Point3D max = PointUtilities.maxPoints(compound.getMesh().vertices)
+        Point3DF max = PointUtilities.maxPoints(compound.getMesh().vertices)
         LOGGER.info("PLY: maximum=" + max)
 
-        //Point3D mid = min.plus(max.minus(min).mult(0.5f));
-        Point3D mid = new Point3D(max.minus(min).mult(0.5f))
+        //Point3DF mid = min.plus(max.minus(min).mult(0.5f));
+        Point3DF mid = new Point3DF(max.minus(min).mult(0.5f))
 
-        Point3D q = new Point3D(-mid.x, min.y, min.z)
-        for (Point3D p: compound.getMesh().vertices) {
-//             newMesh.vertices.add(new Point3D(p.minus(min).plus(mid)))
-//            newMesh.vertices.add(new Point3D(p.plus(mid)))
-             newMesh.vertices.add(new Point3D(p.minus(q)))
+        Point3DF q = new Point3DF(-mid.x, min.y, min.z)
+        for (Point3DF p: compound.getMesh().vertices) {
+//             newMesh.vertices.add(new Point3DF(p.minus(min).plus(mid)))
+//            newMesh.vertices.add(new Point3DF(p.plus(mid)))
+             newMesh.vertices.add(new Point3DF(p.minus(q)))
         }
 
-//         Point3D m2 = PointUtilities.minPoints(newMesh.vertices)
+//         Point3DF m2 = PointUtilities.minPoints(newMesh.vertices)
 //         LOGGER.info("PLY: new minimum=" + m2)
 
         for (MeshTriangle tri: compound.objects) {

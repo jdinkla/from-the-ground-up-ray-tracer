@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.gui.swing;
 
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 
 public class RayTracerParametersBean {
     private Float eyeX;
@@ -50,7 +50,7 @@ public class RayTracerParametersBean {
         exposureTime = 1.0f;
     }
 
-    public void setEye(Point3D eye) {
+    public void setEye(Point3DF eye) {
         eyeX = eye.x;
         eyeY = eye.y;
         eyeZ = eye.z;
@@ -62,11 +62,11 @@ public class RayTracerParametersBean {
         eyeZ = z;
     }
 
-    public Point3D getEye() {
-        return new Point3D(eyeX, eyeY, eyeZ);
+    public Point3DF getEye() {
+        return new Point3DF(eyeX, eyeY, eyeZ);
     }
 
-    public void setLookAt(Point3D lookAt) {
+    public void setLookAt(Point3DF lookAt) {
         lookAtX = lookAt.x;
         lookAtY = lookAt.y;
         lookAtZ = lookAt.z;
@@ -78,11 +78,11 @@ public class RayTracerParametersBean {
         lookAtZ = z;
     }
 
-    public Point3D getLookAt() {
-        return new Point3D(lookAtX, lookAtY, lookAtZ);
+    public Point3DF getLookAt() {
+        return new Point3DF(lookAtX, lookAtY, lookAtZ);
     }
 
-    public void setUp(Point3D up) {
+    public void setUp(Point3DF up) {
         upX = up.x;
         upY = up.y;
         upZ = up.z;
@@ -94,8 +94,8 @@ public class RayTracerParametersBean {
         upZ = z;
     }
 
-    public Vector3D getUp() {
-        return new Vector3D(upX, upY, upZ);
+    public Vector3DF getUp() {
+        return new Vector3DF(upX, upY, upZ);
     }
     
     public Float getEyeX() {

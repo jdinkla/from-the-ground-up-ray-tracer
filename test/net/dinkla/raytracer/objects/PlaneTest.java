@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects;
 
 import net.dinkla.raytracer.hits.Hit;
-import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,13 +18,13 @@ import static org.testng.Assert.assertNull;
 public class PlaneTest {
 
     // Plane
-    Point3D p;
+    Point3DF p;
     Normal normal;
     Plane plane;
 
     // Ray
-    Point3D o;
-    Vector3D d;
+    Point3DF o;
+    Vector3DF d;
     Ray ray;
     
     // Sample
@@ -44,12 +43,12 @@ public class PlaneTest {
     // q=0 plane, point below, vector up, hit
     @Test
     public void hit0() {
-        p = new Point3D(0, 0, 0);
+        p = new Point3DF(0, 0, 0);
         normal = new Normal(0, 1, 0);
         plane = new Plane(p, normal);
 
-        o = new Point3D(-1,-1,-1);
-        d = new Vector3D(0,1,0);
+        o = new Point3DF(-1,-1,-1);
+        d = new Vector3DF(0,1,0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);
@@ -61,13 +60,13 @@ public class PlaneTest {
     // q=0 plane, point above, vector up, no hit
     @Test
     public void hit1() {
-        p = new Point3D(0, 0, 0);
+        p = new Point3DF(0, 0, 0);
         normal = new Normal(0, 1, 0);
         plane = new Plane(p, normal);
 
         // point above, vector up
-        o = new Point3D(-1,1,-1);
-        d = new Vector3D(0,1,0);
+        o = new Point3DF(-1,1,-1);
+        d = new Vector3DF(0,1,0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);
@@ -78,12 +77,12 @@ public class PlaneTest {
     // q=0 plane upside down, point below, vector up, hit
     @Test
     public void hit2() {
-        p = new Point3D(0, 0, 0);
+        p = new Point3DF(0, 0, 0);
         normal = new Normal(0, -1, 0);
         plane = new Plane(p, normal);
 
-        o = new Point3D(-1, -1, -1);
-        d = new Vector3D(0, 1, 0);
+        o = new Point3DF(-1, -1, -1);
+        d = new Vector3DF(0, 1, 0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);
@@ -95,12 +94,12 @@ public class PlaneTest {
     // q=0 plane, point above, vector down, hit
     @Test
     public void hit3() {
-        p = new Point3D(0, 0, 0);
+        p = new Point3DF(0, 0, 0);
         normal = new Normal(0, 1, 0);
         plane = new Plane(p, normal);
 
-        o = new Point3D(1, 2, 1);
-        d = new Vector3D(0, -1, 0);
+        o = new Point3DF(1, 2, 1);
+        d = new Vector3DF(0, -1, 0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);
@@ -111,12 +110,12 @@ public class PlaneTest {
 
     @Test
     public void hit4() {
-        p = new Point3D(0, 0, 0);
+        p = new Point3DF(0, 0, 0);
         normal = new Normal(1, 1, 0);
         plane = new Plane(p, normal);
 
-        o = new Point3D(-2, -2, 0);
-        d = new Vector3D(1, 1, 0);
+        o = new Point3DF(-2, -2, 0);
+        d = new Vector3DF(1, 1, 0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);
@@ -127,12 +126,12 @@ public class PlaneTest {
 
     @Test
     public void hit5() {
-        p = new Point3D(0.1234f, 0, 0);
+        p = new Point3DF(0.1234f, 0, 0);
         normal = new Normal(1, 0, 0);
         plane = new Plane(p, normal);
 
-        o = new Point3D(0, 4, 3);
-        d = new Vector3D(-1, 0, 0);
+        o = new Point3DF(0, 4, 3);
+        d = new Vector3DF(-1, 0, 0);
         ray = new Ray(o, d);
 
         boolean isHit = plane.hit(ray, sr);

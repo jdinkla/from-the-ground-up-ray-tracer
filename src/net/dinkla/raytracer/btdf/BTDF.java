@@ -2,7 +2,7 @@ package net.dinkla.raytracer.btdf;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.samplers.Sampler;
 
 /**
@@ -18,14 +18,14 @@ public abstract class BTDF<C extends Color> {
 
     public class Sample {
         public C color;
-        public Vector3D wt;
+        public Vector3DF wt;
     }
 
-    abstract public C f(Shade sr, Vector3D wo, Vector3D wi);
+    abstract public C f(Shade sr, Vector3DF wo, Vector3DF wi);
 
-    abstract public Sample sampleF(Shade sr, Vector3D wo);
+    abstract public Sample sampleF(Shade sr, Vector3DF wo);
 
-    abstract public C rho(Shade sr, Vector3D wo);
+    abstract public C rho(Shade sr, Vector3DF wo);
 
     abstract public boolean isTir(Shade sr);
 }

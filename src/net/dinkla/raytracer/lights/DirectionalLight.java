@@ -3,7 +3,7 @@ package net.dinkla.raytracer.lights;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 /**
@@ -19,12 +19,12 @@ public class DirectionalLight<C extends Color> extends Light<C> {
 
     public float ls;
     public C color;
-    public Vector3D negatedDirection;
+    public Vector3DF negatedDirection;
 
     public DirectionalLight() {
         ls = 1.0f;
         color = (C) C.getWhite();
-        negatedDirection = Vector3D.DOWN.negate();
+        negatedDirection = Vector3DF.DOWN.negate();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class DirectionalLight<C extends Color> extends Light<C> {
     }
     
     @Override
-    public Vector3D getDirection(Shade sr) {
+    public Vector3DF getDirection(Shade sr) {
         return negatedDirection;
     }
 
@@ -42,7 +42,7 @@ public class DirectionalLight<C extends Color> extends Light<C> {
         return world.inShadow(ray, sr, Float.MAX_VALUE);
     }
 
-    public void setDirection(Vector3D direction) {
+    public void setDirection(Vector3DF direction) {
         this.negatedDirection = direction.negate();
     }
     

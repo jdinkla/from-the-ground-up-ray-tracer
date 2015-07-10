@@ -13,15 +13,15 @@ import net.dinkla.raytracer.math.*;
  */
 public class SmoothTriangle extends GeometricObject {
 
-    public final Point3D v0;
-    public final Point3D v1;
-    public final Point3D v2;
+    public final Point3DF v0;
+    public final Point3DF v1;
+    public final Point3DF v2;
 
     public Normal n0;
     public Normal n1;
     public Normal n2;
     
-    public SmoothTriangle(final Point3D v0, final Point3D v1, final Point3D v2) {
+    public SmoothTriangle(final Point3DF v0, final Point3DF v1, final Point3DF v2) {
         this.v0 = v0;
         this.v1 = v1;
         this.v2 = v2;
@@ -88,9 +88,9 @@ public class SmoothTriangle extends GeometricObject {
     }
 
     protected Normal interpolateNormal(final float beta, final float gamma) {
-        Vector3D v1 = n0.mult(1 - beta - gamma);
-        Vector3D v2 = n1.mult(beta);
-        Vector3D v3 = n2.mult(gamma);
+        Vector3DF v1 = n0.mult(1 - beta - gamma);
+        Vector3DF v2 = n1.mult(beta);
+        Vector3DF v3 = n2.mult(gamma);
         Normal normal = new Normal(v1.plus(v2).plus(v3));
         return normal.normalize();
     }

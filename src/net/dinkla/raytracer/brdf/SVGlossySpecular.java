@@ -2,8 +2,8 @@ package net.dinkla.raytracer.brdf;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.textures.Texture;
 
 /**
@@ -39,10 +39,10 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public C f(final Shade sr, final Vector3D wo, final Vector3D wi) {
+    public C f(final Shade sr, final Vector3DF wo, final Vector3DF wi) {
         assert null != cs;
         float nDotWi = wi.dot(sr.getNormal());
-        Vector3D r = wi.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2*nDotWi));
+        Vector3DF r = wi.mult(-1).plus(new Vector3DF(sr.getNormal()).mult(2*nDotWi));
         float rDotWo = r.dot(wo);
         if (rDotWo > 0) {
             return (C) cs.getColor(sr).mult((float) (ks * Math.pow(rDotWo, exp)));
@@ -52,18 +52,18 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public Sample sampleF(Shade sr, Vector3D wo) {
+    public Sample sampleF(Shade sr, Vector3DF wo) {
         assert null != cs;
 
         Sample sample = new Sample();
 
         float nDotWo = wo.dot(sr.getNormal());
 
-        Vector3D w = wo.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2.0f * nDotWo));
-        Vector3D u = new Vector3D(0.00424f, 1, 0.00764f).cross(w).normalize();
-        Vector3D v = u.cross(w);
+        Vector3DF w = wo.mult(-1).plus(new Vector3DF(sr.getNormal()).mult(2.0f * nDotWo));
+        Vector3DF u = new Vector3DF(0.00424f, 1, 0.00764f).cross(w).normalize();
+        Vector3DF v = u.cross(w);
 
-        Point3D sp = sampler.sampleSphere();
+        Point3DF sp = sampler.sampleSphere();
         sample.wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z));
         if (sample.wi.dot(sr.getNormal()) < 0.0f) {
             sample.wi = u.mult(-sp.x).plus(v.mult(-sp.y)).plus(w.mult(-sp.z));
@@ -77,7 +77,7 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public C rho(Shade sr, Vector3D wo) {
+    public C rho(Shade sr, Vector3DF wo) {
         throw new RuntimeException("GlossySpecular.rho");
     }
 }

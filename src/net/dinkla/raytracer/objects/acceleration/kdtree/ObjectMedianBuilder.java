@@ -2,8 +2,8 @@ package net.dinkla.raytracer.objects.acceleration.kdtree;
 
 import net.dinkla.raytracer.math.Axis;
 import net.dinkla.raytracer.math.BBox;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.utilities.Counter;
 import org.apache.log4j.Logger;
@@ -52,7 +52,7 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
         Counter.count("KDtree.build.node");
 
         Float split = null;
-        Vector3D width = voxel.q.minus(voxel.p);
+        Vector3DF width = voxel.q.minus(voxel.p);
 
         // Find the axis width the largest difference
         Axis axis = null;
@@ -79,8 +79,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
                 final GeometricObject oQ = (GeometricObject) o2;
                 final BBox bboxP = oP.getBoundingBox();
                 final BBox bboxQ = oQ.getBoundingBox();
-                final Point3D p = bboxP.q;
-                final Point3D q = bboxQ.q;                
+                final Point3DF p = bboxP.q;
+                final Point3DF q = bboxQ.q;
                 return Float.compare(p.ith(axis2), q.ith(axis2));
             }
         });
@@ -111,8 +111,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3D q1 = new Point3D(split, bL.q.y, bL.q.z);
-            Point3D p2 = new Point3D(split, bR.p.y, bR.p.z);
+            Point3DF q1 = new Point3DF(split, bL.q.y, bL.q.z);
+            Point3DF p2 = new Point3DF(split, bR.p.y, bR.p.z);
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);
@@ -130,8 +130,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3D q1 = new Point3D(bL.q.x, split, bL.q.z);
-            Point3D p2 = new Point3D(bR.p.x, split, bR.p.z);
+            Point3DF q1 = new Point3DF(bL.q.x, split, bL.q.z);
+            Point3DF p2 = new Point3DF(bR.p.x, split, bR.p.z);
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);
@@ -150,8 +150,8 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             BBox bL = BBox.create(objectsL);
             BBox bR = BBox.create(objectsR);
 
-            Point3D q1 = new Point3D(bL.q.x, bL.q.y, split);
-            Point3D p2 = new Point3D(bR.p.x, bR.p.y, split);
+            Point3DF q1 = new Point3DF(bL.q.x, bL.q.y, split);
+            Point3DF p2 = new Point3DF(bR.p.x, bR.p.y, split);
 
             voxelL = new BBox(bL.p, q1);
             voxelR = new BBox(p2, bR.q);

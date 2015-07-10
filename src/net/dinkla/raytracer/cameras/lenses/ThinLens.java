@@ -43,19 +43,19 @@ public class ThinLens extends AbstractLens {
         Point2DF pp = new Point2DF(x, y);
         Point2DF dp = sampler.sampleUnitDisk();
         Point2DF lp = new Point2DF(dp.x() * lensRadius, dp.y() * lensRadius);
-//        Point3D o = eye.plus(u.mult(lp.x)).plus(v.mult(lp.y));
-        Point3D o = eye.plus(uvw.pp(lp.x(), lp.y(), 0));
+//        Point3DF o = eye.plus(u.mult(lp.x)).plus(v.mult(lp.y));
+        Point3DF o = eye.plus(uvw.pp(lp.x(), lp.y(), 0));
         Ray ray = new Ray(eye, getRayDirection(pp, lp));
         return ray;
     }
     
-    protected Vector3D getRayDirection(final Point2DF pixel, final Point2DF lens) {
+    protected Vector3DF getRayDirection(final Point2DF pixel, final Point2DF lens) {
         final Point2DF p = new Point2DF(pixel.x() * f/d, pixel.y() * f/d);
-//        final Vector3D v1 = u.mult(p.x - lens.x);
-//        final Vector3D v2 = v.mult(p.y - lens.y);
-//        final Vector3D v3 = w.mult(f);
-        //final Vector3D dir = v1.plus(v2).minus(v3).normalize();
-        final Vector3D dir = uvw.pm(1, 1, 1).normalize();
+//        final Vector3DF v1 = u.mult(p.x - lens.x);
+//        final Vector3DF v2 = v.mult(p.y - lens.y);
+//        final Vector3DF v3 = w.mult(f);
+        //final Vector3DF dir = v1.plus(v2).minus(v3).normalize();
+        final Vector3DF dir = uvw.pm(1, 1, 1).normalize();
         return dir;
     }
 

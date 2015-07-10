@@ -1,7 +1,7 @@
 // Brown bunny in green grass
 // rendering took 530510 ms
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.samplers.MultiJittered
@@ -43,7 +43,7 @@ builder.world(id: "World61", backgroundColor: c("87cefa")) {
     }
 
     objects {
-        plane(material: "Green Yellow", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "Green Yellow", point: Point3DF.ORIGIN, normal: Normal.UP)
         //plane(material: "gray", point: p(0, 0, -5), normal: Normal.FRONT)
 
         instance(object: bunny, material: "Moccasin") {

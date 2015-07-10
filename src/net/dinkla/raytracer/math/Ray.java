@@ -9,10 +9,10 @@ package net.dinkla.raytracer.math;
  */
 public class Ray {
 
-    public final Point3D o;
-    public final Vector3D d;
+    public final Point3DF o;
+    public final Vector3DF d;
 
-    public Ray(final Point3D origin, final Vector3D direction) {
+    public Ray(final Point3DF origin, final Vector3DF direction) {
         this.o = origin;
         this.d = direction;
     }
@@ -22,7 +22,7 @@ public class Ray {
         this.d = ray.d;
     }
 
-    public Point3D linear(final float t) {
+    public Point3DF linear(final float t) {
         return o.plus(d.mult(t));        
     }
 

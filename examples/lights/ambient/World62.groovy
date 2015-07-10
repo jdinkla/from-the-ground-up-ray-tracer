@@ -1,8 +1,8 @@
 // Brown bunny in green grass
 // White bunny p. 309
 // rendering took 530510 ms
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.samplers.Sampler
@@ -37,7 +37,7 @@ builder.world(id: "World61", backgroundColor: c(1)) {
     }
 
     objects {
-        plane(material: "white", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "white", point: Point3DF.ORIGIN, normal: Normal.UP)
 
         instance(object: bunny, material: "white") {
             rotateY(-55)

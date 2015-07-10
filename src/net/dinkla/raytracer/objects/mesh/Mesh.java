@@ -2,8 +2,7 @@ package net.dinkla.raytracer.objects.mesh;
 
 import net.dinkla.raytracer.materials.Material;
 import net.dinkla.raytracer.math.Normal;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.objects.mesh.MeshTriangle;
+import net.dinkla.raytracer.math.Point3DF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  */
 public class Mesh {
 
-    public List<Point3D> vertices;
+    public List<Point3DF> vertices;
 //    public List<Integer> indices;
     public ArrayList<Normal> normals;
 //    public List<Float> us;
@@ -29,7 +28,7 @@ public class Mesh {
     protected Material material;
 
     public Mesh() {
-        vertices = new ArrayList<Point3D>();
+        vertices = new ArrayList<Point3DF>();
 //        indices = new ArrayList<Integer>();
         normals = new ArrayList<Normal>();
 //        us = new ArrayList<Float>();

@@ -1,12 +1,9 @@
 package net.dinkla.raytracer.lights;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.hits.ShadowHit;
 import net.dinkla.raytracer.materials.Material;
 import net.dinkla.raytracer.math.*;
-import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.worlds.World;
 
 import java.util.ArrayList;
@@ -32,9 +29,9 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
     public int numSamples;
 
     public class Sample {
-        public Point3D samplePoint;
+        public Point3DF samplePoint;
         public Normal lightNormal;
-        public Vector3D wi;
+        public Vector3DF wi;
 
         public float getNDotD() {
             return lightNormal.negate().dot(wi);
@@ -85,12 +82,12 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
         return result;
     }
 
-    public Point3D sample() {
+    public Point3DF sample() {
         throw new RuntimeException("NLU");
     }
 
 
-    public Normal getNormal(Point3D p) {
+    public Normal getNormal(Point3DF p) {
         throw new RuntimeException("NLU");
     }
 
@@ -100,7 +97,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
     }
 
     @Override
-    public Vector3D getDirection(Shade sr) {
+    public Vector3DF getDirection(Shade sr) {
         throw new RuntimeException("NLU");
     }
 

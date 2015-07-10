@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Point2DF;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Random;
 
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ public class Sampler {
 	protected ArrayList<Integer> shuffledIndices;
     protected ArrayList<Point2DF> samples;
 	protected ArrayList<Point2DF> diskSamples;
-	protected ArrayList<Point3D> hemisphereSamples;
-	protected ArrayList<Point3D> sphereSamples;
+	protected ArrayList<Point3DF> hemisphereSamples;
+	protected ArrayList<Point3DF> sphereSamples;
 
     protected int count;
     protected int jump;
@@ -81,14 +81,14 @@ public class Sampler {
         return (diskSamples.get(jump + shuffledIndices.get(jump + count++ % numSamples)));
     }
 
-    public Point3D sampleHemisphere() {
+    public Point3DF sampleHemisphere() {
         if (count % numSamples == 0) {
             jump = Random.randInt(numSets) * numSamples;
         }
         return (hemisphereSamples.get(jump + shuffledIndices.get(jump + count++ % numSamples)));
     }
 
-    public Point3D sampleSphere() {
+    public Point3DF sampleSphere() {
         if (count % numSamples == 0) {
             jump = Random.randInt(numSets) * numSamples;
         }
@@ -136,7 +136,7 @@ public class Sampler {
 
     public void mapSamplesToHemiSphere(final float exp) {
     	int size = samples.size();
-        hemisphereSamples = new ArrayList<Point3D>(numSamples * numSets);
+        hemisphereSamples = new ArrayList<Point3DF>(numSamples * numSets);
         for (int j = 0; j < size; j++) {
             float cos_phi = (float) Math.cos(2.0 * Math.PI * samples.get(j).x());
             float sin_phi = (float) Math.sin(2.0 * Math.PI * samples.get(j).x());
@@ -145,14 +145,14 @@ public class Sampler {
             float pu = sin_theta * cos_phi;
             float pv = sin_theta * sin_phi;
             float pw = cos_theta;
-            hemisphereSamples.add(new Point3D(pu, pv, pw));
+            hemisphereSamples.add(new Point3DF(pu, pv, pw));
         }
     }
 
     public void mapSamplesToSphere() {
         float x, y, z;
         float r, phi;
-        sphereSamples = new ArrayList<Point3D>(numSamples * numSets);
+        sphereSamples = new ArrayList<Point3DF>(numSamples * numSets);
 	    for (int j = 0; j < numSamples * numSets; j++) {
             Point2DF p = samples.get(j);
             z 	= 1.0f - 2.0f * p.x();
@@ -160,7 +160,7 @@ public class Sampler {
             phi = (float) (2 * Math.PI * p.y());
             x 	= (float) (r * Math.cos(phi));
             y 	= (float) (r * Math.sin(phi));
-            sphereSamples.add(new Point3D(x, y, z));
+            sphereSamples.add(new Point3DF(x, y, z));
         }
     }
 

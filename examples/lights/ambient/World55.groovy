@@ -1,7 +1,7 @@
 // 
 // !!! DO NOT CHANGED. USED FOR BENCHMARKS !!!
 //
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
@@ -53,7 +53,7 @@ builder.world(id: "World55") {
     }
 
     objects {
-        plane(material: "gray", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "gray", point: Point3DF.ORIGIN, normal: Normal.UP)
         plane(material: "gray", point: p(0, 0, -5), normal: Normal.FRONT)
 
         instance(object: bunny, material: "chocolate") {

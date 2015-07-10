@@ -13,10 +13,10 @@ import net.dinkla.raytracer.math.*;
  */
 public class AlignedBox extends GeometricObject {
 
-    public final Point3D p;
-    public final Point3D q;
+    public final Point3DF p;
+    public final Point3DF q;
 
-    public AlignedBox(final Point3D p, final Point3D q) {
+    public AlignedBox(final Point3DF p, final Point3DF q) {
         this.p = p;
         this.q = q;        
     }

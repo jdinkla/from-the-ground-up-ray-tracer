@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.objects;
 
 import net.dinkla.raytracer.hits.Hit;
-import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.hits.ShadowHit;
-import net.dinkla.raytracer.lights.ILightSource;
 import net.dinkla.raytracer.math.*;
 
 /**
@@ -15,11 +13,11 @@ import net.dinkla.raytracer.math.*;
  */
 public class Disk extends GeometricObject {
 
-    public Point3D center;
+    public Point3DF center;
     public float radius;
     public Normal normal;
 
-    public Disk(final Point3D center, final float radius, final Normal normal) {
+    public Disk(final Point3DF center, final float radius, final Normal normal) {
         this.center = center;
         this.radius = radius;
         this.normal = normal;
@@ -33,7 +31,7 @@ public class Disk extends GeometricObject {
         if (t <= MathUtils.K_EPSILON) {
             return false;
         }
-        Point3D p = ray.linear(t);
+        Point3DF p = ray.linear(t);
         if (center.distanceSquared(p) < radius * radius)  {
             sr.setT(t);
             sr.setNormal(normal);
@@ -52,7 +50,7 @@ public class Disk extends GeometricObject {
         if (t <= MathUtils.K_EPSILON) {
             return false;
         }
-        Point3D p = ray.linear(t);
+        Point3DF p = ray.linear(t);
         if (center.distanceSquared(p) < radius * radius)  {
             tmin.setT(t);
             return true;
@@ -61,15 +59,15 @@ public class Disk extends GeometricObject {
         }
     }
 
-    public Normal getNormal(Point3D p) {
+    public Normal getNormal(Point3DF p) {
         return normal;
     }
 
     @Override
     public BBox getBoundingBox() {
         // TODO: more exact bounding box of a disk
-        Point3D p = center.minus(radius);
-        Point3D q = center.plus(radius);
+        Point3DF p = center.minus(radius);
+        Point3DF q = center.plus(radius);
         return new BBox(p, q);
     }
 

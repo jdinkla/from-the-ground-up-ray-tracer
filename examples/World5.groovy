@@ -1,6 +1,6 @@
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 
 builder.world(id: "World5") {
 
@@ -9,7 +9,7 @@ builder.world(id: "World5") {
     ambientLight(color: RGBColor.WHITE, ls: 0.75f)
     
     lights {
-        pointLight(location: new Point3D(0, 100, 0), ls: 2)
+        pointLight(location: new Point3DF(0, 100, 0), ls: 2)
     }
 
     materials {
@@ -19,9 +19,9 @@ builder.world(id: "World5") {
     }
 
     objects {
-        sphere(material: "m1", center: new Point3D(0, -25, 0), radius: 80)
-        sphere(material: "m2", center: new Point3D(0, 30, 0), radius: 60)
-        plane(material: "m3", point: Point3D.ORIGIN, normal: new Normal(0, 1, 1))
+        sphere(material: "m1", center: new Point3DF(0, -25, 0), radius: 80)
+        sphere(material: "m2", center: new Point3DF(0, 30, 0), radius: 60)
+        plane(material: "m3", point: Point3DF.ORIGIN, normal: new Normal(0, 1, 1))
     }
 
 }

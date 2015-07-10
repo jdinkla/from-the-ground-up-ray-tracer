@@ -1,9 +1,8 @@
 package net.dinkla.raytracer.brdf;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.samplers.Sampler;
 
 /**
@@ -19,14 +18,14 @@ public abstract class BRDF<C extends Color> {
 
     public class Sample {
         public C color;
-        public Vector3D wi;
+        public Vector3DF wi;
         public float pdf;
     }
 
-    abstract public C f(final Shade sr, final Vector3D wo, final Vector3D wi);
+    abstract public C f(final Shade sr, final Vector3DF wo, final Vector3DF wi);
 
-    abstract public Sample sampleF(Shade sr, Vector3D wo);
+    abstract public Sample sampleF(Shade sr, Vector3DF wo);
 
-    abstract public C rho(Shade sr, Vector3D wo);
+    abstract public C rho(Shade sr, Vector3DF wo);
     
 }

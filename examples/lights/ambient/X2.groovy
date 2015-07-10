@@ -1,8 +1,8 @@
 package lights.ambient
 
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.samplers.MultiJittered
@@ -70,7 +70,7 @@ builder.world(id: "X1") {
     }
 
     objects {
-        plane(material: "gray_r", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "gray_r", point: Point3DF.ORIGIN, normal: Normal.UP)
         plane(material: "sky", point: p(0, 1000, 0), normal: Normal.DOWN)
         //grid {
             sphere(material: "yellow_r", center: p(0, 2, 0), radius: 2)

@@ -2,9 +2,9 @@ package net.dinkla.raytracer.lights;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 /**
@@ -19,11 +19,11 @@ public class PointLight<C extends Color> extends Light<C> {
     // emissive material
     public float ls;
     public C color;
-    public Point3D location;
+    public Point3DF location;
 
     protected C cachedL;
 
-    public PointLight(Point3D location) {
+    public PointLight(Point3DF location) {
         this.location = location;
         color = (C) C.getWhite();
         ls = 1.0f;
@@ -40,8 +40,8 @@ public class PointLight<C extends Color> extends Light<C> {
     }
 
     @Override
-    public Vector3D getDirection(Shade sr) {
-        return new Vector3D(location.minus(new Vector3D(sr.getHitPoint()))).normalize();
+    public Vector3DF getDirection(Shade sr) {
+        return new Vector3DF(location.minus(new Vector3DF(sr.getHitPoint()))).normalize();
     }
 
     @Override

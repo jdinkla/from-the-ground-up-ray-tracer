@@ -13,15 +13,15 @@ import net.dinkla.raytracer.math.*;
  */
 public class Plane extends GeometricObject {
 
-    public Point3D point;
+    public Point3DF point;
     public Normal normal;
 
     public Plane() {
-        this.point = Point3D.ORIGIN;
+        this.point = Point3DF.ORIGIN;
         this.normal = Normal.UP;
     }
     
-    public Plane(Point3D point, Normal normal) {
+    public Plane(Point3DF point, Normal normal) {
         this.point = point;
         this.normal = normal;
     }
@@ -29,7 +29,7 @@ public class Plane extends GeometricObject {
     @Override
     public boolean hit(final Ray ray, Hit sr) {
         // (point - ray.o) * normal / (ray.d * normal)
-        Vector3D v = point.minus(ray.o);
+        Vector3DF v = point.minus(ray.o);
         float nom = v.dot(normal);
         float denom = ray.d.dot(normal);
 
@@ -45,7 +45,7 @@ public class Plane extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Vector3D v = point.minus(ray.o);
+        Vector3DF v = point.minus(ray.o);
         float nom = v.dot(normal);
         float denom = ray.d.dot(normal);
         float t = nom / denom;
@@ -59,7 +59,7 @@ public class Plane extends GeometricObject {
 
     @Override
     public BBox getBoundingBox() {
-        return new BBox(Point3D.MIN, Point3D.MAX);
+        return new BBox(Point3DF.MIN, Point3DF.MAX);
     }
 
     @Override

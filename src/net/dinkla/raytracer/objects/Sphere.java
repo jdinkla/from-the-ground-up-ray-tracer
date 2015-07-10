@@ -13,19 +13,19 @@ import net.dinkla.raytracer.math.*;
  */
 public class Sphere extends GeometricObject {
 
-    public Point3D center;
+    public Point3DF center;
 
     public float radius;
 
     protected BBox bbox;
 
     public Sphere(float radius) {
-        this.center = Point3D.ORIGIN;
+        this.center = Point3DF.ORIGIN;
         this.radius = radius;
         bbox = null;
     }
 
-    public Sphere(Point3D center, float radius) {
+    public Sphere(Point3DF center, float radius) {
         this.center = center;
         this.radius = radius;
         bbox = null;
@@ -34,7 +34,7 @@ public class Sphere extends GeometricObject {
     @Override
     public boolean hit(final Ray ray, Hit sr) {
         float t;
-        Vector3D temp = ray.o.minus(center);
+        Vector3DF temp = ray.o.minus(center);
         float a = ray.d.dot(ray.d);
         float b = temp.mult(2).dot(ray.d);
         float c = temp.dot(temp) - radius * radius;
@@ -64,7 +64,7 @@ public class Sphere extends GeometricObject {
     @Override
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
         float t;
-        Vector3D temp = ray.o.minus(center);
+        Vector3DF temp = ray.o.minus(center);
         float a = ray.d.dot(ray.d);
         float b = temp.mult(2).dot(ray.d);
         float c = temp.dot(temp) - radius * radius;

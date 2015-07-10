@@ -13,11 +13,11 @@ import java.util.List;
  */
 public class PointUtilities {
 
-    public static Point3D minPoints(List<Point3D> points) {
+    public static Point3DF minPoints(List<Point3DF> points) {
         float x = Float.POSITIVE_INFINITY;
         float y = Float.POSITIVE_INFINITY;
         float z = Float.POSITIVE_INFINITY;
-        for (Point3D p : points) {
+        for (Point3DF p : points) {
             if (p.x < x) {
                 x = p.x;
             }
@@ -28,15 +28,15 @@ public class PointUtilities {
                 z = p.z;
             }
         }
-        final Point3D p = new Point3D(x, y, z);
+        final Point3DF p = new Point3DF(x, y, z);
         return p;
     }
 
-    public static Point3D maxPoints(List<Point3D> points) {
+    public static Point3DF maxPoints(List<Point3DF> points) {
         float x = Float.NEGATIVE_INFINITY;
         float y = Float.NEGATIVE_INFINITY;
         float z = Float.NEGATIVE_INFINITY;
-        for (Point3D p : points) {
+        for (Point3DF p : points) {
             if (p.x > x) {
                 x = p.x;
             }
@@ -47,11 +47,11 @@ public class PointUtilities {
                 z = p.z;
             }
         }
-        final Point3D p = new Point3D(x, y, z);
+        final Point3DF p = new Point3DF(x, y, z);
         return p;
     }
 
-    public static Point3D minCoordinates(List<GeometricObject> objects) {
+    public static Point3DF minCoordinates(List<GeometricObject> objects) {
         float x = Float.POSITIVE_INFINITY;
         float y = Float.POSITIVE_INFINITY;
         float z = Float.POSITIVE_INFINITY;
@@ -67,11 +67,11 @@ public class PointUtilities {
                 z = bbox.p.z;
             }
         }
-        final Point3D p = new Point3D(x - MathUtils.K_EPSILON, y - MathUtils.K_EPSILON, z - MathUtils.K_EPSILON);
+        final Point3DF p = new Point3DF(x - MathUtils.K_EPSILON, y - MathUtils.K_EPSILON, z - MathUtils.K_EPSILON);
         return p;
     }
 
-    public static Point3D maxCoordinates(List<GeometricObject> objects) {
+    public static Point3DF maxCoordinates(List<GeometricObject> objects) {
         float x = Float.NEGATIVE_INFINITY;
         float y = Float.NEGATIVE_INFINITY;
         float z = Float.NEGATIVE_INFINITY;
@@ -87,7 +87,7 @@ public class PointUtilities {
                 z = bbox.q.z;
             }
         }
-        final Point3D p = new Point3D(x + MathUtils.K_EPSILON, y + MathUtils.K_EPSILON, z + MathUtils.K_EPSILON);
+        final Point3DF p = new Point3DF(x + MathUtils.K_EPSILON, y + MathUtils.K_EPSILON, z + MathUtils.K_EPSILON);
         return p;
     }
     

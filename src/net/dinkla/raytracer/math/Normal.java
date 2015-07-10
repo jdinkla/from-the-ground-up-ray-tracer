@@ -21,11 +21,11 @@ public class Normal extends Element3D {
         super(x, y, z);
     }
 
-    public Normal(final Vector3D v) {
+    public Normal(final Vector3DF v) {
         super(v.normalize());
     }
 
-    public Normal(final Point3D p0, final Point3D p1, final Point3D p2) {
+    public Normal(final Point3DF p0, final Point3DF p1, final Point3DF p2) {
         super(p1.minus(p0).cross(p2.minus(p0)).normalize());
     }
 
@@ -34,15 +34,15 @@ public class Normal extends Element3D {
         return new Normal(x / len, y / len, z / len);
     }
 
-    public Vector3D mult(final float s) {
-        return new Vector3D(s * x, s * y, s * z);
+    public Vector3DF mult(final float s) {
+        return new Vector3DF(s * x, s * y, s * z);
     }
 
-    public Vector3D plus(final Normal normal) {
-        return new Vector3D(x + normal.x, y + normal.y, z + normal.z);
+    public Vector3DF plus(final Normal normal) {
+        return new Vector3DF(x + normal.x, y + normal.y, z + normal.z);
     }
 
-    public float dot(final Vector3D v)  {
+    public float dot(final Vector3DF v)  {
         return x * v.x + y * v.y + z * v.z;
     }
 

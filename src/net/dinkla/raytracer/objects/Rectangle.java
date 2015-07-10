@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.objects;
 
 import net.dinkla.raytracer.hits.Hit;
-import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.hits.ShadowHit;
-import net.dinkla.raytracer.lights.ILightSource;
 import net.dinkla.raytracer.math.*;
 
 /**
@@ -15,24 +13,24 @@ import net.dinkla.raytracer.math.*;
  */
 public class Rectangle extends GeometricObject {
 
-    public final Point3D p0;
-    public final Vector3D a;
-    public final Vector3D b;
+    public final Point3DF p0;
+    public final Vector3DF a;
+    public final Vector3DF b;
     public final Normal normal;
 
-    public Rectangle(final Point3D p0, final Vector3D a, final Vector3D b) {
+    public Rectangle(final Point3DF p0, final Vector3DF a, final Vector3DF b) {
         this.p0 = p0;
         this.a = a;
         this.b = b;
-        Vector3D v = a.cross(b);        
+        Vector3DF v = a.cross(b);
         normal = new Normal(v.normalize());
     }
 
-    public Rectangle(final Point3D p0, final Vector3D a, final Vector3D b, final boolean inverted) {
+    public Rectangle(final Point3DF p0, final Vector3DF a, final Vector3DF b, final boolean inverted) {
         this.p0 = p0;
         this.a = a;
         this.b = b;
-        Vector3D v;
+        Vector3DF v;
         if (inverted) {
             v = b.cross(a);
         } else {
@@ -41,7 +39,7 @@ public class Rectangle extends GeometricObject {
         normal = new Normal(v.normalize());
     }
     
-    public Rectangle(final Point3D p0, final Vector3D a, final Vector3D b, final Normal normal) {
+    public Rectangle(final Point3DF p0, final Vector3DF a, final Vector3DF b, final Normal normal) {
         this.p0 = p0;
         this.a = a;
         this.b = b;
@@ -58,8 +56,8 @@ public class Rectangle extends GeometricObject {
             return false;
         }
 
-        final Point3D p = ray.linear(t);
-        final Vector3D d = p.minus(p0);
+        final Point3DF p = ray.linear(t);
+        final Vector3DF d = p.minus(p0);
 
         final float ddota = d.dot(a);
         if (ddota < 0 || ddota > a.sqrLength()) {
@@ -87,8 +85,8 @@ public class Rectangle extends GeometricObject {
             return false;
         }
 
-        final Point3D p = ray.linear(t);
-        final Vector3D d = p.minus(p0);
+        final Point3DF p = ray.linear(t);
+        final Vector3DF d = p.minus(p0);
 
         final float ddota = d.dot(a);
         if (ddota < 0 || ddota > a.sqrLength()) {
@@ -104,14 +102,14 @@ public class Rectangle extends GeometricObject {
         return true;
     }
 
-    public Normal getNormal(Point3D p) {
+    public Normal getNormal(Point3DF p) {
         return normal;  
     }
 
     @Override
     public BBox getBoundingBox() {
-        Point3D v0 = p0;
-        Point3D v1 = p0.plus(a).plus(b);
+        Point3DF v0 = p0;
+        Point3DF v1 = p0.plus(a).plus(b);
 
         float x0 = Float.POSITIVE_INFINITY;
         float x1 = Float.NEGATIVE_INFINITY;
@@ -155,6 +153,6 @@ public class Rectangle extends GeometricObject {
         if (v1.z > z1) {
             z1 = v1.z;
         }
-        return new BBox(new Point3D(x0, y0, z0), new Point3D(x1, y1, z1));
+        return new BBox(new Point3DF(x0, y0, z0), new Point3DF(x1, y1, z1));
     }
 }

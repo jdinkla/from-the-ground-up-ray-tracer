@@ -13,8 +13,8 @@ import net.dinkla.raytracer.objects.compound.Compound;
 public class Box extends Compound {
 
     BBox bbox;
-    public Point3D p0;
-    public Point3D p1;
+    public Point3DF p0;
+    public Point3DF p1;
 
     /**
      *
@@ -23,7 +23,7 @@ public class Box extends Compound {
      * @param b
      * @param c
      */
-    public Box(Point3D p0, Vector3D a, Vector3D b, Vector3D c) {
+    public Box(Point3DF p0, Vector3DF a, Vector3DF b, Vector3DF c) {
 
         // point at the "top left front"
         //Rectangle rBottom = new Rectangle(p0, b, a);

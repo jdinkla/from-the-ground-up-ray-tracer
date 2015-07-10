@@ -2,7 +2,7 @@ package net.dinkla.raytracer.brdf;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 
 import static net.dinkla.raytracer.math.MathUtils.INV_PI;
 
@@ -27,17 +27,17 @@ public class Lambertian<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public C f(final Shade sr, final Vector3D wo, final Vector3D wi){
+    public C f(final Shade sr, final Vector3DF wo, final Vector3DF wi){
         return (C) cd.getColor(sr).mult(kd * INV_PI);
     }
 
     @Override
-    public Sample sampleF(Shade sr, Vector3D wo) {
+    public Sample sampleF(Shade sr, Vector3DF wo) {
         throw new RuntimeException("Lambertian.sampleF");
     }
 
     @Override
-    public C rho(Shade sr, Vector3D wo) {
+    public C rho(Shade sr, Vector3DF wo) {
         return (C) cd.getColor(sr).mult(kd);
     }
     

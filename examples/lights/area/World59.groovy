@@ -1,8 +1,7 @@
 // Versuch: Kernschatten und größe der AreaLight
-
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.tracers.AreaLighting
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
@@ -30,7 +29,7 @@ builder.world(id: "World59") {
     }
 
     objects {
-        plane(material: "gray", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "gray", point: Point3DF.ORIGIN, normal: Normal.UP)
         sphere(center: p(1, 1, 0), radius: 0.25, material: "green")
         sphere(center: p(1, 3, 0), radius: 0.25, material: "green")
         sphere(center: p(3, 1, 0), radius: 0.25, material: "green")

@@ -1,15 +1,9 @@
 // for testing the various camera types
-
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.cameras.lenses.ThinLens
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.samplers.MultiJittered
-import net.dinkla.raytracer.cameras.lenses.Orthographic
-import net.dinkla.raytracer.cameras.lenses.FishEye
-import net.dinkla.raytracer.cameras.lenses.Spherical
 
 def b1 = builder.alignedBox(p: p(0, 0, 0), q: p(1, 2, 1))
 
@@ -56,7 +50,7 @@ builder.world(id: "World58") {
     }
 
     objects {
-         plane(material: "m1", point: Point3D.ORIGIN, normal: Normal.UP)
+         plane(material: "m1", point: Point3DF.ORIGIN, normal: Normal.UP)
          plane(material: "m1", point: p(0, 0, -700), normal: Normal.BACK)
 
         instance(object: b1, material: "m4") {

@@ -1,13 +1,11 @@
 package net.dinkla.raytracer.materials;
 
-import net.dinkla.raytracer.brdf.GlossySpecular;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.brdf.BRDF;
 import net.dinkla.raytracer.brdf.PerfectSpecular;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 /**
@@ -37,7 +35,7 @@ public class Reflective<C extends Color> extends Phong<C> {
     @Override
     public C shade(World<C> world, Shade sr) {
         final C L = super.shade(world, sr);
-        final Vector3D wo = sr.ray.d.negate();
+        final Vector3DF wo = sr.ray.d.negate();
         final BRDF.Sample sample = reflectiveBrdf.sampleF(sr, wo);
         float f = sr.getNormal().dot(sample.wi);
         final Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);

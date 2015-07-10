@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.samplers.Sampler
@@ -35,7 +35,7 @@ builder.world(id: "World14") {
 
     objects {
         sphere(material: "m1", center: p(0, 1, 0), radius: 1)
-        plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "m2", point: Point3DF.ORIGIN, normal: Normal.UP)
     }
 
 }

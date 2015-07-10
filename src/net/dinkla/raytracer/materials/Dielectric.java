@@ -8,7 +8,7 @@ import net.dinkla.raytracer.btdf.BTDF;
 import net.dinkla.raytracer.btdf.FresnelTransmitter;
 import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.math.WrappedFloat;
 import net.dinkla.raytracer.worlds.World;
 
@@ -38,7 +38,7 @@ public class Dielectric extends Phong {
     @Override
     public Color shade(World world, Shade sr) {
         Color L = super.shade(world, sr);
-        Vector3D wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.d.negate();
         WrappedFloat t = WrappedFloat.createMax();
         BRDF.Sample sample = fresnelBrdf.sampleF(sr, wo);
         Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);

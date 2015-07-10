@@ -3,7 +3,7 @@ package net.dinkla.raytracer.lights;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 /**
@@ -17,7 +17,7 @@ abstract public class Light<C extends Color> {
 
     public boolean shadows = true;
     abstract public C L(World<C> world, Shade sr);
-    abstract public Vector3D getDirection(Shade sr);
+    abstract public Vector3DF getDirection(Shade sr);
     abstract public boolean inShadow(World<C> world, Ray ray, Shade sr);
 
 }

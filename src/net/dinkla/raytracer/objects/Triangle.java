@@ -13,12 +13,12 @@ import net.dinkla.raytracer.math.*;
  */
 public class Triangle extends GeometricObject {
 
-    public final Point3D v0;
-    public final Point3D v1;
-    public final Point3D v2;
+    public final Point3DF v0;
+    public final Point3DF v1;
+    public final Point3DF v2;
     public Normal normal;
 
-    public Triangle(final Point3D v0, final Point3D v1, final Point3D v2) {
+    public Triangle(final Point3DF v0, final Point3DF v1, final Point3DF v2) {
         this.v0 = v0;
         this.v1 = v1;
         this.v2 = v2;

@@ -1,10 +1,6 @@
 package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.objects.mesh.Mesh
-import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
-import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
-import net.dinkla.raytracer.objects.mesh.MeshTriangle
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.compound.Compound
 import org.apache.log4j.Logger
 
@@ -105,7 +101,7 @@ class BinaryPlyReader {
 //                    float x = Float.valueOf(cs[0])
 //                    float y = Float.valueOf(cs[1])
 //                    float z = Float.valueOf(cs[2])
-//                    Point3D p = new Point3D(x, y, z)
+//                    Point3DF p = new Point3DF(x, y, z)
 //                    mesh.vertices.add(p)
 //                    numVertices--
 //                    if (numLine % logInterval == 0) {

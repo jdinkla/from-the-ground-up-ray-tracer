@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree;
 
 import net.dinkla.raytracer.math.BBox;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.math.Axis;
 import net.dinkla.raytracer.utilities.Counter;
@@ -45,8 +45,8 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
 
         Counter.count("KDtree.build.node");
 
-        Vector3D half = voxel.q.minus(voxel.p).mult(0.5f);
-        Point3D mid = voxel.p.plus(half);
+        Vector3DF half = voxel.q.minus(voxel.p).mult(0.5f);
+        Point3DF mid = voxel.p.plus(half);
 
         Float split = null;
 
@@ -57,10 +57,10 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
             // x
             split = mid.x;
 
-            Point3D q1 = new Point3D(mid.x, voxel.q.y, voxel.q.z);
+            Point3DF q1 = new Point3DF(mid.x, voxel.q.y, voxel.q.z);
             voxelL = new BBox(voxel.p, q1);
 
-            Point3D p2 = new Point3D(mid.x, voxel.p.y, voxel.p.z);
+            Point3DF p2 = new Point3DF(mid.x, voxel.p.y, voxel.p.z);
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {
@@ -77,10 +77,10 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
             // y
             split = mid.y;
 
-            Point3D q1 = new Point3D(voxel.q.x, mid.y, voxel.q.z);
+            Point3DF q1 = new Point3DF(voxel.q.x, mid.y, voxel.q.z);
             voxelL = new BBox(voxel.p, q1);
 
-            Point3D p2 = new Point3D(voxel.p.x, mid.y, voxel.p.z);
+            Point3DF p2 = new Point3DF(voxel.p.x, mid.y, voxel.p.z);
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {
@@ -96,10 +96,10 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
             // z
             split = mid.z;
 
-            Point3D q1 = new Point3D(voxel.q.x, voxel.q.y, mid.z);
+            Point3DF q1 = new Point3DF(voxel.q.x, voxel.q.y, mid.z);
             voxelL = new BBox(voxel.p, q1);
 
-            Point3D p2 = new Point3D(voxel.p.x, voxel.p.y, mid.z);
+            Point3DF p2 = new Point3DF(voxel.p.x, voxel.p.y, mid.z);
             voxelR = new BBox(p2, voxel.q);
 
             for (GeometricObject object : objects) {

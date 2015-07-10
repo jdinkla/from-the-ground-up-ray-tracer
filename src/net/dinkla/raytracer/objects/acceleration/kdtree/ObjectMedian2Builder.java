@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects.acceleration.kdtree;
 
 import net.dinkla.raytracer.math.Axis;
 import net.dinkla.raytracer.math.BBox;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.objects.utilities.ListUtilities;
 import net.dinkla.raytracer.utilities.Counter;
@@ -131,8 +131,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLx);
                 BBox bR = BBox.create(objectsRx);
 
-                Point3D q1x = new Point3D(splitX, bL.q.y, bL.q.z);
-                Point3D p2x = new Point3D(splitX, bR.p.y, bR.p.z);
+                Point3DF q1x = new Point3DF(splitX, bL.q.y, bL.q.z);
+                Point3DF p2x = new Point3DF(splitX, bR.p.y, bR.p.z);
 
                 voxelL = new BBox(bL.p, q1x);
                 voxelR = new BBox(p2x, bR.q);
@@ -146,8 +146,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLy);
                 BBox bR = BBox.create(objectsRy);
 
-                Point3D q1 = new Point3D(bL.q.x, splitY, bL.q.z);
-                Point3D p2 = new Point3D(bR.p.x, splitY, bR.p.z);
+                Point3DF q1 = new Point3DF(bL.q.x, splitY, bL.q.z);
+                Point3DF p2 = new Point3DF(bR.p.x, splitY, bR.p.z);
 
                 voxelL = new BBox(bL.p, q1);
                 voxelR = new BBox(p2, bR.q);
@@ -161,8 +161,8 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 BBox bL = BBox.create(objectsLz);
                 BBox bR = BBox.create(objectsRz);
 
-                Point3D q1 = new Point3D(bL.q.x, bL.q.y, splitZ);
-                Point3D p2 = new Point3D(bR.p.x, bR.p.y, splitZ);
+                Point3DF q1 = new Point3DF(bL.q.x, bL.q.y, splitZ);
+                Point3DF p2 = new Point3DF(bR.p.x, bR.p.y, splitZ);
 
                 voxelL = new BBox(bL.p, q1);
                 voxelR = new BBox(p2, bR.q);

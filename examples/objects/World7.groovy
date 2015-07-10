@@ -1,5 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
@@ -27,7 +26,7 @@ builder.world(id: "World7") {
     objects {
         sphere(material: "m1", center: p(10, -5, 0), radius: 27)
         sphere(material: "m2", center: p(-30, 15, -50), radius: 27)
-        plane(material: "m3", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "m3", point: Point3DF.ORIGIN, normal: Normal.UP)
         triangle(material: "m4", a: p(-30, 0, 0), b: p(0, 30, 0), c: p(-30, 20, 10))
         disk(material: "m5", center: p(-50, 10, 0), radius: 15, normal: n(1, 1, -1))
         rectangle(material: "m6", p0: p(20, 20, 60), a: v(5, 0, 0), b: v(0, 10, 0))

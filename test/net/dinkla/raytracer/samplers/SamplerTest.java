@@ -40,7 +40,7 @@ public class SamplerTest {
     public void testSampleSphere() throws Exception {
 //        s.mapSamplesToSphere();
 //        for (int i=0; i<NUM; i++) {
-//            Point3D p = s.sampleSphere();
+//            Point3DF p = s.sampleSphere();
 //            assertTrue(-1 < p.x);
 //            assertTrue(p.x < 1);
 //            assertTrue(-1 < p.y);

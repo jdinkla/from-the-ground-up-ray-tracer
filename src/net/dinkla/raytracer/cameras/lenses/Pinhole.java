@@ -40,10 +40,10 @@ public class Pinhole extends AbstractLens {
         return ray;
     }
 
-    protected Vector3D getRayDirection(float x, float y) {
+    protected Vector3DF getRayDirection(float x, float y) {
         // xu + yv - dw
-//        Vector3D dir = u.mult(x).plus(v.mult(y)).minus(w.mult(d));
-        Vector3D dir = uvw.pm(x, y, d);
+//        Vector3DF dir = u.mult(x).plus(v.mult(y)).minus(w.mult(d));
+        Vector3DF dir = uvw.pm(x, y, d);
         return dir.normalize();
     }
 

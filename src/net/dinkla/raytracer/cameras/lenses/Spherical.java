@@ -26,7 +26,7 @@ public class Spherical extends AbstractLens {
         final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres());
         final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres());
         final Point2DF pp = new Point2DF(x, y);
-        Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
+        Vector3DF direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
         return ray;
     }
@@ -35,12 +35,12 @@ public class Spherical extends AbstractLens {
         final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres() + sp.x());
         final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres() + sp.y());
         final Point2DF pp = new Point2DF(x, y);
-        Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
+        Vector3DF direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
         return ray;
     }
 
-    protected Vector3D getRayDirection(Point2DF pp, Resolution resolution, float s) {
+    protected Vector3DF getRayDirection(Point2DF pp, Resolution resolution, float s) {
         float x = 2.0f / (s * resolution.hres()) * pp.x();
         float y = 2.0f / (s * resolution.vres()) * pp.y();
 
@@ -56,8 +56,8 @@ public class Spherical extends AbstractLens {
         float sinTheta = (float) Math.sin(theta);
         float cosTheta = (float) Math.cos(theta);
 
-//        Vector3D direction = u.mult(sinTheta * sinPhi).plus(v.mult(cosTheta)).plus(w.mult(sinTheta * cosPhi));
-        Vector3D direction = uvw.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi);
+//        Vector3DF direction = u.mult(sinTheta * sinPhi).plus(v.mult(cosTheta)).plus(w.mult(sinTheta * cosPhi));
+        Vector3DF direction = uvw.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi);
         return direction;
     }
 }

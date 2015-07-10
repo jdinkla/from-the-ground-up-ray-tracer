@@ -4,7 +4,7 @@ import net.dinkla.raytracer.hits.Hit;
 import net.dinkla.raytracer.hits.ShadowHit;
 import net.dinkla.raytracer.math.BBox;
 import net.dinkla.raytracer.math.MathUtils;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.objects.compound.Compound;
 import net.dinkla.raytracer.objects.GeometricObject;
@@ -221,7 +221,7 @@ public class SparseGrid extends Grid {
             iy = (int) MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0, ny - 1);
             iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
         } else {
-            Point3D p = ray.linear(t0);  // initial hit point with grid's bounding box
+            Point3DF p = ray.linear(t0);  // initial hit point with grid's bounding box
             ix = (int) MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
             iy = (int) MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
             iz = (int) MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0, nz - 1);

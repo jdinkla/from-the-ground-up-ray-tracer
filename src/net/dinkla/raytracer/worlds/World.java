@@ -9,7 +9,7 @@ import net.dinkla.raytracer.ViewPlane;
 import net.dinkla.raytracer.cameras.Camera;
 import net.dinkla.raytracer.lights.Ambient;
 import net.dinkla.raytracer.lights.Light;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode;
 import net.dinkla.raytracer.objects.compound.Compound;
@@ -127,8 +127,8 @@ public class World<C extends Color> {
     public void step() {
         final int t = stepCounter.getCurrent();
         if (dynamic) {
-            Point3D p = camera.getLens().getEye();
-            Point3D p2 = new Point3D(p.x+0.1f, p.y+0.1f, p.z);
+            Point3DF p = camera.getLens().getEye();
+            Point3DF p2 = new Point3DF(p.x+0.1f, p.y+0.1f, p.z);
             camera.getLens().setEye(p2);
         }
         stepCounter.step();

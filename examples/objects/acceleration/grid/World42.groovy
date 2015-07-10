@@ -1,7 +1,7 @@
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
 
-//def sp1 = builder.sphere(center: Point3D.ORIGIN, radius: 0.25)
+//def sp1 = builder.sphere(center: Point3DF.ORIGIN, radius: 0.25)
 
 boolean hasShadows = true
 

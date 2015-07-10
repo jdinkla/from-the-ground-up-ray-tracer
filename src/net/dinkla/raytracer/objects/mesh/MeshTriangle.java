@@ -4,7 +4,6 @@ import net.dinkla.raytracer.hits.Hit;
 import net.dinkla.raytracer.hits.ShadowHit;
 import net.dinkla.raytracer.math.*;
 import net.dinkla.raytracer.objects.GeometricObject;
-import net.dinkla.raytracer.utilities.Counter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,9 +45,9 @@ public class MeshTriangle extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Point3D p0 = mesh.vertices.get(index0);
-        Point3D p1 = mesh.vertices.get(index1);
-        Point3D p2 = mesh.vertices.get(index2);
+        Point3DF p0 = mesh.vertices.get(index0);
+        Point3DF p1 = mesh.vertices.get(index1);
+        Point3DF p2 = mesh.vertices.get(index2);
 
         float a = p0.x - p1.x;
         float b = p0.x - p2.x;
@@ -100,9 +99,9 @@ public class MeshTriangle extends GeometricObject {
 
 
     public void computeNormal(final boolean reverseNormal) {
-        Point3D p0 = mesh.vertices.get(index0);
-        Point3D p1 = mesh.vertices.get(index1);
-        Point3D p2 = mesh.vertices.get(index2);
+        Point3DF p0 = mesh.vertices.get(index0);
+        Point3DF p1 = mesh.vertices.get(index1);
+        Point3DF p2 = mesh.vertices.get(index2);
         //normal = new Normal(p0, p1, p2);
         normal = new Normal(p1.minus(p0).cross(p2.minus(p0)).normalize());
         if (reverseNormal) {
@@ -116,12 +115,12 @@ public class MeshTriangle extends GeometricObject {
 
     public BBox getBoundingBox() {
         if (null == bbox) {
-            Point3D p0 = mesh.vertices.get(index0);
-            Point3D p1 = mesh.vertices.get(index1);
-            Point3D p2 = mesh.vertices.get(index2);
+            Point3DF p0 = mesh.vertices.get(index0);
+            Point3DF p1 = mesh.vertices.get(index1);
+            Point3DF p2 = mesh.vertices.get(index2);
 
-            Point3D min = MathUtils.minMin(p0, p1, p2).minus(MathUtils.K_EPSILON);
-            Point3D max = MathUtils.maxMax(p0, p1, p2).plus(MathUtils.K_EPSILON);
+            Point3DF min = MathUtils.minMin(p0, p1, p2).minus(MathUtils.K_EPSILON);
+            Point3DF max = MathUtils.maxMax(p0, p1, p2).plus(MathUtils.K_EPSILON);
             bbox = new BBox(min, max);
         }
         return bbox;

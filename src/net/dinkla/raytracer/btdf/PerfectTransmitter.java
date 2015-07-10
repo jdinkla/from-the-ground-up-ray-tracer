@@ -1,10 +1,9 @@
 package net.dinkla.raytracer.btdf;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Normal;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,17 +23,17 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
     }
     
     @Override
-    public C f(Shade sr, Vector3D wo, Vector3D wi) {
+    public C f(Shade sr, Vector3DF wo, Vector3DF wi) {
         throw new RuntimeException("PerfectTransmitter.f");
     }
 
     @Override
-    public C rho(Shade sr, Vector3D wo) {
+    public C rho(Shade sr, Vector3DF wo) {
         throw new RuntimeException("PerfectTransmitter.rho");
     }
 
     @Override
-    public Sample sampleF(Shade sr, Vector3D wo) {
+    public Sample sampleF(Shade sr, Vector3DF wo) {
         Sample result = new Sample();
         Normal n = sr.getNormal();
         float cosThetaI = n.dot(wo);
@@ -55,7 +54,7 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
 
     @Override
     public boolean isTir(Shade sr) {
-        Vector3D wo = sr.ray.d.mult(-1);
+        Vector3DF wo = sr.ray.d.mult(-1);
         float cosThetaI = wo.dot(sr.getNormal());
         float eta = ior;
         if (cosThetaI < 0) {

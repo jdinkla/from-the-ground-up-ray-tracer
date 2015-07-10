@@ -26,9 +26,9 @@ public class Camera<C extends Color> {
 
     static final Logger LOGGER = Logger.getLogger(Camera.class);
 
-    public Point3D eye;
-    public Point3D lookAt;
-    public Vector3D up;
+    public Point3DF eye;
+    public Point3DF lookAt;
+    public Vector3DF up;
     public Basis uvw;
     
     protected ILens lens;
@@ -37,10 +37,10 @@ public class Camera<C extends Color> {
     public Camera(final ILens lens, final IRenderer render2) {
         this.lens = lens;
         this.render2 = render2;
-        setup(Point3D.DEFAULT_CAMERA, Point3D.ORIGIN, Vector3D.UP);
+        setup(Point3DF.DEFAULT_CAMERA, Point3DF.ORIGIN, Vector3DF.UP);
     }
 
-    public final void setup(Point3D eye, Point3D lookAt, Vector3D up) {
+    public final void setup(Point3DF eye, Point3DF lookAt, Vector3DF up) {
         this.eye = eye;
         this.lookAt = lookAt;
         this.up = up;

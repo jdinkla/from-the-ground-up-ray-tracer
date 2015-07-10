@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.cameras;
 
 import net.dinkla.raytracer.films.IFilm;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,9 +20,9 @@ public class CameraTest {
             }
         };
 
-        c.eye = Point3D.ORIGIN;
-        c.lookAt = Point3D.ORIGIN;
-        c.up = Vector3D.UP;
+        c.eye = Point3DF.ORIGIN;
+        c.lookAt = Point3DF.ORIGIN;
+        c.up = Vector3DF.UP;
 
         System.out.println(c.uvw.u);
         System.out.println(c.uvw.v);

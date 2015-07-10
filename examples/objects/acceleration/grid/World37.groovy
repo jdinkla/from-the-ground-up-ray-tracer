@@ -1,6 +1,6 @@
 import net.dinkla.raytracer.colors.RGBColor
 
-//def sp1 = builder.sphere(center: Point3D.ORIGIN, radius: 0.25)
+//def sp1 = builder.sphere(center: Point3DF.ORIGIN, radius: 0.25)
 
 int NUM = 100
 

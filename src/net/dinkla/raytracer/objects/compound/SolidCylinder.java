@@ -17,15 +17,15 @@ public class SolidCylinder extends Compound {
     BBox bbox;
     
     public SolidCylinder(float y0, float y1, float radius) {
-        Disk bottom = new Disk(new Point3D(0, y0, 0), radius, new Normal(0, -1, 0));
-        Disk top = new Disk(new Point3D(0, y1, 0), radius, new Normal(0, 1, 0));
+        Disk bottom = new Disk(new Point3DF(0, y0, 0), radius, new Normal(0, -1, 0));
+        Disk top = new Disk(new Point3DF(0, y1, 0), radius, new Normal(0, 1, 0));
         OpenCylinder oc = new OpenCylinder(y0, y1, radius);
 
         objects.add(bottom);
         objects.add(oc);
         objects.add(top);
 
-        bbox = new BBox(new Point3D(-radius, y0, -radius), new Point3D(radius, y1, radius));
+        bbox = new BBox(new Point3DF(-radius, y0, -radius), new Point3DF(radius, y1, radius));
     }
 
     @Override

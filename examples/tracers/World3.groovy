@@ -1,6 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.tracers.MultipleObjects
 
 builder.world(id: "World3") {
@@ -12,7 +10,7 @@ builder.world(id: "World3") {
     ambientLight(ls: 0.5f)
 
     lights {
-        pointLight(location: new Point3D(3, 3, 1))
+        pointLight(location: new Point3DF(3, 3, 1))
     }
 
     materials {

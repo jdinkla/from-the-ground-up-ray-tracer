@@ -2,8 +2,8 @@ package net.dinkla.raytracer.objects.beveled;
 
 import net.dinkla.raytracer.math.BBox;
 import net.dinkla.raytracer.math.Normal;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.objects.*;
 import net.dinkla.raytracer.objects.compound.Compound;
 
@@ -16,12 +16,12 @@ import net.dinkla.raytracer.objects.compound.Compound;
  */
 public class BeveledBox extends Compound {
 
-    public final Point3D p0;
-    public final Point3D p1;
+    public final Point3DF p0;
+    public final Point3DF p1;
     public final float rb;
     public BBox bbox;
 
-    public BeveledBox(final Point3D p0, final Point3D p1, final float rb, boolean isWiredFrame) {
+    public BeveledBox(final Point3DF p0, final Point3DF p1, final float rb, boolean isWiredFrame) {
         super();
 
         this.p0 = p0;
@@ -132,42 +132,42 @@ public class BeveledBox extends Compound {
 
         // top right front
 
-        Sphere top_right_front_corner = new Sphere(new Point3D(p1.x - rb, p1.y - rb, p1.z - rb), rb);
+        Sphere top_right_front_corner = new Sphere(new Point3DF(p1.x - rb, p1.y - rb, p1.z - rb), rb);
         objects.add(top_right_front_corner);
 
         // top left front  (-ve x)
 
-        Sphere top_left_front_corner = new Sphere(new Point3D(p0.x + rb, p1.y - rb, p1.z - rb), rb);
+        Sphere top_left_front_corner = new Sphere(new Point3DF(p0.x + rb, p1.y - rb, p1.z - rb), rb);
         objects.add(top_left_front_corner);
 
         // top left back
 
-        Sphere top_left_back_corner = new Sphere(new Point3D(p0.x + rb, p1.y - rb, p0.z + rb), rb);
+        Sphere top_left_back_corner = new Sphere(new Point3DF(p0.x + rb, p1.y - rb, p0.z + rb), rb);
         objects.add(top_left_back_corner);
 
         // top right back
 
-        Sphere top_right_back_corner = new Sphere(new Point3D(p1.x - rb, p1.y - rb, p0.z + rb), rb);
+        Sphere top_right_back_corner = new Sphere(new Point3DF(p1.x - rb, p1.y - rb, p0.z + rb), rb);
         objects.add(top_right_back_corner);
 
         // bottom right front
 
-        Sphere bottom_right_front_corner = new Sphere(new Point3D(p1.x - rb, p0.y + rb, p1.z - rb), rb);
+        Sphere bottom_right_front_corner = new Sphere(new Point3DF(p1.x - rb, p0.y + rb, p1.z - rb), rb);
         objects.add(bottom_right_front_corner);
 
         // bottom left front
 
-        Sphere bottom_left_front_corner = new Sphere(new Point3D(p0.x + rb, p0.y + rb, p1.z - rb), rb);
+        Sphere bottom_left_front_corner = new Sphere(new Point3DF(p0.x + rb, p0.y + rb, p1.z - rb), rb);
         objects.add(bottom_left_front_corner);
 
         // bottom left back
 
-        Sphere bottom_left_back_corner = new Sphere(new Point3D(p0.x + rb, p0.y + rb, p0.z + rb), rb);
+        Sphere bottom_left_back_corner = new Sphere(new Point3DF(p0.x + rb, p0.y + rb, p0.z + rb), rb);
         objects.add(bottom_left_back_corner);
 
         // bottom right back
 
-        Sphere bottom_right_back_corner = new Sphere(new Point3D(p1.x - rb, p0.y + rb, p0.z + rb), rb);
+        Sphere bottom_right_back_corner = new Sphere(new Point3DF(p1.x - rb, p0.y + rb, p0.z + rb), rb);
         objects.add(bottom_right_back_corner);
 
 
@@ -179,54 +179,54 @@ public class BeveledBox extends Compound {
             return;
         }
         
-        Rectangle bottom_face = new Rectangle(new Point3D(p0.x + rb, p0.y, p0.z + rb),
-                                              new Vector3D(0, 0, (p1.z - rb) - (p0.z + rb)),
-                                              new Vector3D((p1.x - rb) - (p0.x + rb), 0, 0),
+        Rectangle bottom_face = new Rectangle(new Point3DF(p0.x + rb, p0.y, p0.z + rb),
+                                              new Vector3DF(0, 0, (p1.z - rb) - (p0.z + rb)),
+                                              new Vector3DF((p1.x - rb) - (p0.x + rb), 0, 0),
                                               new Normal(0, -1, 0));
         objects.add(bottom_face);
 
 
         // bottom face: +ve y
 
-        Rectangle top_face = new Rectangle(new Point3D(p0.x + rb, p1.y, p0.z + rb),
-                                           new Vector3D(0, 0, (p1.z - rb) - (p0.z + rb)),
-                                           new Vector3D((p1.x - rb) - (p0.x + rb), 0, 0),
+        Rectangle top_face = new Rectangle(new Point3DF(p0.x + rb, p1.y, p0.z + rb),
+                                           new Vector3DF(0, 0, (p1.z - rb) - (p0.z + rb)),
+                                           new Vector3DF((p1.x - rb) - (p0.x + rb), 0, 0),
                                            new Normal(0, 1, 0));
         objects.add(top_face);
 
 
         // back face: -ve z
 
-        Rectangle back_face 	= new Rectangle(new Point3D(p0.x + rb, p0.y + rb, p0.z),
-                                                new Vector3D((p1.x - rb) - (p0.x + rb), 0, 0),
-                                                new Vector3D(0, (p1.y - rb) - (p0.y + rb), 0),
+        Rectangle back_face 	= new Rectangle(new Point3DF(p0.x + rb, p0.y + rb, p0.z),
+                                                new Vector3DF((p1.x - rb) - (p0.x + rb), 0, 0),
+                                                new Vector3DF(0, (p1.y - rb) - (p0.y + rb), 0),
                                                 new Normal(0, 0 , -1));
         objects.add(back_face);
 
 
         // front face: +ve z
 
-        Rectangle front_face 	= new Rectangle(new Point3D(p0.x + rb, p0.y + rb, p1.z),
-                                                new Vector3D((p1.x - rb) - (p0.x + rb), 0, 0),
-                                                new Vector3D(0, (p1.y - rb) - (p0.y + rb), 0),
+        Rectangle front_face 	= new Rectangle(new Point3DF(p0.x + rb, p0.y + rb, p1.z),
+                                                new Vector3DF((p1.x - rb) - (p0.x + rb), 0, 0),
+                                                new Vector3DF(0, (p1.y - rb) - (p0.y + rb), 0),
                                                 new Normal(0, 0 , 1));
         objects.add(front_face);
 
 
         // left face: -ve x
 
-        Rectangle left_face 	= new Rectangle(new Point3D(p0.x, p0.y + rb, p0.z + rb),
-                                                new Vector3D(0, 0, (p1.z - rb) - (p0.z + rb)),
-                                                new Vector3D(0, (p1.y - rb) - (p0.y + rb), 0),
+        Rectangle left_face 	= new Rectangle(new Point3DF(p0.x, p0.y + rb, p0.z + rb),
+                                                new Vector3DF(0, 0, (p1.z - rb) - (p0.z + rb)),
+                                                new Vector3DF(0, (p1.y - rb) - (p0.y + rb), 0),
                                                 new Normal(-1, 0 , 0));
         objects.add(left_face);
 
 
         // right face: +ve x
 
-        Rectangle right_face 	= new Rectangle(new Point3D(p1.x, p0.y + rb, p0.z + rb),
-                                                new Vector3D(0, 0, (p1.z - rb) - (p0.z + rb)),
-                                                new Vector3D(0, (p1.y - rb) - (p0.y + rb), 0),
+        Rectangle right_face 	= new Rectangle(new Point3DF(p1.x, p0.y + rb, p0.z + rb),
+                                                new Vector3DF(0, 0, (p1.z - rb) - (p0.z + rb)),
+                                                new Vector3DF(0, (p1.y - rb) - (p0.y + rb), 0),
                                                 new Normal(1, 0 , 0));
         objects.add(right_face);
     }

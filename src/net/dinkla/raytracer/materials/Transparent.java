@@ -8,7 +8,7 @@ import net.dinkla.raytracer.brdf.PerfectSpecular;
 import net.dinkla.raytracer.btdf.BTDF;
 import net.dinkla.raytracer.btdf.PerfectTransmitter;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 /**
@@ -47,7 +47,7 @@ public class Transparent extends Phong {
     @Override
     public Color shade(World world, Shade sr) {
         Color l = super.shade(world, sr);
-        Vector3D wo = sr.ray.d.mult(-1);
+        Vector3DF wo = sr.ray.d.mult(-1);
         BRDF.Sample brdf = reflectiveBrdf.sampleF(sr, wo);
         // trace reflected ray
         Ray reflectedRay = new Ray(sr.getHitPoint(), brdf.wi);

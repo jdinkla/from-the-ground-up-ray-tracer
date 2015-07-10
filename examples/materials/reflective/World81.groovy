@@ -1,11 +1,11 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Vector3DF
 
-def p(x, y, z) { new Point3D(x, y, z) }
+def p(x, y, z) { new Point3DF(x, y, z) }
 def c(r, g, b) { new RGBColor(r, g, b) }
-def v(x, y, z) { new Vector3D(x, y, z) }
+def v(x, y, z) { new Vector3DF(x, y, z) }
 def n(x, y, z) { new Normal(x, y, z) }
 
 builder.world(id: "World80") {

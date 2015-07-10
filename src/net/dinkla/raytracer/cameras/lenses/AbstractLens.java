@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.lenses;
 
 import net.dinkla.raytracer.ViewPlane;
 import net.dinkla.raytracer.math.Basis;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +15,7 @@ abstract public class AbstractLens implements ILens {
 
     protected ViewPlane viewPlane;
     protected Basis uvw;
-    protected Point3D eye;
+    protected Point3DF eye;
 
     public AbstractLens(ViewPlane viewPlane) {
         assert(null != viewPlane);
@@ -24,11 +24,11 @@ abstract public class AbstractLens implements ILens {
         this.uvw = null;
     }
 
-    public Point3D getEye() {
+    public Point3DF getEye() {
         return eye;
     }
 
-    public void setEye(Point3D eye) {
+    public void setEye(Point3DF eye) {
         this.eye = eye;
     }
 

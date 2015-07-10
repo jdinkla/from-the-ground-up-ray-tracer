@@ -1,18 +1,15 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.materials.Emissive
+import net.dinkla.raytracer.math.Vector3DF
 import net.dinkla.raytracer.tracers.AreaLighting
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.samplers.PureRandom
-import net.dinkla.raytracer.cameras.lenses.FishEye
 import net.dinkla.raytracer.cameras.lenses.FishEye
 
-Vector3D vecW = new Vector3D(1, 0, 0)
-Vector3D vecH = new Vector3D(0, 2, 0)
-Vector3D vecD = new Vector3D(0, 0, 1)
+Vector3DF vecW = new Vector3DF(1, 0, 0)
+Vector3DF vecH = new Vector3DF(0, 2, 0)
+Vector3DF vecD = new Vector3DF(0, 0, 1)
 
 def sampler1 = new Sampler(new MultiJittered(), 2500, 100);
 //def sampler1 = new Sampler(new PureRandom(), 2500, 100);
@@ -45,7 +42,7 @@ builder.world(id: "World23") {
         box(p0: p(-2, 0, 1), a: vecW, b: vecH, c: vecD, material: "m1")
         box(p0: p(2, 0, 1), a: vecW, b: vecH, c: vecD, material: "m1")
         box(p0: p(6, 0, 1), a: vecW, b: vecH, c: vecD, material: "m1")
-        plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "m2", point: Point3DF.ORIGIN, normal: Normal.UP)
         r1 = rectangleLight(p0: p(-10.75f, 2, -10), a: vecW.mult(15.5f), b: vecH.mult(2), sampler: sampler1, material: "em")
 //        r1 = disk(center: p(0, 5, -10), radius: 2, normal: n(0, 0, 1), sampler: sampler1, material: "em")
     }

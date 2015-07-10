@@ -3,7 +3,7 @@ package net.dinkla.raytracer.textures;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Histogram;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.utilities.Resolution;
 
 import javax.imageio.ImageIO;
@@ -41,10 +41,10 @@ public class ImageTexture<C extends Color> extends Texture<C> {
         int column = 0;
 
         if (null != mapping) {
-            Point3D p = sr.getLocalHitPoint();
+            Point3DF p = sr.getLocalHitPoint();
             //Sphere s = (Sphere) sr.getObject();
-            //p = new Point3D(p.minus(s.center));
-            //Point3D p = new Point3D(sr.getNormal());
+            //p = new Point3DF(p.minus(s.center));
+            //Point3DF p = new Point3DF(sr.getNormal());
             Mapping.Mapped m = mapping.getTexelCoordinates(p, res);
             row = m.row;
             column = m.column;

@@ -1,7 +1,5 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 
 builder.world(id: "World24") {
 
@@ -23,7 +21,7 @@ builder.world(id: "World24") {
 
   objects {
       solidCylinder(material: "m1", y0: 0.2f, y1: 1.5f, radius: 0.9f)
-      plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
+      plane(material: "m2", point: Point3DF.ORIGIN, normal: Normal.UP)
       alignedBox(material: "m3", p: p(4, 0, 0), q: p(5, 1.5, 1))
   }
 

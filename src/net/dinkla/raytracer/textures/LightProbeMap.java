@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.textures;
 
 import net.dinkla.raytracer.math.MathUtils;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.utilities.Resolution;
 
 /**
@@ -25,7 +25,7 @@ public class LightProbeMap extends Mapping {
     }
 
     @Override
-    public Mapped getTexelCoordinates(Point3D p, Resolution res) {
+    public Mapped getTexelCoordinates(Point3DF p, Resolution res) {
         Mapped result = new Mapped();
 
         float d = (float) Math.sqrt(p.x * p.x + p.y * p.y);

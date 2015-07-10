@@ -2,9 +2,9 @@ package net.dinkla.raytracer.lights;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.worlds.World;
 
@@ -19,7 +19,7 @@ import net.dinkla.raytracer.worlds.World;
  */
 public class AmbientOccluder<C extends Color> extends Ambient<C> {
 
-    //public Vector3D u, v, w;
+    //public Vector3DF u, v, w;
     public final C minAmount;
     public final Sampler sampler;
     public final int numSamples;
@@ -38,15 +38,15 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
 
     @Override
     public C L(World<C> world, Shade sr) {
-        Vector3D w = new Vector3D(sr.getNormal());
+        Vector3DF w = new Vector3DF(sr.getNormal());
         // jitter up vector in case normal is vertical
-        Vector3D v = w.cross(Vector3D.JITTER).normalize();
-        Vector3D u = v.cross(w);
+        Vector3DF v = w.cross(Vector3DF.JITTER).normalize();
+        Vector3DF u = v.cross(w);
 
         int numHits = 0;
         for (int i = 0; i < numSamples; i++) {
-            Point3D p = sampler.sampleHemisphere();
-            Vector3D dir = u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z));
+            Point3DF p = sampler.sampleHemisphere();
+            Vector3DF dir = u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z));
             Ray shadowRay = new Ray(sr.getHitPoint(), dir);
             if (inShadow(world, shadowRay, sr)) {
                 numHits++;
@@ -57,11 +57,11 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
     }
 
     @Override
-    public Vector3D getDirection(Shade sr) {
-        Point3D p = sampler.sampleHemisphere();
-        Vector3D w = new Vector3D(sr.getNormal());
-        Vector3D v = w.cross(Vector3D.JITTER).normalize();
-        Vector3D u = v.cross(w);
+    public Vector3DF getDirection(Shade sr) {
+        Point3DF p = sampler.sampleHemisphere();
+        Vector3DF w = new Vector3DF(sr.getNormal());
+        Vector3DF v = w.cross(Vector3DF.JITTER).normalize();
+        Vector3DF u = v.cross(w);
         return u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z));
     }
 

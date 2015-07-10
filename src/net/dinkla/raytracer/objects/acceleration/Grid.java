@@ -267,7 +267,7 @@ public class Grid extends Compound {
             iy = (int) MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0, ny - 1);
             iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
         } else {
-            Point3D p = ray.linear(t0);  // initial hit point with grid's bounding box
+            Point3DF p = ray.linear(t0);  // initial hit point with grid's bounding box
             ix = (int) MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
             iy = (int) MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
             iz = (int) MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0, nz - 1);
@@ -471,7 +471,7 @@ public class Grid extends Compound {
 //            iy = (int) MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0, ny - 1);
 //            iz = (int) MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
 //        } else {
-//            Point3D p = ray.linear(t0);  // initial hit point with grid's bounding box
+//            Point3DF p = ray.linear(t0);  // initial hit point with grid's bounding box
 //            ix = (int) MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
 //            iy = (int) MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
 //            iz = (int) MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0, nz - 1);

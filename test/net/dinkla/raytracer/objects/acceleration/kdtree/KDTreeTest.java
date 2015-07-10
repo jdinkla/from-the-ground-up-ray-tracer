@@ -1,11 +1,9 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree;
 
 import net.dinkla.raytracer.math.BBox;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.objects.Sphere;
-import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree;
-import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -23,10 +21,10 @@ public class KDTreeTest {
     @Test
     public void testBuild() throws Exception {
 
-        Sphere s1 = new Sphere(new Point3D(1.0f, 0.0f, 0.0f), 0.25f);
-        Sphere s2 = new Sphere(new Point3D(2.0f, 0.0f, 0.0f), 0.25f);
-        Sphere s3 = new Sphere(new Point3D(1.0f, 0.0f, 1.0f), 0.25f);
-        Sphere s4 = new Sphere(new Point3D(2.0f, 0.0f, 1.0f), 0.25f);
+        Sphere s1 = new Sphere(new Point3DF(1.0f, 0.0f, 0.0f), 0.25f);
+        Sphere s2 = new Sphere(new Point3DF(2.0f, 0.0f, 0.0f), 0.25f);
+        Sphere s3 = new Sphere(new Point3DF(1.0f, 0.0f, 1.0f), 0.25f);
+        Sphere s4 = new Sphere(new Point3DF(2.0f, 0.0f, 1.0f), 0.25f);
 
         List<GeometricObject> ls = new ArrayList<GeometricObject>();
         ls.add(s1);

@@ -2,8 +2,7 @@ package net.dinkla.raytracer.btdf;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.colors.RGBColor;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +14,7 @@ import net.dinkla.raytracer.math.Vector3D;
 public class FresnelTransmitter<C extends Color> extends BTDF<C> {
     
     @Override
-    public C f(Shade sr, Vector3D wo, Vector3D wi) {
+    public C f(Shade sr, Vector3DF wo, Vector3DF wi) {
         return null;
     }
 
@@ -25,12 +24,12 @@ public class FresnelTransmitter<C extends Color> extends BTDF<C> {
     }
 
     @Override
-    public C rho(Shade sr, Vector3D wo) {
+    public C rho(Shade sr, Vector3DF wo) {
         return null;
     }
 
     @Override
-    public Sample sampleF(Shade sr, Vector3D wo) {
+    public Sample sampleF(Shade sr, Vector3DF wo) {
         return null;
     }
     

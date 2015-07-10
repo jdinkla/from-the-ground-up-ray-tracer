@@ -1,6 +1,6 @@
 package lights.ambient
 
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
@@ -41,7 +41,7 @@ builder.world(id: "World54") {
     objects {
         sphere(material: "yellow", center: p(0, 2, 0), radius: 2)
         sphere(material: "orange", center: p(1, 0.75, 4), radius: 0.75)
-        plane(material: "gray", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "gray", point: Point3DF.ORIGIN, normal: Normal.UP)
 
         instance(object: bunny, material: "chocolate") {
             scale(v(5, 5, 5,))

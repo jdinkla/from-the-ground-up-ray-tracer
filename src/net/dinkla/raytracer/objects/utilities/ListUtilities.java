@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects.utilities;
 
 import net.dinkla.raytracer.math.Axis;
 import net.dinkla.raytracer.math.BBox;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.objects.GeometricObject;
 
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class ListUtilities {
                 final GeometricObject oQ = (GeometricObject) o2;
                 final BBox bboxP = oP.getBoundingBox();
                 final BBox bboxQ = oQ.getBoundingBox();
-                final Point3D p = bboxP.q;
+                final Point3DF p = bboxP.q;
 
                 final float pP = bboxP.p.ith(axis);
                 final float widthP = bboxP.q.ith(axis) - pP;
@@ -54,7 +54,7 @@ public class ListUtilities {
                 final float widthQ = bboxQ.q.ith(axis) - pQ;
                 final float medQ = pQ + 0.5f * widthQ;
 
-                final Point3D q = bboxQ.q;
+                final Point3DF q = bboxQ.q;
                 return Float.compare(medP, medQ);
             }
         });

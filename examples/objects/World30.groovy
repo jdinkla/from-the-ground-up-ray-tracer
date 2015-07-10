@@ -1,5 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
@@ -25,7 +24,7 @@ builder.world(id: "World26") {
     }
 
     objects {
-         plane(material: "m1", point: Point3D.ORIGIN, normal: Normal.UP)
+         plane(material: "m1", point: Point3DF.ORIGIN, normal: Normal.UP)
          instance(material: "m2", object: b1) {
             rotateY(-20)
             translate(v(-3f, 0, 0))

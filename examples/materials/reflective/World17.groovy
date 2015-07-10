@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.math.Normal
 
 def o1 = builder.openCylinder(y0: 0, y1: 3.5f, radius: 0.9f)
@@ -38,7 +38,7 @@ builder.world(id: "World17") {
     }
 
     objects {
-        plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "m2", point: Point3DF.ORIGIN, normal: Normal.UP)
         solidCylinder(material: "m1", y0: 0, y1: 3.5f, radius: 0.9f)
         alignedBox(material: "m3", p: p(2, 0, -2), q: p(3, 2.3, 3))
 

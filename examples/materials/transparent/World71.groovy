@@ -1,9 +1,7 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
 
-def sp1 = builder.sphere(center: Point3D.ORIGIN, radius: 1.0)
+def sp1 = builder.sphere(center: Point3DF.ORIGIN, radius: 1.0)
 
 float v = 0.5
 

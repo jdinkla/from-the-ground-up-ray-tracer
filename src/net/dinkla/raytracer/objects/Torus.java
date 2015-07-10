@@ -20,7 +20,7 @@ public class Torus extends GeometricObject {
     public Torus(final float a, final float b) {
         this.a = a;
         this.b = b;
-        bbox = new BBox(new Point3D(-a - b, -b, -a - b), new Point3D(a + b, b, a + b));
+        bbox = new BBox(new Point3DF(-a - b, -b, -a - b), new Point3DF(a + b, b, a + b));
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Torus extends GeometricObject {
         return bbox;
     }
 
-    private Normal computeNormal(Point3D p) {
+    private Normal computeNormal(Point3DF p) {
         final double paramSquared = a * a + b * b;
         final double sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
         final double diff = sumSquared - paramSquared;
@@ -146,7 +146,7 @@ public class Torus extends GeometricObject {
     }
     
     /*
-    private Normal computeNormal(Point3D p) {
+    private Normal computeNormal(Point3DF p) {
         final float paramSquared = a * a + b * b;
         final float sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
         final float x = 4.0f * p.x * (sumSquared - paramSquared);

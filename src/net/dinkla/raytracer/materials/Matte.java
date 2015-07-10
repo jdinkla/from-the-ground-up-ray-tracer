@@ -8,7 +8,7 @@ import net.dinkla.raytracer.brdf.Lambertian;
 import net.dinkla.raytracer.lights.AreaLight;
 import net.dinkla.raytracer.lights.Light;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 import java.util.List;
@@ -66,10 +66,10 @@ public class Matte<C extends Color> extends Material<C> {
 
     @Override
     public C shade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.d.negate();
         C L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
-            Vector3D wi = light.getDirection(sr);
+            Vector3DF wi = light.getDirection(sr);
             float nDotWi = wi.dot(sr.getNormal());
             if (nDotWi > 0) {
                 boolean inShadow = false;
@@ -89,12 +89,12 @@ public class Matte<C extends Color> extends Material<C> {
     }
 
     /*
-    	Vector3D 	wo 			= -sr.ray.d;
+    	Vector3DF 	wo 			= -sr.ray.d;
 	RGBColor 	L 			= ambient_brdf->rho(sr, wo) * sr.w.ambient_ptr->L(sr);
 	int 		num_lights	= sr.w.lights.size();
 
 	for (int j = 0; j < num_lights; j++) {
-		Vector3D wi = sr.w.lights[j]->get_direction(sr);
+		Vector3DF wi = sr.w.lights[j]->get_direction(sr);
 		float ndotwi = sr.normal * wi;
 
 		if (ndotwi > 0.0)
@@ -105,7 +105,7 @@ public class Matte<C extends Color> extends Material<C> {
     */
     @Override
     public C areaLightShade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.d.negate();
         C L = getAmbientColor(world, sr, wo);
         ColorAccumulator<C> S = new ColorAccumulator<C>();
         for (Light light1 : world.getLights()) {
@@ -137,7 +137,7 @@ public class Matte<C extends Color> extends Material<C> {
         return L;
     }
 
-    protected C getAmbientColor(World<C> world, Shade sr, Vector3D wo) {
+    protected C getAmbientColor(World<C> world, Shade sr, Vector3DF wo) {
         final C c1 = ambientBrdf.rho(sr, wo);
         final C c2 = (C) world.getAmbientLight().L(world, sr);
         final C L = (C) c1.mult(c2);

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.textures;
 
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 import net.dinkla.raytracer.utilities.Resolution;
 
 /**
@@ -17,6 +17,6 @@ abstract public class Mapping {
         public int column;
     }
 
-    public abstract Mapped getTexelCoordinates(final Point3D p, final Resolution res);
+    public abstract Mapped getTexelCoordinates(final Point3DF p, final Resolution res);
 
 }

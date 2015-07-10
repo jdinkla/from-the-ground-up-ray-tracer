@@ -14,7 +14,7 @@ import net.dinkla.raytracer.objects.GeometricObject;
  */
 public class ConvexPartSphere extends GeometricObject {
 
-    public Point3D center;
+    public Point3DF center;
     public double 		radius;
     public double 		phi_min;
     public double 		phi_max;
@@ -36,7 +36,7 @@ public class ConvexPartSphere extends GeometricObject {
         /*
 
         double 		t;
-        Vector3D temp 	= ray.o.minus(center);
+        Vector3DF temp 	= ray.o.minus(center);
         double 		a 		= ray.d.dot(ray.d);
         double 		b 		= ray.d.dot(temp) * 2.0f;
         double 		c 		= temp.dot(temp) - radius * radius;
@@ -50,7 +50,7 @@ public class ConvexPartSphere extends GeometricObject {
             t = (-b - e) / denom;    // smaller root
 
             if (t > MathUtils.K_EPSILON) {
-                Vector3D hit = ray.o + t * ray.d - center;
+                Vector3DF hit = ray.o + t * ray.d - center;
 
                 double phi = Math.atan2(hit.x, hit.z);
                 if (phi < 0.0)
@@ -70,7 +70,7 @@ public class ConvexPartSphere extends GeometricObject {
             t = (-b + e) / denom;    // larger root
 
             if (t > kEpsilon) {
-                Vector3D hit = ray.o + t * ray.d - center;
+                Vector3DF hit = ray.o + t * ray.d - center;
 
                 double phi = atan2(hit.x, hit.z);
                 if (phi < 0.0)

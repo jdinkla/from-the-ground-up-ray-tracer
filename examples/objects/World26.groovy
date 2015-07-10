@@ -1,6 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.math.Normal
 
 def sph1 = builder.sphere(radius: 0.25)
@@ -27,7 +25,7 @@ builder.world(id: "World26") {
             rotateX(12)
             rotateZ(12)
         }
-        plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
+        plane(material: "m2", point: Point3DF.ORIGIN, normal: Normal.UP)
     }
 
 }

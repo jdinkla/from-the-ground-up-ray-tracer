@@ -19,7 +19,7 @@ public class DiskLight extends Disk implements ILightSource {
     
     public Sampler sampler;
     
-    public DiskLight(final Point3D center, final float radius, final Normal normal) {
+    public DiskLight(final Point3DF center, final float radius, final Normal normal) {
         super(center, radius, normal);
     }
 
@@ -28,10 +28,10 @@ public class DiskLight extends Disk implements ILightSource {
     }
 
     // TODO: sample auf ner disk
-    public Point3D sample() {
+    public Point3DF sample() {
         Point2DF sp = sampler.sampleUnitDisk();
         assert(null != sampler);
         Vector2DF v = new Vector2DF(sp.x() * radius, sp.y() * radius);
-        return center.plus(new Vector3D((float) v.x(), (float) v.y(), 0.0f));
+        return center.plus(new Vector3DF((float) v.x(), (float) v.y(), 0.0f));
     }
 }

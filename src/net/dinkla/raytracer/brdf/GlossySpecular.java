@@ -2,9 +2,8 @@ package net.dinkla.raytracer.brdf;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Vector3D;
-import net.dinkla.raytracer.samplers.Sampler;
+import net.dinkla.raytracer.math.Point3DF;
+import net.dinkla.raytracer.math.Vector3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,10 +38,10 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public C f(final Shade sr, final Vector3D wo, final Vector3D wi) {
+    public C f(final Shade sr, final Vector3DF wo, final Vector3DF wi) {
         assert null != cs;
         float nDotWi = wi.dot(sr.getNormal());
-        Vector3D r = wi.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2*nDotWi));
+        Vector3DF r = wi.mult(-1).plus(new Vector3DF(sr.getNormal()).mult(2*nDotWi));
         float rDotWo = r.dot(wo);
         if (rDotWo > 0) {
             return (C) cs.mult((float) (ks * Math.pow(rDotWo, exp)));
@@ -52,18 +51,18 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public Sample sampleF(Shade sr, Vector3D wo) {
+    public Sample sampleF(Shade sr, Vector3DF wo) {
         assert null != cs;
 
         final Sample sample = new Sample();
         final float nDotWo = sr.getNormal().dot(wo);
-        final Vector3D r = wo.negate().plus(sr.getNormal().mult(2 * nDotWo));
+        final Vector3DF r = wo.negate().plus(sr.getNormal().mult(2 * nDotWo));
 
-        final Vector3D w = r;
-        final Vector3D u = new Vector3D(0.00424f, 1, 0.00764f).cross(w).normalize();
-        final Vector3D v = u.cross(w);
+        final Vector3DF w = r;
+        final Vector3DF u = new Vector3DF(0.00424f, 1, 0.00764f).cross(w).normalize();
+        final Vector3DF v = u.cross(w);
 
-        final Point3D sp = sampler.sampleHemisphere();
+        final Point3DF sp = sampler.sampleHemisphere();
         sample.wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z));
         final float nDotWi = sr.getNormal().dot(sample.wi);
         if (nDotWi < 0) {
@@ -78,7 +77,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     }
 
     @Override
-    public C rho(Shade sr, Vector3D wo) {
+    public C rho(Shade sr, Vector3DF wo) {
         throw new RuntimeException("GlossySpecular.rho");
     }
 

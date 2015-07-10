@@ -16,7 +16,7 @@ public class FishEye extends AbstractLens {
     public float maxPsi;
     
     public class RayDirection {
-        public Vector3D direction = null;
+        public Vector3DF direction = null;
         public float rSquared = 0;
     }
 
@@ -65,7 +65,7 @@ public class FishEye extends AbstractLens {
             rd.direction = uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi);
             rd.rSquared = rSquared;
         } else {
-           rd.direction = Vector3D.ZERO;
+           rd.direction = Vector3DF.ZERO;
         }
         return rd;
 

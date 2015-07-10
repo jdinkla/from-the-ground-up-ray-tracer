@@ -1,11 +1,9 @@
 package net.dinkla.raytracer.worlds
 
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.Point3DF
+import net.dinkla.raytracer.math.Vector3DF
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.utilities.Resolution$
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,11 +22,11 @@ class Definitions {
     ]
 
     static def p(x, y, z) {
-        new Point3D((float)x, (float)y, (float)z)
+        new Point3DF((float)x, (float)y, (float)z)
     }
 
     static def p(x) {
-        new Point3D((float)x, (float)x, (float)x)
+        new Point3DF((float)x, (float)x, (float)x)
     }
 
     static def c(rgb) {
@@ -50,7 +48,7 @@ class Definitions {
     }
 
     static def v(x, y, z) {
-        new Vector3D((float)x, (float)y, (float)z)
+        new Vector3DF((float)x, (float)y, (float)z)
     }
 
     static def n(x, y, z) {

@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Point3DF
 import net.dinkla.raytracer.math.Normal
 
 def b1 = builder.alignedBox(p: p(0, 0, 0), q: p(5, 1.75f, 0.15f))
@@ -36,7 +36,7 @@ builder.world(id: "World27") {
     }
 
     objects {
-         plane(material: "m1", point: Point3D.ORIGIN, normal: Normal.UP)
+         plane(material: "m1", point: Point3DF.ORIGIN, normal: Normal.UP)
 //         plane(material: "black", point: p(0, 0, -500), normal: Normal.BACK)
          instance(material: "m2", object: b1) {
             rotateY(-20)

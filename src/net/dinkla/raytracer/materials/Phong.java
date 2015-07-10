@@ -7,7 +7,7 @@ import net.dinkla.raytracer.brdf.GlossySpecular;
 import net.dinkla.raytracer.lights.AreaLight;
 import net.dinkla.raytracer.lights.Light;
 import net.dinkla.raytracer.math.Ray;
-import net.dinkla.raytracer.math.Vector3D;
+import net.dinkla.raytracer.math.Vector3DF;
 import net.dinkla.raytracer.worlds.World;
 
 import java.util.List;
@@ -42,10 +42,10 @@ public class Phong<C extends Color> extends Matte<C> {
 
     @Override
     public C shade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.d.negate();
         C L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
-            Vector3D wi = light.getDirection(sr);
+            Vector3DF wi = light.getDirection(sr);
             float nDotWi = sr.getNormal().dot(wi);
             if (nDotWi > 0) {
                 boolean inShadow = false;
@@ -68,7 +68,7 @@ public class Phong<C extends Color> extends Matte<C> {
 
     @Override
     public C areaLightShade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3DF wo = sr.ray.d.negate();
         C L = getAmbientColor(world, sr, wo);
         ColorAccumulator<C> S = new ColorAccumulator<C>();
         for (Light light1 : world.getLights()) {

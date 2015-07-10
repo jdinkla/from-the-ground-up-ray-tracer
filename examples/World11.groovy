@@ -1,9 +1,3 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
-
-
 final int NUM_SPHERES = 25;
 final float volume = 0.1f / NUM_SPHERES;
 final float radius = (float) Math.pow(0.75f * volume / Math.PI, 1.0f/3);

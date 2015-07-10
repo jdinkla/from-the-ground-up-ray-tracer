@@ -167,13 +167,13 @@ public class InnerNode extends AbstractNode {
 //        Plane p = null;
 //        switch (axis) {
 //            case X:
-//                p = new Plane(new Point3D(split, 0, 0), Normal.RIGHT);
+//                p = new Plane(new Point3DF(split, 0, 0), Normal.RIGHT);
 //                break;
 //            case Y:
-//                p = new Plane(new Point3D(0, split, 0), Normal.UP);
+//                p = new Plane(new Point3DF(0, split, 0), Normal.UP);
 //                break;
 //            case Z:
-//                p = new Plane(new Point3D(0, 0, split), Normal.FRONT);
+//                p = new Plane(new Point3DF(0, 0, split), Normal.FRONT);
 //                break;
 //        }
 //

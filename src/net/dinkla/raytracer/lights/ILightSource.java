@@ -2,7 +2,7 @@ package net.dinkla.raytracer.lights;
 
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Normal;
-import net.dinkla.raytracer.math.Point3D;
+import net.dinkla.raytracer.math.Point3DF;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,10 +13,10 @@ import net.dinkla.raytracer.math.Point3D;
  */
 public interface ILightSource {
 
-    public Point3D sample();
+    public Point3DF sample();
 
     public float pdf(Shade sr);
 
-    public Normal getNormal(final Point3D p);
+    public Normal getNormal(final Point3DF p);
     
 }
