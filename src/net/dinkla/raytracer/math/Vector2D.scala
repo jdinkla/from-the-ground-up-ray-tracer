@@ -18,6 +18,15 @@ abstract class Vector2D[@specialized(Float, Double) F](x: F, y: F)(implicit numT
   def toPoint: Point2D[F]
 
   def normalize: Vector2D[F]                // the normal vector with length 1
+
+  override def equals(obj: scala.Any): Boolean
+  = obj match {
+    case that: Vector2D[F] => x == that.x && y == that.y
+    case _ => false
+  }
+
+  override def hashCode(): Int = (x, y).hashCode()
+
 }
 
 object Vector2D {

@@ -24,9 +24,17 @@ abstract class Point3D[@specialized(Float, Double) F](x: F, y: F, z: F)(implicit
    def minus(p: Point3D[F]): Vector3D[F]    = plus(-p)    // Point minus Point gives a Vector
    def minus(f: F)                          = plus(-f)
 
-   def toVector: Vector3D[F]
+  def toVector: Vector3D[F]
 
- }
+  override def equals(obj: scala.Any): Boolean
+    = obj match {
+    case that: Point3D[F] => x == that.x && y == that.y && z == that.z
+    case _ => false
+  }
+
+  override def hashCode(): Int = (x, y, z).hashCode()
+
+}
 
 object Point3D {
 

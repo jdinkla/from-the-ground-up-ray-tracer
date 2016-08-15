@@ -22,6 +22,14 @@ abstract class Point2D[@specialized(Float, Double) F](x: F, y: F)(implicit numTy
 
   def toVector: Vector2D[F]
 
+  override def equals(obj: scala.Any): Boolean
+  = obj match {
+    case that: Point2D[F] => x == that.x && y == that.y
+    case _ => false
+  }
+
+  override def hashCode(): Int = (x, y).hashCode()
+
 }
 
 object Point2D {
