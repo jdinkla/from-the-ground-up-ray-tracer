@@ -103,30 +103,26 @@ public class Sampler {
 	    int size = samples.size();
 	    float r, phi;		
 	    diskSamples = new ArrayList<Point2D>(size);
-        for (int j = 0; j < size; j++) {
-            Point2D p = samples.get(j);
+        for (Point2D p : samples) {
             Point2D sp = new Point2D(2.0f * p.x - 1.0f, 2.0f * p.y - 1.0f);
-            if (sp.x > -sp.y) {			// sectors 1 and 2
-                if (sp.x > sp.y) {		// sector 1
+            if (sp.x > -sp.y) {            // sectors 1 and 2
+                if (sp.x > sp.y) {        // sector 1
                     r = sp.x;
                     phi = sp.y / sp.x;
-                }
-                else {					// sector 2
+                } else {                    // sector 2
                     r = sp.y;
                     phi = 2 - sp.x / sp.y;
                 }
-            }
-            else {						// sectors 3 and 4
-                if (sp.x < sp.y) {		// sector 3
+            } else {                        // sectors 3 and 4
+                if (sp.x < sp.y) {        // sector 3
                     r = -sp.x;
                     phi = 4 + sp.y / sp.x;
-                }
-                else {					// sector 4
+                } else {                    // sector 4
                     r = -sp.y;
-                    if (sp.y != 0.0)	// avoid division by zero at origin
+                    if (sp.y != 0.0)    // avoid division by zero at origin
                         phi = 6 - sp.x / sp.y;
                     else
-                        phi  = 0.0f;
+                        phi = 0.0f;
                 }
             }
             phi *= Math.PI / 4.0f;
@@ -137,11 +133,11 @@ public class Sampler {
     public void mapSamplesToHemiSphere(final float exp) {
     	int size = samples.size();
         hemisphereSamples = new ArrayList<Point3D>(numSamples * numSets);
-        for (int j = 0; j < size; j++) {
-            float cos_phi = (float) Math.cos(2.0 * Math.PI * samples.get(j).x);
-            float sin_phi = (float) Math.sin(2.0 * Math.PI * samples.get(j).x);
-            float cos_theta = (float) Math.pow((1.0 - samples.get(j).y), 1.0 / (exp + 1.0));
-            float sin_theta = (float) Math.sqrt (1.0 - cos_theta * cos_theta);
+        for (Point2D sample : samples) {
+            float cos_phi = (float) Math.cos(2.0 * Math.PI * sample.x);
+            float sin_phi = (float) Math.sin(2.0 * Math.PI * sample.x);
+            float cos_theta = (float) Math.pow((1.0 - sample.y), 1.0 / (exp + 1.0));
+            float sin_theta = (float) Math.sqrt(1.0 - cos_theta * cos_theta);
             float pu = sin_theta * cos_phi;
             float pv = sin_theta * sin_phi;
             float pw = cos_theta;

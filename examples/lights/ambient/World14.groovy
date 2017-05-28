@@ -1,3 +1,5 @@
+package lights.ambient
+
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal

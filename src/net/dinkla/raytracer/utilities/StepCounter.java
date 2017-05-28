@@ -1,7 +1,10 @@
 package net.dinkla.raytracer.utilities;
 
 /**
- * Created by dinkla on 10/06/15.
+ * Created by IntelliJ IDEA.
+ * User: jorndinkla
+ * Date: 10.06.2015
+ * Time: 09:30:40
  */
 public class StepCounter {
 

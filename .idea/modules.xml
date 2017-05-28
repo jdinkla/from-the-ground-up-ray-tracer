@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/groovy-java-ray-tracer.iml" filepath="$PROJECT_DIR$/groovy-java-ray-tracer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer.iml" filepath="$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer_main.iml" group="groovy-java-ray-tracer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/groovy-java-ray-tracer_test.iml" group="groovy-java-ray-tracer" />
     </modules>
   </component>
 </project>

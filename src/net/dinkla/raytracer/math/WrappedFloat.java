@@ -27,7 +27,7 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
     }
 
     public float getValue() {
-        return value.floatValue();
+        return value;
     }
     
     public void setValue(final float value) {

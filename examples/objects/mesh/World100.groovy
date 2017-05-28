@@ -1,3 +1,4 @@
+package objects.mesh
 
 import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution

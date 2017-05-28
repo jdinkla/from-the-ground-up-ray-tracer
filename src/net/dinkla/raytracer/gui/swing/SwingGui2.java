@@ -23,11 +23,6 @@ public class SwingGui2 implements ActionListener {
 
     private JFrame frame;
     private JScrollPane pane;
-    private World<RGBColor> w;
-    private WorldBuilder<RGBColor> builder;
-
-    private ViewPlane vp;
-    private ImageFrame imf;
 
     private JFileChooser fc;
 
@@ -118,25 +113,29 @@ public class SwingGui2 implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         final String cmd = e.getActionCommand();
-        if (cmd.equals("About")) {
-            about();
-        } else if (cmd.equals("Open")) {
-            open();
-        } else if (cmd.equals("Quit")) {
-            quit();
-        } else {
-            throw new RuntimeException("Unknown Command");
+        switch (cmd) {
+            case "About":
+                about();
+                break;
+            case "Open":
+                open();
+                break;
+            case "Quit":
+                quit();
+                break;
+            default:
+                throw new RuntimeException("Unknown Command");
         }
     }
 
     public void render(File file) {
-        w = new World<RGBColor>();
-        builder = new WorldBuilder<RGBColor>(w);
+        World<RGBColor> w = new World<RGBColor>();
+        WorldBuilder<RGBColor> builder = new WorldBuilder<RGBColor>(w);
         builder.build(file);
         w.initialize();
 
-        vp = w.getViewPlane();
-        imf = new ImageFrame(vp.resolution, false, null);
+        ViewPlane vp = w.getViewPlane();
+        ImageFrame imf = new ImageFrame(vp.resolution, false, null);
 
         if (w.isDynamic()) {
 
@@ -149,11 +148,8 @@ public class SwingGui2 implements ActionListener {
                 w.render(imf);
                 imf.repaint();
                 w.step();
-                SwingUtilities.invokeLater(new Runnable() {
-                                               @Override
-                                               public void run() {
-                                               }
-                                           }
+                SwingUtilities.invokeLater(() -> {
+                }
                 );
             }
             imf.finish();

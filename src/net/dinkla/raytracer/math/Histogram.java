@@ -21,12 +21,7 @@ public class Histogram {
     }
 
     public void add(Integer key) {
-        Integer elem = counts.get(key);
-        if (null == elem) {
-            counts.put(key, 1);
-        } else {
-            counts.put(key, elem + 1);
-        }
+        counts.merge(key, 1, (a, b) -> a + b);
     }
 
     public Integer get(Integer key) {

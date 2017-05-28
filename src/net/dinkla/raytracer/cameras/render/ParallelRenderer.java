@@ -46,17 +46,15 @@ public class ParallelRenderer implements IRenderer {
         parallel = numThreads > 1;
 
         // Work
-        for (int i = 0; i < worker.length; i++) {
-            worker[i].film = film;
-            new Thread(worker[i]).start();
+        for (Worker aWorker : worker) {
+            aWorker.film = film;
+            new Thread(aWorker).start();
         }
 
         // Wait for workers to finish
         try {
             barrier.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (BrokenBarrierException e) {
+        } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
     }

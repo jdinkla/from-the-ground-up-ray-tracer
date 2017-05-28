@@ -5,7 +5,6 @@ package net.dinkla.raytracer.utilities;
  * User: jorndinkla
  * Date: 03.05.2010
  * Time: 09:30:40
- * To change this template use File | Settings | File Templates.
  */
 public class Resolution {
 

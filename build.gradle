@@ -3,6 +3,7 @@ group 'net.dinkla.raytracer'
 version '1.0'
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 
 sourceCompatibility = 8
 
@@ -25,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile 'org.codehaus.groovy:groovy-all:2.4.11'
     compile 'log4j:log4j:1.2.17'
     testCompile 'org.testng:testng:6.9.4'
 }

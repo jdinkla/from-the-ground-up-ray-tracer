@@ -88,8 +88,8 @@ public class InnerNode extends AbstractNode {
         return false;
     }
 
-    public static enum Side {
-        Left, Right;
+    public enum Side {
+        Left, Right
     }
     
     public boolean hit(Ray ray, Hit sr) {

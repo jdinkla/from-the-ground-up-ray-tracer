@@ -38,25 +38,23 @@ public class ListUtilities {
      * @param axis
      */
     static public void sortByAxis(List<GeometricObject> objects, final Axis axis) {
-        Collections.sort(objects, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                final GeometricObject oP = (GeometricObject) o1;
-                final GeometricObject oQ = (GeometricObject) o2;
-                final BBox bboxP = oP.getBoundingBox();
-                final BBox bboxQ = oQ.getBoundingBox();
-                final Point3D p = bboxP.q;
+        objects.sort((o1, o2) -> {
+            final GeometricObject oP = (GeometricObject) o1;
+            final GeometricObject oQ = (GeometricObject) o2;
+            final BBox bboxP = oP.getBoundingBox();
+            final BBox bboxQ = oQ.getBoundingBox();
+            final Point3D p = bboxP.q;
 
-                final float pP = bboxP.p.ith(axis);
-                final float widthP = bboxP.q.ith(axis) - pP;
-                final float medP = pP + 0.5f * widthP;
+            final float pP = bboxP.p.ith(axis);
+            final float widthP = bboxP.q.ith(axis) - pP;
+            final float medP = pP + 0.5f * widthP;
 
-                final float pQ = bboxQ.p.ith(axis);
-                final float widthQ = bboxQ.q.ith(axis) - pQ;
-                final float medQ = pQ + 0.5f * widthQ;
+            final float pQ = bboxQ.p.ith(axis);
+            final float widthQ = bboxQ.q.ith(axis) - pQ;
+            final float medQ = pQ + 0.5f * widthQ;
 
-                final Point3D q = bboxQ.q;
-                return Float.compare(medP, medQ);
-            }
+            final Point3D q = bboxQ.q;
+            return Float.compare(medP, medQ);
         });
     }
 

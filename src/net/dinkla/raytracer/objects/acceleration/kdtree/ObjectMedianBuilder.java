@@ -64,25 +64,23 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             }
         } else {
             if (width.y > width.z) {
-                axis = axis.Y;
+                axis = Axis.Y;
             } else {
-                axis = axis.Z;
+                axis = Axis.Z;
             }
         }
 
         final Axis axis2 = axis;
         // Sort the objects by the current axis
         // final Axis axis = Axis.fromInt(depth % 3);
-        Collections.sort(objects, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                final GeometricObject oP = (GeometricObject) o1;
-                final GeometricObject oQ = (GeometricObject) o2;
-                final BBox bboxP = oP.getBoundingBox();
-                final BBox bboxQ = oQ.getBoundingBox();
-                final Point3D p = bboxP.q;
-                final Point3D q = bboxQ.q;                
-                return Float.compare(p.ith(axis2), q.ith(axis2));
-            }
+        objects.sort((o1, o2) -> {
+            final GeometricObject oP = (GeometricObject) o1;
+            final GeometricObject oQ = (GeometricObject) o2;
+            final BBox bboxP = oP.getBoundingBox();
+            final BBox bboxQ = oQ.getBoundingBox();
+            final Point3D p = bboxP.q;
+            final Point3D q = bboxQ.q;
+            return Float.compare(p.ith(axis2), q.ith(axis2));
         });
 
         int size = objects.size();

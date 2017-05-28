@@ -1,7 +1,10 @@
 package net.dinkla.raytracer
 
 /**
- * Created by Dinkla on 08.07.2015.
+ * Created by IntelliJ IDEA.
+ * User: jorndinkla
+ * Date: 08.07.2015
+ * Time: 09:30:40
  */
 class TestUtils {
 

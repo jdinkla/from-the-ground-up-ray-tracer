@@ -63,55 +63,45 @@ public class RayTracerParametersForm {
 
     public RayTracerParametersForm() {
         bean = new RayTracerParametersBean();
-        applyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (bean != null) {
-                    getData(bean);
+        applyButton.addActionListener(e -> {
+            if (bean != null) {
+                getData(bean);
 
-                    File file = new File(bean.getFileName());
-                    if (!file.exists()) {
-                        JOptionPane.showMessageDialog(null, "File '" + bean.getFileName() +  "' does not exists");
-                    } else {
-                        try {
-                            World world = WorldBuilder.create(file);
+                File file = new File(bean.getFileName());
+                if (!file.exists()) {
+                    JOptionPane.showMessageDialog(null, "File '" + bean.getFileName() +  "' does not exists");
+                } else {
+                    try {
+                        World world = WorldBuilder.create(file);
 
-                            final RenderGui renderGui1 = new RenderGui(world);
-                            RenderGui renderGui = renderGui1.invoke();
-                            World w = renderGui.getW();
-                            Camera camera = renderGui.getCamera();
-                            ImageFrame imf = renderGui.getImf();
+                        final RenderGui renderGui1 = new RenderGui(world);
+                        RenderGui renderGui = renderGui1.invoke();
+                        World w = renderGui.getW();
+                        Camera camera = renderGui.getCamera();
+                        ImageFrame imf = renderGui.getImf();
 
-                            w.initialize();
-                            camera.render((IFilm) imf, 0);
-                            imf.repaint();
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, "Exception: " + ex.getMessage());
-                            ex.printStackTrace();
-                        }
+                        w.initialize();
+                        camera.render((IFilm) imf, 0);
+                        imf.repaint();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Exception: " + ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
             }
         });
-        quitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+        quitButton.addActionListener(e -> System.exit(0));
+        saveButton.addActionListener(e -> {
+            //To change body of implemented methods use File | Settings | File Templates.
         });
-        saveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-        chooseFileButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser();
-                int returnVal = fc.showOpenDialog(panel1);
-                if (returnVal == 0) {
-                    File file = fc.getSelectedFile();
-                    getData(bean);
-                    bean.setFileName(file.getAbsolutePath());
-                    setData(bean);
-                }
+        chooseFileButton.addActionListener(e -> {
+            final JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showOpenDialog(panel1);
+            if (returnVal == 0) {
+                File file = fc.getSelectedFile();
+                getData(bean);
+                bean.setFileName(file.getAbsolutePath());
+                setData(bean);
             }
         });
     }
