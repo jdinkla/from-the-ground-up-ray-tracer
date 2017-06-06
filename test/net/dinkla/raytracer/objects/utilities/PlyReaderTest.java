@@ -3,8 +3,9 @@ package net.dinkla.raytracer.objects.utilities;
 import net.dinkla.raytracer.TestUtils;
 import net.dinkla.raytracer.objects.acceleration.Grid;
 import net.dinkla.raytracer.objects.mesh.Mesh;
-import org.testng.annotations.Test;
-import static org.testng.Assert.assertEquals;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.

@@ -3,8 +3,9 @@ package net.dinkla.raytracer.objects;
 import net.dinkla.raytracer.math.BBox;
 import net.dinkla.raytracer.math.MathUtils;
 import net.dinkla.raytracer.objects.compound.Compound;
-import org.testng.annotations.Test;
-import static org.testng.Assert.assertEquals;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.

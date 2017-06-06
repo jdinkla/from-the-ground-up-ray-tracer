@@ -1,8 +1,9 @@
 package net.dinkla.raytracer.math;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
+
 
 /**
  * Created by IntelliJ IDEA.

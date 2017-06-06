@@ -3,10 +3,10 @@ package net.dinkla.raytracer.objects;
 import net.dinkla.raytracer.hits.Hit;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.*;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +30,7 @@ public class SphereTest {
     // Sample
     Hit sr;
 
-    @BeforeMethod
+    @Before
     public void init() {
         sr = new Shade();
     }

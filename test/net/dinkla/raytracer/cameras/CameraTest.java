@@ -1,11 +1,8 @@
 package net.dinkla.raytracer.cameras;
 
 import net.dinkla.raytracer.films.IFilm;
-import net.dinkla.raytracer.math.Point2D;
 import net.dinkla.raytracer.math.Point3D;
-import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.Vector3D;
-import org.testng.annotations.Test;
 
 /**
  * Created by IntelliJ IDEA.

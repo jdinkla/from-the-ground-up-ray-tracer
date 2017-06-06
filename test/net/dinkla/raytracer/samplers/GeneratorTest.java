@@ -2,13 +2,13 @@ package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Histogram;
 import net.dinkla.raytracer.math.Point2D;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +24,7 @@ public abstract class GeneratorTest {
 
     protected List<Point2D> samples = new ArrayList<Point2D>();
 
-    @BeforeTest
+    @Before
     public abstract void initialize();
 
     @Test

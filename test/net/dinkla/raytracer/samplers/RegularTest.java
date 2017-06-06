@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import org.testng.annotations.BeforeTest;
+import org.junit.Before;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeTest;
  */
 public class RegularTest extends GeneratorTest {
 
-    @BeforeTest
+    @Before
     @Override
     public void initialize() {
         new Regular().generateSamples(NUM_SAMPLES, NUM_SETS , samples);

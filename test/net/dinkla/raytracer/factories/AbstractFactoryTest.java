@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.factories;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+//import org.testng.annotations.BeforeMethod;
+//import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,32 +25,32 @@ public class AbstractFactoryTest {
     Map map;
     List<String> ls;
 
-    @BeforeMethod
+//    @BeforeMethod
     public void setUp() {
         x = new X();
         map = new HashMap();
         ls = new LinkedList<String>();
     }
 
-    @Test
+//    @Test
     public void testNeeds0() {
         X.needs(map, "x", ls);
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+//    @Test(expectedExceptions = RuntimeException.class)
     public void testNeeds1() {
         ls.add("a");
         X.needs(map, "x", ls);
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+//    @Test(expectedExceptions = RuntimeException.class)
     public void testNeeds2() {
         ls.add("a");
         ls.add("b");
         X.needs(map, "x", ls);
     }
 
-    @Test
+//    @Test
     public void testNeeds3() {
         ls.add("a");
         ls.add("b");

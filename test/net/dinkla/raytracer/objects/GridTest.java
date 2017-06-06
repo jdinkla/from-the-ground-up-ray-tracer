@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects;
 
 import net.dinkla.raytracer.objects.acceleration.Grid;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.

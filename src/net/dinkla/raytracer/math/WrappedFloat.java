@@ -26,7 +26,7 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
         //value = Double.MAX_VALUE;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
     
@@ -77,4 +77,18 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
         return f;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof WrappedFloat) {
+            WrappedFloat wf = (WrappedFloat) obj;
+            Float f = wf.getValue();
+            if (value == null) {
+                return f == null;
+            } else {
+                return this.value.equals(f);
+            }
+        } else {
+            return false;
+        }
+    }
 }

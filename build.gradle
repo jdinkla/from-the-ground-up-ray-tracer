@@ -5,7 +5,8 @@ version '1.0'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 
-sourceCompatibility = 8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 sourceSets {
     main {
@@ -28,10 +29,16 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.11'
     compile 'log4j:log4j:1.2.17'
-    testCompile 'org.testng:testng:6.9.4'
+//    testCompile 'org.testng:testng:6.9.4'
+    testCompile 'junit:junit:4.12'
+
+    // mandatory dependencies for using Spock
+    // compile "org.codehaus.groovy:groovy-all:2.4.10"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+
 }
 
-test.useTestNG()
+//test.useTestNG()
 
 jar {
     manifest {
@@ -48,5 +55,3 @@ task exec_gui(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "net.dinkla.raytracer.gui.swing.SwingGui2"
 }
-
-

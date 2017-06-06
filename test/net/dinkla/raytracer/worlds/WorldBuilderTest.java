@@ -1,9 +1,8 @@
 package net.dinkla.raytracer.worlds;
 
 import net.dinkla.raytracer.lights.AmbientOccluder;
-import net.dinkla.raytracer.objects.Plane;
 import net.dinkla.raytracer.tracers.AreaLighting;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +13,8 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -98,9 +97,9 @@ public class WorldBuilderTest {
     public void testCreate7() {
         File f = findExample("World34.groovy").get().toFile();
         World w = WorldBuilder.create(f);
-        assertNotNull(w.getViewPlane(), "viewPlane == null");
-        assertNotNull(w.getCamera(), "camera == null");
-        assertNotNull(w.getTracer(), "tracer == null");
+        assertNotNull("viewPlane == null", w.getViewPlane());
+        assertNotNull("camera == null", w.getCamera());
+        assertNotNull("tracer == null", w.getTracer());
         assertEquals(w.size(), 5);
         assertEquals(w.lights.size(), 1);
     }

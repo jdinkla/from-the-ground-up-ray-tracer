@@ -2,9 +2,7 @@ package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Point2D;
 import net.dinkla.raytracer.math.Point3D;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.

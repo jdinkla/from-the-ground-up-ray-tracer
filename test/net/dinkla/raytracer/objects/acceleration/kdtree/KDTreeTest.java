@@ -4,9 +4,7 @@ import net.dinkla.raytracer.math.BBox;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.objects.Sphere;
-import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree;
-import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;

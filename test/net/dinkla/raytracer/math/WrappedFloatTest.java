@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.math;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,20 +18,20 @@ public class WrappedFloatTest {
     }
 
     @Test
-    void testMethodParameter() {
+    public void testMethodParameter() {
         WrappedFloat f = new WrappedFloat();
         set(f);
         assert (f.value == 1.23f);
     }
 
     @Test
-    void testInitialValue() {
+    public void testInitialValue() {
         WrappedFloat f = new WrappedFloat();
         assert (null == f.value);
     }
 
     @Test
-    void testComparable() {
+    public void testComparable() {
         WrappedFloat f1 = new WrappedFloat();
         WrappedFloat f2 = new WrappedFloat();
         WrappedFloat f3 = new WrappedFloat(1.0f);

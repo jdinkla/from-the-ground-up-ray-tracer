@@ -1,17 +1,6 @@
 package net.dinkla.raytracer.samplers;
 
-import net.dinkla.raytracer.math.Histogram;
-import net.dinkla.raytracer.math.Point2D;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.testng.Assert.assertTrue;
+import org.junit.Before;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +11,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class PureRandomTest extends GeneratorTest {
 
-    @BeforeTest
+    @Before
     public void initialize() {
         new PureRandom().generateSamples(NUM_SAMPLES, NUM_SETS , samples);
     }
