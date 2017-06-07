@@ -7,15 +7,13 @@ import static java.lang.Math.sqrt;
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 16:23:15
- * To change this template use File | Settings | File Templates.
  */
 public class Element3D {
 
     public final float x;
     public final float y;
     public final float z;
-    //Float sqrLength;
-    
+
     public Element3D(final float x, final float y, final float z) {
         this.x = x;
         this.y = y;
@@ -37,7 +35,10 @@ public class Element3D {
     }
 
     public float distanceSquared(final Element3D p) {
-        return ((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y) + (z - p.z) * (z - p.z) );
+        final float dx = x - p.x;
+        final float dy = y - p.y;
+        final float dz = z - p.z;
+        return (dx * dx + dy * dy + dz * dz);
     }
 
     public float ith(final Axis axis) {
@@ -47,9 +48,9 @@ public class Element3D {
             case Y:
                 return y;
             case Z:
+            default:
                 return z;
         }
-        return Float.NaN;
     }
 
     @Override
@@ -67,6 +68,5 @@ public class Element3D {
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";
     }
-
 
 }

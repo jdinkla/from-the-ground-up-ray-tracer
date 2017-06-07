@@ -24,10 +24,6 @@ public class Point3D extends Element3D {
         super(e);
     }
 
-    public Vector3D plus(final Point3D v) {
-        return new Vector3D(x + v.x, y + v.y, z + v.z);
-    }
-
     public Point3D plus(final Vector3D v) {
         return new Point3D(x + v.x, y + v.y, z + v.z);
     }

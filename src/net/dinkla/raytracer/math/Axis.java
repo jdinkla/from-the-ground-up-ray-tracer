@@ -36,9 +36,9 @@ public enum Axis {
             case Y:
                 return Z;
             case Z:
+            default:
                 return X;
         }
-        return null;
     }
 
 }

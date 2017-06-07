@@ -1,13 +1,12 @@
 package net.dinkla.raytracer.math;
 
-import static java.lang.Math.sqrt;
+import static java.lang.StrictMath.sqrt;
 
 /**
  * Created by IntelliJ IDEA.
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 16:23:15
- * To change this template use File | Settings | File Templates.
  */
 public class Element2D {
 
@@ -19,11 +18,6 @@ public class Element2D {
         this.y = y;
     }
 
-    public Element2D(final Element2D e) {
-        this.x = e.x;
-        this.y = e.y;
-    }
-    
     public float sqrLength() {
         return x*x + y*y;
     }

@@ -13,16 +13,8 @@ public class Point2D extends Element2D {
         super(x, y);
     }
 
-    public Vector2D plus(final Point2D v) {
-        return new Vector2D(x + v.x, y + v.y);
-    }
-
     public Point2D plus(final Vector2D v) {
         return new Point2D(x + v.x, y + v.y);
-    }
-
-    public Vector2D minus(final Point2D v) {
-        return new Vector2D(x - v.x, y - v.y);
     }
 
     public Point2D minus(final Vector2D v) {
