@@ -20,6 +20,12 @@ public class Element3D {
         this.z = z;
     }
 
+    public Element3D(final double x, final double y, final double z) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.z = (float) z;
+    }
+
     public Element3D(final Element3D e) {
         this.x = e.x;
         this.y = e.y;

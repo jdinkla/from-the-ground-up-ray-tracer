@@ -7,17 +7,20 @@ import static java.lang.Math.sqrt;
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 15:17:35
- * To change this template use File | Settings | File Templates.
  */
 public class Vector3D extends Element3D {
 
     public static final Vector3D ZERO = new Vector3D(0, 0, 0);
-    static public final Vector3D UP = new Vector3D(0, 1, 0);
-    static public final Vector3D DOWN = new Vector3D(0, -1, 0);
+    public static final Vector3D UP = new Vector3D(0, 1, 0);
+    public static final Vector3D DOWN = new Vector3D(0, -1, 0);
     public static final Vector3D JITTER = new Vector3D(0.0072f, 1.0f, 0.0034f);
     public static final Vector3D BACK = new Vector3D(0, 0, -1);
 
     public Vector3D(final float x, final float y, final float z) {
+        super(x, y, z);
+    }
+
+    public Vector3D(final double x, final double y, final double z) {
         super(x, y, z);
     }
 

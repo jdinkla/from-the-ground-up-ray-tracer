@@ -5,11 +5,14 @@ package net.dinkla.raytracer.math;
  * User: jorndinkla
  * Date: 10.04.2010
  * Time: 15:17:35
- * To change this template use File | Settings | File Templates.
  */
 public class Vector2D extends Element2D {
 
     public Vector2D(final float x, final float y) {
+        super(x, y);
+    }
+
+    public Vector2D(final double x, final double y) {
         super(x, y);
     }
 

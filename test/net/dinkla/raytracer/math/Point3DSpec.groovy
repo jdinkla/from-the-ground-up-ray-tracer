@@ -5,7 +5,7 @@ import spock.lang.Specification
 /**
  * Created by jdinkla on 07.06.17.
  */
-class Point3DTest extends Specification {
+class Point3DSpec extends Specification {
 
     def "add a vector"() {
         def p = new Point3D(2, 3, 5)

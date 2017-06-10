@@ -18,6 +18,11 @@ public class Element2D {
         this.y = y;
     }
 
+    public Element2D(final double x, final double y) {
+        this.x = (float) x;
+        this.y = (float) y;
+    }
+
     public float sqrLength() {
         return x*x + y*y;
     }

@@ -5,7 +5,7 @@ import spock.lang.Specification
 /**
  * Created by jdinkla on 07.06.17.
  */
-class AxisTest extends Specification {
+class AxisSpec extends Specification {
 
     def "FromInt"() {
         expect: Axis.fromInt(0) == Axis.X
