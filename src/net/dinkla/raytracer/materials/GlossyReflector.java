@@ -31,7 +31,7 @@ public class GlossyReflector extends Phong {
     }
 
     public void setExp(final float exp) {
-        glossySpecularBrdf.exp = exp;       
+        glossySpecularBrdf.exp = exp;
     }
 
     @Override

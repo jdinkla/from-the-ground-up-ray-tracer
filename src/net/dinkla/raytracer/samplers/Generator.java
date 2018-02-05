@@ -14,5 +14,5 @@ import java.util.List;
 public abstract class Generator {
 
     public abstract void generateSamples(int numSamples, int numSets, List<Point2D> samples);
-    
+
 }

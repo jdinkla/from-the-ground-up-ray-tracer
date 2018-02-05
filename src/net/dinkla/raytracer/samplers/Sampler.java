@@ -46,7 +46,7 @@ public class Sampler {
         shuffledIndices = new ArrayList<Integer>();
         shuffledIndices.ensureCapacity(numSamples * numSets);
 
-        // Create temporary array 
+        // Create temporary array
         ArrayList<Integer> indices = new ArrayList<Integer>();
         for (int j = 0; j < numSamples; j++) {
             indices.add(j);
@@ -73,7 +73,7 @@ public class Sampler {
         int index2 = jump + shuffledIndices.get(index1);
 	    return (samples.get(index2));
     }
-    
+
     public Point2D sampleUnitDisk() {
         if (count % numSamples == 0) {
             jump = Random.INSTANCE.randInt(numSets) * numSamples;
@@ -94,14 +94,14 @@ public class Sampler {
         }
         return (sphereSamples.get(jump + shuffledIndices.get(jump + count++ % numSamples)));
     }
-    
+
     public Point2D sampleOneSet() {
-        return samples.get(count++ % numSamples);  
+        return samples.get(count++ % numSamples);
     }
 
     public void mapSamplesToUnitDisk() {
 	    int size = samples.size();
-	    float r, phi;		
+	    float r, phi;
 	    diskSamples = new ArrayList<Point2D>(size);
         for (Point2D p : samples) {
             Point2D sp = new Point2D(2.0f * p.getX() - 1.0f, 2.0f * p.getY() - 1.0f);

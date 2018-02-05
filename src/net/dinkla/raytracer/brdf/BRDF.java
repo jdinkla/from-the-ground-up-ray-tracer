@@ -28,5 +28,5 @@ public abstract class BRDF<C extends Color> {
     abstract public Sample sampleF(Shade sr, Vector3D wo);
 
     abstract public C rho(Shade sr, Vector3D wo);
-    
+
 }
