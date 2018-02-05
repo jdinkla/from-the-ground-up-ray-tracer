@@ -31,7 +31,7 @@ public class Ambient<C extends Color> extends Light<C> {
 
     @Override
     public Vector3D getDirection(Shade sr) {
-        return Vector3D.ZERO;
+        return Vector3D.Companion.getZERO();
     }
 
     @Override

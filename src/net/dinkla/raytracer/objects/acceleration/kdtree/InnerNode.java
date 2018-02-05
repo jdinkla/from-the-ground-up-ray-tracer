@@ -69,11 +69,11 @@ public class InnerNode extends AbstractNode {
                 InnerNode node = (InnerNode) pair.node;
                 BBox bbox = node.getBoundingBox();
                 BBox.Hit hit = bbox.hitX(ray);
-                if (hit.isHit) {
+                if (hit.isHit()) {
                     Hit srL = new Hit(pair.hit);
-                    srL.setT(hit.t1);
+                    srL.setT(hit.getT1());
                     Hit srR = new Hit(pair.hit);
-                    if (ray.o.ith(axis) < node.getSplit()) {
+                    if (ray.getO().ith(axis) < node.getSplit()) {
                         stack.push(new Pair(node.left, srL));
                         stack.push(new Pair(node.right, srR));
                     } else {
@@ -98,17 +98,17 @@ public class InnerNode extends AbstractNode {
 
     public boolean hitRec(Ray ray, Hit sr) {
         BBox.Hit hit = bbox.hitX(ray);
-        if (!hit.isHit) {
+        if (!hit.isHit()) {
 //            Counter.count("KDTree.InnerNode.hit.bbox");
             return false;
         }
 //        Counter.count("KDTree.InnerNode.hit");
 
         // On which side does the ray start? 
-        if (ray.o.ith(axis) < split) {
+        if (ray.getO().ith(axis) < split) {
 //                Counter.count("KDTree.InnerNode.hit.LR.L");
             Hit srL = new Hit(sr);
-            srL.setT(hit.t1);
+            srL.setT(hit.getT1());
             boolean isHitL = left.hit(ray, srL);
             if (isHitL) {
 //                 Counter.count("KDTree.InnerNode.hit.H.L");
@@ -116,7 +116,7 @@ public class InnerNode extends AbstractNode {
                 return true;
             }
             Hit srR = new Hit(sr);
-            srR.setT(hit.t1);
+            srR.setT(hit.getT1());
             boolean isHitR = right.hit(ray, srR);
             if (isHitR) {
 //                    Counter.count("KDTree.InnerNode.hit.H.R");
@@ -126,7 +126,7 @@ public class InnerNode extends AbstractNode {
         } else {
 //                Counter.count("KDTree.InnerNode.hit.LR.R");
             Hit srR = new Hit(sr);
-            srR.setT(hit.t1);
+            srR.setT(hit.getT1());
             boolean isHitR = right.hit(ray, srR);
             if (isHitR) {
 //                    Counter.count("KDTree.InnerNode.hit.H2.R");
@@ -134,7 +134,7 @@ public class InnerNode extends AbstractNode {
                 return true;
             }
             Hit srL = new Hit(sr);
-            srL.setT(hit.t1);
+            srL.setT(hit.getT1());
             boolean isHitL = left.hit(ray, srL);
             if (isHitL) {
 //                    Counter.count("KDTree.InnerNode.hit.H2.L");
@@ -155,7 +155,7 @@ public class InnerNode extends AbstractNode {
 
         // Side
         Side side = null;
-        if (ray.o.ith(axis) < split) {
+        if (ray.getO().ith(axis) < split) {
             side = Side.Left;
 //            Counter.count("KDTree.InnerNode.Side.L");
         } else {
@@ -289,15 +289,15 @@ public class InnerNode extends AbstractNode {
         Counter.count("KDTree.InnerNode.hit");
         BBox.Hit hitL = left.getBoundingBox().hitX(ray);
         BBox.Hit hitR = right.getBoundingBox().hitX(ray);
-        if (hitL.isHit && (!hitR.isHit)) {
+        if (hitL.isHit() && (!hitR.isHit())) {
             Counter.count("KDTree.InnerNode.hit.L");
             return left.hit(ray, sr);
-        } else if ((!hitL.isHit) && hitR.isHit) {
+        } else if ((!hitL.isHit()) && hitR.isHit()) {
             Counter.count("KDTree.InnerNode.hit.R");
             return right.hit(ray, sr);
-        } else if (hitL.isHit && hitR.isHit) {
+        } else if (hitL.isHit() && hitR.isHit()) {
             Counter.count("KDTree.InnerNode.hit.LR");
-            if (hitL.t0 < hitR.t0) {
+            if (hitL.getT0() < hitR.getT0()) {
                 Hit sr2 = new Hit();
                 sr2.setT(sr.getT());
                 boolean isHitL = left.hit(ray, sr2);
@@ -373,9 +373,9 @@ public class InnerNode extends AbstractNode {
         sb.append(" ");
         sb.append(split);
         sb.append(" ");
-        sb.append(bbox.p);
+        sb.append(bbox.getP());
         sb.append(" ");
-        sb.append(bbox.q);
+        sb.append(bbox.getQ());
         sb.append("\n");
         sb.append(left.printBBoxes(incr + 2));
         sb.append(right.printBBoxes(incr + 2));

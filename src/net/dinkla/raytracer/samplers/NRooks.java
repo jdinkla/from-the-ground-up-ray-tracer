@@ -17,8 +17,8 @@ public class NRooks extends Generator {
     public void generateSamples(int numSamples, int numSets, List<Point2D> samples) {
         for (int p = 0; p < numSets; p++) {
             for (int j = 0; j < numSamples; j++) {
-                final float x = (j + Random.randFloat()) / numSamples;
-                final float y = (j + Random.randFloat()) / numSamples;
+                final float x = (j + Random.INSTANCE.randFloat()) / numSamples;
+                final float y = (j + Random.INSTANCE.randFloat()) / numSamples;
                 samples.add(new Point2D(x, y));
             }
         }

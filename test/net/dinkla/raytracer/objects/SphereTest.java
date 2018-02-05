@@ -84,8 +84,8 @@ public class SphereTest {
         sphere = new Sphere(point, radius);
 
         BBox bbox = sphere.getBoundingBox();
-        assertEquals(bbox.p, new Point3D(-1, -1, -1));
-        assertEquals(bbox.q, new Point3D(1, 1, 1));        
+        assertEquals(bbox.getP(), new Point3D(-1, -1, -1));
+        assertEquals(bbox.getQ(), new Point3D(1, 1, 1));
     }
 
 }

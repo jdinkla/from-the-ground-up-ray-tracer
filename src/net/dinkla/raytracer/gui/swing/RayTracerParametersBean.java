@@ -51,9 +51,9 @@ public class RayTracerParametersBean {
     }
 
     public void setEye(Point3D eye) {
-        eyeX = eye.x;
-        eyeY = eye.y;
-        eyeZ = eye.z;
+        eyeX = eye.getX();
+        eyeY = eye.getY();
+        eyeZ = eye.getZ();
     }
 
     public void setEye(float x, float y, float z) {
@@ -67,9 +67,9 @@ public class RayTracerParametersBean {
     }
 
     public void setLookAt(Point3D lookAt) {
-        lookAtX = lookAt.x;
-        lookAtY = lookAt.y;
-        lookAtZ = lookAt.z;
+        lookAtX = lookAt.getX();
+        lookAtY = lookAt.getY();
+        lookAtZ = lookAt.getZ();
     }
 
     public void setLookAt(float x, float y, float z) {
@@ -83,9 +83,9 @@ public class RayTracerParametersBean {
     }
 
     public void setUp(Point3D up) {
-        upX = up.x;
-        upY = up.y;
-        upZ = up.z;
+        upX = up.getX();
+        upY = up.getY();
+        upZ = up.getZ();
     }
 
     public void setUp(float x, float y, float z) {

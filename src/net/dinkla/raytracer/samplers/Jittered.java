@@ -19,8 +19,8 @@ public class Jittered extends Generator {
         for (int p=0; p<numSets; p++) {
             for (int j=0; j<n; j++) {
                for (int k=0; k<n; k++) {
-                   float x = (k + Random.randFloat()) / n;
-                   float y = (j + Random.randFloat()) / n;
+                   float x = (k + Random.INSTANCE.randFloat()) / n;
+                   float y = (j + Random.INSTANCE.randFloat()) / n;
                    samples.add(new Point2D(x, y));
                }
             }

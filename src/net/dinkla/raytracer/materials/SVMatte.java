@@ -56,7 +56,7 @@ public class SVMatte <C extends Color> extends Material<C> {
 
     @Override
     public C shade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3D wo = sr.ray.getD().negate();
         C L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
@@ -80,7 +80,7 @@ public class SVMatte <C extends Color> extends Material<C> {
 
     @Override
     public C areaLightShade(World<C> world, Shade sr) {
-        Vector3D wo = sr.ray.d.negate();
+        Vector3D wo = sr.ray.getD().negate();
         C L = getAmbientColor(world, sr, wo);
         ColorAccumulator<C> S = new ColorAccumulator<C>();
         for (Light light1 : world.getLights()) {

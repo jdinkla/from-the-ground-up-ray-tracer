@@ -158,8 +158,8 @@ public class Compound extends GeometricObject {
     public BBox getBoundingBox() {
         if (null == bbox) {
             if (objects.size() > 0) {
-                Point3D p0 = PointUtilities.minCoordinates(objects);
-                Point3D p1 = PointUtilities.maxCoordinates(objects);
+                Point3D p0 = PointUtilities.INSTANCE.minCoordinates(objects);
+                Point3D p1 = PointUtilities.INSTANCE.maxCoordinates(objects);
                 bbox = new BBox(p0, p1);
             } else {
                 bbox = new BBox(null, null);

@@ -33,8 +33,8 @@ public class Spherical extends AbstractLens {
     }
 
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres + sp.x);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres + sp.y);
+        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres + sp.getX());
+        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres + sp.getY());
         final Point2D pp = new Point2D(x, y);
         Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
@@ -42,8 +42,8 @@ public class Spherical extends AbstractLens {
     }
 
     protected Vector3D getRayDirection(Point2D pp, Resolution resolution, float s) {
-        float x = 2.0f / (s * resolution.hres) * pp.x;
-        float y = 2.0f / (s * resolution.vres) * pp.y;
+        float x = 2.0f / (s * resolution.hres) * pp.getX();
+        float y = 2.0f / (s * resolution.vres) * pp.getY();
 
         float lambda = x * maxLambda * MathUtils.PI_ON_180;
         float psi = y * maxPsi * MathUtils.PI_ON_180;

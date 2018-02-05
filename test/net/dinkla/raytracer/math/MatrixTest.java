@@ -17,25 +17,25 @@ public class MatrixTest {
     public void testMatrixMult() {
 
         Matrix e = new Matrix();
-        e.m[0][0] = 3;
-        e.m[0][1] = 6;
-        e.m[0][2] = 9;
+        e.getM()[0][0] = 3;
+        e.getM()[0][1] = 6;
+        e.getM()[0][2] = 9;
 
-        e.m[1][0] = 6;
-        e.m[1][1] = 12;
-        e.m[1][2] = 18;
+        e.getM()[1][0] = 6;
+        e.getM()[1][1] = 12;
+        e.getM()[1][2] = 18;
 
-        e.m[2][0] = 9;
-        e.m[2][1] = 18;
-        e.m[2][2] = 27;
+        e.getM()[2][0] = 9;
+        e.getM()[2][1] = 18;
+        e.getM()[2][2] = 27;
 
         Matrix a = new Matrix();
         Matrix b = new Matrix();
         
         for (int j=0; j<3; j++) {
             for (int i=0; i<3; i++) {
-                a.m[i][j] = i+1;
-                b.m[i][j] = j+1;
+                a.getM()[i][j] = i+1;
+                b.getM()[i][j] = j+1;
             }
         }
 

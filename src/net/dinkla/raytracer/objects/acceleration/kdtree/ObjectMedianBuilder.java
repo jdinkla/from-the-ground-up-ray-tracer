@@ -52,18 +52,18 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
         Counter.count("KDtree.build.node");
 
         Float split = null;
-        Vector3D width = voxel.q.minus(voxel.p);
+        Vector3D width = voxel.getQ().minus(voxel.getP());
 
         // Find the axis width the largest difference
         Axis axis = null;
-        if (width.x > width.y) {
-            if (width.x > width.z) {
+        if (width.getX() > width.getY()) {
+            if (width.getX() > width.getZ()) {
                 axis = Axis.X;
             } else {
                 axis = Axis.Z;
             }
         } else {
-            if (width.y > width.z) {
+            if (width.getY() > width.getZ()) {
                 axis = Axis.Y;
             } else {
                 axis = Axis.Z;
@@ -78,18 +78,18 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             final GeometricObject oQ = (GeometricObject) o2;
             final BBox bboxP = oP.getBoundingBox();
             final BBox bboxQ = oQ.getBoundingBox();
-            final Point3D p = bboxP.q;
-            final Point3D q = bboxQ.q;
+            final Point3D p = bboxP.getQ();
+            final Point3D q = bboxQ.getQ();
             return Float.compare(p.ith(axis2), q.ith(axis2));
         });
 
         int size = objects.size();
-        float minAxis = objects.get(0).getBoundingBox().p.ith(axis);
-        float maxAxis = objects.get(objects.size()-1).getBoundingBox().p.ith(axis);
+        float minAxis = objects.get(0).getBoundingBox().getP().ith(axis);
+        float maxAxis = objects.get(objects.size() - 1).getBoundingBox().getP().ith(axis);
         float fwidth = maxAxis - minAxis;
 
         GeometricObject med = objects.get(size / 2);
-        split = med.getBoundingBox().p.ith(axis);
+        split = med.getBoundingBox().getP().ith(axis);
 
         List<GeometricObject> objectsL = new ArrayList<GeometricObject>();
         List<GeometricObject> objectsR = new ArrayList<GeometricObject>();
@@ -98,61 +98,61 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             // x
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.x <= split) {
+                if (bbox.getP().getX() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.x >= split) {
+                if (bbox.getQ().getX() >= split) {
                     objectsR.add(object);
                 }
             }
 
-            BBox bL = BBox.create(objectsL);
-            BBox bR = BBox.create(objectsR);
+            BBox bL = BBox.Companion.create(objectsL);
+            BBox bR = BBox.Companion.create(objectsR);
 
-            Point3D q1 = new Point3D(split, bL.q.y, bL.q.z);
-            Point3D p2 = new Point3D(split, bR.p.y, bR.p.z);
+            Point3D q1 = new Point3D(split, bL.getQ().getY(), bL.getQ().getZ());
+            Point3D p2 = new Point3D(split, bR.getP().getY(), bR.getP().getZ());
 
-            voxelL = new BBox(bL.p, q1);
-            voxelR = new BBox(p2, bR.q);
+            voxelL = new BBox(bL.getP(), q1);
+            voxelR = new BBox(p2, bR.getQ());
         } else if (axis2 == Axis.Y) {
             // y
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.y <= split) {
+                if (bbox.getP().getY() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.y >= split) {
+                if (bbox.getQ().getY() >= split) {
                     objectsR.add(object);
                 }
             }
-            BBox bL = BBox.create(objectsL);
-            BBox bR = BBox.create(objectsR);
+            BBox bL = BBox.Companion.create(objectsL);
+            BBox bR = BBox.Companion.create(objectsR);
 
-            Point3D q1 = new Point3D(bL.q.x, split, bL.q.z);
-            Point3D p2 = new Point3D(bR.p.x, split, bR.p.z);
+            Point3D q1 = new Point3D(bL.getQ().getX(), split, bL.getQ().getZ());
+            Point3D p2 = new Point3D(bR.getP().getX(), split, bR.getP().getZ());
 
-            voxelL = new BBox(bL.p, q1);
-            voxelR = new BBox(p2, bR.q);
+            voxelL = new BBox(bL.getP(), q1);
+            voxelR = new BBox(p2, bR.getQ());
         } else if (axis2 == Axis.Z) {
             // z
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.z <= split) {
+                if (bbox.getP().getZ() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.z >= split) {
+                if (bbox.getQ().getZ() >= split) {
                     objectsR.add(object);
                 }
             }
 
-            BBox bL = BBox.create(objectsL);
-            BBox bR = BBox.create(objectsR);
+            BBox bL = BBox.Companion.create(objectsL);
+            BBox bR = BBox.Companion.create(objectsR);
 
-            Point3D q1 = new Point3D(bL.q.x, bL.q.y, split);
-            Point3D p2 = new Point3D(bR.p.x, bR.p.y, split);
+            Point3D q1 = new Point3D(bL.getQ().getX(), bL.getQ().getY(), split);
+            Point3D p2 = new Point3D(bR.getP().getX(), bR.getP().getY(), split);
 
-            voxelL = new BBox(bL.p, q1);
-            voxelR = new BBox(p2, bR.q);
+            voxelL = new BBox(bL.getP(), q1);
+            voxelR = new BBox(p2, bR.getQ());
         }
 
         if (objects.size() == objectsL.size() || objects.size() == objectsR.size()) {

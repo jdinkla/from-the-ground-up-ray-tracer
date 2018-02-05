@@ -27,8 +27,8 @@ public class Disk extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        float nom = center.minus(ray.o).dot(normal);
-        float denom = ray.d.dot(normal);
+        float nom = center.minus(ray.getO()).dot(normal);
+        float denom = ray.getD().dot(normal);
         float t = nom / denom;
         if (t <= MathUtils.K_EPSILON) {
             return false;
@@ -46,8 +46,8 @@ public class Disk extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        float nom = center.minus(ray.o).dot(normal);
-        float denom = ray.d.dot(normal);
+        float nom = center.minus(ray.getO()).dot(normal);
+        float denom = ray.getD().dot(normal);
         float t = nom / denom;
         if (t <= MathUtils.K_EPSILON) {
             return false;

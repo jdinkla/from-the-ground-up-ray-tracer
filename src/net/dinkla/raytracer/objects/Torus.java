@@ -28,13 +28,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final double x1 = ray.o.x;
-        final double y1 = ray.o.y;
-        final double z1 = ray.o.z;
+        final double x1 = ray.getO().getX();
+        final double y1 = ray.getO().getY();
+        final double z1 = ray.getO().getZ();
 
-        final double d1 = ray.d.x;
-        final double d2 = ray.d.y;
-        final double d3 = ray.d.z;
+        final double d1 = ray.getD().getX();
+        final double d2 = ray.getD().getY();
+        final double d3 = ray.getD().getZ();
 
         double coeffs[] = new double[5];
         double roots[] = new double[4];
@@ -50,7 +50,7 @@ public class Torus extends GeometricObject {
         coeffs[3] = 4.0 * sumDSqrd * f;
         coeffs[4] = sumDSqrd * sumDSqrd;
 
-        int numRealRoots = Polynomials.solveQuartic(coeffs, roots);
+        int numRealRoots = Polynomials.INSTANCE.solveQuartic(coeffs, roots);
         boolean intersected = false;
         double t = Double.MAX_VALUE;
 
@@ -78,13 +78,13 @@ public class Torus extends GeometricObject {
         if (!bbox.hit(ray)) {
             return false;
         }
-        final float x1 = ray.o.x;
-        final float y1 = ray.o.y;
-        final float z1 = ray.o.z;
+        final float x1 = ray.getO().getX();
+        final float y1 = ray.getO().getY();
+        final float z1 = ray.getO().getZ();
 
-        final float d1 = ray.d.x;
-        final float d2 = ray.d.y;
-        final float d3 = ray.d.z;
+        final float d1 = ray.getD().getX();
+        final float d2 = ray.getD().getY();
+        final float d3 = ray.getD().getZ();
 
         float coeffs[] = new float[5];
         float roots[] = new float[4];
@@ -100,7 +100,7 @@ public class Torus extends GeometricObject {
         coeffs[3] = 4.0f * sumDSqrd * f;
         coeffs[4] = sumDSqrd * sumDSqrd;
 
-        int numRealRoots = Polynomials.solveQuartic(coeffs, roots);
+        int numRealRoots = Polynomials.INSTANCE.solveQuartic(coeffs, roots);
         boolean intersected = false;
         float t = Float.MAX_VALUE;
 
@@ -136,11 +136,11 @@ public class Torus extends GeometricObject {
 
     private Normal computeNormal(Point3D p) {
         final double paramSquared = a * a + b * b;
-        final double sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
+        final double sumSquared = p.getX() * p.getX() + p.getY() * p.getY() + p.getZ() * p.getZ();
         final double diff = sumSquared - paramSquared;
-        final double x = 4.0 * p.x * diff;
-        final double y = 4.0 * p.y * (diff + 2.0 * a * a);
-        final double z = 4.0 * p.z * diff;
+        final double x = 4.0 * p.getX() * diff;
+        final double y = 4.0 * p.getY() * (diff + 2.0 * a * a);
+        final double z = 4.0 * p.getZ() * diff;
         final Normal normal = new Normal((float)x, (float)y, (float)z).normalize();
         return normal;
     }

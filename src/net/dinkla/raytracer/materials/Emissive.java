@@ -37,7 +37,7 @@ public class Emissive<C extends Color> extends Material<C> {
     
     @Override
     public C areaLightShade(World world, Shade sr) {
-        if (sr.getNormal().negate().dot(sr.ray.d) > 0) {
+        if (sr.getNormal().negate().dot(sr.ray.getD()) > 0) {
             return getLe(sr);
         } else {
             return (C) C.getBlack();

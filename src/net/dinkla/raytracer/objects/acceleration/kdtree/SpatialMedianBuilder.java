@@ -45,8 +45,8 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
 
         Counter.count("KDtree.build.node");
 
-        Vector3D half = voxel.q.minus(voxel.p).mult(0.5f);
-        Point3D mid = voxel.p.plus(half);
+        Vector3D half = voxel.getQ().minus(voxel.getP()).mult(0.5f);
+        Point3D mid = voxel.getP().plus(half);
 
         Float split = null;
 
@@ -55,59 +55,59 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
 
         if (depth % 3 == 0) {
             // x
-            split = mid.x;
+            split = mid.getX();
 
-            Point3D q1 = new Point3D(mid.x, voxel.q.y, voxel.q.z);
-            voxelL = new BBox(voxel.p, q1);
+            Point3D q1 = new Point3D(mid.getX(), voxel.getQ().getY(), voxel.getQ().getZ());
+            voxelL = new BBox(voxel.getP(), q1);
 
-            Point3D p2 = new Point3D(mid.x, voxel.p.y, voxel.p.z);
-            voxelR = new BBox(p2, voxel.q);
+            Point3D p2 = new Point3D(mid.getX(), voxel.getP().getY(), voxel.getP().getZ());
+            voxelR = new BBox(p2, voxel.getQ());
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.x <= split) {
+                if (bbox.getP().getX() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.x >= split) {
+                if (bbox.getQ().getX() >= split) {
                     objectsR.add(object);
                 }
             }
 
         } else if (depth % 3 == 1) {
             // y
-            split = mid.y;
+            split = mid.getY();
 
-            Point3D q1 = new Point3D(voxel.q.x, mid.y, voxel.q.z);
-            voxelL = new BBox(voxel.p, q1);
+            Point3D q1 = new Point3D(voxel.getQ().getX(), mid.getY(), voxel.getQ().getZ());
+            voxelL = new BBox(voxel.getP(), q1);
 
-            Point3D p2 = new Point3D(voxel.p.x, mid.y, voxel.p.z);
-            voxelR = new BBox(p2, voxel.q);
+            Point3D p2 = new Point3D(voxel.getP().getX(), mid.getY(), voxel.getP().getZ());
+            voxelR = new BBox(p2, voxel.getQ());
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.y <= split) {
+                if (bbox.getP().getY() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.y >= split) {
+                if (bbox.getQ().getY() >= split) {
                     objectsR.add(object);
                 }
             }
         } else if (depth % 3 == 2) {
             // z
-            split = mid.z;
+            split = mid.getZ();
 
-            Point3D q1 = new Point3D(voxel.q.x, voxel.q.y, mid.z);
-            voxelL = new BBox(voxel.p, q1);
+            Point3D q1 = new Point3D(voxel.getQ().getX(), voxel.getQ().getY(), mid.getZ());
+            voxelL = new BBox(voxel.getP(), q1);
 
-            Point3D p2 = new Point3D(voxel.p.x, voxel.p.y, mid.z);
-            voxelR = new BBox(p2, voxel.q);
+            Point3D p2 = new Point3D(voxel.getP().getX(), voxel.getP().getY(), mid.getZ());
+            voxelR = new BBox(p2, voxel.getQ());
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
-                if (bbox.p.z <= split) {
+                if (bbox.getP().getZ() <= split) {
                     objectsL.add(object);
                 }
-                if (bbox.q.z >= split) {
+                if (bbox.getQ().getZ() >= split) {
                     objectsR.add(object);
                 }
             }

@@ -53,12 +53,12 @@ public class Test2Builder implements IKDTreeBuilder {
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
                 BBox clipped = bbox.clipTo(voxel);
-                candidatesX.add(clipped.p.x);
-                candidatesY.add(clipped.p.y);
-                candidatesX.add(clipped.p.z);
-                candidatesX.add(clipped.q.x);
-                candidatesY.add(clipped.q.y);
-                candidatesX.add(clipped.q.z);
+                candidatesX.add(clipped.getP().getX());
+                candidatesY.add(clipped.getP().getY());
+                candidatesX.add(clipped.getP().getZ());
+                candidatesX.add(clipped.getQ().getX());
+                candidatesY.add(clipped.getQ().getY());
+                candidatesX.add(clipped.getQ().getZ());
             }
         }
 
@@ -139,7 +139,7 @@ public class Test2Builder implements IKDTreeBuilder {
         public Split x(final Axis axis, final Set<Float> cs) {
             Split min = null;
             for (Float split : cs) {
-                if (root.bbox.p.ith(axis) <= split && split <= root.bbox.q.ith(axis)) {
+                if (root.bbox.getP().ith(axis) <= split && split <= root.bbox.getQ().ith(axis)) {
                     Split s = calcSplit(axis, split, root);
                     if (s.isOk() && (null == min || s.sah < min.sah )) {
 //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );

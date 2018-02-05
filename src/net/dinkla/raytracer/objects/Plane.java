@@ -17,8 +17,8 @@ public class Plane extends GeometricObject {
     public Normal normal;
 
     public Plane() {
-        this.point = Point3D.ORIGIN;
-        this.normal = Normal.UP;
+        this.point = Point3D.Companion.getORIGIN();
+        this.normal = Normal.Companion.getUP();
     }
     
     public Plane(Point3D point, Normal normal) {
@@ -29,9 +29,9 @@ public class Plane extends GeometricObject {
     @Override
     public boolean hit(final Ray ray, Hit sr) {
         // (point - ray.o) * normal / (ray.d * normal)
-        Vector3D v = point.minus(ray.o);
+        Vector3D v = point.minus(ray.getO());
         float nom = v.dot(normal);
-        float denom = ray.d.dot(normal);
+        float denom = ray.getD().dot(normal);
 
         float t = nom / denom;
         if (t  > MathUtils.K_EPSILON) {
@@ -45,9 +45,9 @@ public class Plane extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Vector3D v = point.minus(ray.o);
+        Vector3D v = point.minus(ray.getO());
         float nom = v.dot(normal);
-        float denom = ray.d.dot(normal);
+        float denom = ray.getD().dot(normal);
         float t = nom / denom;
         if (t  > MathUtils.K_EPSILON) {
             tmin.setT(t);
@@ -59,7 +59,7 @@ public class Plane extends GeometricObject {
 
     @Override
     public BBox getBoundingBox() {
-        return new BBox(Point3D.MIN, Point3D.MAX);
+        return new BBox(Point3D.Companion.getMIN(), Point3D.Companion.getMAX());
     }
 
     @Override

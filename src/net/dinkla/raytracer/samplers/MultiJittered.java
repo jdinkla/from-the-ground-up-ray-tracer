@@ -23,8 +23,8 @@ public class MultiJittered extends Generator {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     final int target = i * n + j + p * numSamples;
-                    final float x = (i * n + j) * subcell_width + Random.randFloat(0, subcell_width);
-                    final float y = (j * n + i) * subcell_width + Random.randFloat(0, subcell_width);
+                    final float x = (i * n + j) * subcell_width + Random.INSTANCE.randFloat(0, subcell_width);
+                    final float y = (j * n + i) * subcell_width + Random.INSTANCE.randFloat(0, subcell_width);
                     samples.add(target, new Point2D(x, y));
                 }
             }
@@ -34,12 +34,12 @@ public class MultiJittered extends Generator {
         for (int p = 0; p < numSets; p++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    int k = Random.randInt(j, n);
+                    int k = Random.INSTANCE.randInt(j, n);
                     int source = i * n + j + p * numSamples;
                     int target = i * n + k + p * numSamples;
-                    float temp = samples.get(source).x;
-                    samples.set(source, new Point2D(samples.get(target).x, samples.get(source).y));
-                    samples.set(target, new Point2D(temp, samples.get(target).y));
+                    float temp = samples.get(source).getX();
+                    samples.set(source, new Point2D(samples.get(target).getX(), samples.get(source).getY()));
+                    samples.set(target, new Point2D(temp, samples.get(target).getY()));
                 }
             }
         }
@@ -48,12 +48,12 @@ public class MultiJittered extends Generator {
         for (int p = 0; p < numSets; p++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    int k = Random.randInt(j, n);
+                    int k = Random.INSTANCE.randInt(j, n);
                     int target = k * n + i + p * numSamples;
                     int source = j * n + i + p * numSamples;
-                    float temp = samples.get(source).y;
-                    samples.set(source, new Point2D(samples.get(source).x, samples.get(target).y));
-                    samples.set(target, new Point2D(samples.get(target).x, temp));
+                    float temp = samples.get(source).getY();
+                    samples.set(source, new Point2D(samples.get(source).getX(), samples.get(target).getY()));
+                    samples.set(target, new Point2D(samples.get(target).getX(), temp));
                 }
             }
         }

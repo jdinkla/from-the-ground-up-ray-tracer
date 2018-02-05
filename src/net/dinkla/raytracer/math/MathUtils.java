@@ -22,16 +22,16 @@ public class MathUtils {
     }
 
     public static Point3D minMin(Point3D p, Point3D q, Point3D r) {
-        float x = Math.min(Math.min(p.x, q.x), r.x);
-        float y = Math.min(Math.min(p.y, q.y), r.y);
-        float z = Math.min(Math.min(p.z, q.z), r.z);
+        float x = Math.min(Math.min(p.getX(), q.getX()), r.getX());
+        float y = Math.min(Math.min(p.getY(), q.getY()), r.getY());
+        float z = Math.min(Math.min(p.getZ(), q.getZ()), r.getZ());
         return new Point3D(x, y, z);
     }
 
     public static Point3D maxMax(Point3D p, Point3D q, Point3D r) {
-        float x = Math.max(Math.max(p.x, q.x), r.x);
-        float y = Math.max(Math.max(p.y, q.y), r.y);
-        float z = Math.max(Math.max(p.z, q.z), r.z);
+        float x = Math.max(Math.max(p.getX(), q.getX()), r.getX());
+        float y = Math.max(Math.max(p.getY(), q.getY()), r.getY());
+        float z = Math.max(Math.max(p.getZ(), q.getZ()), r.getZ());
         return new Point3D(x, y, z);
     }
 

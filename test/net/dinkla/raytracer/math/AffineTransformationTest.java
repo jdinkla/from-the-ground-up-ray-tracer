@@ -58,7 +58,7 @@ public class AffineTransformationTest {
     public void testShear() throws Exception {
         AffineTransformation t = new AffineTransformation();
         Matrix m = new Matrix();
-        m.m[1][1] = 2.34f;
+        m.getM()[1][1] = 2.34f;
         t.shear(m);
 
         // TODO: shear funktioniert nicht wie erwartet
@@ -75,9 +75,9 @@ public class AffineTransformationTest {
     }
 
     private void assertEq(Point3D p, Point3D q) {
-        assertEquals(p.x, q.x, DELTA); //, "x differs in " + p + " and " + q);
-        assertEquals(p.y, q.y, DELTA); //, "y differs in " + p + " and " + q);
-        assertEquals(p.z, q.z, DELTA); //, "z differs in " + p + " and " + q);
+        assertEquals(p.getX(), q.getX(), DELTA); //, "x differs in " + p + " and " + q);
+        assertEquals(p.getY(), q.getY(), DELTA); //, "y differs in " + p + " and " + q);
+        assertEquals(p.getZ(), q.getZ(), DELTA); //, "z differs in " + p + " and " + q);
     }
 
     private void testT(AffineTransformation t, final Point3D p, final Point3D pInv, final Point3D pFor) {

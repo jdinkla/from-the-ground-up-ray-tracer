@@ -32,7 +32,7 @@ public class KDTreeTest {
         ls.add(s3);
         ls.add(s4);
 
-        BBox bbox = BBox.create(ls);
+        BBox bbox = BBox.Companion.create(ls);
         
 // TODO MOVE        AbstractNode tree = KDTree.build(ls, bbox, 0);
 

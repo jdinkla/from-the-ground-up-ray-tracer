@@ -23,13 +23,13 @@ public class RandomTest {
     @Test
     public void randInt() {
         for (int i=0; i<NUM; i++) {
-            int r = Random.randInt(10);
+            int r = Random.INSTANCE.randInt(10);
             assert 0 <= r;
             assert r < 10;
         }
 
         for (int i=0; i<NUM; i++) {
-            int r = Random.randInt(18, 44);
+            int r = Random.INSTANCE.randInt(18, 44);
             assert 18 <= r;
             assert r < 44;
         }
@@ -38,7 +38,7 @@ public class RandomTest {
     @Test
     public void randFloat() {
         for (int i=0; i<NUM; i++) {
-            float r = Random.randFloat();
+            float r = Random.INSTANCE.randFloat();
             assert 0.0f <= r;
             assert r < 1.0f;
         }
@@ -49,7 +49,7 @@ public class RandomTest {
         List<Integer> ls = new ArrayList<Integer>();
 
         assertEquals(0, ls.size());
-        Random.randomShuffle(ls);
+        Random.INSTANCE.randomShuffle(ls);
         assertEquals(0, ls.size());
 
         ls.add(11);
@@ -63,7 +63,7 @@ public class RandomTest {
         Histogram i2 = new Histogram();
 
         for (int i=0; i<NUM; i++) {
-            Random.randomShuffle(ls);
+            Random.INSTANCE.randomShuffle(ls);
             assertEquals(3, ls.size());
             assertTrue(11 == ls.get(0) || 11 == ls.get(1) || 11 == ls.get(2));
             assertTrue(12 == ls.get(0) || 12 == ls.get(1) || 12 == ls.get(2));

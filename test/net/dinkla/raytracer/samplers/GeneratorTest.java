@@ -35,8 +35,8 @@ public abstract class GeneratorTest {
     @Test
     public void betweenZeroAndOne() {
         for (Point2D p : samples) {
-            assert p.x >= 0.0f && p.x < 1.0f;
-            assert p.y >= 0.0f && p.y < 1.0f;
+            assert p.getX() >= 0.0f && p.getX() < 1.0f;
+            assert p.getY() >= 0.0f && p.getY() < 1.0f;
         }
     }
 
@@ -47,8 +47,8 @@ public abstract class GeneratorTest {
         Histogram histXY = new Histogram();
 
         for (Point2D p : samples) {
-            final int x = (int) (p.x * 10);
-            final int y = (int) (p.y * 10);
+            final int x = (int) (p.getX() * 10);
+            final int y = (int) (p.getY() * 10);
             histX.add(x);
             histY.add(y);
             histXY.add(x * 10 + y);

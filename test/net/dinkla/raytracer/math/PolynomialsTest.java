@@ -21,7 +21,7 @@ public class PolynomialsTest {
         float[] s1 = { -16.0f, 0.0f, 1.0f };
         float[] sol = { 0.0f, 0.0f };
 
-        int num = Polynomials.solveQuadric(s1, sol);
+        int num = Polynomials.INSTANCE.solveQuadric(s1, sol);
 
         assertEquals(2, num);
         assertEquals(4.0f, sol[0]);
@@ -35,7 +35,7 @@ public class PolynomialsTest {
         float[] s1 = { 1.2f, -3.2f, 1.7f, 2.5f, -1.02f};
         float[] sol = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-        int num = Polynomials.solveQuartic(s1, sol);
+        int num = Polynomials.INSTANCE.solveQuartic(s1, sol);
 
         System.out.println("num=" + num);
         for (float f : sol) {
@@ -50,22 +50,22 @@ public class PolynomialsTest {
         float[] s1 = { 0.0f, 0.0f, 0.0f, 1.0f };
         float[] sol = { 0.0f, 0.0f, 0.0f };
 
-        int num = Polynomials.solveCubic(s1, sol);
+        int num = Polynomials.INSTANCE.solveCubic(s1, sol);
         assertEquals(1, num);
         assertEquals(0.0f, sol[0]);
 
         float[] s2 = { 8.0f, 0.0f, 0.0f, 1.0f };
-        num = Polynomials.solveCubic(s2, sol);
+        num = Polynomials.INSTANCE.solveCubic(s2, sol);
         assertEquals(1, num);
         assertEquals(-2.0f, sol[0]);
 
         float[] s3 = { -8.0f, 0.0f, 0.0f, 1.0f };
-        num = Polynomials.solveCubic(s3, sol);
+        num = Polynomials.INSTANCE.solveCubic(s3, sol);
         assertEquals(1, num);
         assertEquals(2.0f, sol[0]);
 
         float[] s4 = { 1.2f, -3.2f, 1.7f, 2.5f };
-        num = Polynomials.solveCubic(s4, sol);
+        num = Polynomials.INSTANCE.solveCubic(s4, sol);
         assertEquals(1, num);
         assertEquals(-1.63938f, sol[0], 0.00001f);
 

@@ -37,7 +37,7 @@ public class Reflective<C extends Color> extends Phong<C> {
     @Override
     public C shade(World<C> world, Shade sr) {
         final C L = super.shade(world, sr);
-        final Vector3D wo = sr.ray.d.negate();
+        final Vector3D wo = sr.ray.getD().negate();
         final BRDF.Sample sample = reflectiveBrdf.sampleF(sr, wo);
         float f = sr.getNormal().dot(sample.wi);
         final Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);

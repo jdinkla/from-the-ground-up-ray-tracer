@@ -28,18 +28,18 @@ public class LightProbeMap extends Mapping {
     public Mapped getTexelCoordinates(Point3D p, Resolution res) {
         Mapped result = new Mapped();
 
-        float d = (float) Math.sqrt(p.x * p.x + p.y * p.y);
-        float sinBeta = p.y / d;
-        float cosBeta = p.x / d;
+        float d = (float) Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
+        float sinBeta = p.getY() / d;
+        float cosBeta = p.getX() / d;
 
         float alpha;
 
         switch (type) {
             case LIGHT_PROBE:
-                alpha = (float) Math.acos(p.z);
+                alpha = (float) Math.acos(p.getZ());
                 break;
             case PANORAMIC:
-                alpha = (float) Math.acos(-p.z);
+                alpha = (float) Math.acos(-p.getZ());
                 break;
             default:
                 throw new RuntimeException("LightProbeMap.getTexelCoordinates unknown type");

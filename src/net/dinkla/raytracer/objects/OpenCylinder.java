@@ -29,12 +29,12 @@ public class OpenCylinder extends GeometricObject {
     public boolean hit(final Ray ray, Hit sr) {
 
         float t;
-        float ox = ray.o.x;
-        float oy = ray.o.y;
-        float oz = ray.o.z;
-        float dx = ray.d.x;
-        float dy = ray.d.y;
-        float dz = ray.d.z;
+        float ox = ray.getO().getX();
+        float oy = ray.getO().getY();
+        float oz = ray.getO().getZ();
+        float dx = ray.getD().getX();
+        float dy = ray.getD().getY();
+        float dz = ray.getD().getZ();
 
         float a = dx * dx + dz * dz;
         float b = 2.0f * (ox * dx + oz * dz);
@@ -54,7 +54,7 @@ public class OpenCylinder extends GeometricObject {
                     sr.setT(t);
                     sr.setNormal(new Normal((ox + t * dx) * invRadius, 0.0f, (oz + t * dz) * invRadius));
                     // test for hitting from inside
-                    if (ray.d.mult(-1).dot(sr.getNormal()) < 0.0) {
+                    if (ray.getD().mult(-1).dot(sr.getNormal()) < 0.0) {
                         sr.setNormal(new Normal(sr.getNormal().mult(-1)));
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
@@ -69,7 +69,7 @@ public class OpenCylinder extends GeometricObject {
                     sr.setT(t);
                     sr.setNormal(new Normal((ox + t * dx) * invRadius, 0.0f, (oz + t * dz) * invRadius));
                     // test for hitting inside surface
-                    if (ray.d.mult(-1).dot(sr.getNormal()) < 0.0) {
+                    if (ray.getD().mult(-1).dot(sr.getNormal()) < 0.0) {
                         sr.setNormal(new Normal(sr.getNormal().mult(-1)));
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
@@ -84,12 +84,12 @@ public class OpenCylinder extends GeometricObject {
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
         float t;
-        float ox = ray.o.x;
-        float oy = ray.o.y;
-        float oz = ray.o.z;
-        float dx = ray.d.x;
-        float dy = ray.d.y;
-        float dz = ray.d.z;
+        float ox = ray.getO().getX();
+        float oy = ray.getO().getY();
+        float oz = ray.getO().getZ();
+        float dx = ray.getD().getX();
+        float dy = ray.getD().getY();
+        float dz = ray.getD().getZ();
 
         float a = dx * dx + dz * dz;
         float b = 2.0f * (ox * dx + oz * dz);

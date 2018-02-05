@@ -64,9 +64,9 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
         Vector3D v = u.cross(w);
 
         Point3D sp = sampler.sampleSphere();
-        sample.wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z));
+        sample.wi = u.mult(sp.getX()).plus(v.mult(sp.getY())).plus(w.mult(sp.getZ()));
         if (sample.wi.dot(sr.getNormal()) < 0.0f) {
-            sample.wi = u.mult(-sp.x).plus(v.mult(-sp.y)).plus(w.mult(-sp.z));
+            sample.wi = u.mult(-sp.getX()).plus(v.mult(-sp.getY())).plus(w.mult(-sp.getZ()));
         }
 
         float phongLobe = (float) Math.pow(sample.wi.dot(w), exp);

@@ -18,7 +18,7 @@ public class PureRandom extends Generator {
         assert samples != null;
         for (int p = 0; p < numSets; p++) {
             for (int q = 0; q < numSamples; q++) {
-                samples.add(new Point2D(Random.randFloat(), Random.randFloat()));
+                samples.add(new Point2D(Random.INSTANCE.randFloat(), Random.INSTANCE.randFloat()));
             }
         }
     }

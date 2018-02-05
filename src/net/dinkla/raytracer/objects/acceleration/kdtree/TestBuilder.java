@@ -55,7 +55,7 @@ public class TestBuilder implements IKDTreeBuilder {
             }
 
             public void update() {
-                bbox = BBox.create(objects);
+                bbox = BBox.Companion.create(objects);
                 volume = bbox.getVolume();
             }
         }
@@ -114,11 +114,11 @@ public class TestBuilder implements IKDTreeBuilder {
 
         public Split x(final Axis axis, final int num) {
             Split min = null;
-            float width = root.bbox.q.ith(axis) - root.bbox.p.ith(axis);
+            float width = root.bbox.getQ().ith(axis) - root.bbox.getP().ith(axis);
             // divide interval in num parts
             final float step = width / (num + 1);
             for (int i=1; i<num;i++) {
-                float split = root.bbox.p.ith(axis) + i * step;
+                float split = root.bbox.getP().ith(axis) + i * step;
                 Split s = calcSplit(axis, split, root);
                 if (s.isOk() && (null == min || s.sah < min.sah )) {
 //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );

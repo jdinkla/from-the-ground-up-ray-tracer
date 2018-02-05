@@ -40,13 +40,13 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
     public C L(World<C> world, Shade sr) {
         Vector3D w = new Vector3D(sr.getNormal());
         // jitter up vector in case normal is vertical
-        Vector3D v = w.cross(Vector3D.JITTER).normalize();
+        Vector3D v = w.cross(Vector3D.Companion.getJITTER()).normalize();
         Vector3D u = v.cross(w);
 
         int numHits = 0;
         for (int i = 0; i < numSamples; i++) {
             Point3D p = sampler.sampleHemisphere();
-            Vector3D dir = u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z));
+            Vector3D dir = u.mult(p.getX()).plus(v.mult(p.getY())).plus(w.mult(p.getZ()));
             Ray shadowRay = new Ray(sr.getHitPoint(), dir);
             if (inShadow(world, shadowRay, sr)) {
                 numHits++;
@@ -60,9 +60,9 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
     public Vector3D getDirection(Shade sr) {
         Point3D p = sampler.sampleHemisphere();
         Vector3D w = new Vector3D(sr.getNormal());
-        Vector3D v = w.cross(Vector3D.JITTER).normalize();
+        Vector3D v = w.cross(Vector3D.Companion.getJITTER()).normalize();
         Vector3D u = v.cross(w);
-        return u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z));
+        return u.mult(p.getX()).plus(v.mult(p.getY())).plus(w.mult(p.getZ()));
     }
 
     @Override

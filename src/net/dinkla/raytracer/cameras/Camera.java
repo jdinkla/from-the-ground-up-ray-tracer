@@ -37,7 +37,7 @@ public class Camera<C extends Color> {
     public Camera(final ILens lens, final IRenderer render2) {
         this.lens = lens;
         this.render2 = render2;
-        setup(Point3D.DEFAULT_CAMERA, Point3D.ORIGIN, Vector3D.UP);
+        setup(Point3D.Companion.getDEFAULT_CAMERA(), Point3D.Companion.getORIGIN(), Vector3D.Companion.getUP());
     }
 
     public final void setup(Point3D eye, Point3D lookAt, Vector3D up) {

@@ -55,7 +55,7 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
 
     @Override
     public boolean isTir(Shade sr) {
-        Vector3D wo = sr.ray.d.mult(-1);
+        Vector3D wo = sr.ray.getD().mult(-1);
         float cosThetaI = wo.dot(sr.getNormal());
         float eta = ior;
         if (cosThetaI < 0) {

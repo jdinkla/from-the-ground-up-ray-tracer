@@ -25,27 +25,27 @@ public class SmoothTriangle extends GeometricObject {
         this.v0 = v0;
         this.v1 = v1;
         this.v2 = v2;
-        n0 = Normal.UP;
-        n1 = Normal.UP;
-        n2 = Normal.UP;
+        n0 = Normal.Companion.getUP();
+        n1 = Normal.Companion.getUP();
+        n2 = Normal.Companion.getUP();
     }
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        float a = v0.x - v1.x;
-        float b = v0.x - v2.x;
-        float c = ray.d.x;
-        float d = v0.x - ray.o.x;
+        float a = v0.getX() - v1.getX();
+        float b = v0.getX() - v2.getX();
+        float c = ray.getD().getX();
+        float d = v0.getX() - ray.getO().getX();
 
-        float e = v0.y - v1.y;
-        float f = v0.y - v2.y;
-        float g = ray.d.y;
-        float h = v0.y - ray.o.y;
+        float e = v0.getY() - v1.getY();
+        float f = v0.getY() - v2.getY();
+        float g = ray.getD().getY();
+        float h = v0.getY() - ray.getO().getY();
 
-        float i = v0.z - v1.z;
-        float j = v0.z - v2.z;
-        float k = ray.d.z;
-        float l = v0.z - ray.o.z;
+        float i = v0.getZ() - v1.getZ();
+        float j = v0.getZ() - v2.getZ();
+        float k = ray.getD().getZ();
+        float l = v0.getZ() - ray.getO().getZ();
 
         float m = f * k - g * j;
         float n = h * k - g * l;
@@ -97,20 +97,20 @@ public class SmoothTriangle extends GeometricObject {
 
     @Override
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
-        float a = v0.x - v1.x;
-        float b = v0.x - v2.x;
-        float c = ray.d.x;
-        float d = v0.x - ray.o.x;
+        float a = v0.getX() - v1.getX();
+        float b = v0.getX() - v2.getX();
+        float c = ray.getD().getX();
+        float d = v0.getX() - ray.getO().getX();
 
-        float e = v0.y - v1.y;
-        float f = v0.y - v2.y;
-        float g = ray.d.y;
-        float h = v0.y - ray.o.y;
+        float e = v0.getY() - v1.getY();
+        float f = v0.getY() - v2.getY();
+        float g = ray.getD().getY();
+        float h = v0.getY() - ray.getO().getY();
 
-        float i = v0.z - v1.z;
-        float j = v0.z - v2.z;
-        float k = ray.d.z;
-        float l = v0.z - ray.o.z;
+        float i = v0.getZ() - v1.getZ();
+        float j = v0.getZ() - v2.getZ();
+        float k = ray.getD().getZ();
+        float l = v0.getZ() - ray.getO().getZ();
 
         float m = f * k - g * j;
         float n = h * k - g * l;
@@ -152,7 +152,7 @@ public class SmoothTriangle extends GeometricObject {
 
     @Override
     public BBox getBoundingBox() {
-        return BBox.create(v0, v1, v2);
+        return BBox.Companion.create(v0, v1, v2);
     }
 
     public Normal getN0() {

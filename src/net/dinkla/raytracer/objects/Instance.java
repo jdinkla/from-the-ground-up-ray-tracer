@@ -52,8 +52,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        Point3D ro = trans.invMatrix.mult(ray.o);
-        Vector3D rd = trans.invMatrix.mult(ray.d); 
+        Point3D ro = trans.invMatrix.mult(ray.getO());
+        Vector3D rd = trans.invMatrix.mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.hit(invRay, sr)) {
             // TODO: Instance hit?
@@ -71,8 +71,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Point3D ro = trans.invMatrix.mult(ray.o);
-        Vector3D rd = trans.invMatrix.mult(ray.d);
+        Point3D ro = trans.invMatrix.mult(ray.getO());
+        Vector3D rd = trans.invMatrix.mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.shadowHit(invRay, tmin)) {
             return true;
@@ -90,15 +90,15 @@ public class Instance extends GeometricObject {
         float vy[] = new float[8];
         float vz[] = new float[8];
 
-        vx[0] = objectBbox.p.x; vy[0] = objectBbox.p.y; vz[0] = objectBbox.p.z;
-        vx[1] = objectBbox.q.x; vy[1] = objectBbox.p.y; vz[1] = objectBbox.p.z;
-        vx[2] = objectBbox.q.x; vy[2] = objectBbox.q.y; vz[2] = objectBbox.p.z;
-        vx[3] = objectBbox.p.x; vy[3] = objectBbox.q.y; vz[3] = objectBbox.p.z;
+        vx[0] = objectBbox.getP().getX(); vy[0] = objectBbox.getP().getY(); vz[0] = objectBbox.getP().getZ();
+        vx[1] = objectBbox.getQ().getX(); vy[1] = objectBbox.getP().getY(); vz[1] = objectBbox.getP().getZ();
+        vx[2] = objectBbox.getQ().getX(); vy[2] = objectBbox.getQ().getY(); vz[2] = objectBbox.getP().getZ();
+        vx[3] = objectBbox.getP().getX(); vy[3] = objectBbox.getQ().getY(); vz[3] = objectBbox.getP().getZ();
 
-        vx[4] = objectBbox.p.x; vy[4] = objectBbox.p.y; vz[4] = objectBbox.q.z;
-        vx[5] = objectBbox.q.x; vy[5] = objectBbox.p.y; vz[5] = objectBbox.q.z;
-        vx[6] = objectBbox.q.x; vy[6] = objectBbox.q.y; vz[6] = objectBbox.q.z;
-        vx[7] = objectBbox.p.x; vy[7] = objectBbox.q.y; vz[7] = objectBbox.q.z;
+        vx[4] = objectBbox.getP().getX(); vy[4] = objectBbox.getP().getY(); vz[4] = objectBbox.getQ().getZ();
+        vx[5] = objectBbox.getQ().getX(); vy[5] = objectBbox.getP().getY(); vz[5] = objectBbox.getQ().getZ();
+        vx[6] = objectBbox.getQ().getX(); vy[6] = objectBbox.getQ().getY(); vz[6] = objectBbox.getQ().getZ();
+        vx[7] = objectBbox.getP().getX(); vy[7] = objectBbox.getQ().getY(); vz[7] = objectBbox.getQ().getZ();
 
         // Transform these using the forward matrix
         for (int i=0; i<8;i++) {
@@ -113,18 +113,18 @@ public class Instance extends GeometricObject {
         float z0 = MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++)  {
-            if (v[j].x < x0)
-                x0 = v[j].x;
+            if (v[j].getX() < x0)
+                x0 = v[j].getX();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].y < y0)
-                y0 = v[j].y;
+            if (v[j].getY() < y0)
+                y0 = v[j].getY();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].z < z0)
-                z0 = v[j].z;
+            if (v[j].getZ() < z0)
+                z0 = v[j].getZ();
         }
 
         // Compute the minimum values
@@ -134,18 +134,18 @@ public class Instance extends GeometricObject {
         float z1 = -MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].x > x1)
-                x1 = v[j].x;
+            if (v[j].getX() > x1)
+                x1 = v[j].getX();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].y > y1)
-                y1 = v[j].y;
+            if (v[j].getY() > y1)
+                y1 = v[j].getY();
         }
 
         for (int j = 0; j <= 7; j++) {
-            if (v[j].z > z1)
-                z1 = v[j].z;
+            if (v[j].getZ() > z1)
+                z1 = v[j].getZ();
         }
 
         // Assign values to the bounding box

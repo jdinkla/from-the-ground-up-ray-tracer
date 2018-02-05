@@ -46,7 +46,7 @@ public class PointLight<C extends Color> extends Light<C> {
 
     @Override
     public boolean inShadow(World<C> world, Ray ray, Shade sr) {
-        float d = location.minus(ray.o).length();
+        float d = location.minus(ray.getO()).length();
         return world.inShadow(ray, sr, d);
     }
 

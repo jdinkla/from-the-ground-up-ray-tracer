@@ -50,8 +50,8 @@ public class Rectangle extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        final float nom = p0.minus(ray.o).dot(normal);
-        final float denom = ray.d.dot(normal);
+        final float nom = p0.minus(ray.getO()).dot(normal);
+        final float denom = ray.getD().dot(normal);
         final float t = nom / denom;
 
         if (t <= MathUtils.K_EPSILON) {
@@ -79,8 +79,8 @@ public class Rectangle extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        final float nom = p0.minus(ray.o).dot(normal);
-        final float denom = ray.d.dot(normal);
+        final float nom = p0.minus(ray.getO()).dot(normal);
+        final float denom = ray.getD().dot(normal);
         final float t = nom / denom;
 
         if (t <= MathUtils.K_EPSILON) {
@@ -115,45 +115,45 @@ public class Rectangle extends GeometricObject {
 
         float x0 = Float.POSITIVE_INFINITY;
         float x1 = Float.NEGATIVE_INFINITY;
-        if (v0.x < x0) {
-            x0 = v0.x;
+        if (v0.getX() < x0) {
+            x0 = v0.getX();
         }
-        if (v1.x < x0) {
-            x0 = v1.x;
+        if (v1.getX() < x0) {
+            x0 = v1.getX();
         }
-        if (v0.x > x1) {
-            x1 = v0.x;
+        if (v0.getX() > x1) {
+            x1 = v0.getX();
         }
-        if (v1.x > x1) {
-            x1 = v1.x;
+        if (v1.getX() > x1) {
+            x1 = v1.getX();
         }
         float y0 = Float.POSITIVE_INFINITY;
         float y1 = Float.NEGATIVE_INFINITY;
-        if (v0.y < y0) {
-            y0 = v0.y;
+        if (v0.getY() < y0) {
+            y0 = v0.getY();
         }
-        if (v1.y < y0) {
-            y0 = v1.y;
+        if (v1.getY() < y0) {
+            y0 = v1.getY();
         }
-        if (v0.y > y1) {
-            y1 = v0.y;
+        if (v0.getY() > y1) {
+            y1 = v0.getY();
         }
-        if (v1.y > y1) {
-            y1 = v1.y;
+        if (v1.getY() > y1) {
+            y1 = v1.getY();
         }
         float z0 = Float.POSITIVE_INFINITY;
         float z1 = Float.NEGATIVE_INFINITY;
-        if (v0.z < z0) {
-            z0 = v0.z;
+        if (v0.getZ() < z0) {
+            z0 = v0.getZ();
         }
-        if (v1.z < z0) {
-            z0 = v1.z;
+        if (v1.getZ() < z0) {
+            z0 = v1.getZ();
         }
-        if (v0.z > z1) {
-            z1 = v0.z;
+        if (v0.getZ() > z1) {
+            z1 = v0.getZ();
         }
-        if (v1.z > z1) {
-            z1 = v1.z;
+        if (v1.getZ() > z1) {
+            z1 = v1.getZ();
         }
         return new BBox(new Point3D(x0, y0, z0), new Point3D(x1, y1, z1));
     }

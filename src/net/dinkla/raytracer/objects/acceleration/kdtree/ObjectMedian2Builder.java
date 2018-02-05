@@ -85,7 +85,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.X;
             ListUtilities.sortByAxis(objects, axis);
             GeometricObject median = objects.get(medianIndex);
-            splitX = median.getBoundingBox().q.ith(axis);
+            splitX = median.getBoundingBox().getQ().ith(axis);
             ListUtilities.splitByAxis(objects, splitX, axis, objectsLx, objectsRx);
             int weightX = weight(objectsLx.size(), objectsRx.size(), size);
 
@@ -93,7 +93,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.Y;
             ListUtilities.sortByAxis(objects, axis);
             median = objects.get(medianIndex);
-            splitY = median.getBoundingBox().q.ith(axis);
+            splitY = median.getBoundingBox().getQ().ith(axis);
             ListUtilities.splitByAxis(objects, splitY, axis, objectsLy, objectsRy);
             int weightY = weight(objectsLy.size(), objectsRy.size(), size);
 
@@ -101,7 +101,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             axis = Axis.Z;
             ListUtilities.sortByAxis(objects, axis);
             median = objects.get(medianIndex);
-            splitZ = median.getBoundingBox().q.ith(axis);
+            splitZ = median.getBoundingBox().getQ().ith(axis);
             ListUtilities.splitByAxis(objects, splitZ, axis, objectsLz, objectsRz);
             int weightZ = weight(objectsLz.size(), objectsRz.size(), size);
 
@@ -128,14 +128,14 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
         public void select() {
             if (axis == Axis.X) {
                 // x
-                BBox bL = BBox.create(objectsLx);
-                BBox bR = BBox.create(objectsRx);
+                BBox bL = BBox.Companion.create(objectsLx);
+                BBox bR = BBox.Companion.create(objectsRx);
 
-                Point3D q1x = new Point3D(splitX, bL.q.y, bL.q.z);
-                Point3D p2x = new Point3D(splitX, bR.p.y, bR.p.z);
+                Point3D q1x = new Point3D(splitX, bL.getQ().getY(), bL.getQ().getZ());
+                Point3D p2x = new Point3D(splitX, bR.getP().getY(), bR.getP().getZ());
 
-                voxelL = new BBox(bL.p, q1x);
-                voxelR = new BBox(p2x, bR.q);
+                voxelL = new BBox(bL.getP(), q1x);
+                voxelR = new BBox(p2x, bR.getQ());
 
                 objectsL = objectsLx;
                 objectsR = objectsRx;
@@ -143,14 +143,14 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 split = splitX;
             } else if (axis == Axis.Y) {
                 // y
-                BBox bL = BBox.create(objectsLy);
-                BBox bR = BBox.create(objectsRy);
+                BBox bL = BBox.Companion.create(objectsLy);
+                BBox bR = BBox.Companion.create(objectsRy);
 
-                Point3D q1 = new Point3D(bL.q.x, splitY, bL.q.z);
-                Point3D p2 = new Point3D(bR.p.x, splitY, bR.p.z);
+                Point3D q1 = new Point3D(bL.getQ().getX(), splitY, bL.getQ().getZ());
+                Point3D p2 = new Point3D(bR.getP().getX(), splitY, bR.getP().getZ());
 
-                voxelL = new BBox(bL.p, q1);
-                voxelR = new BBox(p2, bR.q);
+                voxelL = new BBox(bL.getP(), q1);
+                voxelR = new BBox(p2, bR.getQ());
 
                 objectsL = objectsLy;
                 objectsR = objectsRy;
@@ -158,14 +158,14 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
                 split = splitY;
             } else if (axis == Axis.Z) {
                 // z
-                BBox bL = BBox.create(objectsLz);
-                BBox bR = BBox.create(objectsRz);
+                BBox bL = BBox.Companion.create(objectsLz);
+                BBox bR = BBox.Companion.create(objectsRz);
 
-                Point3D q1 = new Point3D(bL.q.x, bL.q.y, splitZ);
-                Point3D p2 = new Point3D(bR.p.x, bR.p.y, splitZ);
+                Point3D q1 = new Point3D(bL.getQ().getX(), bL.getQ().getY(), splitZ);
+                Point3D p2 = new Point3D(bR.getP().getX(), bR.getP().getY(), splitZ);
 
-                voxelL = new BBox(bL.p, q1);
-                voxelR = new BBox(p2, bR.q);
+                voxelL = new BBox(bL.getP(), q1);
+                voxelR = new BBox(p2, bR.getQ());
 
                 objectsL = objectsLz;
                 objectsR = objectsRz;

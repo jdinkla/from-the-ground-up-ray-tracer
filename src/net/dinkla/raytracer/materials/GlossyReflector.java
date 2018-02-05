@@ -37,7 +37,7 @@ public class GlossyReflector extends Phong {
     @Override
     public Color areaLightShade(World world, Shade sr) {
         Color L = super.areaLightShade(world, sr);
-        final Vector3D wo = sr.ray.d.negate();
+        final Vector3D wo = sr.ray.getD().negate();
         final BRDF.Sample result = glossySpecularBrdf.sampleF(sr, wo);
         final Ray reflectedRay = new Ray(sr.getHitPoint(), result.wi);
         final Color r = world.getTracer().trace(reflectedRay, sr.depth +1);

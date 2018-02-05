@@ -28,9 +28,9 @@ public class SmoothMeshTriangle extends MeshTriangle {
         Point3D v1 = mesh.vertices.get(index1);
         Point3D v2 = mesh.vertices.get(index2);
 
-        float a = v0.x - v1.x, b = v0.x - v2.x, c = ray.d.x, d = v0.x - ray.o.x;
-        float e = v0.y - v1.y, f = v0.y - v2.y, g = ray.d.y, h = v0.y - ray.o.y;
-        float i = v0.z - v1.z, j = v0.z - v2.z, k = ray.d.z, l = v0.z - ray.o.z;
+        float a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getD().getX(), d = v0.getX() - ray.getO().getX();
+        float e = v0.getY() - v1.getY(), f = v0.getY() - v2.getY(), g = ray.getD().getY(), h = v0.getY() - ray.getO().getY();
+        float i = v0.getZ() - v1.getZ(), j = v0.getZ() - v2.getZ(), k = ray.getD().getZ(), l = v0.getZ() - ray.getO().getZ();
 
         float m = f * k - g * j, n = h * k - g * l, p = f * l - h * j;
         float q = g * i - e * k, s = e * j - f * i;

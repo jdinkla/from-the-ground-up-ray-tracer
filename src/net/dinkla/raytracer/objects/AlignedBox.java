@@ -26,31 +26,31 @@ public class AlignedBox extends GeometricObject {
         float tx_min, ty_min, tz_min;
         float tx_max, ty_max, tz_max;
 
-        float a = 1.0f / ray.d.x;
+        float a = 1.0f / ray.getD().getX();
         if (a >= 0) {
-            tx_min = (p.x - ray.o.x) * a;
-            tx_max = (q.x - ray.o.x) * a;
+            tx_min = (p.getX() - ray.getO().getX()) * a;
+            tx_max = (q.getX() - ray.getO().getX()) * a;
         } else {
-            tx_min = (q.x - ray.o.x) * a;
-            tx_max = (p.x - ray.o.x) * a;
+            tx_min = (q.getX() - ray.getO().getX()) * a;
+            tx_max = (p.getX() - ray.getO().getX()) * a;
         }
 
-        float b = 1.0f / ray.d.y;
+        float b = 1.0f / ray.getD().getY();
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b;
-            ty_max = (q.y - ray.o.y) * b;
+            ty_min = (p.getY() - ray.getO().getY()) * b;
+            ty_max = (q.getY() - ray.getO().getY()) * b;
         } else {
-            ty_min = (q.y - ray.o.y) * b;
-            ty_max = (p.y - ray.o.y) * b;
+            ty_min = (q.getY() - ray.getO().getY()) * b;
+            ty_max = (p.getY() - ray.getO().getY()) * b;
         }
 
-        float c = 1.0f / ray.d.z;
+        float c = 1.0f / ray.getD().getZ();
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c;
-            tz_max = (q.z - ray.o.z) * c;
+            tz_min = (p.getZ() - ray.getO().getZ()) * c;
+            tz_max = (q.getZ() - ray.getO().getZ()) * c;
         } else {
-            tz_min = (q.z - ray.o.z) * c;
-            tz_max = (p.z - ray.o.z) * c;
+            tz_min = (q.getZ() - ray.getO().getZ()) * c;
+            tz_max = (p.getZ() - ray.getO().getZ()) * c;
         }
 
         float t0, t1;
@@ -100,31 +100,31 @@ public class AlignedBox extends GeometricObject {
         float tx_min, ty_min, tz_min;
         float tx_max, ty_max, tz_max;
 
-        float a = 1.0f / ray.d.x;
+        float a = 1.0f / ray.getD().getX();
         if (a >= 0) {
-            tx_min = (p.x - ray.o.x) * a;
-            tx_max = (q.x - ray.o.x) * a;
+            tx_min = (p.getX() - ray.getO().getX()) * a;
+            tx_max = (q.getX() - ray.getO().getX()) * a;
         } else {
-            tx_min = (q.x - ray.o.x) * a;
-            tx_max = (p.x - ray.o.x) * a;
+            tx_min = (q.getX() - ray.getO().getX()) * a;
+            tx_max = (p.getX() - ray.getO().getX()) * a;
         }
 
-        float b = 1.0f / ray.d.y;
+        float b = 1.0f / ray.getD().getY();
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b;
-            ty_max = (q.y - ray.o.y) * b;
+            ty_min = (p.getY() - ray.getO().getY()) * b;
+            ty_max = (q.getY() - ray.getO().getY()) * b;
         } else {
-            ty_min = (q.y - ray.o.y) * b;
-            ty_max = (p.y - ray.o.y) * b;
+            ty_min = (q.getY() - ray.getO().getY()) * b;
+            ty_max = (p.getY() - ray.getO().getY()) * b;
         }
 
-        float c = 1.0f / ray.d.z;
+        float c = 1.0f / ray.getD().getZ();
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c;
-            tz_max = (q.z - ray.o.z) * c;
+            tz_min = (p.getZ() - ray.getO().getZ()) * c;
+            tz_max = (q.getZ() - ray.getO().getZ()) * c;
         } else {
-            tz_min = (q.z - ray.o.z) * c;
-            tz_max = (p.z - ray.o.z) * c;
+            tz_min = (q.getZ() - ray.getO().getZ()) * c;
+            tz_max = (p.getZ() - ray.getO().getZ()) * c;
         }
 
         float t0, t1;
