@@ -16,9 +16,9 @@ import net.dinkla.raytracer.samplers.Sampler;
 public class DiskLight extends Disk implements ILightSource {
 
     public Normal normal;
-    
+
     public Sampler sampler;
-    
+
     public DiskLight(final Point3D center, final float radius, final Normal normal) {
         super(center, radius, normal);
     }
@@ -31,7 +31,7 @@ public class DiskLight extends Disk implements ILightSource {
     public Point3D sample() {
         Point2D sp = sampler.sampleUnitDisk();
         assert(null != sampler);
-        Vector2D v = new Vector2D(sp.getX() * radius, sp.getY() * radius);
-        return center.plus(new Vector3D(v.getX(), v.getY(), 0));
+        Vector2D v = new Vector2D(sp.getX() * getRadius(), sp.getY() * getRadius());
+        return getCenter().plus(new Vector3D(v.getX(), v.getY(), 0));
     }
 }

@@ -32,7 +32,7 @@ public class RectangleLight extends Rectangle implements ILightSource {
 
     public Point3D sample() {
         Point2D sp = sampler.sampleUnitSquare();
-        return p0.plus(a.mult(sp.getX())).plus(b.mult(sp.getY()));
+        return getP0().plus(getA().mult(sp.getX())).plus(getB().mult(sp.getY()));
     }
     
 }

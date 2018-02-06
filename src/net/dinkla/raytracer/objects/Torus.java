@@ -10,6 +10,9 @@ import net.dinkla.raytracer.math.*;
  * Date: 21.04.2010
  * Time: 22:26:11
  * To change this template use File | Settings | File Templates.
+ *
+ * TODO: double vs. float
+ *
  */
 public class Torus extends GeometricObject {
 

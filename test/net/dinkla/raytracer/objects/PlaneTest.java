@@ -41,7 +41,7 @@ public class PlaneTest {
 
     @Test
     public void construct() {
-        new Plane(null, null);
+        new Plane(Point3D.Companion.getORIGIN(), Normal.Companion.getDOWN());
     }
 
     // q=0 plane, point below, vector up, hit

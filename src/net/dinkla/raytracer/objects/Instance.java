@@ -57,16 +57,16 @@ public class Instance extends GeometricObject {
         Ray invRay = new Ray(ro, rd);
         if (object.hit(invRay, sr)) {
             // TODO: Instance hit?
-            Normal tmp = trans.invMatrix.mult(sr.getNormal());            
+            Normal tmp = trans.invMatrix.mult(sr.getNormal());
             sr.setNormal(tmp.normalize());
             if (null != object.getMaterial()) {
                 sr.setObject(object);
-            }            
+            }
 //            if (!transformTexture) {
 //            }
             return true;
         }
-        return false;  
+        return false;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class Box extends Compound {
 
         this.p0 = p0;
         this.p1 = p0.plus(a).plus(b).plus(c);
-        
+
         bbox = new BBox(p0, p1);
     }
 
