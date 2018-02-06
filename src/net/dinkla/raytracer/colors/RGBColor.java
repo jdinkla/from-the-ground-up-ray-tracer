@@ -4,13 +4,6 @@ import net.dinkla.raytracer.hits.Shade;
 
 import static java.lang.Math.max;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 15:25:54
- * To change this template use File | Settings | File Templates.
- */
 public class RGBColor extends Color {
 
     static public final RGBColor BLACK = new RGBColor(0, 0, 0);
@@ -20,15 +13,15 @@ public class RGBColor extends Color {
     static public final RGBColor BLUE = new RGBColor(0, 0, 1);
     static public final RGBColor CLAMP_COLOR = new RGBColor(1, 0, 0);
 
-    public final float red, green, blue;
+    public final double red, green, blue;
 
-    public RGBColor(float red, float green, float blue) {
+    public RGBColor(double red, double green, double blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
 
-    public RGBColor(float v) {
+    public RGBColor(double v) {
         this.red = v;
         this.green = v;
         this.blue = v;
@@ -42,12 +35,12 @@ public class RGBColor extends Color {
         return new RGBColor(red * v.red, green * v.green, blue * v.blue);
     }
 
-    public RGBColor mult(float s) {
+    public RGBColor mult(double s) {
         return new RGBColor(s * red, s * green, s * blue);
     }
 
-    public RGBColor pow(float s) {
-        return new RGBColor((float) Math.pow(red, s), (float) Math.pow(green, s), (float) Math.pow(blue, s));
+    public RGBColor pow(double s) {
+        return new RGBColor((double) Math.pow(red, s), (double) Math.pow(green, s), (double) Math.pow(blue, s));
     }
 
     @Override
@@ -72,9 +65,9 @@ public class RGBColor extends Color {
         int gx = (rgb & 0x0000ff00);
         int bx = (rgb & 0x000000ff);
 
-        final float r = ((rgb & 0x00ff0000) >> 16) / 255.0f;
-        final float g = ((rgb & 0x0000ff00) >> 8) / 255.0f;
-        final float b = (rgb & 0x000000ff) / 255.0f;
+        final double r = ((rgb & 0x00ff0000) >> 16) / 255.0f;
+        final double g = ((rgb & 0x0000ff00) >> 8) / 255.0f;
+        final double b = (rgb & 0x000000ff) / 255.0f;
         return new RGBColor(r, g, b);
     }
 
@@ -87,7 +80,7 @@ public class RGBColor extends Color {
     }
 
     public RGBColor maxToOne() {
-        float maxValue = max(red, max(green, blue));
+        double maxValue = max(red, max(green, blue));
         if (maxValue > 1) {
             return this.mult(1/maxValue);
         } else {

@@ -22,9 +22,9 @@ abstract public class Color {
 
     abstract public Color mult(Color v);
 
-    abstract public Color mult(float s);
+    abstract public Color mult(double s);
 
-    abstract public Color pow(float s);
+    abstract public Color pow(double s);
 
     abstract public int asInt();
     

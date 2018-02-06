@@ -6,15 +6,15 @@ final def r = new java.util.Random()
 
 final int NUM = 10
 
-float rb = 0.025
+double rb = 0.025
 
-float rx = 0.5
-float w = rx
-float h = rx
-float d = rx
+double rx = 0.5
+double w = rx
+double h = rx
+double d = rx
 
-float step = 0.05
-float delta = 0.01
+double step = 0.05
+double delta = 0.01
 
 
 builder.world(id: "World79") {

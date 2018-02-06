@@ -16,11 +16,11 @@ import net.dinkla.raytracer.math.MathUtils.INV_PI
  */
 class SVLambertian<C : Color> : BRDF<C>() {
 
-    var kd: Float = 0.toFloat()
+    var kd: Double = 0.0
     var cd: Texture<C>? = null
 
     init {
-        kd = 1.0f
+        kd = 1.0
         cd = null
     }
 
