@@ -27,9 +27,7 @@ abstract public class Color {
     abstract public Color pow(float s);
 
     abstract public int asInt();
-
-    abstract public RGBBytes asBytes();
-
+    
     abstract public Color clampToColor();
 
     abstract public Color maxToOne();

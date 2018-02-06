@@ -1,13 +1,5 @@
 package net.dinkla.raytracer.math
 
-import java.lang.Math.sqrt
-
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 15:17:35
- */
 class Vector3D : Element3D {
 
     constructor(x: Float, y: Float, z: Float) : super(x, y, z) {}
@@ -25,6 +17,10 @@ class Vector3D : Element3D {
     }
 
     fun mult(s: Float): Vector3D {
+        return Vector3D(s * x, s * y, s * z)
+    }
+
+    operator fun times(s: Float): Vector3D {
         return Vector3D(s * x, s * y, s * z)
     }
 

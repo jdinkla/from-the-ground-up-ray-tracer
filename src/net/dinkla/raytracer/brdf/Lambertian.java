@@ -40,6 +40,6 @@ public class Lambertian<C extends Color> extends BRDF<C> {
     public C rho(Shade sr, Vector3D wo) {
         return (C) cd.getColor(sr).mult(kd);
     }
-    
+
 }
 

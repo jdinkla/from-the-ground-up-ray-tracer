@@ -6,6 +6,10 @@ class Point3D : Element3D {
 
     constructor(e: Element3D) : super(e) {}
 
+    operator fun unaryMinus(): Point3D {
+        return Point3D(-x, -y, -z)
+    }
+
     operator fun plus(v: Vector3D): Point3D {
         return Point3D(x + v.x, y + v.y, z + v.z)
     }

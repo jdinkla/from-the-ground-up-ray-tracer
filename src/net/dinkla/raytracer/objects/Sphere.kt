@@ -33,7 +33,7 @@ class Sphere : GeometricObject {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         var t: Float
-        val temp = ray.o.minus(center)
+        val temp = ray.o - center
         val a = ray.d.dot(ray.d)
         val b = temp.mult(2f).dot(ray.d)
         val c = temp.dot(temp) - radius * radius

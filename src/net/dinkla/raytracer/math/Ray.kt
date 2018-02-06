@@ -23,7 +23,7 @@ class Ray {
     }
 
     fun linear(t: Float): Point3D {
-        return o.plus(d.mult(t))
+        return o + (d * t)
     }
 
     override fun toString(): String {

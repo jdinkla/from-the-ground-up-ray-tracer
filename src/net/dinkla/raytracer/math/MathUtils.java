@@ -8,7 +8,7 @@ package net.dinkla.raytracer.math;
  * To change this template use File | Settings | File Templates.
  */
 public class MathUtils {
-    
+
     public static final float INV_PI = (float) (1.0f / Math.PI);
 
     public static final float PI_ON_180 = (float) (Math.PI / 180);

@@ -24,7 +24,7 @@ public class PerfectSpecular<C extends Color> extends BRDF<C> {
         kr = 1.0f;
         cr = (C) C.getWhite();
     }
-    
+
     @Override
     public C f(final Shade sr, final Vector3D wo, final Vector3D wi){
         throw new RuntimeException("PerfectSpecular.f");
@@ -42,7 +42,7 @@ public class PerfectSpecular<C extends Color> extends BRDF<C> {
         result.color = (C) cr.mult(kr / Math.abs(nDotWi));
         return result;
     }
-    
+
     @Override
     public C rho(Shade sr, Vector3D wo) {
         throw new RuntimeException("PerfectSpecular.rho");

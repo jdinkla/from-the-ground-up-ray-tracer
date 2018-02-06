@@ -42,16 +42,16 @@ public class SVMatte <C extends Color> extends Material<C> {
     }
 
     public void setKa(float ka) {
-        ambientBrdf.kd = ka;
+        ambientBrdf.setKd(ka);
     }
 
     public void setKd(float kd) {
-        diffuseBrdf.kd = kd;
+        diffuseBrdf.setKd(kd);
     }
 
     public void setCd(final Texture<C> cd) {
-        ambientBrdf.cd = cd;
-        diffuseBrdf.cd = cd;
+        ambientBrdf.setCd(cd);
+        diffuseBrdf.setCd(cd);
     }
 
     @Override

@@ -2,9 +2,9 @@ package net.dinkla.raytracer.math
 
 class Basis(eye: Point3D, lookAt: Point3D, up: Vector3D) {
 
-    var u: Vector3D
-    var v: Vector3D
-    var w: Vector3D
+    val u: Vector3D
+    val v: Vector3D
+    val w: Vector3D
 
     init {
         w = eye.minus(lookAt).normalize()

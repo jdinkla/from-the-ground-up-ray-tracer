@@ -66,13 +66,6 @@ public class RGBColor extends Color {
         return r << 16 | g << 8 | b;
     }
 
-    public RGBBytes asBytes() {
-        final byte r = (byte) (red * 255);
-        final byte g = (byte) (green * 255);
-        final byte b = (byte) (blue * 255);
-        return new RGBBytes(r, g, b);
-    }
-
     @Override
     public Color createFromInt(int rgb) {
         int rx = (rgb & 0x00ff0000);
