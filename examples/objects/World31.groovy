@@ -1,7 +1,4 @@
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.colors.Color
 
 def t1 = builder.smoothTriangle(a: p(-0.25, 0, 0.2), b: p(0.25, 0.1, -0.1), c: p(0.23, -0.2, +0.025))
 def t2 = builder.smoothTriangle(a: p(0, -1, 0), b: p(0.75, 0.4, -0.025), c: p(-0.05, 0, +0.025))
@@ -13,7 +10,7 @@ builder.world(id: "World31") {
 
     camera(d: 250, lookAt: p(2,0,0), eye: p(0, 0.1, 2))
     
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(0, 10, 0), ls: 1.0f)
@@ -22,15 +19,15 @@ builder.world(id: "World31") {
 
     materials {
         matte(id: "grey", ks: 0.5, cd: c(0.4), ka: 0.25, kd: 0.75, exp: 50)
-        matte(id: "rm", ks: 1.0, cd: RGBColor.RED, ka: 1.0, kd: 1.0, exp: 10)
-        matte(id: "gm", ks: 1.0, cd: RGBColor.GREEN, ka: 1.0, kd: 1.0, exp: 20)
-        matte(id: "bm", ks: 1.0, cd: RGBColor.BLUE, ka: 1.0, kd: 1.0, exp: 20)
-        phong(id: "r", ks: 1.0, cd: RGBColor.RED, ka: 1.0, kd: 1.0, exp: 10)
-        phong(id: "g", ks: 1.0, cd: RGBColor.GREEN, ka: 1.0, kd: 1.0, exp: 20)
-        phong(id: "b", ks: 1.0, cd: RGBColor.BLUE, ka: 1.0, kd: 1.0, exp: 20)
-        reflective(id: "rr", ks: 1.0, cd: RGBColor.RED, ka: 1.0, kd: 1.0, exp: 10)
-        reflective(id: "gr", ks: 1.0, cd: RGBColor.GREEN, ka: 1.0, kd: 1.0, exp: 20)
-        reflective(id: "br", ks: 1.0, cd: RGBColor.BLUE, ka: 1.0, kd: 1.0, exp: 20)
+        matte(id: "rm", ks: 1.0, cd: Color.RED, ka: 1.0, kd: 1.0, exp: 10)
+        matte(id: "gm", ks: 1.0, cd: Color.GREEN, ka: 1.0, kd: 1.0, exp: 20)
+        matte(id: "bm", ks: 1.0, cd: Color.BLUE, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "r", ks: 1.0, cd: Color.RED, ka: 1.0, kd: 1.0, exp: 10)
+        phong(id: "g", ks: 1.0, cd: Color.GREEN, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "b", ks: 1.0, cd: Color.BLUE, ka: 1.0, kd: 1.0, exp: 20)
+        reflective(id: "rr", ks: 1.0, cd: Color.RED, ka: 1.0, kd: 1.0, exp: 10)
+        reflective(id: "gr", ks: 1.0, cd: Color.GREEN, ka: 1.0, kd: 1.0, exp: 20)
+        reflective(id: "br", ks: 1.0, cd: Color.BLUE, ka: 1.0, kd: 1.0, exp: 20)
     }
 
     objects {

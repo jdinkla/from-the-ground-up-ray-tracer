@@ -1,12 +1,6 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
-import net.dinkla.raytracer.objects.acceleration.kdtree.Simple2Builder
-import net.dinkla.raytracer.objects.acceleration.kdtree.SpatialMedianBuilder
-import net.dinkla.raytracer.objects.acceleration.kdtree.ObjectMedianBuilder
-import net.dinkla.raytracer.objects.acceleration.kdtree.ObjectMedian2Builder
-import net.dinkla.raytracer.objects.acceleration.kdtree.TestBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.Test2Builder
 
 String path = '/opt/rendering/ply'
@@ -25,7 +19,7 @@ builder.world(id: "World76") {
 
     camera(d: 1500, eye: p(0.4, 1, 3), lookAt: p(0.4, 0, 0), numThreads: 32)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(-1, 2, 3), color: c(1, 1, 1), ls: 1)

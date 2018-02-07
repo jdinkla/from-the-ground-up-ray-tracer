@@ -6,7 +6,6 @@ package net.dinkla.raytracer.gui.swing;
 
 import net.dinkla.raytracer.ViewPlane;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.films.PngFilm;
 import net.dinkla.raytracer.gui.GuiUtilities;
 import net.dinkla.raytracer.utilities.AppProperties;
@@ -129,8 +128,8 @@ public class SwingGui2 implements ActionListener {
     }
 
     public void render(File file) {
-        World<RGBColor> w = new World<RGBColor>();
-        WorldBuilder<RGBColor> builder = new WorldBuilder<RGBColor>(w);
+        World<Color> w = new World<Color>();
+        WorldBuilder<Color> builder = new WorldBuilder<Color>(w);
         builder.build(file);
         w.initialize();
 
@@ -167,9 +166,9 @@ public class SwingGui2 implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Color.black = RGBColor.BLACK;
-        Color.error = RGBColor.RED;
-        Color.white = RGBColor.WHITE;
+        Color.black = Color.BLACK;
+        Color.error = Color.RED;
+        Color.white = Color.WHITE;
 
         SwingGui2 gui = new SwingGui2();
         gui.frame = new JFrame();

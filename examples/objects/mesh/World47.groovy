@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.Instance
@@ -24,7 +24,7 @@ builder.world(id: "World47") {
     //camera(d: 1000, eye: p(NUM_ITEMS/2-2, 0.0, NUM_ITEMS/2-3), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 3
     camera(d: 1000, eye: p(-NUM_ITEMS/2+0.5, 0.0, 1.4), lookAt: p(-NUM_ITEMS/2, 0.4, -NUM_ITEMS/2), numThreads: 8)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(1, 100, 1), color: c(1, 1, 1), ls: 1)

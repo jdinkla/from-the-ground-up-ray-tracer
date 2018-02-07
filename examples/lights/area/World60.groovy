@@ -1,7 +1,8 @@
 // Versuch: Kernschatten und größe der AreaLight
 
+
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.tracers.AreaLighting
 import net.dinkla.raytracer.samplers.MultiJittered
@@ -21,7 +22,7 @@ builder.world(id: "World60") {
 
     camera(d: 1000, eye: p(20, 10, 40), lookAt: p(20, 10, 0))
 
-    ambientLight(color: RGBColor.WHITE, ls: 1.0)
+    ambientLight(color: Color.WHITE, ls: 1.0)
 
     materials {
         phong(id: "green", cd: c(0, 1, 0), ka: 0.0, kd: 0.75, ks: 0.25, exp: 10)

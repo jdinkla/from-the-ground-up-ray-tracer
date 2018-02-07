@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.btdf;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Normal;
 import net.dinkla.raytracer.math.Vector3D;

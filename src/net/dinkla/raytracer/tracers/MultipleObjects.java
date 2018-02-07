@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.tracers;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.WrappedFloat;

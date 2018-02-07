@@ -1,5 +1,5 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.samplers.Sampler
@@ -19,7 +19,7 @@ builder.world(id: "World54") {
 
     camera(d: 1000, eye: p(0, 1, 10), lookAt: p(2, 0.75, 0), numThreads: 30 )
 
-    ambientOccluder(minAmount: RGBColor.WHITE,
+    ambientOccluder(minAmount: Color.WHITE,
         sampler: sampler,
         numSamples: NUM_AMBIENT_SAMPLES)
 

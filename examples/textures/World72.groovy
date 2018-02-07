@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.textures.ImageTexture
 import net.dinkla.raytracer.textures.SphericalMap
 
@@ -24,9 +24,9 @@ builder.world(id: "World70") {
     materials {
         matte(id: "sky", cd: c(0.3, 0.6, 1.0), ka: 1.0, kd: 0.9)
         phong(id: "grey", ks: 0.4, cd: c(0.4), ka: 0.25, kd: 0.6, exp: 10)
-        phong(id: "r", ks: 1.0, cd: RGBColor.RED, ka: 1.0, kd: 1.0, exp: 10)
-        phong(id: "g", ks: 1.0, cd: RGBColor.GREEN, ka: 1.0, kd: 1.0, exp: 20)
-        phong(id: "b", ks: 1.0, cd: RGBColor.BLUE, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "r", ks: 1.0, cd: Color.RED, ka: 1.0, kd: 1.0, exp: 10)
+        phong(id: "g", ks: 1.0, cd: Color.GREEN, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "b", ks: 1.0, cd: Color.BLUE, ka: 1.0, kd: 1.0, exp: 20)
 //        svMatte(id: "tex1", kd: 0.9, ka: 0.5, cd: tex1)
         svPhong(id: "tex1", kd: 0.9, ka: 0.5, cd: tex1)
     }

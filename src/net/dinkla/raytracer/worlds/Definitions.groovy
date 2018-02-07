@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.worlds
 
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.math.Normal
 
@@ -31,12 +31,12 @@ class Definitions {
 
     static def c(rgb) {
         if (rgb instanceof Number) {
-            return new RGBColor((float)rgb)
+            return new Color((float)rgb)
         } else if (rgb instanceof String) {
             float rf = Integer.valueOf(rgb[0,1], 16) / 255.0f
             float gf = Integer.valueOf(rgb[2,3], 16) / 255.0f
             float bf = Integer.valueOf(rgb[4,5], 16) / 255.0f
-            return new RGBColor(rf, gf, bf)
+            return new Color(rf, gf, bf)
         } else {
             throw new RuntimeException("Unknown color $rgb")
         }
@@ -44,7 +44,7 @@ class Definitions {
     }
 
     static def c(r, g, b) {
-        new RGBColor((float)r, (float)g, (float)b)
+        new Color((float)r, (float)g, (float)b)
     }
 
     static def v(x, y, z) {

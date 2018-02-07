@@ -2,7 +2,6 @@ package net.dinkla.raytracer;
 
 import net.dinkla.raytracer.cameras.IColorCorrector;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.samplers.MultiJittered;
 import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.utilities.AppProperties;

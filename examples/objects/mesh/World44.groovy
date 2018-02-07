@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 builder.world(id: "World43") {
@@ -7,7 +7,7 @@ builder.world(id: "World43") {
 
     camera(d: 1000, eye: p(0, 1, 5), lookAt: p(0, 0, 0), numThreads: 4)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(0.6, 0.3, 2))

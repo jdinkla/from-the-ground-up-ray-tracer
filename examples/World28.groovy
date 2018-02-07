@@ -1,7 +1,5 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.math.Normal
 
 float sqrt200 = (float) Math.sqrt(200)
 def r1 = builder.rectangle(p0: Point3D.ORIGIN, a: v(sqrt200, 0, 0), b: v(0, 10, 0))
@@ -10,7 +8,7 @@ builder.world(id: "World28") {
 
     camera(d: 100)
     
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(0, 9, 0.5), ls: 1.0f)

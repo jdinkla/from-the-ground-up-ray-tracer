@@ -5,8 +5,6 @@ import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.math.Normal;
 import net.dinkla.raytracer.math.Vector3D;
 
-import static net.dinkla.raytracer.colors.RGBColor.WHITE;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Jörn Dinkla

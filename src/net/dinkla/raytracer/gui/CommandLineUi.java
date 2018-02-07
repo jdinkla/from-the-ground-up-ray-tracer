@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.gui;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.films.IFilm;
 import net.dinkla.raytracer.films.PngFilm;
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode;
@@ -11,8 +10,6 @@ import net.dinkla.raytracer.worlds.WorldBuilder;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,9 +26,9 @@ public class CommandLineUi {
 
         Counter.PAUSE = true;
         
-        Color.black = RGBColor.BLACK;
-        Color.error = RGBColor.RED;
-        Color.white = RGBColor.WHITE;
+        Color.black = Color.BLACK;
+        Color.error = Color.RED;
+        Color.white = Color.WHITE;
 
         if (args.length != 2) {
             throw new RuntimeException("CommandLineUI expects input filename and output filename as arguments");

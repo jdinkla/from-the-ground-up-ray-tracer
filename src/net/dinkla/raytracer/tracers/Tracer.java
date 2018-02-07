@@ -1,8 +1,6 @@
 package net.dinkla.raytracer.tracers;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
-import net.dinkla.raytracer.ViewPlane;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.WrappedFloat;
 import net.dinkla.raytracer.worlds.World;

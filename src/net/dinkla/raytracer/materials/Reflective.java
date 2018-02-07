@@ -2,7 +2,6 @@ package net.dinkla.raytracer.materials;
 
 import net.dinkla.raytracer.brdf.GlossySpecular;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.brdf.BRDF;
 import net.dinkla.raytracer.brdf.PerfectSpecular;

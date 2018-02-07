@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 //def sp1 = builder.sphere(center: Point3D.ORIGIN, radius: 0.25)
@@ -24,7 +24,7 @@ builder.world(id: "World42") {
 //    camera(d: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - NUM/5, column), type: PinholePar)
     camera(d: 1000, eye: p(-1, NUM, NUM + 5), lookAt: p(column, NUM - NUM/5, column), numThreads: 30)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(NUM, NUM*2, NUM*2), ls: 1.0f, shadows: hasShadows)

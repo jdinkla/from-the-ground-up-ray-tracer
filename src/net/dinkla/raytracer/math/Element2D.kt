@@ -25,11 +25,11 @@ open class Element2D {
         return sqrt(sqrLength().toDouble()).toFloat()
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (obj !is Element2D) {
+    override fun equals(other: Any?): Boolean {
+        if (other !is Element2D) {
             return false
         } else {
-            val e = obj as Element2D?
+            val e = other as Element2D?
             return x == e!!.x && y == e.y
         }
     }

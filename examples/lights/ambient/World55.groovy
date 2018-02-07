@@ -1,14 +1,12 @@
 // 
 // !!! DO NOT CHANGED. USED FOR BENCHMARKS !!!
 //
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.samplers.PureRandom
 import net.dinkla.raytracer.samplers.MultiJittered;
 
 /*
@@ -39,7 +37,7 @@ builder.world(id: "World55") {
 
     camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), numThreads: 8 )
 
-    ambientOccluder(minAmount: RGBColor.WHITE,
+    ambientOccluder(minAmount: Color.WHITE,
         sampler: sampler,
         numSamples: NUM_AMBIENT_SAMPLES)
 

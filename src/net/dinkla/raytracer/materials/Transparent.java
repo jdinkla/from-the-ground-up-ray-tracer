@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.materials;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.brdf.BRDF;
 import net.dinkla.raytracer.brdf.PerfectSpecular;
@@ -40,7 +39,7 @@ public class Transparent extends Phong {
         reflectiveBrdf.kr = kr;
     }
 
-    public void setCr(final RGBColor cr) {
+    public void setCr(final Color cr) {
         reflectiveBrdf.cr = cr;
     }
 

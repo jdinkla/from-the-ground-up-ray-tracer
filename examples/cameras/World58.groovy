@@ -2,7 +2,6 @@
 
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.cameras.lenses.ThinLens
 import net.dinkla.raytracer.samplers.Sampler

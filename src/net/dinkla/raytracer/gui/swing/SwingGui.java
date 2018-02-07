@@ -2,7 +2,6 @@ package net.dinkla.raytracer.gui.swing;
 
 import net.dinkla.raytracer.ViewPlane;
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.films.IFilm;
 import net.dinkla.raytracer.films.PngFilm;
 import net.dinkla.raytracer.gui.GuiUtilities;
@@ -27,12 +26,12 @@ import java.io.File;
 public class SwingGui {
 
     public static void main(String[] args) {
-        Color.black = RGBColor.BLACK;
-        Color.error = RGBColor.RED;
-        Color.white = RGBColor.WHITE;
+        Color.black = Color.BLACK;
+        Color.error = Color.RED;
+        Color.white = Color.WHITE;
 
-        final World<RGBColor> w = new World<RGBColor>();
-        final WorldBuilder<RGBColor> builder = new WorldBuilder<RGBColor>(w);
+        final World<Color> w = new World<Color>();
+        final WorldBuilder<Color> builder = new WorldBuilder<Color>(w);
         String fileName = "examples/objects/World30.groovy";
 
 //        String fileName = "examples/materials/reflective/World80.groovy";

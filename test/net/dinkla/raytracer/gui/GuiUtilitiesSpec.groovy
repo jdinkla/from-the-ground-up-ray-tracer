@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.gui
 
-import net.dinkla.raytracer.colors.RGBColor
 import spock.lang.Specification
 
 /**

@@ -230,7 +230,6 @@ class BBox {
             Axis.Y -> return BBox(p, Point3D(q!!.x, split, q.z))
             Axis.Z -> return BBox(p, Point3D(q!!.x, q.y, split))
         }
-        return null
     }
 
     fun splitRight(axis: Axis, split: Float): BBox? {
@@ -239,13 +238,12 @@ class BBox {
             Axis.Y -> return BBox(Point3D(p!!.x, split, p.z), q)
             Axis.Z -> return BBox(Point3D(p!!.x, p.y, split), q)
         }
-        return null
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (null != obj) {
-            if (obj is BBox) {
-                val o = obj as BBox?
+    override fun equals(other: Any?): Boolean {
+        if (null != other) {
+            if (other is BBox) {
+                val o = other as BBox?
                 return p == o!!.p && q == o.q
             }
         }

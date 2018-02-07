@@ -2,7 +2,6 @@ package net.dinkla.raytracer.materials;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.colors.ColorAccumulator;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.hits.Shade;
 import net.dinkla.raytracer.brdf.Lambertian;
 import net.dinkla.raytracer.lights.AreaLight;
@@ -23,13 +22,13 @@ import java.util.List;
 public class Matte<C extends Color> extends Material<C> {
 
     public static Matte[] materials = {
-            new Matte(new RGBColor(0.0f, 0.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(0.0f, 1.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(1.0f, 1.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(0.0f, 1.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(1.0f, 0.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(1.0f, 0.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new RGBColor(1.0f, 1.0f, 1.0f), 1.0f, 1.0f)
+            new Matte(new Color(0.0f, 0.0f, 1.0f), 1.0f, 1.0f),
+            new Matte(new Color(0.0f, 1.0f, 1.0f), 1.0f, 1.0f),
+            new Matte(new Color(1.0f, 1.0f, 0.0f), 1.0f, 1.0f),
+            new Matte(new Color(0.0f, 1.0f, 0.0f), 1.0f, 1.0f),
+            new Matte(new Color(1.0f, 0.0f, 0.0f), 1.0f, 1.0f),
+            new Matte(new Color(1.0f, 0.0f, 1.0f), 1.0f, 1.0f),
+            new Matte(new Color(1.0f, 1.0f, 1.0f), 1.0f, 1.0f)
             };
     
     public Lambertian<C> ambientBrdf;

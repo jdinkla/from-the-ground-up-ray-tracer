@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.films;
 
 import net.dinkla.raytracer.colors.Color;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.utilities.Resolution;
 
 public interface IFilm {

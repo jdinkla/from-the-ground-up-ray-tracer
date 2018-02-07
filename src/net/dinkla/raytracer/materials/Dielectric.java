@@ -6,7 +6,6 @@ import net.dinkla.raytracer.brdf.BRDF;
 import net.dinkla.raytracer.brdf.FresnelReflector;
 import net.dinkla.raytracer.btdf.BTDF;
 import net.dinkla.raytracer.btdf.FresnelTransmitter;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.Vector3D;
 import net.dinkla.raytracer.math.WrappedFloat;
@@ -24,15 +23,15 @@ public class Dielectric extends Phong {
     FresnelReflector fresnelBrdf;
     FresnelTransmitter fresnelBtdf;
 
-    RGBColor cfIn;
-    RGBColor cfOut;
+    Color cfIn;
+    Color cfOut;
 
     public Dielectric() {
         super();
         fresnelBrdf = new FresnelReflector();
         fresnelBtdf = new FresnelTransmitter();
-        cfIn = RGBColor.WHITE;
-        cfOut = RGBColor.WHITE;        
+        cfIn = Color.WHITE;
+        cfOut = Color.WHITE;
     }
 
     @Override
@@ -97,11 +96,11 @@ public class Dielectric extends Phong {
     }
 
 
-    public void setCfIn(final RGBColor cfIn) {
+    public void setCfIn(final Color cfIn) {
 
     }
 
-    public void setCfOut(final RGBColor cfOut) {
+    public void setCfOut(final Color cfOut) {
 
     }
 

@@ -50,10 +50,10 @@ open class Element3D {
         }
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (null != obj) {
-            if (obj is Element3D) {
-                val e = obj as Element3D?
+    override fun equals(other: Any?): Boolean {
+        if (null != other) {
+            if (other is Element3D) {
+                val e = other as Element3D?
                 return x == e!!.x && y == e.y && z == e.z
             }
         }

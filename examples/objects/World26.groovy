@@ -1,6 +1,5 @@
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
 def sph1 = builder.sphere(radius: 0.25)

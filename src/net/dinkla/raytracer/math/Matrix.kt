@@ -63,9 +63,9 @@ class Matrix {
         }
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (obj is Matrix) {
-            val mat = obj as Matrix?
+    override fun equals(other: Any?): Boolean {
+        if (other is Matrix) {
+            val mat = other as Matrix?
             for (y in 0..3) {
                 for (x in 0..3) {
                     if (m[x][y] != mat!!.m[x][y]) {

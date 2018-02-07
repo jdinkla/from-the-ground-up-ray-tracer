@@ -3,7 +3,6 @@
 // rendering took 530510 ms
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.utilities.Resolution

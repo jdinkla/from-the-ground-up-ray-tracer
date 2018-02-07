@@ -1,13 +1,10 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.tracers.AreaLighting
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.samplers.PureRandom
-import net.dinkla.raytracer.cameras.lenses.FishEye
 import net.dinkla.raytracer.cameras.lenses.FishEye
 
 Vector3D vecW = new Vector3D(1, 0, 0)
@@ -30,7 +27,7 @@ builder.world(id: "World23") {
     //camera(d: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
     camera(eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     materials {
         phong(id: "m1", cd: c(0.1, 0.8, 0.2), ka: 0.25, kd: 0.75, ks: 0.8)

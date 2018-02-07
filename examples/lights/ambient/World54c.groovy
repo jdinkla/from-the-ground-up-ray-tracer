@@ -1,7 +1,7 @@
 package lights.ambient
 
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.samplers.Sampler
@@ -23,7 +23,7 @@ builder.world(id: "World54") {
     camera(d: 2000, eye: p(0, 1, 10), lookAt: p(0, 0.75, 0), numThreads: 30 )
 
     //ambientOccluder(minAmount: RGBColor.WHITE, sampler: sampler, numSamples: NUM_AMBIENT_SAMPLES)
-    ambientOccluder(minAmount: RGBColor.BLACK, sampler: sampler, numSamples: NUM_AMBIENT_SAMPLES)
+    ambientOccluder(minAmount: Color.BLACK, sampler: sampler, numSamples: NUM_AMBIENT_SAMPLES)
 
     lights {
         pointLight(location: p(-5, 5, 0), color: c(1, 0, 0), ls: 1)

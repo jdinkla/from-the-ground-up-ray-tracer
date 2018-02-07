@@ -1,7 +1,7 @@
 package lights.ambient
 
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.samplers.MultiJittered
@@ -18,7 +18,7 @@ builder.world(id: "World14") {
     //camera(d: 1000, eye: p(0, 1, 7), lookAt: p(0, 0.75, 0))
     camera(d: 1000, eye: p(0, 1, 7), lookAt: p(0, 0.75, 0), numThreads: 32)
 
-    ambientOccluder(minAmount: RGBColor.WHITE,
+    ambientOccluder(minAmount: Color.WHITE,
         //sampler: new Sampler(new PureRandom(), 250, 10),
 //        sampler: new Sampler(new Hammersley(), 2500, 10),
 //        sampler: new Sampler(new Jittered(), 2500, 10),

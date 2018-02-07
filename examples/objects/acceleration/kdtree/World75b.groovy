@@ -1,9 +1,7 @@
 package objects.acceleration.kdtree
 
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.objects.acceleration.Grid
-import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Simple2Builder
 
 //String path = 'F://opt/rendering/ply'
@@ -21,7 +19,7 @@ builder.world(id: "World75") {
 
     camera(d: 1000, eye: p(0, 0, 5), lookAt: p(0, 0, 0), numThreads: 32)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(-1, 2, 3), color: c(1, 1, 1), ls: 1)

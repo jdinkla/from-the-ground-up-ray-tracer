@@ -2,7 +2,6 @@ package net.dinkla.raytracer.tracers;
 
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.hits.Shade;
-import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.WrappedFloat;
 import net.dinkla.raytracer.worlds.World;
@@ -23,7 +22,7 @@ public class SingleSphere extends Tracer {
     @Override
     public Color trace(Ray ray) {
         if (world.hit(ray, new Shade())) {
-            return RGBColor.RED;
+            return Color.RED;
         } else {
             return world.getBackgroundColor();
         }

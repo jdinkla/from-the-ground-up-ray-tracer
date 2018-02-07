@@ -1,5 +1,4 @@
 
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.objects.Instance
 

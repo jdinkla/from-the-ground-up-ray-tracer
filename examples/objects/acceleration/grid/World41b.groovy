@@ -1,6 +1,6 @@
 package objects.acceleration.grid
 
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 //def sp1 = builder.sphere(center: Point3D.ORIGIN, radius: 0.25)
@@ -21,7 +21,7 @@ builder.world(id: "World40") {
 
     camera(d: 2000, eye: p(-NUM, column+1, NUM*2), lookAt: p(column, column, NUM/2))
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(NUM, NUM*2, NUM*2), ls: 1.0f, shadows: hasShadows)

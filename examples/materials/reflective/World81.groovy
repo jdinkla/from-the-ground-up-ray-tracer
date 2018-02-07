@@ -1,10 +1,10 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
 def p(x, y, z) { new Point3D(x, y, z) }
-def c(r, g, b) { new RGBColor(r, g, b) }
+def c(r, g, b) { new Color(r, g, b) }
 def v(x, y, z) { new Vector3D(x, y, z) }
 def n(x, y, z) { new Normal(x, y, z) }
 
@@ -21,9 +21,9 @@ builder.world(id: "World80") {
     materials {
         matte(id: "sky", cd: c(0.3, 0.6, 1.0), ka: 1.0, kd: 0.9)
         phong(id: "grey", ks: 0.4, cd: c(0.7), ka: 0.25, kd: 0.6, exp: 10)
-        phong(id: "r", ks: 1.0, cd: RGBColor.RED, ka: 1.0, kd: 1.0, exp: 10)
-        phong(id: "g", ks: 1.0, cd: RGBColor.GREEN, ka: 1.0, kd: 1.0, exp: 20)
-        phong(id: "b", ks: 1.0, cd: RGBColor.BLUE, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "r", ks: 1.0, cd: Color.RED, ka: 1.0, kd: 1.0, exp: 10)
+        phong(id: "g", ks: 1.0, cd: Color.GREEN, ka: 1.0, kd: 1.0, exp: 20)
+        phong(id: "b", ks: 1.0, cd: Color.BLUE, ka: 1.0, kd: 1.0, exp: 20)
         reflective(id: "rr", cr: c(1.00, 0.86, 0.57), kr: 0.2, ka: 0, kd: 0, ks: 1, cs: c(1.00, 0.86, 0.57), exp: 2)
         reflective(id: "gr", cr: c(0.98, 0.97, 0.95), kr: 0.3, ka: 0, kd: 0, ks: 1, cs: c(0.98, 0.97, 0.95), exp: 5)
         reflective(id: "br", cr: c(0.98, 0.82, 0.76), kr: 0.4, ka: 0, kd: 0, ks: 1, cs: c(0.98, 0.82, 0.76), exp: 1.2)

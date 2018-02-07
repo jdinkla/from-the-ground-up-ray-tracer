@@ -4,8 +4,8 @@ import net.dinkla.raytracer.math.Point2D
 
 class Hammersley : Generator() {
 
-    protected fun phi(j: Int): Float {
-        var j = j
+    protected fun phi(ij: Int): Float {
+        var j = ij
         var x = 0.0f
         var f = 0.5f
 

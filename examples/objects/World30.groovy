@@ -1,6 +1,5 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
 def b1 = builder.alignedBox(p: p(0, 0, 0), q: p(5, 1.75f, 0.15f))
@@ -10,7 +9,7 @@ builder.world(id: "World26") {
 
     camera(d: 1000)
     
-    ambientLight(color: RGBColor.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5f)
 
     lights {
         pointLight(location: p(10, 7, 0), ls: 1.0f)

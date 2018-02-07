@@ -1,4 +1,4 @@
-import net.dinkla.raytracer.colors.RGBColor
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 def ply1 = builder.ply(file: "/opt/rendering/ply/horse/Horse97K.ply")
@@ -14,7 +14,7 @@ builder.world(id: "World45") {
     //camera(d: 1500, eye: p(0, 0.1, 5), lookAt: p(0, 0, 0))
     camera(d: 1250, eye: p(0, 0.1, 2), lookAt: p(0.6, 0.5, 0), numThreads: 32)
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.75f)
+    ambientLight(color: Color.WHITE, ls: 0.75f)
 
     lights {
         //pointLight(location: p(-10, 3, 0), color: c(1, 0, 0))

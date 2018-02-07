@@ -1,5 +1,5 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.utilities.Resolution
@@ -24,7 +24,7 @@ builder.world(id: "World54") {
 //    camera(d: 2000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), type: PinholePar, numThreads: 30 )
     camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), numThreads: 30 )
 
-    ambientOccluder(minAmount: RGBColor.WHITE,
+    ambientOccluder(minAmount: Color.WHITE,
         sampler: sampler,
         numSamples: NUM_AMBIENT_SAMPLES)
 

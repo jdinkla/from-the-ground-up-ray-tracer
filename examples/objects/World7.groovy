@@ -1,13 +1,12 @@
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.colors.RGBColor
 import net.dinkla.raytracer.math.Normal
 
 builder.world(id: "World7") {
 
     camera(d: 750, eye: p(0, 100, 200), lookAt: p(0, 0, 0))
     
-    ambientLight(color: RGBColor.WHITE, ls: 1.0f)
+    ambientLight(color: Color.WHITE, ls: 1.0f)
 
     lights {
         pointLight(location: p(100, 50, 150), ls: 3.14f)
