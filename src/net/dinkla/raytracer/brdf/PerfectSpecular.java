@@ -20,7 +20,7 @@ public class PerfectSpecular<C extends Color> extends BRDF<C> {
     public PerfectSpecular() {
         super();
         kr = 1.0f;
-        cr = (C) C.getWhite();
+        cr = (C) C.WHITE;
     }
 
     @Override

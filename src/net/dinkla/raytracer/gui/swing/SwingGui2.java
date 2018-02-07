@@ -166,10 +166,6 @@ public class SwingGui2 implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Color.black = Color.BLACK;
-        Color.error = Color.RED;
-        Color.white = Color.WHITE;
-
         SwingGui2 gui = new SwingGui2();
         gui.frame = new JFrame();
         gui.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

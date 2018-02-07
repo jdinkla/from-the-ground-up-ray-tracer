@@ -46,7 +46,7 @@ public class Whitted<C extends Color> extends Tracer<C> {
         Counter.count("Whitted.trace3");
         C color = null;
         if (depth > world.getViewPlane().maxDepth) {
-            color = (C) C.getBlack();
+            color = (C) C.BLACK;
         } else {
             Shade sr = new Shade();
             boolean hit = world.hit(ray, sr);
@@ -56,7 +56,7 @@ public class Whitted<C extends Color> extends Tracer<C> {
                 tmin.setValue(sr.t);
                 if (null == sr.getMaterial()) {
                     LOGGER.error("Material is NULL for ray " + ray + " and sr " + sr);
-                    color = (C) C.getErrorColor();
+                    color = (C) C.errorColor;
                 } else {
                     color = (C) sr.getMaterial().shade(world, sr);
                 }

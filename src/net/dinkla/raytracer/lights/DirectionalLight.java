@@ -23,7 +23,7 @@ public class DirectionalLight<C extends Color> extends Light<C> {
 
     public DirectionalLight() {
         ls = 1.0f;
-        color = (C) C.getWhite();
+        color = (C) C.WHITE;
         negatedDirection = Vector3D.Companion.getDOWN().negate();
     }
 

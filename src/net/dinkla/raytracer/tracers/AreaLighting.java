@@ -25,7 +25,7 @@ public class AreaLighting<C extends Color> extends Tracer<C> {
     public C trace(Ray ray, int depth) {
         LOGGER.debug("trace " + ray + " at depth " + depth);
         if (depth > world.getViewPlane().maxDepth) {
-            return (C) C.getBlack();
+            return (C) C.BLACK;
         } else {
             Shade sr = new Shade();
             if (world.hit(ray, sr)) {

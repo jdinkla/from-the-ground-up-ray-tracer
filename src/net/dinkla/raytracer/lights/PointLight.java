@@ -25,7 +25,7 @@ public class PointLight<C extends Color> extends Light<C> {
 
     public PointLight(Point3D location) {
         this.location = location;
-        color = (C) C.getWhite();
+        color = (C) C.WHITE;
         ls = 1.0f;
         shadows = true;
     }

@@ -50,7 +50,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
         if (sample.getNDotD() > 0) {
             return (C) sr.getMaterial().getLe(sr);
         } else {
-            return (C) C.getBlack();
+            return (C) C.BLACK;
         }
     }
 

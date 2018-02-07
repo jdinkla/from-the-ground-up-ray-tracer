@@ -29,7 +29,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     public GlossySpecular() {
         this.ks = 0.25f;
         this.exp = 5.0f;
-        this.cs = (C) C.getWhite();
+        this.cs = (C) C.WHITE;
     }
 
     public GlossySpecular(float ks, C cs, float exp) {
@@ -47,7 +47,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
         if (rDotWo > 0) {
             return (C) cs.mult((float) (ks * Math.pow(rDotWo, exp)));
         } else {
-            return (C) C.getBlack();
+            return (C) C.BLACK;
         }
     }
 

@@ -21,7 +21,7 @@ public class Ambient<C extends Color> extends Light<C> {
 
     public Ambient() {
         ls = 1.0f;
-        color = (C) C.getWhite();
+        color = (C) C.WHITE;
     }
     
     @Override

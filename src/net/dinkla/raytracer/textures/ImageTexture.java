@@ -84,7 +84,7 @@ public class ImageTexture<C extends Color> extends Texture<C> {
         } catch (ArrayIndexOutOfBoundsException e) {
             int a = 2;
         }
-        return (C) C.getWhite().createFromInt(rgb);
+        return (C) C.WHITE.createFromInt(rgb);
     }
     
 }

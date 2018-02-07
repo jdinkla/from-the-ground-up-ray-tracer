@@ -20,7 +20,7 @@ public class Emissive<C extends Color> extends Material<C> {
 
     public Emissive() {
         ls = 1.0f;
-        ce = (C) C.getWhite();
+        ce = (C) C.WHITE;
     }
    
     public Emissive(C ce, float ls) {
@@ -38,7 +38,7 @@ public class Emissive<C extends Color> extends Material<C> {
         if (sr.getNormal().negate().dot(sr.ray.getD()) > 0) {
             return getLe(sr);
         } else {
-            return (C) C.getBlack();
+            return (C) C.BLACK;
         }
     }
 

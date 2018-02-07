@@ -25,10 +25,6 @@ public class CommandLineUi {
     public static void main(String[] args) {
 
         Counter.PAUSE = true;
-        
-        Color.black = Color.BLACK;
-        Color.error = Color.RED;
-        Color.white = Color.WHITE;
 
         if (args.length != 2) {
             throw new RuntimeException("CommandLineUI expects input filename and output filename as arguments");

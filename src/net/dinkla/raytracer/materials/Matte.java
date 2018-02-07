@@ -39,7 +39,7 @@ public class Matte<C extends Color> extends Material<C> {
         diffuseBrdf = new Lambertian<C>();
         setKa(0.25f);
         setKd(0.75f);
-        setCd((C) C.getWhite());
+        setCd((C) C.WHITE);
     }
 
     public Matte(final C color, final float ka, final float kd) {

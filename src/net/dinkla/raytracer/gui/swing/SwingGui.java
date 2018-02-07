@@ -26,10 +26,6 @@ import java.io.File;
 public class SwingGui {
 
     public static void main(String[] args) {
-        Color.black = Color.BLACK;
-        Color.error = Color.RED;
-        Color.white = Color.WHITE;
-
         final World<Color> w = new World<Color>();
         final WorldBuilder<Color> builder = new WorldBuilder<Color>(w);
         String fileName = "examples/objects/World30.groovy";

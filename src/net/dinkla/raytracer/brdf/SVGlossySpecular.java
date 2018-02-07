@@ -47,7 +47,7 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
         if (rDotWo > 0) {
             return (C) cs.getColor(sr).mult((float) (ks * Math.pow(rDotWo, exp)));
         } else {
-            return (C) C.getBlack();
+            return (C) C.BLACK;
         }
     }
 

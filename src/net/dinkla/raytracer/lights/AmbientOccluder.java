@@ -25,7 +25,7 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
     public final int numSamples;
 
     public AmbientOccluder(Sampler sampler, int numSamples) {
-        this.minAmount = (C) C.getWhite();
+        this.minAmount = (C) C.WHITE;
         this.sampler = sampler;
         this.numSamples = numSamples;
     }

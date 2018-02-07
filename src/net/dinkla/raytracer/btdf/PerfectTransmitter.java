@@ -48,7 +48,7 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
         result.wt = wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta));
         float f1 = kt / (eta*eta);
         float f2 = sr.getNormal().dot(result.wt);
-        result.color = (C) C.getWhite().mult(f1 / Math.abs(f2));
+        result.color = (C) C.WHITE.mult(f1 / Math.abs(f2));
         return result;
     }
 

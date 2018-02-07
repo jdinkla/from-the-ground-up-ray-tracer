@@ -52,8 +52,8 @@ public class World<C extends Color> {
         stepCounter = null;
 
         // TODO color
-        backgroundColor = (C) C.getBlack();
-        errorColor = (C) C.getErrorColor();        
+        backgroundColor = (C) C.BLACK;
+        errorColor = (C) C.errorColor;
     }
 
     public Shade hit(Ray ray) {

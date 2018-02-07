@@ -13,7 +13,7 @@ public class ColorAccumulator<C extends Color> {
     protected int count;
 
     public ColorAccumulator() {
-        aggregated = C.getBlack();
+        aggregated = C.BLACK;
         count = 0;
     }
 
@@ -27,7 +27,7 @@ public class ColorAccumulator<C extends Color> {
         if (count > 0) {
             result = aggregated.mult(1.0f / count);
         } else {
-            result = C.getBlack();
+            result = C.BLACK;
         }
         return result;
     }

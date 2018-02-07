@@ -22,7 +22,7 @@ public class SingleSphere extends Tracer {
     @Override
     public Color trace(Ray ray) {
         if (world.hit(ray, new Shade())) {
-            return Color.RED;
+            return Color.errorColor;
         } else {
             return world.getBackgroundColor();
         }

@@ -23,7 +23,7 @@ public class Lambertian<C extends Color> extends BRDF<C> {
 
     public Lambertian() {
         kd = 1.0f;
-        cd = (C) C.getWhite();
+        cd = (C) C.WHITE;
     }
 
     @Override
