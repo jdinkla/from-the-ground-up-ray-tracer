@@ -54,7 +54,7 @@ public class SphereTest {
         /*
         isHit = sphere.hit(ray, tmin, sr);
         assert isHit;
-        assertEquals(tmin.value, 2.0f);
+        assertEquals(tmin.value, 2.0);
         assertEquals(sr.localHitPoint, new Point3D(0, 0, 1));
         */
     }

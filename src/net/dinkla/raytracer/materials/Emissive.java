@@ -23,7 +23,7 @@ public class Emissive<C extends Color> extends Material<C> {
         ce = (C) C.WHITE;
     }
    
-    public Emissive(C ce, float ls) {
+    public Emissive(C ce, double ls) {
         this.ce = ce;
         this.ls = ls;
     }

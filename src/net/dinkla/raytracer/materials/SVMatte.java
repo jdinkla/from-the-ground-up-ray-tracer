@@ -33,7 +33,7 @@ public class SVMatte <C extends Color> extends Material<C> {
         setCd(null);
     }
 
-    public SVMatte(final Texture<C> color, final float ka, final float kd) {
+    public SVMatte(final Texture<C> color, final double ka, final double kd) {
         ambientBrdf = new SVLambertian<C>();
         diffuseBrdf = new SVLambertian<C>();
         setKa(ka);
@@ -41,11 +41,11 @@ public class SVMatte <C extends Color> extends Material<C> {
         setCd(color);
     }
 
-    public void setKa(float ka) {
+    public void setKa(double ka) {
         ambientBrdf.setKd(ka);
     }
 
-    public void setKd(float kd) {
+    public void setKd(double kd) {
         diffuseBrdf.setKd(kd);
     }
 

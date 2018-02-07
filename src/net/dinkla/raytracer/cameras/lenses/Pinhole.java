@@ -17,7 +17,7 @@ public class Pinhole extends AbstractLens {
 
     public double d;
     // TODO zoom camera
-//    public float zoom;
+//    public double zoom;
 
     public Pinhole(ViewPlane viewPlane) {
         super(viewPlane);            
@@ -27,20 +27,20 @@ public class Pinhole extends AbstractLens {
     }
 
     public Ray getRaySingle(int r, int c) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres));
+        double x =  (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres));
+        double y =  (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres));
         Ray ray = new Ray(eye, getRayDirection(x, y));
         return ray;
     }
     
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        float x = (float) (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.getX()));
-        float y = (float) (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.getY()));
+        double x =  (viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.getX()));
+        double y =  (viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.getY()));
         Ray ray = new Ray(eye, getRayDirection(x, y));
         return ray;
     }
 
-    protected Vector3D getRayDirection(float x, float y) {
+    protected Vector3D getRayDirection(double x, double y) {
         // xu + yv - dw
 //        Vector3D dir = u.mult(x).plus(v.mult(y)).minus(w.mult(d));
         Vector3D dir = uvw.pm(x, y, d);

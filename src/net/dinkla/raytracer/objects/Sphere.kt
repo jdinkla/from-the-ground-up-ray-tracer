@@ -71,7 +71,7 @@ class Sphere : GeometricObject {
         if (disc < 0) {
             return false
         } else {
-            val e = Math.sqrt(disc.toDouble()).toFloat()
+            val e = Math.sqrt(disc)
             val denom = 2 * a
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {

@@ -20,7 +20,7 @@ public class MeshTriangle extends GeometricObject {
     int index1;
     int index2;
     Normal normal;
-    //float area;
+    //double area;
     BBox bbox;
     
     public MeshTriangle(final Mesh mesh) {

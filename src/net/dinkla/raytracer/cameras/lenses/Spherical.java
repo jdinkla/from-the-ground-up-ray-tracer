@@ -48,14 +48,14 @@ public class Spherical extends AbstractLens {
         double lambda = x * maxLambda * MathUtils.PI_ON_180;
         double psi = y * maxPsi * MathUtils.PI_ON_180;
 
-        double phi = (double) Math.PI - lambda;
-        double theta = 0.5 * (double) Math.PI - psi;
+        double phi =  Math.PI - lambda;
+        double theta = 0.5 *  Math.PI - psi;
 
-        float sinPhi = (float) Math.sin(phi);
-        float cosPhi = (float) Math.cos(phi);
+        double sinPhi =  Math.sin(phi);
+        double cosPhi =  Math.cos(phi);
 
-        float sinTheta = (float) Math.sin(theta);
-        float cosTheta = (float) Math.cos(theta);
+        double sinTheta =  Math.sin(theta);
+        double cosTheta =  Math.cos(theta);
 
 //        Vector3D direction = u.mult(sinTheta * sinPhi).plus(v.mult(cosTheta)).plus(w.mult(sinTheta * cosPhi));
         Vector3D direction = uvw.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi);

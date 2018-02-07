@@ -13,6 +13,7 @@ import net.dinkla.raytracer.utilities.Resolution;
  */
 public class SphericalMap extends Mapping {
 
+    // TODO move to MathUtils or Constants
     final double 	invTWO_PI 	= 0.1591549430918953358;
     final double 	invPI 		= 0.3183098861837906715;
 
@@ -20,16 +21,16 @@ public class SphericalMap extends Mapping {
     public Mapped getTexelCoordinates(Point3D p, Resolution res) {
         Mapped result = new Mapped();
 
-        float theta = (float) Math.acos(p.getY());
-        float phi = (float) Math.atan2(p.getX(), p.getZ());
+        double theta =  Math.acos(p.getY());
+        double phi =  Math.atan2(p.getX(), p.getZ());
         if (phi < 0) {
-            phi += 2.0f * Math.PI;
+            phi += 2.0 * Math.PI;
         }
 
-//        float u = phi * (1.0 / (2f * (float) Math.PI));
-        float u = (float) (phi * invTWO_PI);
-//        float v = 1 - theta * MathUtils.INV_PI;
-        float v = (float) (1 - theta * invPI);
+//        double u = phi * (1.0 / (2.0 *  Math.PI));
+        double u =  (phi * invTWO_PI);
+//        double v = 1 - theta * MathUtils.INV_PI;
+        double v =  (1 - theta * invPI);
 
         result.column = (int) ((res.hres -1) * u);
         result.row = (int) ((res.vres -1) * v);

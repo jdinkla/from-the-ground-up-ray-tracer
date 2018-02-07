@@ -55,14 +55,14 @@ public class Transparent extends Phong {
             l = l.plus(cr);
         } else {
             // reflected
-            float cfr = (float) Math.abs(sr.getNormal().dot(brdf.wi));
+            double cfr =  Math.abs(sr.getNormal().dot(brdf.wi));
             l = l.plus(brdf.color.mult(cr).mult(cfr));
 
             // trace transmitted ray
             BTDF.Sample btdf = specularBtdf.sampleF(sr, wo);
             Ray transmittedRay = new Ray(sr.getHitPoint(), btdf.wt);
             Color ct = world.getTracer().trace(transmittedRay, sr.depth + 1);
-            float cft = (float) Math.abs(sr.getNormal().dot(btdf.wt));
+            double cft =  Math.abs(sr.getNormal().dot(btdf.wt));
             l = l.plus(btdf.color.mult(ct).mult(cft));
         }
         return l;

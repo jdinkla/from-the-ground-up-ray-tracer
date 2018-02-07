@@ -71,9 +71,9 @@ class PlyReader {
                     if (cs.size() < 3) {
                         throw new RuntimeException("Not enough elements in line $numLine")
                     }
-                    float x = Float.valueOf(cs[0])
-                    float y = Float.valueOf(cs[1])
-                    float z = Float.valueOf(cs[2])
+                    double x = Double.valueOf(cs[0])
+                    double y = Double.valueOf(cs[1])
+                    double z = Double.valueOf(cs[2])
                     Point3D p = new Point3D(x, y, z)
                     mesh.vertices.add(p)
                     numVertices--

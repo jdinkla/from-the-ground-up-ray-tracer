@@ -32,14 +32,14 @@ public class LightProbeMap extends Mapping {
         double sinBeta = p.getY() / d;
         double cosBeta = p.getX() / d;
 
-        float alpha;
+        double alpha;
 
         switch (type) {
             case LIGHT_PROBE:
-                alpha = (float) Math.acos(p.getZ());
+                alpha =  Math.acos(p.getZ());
                 break;
             case PANORAMIC:
-                alpha = (float) Math.acos(-p.getZ());
+                alpha =  Math.acos(-p.getZ());
                 break;
             default:
                 throw new RuntimeException("LightProbeMap.getTexelCoordinates unknown type");

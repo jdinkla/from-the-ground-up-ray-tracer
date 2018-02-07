@@ -21,7 +21,7 @@ builder.world(id: "World10") {
         phong(id: "m1", cd: c(1, 1, 0), ka: 0.25, kd: 0.65, exp: 25, ks: 1.0)
         phong(id: "m2", cd: c(0.71, 0.40, 0.16), ka: 0.25, kd: 0.65, exp: 1, ks: 0.1)
         phong(id: "m3", cd: c(0.5, 0.5, 0.5), ka: 0.25, kd: 0.55, exp: 15, ks: 0.9)
-        matte(id: "m4", cd: c(0.5, 0.5, 0.99), ka: 0.1f, kd: 0.5)
+        matte(id: "m4", cd: c(0.5, 0.5, 0.99), ka: 0.1, kd: 0.5)
     }
 
     objects {

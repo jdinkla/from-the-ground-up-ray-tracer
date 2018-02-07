@@ -22,16 +22,16 @@ class Definitions {
     ]
 
     static def p(x, y, z) {
-        new Point3D((float)x, (float)y, (float)z)
+        new Point3D(x, y, z)
     }
 
     static def p(x) {
-        new Point3D((float)x, (float)x, (float)x)
+        new Point3D(x, x, x)
     }
 
     static def c(rgb) {
         if (rgb instanceof Number) {
-            return new Color((float)rgb)
+            return new Color(rgb)
         } else if (rgb instanceof String) {
             float rf = Integer.valueOf(rgb[0,1], 16) / 255.0f
             float gf = Integer.valueOf(rgb[2,3], 16) / 255.0f
@@ -44,11 +44,11 @@ class Definitions {
     }
 
     static def c(r, g, b) {
-        new Color((float)r, (float)g, (float)b)
+        new Color(r, g, b)
     }
 
     static def v(x, y, z) {
-        new Vector3D((float)x, (float)y, (float)z)
+        new Vector3D(x, y, z)
     }
 
     static def n(x, y, z) {

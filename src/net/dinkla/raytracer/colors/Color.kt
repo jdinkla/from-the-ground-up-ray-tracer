@@ -55,13 +55,9 @@ class Color {
     }
 
     fun createFromInt(rgb: Int): Color {
-        val rx = rgb and 0x00ff0000
-        val gx = rgb and 0x0000ff00
-        val bx = rgb and 0x000000ff
-
-        val r = ((rgb and 0x00ff0000 shr 16) / 255.0f).toDouble()
-        val g = ((rgb and 0x0000ff00 shr 8) / 255.0f).toDouble()
-        val b = ((rgb and 0x000000ff) / 255.0f).toDouble()
+        val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
+        val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
+        val b: Double = (rgb and 0x000000ff) / 255.0
         return Color(r, g, b)
     }
 

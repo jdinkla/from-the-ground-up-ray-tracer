@@ -18,7 +18,7 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
 
     public WrappedFloat(final double value) {
         this.value = value;
-//        this.value = (double) value;
+//        this.value =  value;
     }
 
     public void setMaxValue() {
@@ -31,7 +31,7 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
     }
     
     public void setValue(final double value) {
-//        this.value = (double) value;
+//        this.value =  value;
         this.value = value;
     }
     

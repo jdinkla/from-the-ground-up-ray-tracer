@@ -67,6 +67,6 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
 
     @Override
     public boolean inShadow(World<C> world, Ray ray, Shade sr) {
-        return world.inShadow(ray, sr, Float.MAX_VALUE);
+        return world.inShadow(ray, sr, Double.MAX_VALUE);
     }
 }

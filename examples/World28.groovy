@@ -1,7 +1,7 @@
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 
-float sqrt200 = (float) Math.sqrt(200)
+float sqrt200 =  Math.sqrt(200)
 def r1 = builder.rectangle(p0: Point3D.ORIGIN, a: v(sqrt200, 0, 0), b: v(0, 10, 0))
 
 builder.world(id: "World28") {

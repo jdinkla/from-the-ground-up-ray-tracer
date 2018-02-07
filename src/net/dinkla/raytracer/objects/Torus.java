@@ -62,8 +62,8 @@ public class Torus extends GeometricObject {
         if (!intersected) {
             return false;
         }
-        sr.setT((float) t);
-        sr.setNormal(computeNormal(ray.linear((float) t)));
+        sr.setT( t);
+        sr.setNormal(computeNormal(ray.linear( t)));
         return true;
     }
 
@@ -134,17 +134,17 @@ public class Torus extends GeometricObject {
         final double x = 4.0 * p.getX() * diff;
         final double y = 4.0 * p.getY() * (diff + 2.0 * a * a);
         final double z = 4.0 * p.getZ() * diff;
-        final Normal normal = new Normal((float)x, (float)y, (float)z).normalize();
+        final Normal normal = new Normal(x, y, z).normalize();
         return normal;
     }
     
     /*
     private Normal computeNormal(Point3D p) {
-        final float paramSquared = a * a + b * b;
-        final float sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
-        final float x = 4.0f * p.x * (sumSquared - paramSquared);
-        final float y = 4.0f * p.y * (sumSquared - paramSquared + 2.0f * a * a);
-        final float z = 4.0f * p.z * (sumSquared - paramSquared);
+        final double paramSquared = a * a + b * b;
+        final double sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
+        final double x = 4.0 * p.x * (sumSquared - paramSquared);
+        final double y = 4.0 * p.y * (sumSquared - paramSquared + 2.0 * a * a);
+        final double z = 4.0 * p.z * (sumSquared - paramSquared);
         final Normal normal = new Normal(x, y, z).normalize();
         return normal;
     }

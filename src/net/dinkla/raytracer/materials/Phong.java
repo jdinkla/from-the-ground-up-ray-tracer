@@ -28,11 +28,11 @@ public class Phong<C extends Color> extends Matte<C> {
         specularBrdf = new GlossySpecular<C>();
     }
 
-    public void setKs(float ks) {
+    public void setKs(double ks) {
         specularBrdf.ks = ks;
     }
 
-    public void setExp(float exp) {
+    public void setExp(double exp) {
         specularBrdf.exp = exp;
     }
 

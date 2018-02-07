@@ -56,8 +56,8 @@ public class AffineTransformation {
     }
 
     public void rotateX(final double phi) {
-        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
-        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
+        final double cosPhi =  Math.cos(phi * PI_ON_180);
+        final double sinPhi =  Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[1][1] = cosPhi;
@@ -75,8 +75,8 @@ public class AffineTransformation {
     }
 
     public void rotateY(final double phi) {
-        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
-        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
+        final double cosPhi =  Math.cos(phi * PI_ON_180);
+        final double sinPhi =  Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[2][2] = cosPhi;
@@ -94,8 +94,8 @@ public class AffineTransformation {
     }
 
     public void rotateZ(final double phi) {
-        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
-        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
+        final double cosPhi =  Math.cos(phi * PI_ON_180);
+        final double sinPhi =  Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[0][0] = cosPhi;

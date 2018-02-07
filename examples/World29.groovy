@@ -1,7 +1,7 @@
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 
-float sqrt200 = (float) Math.sqrt(200)
+float sqrt200 =  Math.sqrt(200)
 def r1 = builder.alignedBox(p: Point3D.ORIGIN, q: p(sqrt200, 10, 0.52))
 
 builder.world(id: "World29") {

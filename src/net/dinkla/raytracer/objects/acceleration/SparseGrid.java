@@ -56,7 +56,7 @@ public class SparseGrid extends Grid {
         double wy = bbox.getQ().getY() - bbox.getP().getY();
         double wz = bbox.getQ().getZ() - bbox.getP().getZ();
 
-        double s = (double) Math.pow(wx * wy * wz / objects.size(), (1.0 / 3));
+        double s =  Math.pow(wx * wy * wz / objects.size(), (1.0 / 3));
         nx = (int) (multiplier * wx / s + 1);
         ny = (int) (multiplier * wy / s + 1);
         nz = (int) (multiplier * wz / s + 1);

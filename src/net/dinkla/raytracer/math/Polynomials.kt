@@ -61,9 +61,9 @@ object Polynomials {
 //        /*  substitute x = y - A/4 to eliminate cubic term:
 //            x^4 + px^2 + qx + r = 0 */
 //        sq_A = A * A
-//        p = -3.0f / 8 * sq_A + B
+//        p = -3.0 / 8 * sq_A + B
 //        q = 1.0 / 8 * sq_A * A - 1.0 / 2 * A * B + C
-//        r = -3.0f / 256 * sq_A * sq_A + 1.0 / 16 * sq_A * B - 1.0 / 4 * A * C + D
+//        r = -3.0 / 256 * sq_A * sq_A + 1.0 / 16 * sq_A * B - 1.0 / 4 * A * C + D
 //
 //        if (MathUtils.isZero(r)) {
 //            /* no absolute term: y(y^3 + py + q) = 0 */
@@ -166,7 +166,7 @@ object Polynomials {
 //        /*  substitute x = y - A/3 to eliminate quadric term: x^3 +px + q = 0 */
 //        sq_A = A * A
 //        p = 1.0 / 3 * (-1.0 / 3 * sq_A + B)
-//        q = 1.0 / 2 * (2.0f / 27 * A * sq_A - 1.0 / 3 * A * B + C)
+//        q = 1.0 / 2 * (2.0 / 27 * A * sq_A - 1.0 / 3 * A * B + C)
 //
 //        /* use Cardano's formula */
 //        cb_p = p * p * p
@@ -222,7 +222,7 @@ object Polynomials {
             s[0] = -p
             return 1
         } else if (D > 0) {
-            val sqrtD = Math.sqrt(D).toFloat().toDouble()
+            val sqrtD = Math.sqrt(D)
             s[0] = sqrtD - p
             s[1] = -sqrtD - p
             return 2
@@ -261,9 +261,9 @@ object Polynomials {
         /*  substitute x = y - A/4 to eliminate cubic term:
             x^4 + px^2 + qx + r = 0 */
         sq_A = A * A
-        p = -3.0f / 8 * sq_A + B
+        p = -3.0 / 8 * sq_A + B
         q = (1.0 / 8).toDouble() * sq_A * A - (1.0 / 2).toDouble() * A * B + C
-        r = (-3.0f / 256).toDouble() * sq_A * sq_A + (1.0 / 16).toDouble() * sq_A * B - (1.0 / 4).toDouble() * A * C + D
+        r = (-3.0 / 256).toDouble() * sq_A * sq_A + (1.0 / 16).toDouble() * sq_A * B - (1.0 / 4).toDouble() * A * C + D
 
         if (MathUtils.isZero(r)) {
             /* no absolute term: y(y^3 + py + q) = 0 */
@@ -300,14 +300,14 @@ object Polynomials {
             if (MathUtils.isZero(u)) {
                 u = 0.0
             } else if (u > 0) {
-                u = Math.sqrt(u).toFloat().toDouble()
+                u = Math.sqrt(u)
             } else {
                 return 0
             }
             if (MathUtils.isZero(v)) {
                 v = 0.0
             } else if (v > 0) {
-                v = Math.sqrt(v).toFloat().toDouble()
+                v = Math.sqrt(v)
             } else {
                 return 0
             }
@@ -325,7 +325,7 @@ object Polynomials {
             coeffs3[2] = 1.0
 
             // TODO: Was heißt s+ num
-            //            float[] ss3 = { s[0 + num], s[1 + num] };
+            //            double[] ss3 = { s[0 + num], s[1 + num] };
             val ss3 = doubleArrayOf(s[0 + num], s[1 + num])
             num += Polynomials.solveQuadric(coeffs3, ss3)
             s[0] = ss3[0]
@@ -368,7 +368,7 @@ object Polynomials {
         /*  substitute x = y - A/3 to eliminate quadric term: x^3 +px + q = 0 */
         sq_A = A * A
         p = 1.0 / 3 * (-1.0 / 3 * sq_A + B)
-        q = 1.0 / 2 * ((2.0f / 27).toDouble() * A * sq_A - (1.0 / 3).toDouble() * A * B + C)
+        q = 1.0 / 2 * ((2.0 / 27).toDouble() * A * sq_A - (1.0 / 3).toDouble() * A * B + C)
 
         /* use Cardano's formula */
         cb_p = p * p * p

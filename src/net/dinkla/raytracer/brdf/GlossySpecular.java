@@ -45,7 +45,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
         Vector3D r = wi.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2*nDotWi));
         double rDotWo = r.dot(wo);
         if (rDotWo > 0) {
-            return (C) cs.mult((float) (ks * Math.pow(rDotWo, exp)));
+            return (C) cs.mult( (ks * Math.pow(rDotWo, exp)));
         } else {
             return (C) C.BLACK;
         }
@@ -70,7 +70,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
             sample.wi = u.mult(-sp.getX()).plus(v.mult(-sp.getY())).plus(w.mult(-sp.getZ()));
         }
 
-        final float phongLobe = (float) Math.pow(sample.wi.dot(r), exp);
+        final double phongLobe =  Math.pow(sample.wi.dot(r), exp);
 
         sample.pdf = phongLobe * nDotWi;
         sample.color = (C) cs.mult(ks * phongLobe);

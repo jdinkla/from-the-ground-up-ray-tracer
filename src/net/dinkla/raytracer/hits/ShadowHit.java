@@ -10,7 +10,7 @@ package net.dinkla.raytracer.hits;
 public class ShadowHit {
 
     /**
-     * The distance. Initially set to <code>Float.MAX_VALUE</code>.
+     * The distance. Initially set to <code>Double.MAX_VALUE</code>.
      */
     public double t;
 

@@ -26,13 +26,13 @@ public class EnvironmentLight<C extends Color> extends Light<C> {
 
     @Override
     public boolean inShadow(World<C> world, Ray ray, Shade sr) {
-        return world.inShadow(ray, sr, Float.MAX_VALUE);
+        return world.inShadow(ray, sr, Double.MAX_VALUE);
     }
 
     @Override
     public Vector3D getDirection(Shade sr) {
         w = new Vector3D(sr.getNormal());
-        v = new Vector3D(0.0034f, 1.0, 0.0071f).cross(w);
+        v = new Vector3D(0.0034, 1.0, 0.0071).cross(w);
         u = v.cross(w);
         Point3D sp = sampler.sampleHemisphere();
         wi = u.mult(sp.getX()).plus(v.mult(sp.getY())).plus(w.mult(sp.getZ()));

@@ -59,7 +59,7 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
 
         double nDotWo = wo.dot(sr.getNormal());
 
-        Vector3D w = wo.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2.0f * nDotWo));
+        Vector3D w = wo.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2.0 * nDotWo));
         Vector3D u = new Vector3D(0.00424f, 1, 0.00764f).cross(w).normalize();
         Vector3D v = u.cross(w);
 

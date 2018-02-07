@@ -104,7 +104,7 @@ public class Sampler {
         double r, phi;
 	    diskSamples = new ArrayList<Point2D>(size);
         for (Point2D p : samples) {
-            Point2D sp = new Point2D(2.0f * p.getX() - 1.0, 2.0f * p.getY() - 1.0);
+            Point2D sp = new Point2D(2.0 * p.getX() - 1.0, 2.0 * p.getY() - 1.0);
             if (sp.getX() > -sp.getY()) {            // sectors 1 and 2
                 if (sp.getX() > sp.getY()) {        // sector 1
                     r = sp.getX();
@@ -125,22 +125,22 @@ public class Sampler {
                         phi = 0.0;
                 }
             }
-            phi *= Math.PI / 4.0f;
-            diskSamples.add(new Point2D((float) (r * Math.cos(phi)), (float) (r * Math.sin(phi))));
+            phi *= Math.PI / 4.0;
+            diskSamples.add(new Point2D( (r * Math.cos(phi)),  (r * Math.sin(phi))));
         }
     }
 
-    public void mapSamplesToHemiSphere(final float exp) {
+    public void mapSamplesToHemiSphere(final double exp) {
     	int size = samples.size();
         hemisphereSamples = new ArrayList<Point3D>(numSamples * numSets);
         for (Point2D sample : samples) {
-            float cos_phi = (float) Math.cos(2.0 * Math.PI * sample.getX());
-            float sin_phi = (float) Math.sin(2.0 * Math.PI * sample.getX());
-            float cos_theta = (float) Math.pow((1.0 - sample.getY()), 1.0 / (exp + 1.0));
-            float sin_theta = (float) Math.sqrt(1.0 - cos_theta * cos_theta);
-            float pu = sin_theta * cos_phi;
-            float pv = sin_theta * sin_phi;
-            float pw = cos_theta;
+            double cos_phi =  Math.cos(2.0 * Math.PI * sample.getX());
+            double sin_phi =  Math.sin(2.0 * Math.PI * sample.getX());
+            double cos_theta =  Math.pow((1.0 - sample.getY()), 1.0 / (exp + 1.0));
+            double sin_theta =  Math.sqrt(1.0 - cos_theta * cos_theta);
+            double pu = sin_theta * cos_phi;
+            double pv = sin_theta * sin_phi;
+            double pw = cos_theta;
             hemisphereSamples.add(new Point3D(pu, pv, pw));
         }
     }
@@ -151,11 +151,11 @@ public class Sampler {
         sphereSamples = new ArrayList<Point3D>(numSamples * numSets);
 	    for (int j = 0; j < numSamples * numSets; j++) {
             Point2D p = samples.get(j);
-            z 	= 1.0 - 2.0f * p.getX();
-            r 	= (float) Math.sqrt(1.0 - z * z);
-            phi = (float) (2 * Math.PI * p.getY());
-            x 	= (float) (r * Math.cos(phi));
-            y 	= (float) (r * Math.sin(phi));
+            z 	= 1.0 - 2.0 * p.getX();
+            r 	=  Math.sqrt(1.0 - z * z);
+            phi =  (2 * Math.PI * p.getY());
+            x 	=  (r * Math.cos(phi));
+            y 	=  (r * Math.sin(phi));
             sphereSamples.add(new Point3D(x, y, z));
         }
     }

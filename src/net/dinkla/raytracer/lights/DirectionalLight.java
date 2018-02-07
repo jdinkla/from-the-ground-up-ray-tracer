@@ -39,7 +39,7 @@ public class DirectionalLight<C extends Color> extends Light<C> {
 
     @Override
     public boolean inShadow(World world, Ray ray, Shade sr) {
-        return world.inShadow(ray, sr, Float.MAX_VALUE);
+        return world.inShadow(ray, sr, Double.MAX_VALUE);
     }
 
     public void setDirection(Vector3D direction) {

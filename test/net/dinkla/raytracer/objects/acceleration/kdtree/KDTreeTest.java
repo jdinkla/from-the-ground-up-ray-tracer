@@ -22,9 +22,9 @@ public class KDTreeTest {
     public void testBuild() throws Exception {
 
         Sphere s1 = new Sphere(new Point3D(1.0, 0.0, 0.0), 0.25f);
-        Sphere s2 = new Sphere(new Point3D(2.0f, 0.0, 0.0), 0.25f);
+        Sphere s2 = new Sphere(new Point3D(2.0, 0.0, 0.0), 0.25f);
         Sphere s3 = new Sphere(new Point3D(1.0, 0.0, 1.0), 0.25f);
-        Sphere s4 = new Sphere(new Point3D(2.0f, 0.0, 1.0), 0.25f);
+        Sphere s4 = new Sphere(new Point3D(2.0, 0.0, 1.0), 0.25f);
 
         List<GeometricObject> ls = new ArrayList<GeometricObject>();
         ls.add(s1);

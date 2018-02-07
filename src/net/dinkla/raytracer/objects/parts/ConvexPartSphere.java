@@ -38,7 +38,7 @@ public class ConvexPartSphere extends GeometricObject {
         double 		t;
         Vector3D temp 	= ray.o.minus(center);
         double 		a 		= ray.d.dot(ray.d);
-        double 		b 		= ray.d.dot(temp) * 2.0f;
+        double 		b 		= ray.d.dot(temp) * 2.0;
         double 		c 		= temp.dot(temp) - radius * radius;
         double 		disc 	= b * b - 4.0 * a * c;
 

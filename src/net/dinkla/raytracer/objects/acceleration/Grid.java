@@ -39,14 +39,14 @@ public class Grid extends Compound {
 
     public Grid() {
         super();
-        multiplier = 2.0f;
+        multiplier = 2.0;
         depth = 0;
     }
 
     public Grid(final Mesh mesh) {
         super();
         this.mesh = mesh;
-        multiplier = 2.0f;
+        multiplier = 2.0;
         depth = 0;
     }
 

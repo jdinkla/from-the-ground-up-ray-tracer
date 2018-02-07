@@ -4,8 +4,8 @@ import net.dinkla.raytracer.math.Normal
 
 
 final int NUM_SPHERES = 25;
-final float volume = 0.1f / NUM_SPHERES;
-final float radius = (float) Math.pow(0.75f * volume / Math.PI, 1.0/3);
+final float volume = 0.1 / NUM_SPHERES;
+final float radius =  Math.pow(0.75f * volume / Math.PI, 1.0/3);
 
 final Random r = new Random();
 
@@ -41,9 +41,9 @@ builder.world(id: "World11") {
         grid {
             for (int i=0; i<NUM_SPHERES; i++) {
                 def cent = p(
-                    1.0 - 2.0f * r.nextFloat(),
-                    1.0 - 2.0f * r.nextFloat(),
-                    1.0 - 2.0f * r.nextFloat())
+                    1.0 - 2.0 * r.nextFloat(),
+                    1.0 - 2.0 * r.nextFloat(),
+                    1.0 - 2.0 * r.nextFloat())
                 sphere(center: cent, radius: radius, material: "p${i}")
             }
         }

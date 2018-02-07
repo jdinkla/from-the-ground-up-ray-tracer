@@ -44,7 +44,7 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
             eta = 1.0 / eta;
         }
         double cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta);
-        double cosThetaT = (double) Math.sqrt(cosThetaTSqr);
+        double cosThetaT =  Math.sqrt(cosThetaTSqr);
         result.wt = wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta));
         double f1 = kt / (eta*eta);
         double f2 = sr.getNormal().dot(result.wt);

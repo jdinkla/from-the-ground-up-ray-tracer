@@ -24,8 +24,8 @@ public class IterativePinhole extends Pinhole {
 //    int STEP_Y = 1;
 //    int STEP_X = 1;
 
-//    public float d;
-//    public float zoom;
+//    public double d;
+//    public double zoom;
 
     public IterativePinhole(ViewPlane viewPlane, Tracer tracer) {
         super(viewPlane, tracer);

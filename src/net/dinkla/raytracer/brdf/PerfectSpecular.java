@@ -35,7 +35,7 @@ public class PerfectSpecular<C extends Color> extends BRDF<C> {
         final Sample result = new Sample();
         Normal normal = sr.getNormal();
         final double nDotWo = normal.dot(wo);
-        result.wi = wo.negate().plus(sr.getNormal().mult(2.0f * nDotWo));
+        result.wi = wo.negate().plus(sr.getNormal().mult(2.0 * nDotWo));
         final double nDotWi = normal.dot(result.wi);
         result.color = (C) cr.mult(kr / Math.abs(nDotWi));
         return result;

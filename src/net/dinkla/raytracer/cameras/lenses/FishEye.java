@@ -52,16 +52,16 @@ public class FishEye extends AbstractLens {
 
     protected RayDirection getRayDirection(Point2D pp, Resolution resolution, double s) {
         RayDirection rd = new RayDirection();
-        double x = 2.0f / (s * resolution.hres) * pp.getX();
-        double y = 2.0f / (s * resolution.vres) * pp.getY();
+        double x = 2.0 / (s * resolution.hres) * pp.getX();
+        double y = 2.0 / (s * resolution.vres) * pp.getY();
         double rSquared = x * x + y * y;
         if (rSquared <= 1) {
-            float r = (float) Math.sqrt(rSquared);
+            double r =  Math.sqrt(rSquared);
             double psi = r * maxPsi * MathUtils.PI_ON_180;
-            float sinPsi = (float) Math.sin(psi);
-            float cosPsi = (float) Math.cos(psi);
-            float sinAlpha = (float) y / r;
-            float cosAlpha = (float) x / r;
+            double sinPsi =  Math.sin(psi);
+            double cosPsi =  Math.cos(psi);
+            double sinAlpha =  y / r;
+            double cosAlpha =  x / r;
 //            rd.direction = uvw.u.mult(sinPsi * cosAlpha).plus(uvw.v.mult(sinPsi * sinAlpha)).minus(uvw.w.mult(cosPsi));
             rd.direction = uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi);
             rd.rSquared = rSquared;

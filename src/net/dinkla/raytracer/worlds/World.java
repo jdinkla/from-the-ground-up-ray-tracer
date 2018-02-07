@@ -128,7 +128,7 @@ public class World<C extends Color> {
         final int t = stepCounter.getCurrent();
         if (dynamic) {
             Point3D p = camera.getLens().getEye();
-            Point3D p2 = new Point3D(p.getX() +0.1f, p.getY() +0.1f, p.getZ());
+            Point3D p2 = new Point3D(p.getX() +0.1, p.getY() +0.1, p.getZ());
             camera.getLens().setEye(p2);
         }
         stepCounter.step();
