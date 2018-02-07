@@ -24,7 +24,7 @@ public class Hit extends ShadowHit {
         object = null;
     }
 
-    public Hit(final float t) {
+    public Hit(final double t) {
         super(t);
         normal = null;
         object = null;

@@ -47,9 +47,9 @@ class Vector3DSpec extends Specification {
     }
 
     def "normalize"() {
-        final float x = v.x/v.length()
-        final float y = v.y/v.length()
-        final float z = v.z/v.length()
+        final double x = v.x/v.length()
+        final double y = v.y/v.length()
+        final double z = v.z/v.length()
         expect: v.normalize() == new Vector3D(x, y, z)
     }
 

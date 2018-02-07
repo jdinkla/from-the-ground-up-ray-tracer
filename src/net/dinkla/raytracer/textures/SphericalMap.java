@@ -26,7 +26,7 @@ public class SphericalMap extends Mapping {
             phi += 2.0f * Math.PI;
         }
 
-//        float u = phi * (1.0f / (2f * (float) Math.PI));
+//        float u = phi * (1.0 / (2f * (float) Math.PI));
         float u = (float) (phi * invTWO_PI);
 //        float v = 1 - theta * MathUtils.INV_PI;
         float v = (float) (1 - theta * invPI);

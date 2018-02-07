@@ -41,7 +41,7 @@ class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObj
         val q = g * i - e * k
         val s = e * j - f * i
 
-        val invDenom = 1.0f / (a * m + b * q + c * s)
+        val invDenom = 1.0 / (a * m + b * q + c * s)
 
         val e1 = d * m - b * n - c * p
         val beta = e1 * invDenom
@@ -97,7 +97,7 @@ class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObj
         val q = g * i - e * k
         val s = e * j - f * i
 
-        val invDenom = 1.0f / (a * m + b * q + c * s)
+        val invDenom = 1.0 / (a * m + b * q + c * s)
 
         val e1 = d * m - b * n - c * p
         val beta = e1 * invDenom

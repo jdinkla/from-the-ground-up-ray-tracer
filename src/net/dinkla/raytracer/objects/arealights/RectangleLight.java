@@ -19,14 +19,14 @@ public class RectangleLight extends Rectangle implements ILightSource {
 
     public Sampler sampler;
 
-    protected float pdf;
+    protected double pdf;
 
     public RectangleLight(Point3D p0, Vector3D a, Vector3D b) {
         super(p0, a, b);
-        pdf = 1.0f / (a.length() * b.length());
+        pdf = 1.0 / (a.length() * b.length());
     }
 
-    public float pdf(Shade sr) {
+    public double pdf(Shade sr) {
 		return pdf;
     }
 

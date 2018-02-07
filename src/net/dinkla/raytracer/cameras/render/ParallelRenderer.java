@@ -23,7 +23,7 @@ public class ParallelRenderer implements IRenderer {
     final protected ISingleRayRenderer render;
     final protected IColorCorrector corrector;
 
-    public float exposureTime = 1.0f;
+    public double exposureTime = 1.0;
     
     public boolean parallel = false;
     protected int numThreads;

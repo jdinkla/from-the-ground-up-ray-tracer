@@ -38,8 +38,8 @@ class Vector2DSpec extends Specification {
     }
 
     def "normalize"() {
-        final float x = v.x/v.length()
-        final float y = v.y/v.length()
+        final double x = v.x/v.length()
+        final double y = v.y/v.length()
         expect: v.normalize() == new Vector2D(x, y)
     }
 }

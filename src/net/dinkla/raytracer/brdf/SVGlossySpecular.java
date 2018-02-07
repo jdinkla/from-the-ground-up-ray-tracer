@@ -18,21 +18,21 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
     /**
      * specular intensity
      */
-    public float ks;
+    public double ks;
 
     // specular color
     public Texture<C> cs;
 
     // specular exponent
-    public float exp;
+    public double exp;
 
     public SVGlossySpecular() {
-        this.ks = 0.25f;
-        this.exp = 5.0f;
+        this.ks = 0.25;
+        this.exp = 5.0;
         this.cs = null;
     }
 
-    public SVGlossySpecular(float ks, Texture<C> cs, float exp) {
+    public SVGlossySpecular(double ks, Texture<C> cs, double exp) {
         this.ks = ks;
         this.cs = cs;
         this.exp = exp;
@@ -41,11 +41,11 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
     @Override
     public C f(final Shade sr, final Vector3D wo, final Vector3D wi) {
         assert null != cs;
-        float nDotWi = wi.dot(sr.getNormal());
+        double nDotWi = wi.dot(sr.getNormal());
         Vector3D r = wi.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2*nDotWi));
-        float rDotWo = r.dot(wo);
+        double rDotWo = r.dot(wo);
         if (rDotWo > 0) {
-            return (C) cs.getColor(sr).mult((float) (ks * Math.pow(rDotWo, exp)));
+            return (C) cs.getColor(sr).mult((ks * Math.pow(rDotWo, exp)));
         } else {
             return (C) C.BLACK;
         }
@@ -57,7 +57,7 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
 
         Sample sample = new Sample();
 
-        float nDotWo = wo.dot(sr.getNormal());
+        double nDotWo = wo.dot(sr.getNormal());
 
         Vector3D w = wo.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2.0f * nDotWo));
         Vector3D u = new Vector3D(0.00424f, 1, 0.00764f).cross(w).normalize();
@@ -65,11 +65,11 @@ public class SVGlossySpecular<C extends Color> extends BRDF<C> {
 
         Point3D sp = sampler.sampleSphere();
         sample.wi = u.mult(sp.getX()).plus(v.mult(sp.getY())).plus(w.mult(sp.getZ()));
-        if (sample.wi.dot(sr.getNormal()) < 0.0f) {
+        if (sample.wi.dot(sr.getNormal()) < 0.0) {
             sample.wi = u.mult(-sp.getX()).plus(v.mult(-sp.getY())).plus(w.mult(-sp.getZ()));
         }
 
-        float phongLobe = (float) Math.pow(sample.wi.dot(w), exp);
+        double phongLobe = Math.pow(sample.wi.dot(w), exp);
 
         sample.pdf = phongLobe * (sample.wi.dot(sr.getNormal()));
         sample.color = (C) cs.getColor(sr).mult(ks * phongLobe);

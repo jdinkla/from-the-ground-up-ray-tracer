@@ -14,12 +14,12 @@ import net.dinkla.raytracer.math.Vector3D;
  */
 public class PerfectTransmitter<C extends Color> extends BTDF<C> {
 
-    public float ior;
-    public float kt;
+    public double ior;
+    public double kt;
 
     public PerfectTransmitter() {
-        kt = 1.0f;
-        ior = 1.0f;
+        kt = 1.0;
+        ior = 1.0;
     }
     
     @Override
@@ -36,18 +36,18 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
     public Sample sampleF(Shade sr, Vector3D wo) {
         Sample result = new Sample();
         Normal n = sr.getNormal();
-        float cosThetaI = n.dot(wo);
-        float eta = ior;
+        double cosThetaI = n.dot(wo);
+        double eta = ior;
         if (cosThetaI < 0) {
             cosThetaI = -cosThetaI;
             n = n.negate();
-            eta = 1.0f / eta;
+            eta = 1.0 / eta;
         }
-        float cosThetaTSqr = 1.0f - (1.0f - cosThetaI * cosThetaI) / (eta * eta);
-        float cosThetaT = (float) Math.sqrt(cosThetaTSqr);
+        double cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta);
+        double cosThetaT = (double) Math.sqrt(cosThetaTSqr);
         result.wt = wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta));
-        float f1 = kt / (eta*eta);
-        float f2 = sr.getNormal().dot(result.wt);
+        double f1 = kt / (eta*eta);
+        double f2 = sr.getNormal().dot(result.wt);
         result.color = (C) C.WHITE.mult(f1 / Math.abs(f2));
         return result;
     }
@@ -55,12 +55,12 @@ public class PerfectTransmitter<C extends Color> extends BTDF<C> {
     @Override
     public boolean isTir(Shade sr) {
         Vector3D wo = sr.ray.getD().mult(-1);
-        float cosThetaI = wo.dot(sr.getNormal());
-        float eta = ior;
+        double cosThetaI = wo.dot(sr.getNormal());
+        double eta = ior;
         if (cosThetaI < 0) {
-            eta = 1.0f / eta;
+            eta = 1.0 / eta;
         }
-        float cosThetaTSqr = 1.0f - (1.0f - cosThetaI * cosThetaI) / (eta * eta);
+        double cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta);
         return cosThetaTSqr < 0;
     }
     

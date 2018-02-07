@@ -2,10 +2,10 @@ package net.dinkla.raytracer.math
 
 class Matrix {
 
-    var m: Array<FloatArray>
+    var m: Array<DoubleArray>
 
     init {
-        m = Array(4) { FloatArray(4) }
+        m = Array(4) { DoubleArray(4) }
         setIdentity()
     }
 
@@ -13,7 +13,7 @@ class Matrix {
         val product = Matrix()
         for (j in 0..3) {
             for (i in 0..3) {
-                var sum = 0.0f
+                var sum = 0.0
                 for (k in 0..3) {
                     sum += m[i][k] * matrix.m[k][j]
                 }
@@ -45,7 +45,7 @@ class Matrix {
         return Normal(x, y, z)
     }
 
-    operator fun div(f: Float): Matrix {
+    operator fun div(f: Double): Matrix {
         val result = Matrix()
         for (j in 0..3) {
             for (i in 0..3) {
@@ -58,7 +58,7 @@ class Matrix {
     fun setIdentity() {
         for (j in 0..3) {
             for (i in 0..3) {
-                m[i][j] = if (i == j) 1.0f else 0.0f
+                m[i][j] = if (i == j) 1.0 else 0.0
             }
         }
     }

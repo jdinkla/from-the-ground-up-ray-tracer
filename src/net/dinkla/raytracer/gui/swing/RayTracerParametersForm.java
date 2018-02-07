@@ -134,27 +134,27 @@ public class RayTracerParametersForm {
     }
 
     public void getData(RayTracerParametersBean data) {
-        data.setEyeX(Float.valueOf(eyeX.getText()));
-        data.setEyeY(Float.valueOf(eyeY.getText()));
-        data.setEyeZ(Float.valueOf(eyeZ.getText()));
-        data.setLookAtX(Float.valueOf(lookAtX.getText()));
-        data.setLookAtY(Float.valueOf(lookAtY.getText()));
-        data.setLookAtZ(Float.valueOf(lookAtZ.getText()));
-        data.setUpZ(Float.valueOf(upZ.getText()));
-        data.setUpY(Float.valueOf(upY.getText()));
-        data.setUpX(Float.valueOf(upX.getText()));
-        data.setD(Float.valueOf(d.getText()));
+        data.setEyeX(Double.valueOf(eyeX.getText()));
+        data.setEyeY(Double.valueOf(eyeY.getText()));
+        data.setEyeZ(Double.valueOf(eyeZ.getText()));
+        data.setLookAtX(Double.valueOf(lookAtX.getText()));
+        data.setLookAtY(Double.valueOf(lookAtY.getText()));
+        data.setLookAtZ(Double.valueOf(lookAtZ.getText()));
+        data.setUpZ(Double.valueOf(upZ.getText()));
+        data.setUpY(Double.valueOf(upY.getText()));
+        data.setUpX(Double.valueOf(upX.getText()));
+        data.setD(Double.valueOf(d.getText()));
         data.setNumProcessors(Integer.valueOf(numThreads.getText()));
         data.setHres(Integer.valueOf(hres.getText()));
-        data.setSize(Float.valueOf(size.getText()));
-        data.setGamma(Float.valueOf(gamma.getText()));
+        data.setSize(Double.valueOf(size.getText()));
+        data.setGamma(Double.valueOf(gamma.getText()));
         data.setNumSamples(Integer.valueOf(numSamples.getText()));
         data.setMaxDepth(Integer.valueOf(maxDepth.getText()));
         data.setShowOutOfGamut(showOutOfGamut.isSelected());
         data.setVres(Integer.valueOf(vres.getText()));
         data.setFileName(textFileName.getText());
 //        data.setWorldProgram(editorPaneWorld.getText());
-        data.setExposureTime(Float.valueOf(exposureTime.getText()));
+        data.setExposureTime(Double.valueOf(exposureTime.getText()));
     }
 
     public boolean isModified(RayTracerParametersBean data) {
@@ -198,13 +198,13 @@ public class RayTracerParametersForm {
         frame.pack();
 
         // Initialize Bean
-        form.bean.setEye(-10, 3, 10);
-        form.bean.setLookAt(0, 1, 0);
-        form.bean.setUp(0, 1, 0);
-        form.bean.setD(1000.0f);
-        form.bean.setExposureTime(1.0f);
+        form.bean.setEye(-10.0, 3.0, 10.0);
+        form.bean.setLookAt(0.0, 1.0, 0.0);
+        form.bean.setUp(0.0, 1.0, 0.0);
+        form.bean.setD(1000.0);
+        form.bean.setExposureTime(1.0);
 
-        form.bean.setGamma(1.0f);
+        form.bean.setGamma(1.0);
       
         form.bean.setHres(640);
         form.bean.setVres(480);
@@ -265,7 +265,7 @@ public class RayTracerParametersForm {
             vp.resolution = new Resolution(bean.getHres(), bean.getVres());
 //            vp.numSamples = bean.getNumSamples();
 //            vp.sampler = new Sampler(new PureRandom(), 100, 10);
-            //vp.sampler = new Constant2D(0.5f);
+            //vp.sampler = new Constant2D(0.5);
             vp.size = bean.getSize();
             vp.maxDepth = bean.getMaxDepth();
             vp.setGamma(bean.getGamma());

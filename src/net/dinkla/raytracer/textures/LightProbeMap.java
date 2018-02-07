@@ -28,9 +28,9 @@ public class LightProbeMap extends Mapping {
     public Mapped getTexelCoordinates(Point3D p, Resolution res) {
         Mapped result = new Mapped();
 
-        float d = (float) Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
-        float sinBeta = p.getY() / d;
-        float cosBeta = p.getX() / d;
+        double d = Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
+        double sinBeta = p.getY() / d;
+        double cosBeta = p.getX() / d;
 
         float alpha;
 
@@ -45,9 +45,9 @@ public class LightProbeMap extends Mapping {
                 throw new RuntimeException("LightProbeMap.getTexelCoordinates unknown type");
         }
 
-        float r = alpha * MathUtils.INV_PI;
-        float u = (1.0f + r * cosBeta) * 0.5f;
-        float v = (1.0f + r * sinBeta) * 0.5f;
+        double r = alpha * MathUtils.INV_PI;
+        double u = (1.0 + r * cosBeta) * 0.5;
+        double v = (1.0 + r * sinBeta) * 0.5;
 
         result.column = (int) ((res.hres -1) * u);
         result.row = (int) ((res.vres -1) * v);

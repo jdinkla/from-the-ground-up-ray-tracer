@@ -8,7 +8,7 @@ builder.world(id: "World3") {
 
     camera(d: 750, eye: p(0, 0, 200), lookAt: p(50, 0, 0))
 
-    ambientLight(ls: 0.5f)
+    ambientLight(ls: 0.5)
 
     lights {
         pointLight(location: new Point3D(3, 3, 1))

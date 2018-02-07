@@ -50,37 +50,37 @@ public class MeshTriangle extends GeometricObject {
         Point3D p1 = mesh.vertices.get(index1);
         Point3D p2 = mesh.vertices.get(index2);
 
-        float a = p0.getX() - p1.getX();
-        float b = p0.getX() - p2.getX();
-        float c = ray.getD().getX();
-        float d = p0.getX() - ray.getO().getX();
-        float e = p0.getY() - p1.getY();
-        float f = p0.getY() - p2.getY();
-        float g = ray.getD().getY();
-        float h = p0.getY() - ray.getO().getY();
-        float i = p0.getZ() - p1.getZ();
-        float j = p0.getZ() - p2.getZ();
-        float k = ray.getD().getZ();
-        float l = p0.getZ() - ray.getO().getZ();
+        double a = p0.getX() - p1.getX();
+        double b = p0.getX() - p2.getX();
+        double c = ray.getD().getX();
+        double d = p0.getX() - ray.getO().getX();
+        double e = p0.getY() - p1.getY();
+        double f = p0.getY() - p2.getY();
+        double g = ray.getD().getY();
+        double h = p0.getY() - ray.getO().getY();
+        double i = p0.getZ() - p1.getZ();
+        double j = p0.getZ() - p2.getZ();
+        double k = ray.getD().getZ();
+        double l = p0.getZ() - ray.getO().getZ();
 
-        float m = f * k - g * j;
-        float n = h * k - g * l;
-        float p = f * l - h * j;
-        float q = g * i - e * k;
-        float s = e * j - f * i;
+        double m = f * k - g * j;
+        double n = h * k - g * l;
+        double p = f * l - h * j;
+        double q = g * i - e * k;
+        double s = e * j - f * i;
 
-        float invDenom  = 1.0f / (a * m + b * q + c * s);
+        double invDenom  = 1.0 / (a * m + b * q + c * s);
 
-        float e1 = d * m - b * n - c * p;
-        float beta = e1 * invDenom;
+        double e1 = d * m - b * n - c * p;
+        double beta = e1 * invDenom;
 
-        if (beta < 0.0f) {
+        if (beta < 0.0) {
              return false;
         }
 
-        float r = e * l - h * i;
-        float e2 = a * n + d * q + c * r;
-        float gamma = e2 * invDenom;
+        double r = e * l - h * i;
+        double e2 = a * n + d * q + c * r;
+        double gamma = e2 * invDenom;
 
         if (gamma < 0.0 ) {
             return false;
@@ -88,8 +88,8 @@ public class MeshTriangle extends GeometricObject {
         if (beta + gamma > 1.0) {
             return false;
         }
-        float e3 = a * p - b * r + d * s;
-        float t = e3 * invDenom;
+        double e3 = a * p - b * r + d * s;
+        double t = e3 * invDenom;
 
         if (t < MathUtils.K_EPSILON) {
             return false;
@@ -128,13 +128,13 @@ public class MeshTriangle extends GeometricObject {
     }
 
     /*
-    float interpolateU(final float beta, final float gamma) {
+    double interpolateU(final double beta, final double gamma) {
         return ((1 - beta - gamma) * mesh.us.get(index0)
                 + beta * mesh.us.get(index1)
                 + gamma * mesh.us.get(index2));
     }
 
-    float interpolateV(final float beta, final float gamma) {
+    double interpolateV(final double beta, final double gamma) {
         return ((1 - beta - gamma) * mesh.vs.get(index0)
                 + beta * mesh.vs.get(index1)
                 + gamma * mesh.vs.get(index2));

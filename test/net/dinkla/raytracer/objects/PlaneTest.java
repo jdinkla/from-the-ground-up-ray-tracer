@@ -57,7 +57,7 @@ public class PlaneTest {
 
         boolean isHit = plane.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0f);
+        assertEquals(sr.getT(), 1.0);
         assertEquals(sr.getNormal(), normal);
     }
 
@@ -91,7 +91,7 @@ public class PlaneTest {
 
         boolean isHit = plane.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0f);
+        assertEquals(sr.getT(), 1.0);
         assertEquals(sr.getNormal(), normal);
     }
 
@@ -108,7 +108,7 @@ public class PlaneTest {
 
         boolean isHit = plane.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 2.0f);
+        assertEquals(sr.getT(), 2.0);
         assertEquals(sr.getNormal(), normal);
     }
 
@@ -124,7 +124,7 @@ public class PlaneTest {
 
         boolean isHit = plane.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 2.0f);
+        assertEquals(sr.getT(), 2.0);
         assertEquals(sr.getNormal(), normal);
     }
 

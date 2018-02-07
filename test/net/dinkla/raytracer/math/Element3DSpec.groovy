@@ -16,7 +16,7 @@ class Element3DSpec extends Specification {
 
     def "Length"() {
         def e = new Element3D(2, 3, 5)
-        expect: e.length() == (float) sqrt(2*2 + 3*3 + 5*5)
+        expect: e.length() == sqrt(2*2 + 3*3 + 5*5)
     }
 
     def "Equals"() {

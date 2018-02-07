@@ -30,24 +30,24 @@ public class FlatMeshTriangle extends MeshTriangle {
         Point3D v1 = mesh.vertices.get(index1);
         Point3D v2 = mesh.vertices.get(index2);
 
-        float a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getD().getX(), d = v0.getX() - ray.getO().getX();
-        float e = v0.getY() - v1.getY(), f = v0.getY() - v2.getY(), g = ray.getD().getY(), h = v0.getY() - ray.getO().getY();
-        float i = v0.getZ() - v1.getZ(), j = v0.getZ() - v2.getZ(), k = ray.getD().getZ(), l = v0.getZ() - ray.getO().getZ();
+        double a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getD().getX(), d = v0.getX() - ray.getO().getX();
+        double e = v0.getY() - v1.getY(), f = v0.getY() - v2.getY(), g = ray.getD().getY(), h = v0.getY() - ray.getO().getY();
+        double i = v0.getZ() - v1.getZ(), j = v0.getZ() - v2.getZ(), k = ray.getD().getZ(), l = v0.getZ() - ray.getO().getZ();
 
-        float m = f * k - g * j, n = h * k - g * l, p = f * l - h * j;
-        float q = g * i - e * k, s = e * j - f * i;
+        double m = f * k - g * j, n = h * k - g * l, p = f * l - h * j;
+        double q = g * i - e * k, s = e * j - f * i;
 
-        float invDenom = 1.0f / (a * m + b * q + c * s);
+        double invDenom = 1.0 / (a * m + b * q + c * s);
 
-        float e1 = d * m - b * n - c * p;
-        float beta = e1 * invDenom;
+        double e1 = d * m - b * n - c * p;
+        double beta = e1 * invDenom;
 
         if (beta < 0.0)
             return (false);
 
-        float r = e * l - h * i;
-        float e2 = a * n + d * q + c * r;
-        float gamma = e2 * invDenom;
+        double r = e * l - h * i;
+        double e2 = a * n + d * q + c * r;
+        double gamma = e2 * invDenom;
 
         if (gamma < 0.0)
             return (false);
@@ -55,8 +55,8 @@ public class FlatMeshTriangle extends MeshTriangle {
         if (beta + gamma > 1.0)
             return (false);
 
-        float e3 = a * p - b * r + d * s;
-        float t = e3 * invDenom;
+        double e3 = a * p - b * r + d * s;
+        double t = e3 * invDenom;
 
         if (t < MathUtils.K_EPSILON)
             return (false);

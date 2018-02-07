@@ -16,10 +16,10 @@ builder.world(id: "World37") {
 
     //camera(d: 1000, eye: p(0, 10, 10), lookAt: p(0, 0, 0))
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(NUM / 2, 10, NUM / 2), ls: 1.0f, shadows: false)
+        pointLight(location: p(NUM / 2, 10, NUM / 2), ls: 1.0, shadows: false)
     }
 
     materials {

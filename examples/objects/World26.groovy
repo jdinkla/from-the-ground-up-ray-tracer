@@ -8,7 +8,7 @@ builder.world(id: "World26") {
 
     camera(d: 250)
 
-    ambientLight(ls: 0.5f)
+    ambientLight(ls: 0.5)
 
     lights {
         pointLight(location: p(2, 100, 1))

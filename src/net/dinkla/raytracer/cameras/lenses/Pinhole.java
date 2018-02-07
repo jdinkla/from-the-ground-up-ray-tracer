@@ -15,13 +15,13 @@ public class Pinhole extends AbstractLens {
 
     static final Logger LOGGER = Logger.getLogger(Pinhole.class);
 
-    public float d;
+    public double d;
     // TODO zoom camera
 //    public float zoom;
 
     public Pinhole(ViewPlane viewPlane) {
         super(viewPlane);            
-        this.d = 1.0f;
+        this.d = 1.0;
 //        this.zoom = zoom;
         //viewPlane.size /= zoom;
     }

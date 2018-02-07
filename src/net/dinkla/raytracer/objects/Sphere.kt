@@ -15,45 +15,45 @@ class Sphere : GeometricObject {
 
     var center: Point3D
 
-    var radius: Float = 0.toFloat()
+    var radius: Double = 0.0
 
     protected var bbox: BBox? = null
 
-    constructor(radius: Float) {
+    constructor(radius: Double) {
         this.center = Point3D.ORIGIN
         this.radius = radius
         bbox = null
     }
 
-    constructor(center: Point3D, radius: Float) {
+    constructor(center: Point3D, radius: Double) {
         this.center = center
         this.radius = radius
         bbox = null
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        var t: Float
+        var t: Double
         val temp = ray.o - center
         val a = ray.d.dot(ray.d)
-        val b = temp.mult(2f).dot(ray.d)
+        val b = temp.mult(2.0).dot(ray.d)
         val c = temp.dot(temp) - radius * radius
-        val disc = b * b - 4f * a * c
+        val disc = b * b - 4.0 * a * c
 
         if (disc < 0) {
             return false
         } else {
-            val e = Math.sqrt(disc.toDouble()).toFloat()
+            val e = Math.sqrt(disc)
             val denom = 2 * a
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.setT(t)
-                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0f / radius))
+                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.setT(t)
-                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0f / radius))
+                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
                 return true
             }
         }
@@ -61,12 +61,12 @@ class Sphere : GeometricObject {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        var t: Float
+        var t: Double
         val temp = ray.o.minus(center)
         val a = ray.d.dot(ray.d)
-        val b = temp.mult(2f).dot(ray.d)
+        val b = temp.mult(2.0).dot(ray.d)
         val c = temp.dot(temp) - radius * radius
-        val disc = b * b - 4f * a * c
+        val disc = b * b - 4.0 * a * c
 
         if (disc < 0) {
             return false

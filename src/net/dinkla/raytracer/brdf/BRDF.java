@@ -19,7 +19,7 @@ public abstract class BRDF<C extends Color> {
     public class Sample {
         public C color;
         public Vector3D wi;
-        public float pdf;
+        public double pdf;
     }
 
     abstract public C f(final Shade sr, final Vector3D wo, final Vector3D wi);

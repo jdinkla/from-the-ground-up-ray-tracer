@@ -12,7 +12,7 @@ builder.world(id: "World46") {
     //camera(d: 1500, eye: p(0, 0.1, 5), lookAt: p(0, 0, 0))
     camera(d: 750, eye: p(0, 0.1, 2), lookAt: p(0.5, 0.5, 0), numThreads: 8)
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
         //pointLight(location: p(-10, 3, 0), color: c(1, 0, 0))

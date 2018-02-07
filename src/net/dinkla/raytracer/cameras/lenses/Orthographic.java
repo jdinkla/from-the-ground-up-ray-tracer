@@ -13,11 +13,11 @@ import net.dinkla.raytracer.math.*;
  */
 public class Orthographic extends AbstractLens {
 
-    public float zw;
+    public double zw;
 
     public Orthographic(ViewPlane viewPlane) {
         super(viewPlane);
-        this.zw = 1111.0f;
+        this.zw = 1111.0;
     }
 
     public Ray getRaySampled(int r, int c, Point2D sp) {

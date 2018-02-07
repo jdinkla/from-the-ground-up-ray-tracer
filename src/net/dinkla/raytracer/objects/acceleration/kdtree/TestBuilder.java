@@ -48,7 +48,7 @@ public class TestBuilder implements IKDTreeBuilder {
 
             public BBox bbox;
             List<GeometricObject> objects;
-            float volume;
+            double volume;
 
             public Triple() {
                 objects = new ArrayList<GeometricObject>(); 
@@ -64,13 +64,13 @@ public class TestBuilder implements IKDTreeBuilder {
             static public final float constF = 0.333334f;
 
             public Axis axis;
-            public float split;
+            public double split;
             
             public Triple parent;
             public Triple left;
             public Triple right;
 
-            public float sah;
+            public double sah;
 
             public Split(final Triple parent) {
                 this.parent = parent;
@@ -84,7 +84,7 @@ public class TestBuilder implements IKDTreeBuilder {
                 sah = calcSah();
             }
 
-            public float calcSah() {
+            public double calcSah() {
                 return constF
                         + (left.volume / parent.volume) * left.objects.size()
                         + (right.volume / parent.volume) * right.objects.size();
@@ -103,7 +103,7 @@ public class TestBuilder implements IKDTreeBuilder {
             }
         }
 
-        public static Split calcSplit(final Axis axis, final float split, final Triple parent) {
+        public static Split calcSplit(final Axis axis, final double split, final Triple parent) {
             Split s = new Split(parent);
             s.axis = axis;
             s.split = split;
@@ -114,11 +114,11 @@ public class TestBuilder implements IKDTreeBuilder {
 
         public Split x(final Axis axis, final int num) {
             Split min = null;
-            float width = root.bbox.getQ().ith(axis) - root.bbox.getP().ith(axis);
+            double width = root.bbox.getQ().ith(axis) - root.bbox.getP().ith(axis);
             // divide interval in num parts
-            final float step = width / (num + 1);
+            final double step = width / (num + 1);
             for (int i=1; i<num;i++) {
-                float split = root.bbox.getP().ith(axis) + i * step;
+                double split = root.bbox.getP().ith(axis) + i * step;
                 Split s = calcSplit(axis, split, root);
                 if (s.isOk() && (null == min || s.sah < min.sah )) {
 //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );

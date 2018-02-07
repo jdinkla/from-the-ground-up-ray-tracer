@@ -19,11 +19,11 @@ public class DiskLight extends Disk implements ILightSource {
 
     public Sampler sampler;
 
-    public DiskLight(final Point3D center, final float radius, final Normal normal) {
+    public DiskLight(final Point3D center, final double radius, final Normal normal) {
         super(center, radius, normal);
     }
 
-    public float pdf(Shade sr) {
+    public double pdf(Shade sr) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

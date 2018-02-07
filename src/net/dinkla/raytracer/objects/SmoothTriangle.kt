@@ -45,7 +45,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         val q = g * i - e * k
         val s = e * j - f * i
 
-        val invDenom = 1.0f / (a * m + b * q + c * s)
+        val invDenom = 1.0 / (a * m + b * q + c * s)
 
         val e1 = d * m - b * n - c * p
         val beta = e1 * invDenom
@@ -79,8 +79,8 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         return true
     }
 
-    protected fun interpolateNormal(beta: Float, gamma: Float): Normal {
-        val v1 = n0.mult(1f - beta - gamma)
+    protected fun interpolateNormal(beta: Double, gamma: Double): Normal {
+        val v1 = n0.mult(1.0 - beta - gamma)
         val v2 = n1.mult(beta)
         val v3 = n2.mult(gamma)
         val normal = Normal(v1.plus(v2).plus(v3))
@@ -109,7 +109,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         val q = g * i - e * k
         val s = e * j - f * i
 
-        val invDenom = 1.0f / (a * m + b * q + c * s)
+        val invDenom = 1.0 / (a * m + b * q + c * s)
 
         val e1 = d * m - b * n - c * p
         val beta = e1 * invDenom

@@ -4,20 +4,14 @@ import java.lang.Math.sqrt
 
 open class Element3D {
 
-    val x: Float
-    val y: Float
-    val z: Float
+    val x: Double
+    val y: Double
+    val z: Double
 
-    constructor(x: Float, y: Float, z: Float) {
+    constructor(x: Double, y: Double, z: Double) {
         this.x = x
         this.y = y
         this.z = z
-    }
-
-    constructor(x: Double, y: Double, z: Double) {
-        this.x = x.toFloat()
-        this.y = y.toFloat()
-        this.z = z.toFloat()
     }
 
     constructor(e: Element3D) {
@@ -26,22 +20,22 @@ open class Element3D {
         this.z = e.z
     }
 
-    fun sqrLength(): Float {
+    fun sqrLength(): Double {
         return x * x + y * y + z * z
     }
 
-    fun length(): Float {
-        return sqrt(sqrLength().toDouble()).toFloat()
+    fun length(): Double {
+        return sqrt(sqrLength())
     }
 
-    fun distanceSquared(p: Element3D): Float {
+    fun distanceSquared(p: Element3D): Double {
         val dx = x - p.x
         val dy = y - p.y
         val dz = z - p.z
         return dx * dx + dy * dy + dz * dz
     }
 
-    fun ith(axis: Axis): Float {
+    fun ith(axis: Axis): Double {
         when (axis) {
             Axis.X -> return x
             Axis.Y -> return y

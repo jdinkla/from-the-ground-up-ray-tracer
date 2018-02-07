@@ -4,50 +4,50 @@ import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.math.Vector3D;
 
 public class RayTracerParametersBean {
-    private Float eyeX;
-    private Float eyeY;
-    private Float eyeZ;
-    private Float lookAtX;
-    private Float lookAtY;
-    private Float lookAtZ;
-    private Float upZ;
-    private Float upY;
-    private Float upX;
-    private Float d;
+    private Double eyeX;
+    private Double eyeY;
+    private Double eyeZ;
+    private Double lookAtX;
+    private Double lookAtY;
+    private Double lookAtZ;
+    private Double upZ;
+    private Double upY;
+    private Double upX;
+    private Double d;
     private Integer numProcessors;
     private Integer hres;
-    private Float size;
-    private Float gamma;
+    private Double size;
+    private Double gamma;
     private Integer numSamples;
     private Integer maxDepth;
     private Boolean showOutOfGamut;
     private Integer vres;
     private String fileName;
     private String worldProgram;
-    private Float exposureTime;
+    private Double exposureTime;
     
     public RayTracerParametersBean() {
-        eyeX = 0.0f;
-        eyeY = 0.0f;
-        eyeZ = 0.0f;
-        lookAtX = 0.0f;
-        lookAtY = 0.0f;
-        lookAtZ = 0.0f;
-        upZ = 0.0f;
-        upY = 0.0f;
-        upX = 0.0f;
-        d  = 0.0f;
+        eyeX = 0.0;
+        eyeY = 0.0;
+        eyeZ = 0.0;
+        lookAtX = 0.0;
+        lookAtY = 0.0;
+        lookAtZ = 0.0;
+        upZ = 0.0;
+        upY = 0.0;
+        upX = 0.0;
+        d  = 0.0;
         numProcessors = Runtime.getRuntime().availableProcessors();
         hres = 480 * 9/16;
         vres = 480;
-        size = 1.0f;
-        gamma = 1.0f;
+        size = 1.0;
+        gamma = 1.0;
         numSamples = 0;
         maxDepth = 5;
         showOutOfGamut = false;
         fileName = "";
         worldProgram = "";
-        exposureTime = 1.0f;
+        exposureTime = 1.0;
     }
 
     public void setEye(Point3D eye) {
@@ -56,7 +56,7 @@ public class RayTracerParametersBean {
         eyeZ = eye.getZ();
     }
 
-    public void setEye(float x, float y, float z) {
+    public void setEye(Double x, Double y, Double z) {
         eyeX = x;
         eyeY = y;
         eyeZ = z;
@@ -72,7 +72,7 @@ public class RayTracerParametersBean {
         lookAtZ = lookAt.getZ();
     }
 
-    public void setLookAt(float x, float y, float z) {
+    public void setLookAt(Double x, Double y, Double z) {
         lookAtX = x;
         lookAtY = y;
         lookAtZ = z;
@@ -88,7 +88,7 @@ public class RayTracerParametersBean {
         upZ = up.getZ();
     }
 
-    public void setUp(float x, float y, float z) {
+    public void setUp(Double x, Double y, Double z) {
         upX = x;
         upY = y;
         upZ = z;
@@ -98,83 +98,83 @@ public class RayTracerParametersBean {
         return new Vector3D(upX, upY, upZ);
     }
     
-    public Float getEyeX() {
+    public Double getEyeX() {
         return eyeX;
     }
 
-    public void setEyeX(final Float eyeX) {
+    public void setEyeX(final Double eyeX) {
         this.eyeX = eyeX;
     }
 
-    public Float getEyeY() {
+    public Double getEyeY() {
         return eyeY;
     }
 
-    public void setEyeY(final Float eyeY) {
+    public void setEyeY(final Double eyeY) {
         this.eyeY = eyeY;
     }
 
-    public Float getEyeZ() {
+    public Double getEyeZ() {
         return eyeZ;
     }
 
-    public void setEyeZ(final Float eyeZ) {
+    public void setEyeZ(final Double eyeZ) {
         this.eyeZ = eyeZ;
     }
 
-    public Float getLookAtX() {
+    public Double getLookAtX() {
         return lookAtX;
     }
 
-    public void setLookAtX(final Float lookAtX) {
+    public void setLookAtX(final Double lookAtX) {
         this.lookAtX = lookAtX;
     }
 
-    public Float getLookAtY() {
+    public Double getLookAtY() {
         return lookAtY;
     }
 
-    public void setLookAtY(final Float lookAtY) {
+    public void setLookAtY(final Double lookAtY) {
         this.lookAtY = lookAtY;
     }
 
-    public Float getLookAtZ() {
+    public Double getLookAtZ() {
         return lookAtZ;
     }
 
-    public void setLookAtZ(final Float lookAtZ) {
+    public void setLookAtZ(final Double lookAtZ) {
         this.lookAtZ = lookAtZ;
     }
 
-    public Float getUpZ() {
+    public Double getUpZ() {
         return upZ;
     }
 
-    public void setUpZ(final Float upZ) {
+    public void setUpZ(final Double upZ) {
         this.upZ = upZ;
     }
 
-    public Float getUpY() {
+    public Double getUpY() {
         return upY;
     }
 
-    public void setUpY(final Float upY) {
+    public void setUpY(final Double upY) {
         this.upY = upY;
     }
 
-    public Float getUpX() {
+    public Double getUpX() {
         return upX;
     }
 
-    public void setUpX(final Float upX) {
+    public void setUpX(final Double upX) {
         this.upX = upX;
     }
 
-    public Float getD() {
+    public Double getD() {
         return d;
     }
 
-    public void setD(final Float d) {
+    public void setD(final Double d) {
         this.d = d;
     }
 
@@ -194,19 +194,19 @@ public class RayTracerParametersBean {
         this.hres = hres;
     }
 
-    public Float getSize() {
+    public Double getSize() {
         return size;
     }
 
-    public void setSize(final Float size) {
+    public void setSize(final Double size) {
         this.size = size;
     }
 
-    public Float getGamma() {
+    public Double getGamma() {
         return gamma;
     }
 
-    public void setGamma(final Float gamma) {
+    public void setGamma(final Double gamma) {
         this.gamma = gamma;
     }
 
@@ -258,11 +258,11 @@ public class RayTracerParametersBean {
         this.worldProgram = worldProgram;
     }
 
-    public Float getExposureTime() {
+    public Double getExposureTime() {
         return exposureTime;
     }
 
-    public void setExposureTime(Float exposureTime) {
+    public void setExposureTime(Double exposureTime) {
         this.exposureTime = exposureTime;
     }
 }

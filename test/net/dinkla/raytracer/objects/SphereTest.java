@@ -19,7 +19,7 @@ public class SphereTest {
 
     // Sphere
     Point3D point;
-    float radius;
+    double radius;
     Sphere sphere;
     
     // Ray
@@ -38,7 +38,7 @@ public class SphereTest {
     @Test
     public void hit0() {
         point = new Point3D(0, 0, 0);
-        radius = 1.0f;
+        radius = 1.0;
         sphere = new Sphere(point, radius);
 
         o = new Point3D(0, 0, -2);
@@ -47,7 +47,7 @@ public class SphereTest {
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0f, MathUtils.K_EPSILON);
+        assertEquals(sr.getT(), 1.0, MathUtils.K_EPSILON);
 //        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, -1));
         assertEquals(sr.getNormal(), new Normal(0, 0, -1));
 
@@ -63,7 +63,7 @@ public class SphereTest {
     @Test
     public void hit1() {
         point = new Point3D(0, 0, 0);
-        radius = 1.0f;
+        radius = 1.0;
         sphere = new Sphere(point, radius);
 
         o = new Point3D(0, 0, 0);
@@ -72,7 +72,7 @@ public class SphereTest {
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0f, MathUtils.K_EPSILON);
+        assertEquals(sr.getT(), 1.0, MathUtils.K_EPSILON);
 //        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, 1));
         assertEquals(sr.getNormal(), new Normal(0, 0, 1));
     }
@@ -80,7 +80,7 @@ public class SphereTest {
     @Test
     public void boundingBox() {
         point = new Point3D(0, 0, 0);
-        radius = 1.0f;
+        radius = 1.0;
         sphere = new Sphere(point, radius);
 
         BBox bbox = sphere.getBoundingBox();

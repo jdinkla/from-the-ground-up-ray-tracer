@@ -24,7 +24,7 @@ builder.world(id: "World73") {
 
     camera(d: 10000, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), numThreads: 64)
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
         pointLight(location: p(-1, 2, 3), color: c(1, 1, 1), ls: 1)

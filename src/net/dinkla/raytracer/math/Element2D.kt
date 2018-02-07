@@ -4,25 +4,20 @@ import java.lang.StrictMath.sqrt
 
 open class Element2D {
 
-    val x: Float
-    val y: Float
+    val x: Double
+    val y: Double
 
-    constructor(x: Float, y: Float) {
+    constructor(x: Double, y: Double) {
         this.x = x
         this.y = y
     }
 
-    constructor(x: Double, y: Double) {
-        this.x = x.toFloat()
-        this.y = y.toFloat()
-    }
-
-    fun sqrLength(): Float {
+    fun sqrLength(): Double {
         return x * x + y * y
     }
 
-    fun length(): Float {
-        return sqrt(sqrLength().toDouble()).toFloat()
+    fun length(): Double {
+        return sqrt(sqrLength())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -37,6 +32,5 @@ open class Element2D {
     override fun toString(): String {
         return "($x,$y)"
     }
-
 
 }

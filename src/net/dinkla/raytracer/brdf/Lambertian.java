@@ -16,13 +16,13 @@ import static net.dinkla.raytracer.math.MathUtils.INV_PI;
 public class Lambertian<C extends Color> extends BRDF<C> {
 
     // diffuse reflection coefficient, in [0,1]
-    public float kd;
+    public double kd;
 
     // diffuse color
     public C cd;
 
     public Lambertian() {
-        kd = 1.0f;
+        kd = 1.0;
         cd = (C) C.WHITE;
     }
 

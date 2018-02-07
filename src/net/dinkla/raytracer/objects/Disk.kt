@@ -13,7 +13,7 @@ import net.dinkla.raytracer.math.*
  * Time: 19:06:27
  * To change this template use File | Settings | File Templates.
  */
-open class Disk(var center: Point3D, var radius: Float, var normal: Normal) : GeometricObject() {
+open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : GeometricObject() {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         val nom = center.minus(ray.o).dot(normal)

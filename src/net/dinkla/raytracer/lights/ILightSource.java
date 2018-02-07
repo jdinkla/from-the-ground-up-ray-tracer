@@ -15,7 +15,7 @@ public interface ILightSource {
 
     public Point3D sample();
 
-    public float pdf(Shade sr);
+    public double pdf(Shade sr);
 
     public Normal getNormal(final Point3D p);
     

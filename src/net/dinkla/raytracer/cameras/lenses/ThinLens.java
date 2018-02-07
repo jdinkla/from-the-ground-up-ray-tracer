@@ -16,16 +16,16 @@ public class ThinLens extends AbstractLens {
 
     public Sampler sampler;           // unit disk
 
-    public float lensRadius;
-    public float f;
-    public float d;
+    public double lensRadius;
+    public double f;
+    public double d;
     //public float zoom;
 
     public ThinLens(ViewPlane viewPlane) {
         super(viewPlane);
-        lensRadius = 1.0f;
-        f = 1.0f;
-        d = 1.0f;
+        lensRadius = 1.0;
+        f = 1.0;
+        d = 1.0;
     }
 
     public Ray getRaySingle(int r, int c) {
@@ -40,12 +40,12 @@ public class ThinLens extends AbstractLens {
         return getRay(x, y);
     }
 
-    private Ray getRay(float x, float y) {
+    private Ray getRay(double x, double y) {
         Point2D pp = new Point2D(x, y);
         Point2D dp = sampler.sampleUnitDisk();
         Point2D lp = new Point2D(dp.getX() * lensRadius, dp.getY() * lensRadius);
 //        Point3D o = eye.plus(u.mult(lp.x)).plus(v.mult(lp.y));
-        Point3D o = eye.plus(uvw.pp(lp.getX(), lp.getY(), 0));
+        Point3D o = eye.plus(uvw.pp(lp.getX(), lp.getY(), 0.0));
         Ray ray = new Ray(eye, getRayDirection(pp, lp));
         return ray;
     }

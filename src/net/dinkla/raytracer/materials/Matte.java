@@ -22,13 +22,13 @@ import java.util.List;
 public class Matte<C extends Color> extends Material<C> {
 
     public static Matte[] materials = {
-            new Matte(new Color(0.0f, 0.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new Color(0.0f, 1.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new Color(1.0f, 1.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new Color(0.0f, 1.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new Color(1.0f, 0.0f, 0.0f), 1.0f, 1.0f),
-            new Matte(new Color(1.0f, 0.0f, 1.0f), 1.0f, 1.0f),
-            new Matte(new Color(1.0f, 1.0f, 1.0f), 1.0f, 1.0f)
+            new Matte(new Color(0.0, 0.0, 1.0), 1.0, 1.0),
+            new Matte(new Color(0.0, 1.0, 1.0), 1.0, 1.0),
+            new Matte(new Color(1.0, 1.0, 0.0), 1.0, 1.0),
+            new Matte(new Color(0.0, 1.0, 0.0), 1.0, 1.0),
+            new Matte(new Color(1.0, 0.0, 0.0), 1.0, 1.0),
+            new Matte(new Color(1.0, 0.0, 1.0), 1.0, 1.0),
+            new Matte(new Color(1.0, 1.0, 1.0), 1.0, 1.0)
             };
     
     public Lambertian<C> ambientBrdf;
@@ -42,7 +42,7 @@ public class Matte<C extends Color> extends Material<C> {
         setCd((C) C.WHITE);
     }
 
-    public Matte(final C color, final float ka, final float kd) {
+    public Matte(final C color, final double ka, final double kd) {
         ambientBrdf = new Lambertian<C>();
         diffuseBrdf = new Lambertian<C>();
         setKa(ka);
@@ -50,11 +50,11 @@ public class Matte<C extends Color> extends Material<C> {
         setCd(color);
     }
 
-    public void setKa(float ka) {
+    public void setKa(double ka) {
         ambientBrdf.kd = ka;
     }
 
-    public void setKd(float kd) {
+    public void setKd(double kd) {
         diffuseBrdf.kd = kd;
     }
 
@@ -69,7 +69,7 @@ public class Matte<C extends Color> extends Material<C> {
         C L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
-            float nDotWi = wi.dot(sr.getNormal());
+            double nDotWi = wi.dot(sr.getNormal());
             if (nDotWi > 0) {
                 boolean inShadow = false;
                 if (light.shadows) {
@@ -112,7 +112,7 @@ public class Matte<C extends Color> extends Material<C> {
                 AreaLight light = (AreaLight) light1;
                 List<AreaLight.Sample> ls = light.getSamples(sr);
                 for (AreaLight.Sample sample : ls) {
-                    float nDotWi = sample.wi.dot(sr.getNormal());
+                    double nDotWi = sample.wi.dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
                         if (light.shadows) {
@@ -124,7 +124,7 @@ public class Matte<C extends Color> extends Material<C> {
                             Color l = light.L(world, sr, sample);
                             Color flndotwi = f.mult(l).mult(nDotWi);
                             // TODO: hier ist der Unterschied zu shade()
-                            float f1 = light.G(sr, sample) / light.pdf(sr);
+                            double f1 = light.G(sr, sample) / light.pdf(sr);
                             C T = (C) flndotwi.mult(f1);
                             S.plus(T);
                         }

@@ -23,7 +23,7 @@ public class AffineTransformation {
         translate(v.getX(), v.getY(), v.getZ());
     }
 
-    public void translate(final float x, final float y, final float z) {
+    public void translate(final double x, final double y, final double z) {
         Matrix invTranslationMatrix = new Matrix();
         invTranslationMatrix.getM()[0][3] = - x;
         invTranslationMatrix.getM()[1][3] = - y;
@@ -41,11 +41,11 @@ public class AffineTransformation {
         scale(v.getX(), v.getY(), v.getZ());
     }
 
-    public void scale(final float x, final float y, final float z) {
+    public void scale(final double x, final double y, final double z) {
         Matrix invScalingMatrix = new Matrix();
-        invScalingMatrix.getM()[0][0] = 1.0f / x;
-        invScalingMatrix.getM()[1][1] = 1.0f / y;
-        invScalingMatrix.getM()[2][2] = 1.0f / z;
+        invScalingMatrix.getM()[0][0] = 1.0 / x;
+        invScalingMatrix.getM()[1][1] = 1.0 / y;
+        invScalingMatrix.getM()[2][2] = 1.0 / z;
         invMatrix = invMatrix.mult(invScalingMatrix);
 
         Matrix scalingMatrix = new Matrix();
@@ -55,9 +55,9 @@ public class AffineTransformation {
         forwardMatrix = scalingMatrix.mult(forwardMatrix);        
     }
 
-    public void rotateX(final float phi) {
-        final float cosPhi = (float) Math.cos(phi * PI_ON_180);
-        final float sinPhi = (float) Math.sin(phi * PI_ON_180);
+    public void rotateX(final double phi) {
+        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
+        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[1][1] = cosPhi;
@@ -74,9 +74,9 @@ public class AffineTransformation {
         forwardMatrix = rotationMatrix.mult(forwardMatrix);
     }
 
-    public void rotateY(final float phi) {
-        final float cosPhi = (float) Math.cos(phi * PI_ON_180);
-        final float sinPhi = (float) Math.sin(phi * PI_ON_180);
+    public void rotateY(final double phi) {
+        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
+        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[2][2] = cosPhi;
@@ -93,9 +93,9 @@ public class AffineTransformation {
         forwardMatrix = rotationMatrix.mult(forwardMatrix);
     }
 
-    public void rotateZ(final float phi) {
-        final float cosPhi = (float) Math.cos(phi * PI_ON_180);
-        final float sinPhi = (float) Math.sin(phi * PI_ON_180);
+    public void rotateZ(final double phi) {
+        final double cosPhi = (double) Math.cos(phi * PI_ON_180);
+        final double sinPhi = (double) Math.sin(phi * PI_ON_180);
 
         Matrix invRotationMatrix = new Matrix();
         invRotationMatrix.getM()[0][0] = cosPhi;
@@ -116,16 +116,16 @@ public class AffineTransformation {
         Matrix invShearingMatrix = new Matrix();
         
         // discriminant
-    	float d = 1.0f - s.getM()[1][0] * s.getM()[0][1]
+    	double d = 1.0 - s.getM()[1][0] * s.getM()[0][1]
                        - s.getM()[2][0] * s.getM()[0][2]
                        - s.getM()[2][1] * s.getM()[1][2]
 					   + s.getM()[1][0] * s.getM()[2][1] * s.getM()[0][2]
                        + s.getM()[2][0] * s.getM()[0][1] * s.getM()[2][1];
 
 	    // diagonals
-        invShearingMatrix.getM()[0][0] = 1.0f - s.getM()[2][1] * s.getM()[1][2];
-        invShearingMatrix.getM()[1][1] = 1.0f - s.getM()[2][0] * s.getM()[0][2];
-        invShearingMatrix.getM()[2][2] = 1.0f - s.getM()[1][0] * s.getM()[0][1];
+        invShearingMatrix.getM()[0][0] = 1.0 - s.getM()[2][1] * s.getM()[1][2];
+        invShearingMatrix.getM()[1][1] = 1.0 - s.getM()[2][0] * s.getM()[0][2];
+        invShearingMatrix.getM()[2][2] = 1.0 - s.getM()[1][0] * s.getM()[0][1];
         invShearingMatrix.getM()[3][3] = d;
 
 	    // first row

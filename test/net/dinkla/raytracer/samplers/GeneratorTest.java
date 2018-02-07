@@ -35,8 +35,8 @@ public abstract class GeneratorTest {
     @Test
     public void betweenZeroAndOne() {
         for (Point2D p : samples) {
-            assert p.getX() >= 0.0f && p.getX() < 1.0f;
-            assert p.getY() >= 0.0f && p.getY() < 1.0f;
+            assert p.getX() >= 0.0 && p.getX() < 1.0;
+            assert p.getY() >= 0.0 && p.getY() < 1.0;
         }
     }
 

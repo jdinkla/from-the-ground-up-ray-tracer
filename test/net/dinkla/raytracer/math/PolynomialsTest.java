@@ -18,27 +18,27 @@ public class PolynomialsTest {
     @Test
     public void testSolveQuadric() throws Exception {
         // A*x^2 + B*x + C = 0
-        float[] s1 = { -16.0f, 0.0f, 1.0f };
-        float[] sol = { 0.0f, 0.0f };
+        double[] s1 = { -16.0, 0.0, 1.0 };
+        double[] sol = { 0.0, 0.0 };
 
         int num = Polynomials.INSTANCE.solveQuadric(s1, sol);
 
         assertEquals(2, num);
-        assertEquals(4.0f, sol[0]);
-        assertEquals(-4.0f, sol[1]);
+        assertEquals(4.0, sol[0]);
+        assertEquals(-4.0, sol[1]);
     }
 
     @Test
     public void testSolveQuartic() throws Exception {
 
         // A*x^4 + B*x^3 + C*x^2+ D*x + E = 0
-        float[] s1 = { 1.2f, -3.2f, 1.7f, 2.5f, -1.02f};
-        float[] sol = { 0.0f, 0.0f, 0.0f, 0.0f };
+        double[] s1 = { 1.2, -3.2, 1.7, 2.5, -1.02};
+        double[] sol = { 0.0, 0.0, 0.0, 0.0 };
 
         int num = Polynomials.INSTANCE.solveQuartic(s1, sol);
 
         System.out.println("num=" + num);
-        for (float f : sol) {
+        for (double f : sol) {
             System.out.println("f=" + f);
         }
     }
@@ -47,31 +47,31 @@ public class PolynomialsTest {
     public void testSolveCubic() throws Exception {
 
         // A*x^3 + B*x^2 + C*x + D = 0
-        float[] s1 = { 0.0f, 0.0f, 0.0f, 1.0f };
-        float[] sol = { 0.0f, 0.0f, 0.0f };
+        double[] s1 = { 0.0, 0.0, 0.0, 1.0 };
+        double[] sol = { 0.0, 0.0, 0.0 };
 
         int num = Polynomials.INSTANCE.solveCubic(s1, sol);
         assertEquals(1, num);
-        assertEquals(0.0f, sol[0]);
+        assertEquals(0.0, sol[0]);
 
-        float[] s2 = { 8.0f, 0.0f, 0.0f, 1.0f };
+        double[] s2 = { 8.0, 0.0, 0.0, 1.0 };
         num = Polynomials.INSTANCE.solveCubic(s2, sol);
         assertEquals(1, num);
-        assertEquals(-2.0f, sol[0]);
+        assertEquals(-2.0, sol[0]);
 
-        float[] s3 = { -8.0f, 0.0f, 0.0f, 1.0f };
+        double[] s3 = { -8.0, 0.0, 0.0, 1.0 };
         num = Polynomials.INSTANCE.solveCubic(s3, sol);
         assertEquals(1, num);
-        assertEquals(2.0f, sol[0]);
+        assertEquals(2.0, sol[0]);
 
-        float[] s4 = { 1.2f, -3.2f, 1.7f, 2.5f };
+        double[] s4 = { 1.2, -3.2, 1.7, 2.5 };
         num = Polynomials.INSTANCE.solveCubic(s4, sol);
         assertEquals(1, num);
-        assertEquals(-1.63938f, sol[0], 0.00001f);
+        assertEquals(-1.63938, sol[0], 0.00001);
 
         /*
         System.out.println("num=" + num);
-        for (float f : sol) {
+        for (double f : sol) {
             System.out.println("f=" + f);
         }
         */

@@ -24,12 +24,12 @@ builder.world(id: "World82") {
             //ray: SampledRenderer, raySampler: sampler1, rayNumSamples: 0,
             d: 1250, eye: p(0, 1, -10), lookAt: p(-0.5, 1.2, 0))
 
-    ambientLight(ls: 0.5f)
+    ambientLight(ls: 0.5)
 
     ambientOccluder(sampler: sampler1, numSamples: NUM_AMBIENT_SAMPLES)
     
     lights {
-        pointLight(location: p(10, 7, 0), ls: 1.0f)
+        pointLight(location: p(10, 7, 0), ls: 1.0)
 // TODO        environment()
     }
 

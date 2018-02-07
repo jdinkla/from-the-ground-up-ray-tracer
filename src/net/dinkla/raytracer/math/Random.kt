@@ -21,12 +21,14 @@ object Random {
         return r.nextInt(high - low) + low
     }
 
-    fun randFloat(): Float {
-        return r.nextFloat()
+    // TODO rename randFloat
+    fun randFloat(): Double {
+        return r.nextDouble()
     }
 
-    fun randFloat(low: Float, high: Float): Float {
-        return r.nextFloat() * (high - low) + low
+    // TODO rename randFloat
+    fun randFloat(low: Double, high: Double): Double {
+        return r.nextDouble() * (high - low) + low
     }
 
     fun setRandSeed(seed: Int) {

@@ -18,10 +18,10 @@ public class BeveledBox extends Compound {
 
     public final Point3D p0;
     public final Point3D p1;
-    public final float rb;
+    public final double rb;
     public BBox bbox;
 
-    public BeveledBox(final Point3D p0, final Point3D p1, final float rb, boolean isWiredFrame) {
+    public BeveledBox(final Point3D p0, final Point3D p1, final double rb, boolean isWiredFrame) {
         super();
 
         this.p0 = p0;

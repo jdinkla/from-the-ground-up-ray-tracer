@@ -17,7 +17,7 @@ import net.dinkla.raytracer.worlds.World;
 public class PointLight<C extends Color> extends Light<C> {
 
     // emissive material
-    public float ls;
+    public double ls;
     public C color;
     public Point3D location;
 
@@ -26,7 +26,7 @@ public class PointLight<C extends Color> extends Light<C> {
     public PointLight(Point3D location) {
         this.location = location;
         color = (C) C.WHITE;
-        ls = 1.0f;
+        ls = 1.0;
         shadows = true;
     }
 
@@ -46,7 +46,7 @@ public class PointLight<C extends Color> extends Light<C> {
 
     @Override
     public boolean inShadow(World<C> world, Ray ray, Shade sr) {
-        float d = location.minus(ray.getO()).length();
+        double d = location.minus(ray.getO()).length();
         return world.inShadow(ray, sr, d);
     }
 

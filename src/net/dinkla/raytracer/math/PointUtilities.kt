@@ -12,9 +12,9 @@ import net.dinkla.raytracer.objects.GeometricObject
 object PointUtilities {
 
     fun minPoints(points: List<Point3D>): Point3D {
-        var x = java.lang.Float.POSITIVE_INFINITY
-        var y = java.lang.Float.POSITIVE_INFINITY
-        var z = java.lang.Float.POSITIVE_INFINITY
+        var x = java.lang.Double.POSITIVE_INFINITY
+        var y = java.lang.Double.POSITIVE_INFINITY
+        var z = java.lang.Double.POSITIVE_INFINITY
         for (p in points) {
             if (p.x < x) {
                 x = p.x
@@ -30,9 +30,9 @@ object PointUtilities {
     }
 
     fun maxPoints(points: List<Point3D>): Point3D {
-        var x = java.lang.Float.NEGATIVE_INFINITY
-        var y = java.lang.Float.NEGATIVE_INFINITY
-        var z = java.lang.Float.NEGATIVE_INFINITY
+        var x = java.lang.Double.NEGATIVE_INFINITY
+        var y = java.lang.Double.NEGATIVE_INFINITY
+        var z = java.lang.Double.NEGATIVE_INFINITY
         for (p in points) {
             if (p.x > x) {
                 x = p.x
@@ -48,9 +48,9 @@ object PointUtilities {
     }
 
     fun minCoordinates(objects: List<GeometricObject>): Point3D {
-        var x = java.lang.Float.POSITIVE_INFINITY
-        var y = java.lang.Float.POSITIVE_INFINITY
-        var z = java.lang.Float.POSITIVE_INFINITY
+        var x = java.lang.Double.POSITIVE_INFINITY
+        var y = java.lang.Double.POSITIVE_INFINITY
+        var z = java.lang.Double.POSITIVE_INFINITY
         for (`object` in objects) {
             val bbox = `object`.boundingBox
             if (bbox.p!!.x < x) {
@@ -67,9 +67,9 @@ object PointUtilities {
     }
 
     fun maxCoordinates(objects: List<GeometricObject>): Point3D {
-        var x = java.lang.Float.NEGATIVE_INFINITY
-        var y = java.lang.Float.NEGATIVE_INFINITY
-        var z = java.lang.Float.NEGATIVE_INFINITY
+        var x = java.lang.Double.NEGATIVE_INFINITY
+        var y = java.lang.Double.NEGATIVE_INFINITY
+        var z = java.lang.Double.NEGATIVE_INFINITY
         for (`object` in objects) {
             val bbox = `object`.boundingBox
             if (bbox.q!!.x > x) {

@@ -18,21 +18,21 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     /**
      * specular intensity
      */
-    public float ks;
+    public double ks;
 
     // specular color
     public C cs;
 
     // specular exponent
-    public float exp;
+    public double exp;
 
     public GlossySpecular() {
-        this.ks = 0.25f;
-        this.exp = 5.0f;
+        this.ks = 0.25;
+        this.exp = 5.0;
         this.cs = (C) C.WHITE;
     }
 
-    public GlossySpecular(float ks, C cs, float exp) {
+    public GlossySpecular(double ks, C cs, double exp) {
         this.ks = ks;
         this.cs = cs;
         this.exp = exp;
@@ -41,9 +41,9 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
     @Override
     public C f(final Shade sr, final Vector3D wo, final Vector3D wi) {
         assert null != cs;
-        float nDotWi = wi.dot(sr.getNormal());
+        double nDotWi = wi.dot(sr.getNormal());
         Vector3D r = wi.mult(-1).plus(new Vector3D(sr.getNormal()).mult(2*nDotWi));
-        float rDotWo = r.dot(wo);
+        double rDotWo = r.dot(wo);
         if (rDotWo > 0) {
             return (C) cs.mult((float) (ks * Math.pow(rDotWo, exp)));
         } else {
@@ -56,7 +56,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
         assert null != cs;
 
         final Sample sample = new Sample();
-        final float nDotWo = sr.getNormal().dot(wo);
+        final double nDotWo = sr.getNormal().dot(wo);
         final Vector3D r = wo.negate().plus(sr.getNormal().mult(2 * nDotWo));
 
         final Vector3D w = r;
@@ -65,7 +65,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
 
         final Point3D sp = sampler.sampleHemisphere();
         sample.wi = u.mult(sp.getX()).plus(v.mult(sp.getY())).plus(w.mult(sp.getZ()));
-        final float nDotWi = sr.getNormal().dot(sample.wi);
+        final double nDotWi = sr.getNormal().dot(sample.wi);
         if (nDotWi < 0) {
             sample.wi = u.mult(-sp.getX()).plus(v.mult(-sp.getY())).plus(w.mult(-sp.getZ()));
         }

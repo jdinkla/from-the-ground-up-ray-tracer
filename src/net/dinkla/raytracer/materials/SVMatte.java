@@ -60,7 +60,7 @@ public class SVMatte <C extends Color> extends Material<C> {
         C L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
-            float nDotWi = wi.dot(sr.getNormal());
+            double nDotWi = wi.dot(sr.getNormal());
             if (nDotWi > 0) {
                 boolean inShadow = false;
                 if (light.shadows) {
@@ -88,7 +88,7 @@ public class SVMatte <C extends Color> extends Material<C> {
                 AreaLight light = (AreaLight) light1;
                 List<AreaLight.Sample> ls = light.getSamples(sr);
                 for (AreaLight.Sample sample : ls) {
-                    float nDotWi = sample.wi.dot(sr.getNormal());
+                    double nDotWi = sample.wi.dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
                         if (light.shadows) {
@@ -100,7 +100,7 @@ public class SVMatte <C extends Color> extends Material<C> {
                             Color l = light.L(world, sr, sample);
                             Color flndotwi = f.mult(l).mult(nDotWi);
                             // TODO: hier ist der Unterschied zu shade()
-                            float f1 = light.G(sr, sample) / light.pdf(sr);
+                            double f1 = light.G(sr, sample) / light.pdf(sr);
                             C T = (C) flndotwi.mult(f1);
                             S.plus(T);
                         }

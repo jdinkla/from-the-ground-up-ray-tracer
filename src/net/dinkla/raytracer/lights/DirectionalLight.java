@@ -17,12 +17,12 @@ import net.dinkla.raytracer.worlds.World;
  */
 public class DirectionalLight<C extends Color> extends Light<C> {
 
-    public float ls;
+    public double ls;
     public C color;
     public Vector3D negatedDirection;
 
     public DirectionalLight() {
-        ls = 1.0f;
+        ls = 1.0;
         color = (C) C.WHITE;
         negatedDirection = Vector3D.Companion.getDOWN().negate();
     }

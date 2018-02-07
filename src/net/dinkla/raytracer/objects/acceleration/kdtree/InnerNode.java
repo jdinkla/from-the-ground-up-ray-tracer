@@ -22,10 +22,10 @@ public class InnerNode extends AbstractNode {
     protected final BBox bbox;
     protected final AbstractNode left;
     protected final AbstractNode right;
-    protected final float split;
+    protected final double split;
     protected final Axis axis;
 
-    public InnerNode(AbstractNode left, AbstractNode right, BBox bbox, float split, Axis axis) {
+    public InnerNode(AbstractNode left, AbstractNode right, BBox bbox, double split, Axis axis) {
         assert null != left;
         assert null != right;
         this.left = left;
@@ -345,7 +345,7 @@ public class InnerNode extends AbstractNode {
         return bbox;
     }
 
-    public float getSplit() {
+    public double getSplit() {
         return split;
     }
 

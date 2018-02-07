@@ -6,16 +6,16 @@ import net.dinkla.raytracer.math.Random
 class MultiJittered : Generator() {
 
     override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
-        val n = Math.sqrt(numSamples.toFloat().toDouble()).toInt()
-        val subcell_width = 1.0f / numSamples.toFloat()
+        val n = Math.sqrt(numSamples.toDouble()).toInt()
+        val subcell_width = 1.0 / numSamples
 
         // distribute points in the initial patterns
         for (p in 0 until numSets) {
             for (i in 0 until n) {
                 for (j in 0 until n) {
                     val target = i * n + j + p * numSamples
-                    val x = (i * n + j) * subcell_width + Random.randFloat(0f, subcell_width)
-                    val y = (j * n + i) * subcell_width + Random.randFloat(0f, subcell_width)
+                    val x = (i * n + j) * subcell_width + Random.randFloat(0.0, subcell_width)
+                    val y = (j * n + i) * subcell_width + Random.randFloat(0.0, subcell_width)
                     samples.add(target, Point2D(x, y))
                 }
             }

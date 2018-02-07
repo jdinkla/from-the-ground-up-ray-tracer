@@ -64,7 +64,7 @@ public class Mesh {
             // The following code attempts to avoid (nan, nan, nan) normalised normals when all components = 0
 
             if (normal.getX() == 0.0 && normal.getY() == 0.0 && normal.getZ() == 0.0) {
-                normal = new Normal(normal.getX(), 1.0f, normal.getZ());
+                normal = new Normal(normal.getX(), 1.0, normal.getZ());
             } else {
                 normal = normal.normalize();
             }

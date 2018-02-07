@@ -9,28 +9,28 @@ package net.dinkla.raytracer.math;
  */
 public class WrappedFloat implements Comparable<WrappedFloat>{
 
-    public Float value;
+    public Double value;
     //public Double value;
 
     public WrappedFloat() {
         this.value = null;
     }
 
-    public WrappedFloat(final float value) {
+    public WrappedFloat(final double value) {
         this.value = value;
 //        this.value = (double) value;
     }
 
     public void setMaxValue() {
-        value = Float.MAX_VALUE;
+        value = Double.MAX_VALUE;
         //value = Double.MAX_VALUE;
     }
 
-    public Float getValue() {
+    public Double getValue() {
         return value;
     }
     
-    public void setValue(final float value) {
+    public void setValue(final double value) {
 //        this.value = (double) value;
         this.value = value;
     }
@@ -81,7 +81,7 @@ public class WrappedFloat implements Comparable<WrappedFloat>{
     public boolean equals(Object obj) {
         if (obj instanceof WrappedFloat) {
             WrappedFloat wf = (WrappedFloat) obj;
-            Float f = wf.getValue();
+            Double f = wf.getValue();
             if (value == null) {
                 return f == null;
             } else {

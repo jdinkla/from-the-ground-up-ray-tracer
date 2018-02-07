@@ -14,12 +14,12 @@ import net.dinkla.raytracer.math.Vector3D;
  */
 public class PerfectSpecular<C extends Color> extends BRDF<C> {
 
-    public float kr;
+    public double kr;
     public C cr;
 
     public PerfectSpecular() {
         super();
-        kr = 1.0f;
+        kr = 1.0;
         cr = (C) C.WHITE;
     }
 
@@ -34,9 +34,9 @@ public class PerfectSpecular<C extends Color> extends BRDF<C> {
         assert null != cr;
         final Sample result = new Sample();
         Normal normal = sr.getNormal();
-        final float nDotWo = normal.dot(wo);
+        final double nDotWo = normal.dot(wo);
         result.wi = wo.negate().plus(sr.getNormal().mult(2.0f * nDotWo));
-        final float nDotWi = normal.dot(result.wi);
+        final double nDotWi = normal.dot(result.wi);
         result.color = (C) cr.mult(kr / Math.abs(nDotWi));
         return result;
     }

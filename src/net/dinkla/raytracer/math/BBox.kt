@@ -7,10 +7,10 @@ class BBox {
     val p: Point3D?
     val q: Point3D?
 
-    val volume: Float
+    val volume: Double
         get() {
             if (null == p) {
-                return 0f
+                return 0.0
             } else {
                 val width = q!!.minus(p)
                 return width.x * width.y * width.z
@@ -47,11 +47,11 @@ class BBox {
     }
 
     class Hit {
-        val t0: Float
-        val t1: Float
+        val t0: Double
+        val t1: Double
         val isHit: Boolean
 
-        constructor(t0: Float, t1: Float) {
+        constructor(t0: Double, t1: Double) {
             this.t0 = t0
             this.t1 = t1
             isHit = t0 < t1 && t1 > MathUtils.K_EPSILON
@@ -59,8 +59,8 @@ class BBox {
 
         constructor() {
             isHit = false
-            t0 = java.lang.Float.NaN
-            t1 = java.lang.Float.NaN
+            t0 = java.lang.Double.NaN
+            t1 = java.lang.Double.NaN
         }
     }
 
@@ -68,14 +68,14 @@ class BBox {
         if (null == p && null == q) {
             return Hit()
         }
-        val tx_min: Float
-        val ty_min: Float
-        val tz_min: Float
-        val tx_max: Float
-        val ty_max: Float
-        val tz_max: Float
+        val tx_min: Double
+        val ty_min: Double
+        val tz_min: Double
+        val tx_max: Double
+        val ty_max: Double
+        val tz_max: Double
 
-        val a = 1.0f / ray.d.x
+        val a = 1.0 / ray.d.x
         if (a >= 0) {
             tx_min = (p!!.x - ray.o.x) * a
             tx_max = (q!!.x - ray.o.x) * a
@@ -84,7 +84,7 @@ class BBox {
             tx_max = (p!!.x - ray.o.x) * a
         }
 
-        val b = 1.0f / ray.d.y
+        val b = 1.0 / ray.d.y
         if (b >= 0) {
             ty_min = (p.y - ray.o.y) * b
             ty_max = (q.y - ray.o.y) * b
@@ -93,7 +93,7 @@ class BBox {
             ty_max = (p.y - ray.o.y) * b
         }
 
-        val c = 1.0f / ray.d.z
+        val c = 1.0 / ray.d.z
         if (c >= 0) {
             tz_min = (p.z - ray.o.z) * c
             tz_max = (q.z - ray.o.z) * c
@@ -102,8 +102,8 @@ class BBox {
             tz_max = (p.z - ray.o.z) * c
         }
 
-        var t0: Float
-        var t1: Float
+        var t0: Double
+        var t1: Double
 
         // find largest entering t value
         if (tx_min > ty_min) {
@@ -135,14 +135,14 @@ class BBox {
             return false
         }
 
-        val tx_min: Float
-        val ty_min: Float
-        val tz_min: Float
-        val tx_max: Float
-        val ty_max: Float
-        val tz_max: Float
+        val tx_min: Double
+        val ty_min: Double
+        val tz_min: Double
+        val tx_max: Double
+        val ty_max: Double
+        val tz_max: Double
 
-        val a = 1.0f / ray.d.x
+        val a = 1.0 / ray.d.x
         if (a >= 0) {
             tx_min = (p!!.x - ray.o.x) * a
             tx_max = (q!!.x - ray.o.x) * a
@@ -151,7 +151,7 @@ class BBox {
             tx_max = (p!!.x - ray.o.x) * a
         }
 
-        val b = 1.0f / ray.d.y
+        val b = 1.0 / ray.d.y
         if (b >= 0) {
             ty_min = (p.y - ray.o.y) * b
             ty_max = (q.y - ray.o.y) * b
@@ -160,7 +160,7 @@ class BBox {
             ty_max = (p.y - ray.o.y) * b
         }
 
-        val c = 1.0f / ray.d.z
+        val c = 1.0 / ray.d.z
         if (c >= 0) {
             tz_min = (p.z - ray.o.z) * c
             tz_max = (q.z - ray.o.z) * c
@@ -169,8 +169,8 @@ class BBox {
             tz_max = (p.z - ray.o.z) * c
         }
 
-        var t0: Float
-        var t1: Float
+        var t0: Double
+        var t1: Double
 
         // find largest entering t value
         if (tx_min > ty_min) {
@@ -224,7 +224,7 @@ class BBox {
     }
 
 
-    fun splitLeft(axis: Axis, split: Float): BBox? {
+    fun splitLeft(axis: Axis, split: Double): BBox? {
         when (axis) {
             Axis.X -> return BBox(p, Point3D(split, q!!.y, q.z))
             Axis.Y -> return BBox(p, Point3D(q!!.x, split, q.z))
@@ -232,7 +232,7 @@ class BBox {
         }
     }
 
-    fun splitRight(axis: Axis, split: Float): BBox? {
+    fun splitRight(axis: Axis, split: Double): BBox? {
         when (axis) {
             Axis.X -> return BBox(Point3D(split, p!!.y, p.z), q)
             Axis.Y -> return BBox(Point3D(p!!.x, split, p.z), q)
@@ -257,8 +257,8 @@ class BBox {
     companion object {
 
         fun create(v0: Point3D, v1: Point3D, v2: Point3D): BBox {
-            var x0 = java.lang.Float.POSITIVE_INFINITY
-            var x1 = java.lang.Float.NEGATIVE_INFINITY
+            var x0 = java.lang.Double.POSITIVE_INFINITY
+            var x1 = java.lang.Double.NEGATIVE_INFINITY
             if (v0.x < x0) {
                 x0 = v0.x
             }
@@ -277,8 +277,8 @@ class BBox {
             if (v2.x > x1) {
                 x1 = v2.x
             }
-            var y0 = java.lang.Float.POSITIVE_INFINITY
-            var y1 = java.lang.Float.NEGATIVE_INFINITY
+            var y0 = java.lang.Double.POSITIVE_INFINITY
+            var y1 = java.lang.Double.NEGATIVE_INFINITY
             if (v0.y < y0) {
                 y0 = v0.y
             }
@@ -297,8 +297,8 @@ class BBox {
             if (v2.y > y1) {
                 y1 = v2.y
             }
-            var z0 = java.lang.Float.POSITIVE_INFINITY
-            var z1 = java.lang.Float.NEGATIVE_INFINITY
+            var z0 = java.lang.Double.POSITIVE_INFINITY
+            var z1 = java.lang.Double.NEGATIVE_INFINITY
             if (v0.z < z0) {
                 z0 = v0.z
             }

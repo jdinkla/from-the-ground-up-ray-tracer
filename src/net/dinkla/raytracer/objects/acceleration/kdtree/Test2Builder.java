@@ -36,9 +36,9 @@ public class Test2Builder implements IKDTreeBuilder {
 
         Triple root;
         
-        public Set<Float> candidatesX;
-        public Set<Float> candidatesY;
-        public Set<Float> candidatesZ;
+        public Set<Double> candidatesX;
+        public Set<Double> candidatesY;
+        public Set<Double> candidatesZ;
 
         public Partitioner(List<GeometricObject> objects, BBox voxel) {
             root = new Triple();
@@ -46,9 +46,9 @@ public class Test2Builder implements IKDTreeBuilder {
             root.bbox = voxel;
             root.update();
 
-            candidatesX = new TreeSet<Float>();
-            candidatesY = new TreeSet<Float>();
-            candidatesZ = new TreeSet<Float>();
+            candidatesX = new TreeSet<Double>();
+            candidatesY = new TreeSet<Double>();
+            candidatesZ = new TreeSet<Double>();
 
             for (GeometricObject object : objects) {
                 BBox bbox = object.getBoundingBox();
@@ -66,7 +66,7 @@ public class Test2Builder implements IKDTreeBuilder {
 
             public BBox bbox;
             List<GeometricObject> objects;
-            float volume;
+            double volume;
 
             public Triple() {
                 objects = new ArrayList<GeometricObject>();
@@ -79,16 +79,16 @@ public class Test2Builder implements IKDTreeBuilder {
         }
 
         static public class Split {
-            static public final float constF = 0.333334f;
+            static public final double constF = 0.333334;
 
             public Axis axis;
-            public float split;
+            public double split;
 
             public Triple parent;
             public Triple left;
             public Triple right;
 
-            public float sah;
+            public double sah;
 
             public Split(final Triple parent) {
                 this.parent = parent;
@@ -102,11 +102,11 @@ public class Test2Builder implements IKDTreeBuilder {
                 sah = calcSah();
             }
 
-            public float calcSah() {
-                final float fL = left.volume / parent.volume;
-                final float fR = right.volume / parent.volume;
-                final float sL = left.objects.size();
-                final float sR = right.objects.size(); 
+            public double calcSah() {
+                final double fL = left.volume / parent.volume;
+                final double fR = right.volume / parent.volume;
+                final double sL = left.objects.size();
+                final double sR = right.objects.size();
 //                return (constF + fL * sL + fR * sR);
                 return (constF + fL * sL + fR * sR) * (5 * (sL+sR) / parent.objects.size());
             }
@@ -124,7 +124,7 @@ public class Test2Builder implements IKDTreeBuilder {
             }
         }
 
-        public static Split calcSplit(final Axis axis, final float split, final Triple parent) {
+        public static Split calcSplit(final Axis axis, final double split, final Triple parent) {
             Split s = new Split(parent);
             s.axis = axis;
             s.split = split;
@@ -136,9 +136,9 @@ public class Test2Builder implements IKDTreeBuilder {
             return s;
         }
 
-        public Split x(final Axis axis, final Set<Float> cs) {
+        public Split x(final Axis axis, final Set<Double> cs) {
             Split min = null;
-            for (Float split : cs) {
+            for (Double split : cs) {
                 if (root.bbox.getP().ith(axis) <= split && split <= root.bbox.getQ().ith(axis)) {
                     Split s = calcSplit(axis, split, root);
                     if (s.isOk() && (null == min || s.sah < min.sah )) {

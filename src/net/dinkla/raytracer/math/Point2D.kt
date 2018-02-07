@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-open class Point2D(x: Float, y: Float) : Element2D(x, y) {
+open class Point2D(x: Double, y: Double) : Element2D(x, y) {
 
     operator fun unaryMinus(): Point2D {
         return Point2D(-x, -y);

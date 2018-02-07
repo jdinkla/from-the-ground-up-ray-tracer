@@ -41,7 +41,7 @@ builder.world(id: "World78") {
 
     materials {
         matte(id: "gray", cd: c(1), ka: 0.25, kd: 0.75)
-        matte(id: "sky", cd: c("a0a0ee"), kd: 1.0, ka: 1.0f)
+        matte(id: "sky", cd: c("a0a0ee"), kd: 1.0, ka: 1.0)
         phong(id: "mirror", cd: c("0000FF"), ka: 0.0, kd: 1.0, ks: 1.0, kr: 1.0, cr: c(1, 0, 1.0))
 
         phong(id: "Green Yellow", cd: c("adff2f"), ka: 0.5, kd: 0.75, ks: 0.55, exp: 2)

@@ -29,7 +29,7 @@ public class Grid extends Compound {
 
     protected int nx, ny, nz;
     
-    protected float multiplier;
+    protected double multiplier;
 
     protected static int factorSize = 500;
 
@@ -64,11 +64,11 @@ public class Grid extends Compound {
         timer.start();
         bbox = getBoundingBox();        // TODO: wird in initialize() aufgerufen !!!
 
-        float wx = bbox.getQ().getX() - bbox.getP().getX();
-        float wy = bbox.getQ().getY() - bbox.getP().getY();
-        float wz = bbox.getQ().getZ() - bbox.getP().getZ();
+        double wx = bbox.getQ().getX() - bbox.getP().getX();
+        double wy = bbox.getQ().getY() - bbox.getP().getY();
+        double wz = bbox.getQ().getZ() - bbox.getP().getZ();
 
-        float s = (float) Math.pow(wx * wy * wz / objects.size(), (1.0 / 3));
+        double s = Math.pow(wx * wy * wz / objects.size(), (1.0 / 3));
         nx = (int) (multiplier * wx / s + 1);
         ny = (int) (multiplier * wy / s + 1);
         nz = (int) (multiplier * wz / s + 1);
@@ -176,7 +176,7 @@ public class Grid extends Compound {
         
         for (Integer key : hist.keySet()) {
             int value = hist.get(key);
-            LOGGER.info("Grid: " + key + ": " + value + " [" + (value * 100.0f / numInCells) + "%]");
+            LOGGER.info("Grid: " + key + ": " + value + " [" + (value * 100.0 / numInCells) + "%]");
         }
     }
 
@@ -189,26 +189,26 @@ public class Grid extends Compound {
         }
         Counter.count("Grid.hit");
         
-        float ox = ray.getO().getX();
-        float oy = ray.getO().getY();
-        float oz = ray.getO().getZ();
-        float dx = ray.getD().getX();
-        float dy = ray.getD().getY();
-        float dz = ray.getD().getZ();
+        double ox = ray.getO().getX();
+        double oy = ray.getO().getY();
+        double oz = ray.getO().getZ();
+        double dx = ray.getD().getX();
+        double dy = ray.getD().getY();
+        double dz = ray.getD().getZ();
 
-        float x0 = bbox.getP().getX();
-        float y0 = bbox.getP().getY();
-        float z0 = bbox.getP().getZ();
-        float x1 = bbox.getQ().getX();
-        float y1 = bbox.getQ().getY();
-        float z1 = bbox.getQ().getZ();
+        double x0 = bbox.getP().getX();
+        double y0 = bbox.getP().getY();
+        double z0 = bbox.getP().getZ();
+        double x1 = bbox.getQ().getX();
+        double y1 = bbox.getQ().getY();
+        double z1 = bbox.getQ().getZ();
 
-        float tx_min, ty_min, tz_min;
-        float tx_max, ty_max, tz_max;
+        double tx_min, ty_min, tz_min;
+        double tx_max, ty_max, tz_max;
 
         // the following code includes modifications from Shirley and Morley (2003)
 
-        final float a = 1.0f / dx;
+        final double a = 1.0 / dx;
         if (a >= 0) {
             tx_min = (x0 - ox) * a;
             tx_max = (x1 - ox) * a;
@@ -217,7 +217,7 @@ public class Grid extends Compound {
             tx_max = (x0 - ox) * a;
         }
 
-        final float b = 1.0f / dy;
+        final double b = 1.0 / dy;
         if (b >= 0) {
             ty_min = (y0 - oy) * b;
             ty_max = (y1 - oy) * b;
@@ -226,7 +226,7 @@ public class Grid extends Compound {
             ty_max = (y0 - oy) * b;
         }
 
-        final float c = 1.0f / dz;
+        final double c = 1.0 / dz;
         if (c >= 0) {
             tz_min = (z0 - oz) * c;
             tz_max = (z1 - oz) * c;
@@ -235,7 +235,7 @@ public class Grid extends Compound {
             tz_max = (z0 - oz) * c;
         }
 
-        float t0, t1;
+        double t0, t1;
 
         if (tx_min > ty_min)
             t0 = tx_min;
@@ -275,11 +275,11 @@ public class Grid extends Compound {
 
         // ray parameter increments per cell in the x, y, and z directions
 
-        float dtx = (tx_max - tx_min) / nx;
-        float dty = (ty_max - ty_min) / ny;
-        float dtz = (tz_max - tz_min) / nz;
+        double dtx = (tx_max - tx_min) / nx;
+        double dty = (ty_max - ty_min) / ny;
+        double dtz = (tz_max - tz_min) / nz;
 
-        float tx_next, ty_next, tz_next;
+        double tx_next, ty_next, tz_next;
         int ix_step, iy_step, iz_step;
         int ix_stop, iy_stop, iz_stop;
 
@@ -395,26 +395,26 @@ public class Grid extends Compound {
 //            return false;
 //        }
 //
-//        float ox = ray.o.x;
-//        float oy = ray.o.y;
-//        float oz = ray.o.z;
-//        float dx = ray.d.x;
-//        float dy = ray.d.y;
-//        float dz = ray.d.z;
+//        double ox = ray.o.x;
+//        double oy = ray.o.y;
+//        double oz = ray.o.z;
+//        double dx = ray.d.x;
+//        double dy = ray.d.y;
+//        double dz = ray.d.z;
 //
-//        float x0 = bbox.p.x;
-//        float y0 = bbox.p.y;
-//        float z0 = bbox.p.z;
-//        float x1 = bbox.q.x;
-//        float y1 = bbox.q.y;
-//        float z1 = bbox.q.z;
+//        double x0 = bbox.p.x;
+//        double y0 = bbox.p.y;
+//        double z0 = bbox.p.z;
+//        double x1 = bbox.q.x;
+//        double y1 = bbox.q.y;
+//        double z1 = bbox.q.z;
 //
-//        float tx_min, ty_min, tz_min;
-//        float tx_max, ty_max, tz_max;
+//        double tx_min, ty_min, tz_min;
+//        double tx_max, ty_max, tz_max;
 //
 //        // the following code includes modifications from Shirley and Morley (2003)
 //
-//        final float a = 1.0f / dx;
+//        final double a = 1.0 / dx;
 //        if (a >= 0) {
 //            tx_min = (x0 - ox) * a;
 //            tx_max = (x1 - ox) * a;
@@ -423,7 +423,7 @@ public class Grid extends Compound {
 //            tx_max = (x0 - ox) * a;
 //        }
 //
-//        final float b = 1.0f / dy;
+//        final double b = 1.0 / dy;
 //        if (b >= 0) {
 //            ty_min = (y0 - oy) * b;
 //            ty_max = (y1 - oy) * b;
@@ -432,7 +432,7 @@ public class Grid extends Compound {
 //            ty_max = (y0 - oy) * b;
 //        }
 //
-//        final float c = 1.0f / dz;
+//        final double c = 1.0 / dz;
 //        if (c >= 0) {
 //            tz_min = (z0 - oz) * c;
 //            tz_max = (z1 - oz) * c;
@@ -441,7 +441,7 @@ public class Grid extends Compound {
 //            tz_max = (z0 - oz) * c;
 //        }
 //
-//        float t0, t1;
+//        double t0, t1;
 //
 //        if (tx_min > ty_min)
 //            t0 = tx_min;
@@ -479,11 +479,11 @@ public class Grid extends Compound {
 //
 //        // ray parameter increments per cell in the x, y, and z directions
 //
-//        float dtx = (tx_max - tx_min) / nx;
-//        float dty = (ty_max - ty_min) / ny;
-//        float dtz = (tz_max - tz_min) / nz;
+//        double dtx = (tx_max - tx_min) / nx;
+//        double dty = (ty_max - ty_min) / ny;
+//        double dtz = (tz_max - tz_min) / nz;
 //
-//        float tx_next, ty_next, tz_next;
+//        double tx_next, ty_next, tz_next;
 //        int ix_step, iy_step, iz_step;
 //        int ix_stop, iy_stop, iz_stop;
 //
@@ -585,11 +585,11 @@ public class Grid extends Compound {
         return b;
     }
 
-    public float getMultiplier() {
+    public double getMultiplier() {
         return multiplier;
     }
 
-    public void setMultiplier(float multiplier) {
+    public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
     }
 

@@ -16,7 +16,7 @@ public class SequentialRenderer<C extends Color> implements IRenderer {
     final protected ISingleRayRenderer render;
     final protected IColorCorrector<C> corrector;
 
-    public float exposureTime = 1.0f;
+    public double exposureTime = 1.0;
 
     public SequentialRenderer(final ISingleRayRenderer render, final IColorCorrector<C> corrector) {
         this.render = render;

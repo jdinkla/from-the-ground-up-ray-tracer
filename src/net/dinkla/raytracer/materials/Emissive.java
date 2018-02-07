@@ -13,13 +13,13 @@ import net.dinkla.raytracer.worlds.World;
  */
 public class Emissive<C extends Color> extends Material<C> {
 
-    public float ls;
+    public double ls;
     public C ce;
 
     protected C cachedLe;
 
     public Emissive() {
-        ls = 1.0f;
+        ls = 1.0;
         ce = (C) C.WHITE;
     }
    

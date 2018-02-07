@@ -10,10 +10,10 @@ builder.world(id: "World70") {
 //    camera(d: 2000, eye: p(-4, 1, 20), lookAt: p(3, -0.2, 1), numThreads: 30)
     camera(d: 2000, eye: p(-4, 3, 20), lookAt: p(3, 1, 1), numThreads: 32)
 
-    ambientLight(ls: 0.5f)
+    ambientLight(ls: 0.5)
 
     lights {
-        pointLight(location: p(0, 10, 5), ls: 1.0f)
+        pointLight(location: p(0, 10, 5), ls: 1.0)
     }
 
     materials {

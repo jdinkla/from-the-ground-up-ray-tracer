@@ -6,12 +6,12 @@ builder.world(id: "World7") {
 
     camera(d: 750, eye: p(0, 100, 200), lookAt: p(0, 0, 0))
     
-    ambientLight(color: Color.WHITE, ls: 1.0f)
+    ambientLight(color: Color.WHITE, ls: 1.0)
 
     lights {
         pointLight(location: p(100, 50, 150), ls: 3.14f)
-        pointLight(location: p(-100, 50, -30), ls: 1.6f, color: c(0.9f, 0.0f, 0.0f))
-        pointLight(location: p(200, 180, 10), ls: 2.6f, color: c(0.0f, 0.9f, 1.0f))
+        pointLight(location: p(-100, 50, -30), ls: 1.6f, color: c(0.9f, 0.0, 0.0))
+        pointLight(location: p(200, 180, 10), ls: 2.6f, color: c(0.0, 0.9f, 1.0))
     }
 
     materials {
@@ -20,7 +20,7 @@ builder.world(id: "World7") {
         matte(id: "m3", cd: c(0.9f, 0.9f, 0.9f), ka: 0.25f, kd: 0.65f)
         matte(id: "m4", cd: c(0.2f, 0.4f, 0.7f), ka: 0.25f, kd: 0.65f)
         matte(id: "m5", cd: c(0.4f, 0.7f, 0.2f), ka: 0.25f, kd: 0.65f)
-        matte(id: "m6", cd: c(0.8f, 0.0f, 0.61f), ka: 0.25f, kd: 0.65f)
+        matte(id: "m6", cd: c(0.8f, 0.0, 0.61f), ka: 0.25f, kd: 0.65f)
     }
 
     objects {

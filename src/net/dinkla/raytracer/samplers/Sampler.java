@@ -101,10 +101,10 @@ public class Sampler {
 
     public void mapSamplesToUnitDisk() {
 	    int size = samples.size();
-	    float r, phi;
+        double r, phi;
 	    diskSamples = new ArrayList<Point2D>(size);
         for (Point2D p : samples) {
-            Point2D sp = new Point2D(2.0f * p.getX() - 1.0f, 2.0f * p.getY() - 1.0f);
+            Point2D sp = new Point2D(2.0f * p.getX() - 1.0, 2.0f * p.getY() - 1.0);
             if (sp.getX() > -sp.getY()) {            // sectors 1 and 2
                 if (sp.getX() > sp.getY()) {        // sector 1
                     r = sp.getX();
@@ -122,7 +122,7 @@ public class Sampler {
                     if (sp.getY() != 0.0)    // avoid division by zero at origin
                         phi = 6 - sp.getX() / sp.getY();
                     else
-                        phi = 0.0f;
+                        phi = 0.0;
                 }
             }
             phi *= Math.PI / 4.0f;
@@ -146,12 +146,12 @@ public class Sampler {
     }
 
     public void mapSamplesToSphere() {
-        float x, y, z;
-        float r, phi;
+        double x, y, z;
+        double r, phi;
         sphereSamples = new ArrayList<Point3D>(numSamples * numSets);
 	    for (int j = 0; j < numSamples * numSets; j++) {
             Point2D p = samples.get(j);
-            z 	= 1.0f - 2.0f * p.getX();
+            z 	= 1.0 - 2.0f * p.getX();
             r 	= (float) Math.sqrt(1.0 - z * z);
             phi = (float) (2 * Math.PI * p.getY());
             x 	= (float) (r * Math.cos(phi));
@@ -165,7 +165,7 @@ public class Sampler {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.INSTANCE.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
-                float temp = samples.get(source).getX();
+                double temp = samples.get(source).getX();
                 samples.set(source, new Point2D(samples.get(target).getX(), samples.get(source).getY()));
                 samples.set(target, new Point2D(temp, samples.get(target).getY()));
             }
@@ -177,7 +177,7 @@ public class Sampler {
             for (int i = 0; i <  numSamples - 1; i++) {
                 int target = Random.INSTANCE.randInt(numSamples) + p * numSamples;
                 int source = i + p * numSamples + 1;
-                float temp = samples.get(i + p * numSamples + 1).getY();
+                double temp = samples.get(i + p * numSamples + 1).getY();
                 samples.set(source, new Point2D(samples.get(source).getX(), samples.get(target).getY()));
                 samples.set(target, new Point2D(samples.get(target).getX(), temp));
             }

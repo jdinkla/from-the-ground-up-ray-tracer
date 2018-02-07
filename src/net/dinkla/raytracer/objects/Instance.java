@@ -26,7 +26,7 @@ public class Instance extends GeometricObject {
         trans.translate(v);
     }
 
-    public void translate(final float x, final float y, final float z) {
+    public void translate(final double x, final double y, final double z) {
         trans.translate(x, y, z);
     }
 
@@ -34,19 +34,19 @@ public class Instance extends GeometricObject {
         trans.scale(v);
     }
 
-    public void scale(final float x, final float y, final float z) {
+    public void scale(final double x, final double y, final double z) {
         trans.scale(x, y, z);
     }
 
-    public void rotateX(final float phi) {
+    public void rotateX(final double phi) {
         trans.rotateX(phi);
     }
 
-    public void rotateY(final float phi) {
+    public void rotateY(final double phi) {
         trans.rotateY(phi);
     }
 
-    public void rotateZ(final float phi) {
+    public void rotateZ(final double phi) {
         trans.rotateZ(phi);
     }
 
@@ -86,9 +86,9 @@ public class Instance extends GeometricObject {
 
         Point3D v[] = new Point3D[8];
 
-        float vx[] = new float[8];
-        float vy[] = new float[8];
-        float vz[] = new float[8];
+        double vx[] = new double[8];
+        double vy[] = new double[8];
+        double vz[] = new double[8];
 
         vx[0] = objectBbox.getP().getX(); vy[0] = objectBbox.getP().getY(); vz[0] = objectBbox.getP().getZ();
         vx[1] = objectBbox.getQ().getX(); vy[1] = objectBbox.getP().getY(); vz[1] = objectBbox.getP().getZ();
@@ -108,9 +108,9 @@ public class Instance extends GeometricObject {
         }
 
         // Compute the minimum values
-        float x0 = MathUtils.K_HUGEVALUE;
-        float y0 = MathUtils.K_HUGEVALUE;
-        float z0 = MathUtils.K_HUGEVALUE;
+        double x0 = MathUtils.K_HUGEVALUE;
+        double y0 = MathUtils.K_HUGEVALUE;
+        double z0 = MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++)  {
             if (v[j].getX() < x0)
@@ -129,9 +129,9 @@ public class Instance extends GeometricObject {
 
         // Compute the minimum values
 
-        float x1 = -MathUtils.K_HUGEVALUE;
-        float y1 = -MathUtils.K_HUGEVALUE;
-        float z1 = -MathUtils.K_HUGEVALUE;
+        double x1 = -MathUtils.K_HUGEVALUE;
+        double y1 = -MathUtils.K_HUGEVALUE;
+        double z1 = -MathUtils.K_HUGEVALUE;
 
         for (int j = 0; j <= 7; j++) {
             if (v[j].getX() > x1)

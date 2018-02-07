@@ -53,10 +53,10 @@ public class Simple2Builder implements IKDTreeBuilder {
 
         Counter.count("KDtree.build.node");
 
-        Vector3D half = voxel.getQ().minus(voxel.getP()).mult(0.5f);
+        Vector3D half = voxel.getQ().minus(voxel.getP()).mult(0.5);
         Point3D mid = voxel.getP().plus(half);
 
-        Float split = null;
+        Double split = null;
 
         List<GeometricObject> objectsL = new ArrayList<GeometricObject>();
         List<GeometricObject> objectsR = new ArrayList<GeometricObject>();

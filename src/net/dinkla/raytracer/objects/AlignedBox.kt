@@ -14,14 +14,14 @@ import net.dinkla.raytracer.math.*
 class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val tx_min: Float
-        val ty_min: Float
-        val tz_min: Float
-        val tx_max: Float
-        val ty_max: Float
-        val tz_max: Float
+        val tx_min: Double
+        val ty_min: Double
+        val tz_min: Double
+        val tx_max: Double
+        val ty_max: Double
+        val tz_max: Double
 
-        val a = 1.0f / ray.d.x
+        val a = 1.0 / ray.d.x
         if (a >= 0) {
             tx_min = (p.x - ray.o.x) * a
             tx_max = (q.x - ray.o.x) * a
@@ -30,7 +30,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             tx_max = (p.x - ray.o.x) * a
         }
 
-        val b = 1.0f / ray.d.y
+        val b = 1.0 / ray.d.y
         if (b >= 0) {
             ty_min = (p.y - ray.o.y) * b
             ty_max = (q.y - ray.o.y) * b
@@ -39,7 +39,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             ty_max = (p.y - ray.o.y) * b
         }
 
-        val c = 1.0f / ray.d.z
+        val c = 1.0 / ray.d.z
         if (c >= 0) {
             tz_min = (p.z - ray.o.z) * c
             tz_max = (q.z - ray.o.z) * c
@@ -48,8 +48,8 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             tz_max = (p.z - ray.o.z) * c
         }
 
-        var t0: Float
-        var t1: Float
+        var t0: Double
+        var t1: Double
         var faceIn: Int
         var faceOut: Int
         // find largest entering t value
@@ -93,14 +93,14 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val tx_min: Float
-        val ty_min: Float
-        val tz_min: Float
-        val tx_max: Float
-        val ty_max: Float
-        val tz_max: Float
+        val tx_min: Double
+        val ty_min: Double
+        val tz_min: Double
+        val tx_max: Double
+        val ty_max: Double
+        val tz_max: Double
 
-        val a = 1.0f / ray.d.x
+        val a = 1.0 / ray.d.x
         if (a >= 0) {
             tx_min = (p.x - ray.o.x) * a
             tx_max = (q.x - ray.o.x) * a
@@ -109,7 +109,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             tx_max = (p.x - ray.o.x) * a
         }
 
-        val b = 1.0f / ray.d.y
+        val b = 1.0 / ray.d.y
         if (b >= 0) {
             ty_min = (p.y - ray.o.y) * b
             ty_max = (q.y - ray.o.y) * b
@@ -118,7 +118,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             ty_max = (p.y - ray.o.y) * b
         }
 
-        val c = 1.0f / ray.d.z
+        val c = 1.0 / ray.d.z
         if (c >= 0) {
             tz_min = (p.z - ray.o.z) * c
             tz_max = (q.z - ray.o.z) * c
@@ -127,8 +127,8 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             tz_max = (p.z - ray.o.z) * c
         }
 
-        var t0: Float
-        var t1: Float
+        var t0: Double
+        var t1: Double
         var faceIn: Int
         var faceOut: Int
         // find largest entering t value
@@ -170,12 +170,12 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
     internal fun getNormal(face: Int): Normal? {
         when (face) {
-            0 -> return Normal(-1f, 0f, 0f)
-            1 -> return Normal(0f, -1f, 0f)
-            2 -> return Normal(0f, 0f, -1f)
-            3 -> return Normal(1f, 0f, 0f)
-            4 -> return Normal(0f, 1f, 0f)
-            5 -> return Normal(0f, 0f, 1f)
+            0 -> return Normal(-1.0, 0.0, 0.0)
+            1 -> return Normal(0.0, -1.0, 0.0)
+            2 -> return Normal(0.0, 0.0, -1.0)
+            3 -> return Normal(1.0, 0.0, 0.0)
+            4 -> return Normal(0.0, 1.0, 0.0)
+            5 -> return Normal(0.0, 0.0, 1.0)
         }
         return null
     }

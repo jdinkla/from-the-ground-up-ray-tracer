@@ -12,7 +12,7 @@ public class ShadowHit {
     /**
      * The distance. Initially set to <code>Float.MAX_VALUE</code>.
      */
-    public float t;
+    public double t;
 
     public static ShadowHit createMax() {
         ShadowHit f = new ShadowHit();
@@ -24,22 +24,22 @@ public class ShadowHit {
      * Constructor.
      */
     public ShadowHit() {
-        this.t = Float.MAX_VALUE;
+        this.t = Double.MAX_VALUE;
     }
 
-    public ShadowHit(final float t) {
+    public ShadowHit(final double t) {
         this.t = t;
     }
 
-    public float getT() {
+    public double getT() {
         return t;
     }
 
-    public void setT(final float t) {
+    public void setT(final double t) {
         this.t = t;
     }
 
     public void setMaxT() {
-        this.t = Float.MAX_VALUE;
+        this.t = Double.MAX_VALUE;
     }
 }

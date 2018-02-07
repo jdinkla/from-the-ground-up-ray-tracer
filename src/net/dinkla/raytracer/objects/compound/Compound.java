@@ -91,7 +91,7 @@ public class Compound extends GeometricObject {
         return false;
     }
 
-    public boolean inShadow(Ray ray, Shade sr, float d) {
+    public boolean inShadow(Ray ray, Shade sr, double d) {
         Counter.count("Compound.inShadow");
         //TODO: Wieso hier createMax ? ShadowHit t = ShadowHit.createMax();
         ShadowHit t = new ShadowHit(d);

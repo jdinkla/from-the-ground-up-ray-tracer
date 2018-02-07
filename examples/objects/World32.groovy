@@ -6,12 +6,12 @@ builder.world(id: "World31") {
 
     camera(d: 1000)
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(0, -1, 1.5), ls: 1.0f)
-        pointLight(location: p(0, 1, 1.5), ls: 1.0f)
-        pointLight(location: p(0, 0, 1.5), ls: 1.0f)
+        pointLight(location: p(0, -1, 1.5), ls: 1.0)
+        pointLight(location: p(0, 1, 1.5), ls: 1.0)
+        pointLight(location: p(0, 0, 1.5), ls: 1.0)
     }
 
     materials {

@@ -22,7 +22,7 @@ class Ray {
         this.d = ray.d
     }
 
-    fun linear(t: Float): Point3D {
+    fun linear(t: Double): Point3D {
         return o + (d * t)
     }
 

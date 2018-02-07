@@ -51,7 +51,7 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
 
         Counter.count("KDtree.build.node");
 
-        Float split = null;
+        Double split = null;
         Vector3D width = voxel.getQ().minus(voxel.getP());
 
         // Find the axis width the largest difference
@@ -80,13 +80,13 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
             final BBox bboxQ = oQ.getBoundingBox();
             final Point3D p = bboxP.getQ();
             final Point3D q = bboxQ.getQ();
-            return Float.compare(p.ith(axis2), q.ith(axis2));
+            return Double.compare(p.ith(axis2), q.ith(axis2));
         });
 
         int size = objects.size();
-        float minAxis = objects.get(0).getBoundingBox().getP().ith(axis);
-        float maxAxis = objects.get(objects.size() - 1).getBoundingBox().getP().ith(axis);
-        float fwidth = maxAxis - minAxis;
+        double minAxis = objects.get(0).getBoundingBox().getP().ith(axis);
+        double maxAxis = objects.get(objects.size() - 1).getBoundingBox().getP().ith(axis);
+        double fwidth = maxAxis - minAxis;
 
         GeometricObject med = objects.get(size / 2);
         split = med.getBoundingBox().getP().ith(axis);

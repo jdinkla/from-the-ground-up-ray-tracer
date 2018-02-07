@@ -9,7 +9,7 @@ package net.dinkla.raytracer.math
  */
 class Normal : Element3D {
 
-    constructor(x: Float, y: Float, z: Float) : super(x, y, z) {}
+    constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
 
     constructor(v: Vector3D) : super(v.normalize()) {}
 
@@ -20,7 +20,7 @@ class Normal : Element3D {
         return Normal(x / len, y / len, z / len)
     }
 
-    fun mult(s: Float): Vector3D {
+    fun mult(s: Double): Vector3D {
         return Vector3D(s * x, s * y, s * z)
     }
 
@@ -28,7 +28,7 @@ class Normal : Element3D {
         return Vector3D(x + normal.x, y + normal.y, z + normal.z)
     }
 
-    fun dot(v: Vector3D): Float {
+    fun dot(v: Vector3D): Double {
         return x * v.x + y * v.y + z * v.z
     }
 
@@ -37,13 +37,12 @@ class Normal : Element3D {
     }
 
     companion object {
-
-        val RIGHT = Normal(1f, 0f, 0f)
-        val LEFT = Normal(-1f, 0f, 0f)
-        val UP = Normal(0f, 1f, 0f)
-        val DOWN = Normal(0f, -1f, 0f)
-        val FRONT = Normal(0f, 0f, 1f)
-        val BACK = Normal(0f, 0f, -1f)
-        val ZERO = Normal(0f, 0f, 0f)
+        val RIGHT = Normal(1.0, 0.0, 0.0)
+        val LEFT = Normal(-1.0, 0.0, 0.0)
+        val UP = Normal(0.0, 1.0, 0.0)
+        val DOWN = Normal(0.0, -1.0, 0.0)
+        val FRONT = Normal(0.0, 0.0, 1.0)
+        val BACK = Normal(0.0, 0.0, -1.0)
+        val ZERO = Normal(0.0, 0.0, 0.0)
     }
 }

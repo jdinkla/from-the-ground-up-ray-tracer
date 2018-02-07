@@ -24,7 +24,7 @@ builder.world(id: "World47") {
     //camera(d: 1000, eye: p(NUM_ITEMS/2-2, 0.0, NUM_ITEMS/2-3), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 3
     camera(d: 1000, eye: p(-NUM_ITEMS/2+0.5, 0.0, 1.4), lookAt: p(-NUM_ITEMS/2, 0.4, -NUM_ITEMS/2), numThreads: 8)
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
         pointLight(location: p(1, 100, 1), color: c(1, 1, 1), ls: 1)
@@ -39,8 +39,8 @@ builder.world(id: "World47") {
                 int exp = (int) (r.nextFloat() * 50)
                 def col = c(r.nextFloat(), r.nextFloat(), r.nextFloat())
                 float ks = r.nextFloat()
-//                float kd = 1.0f - ks
-                float kd = 1.0f
+//                float kd = 1.0 - ks
+                float kd = 1.0
                 //phong(id: "m-$i-$j", ks: 1.0, cd: col, ka: 0.5, kd: 1.0, exp: exp, kr: 0.1, kt: 0.9, ior: 1.03 )
                 phong(id: "m-$i-$j", ks: ks, cd: col, ka: 0.5, kd: kd, exp: exp)
             }

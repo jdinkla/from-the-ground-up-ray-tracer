@@ -30,12 +30,12 @@ builder.world(id: "World58") {
 //    camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), type: FishEye, maxPsi: 120)
 //    camera(eye: p(2, 1, -1), lookAt: p(2, 1, 0), type: Spherical, maxPsi: 180, maxLambda: 180, d: 10000, numThreads: 5)
 
-//    ambientLight(ls: 0.5f, color: c(1, 0, 0))
-    ambientLight(ls: 0.5f)
+//    ambientLight(ls: 0.5, color: c(1, 0, 0))
+    ambientLight(ls: 0.5)
 
     lights {
-        pointLight(location: p(4.5, 3, 7), ls: 1.0f)
-//        pointLight(location: p(4.5, 3, 7), ls: 1.0f, color: c(1, 1, 0))
+        pointLight(location: p(4.5, 3, 7), ls: 1.0)
+//        pointLight(location: p(4.5, 3, 7), ls: 1.0, color: c(1, 1, 0))
         //directional(direction: v(-1, -1, 0), color: c(1, 0, 0))
     }
 

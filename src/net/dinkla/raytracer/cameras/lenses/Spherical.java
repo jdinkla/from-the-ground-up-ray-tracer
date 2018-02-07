@@ -14,8 +14,8 @@ import net.dinkla.raytracer.utilities.Resolution;
  */
 public class Spherical extends AbstractLens {
 
-    public float maxLambda;
-    public float maxPsi;
+    public double maxLambda;
+    public double maxPsi;
 
     public Spherical(ViewPlane viewPlane) {
         super(viewPlane);
@@ -24,8 +24,8 @@ public class Spherical extends AbstractLens {
     }
 
     public Ray getRaySingle(int r, int c) {
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres);
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres);
+        final double x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres);
+        final double y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres);
         final Point2D pp = new Point2D(x, y);
         Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
@@ -33,23 +33,23 @@ public class Spherical extends AbstractLens {
     }
 
     public Ray getRaySampled(int r, int c, Point2D sp) {
-        final float x = viewPlane.size * (c - 0.5f * viewPlane.resolution.hres + sp.getX());
-        final float y = viewPlane.size * (r - 0.5f * viewPlane.resolution.vres + sp.getY());
+        final double x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.getX());
+        final double y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.getY());
         final Point2D pp = new Point2D(x, y);
         Vector3D direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size);
         Ray ray = new Ray(eye, direction);
         return ray;
     }
 
-    protected Vector3D getRayDirection(Point2D pp, Resolution resolution, float s) {
-        float x = 2.0f / (s * resolution.hres) * pp.getX();
-        float y = 2.0f / (s * resolution.vres) * pp.getY();
+    protected Vector3D getRayDirection(Point2D pp, Resolution resolution, double s) {
+        double x = 2.0 / (s * resolution.hres) * pp.getX();
+        double y = 2.0 / (s * resolution.vres) * pp.getY();
 
-        float lambda = x * maxLambda * MathUtils.PI_ON_180;
-        float psi = y * maxPsi * MathUtils.PI_ON_180;
+        double lambda = x * maxLambda * MathUtils.PI_ON_180;
+        double psi = y * maxPsi * MathUtils.PI_ON_180;
 
-        float phi = (float) Math.PI - lambda;
-        float theta = 0.5f * (float) Math.PI - psi;
+        double phi = (double) Math.PI - lambda;
+        double theta = 0.5 * (double) Math.PI - psi;
 
         float sinPhi = (float) Math.sin(phi);
         float cosPhi = (float) Math.cos(phi);

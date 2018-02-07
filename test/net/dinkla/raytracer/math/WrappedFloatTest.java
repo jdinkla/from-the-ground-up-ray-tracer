@@ -34,7 +34,7 @@ public class WrappedFloatTest {
     public void testComparable() {
         WrappedFloat f1 = new WrappedFloat();
         WrappedFloat f2 = new WrappedFloat();
-        WrappedFloat f3 = new WrappedFloat(1.0f);
+        WrappedFloat f3 = new WrappedFloat(1.0);
         WrappedFloat f4 = new WrappedFloat(2.0f);
         assertEquals(f1, f2);
         assertEquals(f3.compareTo(f4), -1);

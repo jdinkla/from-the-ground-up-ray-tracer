@@ -41,7 +41,7 @@ public class Dielectric extends Phong {
         WrappedFloat t = WrappedFloat.createMax();
         BRDF.Sample sample = fresnelBrdf.sampleF(sr, wo);
         Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);
-        float nDotWi = sr.getNormal().dot(sample.wi);
+        double nDotWi = sr.getNormal().dot(sample.wi);
 
         if (fresnelBtdf.isTir(sr)) {
             Color lr = world.getTracer().trace(reflectedRay, t, sr.depth+1);
@@ -55,7 +55,7 @@ public class Dielectric extends Phong {
             // no total internal reflection
             BTDF.Sample sampleT = fresnelBtdf.sampleF(sr, wo);
             Ray transmittedRay = new Ray(sr.getHitPoint(), sampleT.wt);
-            float nDotWt = sr.getNormal().dot(sampleT.wt);
+            double nDotWt = sr.getNormal().dot(sampleT.wt);
             if (nDotWi < 0) {
                 // reflected ray is inside
                 Color c1 = world.getTracer().trace(reflectedRay, t, sr.depth+1);

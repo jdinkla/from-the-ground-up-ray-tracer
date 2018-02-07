@@ -52,11 +52,11 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
         Axis axis;
         int size;
 
-        Float split = null;
+        Double split = null;
         
-        Float splitX;
-        Float splitY;
-        Float splitZ;
+        Double splitX;
+        Double splitY;
+        Double splitZ;
 
         BBox voxelL = null;
         BBox voxelR = null;
@@ -203,7 +203,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
         if (!par.isFound()) {
             for (int i=0; i<p-1 && !par.isFound(); i++) {
                 if (i!=p/2) {
-                    par.split((int) (size * (i*1.0f/p)));
+                    par.split((int) (size * (i*1.0/p)));
                     par.select();
                 }
             }

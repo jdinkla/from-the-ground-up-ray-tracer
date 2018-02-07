@@ -16,11 +16,11 @@ import net.dinkla.raytracer.worlds.World;
 public class Ambient<C extends Color> extends Light<C> {
 
     // emissive material
-    public float ls;
+    public double ls;
     public C color;
 
     public Ambient() {
-        ls = 1.0f;
+        ls = 1.0;
         color = (C) C.WHITE;
     }
     

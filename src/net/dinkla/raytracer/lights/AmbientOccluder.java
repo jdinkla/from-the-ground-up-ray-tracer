@@ -52,7 +52,7 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
                 numHits++;
             }
         }
-        float ratio = 1.0f - (1.0f * numHits / numSamples);
+        double ratio = 1.0 - (1.0 * numHits / numSamples);
         return (C) color.mult(ls * ratio);
     }
 

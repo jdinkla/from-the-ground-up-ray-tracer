@@ -2,8 +2,6 @@ package net.dinkla.raytracer.math
 
 class Vector3D : Element3D {
 
-    constructor(x: Float, y: Float, z: Float) : super(x, y, z) {}
-
     constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
 
     constructor(e: Element3D) : super(e) {}
@@ -16,19 +14,19 @@ class Vector3D : Element3D {
         return Vector3D(x - v.x, y - v.y, z - v.z)
     }
 
-    fun mult(s: Float): Vector3D {
+    fun mult(s: Double): Vector3D {
         return Vector3D(s * x, s * y, s * z)
     }
 
-    operator fun times(s: Float): Vector3D {
+    operator fun times(s: Double): Vector3D {
         return Vector3D(s * x, s * y, s * z)
     }
 
-    fun dot(v: Vector3D): Float {
+    fun dot(v: Vector3D): Double {
         return x * v.x + y * v.y + z * v.z
     }
 
-    fun dot(v: Normal): Float {
+    fun dot(v: Normal): Double {
         return x * v.x + y * v.y + z * v.z
     }
 
@@ -46,12 +44,11 @@ class Vector3D : Element3D {
     }
 
     companion object {
-
-        val ZERO = Vector3D(0f, 0f, 0f)
-        val UP = Vector3D(0f, 1f, 0f)
-        val DOWN = Vector3D(0f, -1f, 0f)
-        val JITTER = Vector3D(0.0072f, 1.0f, 0.0034f)
-        val BACK = Vector3D(0f, 0f, -1f)
+        val ZERO = Vector3D(0.0, 0.0, 0.0)
+        val UP = Vector3D(0.0, 1.0, 0.0)
+        val DOWN = Vector3D(0.0, -1.0, 0.0)
+        val JITTER = Vector3D(0.0072, 1.0, 0.0034)
+        val BACK = Vector3D(0.0, 0.0, -1.0)
     }
 
 }

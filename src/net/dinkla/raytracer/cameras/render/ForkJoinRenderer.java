@@ -23,7 +23,7 @@ public class ForkJoinRenderer implements IRenderer {
     private static final int STEP_X = 1;
     private static final int STEP_Y = 1;
 
-    public float exposureTime = 1.0f;
+    public double exposureTime = 1.0;
 
     protected IFilm film;
 

@@ -14,10 +14,10 @@ builder.world(id: "World39") {
 
     camera(d: 500, eye: p(column, column+1, NUM*2), lookAt: p(column, column, NUM/2))
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(NUM / 2, 10, NUM / 2), ls: 1.0f, shadows: hasShadows)
+        pointLight(location: p(NUM / 2, 10, NUM / 2), ls: 1.0, shadows: hasShadows)
     }
 
     materials {

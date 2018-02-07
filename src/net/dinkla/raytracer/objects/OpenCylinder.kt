@@ -11,21 +11,21 @@ import net.dinkla.raytracer.math.*
  * Time: 13:23:24
  * To change this template use File | Settings | File Templates.
  */
-class OpenCylinder(y0: Float, y1: Float, internal var radius: Float) : GeometricObject() {
+class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : GeometricObject() {
 
-    internal var y0: Float = 0.toFloat()
-    internal var y1: Float = 0.toFloat()
-    internal var invRadius: Float = 0.toFloat()
+    internal var y0: Double = 0.0
+    internal var y1: Double = 0.0
+    internal var invRadius: Double = 0.0
 
     init {
         this.y0 = Math.min(y0, y1)
         this.y1 = Math.max(y0, y1)
-        this.invRadius = 1.0f / radius
+        this.invRadius = 1.0 / radius
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
 
-        var t: Float
+        var t: Double
         val ox = ray.o.x
         val oy = ray.o.y
         val oz = ray.o.z
@@ -34,25 +34,25 @@ class OpenCylinder(y0: Float, y1: Float, internal var radius: Float) : Geometric
         val dz = ray.d.z
 
         val a = dx * dx + dz * dz
-        val b = 2.0f * (ox * dx + oz * dz)
+        val b = 2.0 * (ox * dx + oz * dz)
         val c = ox * ox + oz * oz - radius * radius
-        val disc = b * b - 4.0f * a * c
+        val disc = b * b - 4.0 * a * c
 
-        if (disc < 0.0f) {
+        if (disc < 0.0) {
             return false
         } else {
-            val e = Math.sqrt(disc.toDouble()).toFloat()
-            val denom = 2.0f * a
+            val e = Math.sqrt(disc)
+            val denom = 2.0 * a
 
             t = (-b - e) / denom    // smaller root
             if (t > MathUtils.K_EPSILON) {
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
                     sr.setT(t)
-                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0f, (oz + t * dz) * invRadius)
+                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting from inside
-                    if (ray.d.mult(-1f).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.mult(-1f))
+                    if (ray.d.mult(-1.0).dot(sr.normal) < 0.0) {
+                        sr.normal = Normal(sr.normal.mult(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -64,10 +64,10 @@ class OpenCylinder(y0: Float, y1: Float, internal var radius: Float) : Geometric
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
                     sr.setT(t)
-                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0f, (oz + t * dz) * invRadius)
+                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting inside surface
-                    if (ray.d.mult(-1f).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.mult(-1f))
+                    if (ray.d.mult(-1.0).dot(sr.normal) < 0.0) {
+                        sr.normal = Normal(sr.normal.mult(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -79,7 +79,7 @@ class OpenCylinder(y0: Float, y1: Float, internal var radius: Float) : Geometric
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        var t: Float
+        var t: Double
         val ox = ray.o.x
         val oy = ray.o.y
         val oz = ray.o.z
@@ -88,15 +88,15 @@ class OpenCylinder(y0: Float, y1: Float, internal var radius: Float) : Geometric
         val dz = ray.d.z
 
         val a = dx * dx + dz * dz
-        val b = 2.0f * (ox * dx + oz * dz)
+        val b = 2.0 * (ox * dx + oz * dz)
         val c = ox * ox + oz * oz - radius * radius
-        val disc = b * b - 4.0f * a * c
+        val disc = b * b - 4.0 * a * c
 
-        if (disc < 0.0f) {
+        if (disc < 0.0) {
             return false
         } else {
-            val e = Math.sqrt(disc.toDouble()).toFloat()
-            val denom = 2.0f * a
+            val e = Math.sqrt(disc)
+            val denom = 2.0 * a
 
             t = (-b - e) / denom    // smaller root
             if (t > MathUtils.K_EPSILON) {

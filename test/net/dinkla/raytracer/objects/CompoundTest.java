@@ -18,7 +18,7 @@ public class CompoundTest {
 
     @Test
     public void testGetBoundingBox() throws Exception {
-        Sphere s = new Sphere(1.0f);
+        Sphere s = new Sphere(1.0);
         Compound c = new Compound();
         c.add(s);
 

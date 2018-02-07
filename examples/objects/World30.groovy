@@ -9,10 +9,10 @@ builder.world(id: "World26") {
 
     camera(d: 1000)
     
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(10, 7, 0), ls: 1.0f)
+        pointLight(location: p(10, 7, 0), ls: 1.0)
     }
 
     materials {

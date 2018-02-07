@@ -23,10 +23,10 @@ builder.world(id: "World40") {
 //    camera(d: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - NUM/5, column), type: PinholePar)
     camera(d: 1000, eye: p(-1, NUM, NUM + 5), lookAt: p(column, NUM - NUM/5, column), numThreads: 4)
 
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(NUM, NUM*2, NUM*2), ls: 1.0f, shadows: hasShadows)
+        pointLight(location: p(NUM, NUM*2, NUM*2), ls: 1.0, shadows: hasShadows)
     }
 
     materials {

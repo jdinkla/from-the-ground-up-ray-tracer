@@ -17,7 +17,7 @@ public class GridTest {
 
         Grid g = new Grid();
 
-        Sphere s = new Sphere(1.0f);
+        Sphere s = new Sphere(1.0);
 
         g.add(s);
 

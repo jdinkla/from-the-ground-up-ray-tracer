@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ListUtilities {
     
-    static public void splitByAxis(List<GeometricObject> objects, Float split, Axis axis, List<GeometricObject> objectsL, List<GeometricObject> objectsR) {
+    static public void splitByAxis(List<GeometricObject> objects, Double split, Axis axis, List<GeometricObject> objectsL, List<GeometricObject> objectsR) {
         objectsL.clear();
         objectsR.clear();
         for (GeometricObject object : objects) {
@@ -45,16 +45,16 @@ public class ListUtilities {
             final BBox bboxQ = oQ.getBoundingBox();
             final Point3D p = bboxP.getQ();
 
-            final float pP = bboxP.getP().ith(axis);
-            final float widthP = bboxP.getQ().ith(axis) - pP;
-            final float medP = pP + 0.5f * widthP;
+            final double pP = bboxP.getP().ith(axis);
+            final double widthP = bboxP.getQ().ith(axis) - pP;
+            final double medP = pP + 0.5 * widthP;
 
-            final float pQ = bboxQ.getP().ith(axis);
-            final float widthQ = bboxQ.getQ().ith(axis) - pQ;
-            final float medQ = pQ + 0.5f * widthQ;
+            final double pQ = bboxQ.getP().ith(axis);
+            final double widthQ = bboxQ.getQ().ith(axis) - pQ;
+            final double medQ = pQ + 0.5 * widthQ;
 
             final Point3D q = bboxQ.getQ();
-            return Float.compare(medP, medQ);
+            return Double.compare(medP, medQ);
         });
     }
 

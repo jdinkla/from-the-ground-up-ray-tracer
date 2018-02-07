@@ -8,7 +8,7 @@ class Constant : Generator() {
         val n = Math.sqrt(numSamples.toDouble()).toInt()
         for (j in 0 until numSets) {
             for (p in 0 until numSamples) {
-                samples.add(Point2D(0.5f, 0.5f))
+                samples.add(Point2D(0.5, 0.5))
             }
         }
     }

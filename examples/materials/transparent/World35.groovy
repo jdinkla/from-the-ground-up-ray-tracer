@@ -7,10 +7,10 @@ builder.world(id: "World35") {
 
     camera(d: 2000, eye: p(-4, 1, 20), lookAt: p(3, -0.2, 1))
     
-    ambientLight(color: Color.WHITE, ls: 0.5f)
+    ambientLight(color: Color.WHITE, ls: 0.5)
 
     lights {
-        pointLight(location: p(0, 0, 5), ls: 1.0f)
+        pointLight(location: p(0, 0, 5), ls: 1.0)
     }
 
     materials {

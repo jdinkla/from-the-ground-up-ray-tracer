@@ -20,11 +20,11 @@ public class ViewPlane<C extends Color> implements IColorCorrector<C> {
     public Resolution resolution;
 
     // Size of a pixel [world coordinates]
-    public float size;
+    public double size;
 
     // Color correction
-    private float gamma;
-    private float invGamma;
+    private double gamma;
+    private double invGamma;
 
     // Used for debugging
     public boolean showOutOfGamut;
@@ -36,20 +36,20 @@ public class ViewPlane<C extends Color> implements IColorCorrector<C> {
         final int width = AppProperties.getAsInteger("render.resolution.width");
         final int height = AppProperties.getAsInteger("render.resolution.height");
         this.resolution = new Resolution(width, height);
-        this.size = 1.0f;
-        this.gamma = 1.0f;
-        this.invGamma = 1.0f;
+        this.size = 1.0;
+        this.gamma = 1.0;
+        this.invGamma = 1.0;
         this.showOutOfGamut = false;
         this.maxDepth = 5;
     }
     
-    public float getGamma() {
+    public double getGamma() {
         return gamma;
     }
 
-    public void setGamma(final float gamma) {
+    public void setGamma(final double gamma) {
         this.gamma = gamma;
-        this.invGamma = 1.0f / gamma;
+        this.invGamma = 1.0 / gamma;
     }
 
     public Color correct(final Color color) {

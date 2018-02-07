@@ -110,8 +110,8 @@ open class Rectangle : GeometricObject {
         val v0 = p0
         val v1 = p0.plus(a).plus(b)
 
-        var x0 = java.lang.Float.POSITIVE_INFINITY
-        var x1 = java.lang.Float.NEGATIVE_INFINITY
+        var x0 = java.lang.Double.POSITIVE_INFINITY
+        var x1 = java.lang.Double.NEGATIVE_INFINITY
         if (v0.x < x0) {
             x0 = v0.x
         }
@@ -124,8 +124,8 @@ open class Rectangle : GeometricObject {
         if (v1.x > x1) {
             x1 = v1.x
         }
-        var y0 = java.lang.Float.POSITIVE_INFINITY
-        var y1 = java.lang.Float.NEGATIVE_INFINITY
+        var y0 = java.lang.Double.POSITIVE_INFINITY
+        var y1 = java.lang.Double.NEGATIVE_INFINITY
         if (v0.y < y0) {
             y0 = v0.y
         }
@@ -138,8 +138,8 @@ open class Rectangle : GeometricObject {
         if (v1.y > y1) {
             y1 = v1.y
         }
-        var z0 = java.lang.Float.POSITIVE_INFINITY
-        var z1 = java.lang.Float.NEGATIVE_INFINITY
+        var z0 = java.lang.Double.POSITIVE_INFINITY
+        var z1 = java.lang.Double.NEGATIVE_INFINITY
         if (v0.z < z0) {
             z0 = v0.z
         }

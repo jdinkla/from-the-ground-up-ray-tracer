@@ -36,7 +36,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
         public Normal lightNormal;
         public Vector3D wi;
 
-        public float getNDotD() {
+        public double getNDotD() {
             return lightNormal.negate().dot(wi);
         }
     }
@@ -55,17 +55,17 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
     }
 
     public boolean inShadow(World<C> world, Ray ray, Shade sr, Sample sample) {
-        float d = sample.samplePoint.minus(ray.getO()).dot(ray.getD());
+        double d = sample.samplePoint.minus(ray.getO()).dot(ray.getD());
         return world.inShadow(ray, sr, d);
     }
 
-    public float G(Shade sr, Sample sample) {
-        float nDotD = sample.getNDotD();
-        float d2 = sample.samplePoint.distanceSquared(sr.getHitPoint());        
+    public double G(Shade sr, Sample sample) {
+        double nDotD = sample.getNDotD();
+        double d2 = sample.samplePoint.distanceSquared(sr.getHitPoint());
         return nDotD / d2;
     }
 
-    public float pdf(Shade sr) {
+    public double pdf(Shade sr) {
         return object.pdf(sr);
     }
 

@@ -71,7 +71,7 @@ public class World<C extends Color> {
         return compound.shadowHit(ray, tmin);
     }
 
-    public boolean inShadow(Ray ray, Shade sr, float d) {
+    public boolean inShadow(Ray ray, Shade sr, double d) {
         Counter.count("World.inShadow");
         return compound.inShadow(ray, sr, d);
     }

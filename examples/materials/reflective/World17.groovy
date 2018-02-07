@@ -24,16 +24,16 @@ builder.world(id: "World17") {
 
     materials {
         reflective(id: "m2", cd: c(1), ka: 0.75f, kd: 0.75f, kr: 1)
-        reflective(id: "m1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
-        reflective(id: "p1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
-        reflective(id: "m3", cd: c(0, 0, 1), ka: 0.25f, kd: 0.5f, kr: 1)
-        reflective(id: "p2", cd: c(1, 0, 1), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
+        reflective(id: "m1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
+        reflective(id: "p1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
+        reflective(id: "m3", cd: c(0, 0, 1), ka: 0.25f, kd: 0.5, kr: 1)
+        reflective(id: "p2", cd: c(1, 0, 1), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
 /*
         phong(id: "m2", cd: c(1), ka: 0.75f, kd: 0.75f, kr: 1)
-        phong(id: "m1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
-        phong(id: "p1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
-        phong(id: "m3", cd: c(0, 0, 1), ka: 0.25f, kd: 0.5f, kr: 1)
-        phong(id: "p2", cd: c(1, 0, 1), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0f, kr: 1)
+        phong(id: "m1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
+        phong(id: "p1", cd: c(1, 1, 0), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
+        phong(id: "m3", cd: c(0, 0, 1), ka: 0.25f, kd: 0.5, kr: 1)
+        phong(id: "p2", cd: c(1, 0, 1), ka: 0.75f, kd: 0.75f, exp: 10, ks: 1.0, kr: 1)
 */
     }
 

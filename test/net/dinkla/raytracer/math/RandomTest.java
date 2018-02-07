@@ -38,9 +38,9 @@ public class RandomTest {
     @Test
     public void randFloat() {
         for (int i=0; i<NUM; i++) {
-            float r = Random.INSTANCE.randFloat();
-            assert 0.0f <= r;
-            assert r < 1.0f;
+            double r = Random.INSTANCE.randFloat();
+            assert 0.0 <= r;
+            assert r < 1.0;
         }
     }
 

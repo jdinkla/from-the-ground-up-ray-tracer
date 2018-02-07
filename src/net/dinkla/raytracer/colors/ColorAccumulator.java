@@ -25,7 +25,7 @@ public class ColorAccumulator<C extends Color> {
     public Color getAverage() {
         Color result;
         if (count > 0) {
-            result = aggregated.mult(1.0f / count);
+            result = aggregated.mult(1.0 / count);
         } else {
             result = C.BLACK;
         }
