@@ -21,13 +21,13 @@ public class WrappedFloatTest {
     public void testMethodParameter() {
         WrappedFloat f = new WrappedFloat();
         set(f);
-        assert (f.value == 1.23f);
+        assert (f.getValue() == 1.23f);
     }
 
     @Test
     public void testInitialValue() {
         WrappedFloat f = new WrappedFloat();
-        assert (null == f.value);
+        assert (null == f.getValue());
     }
 
     @Test

@@ -63,13 +63,13 @@ public class AffineTransformationTest {
 
         // TODO: shear funktioniert nicht wie erwartet
         assert(false);
-        Point3D q = t.invMatrix.mult(p);
+        Point3D q = t.getInvMatrix().mult(p);
         System.out.println("q=" + q);
-        System.out.println("inv=" + t.invMatrix);
+        System.out.println("inv=" + t.getInvMatrix());
 
-        q = t.forwardMatrix.mult(p);
+        q = t.getForwardMatrix().mult(p);
         System.out.println("q=" + q);
-        System.out.println("for=" + t.forwardMatrix);
+        System.out.println("for=" + t.getForwardMatrix());
 
         //testT(t, new Point3D(1, 1, 1), new Point3D(1, -1, 1), new Point3D(-1, 1, 1));
     }
@@ -82,14 +82,14 @@ public class AffineTransformationTest {
 
     private void testT(AffineTransformation t, final Point3D p, final Point3D pInv, final Point3D pFor) {
         // inverse
-        assertEq(pInv, t.invMatrix.mult(p));
+        assertEq(pInv, t.getInvMatrix().mult(p));
 
         // forward
-        assertEq(pFor, t.forwardMatrix.mult(p));
+        assertEq(pFor, t.getForwardMatrix().mult(p));
 
         // composition yields identity
-        assertEq(p, t.invMatrix.mult(t.forwardMatrix.mult(p)));
-        assertEq(p, t.forwardMatrix.mult(t.invMatrix.mult(p)));
+        assertEq(p, t.getInvMatrix().mult(t.getForwardMatrix().mult(p)));
+        assertEq(p, t.getForwardMatrix().mult(t.getInvMatrix().mult(p)));
     }
 
 }

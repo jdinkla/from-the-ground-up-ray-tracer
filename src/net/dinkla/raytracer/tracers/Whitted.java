@@ -37,7 +37,7 @@ public class Whitted<C extends Color> extends Tracer<C> {
     @Override
     public C trace(Ray ray, int depth) {
         Counter.count("Whitted.trace2");
-        return trace(ray, WrappedFloat.createMax(), depth);
+        return trace(ray, WrappedFloat.Companion.createMax(), depth);
     }
 
     @Override

@@ -52,12 +52,12 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean hit(final Ray ray, Hit sr) {
-        Point3D ro = trans.invMatrix.mult(ray.getO());
-        Vector3D rd = trans.invMatrix.mult(ray.getD());
+        Point3D ro = trans.getInvMatrix().mult(ray.getO());
+        Vector3D rd = trans.getInvMatrix().mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.hit(invRay, sr)) {
             // TODO: Instance hit?
-            Normal tmp = trans.invMatrix.mult(sr.getNormal());
+            Normal tmp = trans.getInvMatrix().mult(sr.getNormal());
             sr.setNormal(tmp.normalize());
             if (null != object.getMaterial()) {
                 sr.setObject(object);
@@ -71,8 +71,8 @@ public class Instance extends GeometricObject {
 
     @Override
     public boolean shadowHit(final Ray ray, ShadowHit tmin) {
-        Point3D ro = trans.invMatrix.mult(ray.getO());
-        Vector3D rd = trans.invMatrix.mult(ray.getD());
+        Point3D ro = trans.getInvMatrix().mult(ray.getO());
+        Vector3D rd = trans.getInvMatrix().mult(ray.getD());
         Ray invRay = new Ray(ro, rd);
         if (object.shadowHit(invRay, tmin)) {
             return true;
@@ -103,7 +103,7 @@ public class Instance extends GeometricObject {
         // Transform these using the forward matrix
         for (int i=0; i<8;i++) {
             v[i] = new Point3D(vx[i], vy[i], vz[i]);
-            v[i] = trans.forwardMatrix.mult(v[i]);
+            v[i] = trans.getForwardMatrix().mult(v[i]);
 
         }
 

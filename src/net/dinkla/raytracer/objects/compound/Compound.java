@@ -71,7 +71,7 @@ public class Compound extends GeometricObject {
 
     public Shade hitObjects(World world, Ray ray) {
         Counter.count("Compound.hitObjects");
-        WrappedFloat tmin = WrappedFloat.createMax();
+        WrappedFloat tmin = WrappedFloat.Companion.createMax();
         Shade sr = new Shade();
         boolean b = hit(ray, sr);
         return sr;
