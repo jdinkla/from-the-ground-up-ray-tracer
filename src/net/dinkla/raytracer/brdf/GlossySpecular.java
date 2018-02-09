@@ -60,7 +60,7 @@ public class GlossySpecular<C extends Color> extends BRDF<C> {
         final Vector3D r = wo.negate().plus(sr.getNormal().mult(2 * nDotWo));
 
         final Vector3D w = r;
-        final Vector3D u = new Vector3D(0.00424f, 1, 0.00764f).cross(w).normalize();
+        final Vector3D u = new Vector3D(0.00424, 1, 0.00764).cross(w).normalize();
         final Vector3D v = u.cross(w);
 
         final Point3D sp = sampler.sampleHemisphere();

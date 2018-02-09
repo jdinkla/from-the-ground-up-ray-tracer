@@ -28,8 +28,8 @@ public class SVMatte <C extends Color> extends Material<C> {
     public SVMatte() {
         ambientBrdf = new SVLambertian<C>();
         diffuseBrdf = new SVLambertian<C>();
-        setKa(0.25f);
-        setKd(0.75f);
+        setKa(0.25);
+        setKd(0.75);
         setCd(null);
     }
 
@@ -82,7 +82,7 @@ public class SVMatte <C extends Color> extends Material<C> {
     public C areaLightShade(World<C> world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
         C L = getAmbientColor(world, sr, wo);
-        ColorAccumulator<C> S = new ColorAccumulator<C>();
+        ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
                 AreaLight light = (AreaLight) light1;

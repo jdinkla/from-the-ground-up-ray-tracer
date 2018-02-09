@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AffineTransformationTest {
 
-    private static final float DELTA = 0.001f;
+    private static final double DELTA = 0.001;
 
     //AffineTransformation t;
     //Vector3D v;
@@ -58,7 +58,7 @@ public class AffineTransformationTest {
     public void testShear() throws Exception {
         AffineTransformation t = new AffineTransformation();
         Matrix m = new Matrix();
-        m.getM()[1][1] = 2.34f;
+        m.getM()[1][1] = 2.34;
         t.shear(m);
 
         // TODO: shear funktioniert nicht wie erwartet

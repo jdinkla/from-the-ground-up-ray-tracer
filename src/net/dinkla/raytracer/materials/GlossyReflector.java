@@ -25,11 +25,11 @@ public class GlossyReflector extends Phong {
         glossySpecularBrdf = new GlossySpecular();
     }
 
-    public void setKr(final float kr) {
+    public void setKr(final double kr) {
         glossySpecularBrdf.ks = kr;
     }
 
-    public void setExp(final float exp) {
+    public void setExp(final double exp) {
         glossySpecularBrdf.exp = exp;
     }
 

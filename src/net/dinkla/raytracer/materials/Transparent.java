@@ -27,15 +27,15 @@ public class Transparent extends Phong {
         this.specularBtdf = new PerfectTransmitter();
     }
 
-    public void setKt(final float kt) {
+    public void setKt(final double kt) {
         specularBtdf.kt = kt;
     }
 
-    public void setIor(final float ior) {
+    public void setIor(final double ior) {
         specularBtdf.ior = ior;
     }
 
-    public void setKr(final float kr) {
+    public void setKr(final double kr) {
         reflectiveBrdf.kr = kr;
     }
 

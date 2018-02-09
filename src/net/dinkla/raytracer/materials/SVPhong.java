@@ -71,7 +71,7 @@ public class SVPhong<C extends Color> extends SVMatte<C> {
     public C areaLightShade(World<C> world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
         C L = getAmbientColor(world, sr, wo);
-        ColorAccumulator<C> S = new ColorAccumulator<C>();
+        ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
                 AreaLight light = (AreaLight) light1;

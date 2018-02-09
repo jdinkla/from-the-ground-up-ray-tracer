@@ -37,8 +37,8 @@ public class Matte<C extends Color> extends Material<C> {
     public Matte() {
         ambientBrdf = new Lambertian<C>();
         diffuseBrdf = new Lambertian<C>();
-        setKa(0.25f);
-        setKd(0.75f);
+        setKa(0.25);
+        setKd(0.75);
         setCd((C) C.WHITE);
     }
 
@@ -94,7 +94,7 @@ public class Matte<C extends Color> extends Material<C> {
 
 	for (int j = 0; j < num_lights; j++) {
 		Vector3D wi = sr.w.lights[j]->get_direction(sr);
-		float ndotwi = sr.normal * wi;
+		double ndotwi = sr.normal * wi;
 
 		if (ndotwi > 0.0)
 			L += diffuse_brdf->f(sr, wo, wi) * sr.w.lights[j]->L(sr) * ndotwi;
@@ -106,7 +106,7 @@ public class Matte<C extends Color> extends Material<C> {
     public C areaLightShade(World<C> world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
         C L = getAmbientColor(world, sr, wo);
-        ColorAccumulator<C> S = new ColorAccumulator<C>();
+        ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
                 AreaLight light = (AreaLight) light1;

@@ -32,7 +32,7 @@ public class SampledRenderer<C extends Color> implements ISingleRayRenderer {
     }
 
     public Color render(int r, int c) {
-        ColorAccumulator<C> color = new ColorAccumulator<C>();
+        ColorAccumulator color = new ColorAccumulator();
         for (int j = 0; j < numSamples; j++) {
             Point2D sp = sampler.sampleUnitSquare();
             Ray ray = lens.getRaySampled(r, c, sp);

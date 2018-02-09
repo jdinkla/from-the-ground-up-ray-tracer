@@ -49,7 +49,7 @@ public class Dielectric extends Phong {
                 // reflected ray is inside
                 L = L.plus(cfIn.pow(t.getValue()).mult(lr));
             } else {
-                L = L.plus(cfOut.pow(t.getValue()).mult(lr));
+                L = L.plus(cfOut.pow(t.getValue()).mult(lr));                
             }
         } else {
             // no total internal reflection
@@ -87,11 +87,11 @@ public class Dielectric extends Phong {
         return L;
     }
 
-    public void setEtaIn(final float etaIn) {
+    public void setEtaIn(final double etaIn) {
 
     }
 
-    public void setEtaOut(final float etaOut) {
+    public void setEtaOut(final double etaOut) {
 
     }
 

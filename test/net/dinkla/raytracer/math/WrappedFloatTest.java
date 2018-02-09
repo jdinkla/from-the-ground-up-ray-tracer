@@ -14,14 +14,14 @@ import static org.junit.Assert.assertEquals;
 public class WrappedFloatTest {
 
     void set(WrappedFloat f) {
-        f.setValue(1.23f);
+        f.setValue(1.23);
     }
 
     @Test
     public void testMethodParameter() {
         WrappedFloat f = new WrappedFloat();
         set(f);
-        assert (f.getValue() == 1.23f);
+        assert (f.getValue() == 1.23);
     }
 
     @Test

@@ -6,17 +6,17 @@ final def r = new java.util.Random()
 
 final int NUM = 20
 
-float rb = 0.025
+double rb = 0.025
 
-float rx = 0.5
-float w = rx
-float h = rx
-float d = rx
+double rx = 0.5
+double w = rx
+double h = rx
+double d = rx
 
-float step = 0.05
-float delta = 0.01
+double step = 0.05
+double delta = 0.01
 
-float df = 0.5
+double df = 0.5
 
 int absMaxHeight = NUM                    
 
@@ -53,9 +53,9 @@ builder.world(id: "World78") {
         for (int iz=0; iz<NUM; iz++) {
             for (int iy=0; iy<NUM; iy++) {
                 for (int ix=0; ix<NUM; ix++) {
-                    float fr = 0.75 * r.nextFloat() + 0.25
-                    float g = 0.75 * r.nextFloat() + 0.25
-                    float b = 0.75 * r.nextFloat() + 0.25
+                    double fr = 0.75 * r.nextFloat() + 0.25
+                    double g = 0.75 * r.nextFloat() + 0.25
+                    double b = 0.75 * r.nextFloat() + 0.25
 //                    reflective(id: "c-$ix-$iy-$iz", cd: c(fr, g, b), ka: 0.5, kd: 0.75, ks: 0.75, exp: 5)
                     reflective(id: "c-$ix-$iy-$iz", ka: 0.0, kd: 0.0, cd: c(fr, g, b), ks: 1, cs: c(fr, g, b), exp: 5, kr: 0.3, cr: c(fr, g, b) )
                 }
@@ -71,16 +71,16 @@ builder.world(id: "World78") {
             for (int iz=0; iz<NUM; iz++) {
                 for (int ix=0; ix<NUM; ix++) {
                     int maxHeight = r.next((int) Math.sqrt(iz + 1))
-                    float height = 0
-                    float nextHeight = height + h
-                    float w2 = w
-                    float d2 = d
-                    float h2 = h
-                    float dx = r.nextFloat() * df - df/2
-                    float dz = r.nextFloat() * df - df/2
+                    double height = 0
+                    double nextHeight = height + h
+                    double w2 = w
+                    double d2 = d
+                    double h2 = h
+                    double dx = r.nextFloat() * df - df/2
+                    double dz = r.nextFloat() * df - df/2
                     for (int iy=0; iy<maxHeight; iy++) {
-                        float x = ix - w2/2 + dx
-                        float z = iz - w2/2 + dz
+                        double x = ix - w2/2 + dx
+                        double z = iz - w2/2 + dz
                         beveledBox(p0: p(x, height, -z), p1: p(x+w2, nextHeight, -(z+d2)), rb: rb, material: "c-$ix-$iy-$iz")
                         w2 -= step
                         d2 -= step

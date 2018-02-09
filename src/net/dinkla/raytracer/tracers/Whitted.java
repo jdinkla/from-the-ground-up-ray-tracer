@@ -20,8 +20,8 @@ public class Whitted<C extends Color> extends Tracer<C> {
 
     static final Logger LOGGER = Logger.getLogger(Whitted.class);
 
-//    float f = 0.6f;
-//    Color fc = new RGBColor(0.9f, 0.1, 1.0);
+//    double f = 0.6;
+//    Color fc = new RGBColor(0.9, 0.1, 1.0);
 //    Color fc = new RGBColor(0.5, 0.5, 0.5);
 
     public Whitted(World<C> world) {
@@ -67,7 +67,7 @@ public class Whitted<C extends Color> extends Tracer<C> {
             }
         }
 /*
-        float ff =  Math.sqrt(tmin.getValue() * f);
+        double ff =  Math.sqrt(tmin.getValue() * f);
         color = (C) color.plus(fc.mult(ff));
 */
         return color;

@@ -25,7 +25,7 @@ public class Reflective<C extends Color> extends Phong<C> {
         reflectiveBrdf = new PerfectSpecular<C>();
     }
 
-    public void setKr(float kr) {
+    public void setKr(double kr) {
         reflectiveBrdf.kr = kr;
     }
 

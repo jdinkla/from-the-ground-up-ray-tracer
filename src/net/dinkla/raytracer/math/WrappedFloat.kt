@@ -9,8 +9,7 @@ package net.dinkla.raytracer.math
  */
 class WrappedFloat : Comparable<WrappedFloat> {
 
-    var value: Double? = null
-    //public Double value;
+    public var value: Double? = null
 
     constructor() {
         this.value = null
