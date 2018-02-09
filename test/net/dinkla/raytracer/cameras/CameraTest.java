@@ -20,12 +20,12 @@ public class CameraTest {
             }
         };
 
-        c.eye = Point3D.Companion.getORIGIN();
-        c.lookAt = Point3D.Companion.getORIGIN();
-        c.up = Vector3D.Companion.getUP();
+        c.setEye(Point3D.Companion.getORIGIN());
+        c.setLookAt(Point3D.Companion.getORIGIN());
+        c.setUp(Vector3D.Companion.getUP());
 
-        System.out.println(c.uvw.getU());
-        System.out.println(c.uvw.getV());
-        System.out.println(c.uvw.getW());
+        System.out.println(c.getUvw().getU());
+        System.out.println(c.getUvw().getV());
+        System.out.println(c.getUvw().getW());
     }
 }

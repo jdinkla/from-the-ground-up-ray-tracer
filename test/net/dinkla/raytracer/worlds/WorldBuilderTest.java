@@ -48,7 +48,7 @@ public class WorldBuilderTest {
         File f = findExample("World20.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 3);
-        assertEquals(w.lights.size(), 1);
+        assertEquals(w.getLights().size(), 1);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class WorldBuilderTest {
         File f = findExample("World7.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 6);
-        assertEquals(w.lights.size(), 3);
+        assertEquals(w.getLights().size(), 3);
     }
 
     @Test
@@ -64,8 +64,8 @@ public class WorldBuilderTest {
         File f = findExample("World14.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 2);
-        assertEquals(w.lights.size(), 0);
-        assertEquals(AmbientOccluder.class, w.ambientLight.getClass());
+        assertEquals(w.getLights().size(), 0);
+        assertEquals(AmbientOccluder.class, w.getAmbientLight().getClass());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class WorldBuilderTest {
         File f = findExample("World17.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 10);
-        assertEquals(w.lights.size(), 2);
+        assertEquals(w.getLights().size(), 2);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class WorldBuilderTest {
         File f = findExample("World23.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 26);
-        assertEquals(w.lights.size(), 1);
+        assertEquals(w.getLights().size(), 1);
         assertEquals(w.getTracer().getClass(), AreaLighting.class);
     }
 
@@ -90,7 +90,7 @@ public class WorldBuilderTest {
         File f = findExample("World26.groovy").get().toFile();
         World w = WorldBuilder.create(f);
         assertEquals(w.size(), 2);
-        assertEquals(w.lights.size(), 1);
+        assertEquals(w.getLights().size(), 1);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class WorldBuilderTest {
         assertNotNull("camera == null", w.getCamera());
         assertNotNull("tracer == null", w.getTracer());
         assertEquals(w.size(), 5);
-        assertEquals(w.lights.size(), 1);
+        assertEquals(w.getLights().size(), 1);
     }
 
     @Test

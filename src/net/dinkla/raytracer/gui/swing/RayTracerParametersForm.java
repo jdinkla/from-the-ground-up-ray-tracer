@@ -276,8 +276,9 @@ public class RayTracerParametersForm {
             Tracer tracer = new RayCast(this.w);
             //Tracer tracer = new AreaLighting(world);
 
+            // TODO why is lens a pinhole?
             Pinhole lens = new Pinhole(vp);
-            lens.d = bean.getD();
+            lens.setD(bean.getD());
             ISingleRayRenderer render = new SimpleRenderer(lens, tracer);
             IRenderer render2 = new ParallelRenderer(render, vp);
             camera = new Camera(lens, render2);
