@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  * 3. Lens: Pinhole, FishEye, Spherical, ThinLens, Orthographic
  * 4. Iterative ?  
  */
-public class Camera<C extends Color> {
+public class Camera {
 
     static final Logger LOGGER = Logger.getLogger(Camera.class);
 

@@ -8,28 +8,22 @@ import net.dinkla.raytracer.worlds.World;
 
 /**
  * TODO: DirectionalLight Light implementieren
- * 
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 16.05.2010
- * Time: 09:48:10
- * To change this template use File | Settings | File Templates.
  */
-public class DirectionalLight<C extends Color> extends Light<C> {
+public class DirectionalLight extends Light {
 
     public double ls;
-    public C color;
+    public Color color;
     public Vector3D negatedDirection;
 
     public DirectionalLight() {
         ls = 1.0;
-        color = (C) C.WHITE;
+        color =  Color.WHITE;
         negatedDirection = Vector3D.Companion.getDOWN().negate();
     }
 
     @Override
-    public C L(World world, Shade sr) {
-        return (C) color.mult(ls);
+    public Color L(World world, Shade sr) {
+        return  color.mult(ls);
     }
     
     @Override

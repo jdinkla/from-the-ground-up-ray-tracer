@@ -128,8 +128,8 @@ public class SwingGui2 implements ActionListener {
     }
 
     public void render(File file) {
-        World<Color> w = new World<Color>();
-        WorldBuilder<Color> builder = new WorldBuilder<Color>(w);
+        World w = new World();
+        WorldBuilder builder = new WorldBuilder(w);
         builder.build(file);
         w.initialize();
 

@@ -26,11 +26,11 @@ public class GlossyReflector extends Phong {
     }
 
     public void setKr(final double kr) {
-        glossySpecularBrdf.ks = kr;
+        glossySpecularBrdf.setKs(kr);
     }
 
     public void setExp(final double exp) {
-        glossySpecularBrdf.exp = exp;
+        glossySpecularBrdf.setExp(exp);
     }
 
     @Override
@@ -38,16 +38,16 @@ public class GlossyReflector extends Phong {
         Color L = super.areaLightShade(world, sr);
         final Vector3D wo = sr.ray.getD().negate();
         final BRDF.Sample result = glossySpecularBrdf.sampleF(sr, wo);
-        final Ray reflectedRay = new Ray(sr.getHitPoint(), result.wi);
+        final Ray reflectedRay = new Ray(sr.getHitPoint(), result.getWi());
         final Color r = world.getTracer().trace(reflectedRay, sr.depth +1);
-        final Color r2 = result.color.mult(r);
-        final Color r3 = r2.mult(result.wi.dot(sr.getNormal()) / result.pdf);
-        return result.color;
+        final Color r2 = result.getColor().mult(r);
+        final Color r3 = r2.mult(result.getWi().dot(sr.getNormal()) / result.getPdf());
+        return result.getColor();
 //        L = L.plus(r);
 //        return L;
     }
 
     public void setSampler(Sampler sampler) {
-        glossySpecularBrdf.sampler = sampler;
+        glossySpecularBrdf.setSampler(sampler);
     }
 }

@@ -13,26 +13,26 @@ import org.apache.log4j.Logger;
  * Time: 14:56:41
  * To change this template use File | Settings | File Templates.
  */
-public class AreaLighting<C extends Color> extends Tracer<C> {
+public class AreaLighting extends Tracer {
 
     static final Logger LOGGER = Logger.getLogger(AreaLighting.class);
 
-    public AreaLighting(World<C> world) {
+    public AreaLighting(World world) {
         super(world);
     }
 
     @Override
-    public C trace(Ray ray, int depth) {
+    public Color trace(Ray ray, int depth) {
         LOGGER.debug("trace " + ray + " at depth " + depth);
         if (depth > world.getViewPlane().maxDepth) {
-            return (C) C.BLACK;
+            return Color.BLACK;
         } else {
             Shade sr = new Shade();
             if (world.hit(ray, sr)) {
                 sr.depth = depth;
                 sr.ray = ray;
                 assert(null != sr.getMaterial());
-                C result = (C) (sr.getMaterial().areaLightShade(world, sr));
+                Color result =  (sr.getMaterial().areaLightShade(world, sr));
                 return result;
             } else {
                 return world.getBackgroundColor();

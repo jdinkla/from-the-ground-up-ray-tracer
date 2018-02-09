@@ -22,20 +22,13 @@ import net.dinkla.raytracer.utilities.StepCounter;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 13.04.2010
- * Time: 22:17:00
- * To change this template use File | Settings | File Templates.
- */
-public class World<C extends Color> {
+public class World {
 
     protected Compound compound;
-    protected C backgroundColor;
-    protected C errorColor;
+    protected Color backgroundColor;
+    protected Color errorColor;
     protected List<Light> lights;
-    protected Ambient<C> ambientLight;
+    protected Ambient ambientLight;
     protected ViewPlane viewPlane;
     protected Tracer tracer;
     protected Camera camera;
@@ -44,7 +37,7 @@ public class World<C extends Color> {
 
     public World() {
         lights = new LinkedList<Light>();
-        ambientLight = new Ambient<C>();
+        ambientLight = new Ambient();
         viewPlane = new ViewPlane();
         tracer = new Whitted(this);
         compound = new Compound();
@@ -52,8 +45,8 @@ public class World<C extends Color> {
         stepCounter = null;
 
         // TODO color
-        backgroundColor = (C) C.BLACK;
-        errorColor = (C) C.errorColor;
+        backgroundColor = Color.BLACK;
+        errorColor = Color.errorColor;
     }
 
     public Shade hit(Ray ray) {
@@ -100,11 +93,11 @@ public class World<C extends Color> {
         return lights;
     }
 
-    final public C getBackgroundColor() {
+    final public Color getBackgroundColor() {
         return backgroundColor;
     }
 
-    final public C getErrorColor() {
+    final public Color getErrorColor() {
         return errorColor;
     }
 

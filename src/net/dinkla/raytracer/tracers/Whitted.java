@@ -9,14 +9,7 @@ import net.dinkla.raytracer.utilities.Counter;
 import net.dinkla.raytracer.worlds.World;
 import org.apache.log4j.Logger;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 24.04.2010
- * Time: 10:59:02
- * To change this template use File | Settings | File Templates.
- */
-public class Whitted<C extends Color> extends Tracer<C> {
+public class Whitted extends Tracer {
 
     static final Logger LOGGER = Logger.getLogger(Whitted.class);
 
@@ -24,29 +17,29 @@ public class Whitted<C extends Color> extends Tracer<C> {
 //    Color fc = new RGBColor(0.9, 0.1, 1.0);
 //    Color fc = new RGBColor(0.5, 0.5, 0.5);
 
-    public Whitted(World<C> world) {
+    public Whitted(World world) {
         super(world);
     }
 
     @Override
-    public C trace(Ray ray) {
+    public Color trace(Ray ray) {
         Counter.count("Whitted.trace1");
         return trace(ray, 0);
     }
 
     @Override
-    public C trace(Ray ray, int depth) {
+    public Color trace(Ray ray, int depth) {
         Counter.count("Whitted.trace2");
         return trace(ray, WrappedFloat.Companion.createMax(), depth);
     }
 
     @Override
-    public C trace(Ray ray, WrappedFloat tmin, int depth) {
+    public Color trace(Ray ray, WrappedFloat tmin, int depth) {
         //LOGGER.debug("trace " + ray + " at depth " + depth);
         Counter.count("Whitted.trace3");
-        C color = null;
+        Color color = null;
         if (depth > world.getViewPlane().maxDepth) {
-            color = (C) C.BLACK;
+            color = Color.BLACK;
         } else {
             Shade sr = new Shade();
             boolean hit = world.hit(ray, sr);
@@ -56,19 +49,19 @@ public class Whitted<C extends Color> extends Tracer<C> {
                 tmin.setValue(sr.t);
                 if (null == sr.getMaterial()) {
                     LOGGER.error("Material is NULL for ray " + ray + " and sr " + sr);
-                    color = (C) C.errorColor;
+                    color =  Color.errorColor;
                 } else {
-                    color = (C) sr.getMaterial().shade(world, sr);
+                    color =  sr.getMaterial().shade(world, sr);
                 }
             } else {
                 // No hit -> Background
                 tmin.setValue(MathUtils.K_HUGEVALUE);
-                color = (C) world.getBackgroundColor();
+                color =  world.getBackgroundColor();
             }
         }
 /*
         double ff =  Math.sqrt(tmin.getValue() * f);
-        color = (C) color.plus(fc.mult(ff));
+        color =  color.plus(fc.mult(ff));
 */
         return color;
     }

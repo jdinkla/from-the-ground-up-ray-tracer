@@ -12,14 +12,7 @@ import net.dinkla.raytracer.worlds.World;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 12.04.2010
- * Time: 15:13:47
- * To change this template use File | Settings | File Templates.
- */
-public class Matte<C extends Color> extends Material<C> {
+public class Matte extends Material {
 
     public static Matte[] materials = {
             new Matte(new Color(0.0, 0.0, 1.0), 1.0, 1.0),
@@ -31,48 +24,48 @@ public class Matte<C extends Color> extends Material<C> {
             new Matte(new Color(1.0, 1.0, 1.0), 1.0, 1.0)
             };
     
-    public Lambertian<C> ambientBrdf;
-    public Lambertian<C> diffuseBrdf;
+    public Lambertian ambientBrdf;
+    public Lambertian diffuseBrdf;
 
     public Matte() {
-        ambientBrdf = new Lambertian<C>();
-        diffuseBrdf = new Lambertian<C>();
+        ambientBrdf = new Lambertian();
+        diffuseBrdf = new Lambertian();
         setKa(0.25);
         setKd(0.75);
-        setCd((C) C.WHITE);
+        setCd(Color.WHITE);
     }
 
-    public Matte(final C color, final double ka, final double kd) {
-        ambientBrdf = new Lambertian<C>();
-        diffuseBrdf = new Lambertian<C>();
+    public Matte(final Color color, final double ka, final double kd) {
+        ambientBrdf = new Lambertian();
+        diffuseBrdf = new Lambertian();
         setKa(ka);
         setKd(kd);
         setCd(color);
     }
 
     public void setKa(double ka) {
-        ambientBrdf.kd = ka;
+        ambientBrdf.setKd(ka);
     }
 
     public void setKd(double kd) {
-        diffuseBrdf.kd = kd;
+        diffuseBrdf.setKd(kd);
     }
 
-    public void setCd(final C cd) {
-        ambientBrdf.cd = cd;
-        diffuseBrdf.cd = cd;
+    public void setCd(final Color cd) {
+        ambientBrdf.setCd(cd);
+        diffuseBrdf.setCd(cd);
     }
 
     @Override
-    public C shade(World<C> world, Shade sr) {
+    public Color shade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
             double nDotWi = wi.dot(sr.getNormal());
             if (nDotWi > 0) {
                 boolean inShadow = false;
-                if (light.shadows) {
+                if (light.getShadows()) {
                     Ray shadowRay = new Ray(sr.getHitPoint(), wi);
                     inShadow = light.inShadow(world, shadowRay, sr);
                 }
@@ -80,7 +73,7 @@ public class Matte<C extends Color> extends Material<C> {
                     Color f = diffuseBrdf.f(sr, wo, wi);
                     Color l = light.L(world, sr);
                     Color flndotwi = f.mult(l).mult(nDotWi);
-                    L = (C) L.plus(flndotwi);
+                    L = L.plus(flndotwi);
                 }
             }
         }
@@ -103,9 +96,9 @@ public class Matte<C extends Color> extends Material<C> {
 	return (L);
     */
     @Override
-    public C areaLightShade(World<C> world, Shade sr) {
+    public Color areaLightShade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
@@ -115,7 +108,7 @@ public class Matte<C extends Color> extends Material<C> {
                     double nDotWi = sample.wi.dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
-                        if (light.shadows) {
+                        if (light.getShadows()) {
                             Ray shadowRay = new Ray(sr.getHitPoint(), sample.wi);
                             inShadow = light.inShadow(world, shadowRay, sr, sample);
                         }
@@ -125,26 +118,26 @@ public class Matte<C extends Color> extends Material<C> {
                             Color flndotwi = f.mult(l).mult(nDotWi);
                             // TODO: hier ist der Unterschied zu shade()
                             double f1 = light.G(sr, sample) / light.pdf(sr);
-                            C T = (C) flndotwi.mult(f1);
+                            Color T = flndotwi.mult(f1);
                             S.plus(T);
                         }
                     }
                 }
             }
         }
-        L = (C) L.plus(S.getAverage());
+        L = L.plus(S.getAverage());
         return L;
     }
 
-    protected C getAmbientColor(World<C> world, Shade sr, Vector3D wo) {
-        final C c1 = ambientBrdf.rho(sr, wo);
-        final C c2 = (C) world.getAmbientLight().L(world, sr);
-        final C L = (C) c1.mult(c2);
+    protected Color getAmbientColor(World world, Shade sr, Vector3D wo) {
+        final Color c1 = ambientBrdf.rho(sr, wo);
+        final Color c2 = world.getAmbientLight().L(world, sr);
+        final Color L = c1.mult(c2);
         return L;
     }
 
     @Override
-    public C getLe(Shade sr) {
+    public Color getLe(Shade sr) {
         return diffuseBrdf.rho(sr, null);
     }
 }

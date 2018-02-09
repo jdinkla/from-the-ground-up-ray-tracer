@@ -11,14 +11,14 @@ import net.dinkla.raytracer.films.IFilm;
  * Time: 19:59:06
  * To change this template use File | Settings | File Templates.
  */
-public class SequentialRenderer<C extends Color> implements IRenderer {
+public class SequentialRenderer implements IRenderer {
 
     final protected ISingleRayRenderer render;
-    final protected IColorCorrector<C> corrector;
+    final protected IColorCorrector corrector;
 
     public double exposureTime = 1.0;
 
-    public SequentialRenderer(final ISingleRayRenderer render, final IColorCorrector<C> corrector) {
+    public SequentialRenderer(final ISingleRayRenderer render, final IColorCorrector corrector) {
         this.render = render;
         this.corrector = corrector;
     }
@@ -26,8 +26,8 @@ public class SequentialRenderer<C extends Color> implements IRenderer {
     public void render(IFilm film, int frame) {
         for (int r = 0; r < film.getResolution().vres; r++) {
             for (int c = 0; c < film.getResolution().hres; c++) {
-                C color = (C) render.render(r, c);
-                color = (C) color.mult(exposureTime);
+                Color color =  render.render(r, c);
+                color =  color.mult(exposureTime);
                 color = corrector.correct(color);
                 film.setPixel(frame, c, r, color);
             }

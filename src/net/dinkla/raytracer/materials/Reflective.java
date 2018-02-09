@@ -9,40 +9,33 @@ import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.Vector3D;
 import net.dinkla.raytracer.worlds.World;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 24.04.2010
- * Time: 11:41:12
- * To change this template use File | Settings | File Templates.
- */
-public class Reflective<C extends Color> extends Phong<C> {
+public class Reflective extends Phong {
 
-    PerfectSpecular<C> reflectiveBrdf;
+    PerfectSpecular reflectiveBrdf;
 
     public Reflective() {
         super();
-        reflectiveBrdf = new PerfectSpecular<C>();
+        reflectiveBrdf = new PerfectSpecular();
     }
 
     public void setKr(double kr) {
-        reflectiveBrdf.kr = kr;
+        reflectiveBrdf.setKr(kr);
     }
 
-    public void setCr(C cr) {
-        reflectiveBrdf.cr = cr;
+    public void setCr(Color cr) {
+        reflectiveBrdf.setCr(cr);
     }
 
     @Override
-    public C shade(World<C> world, Shade sr) {
-        final C L = super.shade(world, sr);
+    public Color shade(World world, Shade sr) {
+        final Color L = super.shade(world, sr);
         final Vector3D wo = sr.ray.getD().negate();
         final BRDF.Sample sample = reflectiveBrdf.sampleF(sr, wo);
-        double f = sr.getNormal().dot(sample.wi);
-        final Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);
-        final C c1 = (C) world.getTracer().trace(reflectedRay, sr.depth + 1);
-        final C c2 = (C) sample.color.mult(c1).mult(f);
-        return (C) L.plus(c2);
+        double f = sr.getNormal().dot(sample.getWi());
+        final Ray reflectedRay = new Ray(sr.getHitPoint(), sample.getWi());
+        final Color c1 =  world.getTracer().trace(reflectedRay, sr.depth + 1);
+        final Color c2 =  sample.getColor().mult(c1).mult(f);
+        return  L.plus(c2);
     }
     
 }

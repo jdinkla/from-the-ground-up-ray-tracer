@@ -19,13 +19,7 @@ import net.dinkla.raytracer.factories.TracerFactory
 import net.dinkla.raytracer.factories.CameraFactory
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 20.04.2010
- * Time: 21:44:16
- */
-class WorldBuilder<C extends Color> extends BuilderSupport {
+class WorldBuilder extends BuilderSupport {
 
     static final Logger LOGGER = Logger.getLogger(WorldBuilder.class);
 
@@ -38,7 +32,7 @@ class WorldBuilder<C extends Color> extends BuilderSupport {
     final MaterialMap mMap
     final GeometricObjectFactory gof
 
-    WorldBuilder(World<C> world) {
+    WorldBuilder(World world) {
         this.world = world
         isInLights = false
         isInObjects = false
@@ -51,7 +45,7 @@ class WorldBuilder<C extends Color> extends BuilderSupport {
 
     static World create(File file) {
         World world = new World()
-        WorldBuilder<C> builder = new WorldBuilder<C>(world)
+        WorldBuilder builder = new WorldBuilder(world)
         builder.build(file)        
         return world
     }

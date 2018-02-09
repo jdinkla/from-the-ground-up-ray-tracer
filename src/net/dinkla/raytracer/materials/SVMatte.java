@@ -13,29 +13,22 @@ import net.dinkla.raytracer.worlds.World;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 02.06.2010
- * Time: 22:01:44
- * To change this template use File | Settings | File Templates.
- */
-public class SVMatte <C extends Color> extends Material<C> {
+public class SVMatte extends Material {
 
-    public SVLambertian<C> ambientBrdf;
-    public SVLambertian<C> diffuseBrdf;
+    public SVLambertian ambientBrdf;
+    public SVLambertian diffuseBrdf;
 
     public SVMatte() {
-        ambientBrdf = new SVLambertian<C>();
-        diffuseBrdf = new SVLambertian<C>();
+        ambientBrdf = new SVLambertian();
+        diffuseBrdf = new SVLambertian();
         setKa(0.25);
         setKd(0.75);
         setCd(null);
     }
 
-    public SVMatte(final Texture<C> color, final double ka, final double kd) {
-        ambientBrdf = new SVLambertian<C>();
-        diffuseBrdf = new SVLambertian<C>();
+    public SVMatte(final Texture color, final double ka, final double kd) {
+        ambientBrdf = new SVLambertian();
+        diffuseBrdf = new SVLambertian();
         setKa(ka);
         setKd(kd);
         setCd(color);
@@ -49,21 +42,21 @@ public class SVMatte <C extends Color> extends Material<C> {
         diffuseBrdf.setKd(kd);
     }
 
-    public void setCd(final Texture<C> cd) {
+    public void setCd(final Texture cd) {
         ambientBrdf.setCd(cd);
         diffuseBrdf.setCd(cd);
     }
 
     @Override
-    public C shade(World<C> world, Shade sr) {
+    public Color shade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
             double nDotWi = wi.dot(sr.getNormal());
             if (nDotWi > 0) {
                 boolean inShadow = false;
-                if (light.shadows) {
+                if (light.getShadows()) {
                     Ray shadowRay = new Ray(sr.getHitPoint(), wi);
                     inShadow = light.inShadow(world, shadowRay, sr);
                 }
@@ -71,7 +64,7 @@ public class SVMatte <C extends Color> extends Material<C> {
                     Color f = diffuseBrdf.f(sr, wo, wi);
                     Color l = light.L(world, sr);
                     Color flndotwi = f.mult(l).mult(nDotWi);
-                    L = (C) L.plus(flndotwi);
+                    L = L.plus(flndotwi);
                 }
             }
         }
@@ -79,9 +72,9 @@ public class SVMatte <C extends Color> extends Material<C> {
     }
 
     @Override
-    public C areaLightShade(World<C> world, Shade sr) {
+    public Color areaLightShade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
@@ -91,7 +84,7 @@ public class SVMatte <C extends Color> extends Material<C> {
                     double nDotWi = sample.wi.dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
-                        if (light.shadows) {
+                        if (light.getShadows()) {
                             Ray shadowRay = new Ray(sr.getHitPoint(), sample.wi);
                             inShadow = light.inShadow(world, shadowRay, sr, sample);
                         }
@@ -101,26 +94,26 @@ public class SVMatte <C extends Color> extends Material<C> {
                             Color flndotwi = f.mult(l).mult(nDotWi);
                             // TODO: hier ist der Unterschied zu shade()
                             double f1 = light.G(sr, sample) / light.pdf(sr);
-                            C T = (C) flndotwi.mult(f1);
+                            Color T = flndotwi.mult(f1);
                             S.plus(T);
                         }
                     }
                 }
             }
         }
-        L = (C) L.plus(S.getAverage());
+        L = L.plus(S.getAverage());
         return L;
     }
 
-    protected C getAmbientColor(World<C> world, Shade sr, Vector3D wo) {
-        C c1 = ambientBrdf.rho(sr, wo);
-        C c2 = (C) world.getAmbientLight().L(world, sr);
-        C L = (C) c1.mult(c2);
+    protected Color getAmbientColor(World world, Shade sr, Vector3D wo) {
+        Color c1 = ambientBrdf.rho(sr, wo);
+        Color c2 = world.getAmbientLight().L(world, sr);
+        Color L = c1.mult(c2);
         return L;
     }
 
     @Override
-    public C getLe(Shade sr) {
+    public Color getLe(Shade sr) {
         return diffuseBrdf.rho(sr, null);
     }
 }

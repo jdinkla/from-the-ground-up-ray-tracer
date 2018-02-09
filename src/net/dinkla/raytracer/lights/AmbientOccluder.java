@@ -9,35 +9,30 @@ import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.worlds.World;
 
 /**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 13.04.2010
- * Time: 10:28:11
- * To change this template use File | Settings | File Templates.
  *
  * TODO: Da war shared state drin. Böse bei der Parallelisierung
  */
-public class AmbientOccluder<C extends Color> extends Ambient<C> {
+public class AmbientOccluder extends Ambient {
 
     //public Vector3D u, v, w;
-    public final C minAmount;
+    public final Color minAmount;
     public final Sampler sampler;
     public final int numSamples;
 
     public AmbientOccluder(Sampler sampler, int numSamples) {
-        this.minAmount = (C) C.WHITE;
+        this.minAmount =  Color.WHITE;
         this.sampler = sampler;
         this.numSamples = numSamples;
     }
 
-    public AmbientOccluder(C minAmount, Sampler sampler, int numSamples) {
+    public AmbientOccluder(Color minAmount, Sampler sampler, int numSamples) {
         this.minAmount = minAmount;
         this.sampler = sampler;
         this.numSamples = numSamples;
     }
 
     @Override
-    public C L(World<C> world, Shade sr) {
+    public Color L(World world, Shade sr) {
         Vector3D w = new Vector3D(sr.getNormal());
         // jitter up vector in case normal is vertical
         Vector3D v = w.cross(Vector3D.Companion.getJITTER()).normalize();
@@ -53,7 +48,7 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
             }
         }
         double ratio = 1.0 - (1.0 * numHits / numSamples);
-        return (C) color.mult(ls * ratio);
+        return  color.mult(ls * ratio);
     }
 
     @Override
@@ -66,7 +61,7 @@ public class AmbientOccluder<C extends Color> extends Ambient<C> {
     }
 
     @Override
-    public boolean inShadow(World<C> world, Ray ray, Shade sr) {
+    public boolean inShadow(World world, Ray ray, Shade sr) {
         return world.inShadow(ray, sr, Double.MAX_VALUE);
     }
 }

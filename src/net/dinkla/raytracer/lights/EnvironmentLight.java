@@ -10,22 +10,15 @@ import net.dinkla.raytracer.math.Vector3D;
 import net.dinkla.raytracer.samplers.Sampler;
 import net.dinkla.raytracer.worlds.World;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 27.05.2010
- * Time: 23:02:26
- * To change this template use File | Settings | File Templates.
- */
-public class EnvironmentLight<C extends Color> extends Light<C> {
+public class EnvironmentLight extends Light {
 
     public Sampler sampler;
-    public Material<C> material;
+    public Material material;
     public Vector3D u, v, w;
     public Vector3D wi;
 
     @Override
-    public boolean inShadow(World<C> world, Ray ray, Shade sr) {
+    public boolean inShadow(World world, Ray ray, Shade sr) {
         return world.inShadow(ray, sr, Double.MAX_VALUE);
     }
 
@@ -40,7 +33,7 @@ public class EnvironmentLight<C extends Color> extends Light<C> {
     }
 
     @Override
-    public C L(World<C> world, Shade sr) {
-        return (C) material.getLe(sr);
+    public Color L(World world, Shade sr) {
+        return  material.getLe(sr);
     }
 }

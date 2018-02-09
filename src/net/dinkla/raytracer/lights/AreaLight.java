@@ -12,22 +12,13 @@ import net.dinkla.raytracer.worlds.World;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The original C code in the book [] is not thread safe. The samplePoint, lightNormal
- * and wi are shared by some methods. Parallel execution yields artifacts in the generated image.
- * So the state is extracted into subclass Sample.
- * 
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 13.04.2010
- * Time: 16:39:38
- */
-public class AreaLight<C extends Color> extends Light<C> implements ILightSource {
+
+public class AreaLight extends Light implements ILightSource {
 
     public ILightSource object;
 
     // Emissive Material TODO: Warum nicht Emissive?
-    public Material<C> material;
+    public Material material;
 
     public int numSamples;
 
@@ -46,15 +37,15 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
         numSamples = 4;
     }
 
-    public C L(World<C> world, Shade sr, Sample sample) {
+    public Color L(World world, Shade sr, Sample sample) {
         if (sample.getNDotD() > 0) {
-            return (C) sr.getMaterial().getLe(sr);
+            return sr.getMaterial().getLe(sr);
         } else {
-            return (C) C.BLACK;
+            return Color.BLACK;
         }
     }
 
-    public boolean inShadow(World<C> world, Ray ray, Shade sr, Sample sample) {
+    public boolean inShadow(World world, Ray ray, Shade sr, Sample sample) {
         double d = sample.samplePoint.minus(ray.getO()).dot(ray.getD());
         return world.inShadow(ray, sr, d);
     }
@@ -95,7 +86,7 @@ public class AreaLight<C extends Color> extends Light<C> implements ILightSource
     }
 
     @Override
-    public C L(World<C> world, Shade sr) {
+    public Color L(World world, Shade sr) {
         throw new RuntimeException("NLU");
     }
 

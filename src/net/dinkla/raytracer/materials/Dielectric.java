@@ -40,8 +40,8 @@ public class Dielectric extends Phong {
         Vector3D wo = sr.ray.getD().negate();
         WrappedFloat t = WrappedFloat.Companion.createMax();
         BRDF.Sample sample = fresnelBrdf.sampleF(sr, wo);
-        Ray reflectedRay = new Ray(sr.getHitPoint(), sample.wi);
-        double nDotWi = sr.getNormal().dot(sample.wi);
+        Ray reflectedRay = new Ray(sr.getHitPoint(), sample.getWi());
+        double nDotWi = sr.getNormal().dot(sample.getWi());
 
         if (fresnelBtdf.isTir(sr)) {
             Color lr = world.getTracer().trace(reflectedRay, t, sr.depth+1);
@@ -54,31 +54,31 @@ public class Dielectric extends Phong {
         } else {
             // no total internal reflection
             BTDF.Sample sampleT = fresnelBtdf.sampleF(sr, wo);
-            Ray transmittedRay = new Ray(sr.getHitPoint(), sampleT.wt);
-            double nDotWt = sr.getNormal().dot(sampleT.wt);
+            Ray transmittedRay = new Ray(sr.getHitPoint(), sampleT.getWt());
+            double nDotWt = sr.getNormal().dot(sampleT.getWt());
             if (nDotWi < 0) {
                 // reflected ray is inside
                 Color c1 = world.getTracer().trace(reflectedRay, t, sr.depth+1);
                 Color c2 = c1.mult(Math.abs(nDotWi));
-                Color lr = sample.color.mult(c2);
+                Color lr = sample.getColor().mult(c2);
                 L = L.plus(cfIn.pow(t.getValue()).mult(lr));
 
                 // transmitted ray is outside
                 Color c3 = world.getTracer().trace(transmittedRay, t, sr.depth+1);
                 Color c4 = c3.mult(Math.abs(nDotWt));
-                Color lt = sampleT.color.mult(c4);
+                Color lt = sampleT.getColor().mult(c4);
                 L = L.plus(cfOut.pow(t.getValue()).mult(lt));
             } else {
                 // reflected ray is inside
                 Color c1 = world.getTracer().trace(reflectedRay, t, sr.depth+1);
                 Color c2 = c1.mult(Math.abs(nDotWi));
-                Color lr = sample.color.mult(c2);
+                Color lr = sample.getColor().mult(c2);
                 L = L.plus(cfOut.pow(t.getValue()).mult(lr));
 
                 // transmitted ray is outside
                 Color c3 = world.getTracer().trace(transmittedRay, t, sr.depth+1);
                 Color c4 = c3.mult(Math.abs(nDotWt));
-                Color lt = sampleT.color.mult(c4);
+                Color lt = sampleT.getColor().mult(c4);
                 L = L.plus(cfIn.pow(t.getValue()).mult(lt));
             }
 

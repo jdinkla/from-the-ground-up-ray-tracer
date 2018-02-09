@@ -14,7 +14,7 @@ import net.dinkla.raytracer.utilities.Resolution;
  * Time: 18:18:21
  * To change this template use File | Settings | File Templates.
  */
-public class ViewPlane<C extends Color> implements IColorCorrector<C> {
+public class ViewPlane implements IColorCorrector {
 
     // Resolution
     public Resolution resolution;

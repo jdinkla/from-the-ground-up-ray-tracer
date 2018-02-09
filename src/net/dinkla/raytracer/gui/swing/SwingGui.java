@@ -26,8 +26,8 @@ import java.io.File;
 public class SwingGui {
 
     public static void main(String[] args) {
-        final World<Color> w = new World<Color>();
-        final WorldBuilder<Color> builder = new WorldBuilder<Color>(w);
+        final World w = new World();
+        final WorldBuilder builder = new WorldBuilder(w);
         String fileName = "examples/objects/World30.groovy";
 
 //        String fileName = "examples/materials/reflective/World80.groovy";

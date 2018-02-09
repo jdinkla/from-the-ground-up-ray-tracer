@@ -20,7 +20,7 @@ import java.io.IOException;
  * Time: 21:36:34
  * To change this template use File | Settings | File Templates.
  */
-public class ImageTexture<C extends Color> extends Texture<C> {
+public class ImageTexture extends Texture {
 
     public Resolution res;
     public Mapping mapping;
@@ -38,7 +38,7 @@ public class ImageTexture<C extends Color> extends Texture<C> {
     }
 
     @Override
-    public C getColor(Shade sr) {
+    public Color getColor(Shade sr) {
         int row = 0;
         int column = 0;
 
@@ -84,7 +84,7 @@ public class ImageTexture<C extends Color> extends Texture<C> {
         } catch (ArrayIndexOutOfBoundsException e) {
             int a = 2;
         }
-        return (C) C.WHITE.createFromInt(rgb);
+        return  Color.WHITE.createFromInt(rgb);
     }
     
 }

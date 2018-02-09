@@ -16,7 +16,7 @@ import net.dinkla.raytracer.tracers.Tracer;
  * Time: 19:34:35
  * To change this template use File | Settings | File Templates.
  */
-public class SampledRenderer<C extends Color> implements ISingleRayRenderer {
+public class SampledRenderer implements ISingleRayRenderer {
 
     public ILens lens;
     public Tracer tracer;

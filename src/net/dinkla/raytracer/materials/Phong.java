@@ -12,44 +12,37 @@ import net.dinkla.raytracer.worlds.World;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 12.04.2010
- * Time: 15:13:47
- * To change this template use File | Settings | File Templates.
- */
-public class Phong<C extends Color> extends Matte<C> {
+public class Phong extends Matte {
 
-    public GlossySpecular<C> specularBrdf;
+    public GlossySpecular specularBrdf;
     
     public Phong() {
         super();
-        specularBrdf = new GlossySpecular<C>();
+        specularBrdf = new GlossySpecular();
     }
 
     public void setKs(double ks) {
-        specularBrdf.ks = ks;
+        specularBrdf.setKs(ks);
     }
 
     public void setExp(double exp) {
-        specularBrdf.exp = exp;
+        specularBrdf.setExp(exp);
     }
 
-    public void setCs(final C cs) {
-        specularBrdf.cs = cs;
+    public void setCs(final Color cs) {
+        specularBrdf.setCs(cs);
     }
 
     @Override
-    public C shade(World<C> world, Shade sr) {
+    public Color shade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         for (Light light : world.getLights()) {
             Vector3D wi = light.getDirection(sr);
             double nDotWi = sr.getNormal().dot(wi);
             if (nDotWi > 0) {
                 boolean inShadow = false;
-                if (light.shadows) {
+                if (light.getShadows()) {
                     Ray shadowRay = new Ray(sr.getHitPoint(), wi);
                     inShadow = light.inShadow(world, shadowRay, sr);
                 }
@@ -58,7 +51,7 @@ public class Phong<C extends Color> extends Matte<C> {
                     Color fs = specularBrdf.f(sr, wo, wi);
                     Color l = light.L(world, sr);
                     Color fdfslndotwi = fd.plus(fs).mult(l).mult(nDotWi);
-                    L = (C) L.plus(fdfslndotwi);
+                    L =  L.plus(fdfslndotwi);
                 }
             }
         }
@@ -67,9 +60,9 @@ public class Phong<C extends Color> extends Matte<C> {
 
 
     @Override
-    public C areaLightShade(World<C> world, Shade sr) {
+    public Color areaLightShade(World world, Shade sr) {
         Vector3D wo = sr.ray.getD().negate();
-        C L = getAmbientColor(world, sr, wo);
+        Color L = getAmbientColor(world, sr, wo);
         ColorAccumulator S = new ColorAccumulator();
         for (Light light1 : world.getLights()) {
             if (light1 instanceof AreaLight) {
@@ -79,7 +72,7 @@ public class Phong<C extends Color> extends Matte<C> {
                     double nDotWi = sample.wi.dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
-                        if (light.shadows) {
+                        if (light.getShadows()) {
                             Ray shadowRay = new Ray(sr.getHitPoint(), sample.wi);
                             inShadow = light.inShadow(world, shadowRay, sr, sample);
                         }
@@ -97,13 +90,13 @@ public class Phong<C extends Color> extends Matte<C> {
                 }
             }
         }
-        L = (C) L.plus(S.getAverage());
+        L = L.plus(S.getAverage());
         return L;
     }
 
     @Override
-    public C getLe(Shade sr) {
+    public Color getLe(Shade sr) {
         // TODO
-        return (C) specularBrdf.cs.mult(specularBrdf.ks);
+        return specularBrdf.getCs().mult(specularBrdf.getKs());
     }
 }

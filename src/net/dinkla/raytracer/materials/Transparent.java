@@ -28,19 +28,19 @@ public class Transparent extends Phong {
     }
 
     public void setKt(final double kt) {
-        specularBtdf.kt = kt;
+        specularBtdf.setKt(kt);
     }
 
     public void setIor(final double ior) {
-        specularBtdf.ior = ior;
+        specularBtdf.setIor(ior);
     }
 
     public void setKr(final double kr) {
-        reflectiveBrdf.kr = kr;
+        reflectiveBrdf.setKr(kr);
     }
 
     public void setCr(final Color cr) {
-        reflectiveBrdf.cr = cr;
+        reflectiveBrdf.setCr(cr);
     }
 
     @Override
@@ -49,21 +49,21 @@ public class Transparent extends Phong {
         Vector3D wo = sr.ray.getD().mult(-1);
         BRDF.Sample brdf = reflectiveBrdf.sampleF(sr, wo);
         // trace reflected ray
-        Ray reflectedRay = new Ray(sr.getHitPoint(), brdf.wi);
+        Ray reflectedRay = new Ray(sr.getHitPoint(), brdf.getWi());
         Color cr = world.getTracer().trace(reflectedRay, sr.depth + 1);
         if (specularBtdf.isTir(sr)) {
             l = l.plus(cr);
         } else {
             // reflected
-            double cfr =  Math.abs(sr.getNormal().dot(brdf.wi));
-            l = l.plus(brdf.color.mult(cr).mult(cfr));
+            double cfr =  Math.abs(sr.getNormal().dot(brdf.getWi()));
+            l = l.plus(brdf.getColor().mult(cr).mult(cfr));
 
             // trace transmitted ray
             BTDF.Sample btdf = specularBtdf.sampleF(sr, wo);
-            Ray transmittedRay = new Ray(sr.getHitPoint(), btdf.wt);
+            Ray transmittedRay = new Ray(sr.getHitPoint(), btdf.getWt());
             Color ct = world.getTracer().trace(transmittedRay, sr.depth + 1);
-            double cft =  Math.abs(sr.getNormal().dot(btdf.wt));
-            l = l.plus(btdf.color.mult(ct).mult(cft));
+            double cft =  Math.abs(sr.getNormal().dot(btdf.getWt()));
+            l = l.plus(btdf.getColor().mult(ct).mult(cft));
         }
         return l;
     }
