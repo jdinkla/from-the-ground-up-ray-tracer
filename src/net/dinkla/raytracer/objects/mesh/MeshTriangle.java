@@ -91,7 +91,7 @@ public class MeshTriangle extends GeometricObject {
         double e3 = a * p - b * r + d * s;
         double t = e3 * invDenom;
 
-        if (t < MathUtils.K_EPSILON) {
+        if (t < MathUtils.INSTANCE.getK_EPSILON()) {
             return false;
         }
         tmin.setT(t);
@@ -120,8 +120,8 @@ public class MeshTriangle extends GeometricObject {
             Point3D p1 = mesh.vertices.get(index1);
             Point3D p2 = mesh.vertices.get(index2);
 
-            Point3D min = MathUtils.minMin(p0, p1, p2).minus(MathUtils.K_EPSILON);
-            Point3D max = MathUtils.maxMax(p0, p1, p2).plus(MathUtils.K_EPSILON);
+            Point3D min = MathUtils.INSTANCE.minMin(p0, p1, p2).minus(MathUtils.INSTANCE.getK_EPSILON());
+            Point3D max = MathUtils.INSTANCE.maxMax(p0, p1, p2).plus(MathUtils.INSTANCE.getK_EPSILON());
             bbox = new BBox(min, max);
         }
         return bbox;

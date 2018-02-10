@@ -25,8 +25,8 @@ public class CompoundTest {
         BBox bboxC = c.getBoundingBox();
         BBox bboxS = s.getBoundingBox();
 
-        assertEquals(bboxC.getP(), bboxS.getP().minus(MathUtils.K_EPSILON));
-        assertEquals(bboxC.getQ(), bboxS.getQ().plus(MathUtils.K_EPSILON));
+        assertEquals(bboxC.getP(), bboxS.getP().minus(MathUtils.INSTANCE.getK_EPSILON()));
+        assertEquals(bboxC.getQ(), bboxS.getQ().plus(MathUtils.INSTANCE.getK_EPSILON()));
     }
 
 }

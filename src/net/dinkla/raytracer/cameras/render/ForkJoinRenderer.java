@@ -41,7 +41,7 @@ public class ForkJoinRenderer implements IRenderer {
         this.film = film;
         final Resolution res = film.getResolution();
 
-        Master master = new Master(sizeGrid, res.hres, res.vres);
+        Master master = new Master(sizeGrid, res.getHres(), res.getVres());
         pool.invoke(master);
         pool.shutdown();
         this.film = null;

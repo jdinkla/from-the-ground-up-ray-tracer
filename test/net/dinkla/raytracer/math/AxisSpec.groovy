@@ -11,7 +11,6 @@ class AxisSpec extends Specification {
         expect: Axis.fromInt(0) == Axis.X
         and: Axis.fromInt(1) == Axis.Y
         and: Axis.fromInt(2) == Axis.Z
-        and: Axis.fromInt(3) == null
     }
 
     def "Next"() {

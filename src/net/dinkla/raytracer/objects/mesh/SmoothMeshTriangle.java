@@ -56,7 +56,7 @@ public class SmoothMeshTriangle extends MeshTriangle {
         double e3 = a * p - b * r + d * s;
         double t = e3 * invDenom;
 
-        if (t < MathUtils.K_EPSILON)
+        if (t < MathUtils.INSTANCE.getK_EPSILON())
             return (false);
 
         sr.setT(t);

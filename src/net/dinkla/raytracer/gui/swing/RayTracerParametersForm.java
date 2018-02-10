@@ -271,7 +271,7 @@ public class RayTracerParametersForm {
             vp.setGamma(bean.getGamma());
             vp.setShowOutOfGamut(bean.isShowOutOfGamut());
 
-            imf = new ImageFrame(vp.getResolution(), false, bean);
+            imf = new ImageFrame(vp.getResolution(), false);
 
             Tracer tracer = new RayCast(this.w);
             //Tracer tracer = new AreaLighting(world);

@@ -1,9 +1,9 @@
-package net.dinkla.raytracer.objects.parts;
+package net.dinkla.raytracer.objects.parts
 
-import net.dinkla.raytracer.hits.Hit;
-import net.dinkla.raytracer.hits.ShadowHit;
-import net.dinkla.raytracer.math.*;
-import net.dinkla.raytracer.objects.GeometricObject;
+import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.objects.GeometricObject
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,28 +12,29 @@ import net.dinkla.raytracer.objects.GeometricObject;
  * Time: 23:30:10
  * To change this template use File | Settings | File Templates.
  */
-public class ConvexPartSphere extends GeometricObject {
+class ConvexPartSphere : GeometricObject() {
 
-    public Point3D center;
-    public double 		radius;
-    public double 		phi_min;
-    public double 		phi_max;
-    public double 		theta_min;
-    public double 		theta_max;
+    var center: Point3D? = null
+    var radius: Double = 0.toDouble()
+    var phi_min: Double = 0.toDouble()
+    var phi_max: Double = 0.toDouble()
+    var theta_min: Double = 0.toDouble()
+    var theta_max: Double = 0.toDouble()
 
-    public double		cos_theta_min;
-    public double		cos_theta_max;
+    var cos_theta_min: Double = 0.toDouble()
+    var cos_theta_max: Double = 0.toDouble()
 
-    public ConvexPartSphere() {
-        super();
+    override var boundingBox: BBox
+        get() = BBox()
+        set(value: BBox) {
+            super.boundingBox = value
+        }
+
+    override fun hit(ray: Ray, sr: Hit): Boolean {
+        return false
     }
 
-    @Override
-    public boolean hit(Ray ray, Hit sr) {
-        return false;
-    }
-
-        /*
+    /*
 
         double 		t;
         Vector3D temp 	= ray.o.minus(center);
@@ -92,13 +93,7 @@ public class ConvexPartSphere extends GeometricObject {
     }
     */
 
-    @Override
-    public boolean shadowHit(Ray ray, ShadowHit tmin) {
-        return false;
-    }
-
-    @Override
-    public BBox getBoundingBox() {
-        return null;
+    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+        return false
     }
 }

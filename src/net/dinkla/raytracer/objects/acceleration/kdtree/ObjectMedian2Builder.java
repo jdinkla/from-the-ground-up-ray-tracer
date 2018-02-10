@@ -216,7 +216,7 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
             LOGGER.info("Splitting " + par.axis + " " + objects.size() + " objects into " + par.objectsL.size() + " and " + par.objectsR.size() + " objects at " + par.split + " with depth " + depth);
             AbstractNode left = build(par.objectsL, par.voxelL, depth + 1);
             AbstractNode right = build(par.objectsR, par.voxelR, depth + 1);
-            node = new InnerNode(left, right, voxel, par.split, Axis.fromInt(depth % 3));
+            node = new InnerNode(left, right, voxel, par.split, Axis.Companion.fromInt(depth % 3));
         }
 
         return node;

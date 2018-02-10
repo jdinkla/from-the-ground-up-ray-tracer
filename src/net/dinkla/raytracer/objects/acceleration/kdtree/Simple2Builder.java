@@ -189,7 +189,7 @@ public class Simple2Builder implements IKDTreeBuilder {
             AbstractNode left = build(objectsL, voxelL, depth + 1);
             AbstractNode right = build(objectsR, voxelR, depth + 1);
 
-            node = new InnerNode(left, right, voxel, split, Axis.fromInt(depth % 3));
+            node = new InnerNode(left, right, voxel, split, Axis.Companion.fromInt(depth % 3));
         }
 
         return node;

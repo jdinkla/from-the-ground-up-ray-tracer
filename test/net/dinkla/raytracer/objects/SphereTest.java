@@ -47,7 +47,7 @@ public class SphereTest {
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0, MathUtils.K_EPSILON);
+        assertEquals(sr.getT(), 1.0, MathUtils.INSTANCE.getK_EPSILON());
 //        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, -1));
         assertEquals(sr.getNormal(), new Normal(0, 0, -1));
 
@@ -72,7 +72,7 @@ public class SphereTest {
 
         boolean isHit = sphere.hit(ray, sr);
         assert isHit;
-        assertEquals(sr.getT(), 1.0, MathUtils.K_EPSILON);
+        assertEquals(sr.getT(), 1.0, MathUtils.INSTANCE.getK_EPSILON());
 //        assertEquals(sr.getLocalHitPoint(), new Point3D(0, 0, 1));
         assertEquals(sr.getNormal(), new Normal(0, 0, 1));
     }
