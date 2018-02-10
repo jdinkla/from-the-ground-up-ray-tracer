@@ -24,14 +24,14 @@ class ObjectMedian2Builder : IKDTreeBuilder {
         internal var objectsL: List<GeometricObject>
         internal var objectsR: List<GeometricObject>
 
-        internal var objectsLx: List<GeometricObject>
-        internal var objectsRx: List<GeometricObject>
+        internal var objectsLx: MutableList<GeometricObject>
+        internal var objectsRx: MutableList<GeometricObject>
 
-        internal var objectsLy: List<GeometricObject>
-        internal var objectsRy: List<GeometricObject>
+        internal var objectsLy: MutableList<GeometricObject>
+        internal var objectsRy: MutableList<GeometricObject>
 
-        internal var objectsLz: List<GeometricObject>
-        internal var objectsRz: List<GeometricObject>
+        internal var objectsLz: MutableList<GeometricObject>
+        internal var objectsRz: MutableList<GeometricObject>
 
         internal var axis: Axis = Axis.X
         internal var size: Int = 0
@@ -74,24 +74,27 @@ class ObjectMedian2Builder : IKDTreeBuilder {
             axis = Axis.X
             ListUtilities.sortByAxis(objects, axis)
             var median = objects[medianIndex]
-            splitX = median.boundingBox.q!!.ith(axis)
-            ListUtilities.splitByAxis(objects, splitX, axis, objectsLx, objectsRx)
+            val splitXtmp = median.boundingBox.q!!.ith(axis)
+            splitX = splitXtmp
+            ListUtilities.splitByAxis(objects, splitXtmp, axis, objectsLx, objectsRx)
             val weightX = weight(objectsLx.size, objectsRx.size, size)
 
             // --------------- Y ---------------
             axis = Axis.Y
             ListUtilities.sortByAxis(objects, axis)
             median = objects[medianIndex]
-            splitY = median.boundingBox.q!!.ith(axis)
-            ListUtilities.splitByAxis(objects, splitY, axis, objectsLy, objectsRy)
+            val splitYtmp = median.boundingBox.q!!.ith(axis)
+            splitY = splitYtmp
+            ListUtilities.splitByAxis(objects, splitYtmp, axis, objectsLy, objectsRy)
             val weightY = weight(objectsLy.size, objectsRy.size, size)
 
             // --------------- Z ---------------
             axis = Axis.Z
             ListUtilities.sortByAxis(objects, axis)
             median = objects[medianIndex]
-            splitZ = median.boundingBox.q!!.ith(axis)
-            ListUtilities.splitByAxis(objects, splitZ, axis, objectsLz, objectsRz)
+            val splitZtmp = median.boundingBox.q!!.ith(axis)
+            splitZ = splitZtmp
+            ListUtilities.splitByAxis(objects, splitZtmp, axis, objectsLz, objectsRz)
             val weightZ = weight(objectsLz.size, objectsRz.size, size)
 
             LOGGER.info("weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size

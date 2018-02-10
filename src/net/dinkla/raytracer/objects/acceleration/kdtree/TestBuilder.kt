@@ -116,7 +116,7 @@ class TestBuilder : IKDTreeBuilder {
                 val s = Split(parent)
                 s.axis = axis
                 s.split = split
-                ListUtilities.splitByAxis(parent.objects!!, split, axis, s.left.objects!!, s.right.objects!!)
+                ListUtilities.splitByAxis(parent.objects!!, split, axis, s.left.objects!!.toMutableList(), s.right.objects!!.toMutableList())
                 s.update()
                 return s
             }
