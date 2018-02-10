@@ -12,7 +12,7 @@ public class AppPropertiesTest {
 
     @Test
     public void get() {
-        String a = (String) AppProperties.get("test.id");
+        String a = (String) AppProperties.INSTANCE.get("test.id");
         assertEquals(a, "4321");
     }
 

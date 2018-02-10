@@ -43,7 +43,7 @@ public class KDTree extends Compound {
 
     public void initialize() {
         super.initialize();
-        int n = 8 + (int) (1.3 * (Math.log(objects.size()) / Math.log(2)));
+        int n = 8 + (int) (1.3 * (Math.log(getObjects().size()) / Math.log(2)));
         if (n != builder.getMaxDepth()) {
             LOGGER.warn("Ideal maxDepth = " + n + ", but set to " + builder.getMaxDepth());
         }

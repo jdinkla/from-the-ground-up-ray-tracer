@@ -81,15 +81,15 @@ public class SVMatte extends Material {
                 AreaLight light = (AreaLight) light1;
                 List<AreaLight.Sample> ls = light.getSamples(sr);
                 for (AreaLight.Sample sample : ls) {
-                    double nDotWi = sample.wi.dot(sr.getNormal());
+                    double nDotWi = sample.getWi().dot(sr.getNormal());
                     if (nDotWi > 0) {
                         boolean inShadow = false;
                         if (light.getShadows()) {
-                            Ray shadowRay = new Ray(sr.getHitPoint(), sample.wi);
+                            Ray shadowRay = new Ray(sr.getHitPoint(), sample.getWi());
                             inShadow = light.inShadow(world, shadowRay, sr, sample);
                         }
                         if (!inShadow) {
-                            Color f = diffuseBrdf.f(sr, wo, sample.wi);
+                            Color f = diffuseBrdf.f(sr, wo, sample.getWi());
                             Color l = light.L(world, sr, sample);
                             Color flndotwi = f.mult(l).mult(nDotWi);
                             // TODO: hier ist der Unterschied zu shade()

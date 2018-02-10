@@ -262,16 +262,16 @@ public class RayTracerParametersForm {
         public RenderGui invoke() {
             // ViewPlane
             ViewPlane vp = new ViewPlane();
-            vp.resolution = new Resolution(bean.getHres(), bean.getVres());
+            vp.setResolution(new Resolution(bean.getHres(), bean.getVres()));
 //            vp.numSamples = bean.getNumSamples();
 //            vp.sampler = new Sampler(new PureRandom(), 100, 10);
             //vp.sampler = new Constant2D(0.5);
-            vp.size = bean.getSize();
-            vp.maxDepth = bean.getMaxDepth();
+            vp.setSize(bean.getSize());
+            vp.setMaxDepth(bean.getMaxDepth());
             vp.setGamma(bean.getGamma());
-            vp.showOutOfGamut = bean.isShowOutOfGamut();
+            vp.setShowOutOfGamut(bean.isShowOutOfGamut());
 
-            imf = new ImageFrame(vp.resolution, false, bean);
+            imf = new ImageFrame(vp.getResolution(), false, bean);
 
             Tracer tracer = new RayCast(this.w);
             //Tracer tracer = new AreaLighting(world);

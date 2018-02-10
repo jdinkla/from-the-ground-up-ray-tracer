@@ -5,14 +5,13 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
 class Torus(val a: Double, val b: Double) : GeometricObject() {
-    val bbox: BBox
 
     init {
-        bbox = BBox(Point3D(-a - b, -b, -a - b), Point3D(a + b, b, a + b))
+        boundingBox = BBox(Point3D(-a - b, -b, -a - b), Point3D(a + b, b, a + b))
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        if (!bbox.hit(ray)) {
+        if (!boundingBox.hit(ray)) {
             return false
         }
         val x1 = ray.o.x
@@ -62,7 +61,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
     }
 
     fun hitF(ray: Ray, sr: Hit): Boolean {
-        if (!bbox.hit(ray)) {
+        if (!boundingBox.hit(ray)) {
             return false
         }
         val x1 = ray.o.x
@@ -113,10 +112,6 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         return false
-    }
-
-    override fun getBoundingBox(): BBox {
-        return bbox
     }
 
     private fun computeNormal(p: Point3D): Normal {

@@ -13,6 +13,10 @@ import net.dinkla.raytracer.math.*
  */
 class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
+    init {
+        boundingBox = BBox(p, q)
+    }
+
     override fun hit(ray: Ray, sr: Hit): Boolean {
         val tx_min: Double
         val ty_min: Double
@@ -178,10 +182,6 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             5 -> return Normal(0.0, 0.0, 1.0)
         }
         return null
-    }
-
-    override fun getBoundingBox(): BBox {
-        return BBox(p, q)
     }
 
 }

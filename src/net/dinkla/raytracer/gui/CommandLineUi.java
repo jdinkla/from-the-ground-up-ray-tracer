@@ -39,7 +39,7 @@ public class CommandLineUi {
         w.initialize();
 
         PngFilm png = new PngFilm(fileNameOut);
-        png.initialize(1, w.getViewPlane().resolution);
+        png.initialize(1, w.getViewPlane().getResolution());
         w.getCamera().render((IFilm) png, 0);
         png.finish();
 

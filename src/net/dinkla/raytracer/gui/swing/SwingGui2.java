@@ -134,7 +134,7 @@ public class SwingGui2 implements ActionListener {
         w.initialize();
 
         ViewPlane vp = w.getViewPlane();
-        ImageFrame imf = new ImageFrame(vp.resolution, false, null);
+        ImageFrame imf = new ImageFrame(vp.getResolution(), false, null);
 
         if (w.isDynamic()) {
 
@@ -170,10 +170,10 @@ public class SwingGui2 implements ActionListener {
         gui.frame = new JFrame();
         gui.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.frame.setJMenuBar(gui.createMenuBar());
-        final int width = AppProperties.getAsInteger("display.width");
-        final int height = AppProperties.getAsInteger("display.height");
+        final int width = AppProperties.INSTANCE.getAsInteger("display.width");
+        final int height = AppProperties.INSTANCE.getAsInteger("display.height");
         gui.frame.setSize(width, height);
-        gui.frame.setTitle((String) AppProperties.get("app.title"));
+        gui.frame.setTitle((String) AppProperties.INSTANCE.get("app.title"));
         gui.frame.setVisible(true);
         gui.pane = new JScrollPane();
         gui.frame.add(gui.pane);

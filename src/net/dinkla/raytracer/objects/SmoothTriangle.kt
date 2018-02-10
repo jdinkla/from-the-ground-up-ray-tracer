@@ -4,13 +4,6 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 28.04.2010
- * Time: 20:48:29
- * To change this template use File | Settings | File Templates.
- */
 class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
 
     var n0: Normal
@@ -21,6 +14,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         n0 = Normal.UP
         n1 = Normal.UP
         n2 = Normal.UP
+        boundingBox = BBox.create(v0, v1, v2)
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
@@ -139,10 +133,6 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         tmin.setT(t)
 
         return true
-    }
-
-    override fun getBoundingBox(): BBox {
-        return BBox.create(v0, v1, v2)
     }
 
 }

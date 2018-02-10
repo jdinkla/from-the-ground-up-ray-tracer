@@ -6,13 +6,6 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 12.04.2010
- * Time: 19:21:22
- * To change this template use File | Settings | File Templates.
- */
 open class Rectangle : GeometricObject {
 
     val p0: Point3D
@@ -26,6 +19,7 @@ open class Rectangle : GeometricObject {
         this.b = b
         val v = a.cross(b)
         normal = Normal(v.normalize())
+        boundingBox = calcBoundingBox()
     }
 
     constructor(p0: Point3D, a: Vector3D, b: Vector3D, inverted: Boolean) {
@@ -39,6 +33,7 @@ open class Rectangle : GeometricObject {
             v = a.cross(b)
         }
         normal = Normal(v.normalize())
+        boundingBox = calcBoundingBox()
     }
 
     constructor(p0: Point3D, a: Vector3D, b: Vector3D, normal: Normal) {
@@ -46,6 +41,7 @@ open class Rectangle : GeometricObject {
         this.a = a
         this.b = b
         this.normal = normal
+        boundingBox = calcBoundingBox()
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
@@ -106,7 +102,7 @@ open class Rectangle : GeometricObject {
         return normal
     }
 
-    override fun getBoundingBox(): BBox {
+    fun calcBoundingBox(): BBox {
         val v0 = p0
         val v1 = p0.plus(a).plus(b)
 

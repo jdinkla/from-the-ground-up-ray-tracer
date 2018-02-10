@@ -58,7 +58,7 @@ public class SwingGui {
         w.initialize();
 
         final ViewPlane vp = w.getViewPlane();
-        final ImageFrame imf = new ImageFrame(vp.resolution, true, null);
+        final ImageFrame imf = new ImageFrame(vp.getResolution(), true, null);
 
         w.getCamera().render((IFilm) imf, 0);
 

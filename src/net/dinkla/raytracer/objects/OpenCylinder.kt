@@ -21,6 +21,7 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
         this.y0 = Math.min(y0, y1)
         this.y1 = Math.max(y0, y1)
         this.invRadius = 1.0 / radius
+        boundingBox = calcBoundingBox()
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
@@ -120,7 +121,7 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
         return false
     }
 
-    override fun getBoundingBox(): BBox {
+    fun calcBoundingBox(): BBox {
         // TODO: better bbox of open cylinder // throw new RuntimeException("OpenCylinder.getBoundingBox");
         val p = Point3D(-radius - MathUtils.K_EPSILON, y0, -radius - MathUtils.K_EPSILON)
         val q = Point3D(radius + MathUtils.K_EPSILON, y1, radius + MathUtils.K_EPSILON)

@@ -19,11 +19,13 @@ class Plane : GeometricObject {
     constructor() {
         this.point = Point3D.ORIGIN
         this.normal = Normal.UP
+        boundingBox = BBox(Point3D.MIN, Point3D.MAX)
     }
 
     constructor(point: Point3D, normal: Normal) {
         this.point = point
         this.normal = normal
+        boundingBox = BBox(Point3D.MIN, Point3D.MAX)
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
@@ -52,10 +54,6 @@ class Plane : GeometricObject {
         } else {
             return false
         }
-    }
-
-    override fun getBoundingBox(): BBox {
-        return BBox(Point3D.MIN, Point3D.MAX)
     }
 
     override fun toString(): String {

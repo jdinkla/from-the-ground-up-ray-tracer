@@ -6,14 +6,14 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 12.04.2010
- * Time: 19:06:27
- * To change this template use File | Settings | File Templates.
- */
 open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : GeometricObject() {
+
+    init {
+        // TODO: more exact bounding box of a disk
+        val p = center.minus(radius)
+        val q = center.plus(radius)
+        boundingBox = BBox(p, q)
+    }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         val nom = center.minus(ray.o).dot(normal)
@@ -52,12 +52,4 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
     fun getNormal(p: Point3D): Normal {
         return normal
     }
-
-    override fun getBoundingBox(): BBox {
-        // TODO: more exact bounding box of a disk
-        val p = center.minus(radius)
-        val q = center.plus(radius)
-        return BBox(p, q)
-    }
-
 }
