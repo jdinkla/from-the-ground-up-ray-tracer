@@ -2,10 +2,6 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.objects.acceleration.kdtree.Simple2Builder
 
-//String path = 'F://opt/rendering/ply'
-//String path = '/opt/rendering/ply'
-String path = 'examples/ply'
-
 int NUM = 20
 int NUM2 = NUM/2
 
