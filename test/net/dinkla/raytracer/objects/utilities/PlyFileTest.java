@@ -41,8 +41,7 @@ public class PlyFileTest {
     public void readBinary() {
         PlyFile plyFile = new PlyFile(BINARY_PLY_FILE);
         plyFile.read();
-
-        System.out.println("test");
+        //System.out.println("test");
     }
 
 //    @Test

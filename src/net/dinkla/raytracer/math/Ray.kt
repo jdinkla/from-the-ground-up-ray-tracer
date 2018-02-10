@@ -30,4 +30,9 @@ class Ray {
         return "Ray(" + o.toString() + ", " + d.toString() + ")"
     }
 
+    companion object {
+        // TODO needed?
+        val DEFAULT = Ray(Point3D.ORIGIN, Vector3D.ZERO)
+    }
+
 }

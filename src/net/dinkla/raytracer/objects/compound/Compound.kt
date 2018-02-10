@@ -51,11 +51,11 @@ open class Compound : GeometricObject() {
         var hit = false
         for (geoObj in objects) {
             Counter.count("Compound.hit.object")
-            val sr2 = Hit(sr.getT())
+            val sr2 = Hit(sr.t)
             val b = geoObj.hit(ray, sr2)
-            if (b && sr2.getT() < sr.getT()) {
+            if (b && sr2.t < sr.t) {
                 hit = true
-                sr.setT(sr2.getT())
+                sr.t = sr2.t
                 sr.normal = sr2.normal
                 if (geoObj !is Compound) {
                     sr.`object` = geoObj
@@ -94,7 +94,7 @@ open class Compound : GeometricObject() {
         val t = ShadowHit(d)
         for (geoObj in objects) {
             val b = geoObj.shadowHit(ray, t)
-            if (b && t.getT() < d) {
+            if (b && t.t < d) {
                 return true
             }
         }

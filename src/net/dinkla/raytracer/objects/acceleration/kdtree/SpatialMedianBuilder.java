@@ -31,19 +31,19 @@ public class SpatialMedianBuilder implements IKDTreeBuilder {
 
     public AbstractNode build(List<GeometricObject> objects, BBox voxel, int depth) {
 
-        Counter.count("KDtree.build");
+        Counter.Companion.count("KDtree.build");
 
         AbstractNode node = null; //new Leaf(objects);
         BBox voxelL = null;
         BBox voxelR = null;
 
         if (objects.size() < minChildren || depth >= maxDepth) {
-            Counter.count("KDtree.build.leaf");
+            Counter.Companion.count("KDtree.build.leaf");
             node = new Leaf(objects);
             return node;
         }
 
-        Counter.count("KDtree.build.node");
+        Counter.Companion.count("KDtree.build.node");
 
         Vector3D half = voxel.getQ().minus(voxel.getP()).mult(0.5);
         Point3D mid = voxel.getP().plus(half);

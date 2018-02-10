@@ -66,7 +66,7 @@ open class Rectangle : GeometricObject {
             return false
         }
 
-        sr.setT(t)
+        sr.t = t
         sr.normal = normal
 
         return true
@@ -94,7 +94,7 @@ open class Rectangle : GeometricObject {
             return false
         }
 
-        tmin.setT(t)
+        tmin.t = t
         return true
     }
 

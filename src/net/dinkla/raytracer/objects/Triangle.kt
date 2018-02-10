@@ -62,7 +62,7 @@ class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObj
         if (t < MathUtils.K_EPSILON) {
             return false
         }
-        sr.setT(t)
+        sr.t = t
         sr.normal = normal
 
         return true
@@ -118,7 +118,7 @@ class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObj
         if (t < MathUtils.K_EPSILON) {
             return false
         }
-        tmin.setT(t)
+        tmin.t = t
 
         return true
     }

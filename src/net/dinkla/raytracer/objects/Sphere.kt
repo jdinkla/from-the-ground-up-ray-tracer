@@ -37,13 +37,13 @@ class Sphere : GeometricObject {
             val denom = 2 * a
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
-                sr.setT(t)
+                sr.t = t
                 sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
-                sr.setT(t)
+                sr.t = t
                 sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
                 return true
             }
@@ -66,12 +66,12 @@ class Sphere : GeometricObject {
             val denom = 2 * a
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
-                tmin.setT(t)
+                tmin.t = t
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
-                tmin.setT(t)
+                tmin.t = t
                 return true
             }
         }

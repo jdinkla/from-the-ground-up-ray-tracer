@@ -1,12 +1,5 @@
 package net.dinkla.raytracer.math
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 15:17:52
- * To change this template use File | Settings | File Templates.
- */
 class Normal : Element3D {
 
     constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
@@ -38,6 +31,7 @@ class Normal : Element3D {
 
     companion object {
         val RIGHT = Normal(1.0, 0.0, 0.0)
+        val ONE = Normal(1.0, 1.0, 1.0)
         val LEFT = Normal(-1.0, 0.0, 0.0)
         val UP = Normal(0.0, 1.0, 0.0)
         val DOWN = Normal(0.0, -1.0, 0.0)

@@ -84,10 +84,10 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
             if (t0 > MathUtils.K_EPSILON) {
-                sr.setT(t0)
+                sr.t = t0
                 sr.normal = getNormal(faceIn)
             } else {
-                sr.setT(t1)
+                sr.t = t1
                 sr.normal = getNormal(faceOut)
             }
             //sr.localHitPoint = ray.linear(tmin.getValue());
@@ -163,16 +163,16 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
             if (t0 > MathUtils.K_EPSILON) {
-                tmin.setT(t0)
+                tmin.t = t0
             } else {
-                tmin.setT(t1)
+                tmin.t = t1
             }
             return true
         }
         return false
     }
 
-    internal fun getNormal(face: Int): Normal? {
+    internal fun getNormal(face: Int): Normal {
         when (face) {
             0 -> return Normal(-1.0, 0.0, 0.0)
             1 -> return Normal(0.0, -1.0, 0.0)
@@ -181,7 +181,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             4 -> return Normal(0.0, 1.0, 0.0)
             5 -> return Normal(0.0, 0.0, 1.0)
         }
-        return null
+        return Normal.ZERO
     }
 
 }

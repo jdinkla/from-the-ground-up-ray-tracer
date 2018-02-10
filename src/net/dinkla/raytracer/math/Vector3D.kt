@@ -4,7 +4,7 @@ class Vector3D : Element3D {
 
     constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
 
-    constructor(e: Element3D) : super(e) {}
+    constructor(e: Element3D?) : super(if (null == e) ZERO else e) {}
 
     operator fun plus(v: Vector3D): Vector3D {
         return Vector3D(x + v.x, y + v.y, z + v.z)
@@ -26,8 +26,9 @@ class Vector3D : Element3D {
         return x * v.x + y * v.y + z * v.z
     }
 
-    fun dot(v: Normal): Double {
-        return x * v.x + y * v.y + z * v.z
+    fun dot(v: Normal?): Double {
+        if (null == v) return x * y * z
+        else return x * v.x + y * v.y + z * v.z
     }
 
     fun cross(v: Vector3D): Vector3D {

@@ -15,7 +15,7 @@ class MultipleObjects(world: World) : Tracer(world) {
         val sr = Shade()
         if (world.hit(ray, sr)) {
             sr.ray = ray
-            return sr.material.shade(world, sr)
+            return sr.material?.shade(world, sr) ?: world.backgroundColor
         } else {
             return world.backgroundColor
         }

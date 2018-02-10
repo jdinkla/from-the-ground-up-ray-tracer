@@ -37,19 +37,19 @@ public class ObjectMedianBuilder implements IKDTreeBuilder {
 
     public AbstractNode build(List<GeometricObject> objects, BBox voxel, int depth) {
 
-        Counter.count("KDtree.build");
+        Counter.Companion.count("KDtree.build");
 
         AbstractNode node = null; //new Leaf(objects);
         BBox voxelL = null;
         BBox voxelR = null;
 
         if (objects.size() < minChildren || depth >= maxDepth) {
-            Counter.count("KDtree.build.leaf");
+            Counter.Companion.count("KDtree.build.leaf");
             node = new Leaf(objects);
             return node;
         }
 
-        Counter.count("KDtree.build.node");
+        Counter.Companion.count("KDtree.build.node");
 
         Double split = null;
         Vector3D width = voxel.getQ().minus(voxel.getP());

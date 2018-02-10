@@ -38,7 +38,7 @@ class Whitted(world: World) : Tracer(world) {
                     LOGGER.error("Material is NULL for ray $ray and sr $sr")
                     color = Color.errorColor
                 } else {
-                    color = sr.material.shade(world, sr)
+                    color = sr.material?.shade(world, sr) ?: world.backgroundColor
                 }
             } else {
                 // No hit -> Background

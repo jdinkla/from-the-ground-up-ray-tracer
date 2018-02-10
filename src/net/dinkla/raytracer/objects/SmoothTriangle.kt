@@ -66,7 +66,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         if (t < MathUtils.K_EPSILON) {
             return false
         }
-        sr.setT(t)
+        sr.t = t
         sr.normal = interpolateNormal(beta, gamma)
         //sr.localHitPoint = ray.linear(t);
 
@@ -130,7 +130,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         if (t < MathUtils.K_EPSILON) {
             return false
         }
-        tmin.setT(t)
+        tmin.t = t
 
         return true
     }

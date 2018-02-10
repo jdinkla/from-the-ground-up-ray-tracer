@@ -35,7 +35,7 @@ class AreaLight : Light(), ILightSource {
 
     fun L(world: World, sr: Shade, sample: Sample): Color {
         return if (sample.nDotD > 0) {
-            sr.material.getLe(sr)
+            sr.material?.getLe(sr) ?: world.backgroundColor
         } else {
             Color.BLACK
         }

@@ -38,7 +38,8 @@ class Matrix {
     }
 
     // transformed m^t * n
-    fun mult(n: Normal): Normal {
+    fun mult(nopt: Normal?): Normal {
+        val n = if (null == nopt) Normal.ONE else nopt
         val x = m[0][0] * n.x + m[1][0] * n.y + m[2][0] * n.z
         val y = m[0][1] * n.x + m[1][1] * n.y + m[2][1] * n.z
         val z = m[0][2] * n.x + m[1][2] * n.y + m[2][2] * n.z

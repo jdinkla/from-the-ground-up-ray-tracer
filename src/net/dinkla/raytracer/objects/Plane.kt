@@ -35,7 +35,7 @@ class Plane : GeometricObject {
         val denom = ray.d.dot(normal)
         val t = nom / denom
         if (t > MathUtils.K_EPSILON) {
-            sr.setT(t)
+            sr.t = t
             sr.normal = this.normal
             return true
         } else {
@@ -49,7 +49,7 @@ class Plane : GeometricObject {
         val denom = ray.d.dot(normal)
         val t = nom / denom
         if (t > MathUtils.K_EPSILON) {
-            tmin.setT(t)
+            tmin.t = t
             return true
         } else {
             return false

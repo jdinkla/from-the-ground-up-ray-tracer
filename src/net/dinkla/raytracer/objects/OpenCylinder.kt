@@ -49,11 +49,11 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
             if (t > MathUtils.K_EPSILON) {
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
-                    sr.setT(t)
+                    sr.t = t
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting from inside
                     if (ray.d.mult(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.mult(-1.0))
+                        sr.normal = Normal(sr.normal?.mult(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -64,11 +64,11 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
             if (t > MathUtils.K_EPSILON) {
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
-                    sr.setT(t)
+                    sr.t = t
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting inside surface
                     if (ray.d.mult(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.mult(-1.0))
+                        sr.normal = Normal(sr.normal?.mult(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -103,7 +103,7 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
             if (t > MathUtils.K_EPSILON) {
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
-                    tmin.setT(t)
+                    tmin.t = t
                     return true
                 }
             }
@@ -112,7 +112,7 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
             if (t > MathUtils.K_EPSILON) {
                 val yhit = oy + t * dy
                 if (yhit > y0 && yhit < y1) {
-                    tmin.setT(t)
+                    tmin.t = t
                     return true
                 }
             }

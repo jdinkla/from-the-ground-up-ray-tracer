@@ -18,7 +18,7 @@ class AreaLighting(world: World) : Tracer(world) {
                 sr.depth = depth
                 sr.ray = ray
                 assert(null != sr.material)
-                return sr.material.areaLightShade(world, sr)
+                return sr.material?.areaLightShade(world, sr) ?: world.backgroundColor
             } else {
                 return world.backgroundColor
             }

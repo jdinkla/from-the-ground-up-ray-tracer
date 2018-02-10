@@ -182,17 +182,17 @@ public class ObjectMedian2Builder implements IKDTreeBuilder {
 
     public AbstractNode build(List<GeometricObject> objects, BBox voxel, int depth) {
 
-        Counter.count("KDtree.build");
+        Counter.Companion.count("KDtree.build");
 
         AbstractNode node = null;
 
         if (objects.size() < minChildren || depth >= maxDepth) {
-            Counter.count("KDtree.build.leaf");
+            Counter.Companion.count("KDtree.build.leaf");
             node = new Leaf(objects);
             return node;
         }
 
-        Counter.count("KDtree.build.node");
+        Counter.Companion.count("KDtree.build.node");
 
         int size = objects.size();
 

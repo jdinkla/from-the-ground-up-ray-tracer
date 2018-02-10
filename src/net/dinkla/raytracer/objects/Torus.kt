@@ -55,7 +55,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         if (!intersected) {
             return false
         }
-        sr.setT(t)
+        sr.t = t
         sr.normal = computeNormal(ray.linear(t))
         return true
     }
@@ -105,7 +105,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         if (!intersected) {
             return false
         }
-        sr.setT(t)
+        sr.t = t
         sr.normal = computeNormal(ray.linear(t))
         return true
     }

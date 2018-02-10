@@ -283,20 +283,20 @@ public class InnerNode extends AbstractNode {
 
     public boolean hitX(Ray ray, Hit sr) {
         if (!bbox.hit(ray)) {
-            Counter.count("KDTree.InnerNode.hit.bbox");
+            Counter.Companion.count("KDTree.InnerNode.hit.bbox");
             return false;
         }
-        Counter.count("KDTree.InnerNode.hit");
+        Counter.Companion.count("KDTree.InnerNode.hit");
         BBox.Hit hitL = left.getBoundingBox().hitX(ray);
         BBox.Hit hitR = right.getBoundingBox().hitX(ray);
         if (hitL.isHit() && (!hitR.isHit())) {
-            Counter.count("KDTree.InnerNode.hit.L");
+            Counter.Companion.count("KDTree.InnerNode.hit.L");
             return left.hit(ray, sr);
         } else if ((!hitL.isHit()) && hitR.isHit()) {
-            Counter.count("KDTree.InnerNode.hit.R");
+            Counter.Companion.count("KDTree.InnerNode.hit.R");
             return right.hit(ray, sr);
         } else if (hitL.isHit() && hitR.isHit()) {
-            Counter.count("KDTree.InnerNode.hit.LR");
+            Counter.Companion.count("KDTree.InnerNode.hit.LR");
             if (hitL.getT0() < hitR.getT0()) {
                 Hit sr2 = new Hit();
                 sr2.setT(sr.getT());
@@ -335,7 +335,7 @@ public class InnerNode extends AbstractNode {
                 }
             }
         } else {
-            Counter.count("KDTree.InnerNode.hit.0");
+            Counter.Companion.count("KDTree.InnerNode.hit.0");
             return false;
         }
     }

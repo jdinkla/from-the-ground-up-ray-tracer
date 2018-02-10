@@ -24,7 +24,7 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
         }
         val p = ray.linear(t)
         if (center.distanceSquared(p) < radius * radius) {
-            sr.setT(t)
+            sr.t = t
             sr.normal = normal
             //            sr.localHitPoint = p;
             return true
@@ -42,7 +42,7 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
         }
         val p = ray.linear(t)
         if (center.distanceSquared(p) < radius * radius) {
-            tmin.setT(t)
+            tmin.t = t
             return true
         } else {
             return false

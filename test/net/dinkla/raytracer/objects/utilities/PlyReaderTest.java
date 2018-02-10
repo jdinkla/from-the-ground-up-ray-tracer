@@ -19,7 +19,7 @@ public class PlyReaderTest {
         Grid grid = new Grid(mesh);
         PlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, false);
         //System.out.println("mesh=" + grid.getMesh());
-        assertEquals(grid.getMesh().vertices.size(), 4);
+        assertEquals(grid.getMesh().getVertices().size(), 4);
         assertEquals(grid.size(), 2);
     }
 
@@ -29,7 +29,7 @@ public class PlyReaderTest {
         Grid grid = new Grid(mesh);
         PlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, true);
         //System.out.println("mesh=" + grid.getMesh());
-        assertEquals(grid.getMesh().vertices.size(), 4);
+        assertEquals(grid.getMesh().getVertices().size(), 4);
         assertEquals(grid.size(), 2);
     }
 

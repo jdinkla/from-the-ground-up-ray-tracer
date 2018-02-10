@@ -337,10 +337,10 @@ open class Grid : Compound {
             Counter.count("Grid.hit.traverse")
             val idx = ix + nx * iy + nx * ny * iz
             val `object` = cells[ix + nx * iy + nx * ny * iz]
-            val sr2 = Hit(sr.getT())
+            val sr2 = Hit(sr.t)
             if (tx_next < ty_next && tx_next < tz_next) {
-                if (null != `object` && `object`.hit(ray, sr2) && sr2.getT() < tx_next) {
-                    sr.setT(sr2.getT())
+                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tx_next) {
+                    sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
                         sr.`object` = `object`
@@ -357,8 +357,8 @@ open class Grid : Compound {
                     return false
             } else {
                 if (ty_next < tz_next) {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.getT() < ty_next) {
-                        sr.setT(sr2.getT())
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < ty_next) {
+                        sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
                             sr.`object` = `object`
@@ -374,8 +374,8 @@ open class Grid : Compound {
                     if (iy == iy_stop)
                         return false
                 } else {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.getT() < tz_next) {
-                        sr.setT(sr2.getT())
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tz_next) {
+                        sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
                             sr.`object` = `object`
@@ -584,9 +584,9 @@ open class Grid : Compound {
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         Counter.count("Grid.shadowHit")
         val h = Hit()
-        h.setT(tmin.getT())
+        h.t = tmin.t
         val b = hit(ray, h)
-        tmin.setT(h.getT())
+        tmin.t = h.t
         return b
     }
 

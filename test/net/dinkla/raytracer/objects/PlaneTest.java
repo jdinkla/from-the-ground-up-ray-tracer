@@ -75,7 +75,7 @@ public class PlaneTest {
 
         boolean isHit = plane.hit(ray, sr);
         assert !isHit;
-        assertNull(sr.getNormal());
+        assertNull(sr.getNormal());  // TODO NULL and normals
     }
 
     // q=0 plane upside down, point below, vector up, hit

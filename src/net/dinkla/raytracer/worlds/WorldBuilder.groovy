@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.worlds
 
+import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.factories.MaterialFactory
 import net.dinkla.raytracer.factories.LightFactory
@@ -13,8 +14,6 @@ import org.apache.log4j.Logger
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Timer
 import net.dinkla.raytracer.objects.mesh.Mesh
-
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.factories.TracerFactory
 import net.dinkla.raytracer.factories.CameraFactory
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree

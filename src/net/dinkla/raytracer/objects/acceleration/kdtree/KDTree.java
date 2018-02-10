@@ -55,13 +55,13 @@ public class KDTree extends Compound {
 
     @Override
     public boolean hit(Ray ray, Hit sr) {
-        Counter.count("KDTree.hit");
+        Counter.Companion.count("KDTree.hit");
         return root.hit(ray, sr);
     }
 
     @Override
     public boolean shadowHit(Ray ray, ShadowHit tmin) {
-        Counter.count("KDTree.shadowHit");
+        Counter.Companion.count("KDTree.shadowHit");
         Hit h = new Hit();
         h.setT(tmin.getT());
         boolean b = hit(ray, h);
