@@ -2,23 +2,11 @@ package net.dinkla.raytracer.math
 
 import java.lang.StrictMath.sqrt
 
-open class Element2D {
+open class Element2D(val x: Double, val y: Double) {
 
-    val x: Double
-    val y: Double
+    fun sqrLength(): Double = x * x + y * y
 
-    constructor(x: Double, y: Double) {
-        this.x = x
-        this.y = y
-    }
-
-    fun sqrLength(): Double {
-        return x * x + y * y
-    }
-
-    fun length(): Double {
-        return sqrt(sqrLength())
-    }
+    fun length(): Double = sqrt(sqrLength())
 
     override fun equals(other: Any?): Boolean {
         if (other !is Element2D) {
@@ -29,8 +17,6 @@ open class Element2D {
         }
     }
 
-    override fun toString(): String {
-        return "($x,$y)"
-    }
+    override fun toString(): String = "($x,$y)"
 
 }

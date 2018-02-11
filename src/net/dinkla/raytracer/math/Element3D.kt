@@ -2,33 +2,15 @@ package net.dinkla.raytracer.math
 
 import java.lang.Math.sqrt
 
-open class Element3D {
+open class Element3D(val x: Double, val y: Double, val z: Double) {
 
-    val x: Double
-    val y: Double
-    val z: Double
+    constructor(e: Element3D) : this(e.x, e.y, e.z) {}
 
-    constructor(x: Double, y: Double, z: Double) {
-        this.x = x
-        this.y = y
-        this.z = z
-    }
+    fun sqrLength(): Double = x * x + y * y + z * z
 
-    constructor(e: Element3D) {
-        this.x = e.x
-        this.y = e.y
-        this.z = e.z
-    }
+    fun length(): Double = sqrt(sqrLength())
 
-    fun sqrLength(): Double {
-        return x * x + y * y + z * z
-    }
-
-    fun length(): Double {
-        return sqrt(sqrLength())
-    }
-
-    fun distanceSquared(p: Element3D): Double {
+    fun sqrDistance(p: Element3D): Double {
         val dx = x - p.x
         val dy = y - p.y
         val dz = z - p.z
@@ -54,8 +36,6 @@ open class Element3D {
         return false
     }
 
-    override fun toString(): String {
-        return "($x,$y,$z)"
-    }
+    override fun toString(): String = "($x,$y,$z)"
 
 }

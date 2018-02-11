@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
     }
 }
 
@@ -32,6 +33,7 @@ compileTestKotlin {
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -53,10 +55,11 @@ sourceSets {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'org.codehaus.groovy:groovy-all:2.4.13'
     compile 'log4j:log4j:1.2.17'
-    testCompile 'junit:junit:4.12'
-    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.3'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
 }
 
 jar {

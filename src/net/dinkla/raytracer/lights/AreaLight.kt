@@ -2,10 +2,8 @@ package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.Material
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.worlds.World
 
 import java.util.ArrayList
@@ -48,7 +46,7 @@ class AreaLight : Light(), ILightSource {
 
     fun G(sr: Shade, sample: Sample): Double {
         val nDotD = sample.nDotD
-        val d2 = sample.samplePoint!!.distanceSquared(sr.hitPoint)
+        val d2 = sample.samplePoint!!.sqrDistance(sr.hitPoint)
         return nDotD / d2
     }
 

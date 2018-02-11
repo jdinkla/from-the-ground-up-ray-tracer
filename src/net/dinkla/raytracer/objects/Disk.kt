@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.math.*
 
 open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : GeometricObject() {
@@ -23,7 +21,7 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
             return false
         }
         val p = ray.linear(t)
-        if (center.distanceSquared(p) < radius * radius) {
+        if (center.sqrDistance(p) < radius * radius) {
             sr.t = t
             sr.normal = normal
             //            sr.localHitPoint = p;
@@ -41,7 +39,7 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
             return false
         }
         val p = ray.linear(t)
-        if (center.distanceSquared(p) < radius * radius) {
+        if (center.sqrDistance(p) < radius * radius) {
             tmin.t = t
             return true
         } else {
