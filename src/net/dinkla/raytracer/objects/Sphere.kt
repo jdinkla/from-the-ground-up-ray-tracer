@@ -26,7 +26,7 @@ class Sphere : GeometricObject {
         var t: Double
         val temp = ray.o - center
         val a = ray.d.dot(ray.d)
-        val b = temp.mult(2.0).dot(ray.d)
+        val b = temp.times(2.0).dot(ray.d)
         val c = temp.dot(temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 
@@ -38,13 +38,13 @@ class Sphere : GeometricObject {
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
+                sr.normal = Normal(ray.d.times(t).plus(temp).times(1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.d.mult(t).plus(temp).mult(1.0 / radius))
+                sr.normal = Normal(ray.d.times(t).plus(temp).times(1.0 / radius))
                 return true
             }
         }
@@ -55,7 +55,7 @@ class Sphere : GeometricObject {
         var t: Double
         val temp = ray.o.minus(center)
         val a = ray.d.dot(ray.d)
-        val b = temp.mult(2.0).dot(ray.d)
+        val b = temp.times(2.0).dot(ray.d)
         val c = temp.dot(temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 

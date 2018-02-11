@@ -2,7 +2,6 @@ package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
@@ -40,7 +39,7 @@ class AmbientOccluder : Ambient {
         var numHits = 0
         for (i in 0 until numSamples) {
             val p = sampler.sampleHemisphere()
-            val dir = u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z))
+            val dir = u.times(p.x).plus(v.times(p.y)).plus(w.times(p.z))
             val shadowRay = Ray(sr.hitPoint, dir)
             if (inShadow(world, shadowRay, sr)) {
                 numHits++
@@ -55,7 +54,7 @@ class AmbientOccluder : Ambient {
         val w = Vector3D(sr.normal)
         val v = w.cross(Vector3D.JITTER).normalize()
         val u = v.cross(w)
-        return u.mult(p.x).plus(v.mult(p.y)).plus(w.mult(p.z))
+        return u.times(p.x).plus(v.times(p.y)).plus(w.times(p.z))
     }
 
     override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {

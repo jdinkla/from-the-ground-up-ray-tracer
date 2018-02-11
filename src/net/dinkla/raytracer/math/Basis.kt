@@ -13,11 +13,11 @@ class Basis(eye: Point3D, lookAt: Point3D, up: Vector3D) {
     }
 
     fun pm(x: Double, y: Double, z: Double): Vector3D {
-        return u.mult(x).plus(v.mult(y)).minus(w.mult(z))
+        return u.times(x).plus(v.times(y)).minus(w.times(z))
     }
 
     fun pp(x: Double, y: Double, z: Double): Vector3D {
-        return u.mult(x).plus(v.mult(y)).plus(w.mult(z))
+        return u.times(x).plus(v.times(y)).plus(w.times(z))
     }
 
 }

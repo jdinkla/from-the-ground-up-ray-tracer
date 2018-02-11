@@ -1,37 +1,24 @@
 package net.dinkla.raytracer.math
 
-class Vector3D : Element3D {
+class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
-    constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
+    // TODO ugly
+    constructor(e: Element3D?) : this(e?.x ?: 0.0, e?.y ?: 0.0, e?.z ?: 0.0)  {}
 
-    constructor(e: Element3D?) : super(if (null == e) ZERO else e) {}
+    operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z)
 
-    operator fun plus(v: Vector3D): Vector3D {
-        return Vector3D(x + v.x, y + v.y, z + v.z)
-    }
+    operator fun minus(v: Vector3D): Vector3D = Vector3D(x - v.x, y - v.y, z - v.z)
 
-    operator fun minus(v: Vector3D): Vector3D {
-        return Vector3D(x - v.x, y - v.y, z - v.z)
-    }
+    operator fun times(s: Double): Vector3D = Vector3D(s * x, s * y, s * z)
 
-    fun mult(s: Double): Vector3D {
-        return Vector3D(s * x, s * y, s * z)
-    }
+    infix fun dot(v: Vector3D): Double = x * v.x + y * v.y + z * v.z
 
-    operator fun times(s: Double): Vector3D {
-        return Vector3D(s * x, s * y, s * z)
-    }
-
-    fun dot(v: Vector3D): Double {
-        return x * v.x + y * v.y + z * v.z
-    }
-
-    fun dot(v: Normal?): Double {
+    infix fun dot(v: Normal?): Double {
         if (null == v) return x * y * z
         else return x * v.x + y * v.y + z * v.z
     }
 
-    fun cross(v: Vector3D): Vector3D {
+    infix fun cross(v: Vector3D): Vector3D {
         return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x)
     }
 
@@ -40,9 +27,7 @@ class Vector3D : Element3D {
         return Vector3D(x / l, y / l, z / l)
     }
 
-    fun negate(): Vector3D {
-        return Vector3D(-x, -y, -z)
-    }
+    fun negate(): Vector3D = Vector3D(-x, -y, -z)
 
     companion object {
         val ZERO = Vector3D(0.0, 0.0, 0.0)

@@ -48,7 +48,7 @@ class Whitted(world: World) : Tracer(world) {
         }
         /*
         double ff =  Math.sqrt(tmin.getValue() * f);
-        color =  color.plus(fc.mult(ff));
+        color =  color.plus(fc.times(ff));
         */
         return (if (color == null) world.backgroundColor else color)
     }

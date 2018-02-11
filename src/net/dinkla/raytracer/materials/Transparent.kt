@@ -2,12 +2,9 @@ package net.dinkla.raytracer.materials
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.BRDF
 import net.dinkla.raytracer.brdf.PerfectSpecular
-import net.dinkla.raytracer.btdf.BTDF
 import net.dinkla.raytracer.btdf.PerfectTransmitter
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
 
 
@@ -39,7 +36,7 @@ class Transparent : Phong() {
 
     override fun shade(world: World, sr: Shade): Color {
         var l = super.shade(world, sr)
-        val wo = sr.ray.d.mult(-1.0)
+        val wo = sr.ray.d.times(-1.0)
         val brdf = reflectiveBrdf.sampleF(sr, wo)
         // trace reflected ray
         val reflectedRay = Ray(sr.hitPoint, brdf.wi!!)

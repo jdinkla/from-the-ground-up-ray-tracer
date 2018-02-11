@@ -43,7 +43,7 @@ builder.world(id: "World23") {
         box(p0: p(2, 0, 1), a: vecW, b: vecH, c: vecD, material: "m1")
         box(p0: p(6, 0, 1), a: vecW, b: vecH, c: vecD, material: "m1")
         plane(material: "m2", point: Point3D.ORIGIN, normal: Normal.UP)
-        r1 = rectangleLight(p0: p(-10.75f, 2, -10), a: vecW.mult(15.5f), b: vecH.mult(2), sampler: sampler1, material: "em")
+        r1 = rectangleLight(p0: p(-10.75f, 2, -10), a: vecW.times(15.5f), b: vecH.times(2), sampler: sampler1, material: "em")
 //        r1 = disk(center: p(0, 5, -10), radius: 2, normal: n(0, 0, 1), sampler: sampler1, material: "em")
     }
 

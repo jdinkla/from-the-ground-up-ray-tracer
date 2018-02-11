@@ -54,7 +54,7 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
             val cosPsi = Math.cos(psi)
             val sinAlpha = y / r
             val cosAlpha = x / r
-            //            rd.direction = uvw.u.mult(sinPsi * cosAlpha).plus(uvw.v.mult(sinPsi * sinAlpha)).minus(uvw.w.mult(cosPsi));
+            //            rd.direction = uvw.u.times(sinPsi * cosAlpha).plus(uvw.v.times(sinPsi * sinAlpha)).minus(uvw.w.times(cosPsi));
             rd.direction = uvw!!.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi)
             rd.rSquared = rSquared
         } else {

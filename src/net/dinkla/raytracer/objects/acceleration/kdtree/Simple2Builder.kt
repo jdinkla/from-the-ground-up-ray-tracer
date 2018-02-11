@@ -3,7 +3,6 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
 import org.apache.log4j.Logger
@@ -43,7 +42,7 @@ class Simple2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val half = voxel.q!!.minus(voxel.p!!).mult(0.5)
+        val half = voxel.q!!.minus(voxel.p!!).times(0.5)
         val mid = voxel.p.plus(half)
 
         var split: Double? = null

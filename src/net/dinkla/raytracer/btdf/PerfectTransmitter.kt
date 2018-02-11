@@ -2,7 +2,6 @@ package net.dinkla.raytracer.btdf
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Vector3D
 
 class PerfectTransmitter : BTDF() {
@@ -35,7 +34,7 @@ class PerfectTransmitter : BTDF() {
         }
         val cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta)
         val cosThetaT = Math.sqrt(cosThetaTSqr)
-        result.wt = wo.mult(-eta).minus(n.mult(cosThetaT - cosThetaI / eta))
+        result.wt = wo.times(-eta).minus(n.mult(cosThetaT - cosThetaI / eta))
         val f1 = kt / (eta * eta)
         val f2 = sr.normal.dot(result.wt!!)
         result.color = Color.WHITE.mult(f1 / Math.abs(f2))
@@ -43,7 +42,7 @@ class PerfectTransmitter : BTDF() {
     }
 
     override fun isTir(sr: Shade): Boolean {
-        val wo = sr.ray.d.mult(-1.0)
+        val wo = sr.ray.d.times(-1.0)
         val cosThetaI = wo.dot(sr.normal)
         var eta = ior
         if (cosThetaI < 0) {

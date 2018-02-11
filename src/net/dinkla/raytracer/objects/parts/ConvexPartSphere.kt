@@ -62,7 +62,7 @@ class ConvexPartSphere : GeometricObject() {
                     phi >= phi_min && phi <= phi_max) {
 
                     sr.setT(t);
-                    sr.setNormal(temp.plus(ray.d.mult(t)) + t * ray.d) / radius;
+                    sr.setNormal(temp.plus(ray.d.times(t)) + t * ray.d) / radius;
 //                    sr.local_hit_point = ray.o + tmin * ray.d;
                     return (true);
                 }

@@ -3,8 +3,6 @@ package net.dinkla.raytracer.lights
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.materials.Material
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
@@ -28,7 +26,7 @@ class EnvironmentLight : Light() {
         v = Vector3D(0.0034, 1.0, 0.0071).cross(w)
         u = v.cross(w)
         val sp = sampler!!.sampleHemisphere()
-        wi = u.mult(sp.x).plus(v.mult(sp.y)).plus(w.mult(sp.z))
+        wi = u.times(sp.x).plus(v.times(sp.y)).plus(w.times(sp.z))
         return wi
     }
 
