@@ -46,14 +46,14 @@ class Transparent : Phong() {
         } else {
             // reflected
             val cfr = Math.abs(sr.normal.dot(brdf.wi!!))
-            l = l.plus(brdf.color!!.mult(cr).mult(cfr))
+            l = l.plus(brdf.color!!.times(cr).times(cfr))
 
             // trace transmitted ray
             val btdf = specularBtdf.sampleF(sr, wo)
             val transmittedRay = Ray(sr.hitPoint, btdf.wt!!)
             val ct = world.tracer.trace(transmittedRay, sr.depth + 1)
             val cft = Math.abs(sr.normal.dot(btdf.wt!!))
-            l = l.plus(btdf.color!!.mult(ct).mult(cft))
+            l = l.plus(btdf.color!!.times(ct).times(cft))
         }
         return l
     }

@@ -4,10 +4,11 @@ import net.dinkla.raytracer.math.BBox;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.objects.GeometricObject;
 import net.dinkla.raytracer.objects.Sphere;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by IntelliJ IDEA.

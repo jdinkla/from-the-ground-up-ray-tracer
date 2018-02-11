@@ -4,49 +4,23 @@ import net.dinkla.raytracer.hits.Shade
 
 import java.lang.Math.max
 
-class Color {
+class Color(val red: Double, val green: Double, val blue: Double) {
 
-    val red: Double
-    val green: Double
-    val blue: Double
+    constructor(v: Double) : this(v, v, v) {}
 
-    constructor(red: Double, green: Double, blue: Double) {
-        this.red = red
-        this.green = green
-        this.blue = blue
-    }
+    operator fun plus(v: Color) = Color(red + v.red, green + v.green, blue + v.blue)
 
-    constructor(v: Double) {
-        this.red = v
-        this.green = v
-        this.blue = v
-    }
+    operator fun times(v: Color) = Color(red * v.red, green * v.green, blue * v.blue)
 
-    operator fun plus(v: Color): Color {
-        return Color(red + v.red, green + v.green, blue + v.blue)
-    }
+    operator fun times(s: Double) = Color(s * red, s * green, s * blue)
 
-    fun mult(v: Color): Color {
-        return Color(red * v.red, green * v.green, blue * v.blue)
-    }
-
-    fun mult(s: Double): Color {
-        return Color(s * red, s * green, s * blue)
-    }
-
-    fun pow(s: Double): Color {
-        return Color(Math.pow(red, s), Math.pow(green, s), Math.pow(blue, s))
-    }
+    fun pow(s: Double) = Color(Math.pow(red, s), Math.pow(green, s), Math.pow(blue, s))
 
     // TODO sick?
     fun getColor(sr: Shade): Color {
         return this
     }
 
-    /**
-     *
-     * @return
-     */
     fun asInt(): Int {
         val r = (red * 255).toInt()
         val g = (green * 255).toInt()
@@ -54,14 +28,7 @@ class Color {
         return r shl 16 or (g shl 8) or b
     }
 
-    fun createFromInt(rgb: Int): Color {
-        val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
-        val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
-        val b: Double = (rgb and 0x000000ff) / 255.0
-        return Color(r, g, b)
-    }
-
-    fun clampToColor(): Color {
+    fun clamp(): Color {
         return if (red > 1 || green > 1 || blue > 1) {
             CLAMP_COLOR
         } else {
@@ -72,7 +39,7 @@ class Color {
     fun maxToOne(): Color {
         val maxValue = max(red, max(green, blue))
         return if (maxValue > 1) {
-            this.mult(1 / maxValue)
+            this.times(1 / maxValue)
         } else {
             this
         }
@@ -87,9 +54,7 @@ class Color {
         }
     }
 
-    override fun toString(): String {
-        return "($red,$green,$blue)"
-    }
+    override fun toString() = "($red,$green,$blue)"
 
     companion object {
 
@@ -111,8 +76,15 @@ class Color {
         @JvmField
         val errorColor = Color(1.0, 0.0, 0.0)
 
+        // TODO why red?
         @JvmField
         val CLAMP_COLOR = Color(1.0, 0.0, 0.0)
 
+        fun createFromInt(rgb: Int): Color {
+            val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
+            val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
+            val b: Double = (rgb and 0x000000ff) / 255.0
+            return Color(r, g, b)
+        }
     }
 }

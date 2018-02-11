@@ -1,16 +1,13 @@
 package net.dinkla.raytracer.math
 
-enum class Axis private constructor(internal val asInt: Int) {
+enum class Axis private constructor(internal val value: Int) {
 
     X(0), Y(1), Z(2);
 
-    operator fun next(): Axis {
-        when (this) {
-            X -> return Y
-            Y -> return Z
-            Z -> return X
-            else -> return X
-        }
+    operator fun next(): Axis = when (this) {
+        X -> Y
+        Y -> Z
+        Z -> X
     }
 
     companion object {
@@ -21,7 +18,7 @@ enum class Axis private constructor(internal val asInt: Int) {
                 1 -> return Y
                 2 -> return Z
             }
-            return X
+            return Z
         }
     }
 

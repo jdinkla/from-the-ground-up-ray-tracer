@@ -36,7 +36,7 @@ class Emissive : Material {
     override fun getLe(sr: Shade): Color {
         var c = cachedLe
         if (null == c) {
-            c = ce.mult(ls)
+            c = ce.times(ls)
             cachedLe = c
         }
         return c

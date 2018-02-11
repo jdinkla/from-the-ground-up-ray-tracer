@@ -85,7 +85,7 @@ constructor(fileName: String) : Texture() {
             val a = 2
         }
 
-        return Color.WHITE.createFromInt(rgb)
+        return Color.createFromInt(rgb)
     }
 
 }

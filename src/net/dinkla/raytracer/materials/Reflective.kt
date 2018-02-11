@@ -1,12 +1,9 @@
 package net.dinkla.raytracer.materials
 
-import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.BRDF
 import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
 
 class Reflective : Phong() {
@@ -32,7 +29,7 @@ class Reflective : Phong() {
         val f = sr.normal.dot(sample.wi!!)
         val reflectedRay = Ray(sr.hitPoint, sample.wi!!)
         val c1 = world.tracer.trace(reflectedRay, sr.depth + 1)
-        val c2 = sample.color!!.mult(c1).mult(f)
+        val c2 = sample.color!!.times(c1).times(f)
         return L.plus(c2)
     }
 

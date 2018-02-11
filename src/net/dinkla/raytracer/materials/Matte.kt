@@ -5,7 +5,6 @@ import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.lights.AreaLight
-import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
@@ -59,7 +58,7 @@ open class Matte : Material {
                 if (!inShadow) {
                     val f = diffuseBrdf.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val flndotwi = f.mult(l).mult(nDotWi)
+                    val flndotwi = f.times(l).times(nDotWi)
                     L = L.plus(flndotwi)
                 }
             }
@@ -100,10 +99,10 @@ open class Matte : Material {
                         if (!inShadow) {
                             val f = diffuseBrdf.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            val flndotwi = f.mult(l).mult(nDotWi)
+                            val flndotwi = f.times(l).times(nDotWi)
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = flndotwi.mult(f1)
+                            val T = flndotwi.times(f1)
                             S.plus(T)
                         }
                     }
@@ -117,7 +116,7 @@ open class Matte : Material {
     protected fun getAmbientColor(world: World, sr: Shade, wo: Vector3D): Color {
         val c1 = ambientBrdf.rho(sr, wo)
         val c2 = world.ambientLight.L(world, sr)
-        return c1.mult(c2)
+        return c1.times(c2)
     }
 
     override fun getLe(sr: Shade): Color {

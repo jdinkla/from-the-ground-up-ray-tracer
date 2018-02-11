@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects;
 
 import net.dinkla.raytracer.objects.acceleration.Grid;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by IntelliJ IDEA.

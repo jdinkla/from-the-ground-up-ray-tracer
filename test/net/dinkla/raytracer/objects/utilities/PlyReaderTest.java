@@ -3,14 +3,10 @@ package net.dinkla.raytracer.objects.utilities;
 import net.dinkla.raytracer.TestUtils;
 import net.dinkla.raytracer.objects.acceleration.Grid;
 import net.dinkla.raytracer.objects.mesh.Mesh;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Created by IntelliJ IDEA.
- * User: joerndinkla
- */
 public class PlyReaderTest {
 
     @Test

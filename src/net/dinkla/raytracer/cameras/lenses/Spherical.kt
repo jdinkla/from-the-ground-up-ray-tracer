@@ -47,7 +47,7 @@ class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val sinTheta = Math.sin(theta)
         val cosTheta = Math.cos(theta)
 
-        //        Vector3D direction = u.times(sinTheta * sinPhi).plus(v.times(cosTheta)).plus(w.times(sinTheta * cosPhi));
+        //        Vector3D direction = u.minus(sinTheta * sinPhi).plus(v.minus(cosTheta)).plus(w.minus(sinTheta * cosPhi));
         return uvw!!.pp(sinTheta * sinPhi, cosTheta, sinTheta * cosPhi)
     }
 }

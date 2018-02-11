@@ -37,7 +37,7 @@ class PerfectTransmitter : BTDF() {
         result.wt = wo.times(-eta).minus(n.mult(cosThetaT - cosThetaI / eta))
         val f1 = kt / (eta * eta)
         val f2 = sr.normal.dot(result.wt!!)
-        result.color = Color.WHITE.mult(f1 / Math.abs(f2))
+        result.color = Color.WHITE.times(f1 / Math.abs(f2))
         return result
     }
 

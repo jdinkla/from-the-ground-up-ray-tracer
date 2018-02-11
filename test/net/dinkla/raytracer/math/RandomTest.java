@@ -1,21 +1,14 @@
 package net.dinkla.raytracer.math;
 
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 22.05.2010
- * Time: 19:41:42
- * To change this template use File | Settings | File Templates.
- */
 public class RandomTest {
 
     final int NUM = 1000;
@@ -73,9 +66,9 @@ public class RandomTest {
             i2.add(ls.get(2));
         }
         
-        assertEquals(3, i0.keySet().size());
-        assertEquals(3, i1.keySet().size());
-        assertEquals(3, i2.keySet().size());
+        assertEquals(3, i0.keys().size());
+        assertEquals(3, i1.keys().size());
+        assertEquals(3, i2.keys().size());
     }
     
 }

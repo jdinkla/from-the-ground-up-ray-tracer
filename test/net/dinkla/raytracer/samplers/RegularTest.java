@@ -1,17 +1,10 @@
 package net.dinkla.raytracer.samplers;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 22.05.2010
- * Time: 19:02:18
- * To change this template use File | Settings | File Templates.
- */
 public class RegularTest extends GeneratorTest {
 
-    @Before
+    @BeforeEach
     @Override
     public void initialize() {
         new Regular().generateSamples(NUM_SAMPLES, NUM_SETS , samples);

@@ -36,7 +36,7 @@ class SVGlossySpecular : BRDF {
         val r = wi.times(-1.0).plus(Vector3D(sr.normal).times(2 * nDotWi))
         val rDotWo = r.dot(wo)
         return if (rDotWo > 0) {
-            cs!!.getColor(sr).mult(ks * Math.pow(rDotWo, exp))
+            cs!!.getColor(sr).times(ks * Math.pow(rDotWo, exp))
         } else {
             Color.BLACK
         }
@@ -62,7 +62,7 @@ class SVGlossySpecular : BRDF {
         val phongLobe = Math.pow(sample.wi!!.dot(w), exp)
 
         sample.pdf = phongLobe * sample.wi!!.dot(sr.normal)
-        sample.color = cs!!.getColor(sr).mult(ks * phongLobe)
+        sample.color = cs!!.getColor(sr).times(ks * phongLobe)
         return sample
     }
 

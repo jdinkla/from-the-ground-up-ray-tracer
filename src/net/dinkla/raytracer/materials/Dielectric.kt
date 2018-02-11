@@ -2,12 +2,9 @@ package net.dinkla.raytracer.materials
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.BRDF
 import net.dinkla.raytracer.brdf.FresnelReflector
-import net.dinkla.raytracer.btdf.BTDF
 import net.dinkla.raytracer.btdf.FresnelTransmitter
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.math.WrappedFloat
 import net.dinkla.raytracer.worlds.World
 
@@ -38,9 +35,9 @@ class Dielectric : Phong() {
             val lr = world.tracer.trace(reflectedRay, t, sr.depth + 1)
             if (nDotWi < 0) {
                 // reflected ray is inside
-                L = L.plus(cfIn.pow(t.value!!).mult(lr))
+                L = L.plus(cfIn.pow(t.value!!).times(lr))
             } else {
-                L = L.plus(cfOut.pow(t.value!!).mult(lr))
+                L = L.plus(cfOut.pow(t.value!!).times(lr))
             }
         } else {
             // no total internal reflection
@@ -50,27 +47,27 @@ class Dielectric : Phong() {
             if (nDotWi < 0) {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1.mult(Math.abs(nDotWi))
-                val lr = sample.color!!.mult(c2)
-                L = L.plus(cfIn.pow(t.value!!).mult(lr))
+                val c2 = c1.times(Math.abs(nDotWi))
+                val lr = sample.color!!.times(c2)
+                L = L.plus(cfIn.pow(t.value!!).times(lr))
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3.mult(Math.abs(nDotWt))
-                val lt = sampleT.color!!.mult(c4)
-                L = L.plus(cfOut.pow(t.value!!).mult(lt))
+                val c4 = c3.times(Math.abs(nDotWt))
+                val lt = sampleT.color!!.times(c4)
+                L = L.plus(cfOut.pow(t.value!!).times(lt))
             } else {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1.mult(Math.abs(nDotWi))
-                val lr = sample.color!!.mult(c2)
-                L = L.plus(cfOut.pow(t.value!!).mult(lr))
+                val c2 = c1.times(Math.abs(nDotWi))
+                val lr = sample.color!!.times(c2)
+                L = L.plus(cfOut.pow(t.value!!).times(lr))
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3.mult(Math.abs(nDotWt))
-                val lt = sampleT.color!!.mult(c4)
-                L = L.plus(cfIn.pow(t.value!!).mult(lt))
+                val c4 = c3.times(Math.abs(nDotWt))
+                val lt = sampleT.color!!.times(c4)
+                L = L.plus(cfIn.pow(t.value!!).times(lt))
             }
 
         }

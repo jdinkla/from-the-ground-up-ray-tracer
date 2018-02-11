@@ -9,7 +9,7 @@ class ColorAccumulator {
         get() {
             val result: Color
             if (count > 0) {
-                result = aggregated.mult(1.0 / count)
+                result = aggregated.times(1.0 / count)
             } else {
                 result = Color.BLACK
             }

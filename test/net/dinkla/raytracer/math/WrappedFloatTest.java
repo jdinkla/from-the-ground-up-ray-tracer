@@ -1,16 +1,9 @@
 package net.dinkla.raytracer.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 23:23:59
- * To change this template use File | Settings | File Templates.
- */
 public class WrappedFloatTest {
 
     void set(WrappedFloat f) {

@@ -2,7 +2,6 @@ package net.dinkla.raytracer.brdf
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Vector3D
 
 class PerfectSpecular : BRDF() {
@@ -28,7 +27,7 @@ class PerfectSpecular : BRDF() {
         val wi = wo.negate().plus(sr.normal.mult(2.0 * nDotWo))
         result.wi = wi
         val nDotWi = normal.dot(wi)
-        result.color = cr!!.mult(kr / Math.abs(nDotWi))
+        result.color = cr!!.times(kr / Math.abs(nDotWi))
         return result
     }
 

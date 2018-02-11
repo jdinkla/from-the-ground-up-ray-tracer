@@ -48,7 +48,7 @@ class CompoundUtilities {
         Point3D max = PointUtilities.maxPoints(compound.getMesh().vertices)
         LOGGER.info("PLY: maximum=" + max)
 
-        //Point3D mid = min.plus(max.minus(min).times(0.5));
+        //Point3D mid = min.plus(max.minus(min).minus(0.5));
         Point3D mid = new Point3D(max.minus(min).times(0.5))
 
         Point3D q = new Point3D(-mid.x, min.y, min.z)

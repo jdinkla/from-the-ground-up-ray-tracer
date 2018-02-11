@@ -2,13 +2,8 @@ package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Point2D;
 import net.dinkla.raytracer.math.Point3D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 22.05.2010
- */
 public class SamplerTest {
 
     final int NUM = 1000;

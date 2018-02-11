@@ -46,7 +46,7 @@ class AmbientOccluder : Ambient {
             }
         }
         val ratio = 1.0 - 1.0 * numHits / numSamples
-        return color.mult(ls * ratio)
+        return color.times(ls * ratio)
     }
 
     override fun getDirection(sr: Shade): Vector3D {

@@ -1,16 +1,10 @@
 package net.dinkla.raytracer.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 24.04.2010
- * Time: 18:24:16
- * To change this template use File | Settings | File Templates.
- */
+
 public class MatrixTest {
 
     @Test

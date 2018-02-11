@@ -2,8 +2,6 @@ package net.dinkla.raytracer
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.samplers.MultiJittered
-import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Resolution
 
@@ -48,7 +46,7 @@ class ViewPlane : IColorCorrector {
     override fun correct(color: Color): Color {
         var newColor: Color
         if (showOutOfGamut) {
-            newColor = color.clampToColor()
+            newColor = color.clamp()
         } else {
             newColor = color.maxToOne()
         }

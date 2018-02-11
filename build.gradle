@@ -57,7 +57,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.codehaus.groovy:groovy-all:2.4.13'
     compile 'log4j:log4j:1.2.17'
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.3'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
 }

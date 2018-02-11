@@ -168,7 +168,7 @@ open class Grid : Compound {
                 + ", numCells=" + numCells
                 + ", numObjects in cells=" + numInCells)
 
-        for (key in hist.keySet()) {
+        for (key in hist.counts.keys) {
             val value = hist[key]!!
             LOGGER.info("Grid: " + key + ": " + value + " [" + value * 100.0 / numInCells + "%]")
         }

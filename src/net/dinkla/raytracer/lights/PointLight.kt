@@ -25,7 +25,7 @@ class PointLight(var location: Point3D) : Light() {
     override fun L(world: World, sr: Shade): Color {
         assert(null != color)
         if (null == cachedL) {
-            cachedL = color!!.mult(ls)
+            cachedL = color!!.times(ls)
         }
         return cachedL ?: Color.BLACK
     }

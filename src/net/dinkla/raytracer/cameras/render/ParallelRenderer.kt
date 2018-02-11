@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
-import net.dinkla.raytracer.utilities.Resolution
 import org.apache.log4j.Logger
 
 import java.util.concurrent.BrokenBarrierException
@@ -109,7 +107,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
                 var c = xStart
                 while (c < xEnd) {
                     var color = render.render(r, c)
-                    color = color.mult(exposureTime)
+                    color = color.times(exposureTime)
                     color = corrector.correct(color)
                     film!!.setPixel(0, c, r, color)
                     c += STEP_X

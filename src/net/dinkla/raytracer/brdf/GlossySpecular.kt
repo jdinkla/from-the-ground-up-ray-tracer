@@ -35,7 +35,7 @@ class GlossySpecular : BRDF {
         val r = wi.times(-1.0).plus(Vector3D(sr.normal).times(2 * nDotWi))
         val rDotWo = r.dot(wo)
         return if (rDotWo > 0) {
-            cs!!.mult(ks * Math.pow(rDotWo, exp))
+            cs!!.times(ks * Math.pow(rDotWo, exp))
         } else {
             Color.BLACK
         }
@@ -61,7 +61,7 @@ class GlossySpecular : BRDF {
         val phongLobe = Math.pow(sample.wi!!.dot(r), exp)
 
         sample.pdf = phongLobe * nDotWi
-        sample.color = cs!!.mult(ks * phongLobe)
+        sample.color = cs!!.times(ks * phongLobe)
         return sample
     }
 

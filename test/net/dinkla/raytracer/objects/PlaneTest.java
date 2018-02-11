@@ -5,11 +5,11 @@ import net.dinkla.raytracer.math.Normal;
 import net.dinkla.raytracer.math.Point3D;
 import net.dinkla.raytracer.math.Ray;
 import net.dinkla.raytracer.math.Vector3D;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -34,7 +34,7 @@ public class PlaneTest {
     // Sample
     Hit sr;
 
-    @Before
+    @BeforeEach
     public void init() {
         sr = new Hit();
     }

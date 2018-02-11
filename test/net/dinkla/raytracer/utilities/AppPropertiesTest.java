@@ -1,12 +1,8 @@
 package net.dinkla.raytracer.utilities;
 
-/*
- * Copyright (c) 2012 by Jörn Dinkla, www.dinkla.com, All rights reserved.
- */
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AppPropertiesTest {
 

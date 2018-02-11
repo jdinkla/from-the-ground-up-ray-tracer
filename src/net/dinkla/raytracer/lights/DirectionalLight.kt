@@ -22,7 +22,7 @@ class DirectionalLight : Light() {
     }
 
     override fun L(world: World, sr: Shade): Color {
-        return color.mult(ls)
+        return color.times(ls)
     }
 
     override fun getDirection(sr: Shade): Vector3D {

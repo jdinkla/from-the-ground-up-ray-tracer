@@ -20,7 +20,7 @@ class Lambertian : BRDF() {
     }
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
-        return cd.getColor(sr).mult(kd * INV_PI)
+        return cd.getColor(sr).times(kd * INV_PI)
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
@@ -28,7 +28,7 @@ class Lambertian : BRDF() {
     }
 
     override fun rho(sr: Shade, wo: Vector3D): Color {
-        return cd.getColor(sr).mult(kd)
+        return cd.getColor(sr).times(kd)
     }
 
 }

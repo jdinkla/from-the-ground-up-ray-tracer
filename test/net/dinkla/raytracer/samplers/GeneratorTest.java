@@ -2,21 +2,15 @@ package net.dinkla.raytracer.samplers;
 
 import net.dinkla.raytracer.math.Histogram;
 import net.dinkla.raytracer.math.Point2D;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 22.05.2010
- * Time: 18:58:20
- * To change this template use File | Settings | File Templates.
- */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public abstract class GeneratorTest {
 
     static final int NUM_SAMPLES = 10000;
@@ -24,7 +18,7 @@ public abstract class GeneratorTest {
 
     protected List<Point2D> samples = new ArrayList<Point2D>();
 
-    @Before
+    @BeforeEach
     public abstract void initialize();
 
     @Test

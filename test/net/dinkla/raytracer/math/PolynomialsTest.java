@@ -1,17 +1,10 @@
 package net.dinkla.raytracer.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 27.05.2010
- * Time: 21:14:03
- * To change this template use File | Settings | File Templates.
- */
 public class PolynomialsTest {
 
 

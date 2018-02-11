@@ -5,9 +5,7 @@ import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.lights.AreaLight
-import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.textures.Texture
 import net.dinkla.raytracer.worlds.World
 
@@ -47,7 +45,7 @@ class SVPhong : SVMatte() {
                     val fd = diffuseBrdf.f(sr, wo, wi)
                     val fs = specularBrdf.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val fdfslndotwi = fd.plus(fs).mult(l).mult(nDotWi)
+                    val fdfslndotwi = fd.plus(fs).times(l).times(nDotWi)
                     L = L.plus(fdfslndotwi)
                 }
             }
@@ -75,10 +73,10 @@ class SVPhong : SVMatte() {
                             val fd = diffuseBrdf.f(sr, wo, sample.wi!!)
                             val fs = specularBrdf.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            val fsfslndotwi = fd.plus(fs).mult(l).mult(nDotWi)
+                            val fsfslndotwi = fd.plus(fs).times(l).times(nDotWi)
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = fsfslndotwi.mult(f1)
+                            val T = fsfslndotwi.times(f1)
                             S.plus(T)
                         }
                     }
@@ -91,7 +89,7 @@ class SVPhong : SVMatte() {
 
     override fun getLe(sr: Shade): Color {
         // TODO
-        return specularBrdf.cs!!.getColor(sr).mult(specularBrdf.ks)
+        return specularBrdf.cs!!.getColor(sr).times(specularBrdf.ks)
     }
 }
 
