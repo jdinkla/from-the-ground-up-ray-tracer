@@ -24,12 +24,12 @@ public class IterativePinhole extends Pinhole {
 //    int STEP_Y = 1;
 //    int STEP_X = 1;
 
-//    public double d;
+//    public double direction;
 //    public double zoom;
 
     public IterativePinhole(ViewPlane viewPlane, Tracer tracer) {
         super(viewPlane, tracer);
-//        this.d = d;
+//        this.direction = direction;
 //        this.zoom = zoom;
         //viewPlane.size /= zoom;
     }
@@ -38,34 +38,34 @@ public class IterativePinhole extends Pinhole {
     public void render(IFilm film, final int frame) {
         Timer t = new Timer();
         t.reset();
-        int d = 1024; // works fine
+        int direction = 1024; // works fine
         int s = 0;
-        while (d > 0) {
+        while (direction > 0) {
             int k = (int) Math.pow(2, s-1) - 1;
-//            System.out.println("d=" + d +", s=" + s + ", k=" + k);
+//            System.out.println("direction=" + direction +", s=" + s + ", k=" + k);
             for (int r = 0; r < viewPlane.resolution.vres; r++) {
                 if (-1 == k) {
                     int offset=0;
                     while (offset < viewPlane.resolution.hres) {
                         Color color = render(r, offset);
-                        film.setBlock(0, offset, r, Math.min(d, viewPlane.resolution.hres - 1 - offset), 1, color);
-                        offset += d;
+                        film.setBlock(0, offset, r, Math.min(direction, viewPlane.resolution.hres - 1 - offset), 1, color);
+                        offset += direction;
                     }
-//                    film.setBlock(0, 0, r, Math.min(d, 32), 1, color);
+//                    film.setBlock(0, 0, r, Math.min(direction, 32), 1, color);
                 } else {
                     int i=0;
-                    int offset=d;
+                    int offset=direction;
 
                     while (offset < viewPlane.resolution.hres) {
                         Color color = render(r, offset);
-                        film.setBlock(0, offset, r, Math.min(d, viewPlane.resolution.hres - 1 - offset), 1, color);
-//                        film.setBlock(0, offset, r, Math.min(d, 16), 1, color);
+                        film.setBlock(0, offset, r, Math.min(direction, viewPlane.resolution.hres - 1 - offset), 1, color);
+//                        film.setBlock(0, offset, r, Math.min(direction, 16), 1, color);
                         i++;
-                        offset = 2*d*i+d;
+                        offset = 2*direction*i+direction;
                     }
                 }
             }
-            d /= 2;
+            direction /= 2;
             s++;
         }
         LOGGER.info("rendering took " + t.get() + " ms");

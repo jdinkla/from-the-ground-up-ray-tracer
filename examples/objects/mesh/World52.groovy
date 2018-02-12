@@ -31,7 +31,7 @@ builder.world(id: "World52") {
     viewPlane(resolution: Resolution.RESOLUTION_480, maxDepth: 2)
 
     camera(d: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), numProcessors: 32)
-//    camera(d: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: Pinhole)
+//    camera(direction: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: Pinhole)
 
     ambientLight(color: Color.WHITE, ls: 0.5)
 

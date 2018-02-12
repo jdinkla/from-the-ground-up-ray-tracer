@@ -40,7 +40,7 @@ class AreaLight : Light(), ILightSource {
     }
 
     fun inShadow(world: World, ray: Ray, sr: Shade, sample: Sample): Boolean {
-        val d = sample.samplePoint!!.minus(ray.o).dot(ray.d)
+        val d = sample.samplePoint!!.minus(ray.origin).dot(ray.direction)
         return world.inShadow(ray, sr, d)
     }
 

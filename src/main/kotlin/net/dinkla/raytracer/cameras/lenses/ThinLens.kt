@@ -35,7 +35,7 @@ class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val pp = Point2D(x, y)
         val dp = sampler!!.sampleUnitDisk()
         val lp = Point2D(dp.x * lensRadius, dp.y * lensRadius)
-        //        Point3D o = eye.plus(u.minus(lp.x)).plus(v.minus(lp.y));
+        //        Point3D origin = eye.plus(u.minus(lp.x)).plus(v.minus(lp.y));
         val o = eye!!.plus(uvw!!.pp(lp.x, lp.y, 0.0))
         return Ray(eye!!, getRayDirection(pp, lp))
     }

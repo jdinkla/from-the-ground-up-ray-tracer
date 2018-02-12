@@ -25,9 +25,9 @@ builder.world(id: "World78") {
 
     viewPlane(resolution: Resolution.RESOLUTION_720, maxDepth: 10)
     
-//    camera(d: 1000, eye: p(NUM/2, 1.5, 10), lookAt: p(NUM/2, 1.5, 0), numThreads: 32)
-//    camera(d: 1000, eye: p(NUM/2, 1.5, 10), lookAt: p(NUM/2, 1.5, 0), numThreads: 64, ray: SampledRenderer, rayNumSamples: 64)
-//    camera(d: 2500, eye: p(NUM/2, NUM, 20), lookAt: p(NUM/2, 1.5, -NUM/2), numThreads: 64, ray: SampledRenderer, rayNumSamples: 16)
+//    camera(direction: 1000, eye: p(NUM/2, 1.5, 10), lookAt: p(NUM/2, 1.5, 0), numThreads: 32)
+//    camera(direction: 1000, eye: p(NUM/2, 1.5, 10), lookAt: p(NUM/2, 1.5, 0), numThreads: 64, ray: SampledRenderer, rayNumSamples: 64)
+//    camera(direction: 2500, eye: p(NUM/2, NUM, 20), lookAt: p(NUM/2, 1.5, -NUM/2), numThreads: 64, ray: SampledRenderer, rayNumSamples: 16)
     camera(d: 2500, eye: p(NUM/2, NUM, 20), lookAt: p(NUM/2, 1.5, -NUM/2), numThreads: 64)
 
     ambientLight(ls: 0.9)

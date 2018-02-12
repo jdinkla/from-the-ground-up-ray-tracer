@@ -23,10 +23,10 @@ builder.world(id: "World79") {
 //    viewPlane(resolution: Resolution.RESOLUTION_320, maxDepth: 10)
 
     camera(d: 1000, numThreads: 32, eye: p(0, 3, 3), ray: SampledRenderer, rayNumSamples: 16)
-//    camera(d: 1000, numThreads: 32, eye: p(0, 3, 3))
-//    camera(d: 1000, numThreads: 32, eye: p(3, 3, 0))
-//    camera(d: 1000, numThreads: 32, eye: p(0, 3, -3))
-//    camera(d: 1000, numThreads: 32, eye: p(-3, 3, 0))
+//    camera(direction: 1000, numThreads: 32, eye: p(0, 3, 3))
+//    camera(direction: 1000, numThreads: 32, eye: p(3, 3, 0))
+//    camera(direction: 1000, numThreads: 32, eye: p(0, 3, -3))
+//    camera(direction: 1000, numThreads: 32, eye: p(-3, 3, 0))
 
     ambientLight(ls: 0.25)
 

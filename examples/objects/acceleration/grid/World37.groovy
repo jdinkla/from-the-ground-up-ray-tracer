@@ -14,7 +14,7 @@ builder.world(id: "World37") {
 
     camera(d: 500, eye: p(column, 4, NUM*1.5), lookAt: p(column, 1, NUM/2))
 
-    //camera(d: 1000, eye: p(0, 10, 10), lookAt: p(0, 0, 0))
+    //camera(direction: 1000, eye: p(0, 10, 10), lookAt: p(0, 0, 0))
 
     ambientLight(color: Color.WHITE, ls: 0.5)
 

@@ -25,7 +25,7 @@ builder.world(id: "World77") {
     viewPlane(resolution: Resolution.RESOLUTION_1080, maxDepth: 2, numSamples: 4)
 
     camera(d: 500, eye: p(0.4, 1, 10), lookAt: p(0.4, 0, 0), numThreads: 32)
-//    camera(d: 500, eye: p(NUM2, 1, 5), lookAt: p(NUM2, 0, -NUM2), numThreads: 64)
+//    camera(direction: 500, eye: p(NUM2, 1, 5), lookAt: p(NUM2, 0, -NUM2), numThreads: 64)
 
     ambientLight(color: Color.WHITE, ls: 0.5)
 

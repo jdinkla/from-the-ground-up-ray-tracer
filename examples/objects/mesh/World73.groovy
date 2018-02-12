@@ -30,8 +30,8 @@ builder.world(id: "World73") {
     viewPlane(resolution: Resolution.RESOLUTION_1080, maxDepth: 16, numSamples: 64)
 
     camera(d: 1000, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), numThreads: 64)
-//    camera(d: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: PinholePar, numThreads: 30)
-//    camera(d: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: Pinhole)
+//    camera(direction: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: PinholePar, numThreads: 30)
+//    camera(direction: 700, eye: p(0, 1, 3), lookAt: p(1.3, 0, 0), type: Pinhole)
 
     ambientLight(color: Color.WHITE, ls: 0.5)
 

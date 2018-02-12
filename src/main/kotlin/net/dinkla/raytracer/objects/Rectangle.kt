@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.math.*
 
 open class Rectangle : GeometricObject {
@@ -45,8 +43,8 @@ open class Rectangle : GeometricObject {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val nom = p0.minus(ray.o).dot(normal)
-        val denom = ray.d.dot(normal)
+        val nom = p0.minus(ray.origin).dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
 
         if (t <= MathUtils.K_EPSILON) {
@@ -73,8 +71,8 @@ open class Rectangle : GeometricObject {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val nom = p0.minus(ray.o).dot(normal)
-        val denom = ray.d.dot(normal)
+        val nom = p0.minus(ray.origin).dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
 
         if (t <= MathUtils.K_EPSILON) {

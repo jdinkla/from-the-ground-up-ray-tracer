@@ -17,10 +17,10 @@ builder.world(id: "World40") {
 
     viewPlane(resolution: Resolution.RESOLUTION_1080, maxDepth: 10)
     
-//    camera(d: 1000, eye: p(-NUM, column+1, NUM*2), lookAt: p(column, column, NUM/2), type: IterativePinhole)
-//    camera(d: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - 5, column), type: IterativePinhole)
-//    camera(d: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - 10, column), type: IterativePinhole)
-//    camera(d: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - NUM/5, column), type: PinholePar)
+//    camera(direction: 1000, eye: p(-NUM, column+1, NUM*2), lookAt: p(column, column, NUM/2), type: IterativePinhole)
+//    camera(direction: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - 5, column), type: IterativePinhole)
+//    camera(direction: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - 10, column), type: IterativePinhole)
+//    camera(direction: 1000, eye: p(-5, NUM + 5, NUM + 5), lookAt: p(column, NUM - NUM/5, column), type: PinholePar)
     camera(d: 1000, eye: p(-1, NUM, NUM + 5), lookAt: p(column, NUM - NUM/5, column), numThreads: 4)
 
     ambientLight(color: Color.WHITE, ls: 0.5)

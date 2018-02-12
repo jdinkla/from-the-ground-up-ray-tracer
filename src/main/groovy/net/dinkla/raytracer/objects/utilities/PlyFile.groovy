@@ -115,9 +115,9 @@ class PlyFile {
             f = -f;
         }
 
-//        long bits = 0xFFFFFFFF & ((a << 0) + (b << 8) + (c << 16) + (d << 24));
-        println "a=$a, b=$b, c=$c, d=$d, bits=$bits, sign=$sign, expo=$expo, frac=$frac, f=$f"
-        //int bits = a + b << 8 + c << 16 + d << 24;
+//        long bits = 0xFFFFFFFF & ((a << 0) + (b << 8) + (c << 16) + (direction << 24));
+        println "a=$a, b=$b, c=$c, direction=$d, bits=$bits, sign=$sign, expo=$expo, frac=$frac, f=$f"
+        //int bits = a + b << 8 + c << 16 + direction << 24;
         return Float.intBitsToFloat((int) bits);
     }
 

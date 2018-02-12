@@ -23,8 +23,8 @@ builder.world(id: "World23") {
 
     tracer(type: AreaLighting)
 
-//    camera(d: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
-    //camera(d: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
+//    camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
+    //camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
     camera(eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
 
     ambientLight(color: Color.WHITE, ls: 0.5)

@@ -7,7 +7,7 @@ builder.world(id: "World70") {
 
     viewPlane(maxDepth: 2)
     
-//    camera(d: 2000, eye: p(-4, 1, 20), lookAt: p(3, -0.2, 1), numThreads: 30)
+//    camera(direction: 2000, eye: p(-4, 1, 20), lookAt: p(3, -0.2, 1), numThreads: 30)
     camera(d: 2000, eye: p(-4, 3, 20), lookAt: p(3, 1, 1), numThreads: 32)
 
     ambientLight(ls: 0.5)

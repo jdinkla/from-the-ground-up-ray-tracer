@@ -24,7 +24,8 @@ class Whitted(world: World) : Tracer(world) {
     override fun trace(ray: Ray, tmin: WrappedFloat, depth: Int): Color {
         //LOGGER.debug("trace " + ray + " at depth " + depth);
         Counter.count("Whitted.trace3")
-        var color: Color? = world.backgroundColor
+//        var color = world.backgroundColor
+        var color: Color
         if (depth > world.viewPlane.maxDepth) {
             color = Color.BLACK
         } else {
@@ -33,7 +34,7 @@ class Whitted(world: World) : Tracer(world) {
             if (hit) {
                 sr.depth = depth
                 sr.ray = ray
-                tmin.setValue(sr.t)
+                tmin.value = sr.t
                 if (null == sr.material) {
                     LOGGER.error("Material is NULL for ray $ray and sr $sr")
                     color = Color.errorColor
@@ -42,7 +43,7 @@ class Whitted(world: World) : Tracer(world) {
                 }
             } else {
                 // No hit -> Background
-                tmin.setValue(MathUtils.K_HUGEVALUE)
+                tmin.value = MathUtils.K_HUGEVALUE
                 color = world.backgroundColor
             }
         }
@@ -50,7 +51,8 @@ class Whitted(world: World) : Tracer(world) {
         double ff =  Math.sqrt(tmin.getValue() * f);
         color =  color.plus(fc.minus(ff));
         */
-        return (if (color == null) world.backgroundColor else color)
+        return color
+//        return (if (color == null) world.backgroundColor else color)
     }
 
     companion object {

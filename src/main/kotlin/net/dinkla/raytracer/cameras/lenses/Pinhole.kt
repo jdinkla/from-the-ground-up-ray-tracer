@@ -29,7 +29,7 @@ class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
     protected fun getRayDirection(x: Double, y: Double): Vector3D {
         // xu + yv - dw
-        //        Vector3D dir = u.minus(x).plus(v.minus(y)).minus(w.minus(d));
+        //        Vector3D dir = u.minus(x).plus(v.minus(y)).minus(w.minus(direction));
         val dir = uvw!!.pm(x, y, d)
         return dir.normalize()
     }

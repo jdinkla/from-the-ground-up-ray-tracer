@@ -3,10 +3,7 @@ package net.dinkla.raytracer.objects.mesh
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.mesh.Mesh
-import net.dinkla.raytracer.objects.mesh.MeshTriangle
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,16 +25,16 @@ class FlatMeshTriangle : MeshTriangle {
 
         val a = v0.x - v1.x
         val b = v0.x - v2.x
-        val c = ray.d.x
-        val d = v0.x - ray.o.x
+        val c = ray.direction.x
+        val d = v0.x - ray.origin.x
         val e = v0.y - v1.y
         val f = v0.y - v2.y
-        val g = ray.d.y
-        val h = v0.y - ray.o.y
+        val g = ray.direction.y
+        val h = v0.y - ray.origin.y
         val i = v0.z - v1.z
         val j = v0.z - v2.z
-        val k = ray.d.z
-        val l = v0.z - ray.o.z
+        val k = ray.direction.z
+        val l = v0.z - ray.origin.z
 
         val m = f * k - g * j
         val n = h * k - g * l

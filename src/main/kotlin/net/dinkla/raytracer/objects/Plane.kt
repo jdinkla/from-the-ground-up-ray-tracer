@@ -29,10 +29,10 @@ class Plane : GeometricObject {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        // (point - ray.o) * normal / (ray.d * normal)
-        val v = point - ray.o
+        // (point - ray.origin) * normal / (ray.direction * normal)
+        val v = point - ray.origin
         val nom = v.dot(normal)
-        val denom = ray.d.dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
         if (t > MathUtils.K_EPSILON) {
             sr.t = t
@@ -44,9 +44,9 @@ class Plane : GeometricObject {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val v = point - ray.o
+        val v = point - ray.origin
         val nom = v.dot(normal)
-        val denom = ray.d.dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
         if (t > MathUtils.K_EPSILON) {
             tmin.t = t

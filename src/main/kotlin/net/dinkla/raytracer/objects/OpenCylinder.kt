@@ -27,12 +27,12 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
     override fun hit(ray: Ray, sr: Hit): Boolean {
 
         var t: Double
-        val ox = ray.o.x
-        val oy = ray.o.y
-        val oz = ray.o.z
-        val dx = ray.d.x
-        val dy = ray.d.y
-        val dz = ray.d.z
+        val ox = ray.origin.x
+        val oy = ray.origin.y
+        val oz = ray.origin.z
+        val dx = ray.direction.x
+        val dy = ray.direction.y
+        val dz = ray.direction.z
 
         val a = dx * dx + dz * dz
         val b = 2.0 * (ox * dx + oz * dz)
@@ -52,8 +52,8 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
                     sr.t = t
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting from inside
-                    if (ray.d.times(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal?.mult(-1.0))
+                    if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
+                        sr.normal = Normal(sr.normal?.times(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -67,8 +67,8 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
                     sr.t = t
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting inside surface
-                    if (ray.d.times(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal?.mult(-1.0))
+                    if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
+                        sr.normal = Normal(sr.normal?.times(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -81,12 +81,12 @@ class OpenCylinder(y0: Double, y1: Double, internal var radius: Double) : Geomet
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         var t: Double
-        val ox = ray.o.x
-        val oy = ray.o.y
-        val oz = ray.o.z
-        val dx = ray.d.x
-        val dy = ray.d.y
-        val dz = ray.d.z
+        val ox = ray.origin.x
+        val oy = ray.origin.y
+        val oz = ray.origin.z
+        val dx = ray.direction.x
+        val dy = ray.direction.y
+        val dz = ray.direction.z
 
         val a = dx * dx + dz * dz
         val b = 2.0 * (ox * dx + oz * dz)

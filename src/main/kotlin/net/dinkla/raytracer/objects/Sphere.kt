@@ -24,9 +24,9 @@ class Sphere : GeometricObject {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         var t: Double
-        val temp = ray.o - center
-        val a = ray.d.dot(ray.d)
-        val b = temp.times(2.0).dot(ray.d)
+        val temp = ray.origin - center
+        val a = ray.direction.dot(ray.direction)
+        val b = temp.times(2.0).dot(ray.direction)
         val c = temp.dot(temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 
@@ -38,13 +38,13 @@ class Sphere : GeometricObject {
             t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.d.times(t).plus(temp).times(1.0 / radius))
+                sr.normal = Normal(ray.direction.times(t).plus(temp).times(1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.d.times(t).plus(temp).times(1.0 / radius))
+                sr.normal = Normal(ray.direction.times(t).plus(temp).times(1.0 / radius))
                 return true
             }
         }
@@ -53,9 +53,9 @@ class Sphere : GeometricObject {
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         var t: Double
-        val temp = ray.o.minus(center)
-        val a = ray.d.dot(ray.d)
-        val b = temp.times(2.0).dot(ray.d)
+        val temp = ray.origin.minus(center)
+        val a = ray.direction.dot(ray.direction)
+        val b = temp.times(2.0).dot(ray.direction)
         val c = temp.dot(temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 

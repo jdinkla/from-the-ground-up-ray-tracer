@@ -2,7 +2,6 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.Plane
 import net.dinkla.raytracer.utilities.Counter
 
 import java.util.Stack
@@ -45,7 +44,7 @@ class InnerNode(val left: AbstractNode?, val right: AbstractNode?, override val 
                     val srL = Hit(pair.hit)
                     srL.t = hit.t1
                     val srR = Hit(pair.hit)
-                    if (ray.o.ith(axis) < node.split) {
+                    if (ray.origin.ith(axis) < node.split) {
                         stack.push(Pair(node.left, srL))
                         stack.push(Pair(node.right, srR))
                     } else {
@@ -77,7 +76,7 @@ class InnerNode(val left: AbstractNode?, val right: AbstractNode?, override val 
         //        Counter.count("KDTree.InnerNode.hit");
 
         // On which side does the ray start?
-        if (ray.o.ith(axis) < split) {
+        if (ray.origin.ith(axis) < split) {
             //                Counter.count("KDTree.InnerNode.hit.LR.L");
             val srL = Hit(sr)
             srL.t = hit.t1
@@ -127,7 +126,7 @@ class InnerNode(val left: AbstractNode?, val right: AbstractNode?, override val 
 
         // Side
         var side: Side? = null
-        if (ray.o.ith(axis) < split) {
+        if (ray.origin.ith(axis) < split) {
             side = Side.Left
             //            Counter.count("KDTree.InnerNode.Side.L");
         } else {

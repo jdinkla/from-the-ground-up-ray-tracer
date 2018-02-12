@@ -7,9 +7,9 @@ builder.world(id: "World46") {
 
     viewPlane(resolution: Resolution.RESOLUTION_480, maxDepth: 2)
 
-    //camera(d: 4000, eye: p(0, 1, 5), lookAt: p(0, 0, 0))
+    //camera(direction: 4000, eye: p(0, 1, 5), lookAt: p(0, 0, 0))
 
-    //camera(d: 1500, eye: p(0, 0.1, 5), lookAt: p(0, 0, 0))
+    //camera(direction: 1500, eye: p(0, 0.1, 5), lookAt: p(0, 0, 0))
     camera(d: 750, eye: p(0, 0.1, 2), lookAt: p(0.5, 0.5, 0), numThreads: 8)
 
     ambientLight(color: Color.WHITE, ls: 0.5)

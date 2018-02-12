@@ -20,7 +20,7 @@ builder.world(id: "World51") {
 
     viewPlane(resolution: Resolution.RESOLUTION_480, maxDepth: 5)
 
-//    camera(d: 800, eye: p(1, 0.3, 3), lookAt: p(0.4, 0.5, 0), numThreads: 8)
+//    camera(direction: 800, eye: p(1, 0.3, 3), lookAt: p(0.4, 0.5, 0), numThreads: 8)
     camera(d: 1200, eye: p(1, 0.3, 3), lookAt: p(0.4, 0.25, 0), numThreads: 8)
 
     ambientLight(ls: 0.5)

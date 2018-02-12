@@ -45,7 +45,7 @@ open class SVMatte : Material {
     }
 
     override fun shade(world: World, sr: Shade): Color {
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
             val wi = light.getDirection(sr)
@@ -68,7 +68,7 @@ open class SVMatte : Material {
     }
 
     override fun areaLightShade(world: World, sr: Shade): Color {
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
         for (light1 in world.lights) {

@@ -36,7 +36,7 @@ class Transparent : Phong() {
 
     override fun shade(world: World, sr: Shade): Color {
         var l = super.shade(world, sr)
-        val wo = sr.ray.d.times(-1.0)
+        val wo = sr.ray.direction.times(-1.0)
         val brdf = reflectiveBrdf.sampleF(sr, wo)
         // trace reflected ray
         val reflectedRay = Ray(sr.hitPoint, brdf.wi!!)

@@ -23,12 +23,12 @@ builder.world(id: "World58") {
 
     camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), d: 1000, type: ThinLens, f: 1000, lensRadius: 1, sampler: samp1, numThreads: 16)
 
-    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), d: 1000)
-    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), d: 1000, numThreads: 4)
-    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), d: 1000, type: ThinLens, f: 222, lensRadius: 1, sampler: samp1, numThreads: 16)
+    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), direction: 1000)
+    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), direction: 1000, numThreads: 4)
+    //camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), direction: 1000, type: ThinLens, f: 222, lensRadius: 1, sampler: samp1, numThreads: 16)
 //    camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), type: Orthographic)
 //    camera(eye: p(2, 1, 10), lookAt: p(2, 1, 0), type: FishEye, maxPsi: 120)
-//    camera(eye: p(2, 1, -1), lookAt: p(2, 1, 0), type: Spherical, maxPsi: 180, maxLambda: 180, d: 10000, numThreads: 5)
+//    camera(eye: p(2, 1, -1), lookAt: p(2, 1, 0), type: Spherical, maxPsi: 180, maxLambda: 180, direction: 10000, numThreads: 5)
 
 //    ambientLight(ls: 0.5, color: c(1, 0, 0))
     ambientLight(ls: 0.5)

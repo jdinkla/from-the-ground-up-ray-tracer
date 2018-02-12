@@ -35,7 +35,7 @@ class PointLight(var location: Point3D) : Light() {
     }
 
     override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
-        val d = location.minus(ray.o).length()
+        val d = location.minus(ray.origin).length()
         return world.inShadow(ray, sr, d)
     }
 

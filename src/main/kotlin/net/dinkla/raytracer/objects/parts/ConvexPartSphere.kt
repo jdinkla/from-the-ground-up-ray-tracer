@@ -37,9 +37,9 @@ class ConvexPartSphere : GeometricObject() {
     /*
 
         double 		t;
-        Vector3D temp 	= ray.o.minus(center);
-        double 		a 		= ray.d.dot(ray.d);
-        double 		b 		= ray.d.dot(temp) * 2.0;
+        Vector3D temp 	= ray.origin.minus(center);
+        double 		a 		= ray.direction.dot(ray.direction);
+        double 		b 		= ray.direction.dot(temp) * 2.0;
         double 		c 		= temp.dot(temp) - radius * radius;
         double 		disc 	= b * b - 4.0 * a * c;
 
@@ -51,7 +51,7 @@ class ConvexPartSphere : GeometricObject() {
             t = (-b - e) / denom;    // smaller root
 
             if (t > MathUtils.K_EPSILON) {
-                Vector3D hit = ray.o + t * ray.d - center;
+                Vector3D hit = ray.origin + t * ray.direction - center;
 
                 double phi = Math.atan2(hit.x, hit.z);
                 if (phi < 0.0)
@@ -62,8 +62,8 @@ class ConvexPartSphere : GeometricObject() {
                     phi >= phi_min && phi <= phi_max) {
 
                     sr.setT(t);
-                    sr.setNormal(temp.plus(ray.d.minus(t)) + t * ray.d) / radius;
-//                    sr.local_hit_point = ray.o + tmin * ray.d;
+                    sr.setNormal(temp.plus(ray.direction.minus(t)) + t * ray.direction) / radius;
+//                    sr.local_hit_point = ray.origin + tmin * ray.direction;
                     return (true);
                 }
             }
@@ -71,7 +71,7 @@ class ConvexPartSphere : GeometricObject() {
             t = (-b + e) / denom;    // larger root
 
             if (t > kEpsilon) {
-                Vector3D hit = ray.o + t * ray.d - center;
+                Vector3D hit = ray.origin + t * ray.direction - center;
 
                 double phi = atan2(hit.x, hit.z);
                 if (phi < 0.0)
@@ -82,8 +82,8 @@ class ConvexPartSphere : GeometricObject() {
                     phi >= phi_min && phi <= phi_max) {
 
                     tmin = t;
-                    sr.normal = (temp + t * ray.d) / radius;   // points outwards
-                    sr.local_hit_point = ray.o + tmin * ray.d;
+                    sr.normal = (temp + t * ray.direction) / radius;   // points outwards
+                    sr.local_hit_point = ray.origin + tmin * ray.direction;
                     return (true);
                 }
             }

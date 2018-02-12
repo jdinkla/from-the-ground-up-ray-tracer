@@ -44,7 +44,7 @@ open class Matte : Material {
     }
 
     override fun shade(world: World, sr: Shade): Color {
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
             val wi = light.getDirection(sr)
@@ -67,7 +67,7 @@ open class Matte : Material {
     }
 
     /*
-    	Vector3D 	wo 			= -sr.ray.d;
+    	Vector3D 	wo 			= -sr.ray.direction;
 	RGBColor 	L 			= ambient_brdf->rho(sr, wo) * sr.w.ambient_ptr->L(sr);
 	int 		num_lights	= sr.w.lights.size();
 
@@ -82,7 +82,7 @@ open class Matte : Material {
 	return (L);
     */
     override fun areaLightShade(world: World, sr: Shade): Color {
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
         for (light1 in world.lights) {

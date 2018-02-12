@@ -176,7 +176,7 @@ class SwingGui2 : ActionListener {
                                 System.out.println("L");
                                 w.getCamera().
                                 break;
-                            case 'd':
+                            case 'direction':
                                 System.out.println("R");
                                 break;
                         }

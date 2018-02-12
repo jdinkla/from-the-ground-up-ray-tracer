@@ -14,13 +14,13 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         if (!boundingBox.hit(ray)) {
             return false
         }
-        val x1 = ray.o.x
-        val y1 = ray.o.y
-        val z1 = ray.o.z
+        val x1 = ray.origin.x
+        val y1 = ray.origin.y
+        val z1 = ray.origin.z
 
-        val d1 = ray.d.x
-        val d2 = ray.d.y
-        val d3 = ray.d.z
+        val d1 = ray.direction.x
+        val d2 = ray.direction.y
+        val d3 = ray.direction.z
 
         val coeffs = DoubleArray(5)
         val roots = DoubleArray(4)
@@ -64,13 +64,13 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         if (!boundingBox.hit(ray)) {
             return false
         }
-        val x1 = ray.o.x
-        val y1 = ray.o.y
-        val z1 = ray.o.z
+        val x1 = ray.origin.x
+        val y1 = ray.origin.y
+        val z1 = ray.origin.z
 
-        val d1 = ray.d.x
-        val d2 = ray.d.y
-        val d3 = ray.d.z
+        val d1 = ray.direction.x
+        val d2 = ray.direction.y
+        val d3 = ray.direction.z
 
         val coeffs = DoubleArray(5)
         val roots = DoubleArray(4)

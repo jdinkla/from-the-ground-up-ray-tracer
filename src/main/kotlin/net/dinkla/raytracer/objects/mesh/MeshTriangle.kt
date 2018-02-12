@@ -4,7 +4,6 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.utilities.Counter
 
 open class MeshTriangle : GeometricObject {
 
@@ -63,16 +62,16 @@ open class MeshTriangle : GeometricObject {
 
         val a = p0.x - p1.x
         val b = p0.x - p2.x
-        val c = ray.d.x
-        val d = p0.x - ray.o.x
+        val c = ray.direction.x
+        val d = p0.x - ray.origin.x
         val e = p0.y - p1.y
         val f = p0.y - p2.y
-        val g = ray.d.y
-        val h = p0.y - ray.o.y
+        val g = ray.direction.y
+        val h = p0.y - ray.origin.y
         val i = p0.z - p1.z
         val j = p0.z - p2.z
-        val k = ray.d.z
-        val l = p0.z - ray.o.z
+        val k = ray.direction.z
+        val l = p0.z - ray.origin.z
 
         val m = f * k - g * j
         val n = h * k - g * l

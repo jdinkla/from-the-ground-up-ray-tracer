@@ -15,7 +15,7 @@ builder.world(id: "World14") {
 
     viewPlane(numSamples: 16)
     
-    //camera(d: 1000, eye: p(0, 1, 7), lookAt: p(0, 0.75, 0))
+    //camera(direction: 1000, eye: p(0, 1, 7), lookAt: p(0, 0.75, 0))
     camera(d: 1000, eye: p(0, 1, 7), lookAt: p(0, 0.75, 0), numThreads: 32)
 
     ambientOccluder(minAmount: Color.WHITE,

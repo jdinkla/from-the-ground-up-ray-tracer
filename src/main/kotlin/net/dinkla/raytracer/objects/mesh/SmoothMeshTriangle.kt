@@ -2,8 +2,6 @@ package net.dinkla.raytracer.objects.mesh
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.mesh.Mesh
-import net.dinkla.raytracer.objects.mesh.MeshTriangle
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,16 +23,16 @@ class SmoothMeshTriangle : MeshTriangle {
 
         val a = v0.x - v1.x
         val b = v0.x - v2.x
-        val c = ray.d.x
-        val d = v0.x - ray.o.x
+        val c = ray.direction.x
+        val d = v0.x - ray.origin.x
         val e = v0.y - v1.y
         val f = v0.y - v2.y
-        val g = ray.d.y
-        val h = v0.y - ray.o.y
+        val g = ray.direction.y
+        val h = v0.y - ray.origin.y
         val i = v0.z - v1.z
         val j = v0.z - v2.z
-        val k = ray.d.z
-        val l = v0.z - ray.o.z
+        val k = ray.direction.z
+        val l = v0.z - ray.origin.z
 
         val m = f * k - g * j
         val n = h * k - g * l
@@ -74,9 +72,9 @@ class SmoothMeshTriangle : MeshTriangle {
     }
 
     protected fun interpolateNormal(beta: Double, gamma: Double): Normal {
-        val v1 = mesh.normals[index0].mult(1.0 - beta - gamma)
-        val v2 = mesh.normals[index1].mult(beta)
-        val v3 = mesh.normals[index2].mult(gamma)
+        val v1 = mesh.normals[index0].times(1.0 - beta - gamma)
+        val v2 = mesh.normals[index1].times(beta)
+        val v3 = mesh.normals[index2].times(gamma)
         val normal = Normal(v1.plus(v2).plus(v3))
         return normal.normalize()
     }

@@ -17,11 +17,11 @@ builder.world(id: "World47") {
 
     viewPlane(resolution: Resolution.RESOLUTION_480, maxDepth: 2)
 
-    //camera(d: 1000, eye: p(0, 1, NUM_ITEMS*1.5), lookAt: p(NUM_ITEMS/2, 0, 0))
+    //camera(direction: 1000, eye: p(0, 1, NUM_ITEMS*1.5), lookAt: p(NUM_ITEMS/2, 0, 0))
 
-    //camera(d: 1000, eye: p(-1, 0.2, -1), lookAt: p(NUM_ITEMS/2, 0, NUM_ITEMS/2)) Bild 1
-    //camera(d: 1000, eye: p(-1, 0.2, -1), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 2
-    //camera(d: 1000, eye: p(NUM_ITEMS/2-2, 0.0, NUM_ITEMS/2-3), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 3
+    //camera(direction: 1000, eye: p(-1, 0.2, -1), lookAt: p(NUM_ITEMS/2, 0, NUM_ITEMS/2)) Bild 1
+    //camera(direction: 1000, eye: p(-1, 0.2, -1), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 2
+    //camera(direction: 1000, eye: p(NUM_ITEMS/2-2, 0.0, NUM_ITEMS/2-3), lookAt: p(NUM_ITEMS/2, 0.4, NUM_ITEMS/2)) Bild 3
     camera(d: 1000, eye: p(-NUM_ITEMS/2+0.5, 0.0, 1.4), lookAt: p(-NUM_ITEMS/2, 0.4, -NUM_ITEMS/2), numThreads: 8)
 
     ambientLight(color: Color.WHITE, ls: 0.5)

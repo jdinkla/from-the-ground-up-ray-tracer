@@ -46,7 +46,7 @@ class GlossySpecular : BRDF {
 
         val sample = new()
         val nDotWo = sr.normal?.dot(wo)
-        val r = wo.negate().plus(sr.normal?.mult(2 * nDotWo))
+        val r = wo.negate().plus(sr.normal?.times(2 * nDotWo))
 
         val u = Vector3D(0.00424, 1.0, 0.00764).cross(r).normalize()
         val v = u.cross(r)

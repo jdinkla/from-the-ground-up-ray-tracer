@@ -75,31 +75,31 @@ class BBox {
         val ty_max: Double
         val tz_max: Double
 
-        val a = 1.0 / ray.d.x
+        val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p!!.x - ray.o.x) * a
-            tx_max = (q!!.x - ray.o.x) * a
+            tx_min = (p!!.x - ray.origin.x) * a
+            tx_max = (q!!.x - ray.origin.x) * a
         } else {
-            tx_min = (q!!.x - ray.o.x) * a
-            tx_max = (p!!.x - ray.o.x) * a
+            tx_min = (q!!.x - ray.origin.x) * a
+            tx_max = (p!!.x - ray.origin.x) * a
         }
 
-        val b = 1.0 / ray.d.y
+        val b = 1.0 / ray.direction.y
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b
-            ty_max = (q.y - ray.o.y) * b
+            ty_min = (p.y - ray.origin.y) * b
+            ty_max = (q.y - ray.origin.y) * b
         } else {
-            ty_min = (q.y - ray.o.y) * b
-            ty_max = (p.y - ray.o.y) * b
+            ty_min = (q.y - ray.origin.y) * b
+            ty_max = (p.y - ray.origin.y) * b
         }
 
-        val c = 1.0 / ray.d.z
+        val c = 1.0 / ray.direction.z
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c
-            tz_max = (q.z - ray.o.z) * c
+            tz_min = (p.z - ray.origin.z) * c
+            tz_max = (q.z - ray.origin.z) * c
         } else {
-            tz_min = (q.z - ray.o.z) * c
-            tz_max = (p.z - ray.o.z) * c
+            tz_min = (q.z - ray.origin.z) * c
+            tz_max = (p.z - ray.origin.z) * c
         }
 
         var t0: Double
@@ -142,31 +142,31 @@ class BBox {
         val ty_max: Double
         val tz_max: Double
 
-        val a = 1.0 / ray.d.x
+        val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p!!.x - ray.o.x) * a
-            tx_max = (q!!.x - ray.o.x) * a
+            tx_min = (p!!.x - ray.origin.x) * a
+            tx_max = (q!!.x - ray.origin.x) * a
         } else {
-            tx_min = (q!!.x - ray.o.x) * a
-            tx_max = (p!!.x - ray.o.x) * a
+            tx_min = (q!!.x - ray.origin.x) * a
+            tx_max = (p!!.x - ray.origin.x) * a
         }
 
-        val b = 1.0 / ray.d.y
+        val b = 1.0 / ray.direction.y
         if (b >= 0) {
-            ty_min = (p.y - ray.o.y) * b
-            ty_max = (q.y - ray.o.y) * b
+            ty_min = (p.y - ray.origin.y) * b
+            ty_max = (q.y - ray.origin.y) * b
         } else {
-            ty_min = (q.y - ray.o.y) * b
-            ty_max = (p.y - ray.o.y) * b
+            ty_min = (q.y - ray.origin.y) * b
+            ty_max = (p.y - ray.origin.y) * b
         }
 
-        val c = 1.0 / ray.d.z
+        val c = 1.0 / ray.direction.z
         if (c >= 0) {
-            tz_min = (p.z - ray.o.z) * c
-            tz_max = (q.z - ray.o.z) * c
+            tz_min = (p.z - ray.origin.z) * c
+            tz_max = (q.z - ray.origin.z) * c
         } else {
-            tz_min = (q.z - ray.o.z) * c
-            tz_max = (p.z - ray.o.z) * c
+            tz_min = (q.z - ray.origin.z) * c
+            tz_max = (p.z - ray.origin.z) * c
         }
 
         var t0: Double

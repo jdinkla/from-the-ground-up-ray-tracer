@@ -24,7 +24,7 @@ class Reflective : Phong() {
 
     override fun shade(world: World, sr: Shade): Color {
         val L = super.shade(world, sr)
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         val sample = reflectiveBrdf.sampleF(sr, wo)
         val f = sr.normal.dot(sample.wi!!)
         val reflectedRay = Ray(sr.hitPoint, sample.wi!!)

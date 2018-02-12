@@ -1,46 +1,7 @@
 package net.dinkla.raytracer.math
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 23:22:46
- * To change this template use File | Settings | File Templates.
- */
-class WrappedFloat : Comparable<WrappedFloat> {
+class WrappedFloat(var value: Double) : Comparable<WrappedFloat> {
 
-    public var value: Double? = null
-
-    constructor() {
-        this.value = null
-    }
-
-    constructor(value: Double) {
-        this.value = value
-        //        this.value =  value;
-    }
-
-    fun setMaxValue() {
-        value = java.lang.Double.MAX_VALUE
-        //value = Double.MAX_VALUE;
-    }
-
-    fun setValue(value: Double) {
-        //        this.value =  value;
-        this.value = value
-    }
-
-    /**
-     * null is treated as the smallest element
-     *
-     * null null    0
-     * null Y       -1
-     * X    null    1
-     * X    Y       X.compareTo(Y)
-     *
-     * @param o
-     * @return
-     */
     override fun compareTo(o: WrappedFloat): Int {
         return if (null == value) {
             if (null == o.value) {
@@ -81,10 +42,7 @@ class WrappedFloat : Comparable<WrappedFloat> {
 
     companion object {
 
-        fun createMax(): WrappedFloat {
-            val f = WrappedFloat()
-            f.setMaxValue()
-            return f
-        }
+        fun createMax() = WrappedFloat(java.lang.Double.MAX_VALUE)
+
     }
 }

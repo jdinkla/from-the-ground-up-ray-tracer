@@ -8,11 +8,11 @@ def a1 = builder.alignedBox(p: p(2, 0, -2), q: p(2.1, 3.3, 5))
 builder.world(id: "World17") {
 
     viewPlane(numSamples: 0, maxDepth: 5)
-    //camera(d: 800, eye: p(0, 2.5, 7), lookAt: p(1, 0.5, 1))
-//    camera(d: 800, eye: p(0, 2.5, 15), lookAt: p(1.5, 0.5, 1))
-//    camera(d: 800, eye: p(0, 12.5, 15), lookAt: p(1.5, 0.5, 1))
-//    camera(d: 800, eye: p(0, 1.1, 15), lookAt: p(1.5, 0.5, 1), numThreads: 30)
-//    camera(d: 800, eye: p(0, 250, 15), lookAt: p(1.5, 0.5, 1), type: PinholePar, numThreads: 30)
+    //camera(direction: 800, eye: p(0, 2.5, 7), lookAt: p(1, 0.5, 1))
+//    camera(direction: 800, eye: p(0, 2.5, 15), lookAt: p(1.5, 0.5, 1))
+//    camera(direction: 800, eye: p(0, 12.5, 15), lookAt: p(1.5, 0.5, 1))
+//    camera(direction: 800, eye: p(0, 1.1, 15), lookAt: p(1.5, 0.5, 1), numThreads: 30)
+//    camera(direction: 800, eye: p(0, 250, 15), lookAt: p(1.5, 0.5, 1), type: PinholePar, numThreads: 30)
     camera(d: 800, eye: p(0, 2.1, 15), lookAt: p(1.5, 0.5, 1), numThreads: 16)
 
     ambientLight(ls: 0.5)

@@ -14,8 +14,8 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val nom = center.minus(ray.o).dot(normal)
-        val denom = ray.d.dot(normal)
+        val nom = center.minus(ray.origin).dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
         if (t <= MathUtils.K_EPSILON) {
             return false
@@ -32,8 +32,8 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val nom = center.minus(ray.o).dot(normal)
-        val denom = ray.d.dot(normal)
+        val nom = center.minus(ray.origin).dot(normal)
+        val denom = ray.direction.dot(normal)
         val t = nom / denom
         if (t <= MathUtils.K_EPSILON) {
             return false

@@ -10,8 +10,8 @@ class MultipleObjects(world: World) : Tracer(world) {
 
     override fun trace(ray: Ray): Color {
         assert(null != ray)
-        assert(null != ray.o)
-        assert(null != ray.d)
+        assert(null != ray.origin)
+        assert(null != ray.direction)
         val sr = Shade()
         if (world.hit(ray, sr)) {
             sr.ray = ray

@@ -25,7 +25,7 @@ class Dielectric : Phong() {
 
     override fun shade(world: World, sr: Shade): Color {
         var L = super.shade(world, sr)
-        val wo = sr.ray.d.negate()
+        val wo = sr.ray.direction.negate()
         val t = WrappedFloat.createMax()
         val sample = fresnelBrdf.sampleF(sr, wo)
         val reflectedRay = Ray(sr.hitPoint, sample.wi!!)

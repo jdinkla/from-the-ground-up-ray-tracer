@@ -21,7 +21,7 @@ builder.world(id: "World54") {
 //    viewPlane(resolution: Resolution.RESOLUTION_1080, numSamples: 4, maxDepth: 5)
     viewPlane(resolution: Resolution.RESOLUTION_480, numSamples: 4, maxDepth: 5)
 
-//    camera(d: 2000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), type: PinholePar, numThreads: 30 )
+//    camera(direction: 2000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), type: PinholePar, numThreads: 30 )
     camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), numThreads: 30 )
 
     ambientOccluder(minAmount: Color.WHITE,

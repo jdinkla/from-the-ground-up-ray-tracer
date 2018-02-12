@@ -24,7 +24,7 @@ class PerfectSpecular : BRDF() {
         val result = new()
         val normal = sr.normal
         val nDotWo = normal.dot(wo)
-        val wi = wo.negate().plus(sr.normal.mult(2.0 * nDotWo))
+        val wi = wo.negate().plus(sr.normal.times(2.0 * nDotWo))
         result.wi = wi
         val nDotWi = normal.dot(wi)
         result.color = cr!!.times(kr / Math.abs(nDotWi))

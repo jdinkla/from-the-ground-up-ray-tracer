@@ -135,8 +135,8 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val ro = trans.invMatrix.mult(ray.o)
-        val rd = trans.invMatrix.mult(ray.d)
+        val ro = trans.invMatrix.mult(ray.origin)
+        val rd = trans.invMatrix.mult(ray.direction)
         val invRay = Ray(ro, rd)
         if (`object`.hit(invRay, sr)) {
             // TODO: Instance hit?
@@ -153,8 +153,8 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val ro = trans.invMatrix.mult(ray.o)
-        val rd = trans.invMatrix.mult(ray.d)
+        val ro = trans.invMatrix.mult(ray.origin)
+        val rd = trans.invMatrix.mult(ray.direction)
         val invRay = Ray(ro, rd)
         return if (`object`.shadowHit(invRay, tmin)) {
             true

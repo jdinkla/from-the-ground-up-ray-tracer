@@ -42,7 +42,7 @@ builder.world(id: "World57") {
 
     viewPlane(resolution: Resolution.RESOLUTION_320, maxDepth: 2)
 
-//    camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0) )
+//    camera(direction: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0) )
     camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), numThreads: 64, ray: SampledRenderer, raySampler: sampler, rayNumSamples: 2 )
 
     ambientOccluder(minAmount: Color.WHITE,

@@ -2,9 +2,7 @@ package net.dinkla.raytracer.objects.acceleration
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.MathUtils
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.GeometricObject
@@ -128,12 +126,12 @@ class SparseGrid : Grid {
             return false
         }
 
-        val ox = ray.o.x
-        val oy = ray.o.y
-        val oz = ray.o.z
-        val dx = ray.d.x
-        val dy = ray.d.y
-        val dz = ray.d.z
+        val ox = ray.origin.x
+        val oy = ray.origin.y
+        val oz = ray.origin.z
+        val dx = ray.direction.x
+        val dy = ray.direction.y
+        val dz = ray.direction.z
 
         val x0 = boundingBox.p?.x ?: 0.0
         val y0 = boundingBox.p?.y ?: 0.0
@@ -206,7 +204,7 @@ class SparseGrid : Grid {
         var iy: Int
         var iz: Int
 
-        if (boundingBox.inside(ray.o)) {              // does the ray start inside the grid?
+        if (boundingBox.inside(ray.origin)) {              // does the ray start inside the grid?
             ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
             iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
             iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()

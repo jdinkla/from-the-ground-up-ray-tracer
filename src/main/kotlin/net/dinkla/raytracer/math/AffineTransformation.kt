@@ -2,13 +2,6 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 28.04.2010
- * Time: 22:32:53
- * To change this template use File | Settings | File Templates.
- */
 class AffineTransformation {
 
     var forwardMatrix: Matrix
