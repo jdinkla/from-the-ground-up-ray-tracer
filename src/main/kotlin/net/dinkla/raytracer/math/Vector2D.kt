@@ -18,3 +18,5 @@ class Vector2D(x: Double, y: Double) : Element2D(x, y) {
     }
 
 }
+
+operator fun Double.times(v: Vector2D) = Vector2D(this * v.x, this * v.y)

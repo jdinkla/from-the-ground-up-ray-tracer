@@ -38,6 +38,12 @@ internal class Vector3DTest {
     }
 
     @Test
+    fun `multiply with a scalar from left`() {
+        val s = 2.0
+        assertEquals(Vector3D(v.x*s, v.y*s, v.z*s), s * v)
+    }
+
+    @Test
     fun `dot product with vector`() {
         assertEquals(a*d + b*e + c*f, v1 dot v2)
     }

@@ -32,6 +32,12 @@ internal class Vector2DTest {
     }
 
     @Test
+    fun `multiply with scalar from left`() {
+        val s = 2.0
+        assertEquals(Vector2D(v.x * s, v.y * s), s * v)
+    }
+
+    @Test
     fun `dot product with vector`() {
         assertEquals(a*c + b*d, Vector2D(a, b) dot Vector2D(c, d))
     }

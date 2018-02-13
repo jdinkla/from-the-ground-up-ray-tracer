@@ -38,3 +38,5 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
     }
 
 }
+
+operator fun Double.times(v: Vector3D) = Vector3D(this * v.x, this * v.y, this * v.z)
