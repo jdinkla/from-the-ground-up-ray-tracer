@@ -9,12 +9,10 @@ abstract class BTDF {
 
     internal var sampler: Sampler? = null
 
-    inner class Sample {
+    class Sample {
         var color: Color? = null
         var wt: Vector3D? = null
     }
-
-    fun newSample() = Sample()
 
     abstract fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color
 
@@ -23,4 +21,10 @@ abstract class BTDF {
     abstract fun rho(sr: Shade, wo: Vector3D): Color
 
     abstract fun isTir(sr: Shade): Boolean
+
+    companion object {
+
+        fun newSample() = Sample()
+
+    }
 }

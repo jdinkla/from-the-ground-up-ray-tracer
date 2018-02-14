@@ -29,6 +29,8 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
     fun negate(): Vector3D = Vector3D(-x, -y, -z)
 
+    fun volume(): Double = x * y * z
+
     companion object {
         val ZERO = Vector3D(0.0, 0.0, 0.0)
         val UP = Vector3D(0.0, 1.0, 0.0)

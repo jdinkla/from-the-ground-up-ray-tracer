@@ -27,14 +27,15 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (null != other) {
-            if (other is Element3D) {
-                val e = other as Element3D?
-                return x == e!!.x && y == e.y && z == e.z
-            }
+        if (null == other || other !is Element3D) {
+            return false
+        } else {
+            val e = other as Element3D?
+            return x == e!!.x && y == e.y && z == e.z
         }
-        return false
     }
+
+    override fun hashCode(): Int = listOf(x, y, z).hashCode()
 
     override fun toString(): String = "($x,$y,$z)"
 

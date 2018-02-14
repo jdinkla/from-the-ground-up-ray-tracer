@@ -12,8 +12,7 @@ class BBox {
             if (null == p) {
                 return 0.0
             } else {
-                val width = q!!.minus(p)
-                return width.x * width.y * width.z
+                return (q!! - p).volume()
             }
         }
 
@@ -33,12 +32,6 @@ class BBox {
         this.q = q
     }
 
-    /**
-     * Is Point r inside the bounding box?
-     *
-     * @param r     A point.
-     * @return      True, if the point r is inside the bounding box.
-     */
     fun inside(r: Point3D): Boolean {
         val isX = r.x > p!!.x && r.x < q!!.x
         val isY = r.y > p.y && r.y < q!!.y
@@ -241,13 +234,12 @@ class BBox {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (null != other) {
-            if (other is BBox) {
-                val o = other as BBox?
-                return p == o!!.p && q == o.q
-            }
+        if (other == null || other !is BBox ) {
+            return false
+        } else {
+            val o = other as BBox?
+            return p == o!!.p && q == o.q
         }
-        return false
     }
 
     override fun toString(): String {

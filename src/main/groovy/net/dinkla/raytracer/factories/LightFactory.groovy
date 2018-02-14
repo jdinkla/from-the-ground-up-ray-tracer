@@ -37,7 +37,7 @@ class LightFactory extends AbstractFactory {
         needs(map, "areaLight", ["object"])
         AreaLight l = new AreaLight()
         l.object = map.object
-//        if (map.material) l.material = new Emissive(); 
+//        if (map.material) l.material = new Emissive();
         if (map.numSamples) l.numSamples = map.numSamples; 
         return l
     }

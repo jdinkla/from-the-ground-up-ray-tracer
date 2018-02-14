@@ -4,12 +4,15 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.Material
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.PointUtilities
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.WrappedFloat
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.worlds.World
+import java.util.*
 
-import java.util.ArrayList
 
 open class Compound : GeometricObject() {
 
@@ -40,7 +43,6 @@ open class Compound : GeometricObject() {
             }
         }
 
-    //@Override
     override fun hit(ray: Ray, sr: Hit): Boolean {
         if (!boundingBox.hit(ray)) {
             Counter.count("Compound.hit.bbox")
@@ -151,5 +153,4 @@ open class Compound : GeometricObject() {
             boundingBox = BBox()
         }
     }
-
 }

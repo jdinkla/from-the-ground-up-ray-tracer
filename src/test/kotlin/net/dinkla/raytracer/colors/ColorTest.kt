@@ -61,7 +61,8 @@ internal class ColorTest {
 
     @Test
     fun equals() {
-        assertTrue(Color(0.5, 0.2, 0.3) == Color(0.5, 0.2, 0.3))
+        assertEquals(Color(0.5, 0.2, 0.3), Color(0.5, 0.2, 0.3))
         assertFalse(Color(0.5, 0.2, 0.3).equals(3.0))
+        assertFalse(Color(0.5, 0.2, 0.3).equals(null))
     }
 }

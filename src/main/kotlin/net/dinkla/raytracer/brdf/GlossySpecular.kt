@@ -6,16 +6,14 @@ import net.dinkla.raytracer.math.Vector3D
 
 class GlossySpecular : BRDF {
 
-    /**
-     * specular intensity
-     */
-    var ks: Double = 0.toDouble()
+    // specular intensity
+    var ks: Double = 0.0
 
     // specular color
     var cs: Color? = null
 
     // specular exponent
-    var exp: Double = 0.toDouble()
+    var exp: Double = 0.0
 
     constructor() {
         this.ks = 0.25
@@ -31,11 +29,11 @@ class GlossySpecular : BRDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)
-        val nDotWi = wi.dot(sr.normal)
-        val r = wi.times(-1.0).plus(Vector3D(sr.normal).times(2 * nDotWi))
-        val rDotWo = r.dot(wo)
+        val nDotWi = wi dot sr.normal
+        val r = (wi * (-1.0)) + (Vector3D(sr.normal) * (2 * nDotWi))
+        val rDotWo = r dot wo
         return if (rDotWo > 0) {
-            cs!!.times(ks * Math.pow(rDotWo, exp))
+            cs!! * (ks * Math.pow(rDotWo, exp))
         } else {
             Color.BLACK
         }
@@ -44,9 +42,9 @@ class GlossySpecular : BRDF {
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
         assert(null != cs)
 
-        val sample = new()
-        val nDotWo = sr.normal?.dot(wo)
-        val r = wo.negate().plus(sr.normal?.times(2 * nDotWo))
+        val sample = newSample()
+        val nDotWo = sr.normal dot wo
+        val r = wo.negate() + (sr.normal * (2 * nDotWo))
 
         val u = Vector3D(0.00424, 1.0, 0.00764).cross(r).normalize()
         val v = u.cross(r)

@@ -4,22 +4,10 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
-class Sphere : GeometricObject {
+class Sphere(var center: Point3D = Point3D.ORIGIN, var radius: Double = 0.0) : GeometricObject() {
 
-    var center: Point3D
-
-    var radius: Double = 0.0
-
-    constructor(radius: Double) {
-        this.center = Point3D.ORIGIN
-        this.radius = radius
-        boundingBox = BBox(center.minus(radius), center.plus(radius))
-    }
-
-    constructor(center: Point3D, radius: Double) {
-        this.center = center
-        this.radius = radius
-        boundingBox = BBox(center.minus(radius), center.plus(radius))
+    init {
+        boundingBox = BBox(center - radius, center + radius)
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {

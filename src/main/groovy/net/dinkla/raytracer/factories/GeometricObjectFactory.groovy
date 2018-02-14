@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.factories
 
+import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.utilities.MaterialMap
 import net.dinkla.raytracer.objects.utilities.GridUtilities
 import net.dinkla.raytracer.objects.utilities.PlyReader
@@ -67,7 +68,7 @@ class GeometricObjectFactory extends AbstractFactory {
 
     Sphere createSphere(Map map) {
         needs(map, "sphere", ["radius"])
-        Sphere s = new Sphere(map.radius)
+        Sphere s = new Sphere(Point3D.ORIGIN, map.radius)
         if (null != map.center) s.center = map.center
         if (null != map.shadows) s.shadows = map.shadows
         if (null != map.material) s.material = materials.get(map, "sphere")

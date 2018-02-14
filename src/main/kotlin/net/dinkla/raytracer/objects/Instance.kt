@@ -4,13 +4,6 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 17.04.2010
- * Time: 09:17:31
- * To change this template use File | Settings | File Templates.
- */
 class Instance(val `object`: GeometricObject) : GeometricObject() {
     internal var transformTexture: Boolean = false
     internal var trans: AffineTransformation
@@ -106,21 +99,13 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
         this.trans = AffineTransformation()
     }
 
-    fun translate(v: Vector3D) {
-        trans.translate(v)
-    }
+    fun translate(v: Vector3D) = trans.translate(v)
 
-    fun translate(x: Double, y: Double, z: Double) {
-        trans.translate(x, y, z)
-    }
+    fun translate(x: Double, y: Double, z: Double) = trans.translate(x, y, z)
 
-    fun scale(v: Vector3D) {
-        trans.scale(v)
-    }
+    fun scale(v: Vector3D) = trans.scale(v)
 
-    fun scale(x: Double, y: Double, z: Double) {
-        trans.scale(x, y, z)
-    }
+    fun scale(x: Double, y: Double, z: Double) = trans.scale(x, y, z)
 
     fun rotateX(phi: Double) {
         trans.rotateX(phi)

@@ -11,7 +11,7 @@ class GridTest {
 
         val g = Grid()
 
-        val s = Sphere(1.0)
+        val s = Sphere(radius = 1.0)
 
         g.add(s)
 

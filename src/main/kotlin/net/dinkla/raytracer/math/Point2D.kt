@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-open class Point2D(x: Double, y: Double) : Element2D(x, y) {
+class Point2D(x: Double, y: Double) : Element2D(x, y) {
 
     fun negate() = Point2D(-x, -y)
 

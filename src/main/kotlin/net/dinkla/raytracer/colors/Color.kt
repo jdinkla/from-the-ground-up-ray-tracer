@@ -4,7 +4,7 @@ import net.dinkla.raytracer.hits.Shade
 
 import java.lang.Math.max
 
-class Color(val red: Double, val green: Double, val blue: Double) {
+data class Color(val red: Double, val green: Double, val blue: Double) {
 
     constructor(v: Double) : this(v, v, v) {}
 
@@ -44,17 +44,6 @@ class Color(val red: Double, val green: Double, val blue: Double) {
             this
         }
     }
-
-    override fun equals(obj: Any?): Boolean {
-        if (obj !is Color) {
-            return false
-        } else {
-            val e = obj as Color?
-            return red == e!!.red && green == e.green && blue == e.blue
-        }
-    }
-
-    override fun toString() = "($red,$green,$blue)"
 
     companion object {
 

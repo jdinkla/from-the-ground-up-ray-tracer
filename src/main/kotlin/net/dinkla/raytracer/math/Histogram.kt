@@ -16,15 +16,7 @@ class Histogram {
 
     operator fun get(key: Int): Int = counts[key] ?: 0
 
-//    fun clear() {
-//        counts.clear()
-//    }
-
     fun keys(): Set<Int> = counts.keys
-
-//    fun keySet(): Set<Int> {
-//        return counts.keys
-//    }
 
     fun println() {
         var min: Int = Integer.MAX_VALUE

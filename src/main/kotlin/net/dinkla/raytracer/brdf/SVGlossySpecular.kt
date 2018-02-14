@@ -45,13 +45,13 @@ class SVGlossySpecular : BRDF {
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
         assert(null != cs)
 
-        val sample = new()
+        val sample = newSample()
 
-        val nDotWo = wo.dot(sr.normal)
+        val nDotWo = wo dot sr.normal
 
         val w = wo.times(-1.0).plus(Vector3D(sr.normal).times(2.0 * nDotWo))
         val u = Vector3D(0.00424, 1.0, 0.00764).cross(w).normalize()
-        val v = u.cross(w)
+        val v = u cross w
 
         val sp = sampler!!.sampleSphere()
         sample.wi = u.times(sp.x).plus(v.times(sp.y)).plus(w.times(sp.z))

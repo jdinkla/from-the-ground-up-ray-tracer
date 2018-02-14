@@ -20,14 +20,13 @@ class PerfectSpecular : BRDF() {
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
-        assert(null != cr)
-        val result = new()
+        val result = newSample()
         val normal = sr.normal
-        val nDotWo = normal.dot(wo)
-        val wi = wo.negate().plus(sr.normal.times(2.0 * nDotWo))
+        val nDotWo = normal dot wo
+        val wi = wo.negate() + (sr.normal * (2.0 * nDotWo))
         result.wi = wi
-        val nDotWi = normal.dot(wi)
-        result.color = cr!!.times(kr / Math.abs(nDotWi))
+        val nDotWi = normal dot wi
+        result.color = cr * (kr / Math.abs(nDotWi))
         return result
     }
 

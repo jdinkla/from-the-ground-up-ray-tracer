@@ -12,7 +12,7 @@ class CompoundTest {
     @Test
     @Throws(Exception::class)
     fun testGetBoundingBox() {
-        val s = Sphere(1.0)
+        val s = Sphere(radius = 1.0)
         val c = Compound()
         c.add(s)
 

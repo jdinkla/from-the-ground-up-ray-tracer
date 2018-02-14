@@ -71,4 +71,9 @@ internal class Vector3DTest {
     fun negate() {
         assertEquals(v, w.negate())
     }
+
+    @Test
+    fun volume() {
+        assertEquals(a*b*c, v1.volume())
+    }
 }

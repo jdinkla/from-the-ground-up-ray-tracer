@@ -15,6 +15,6 @@ class FresnelReflector : BRDF() {
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
-        return new()
+        return newSample()
     }
 }

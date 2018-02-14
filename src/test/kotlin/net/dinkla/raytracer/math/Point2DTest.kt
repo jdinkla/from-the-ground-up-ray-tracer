@@ -25,4 +25,14 @@ internal class Point2DTest {
         val v = Vector2D(1.0, 2.0)
         assertEquals(Point2D.ORIGIN, p - v)
     }
+
+    @Test
+    fun equals() {
+        assertEquals(p, Point2D(1.0, 2.0))
+        assertNotEquals(p, Point2D(1.0, 1.98))
+        assertNotEquals(p, Point2D(0.98, 2.0))
+        assertNotEquals(p, 3.0)
+        assertNotEquals(p, null)
+    }
+
 }
