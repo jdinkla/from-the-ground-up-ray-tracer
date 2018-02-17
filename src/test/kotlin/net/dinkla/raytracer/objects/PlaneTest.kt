@@ -55,7 +55,7 @@ class PlaneTest {
 
         val isHit = plane.hit(ray, sr)
         assert(!isHit)
-        assertEquals(Point3D.ORIGIN, sr.normal) // TODO null and normals
+        assertEquals(Normal.ZERO, sr.normal) // TODO null and normals
     }
 
     // q=0 plane upside down, point below, vector up, hit

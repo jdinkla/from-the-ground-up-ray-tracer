@@ -54,17 +54,17 @@ class AffineTransformationTest {
     @Throws(Exception::class)
     fun testShear() {
         val t = AffineTransformation()
-        val m = Matrix()
+        val m = Matrix.identity()
         m.m[1][1] = 2.34
         t.shear(m)
 
         // TODO: shear funktioniert nicht wie erwartet
         assert(false)
-        var q = t.invMatrix.mult(p)
+        var q = t.invMatrix.times(p)
         println("q=" + q)
         println("inv=" + t.invMatrix)
 
-        q = t.forwardMatrix.mult(p)
+        q = t.forwardMatrix.times(p)
         println("q=" + q)
         println("for=" + t.forwardMatrix)
 
@@ -79,14 +79,14 @@ class AffineTransformationTest {
 
     private fun testT(t: AffineTransformation, p: Point3D, pInv: Point3D, pFor: Point3D) {
         // inverse
-        assertEq(pInv, t.invMatrix.mult(p))
+        assertEq(pInv, t.invMatrix.times(p))
 
         // forward
-        assertEq(pFor, t.forwardMatrix.mult(p))
+        assertEq(pFor, t.forwardMatrix.times(p))
 
         // composition yields identity
-        assertEq(p, t.invMatrix.mult(t.forwardMatrix.mult(p)))
-        assertEq(p, t.forwardMatrix.mult(t.invMatrix.mult(p)))
+        assertEq(p, t.invMatrix.times(t.forwardMatrix.times(p)))
+        assertEq(p, t.forwardMatrix.times(t.invMatrix.times(p)))
     }
 
     companion object {

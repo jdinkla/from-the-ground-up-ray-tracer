@@ -8,8 +8,8 @@ class AffineTransformation {
     var invMatrix: Matrix
 
     init {
-        forwardMatrix = Matrix()
-        invMatrix = Matrix()
+        forwardMatrix = Matrix.identity()
+        invMatrix = Matrix.identity()
     }
 
     fun translate(v: Vector3D) {
@@ -17,17 +17,17 @@ class AffineTransformation {
     }
 
     fun translate(x: Double, y: Double, z: Double) {
-        val invTranslationMatrix = Matrix()
+        val invTranslationMatrix = Matrix.identity()
         invTranslationMatrix.m[0][3] = -x
         invTranslationMatrix.m[1][3] = -y
         invTranslationMatrix.m[2][3] = -z
-        invMatrix = invMatrix.mult(invTranslationMatrix)
+        invMatrix = invMatrix.times(invTranslationMatrix)
 
-        val translationMatrix = Matrix()
+        val translationMatrix = Matrix.identity()
         translationMatrix.m[0][3] = x
         translationMatrix.m[1][3] = y
         translationMatrix.m[2][3] = z
-        forwardMatrix = translationMatrix.mult(forwardMatrix)
+        forwardMatrix = translationMatrix.times(forwardMatrix)
     }
 
     fun scale(v: Vector3D) {
@@ -35,78 +35,78 @@ class AffineTransformation {
     }
 
     fun scale(x: Double, y: Double, z: Double) {
-        val invScalingMatrix = Matrix()
+        val invScalingMatrix = Matrix.identity()
         invScalingMatrix.m[0][0] = 1.0 / x
         invScalingMatrix.m[1][1] = 1.0 / y
         invScalingMatrix.m[2][2] = 1.0 / z
-        invMatrix = invMatrix.mult(invScalingMatrix)
+        invMatrix = invMatrix.times(invScalingMatrix)
 
-        val scalingMatrix = Matrix()
+        val scalingMatrix = Matrix.identity()
         scalingMatrix.m[0][0] = x
         scalingMatrix.m[1][1] = y
         scalingMatrix.m[2][2] = z
-        forwardMatrix = scalingMatrix.mult(forwardMatrix)
+        forwardMatrix = scalingMatrix.times(forwardMatrix)
     }
 
     fun rotateX(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
-        val invRotationMatrix = Matrix()
+        val invRotationMatrix = Matrix.identity()
         invRotationMatrix.m[1][1] = cosPhi
         invRotationMatrix.m[1][2] = sinPhi
         invRotationMatrix.m[2][1] = -sinPhi
         invRotationMatrix.m[2][2] = cosPhi
-        invMatrix = invMatrix.mult(invRotationMatrix)
+        invMatrix = invMatrix.times(invRotationMatrix)
 
-        val rotationMatrix = Matrix()
+        val rotationMatrix = Matrix.identity()
         rotationMatrix.m[1][1] = cosPhi
         rotationMatrix.m[1][2] = -sinPhi
         rotationMatrix.m[2][1] = sinPhi
         rotationMatrix.m[2][2] = cosPhi
-        forwardMatrix = rotationMatrix.mult(forwardMatrix)
+        forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
     fun rotateY(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
-        val invRotationMatrix = Matrix()
+        val invRotationMatrix = Matrix.identity()
         invRotationMatrix.m[2][2] = cosPhi
         invRotationMatrix.m[0][2] = -sinPhi
         invRotationMatrix.m[2][0] = sinPhi
         invRotationMatrix.m[0][0] = cosPhi
-        invMatrix = invMatrix.mult(invRotationMatrix)
+        invMatrix = invMatrix.times(invRotationMatrix)
 
-        val rotationMatrix = Matrix()
+        val rotationMatrix = Matrix.identity()
         rotationMatrix.m[2][2] = cosPhi
         rotationMatrix.m[0][2] = sinPhi
         rotationMatrix.m[2][0] = -sinPhi
         rotationMatrix.m[0][0] = cosPhi
-        forwardMatrix = rotationMatrix.mult(forwardMatrix)
+        forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
     fun rotateZ(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
-        val invRotationMatrix = Matrix()
+        val invRotationMatrix = Matrix.identity()
         invRotationMatrix.m[0][0] = cosPhi
         invRotationMatrix.m[0][1] = sinPhi
         invRotationMatrix.m[1][0] = -sinPhi
         invRotationMatrix.m[1][1] = cosPhi
-        invMatrix = invMatrix.mult(invRotationMatrix)
+        invMatrix = invMatrix.times(invRotationMatrix)
 
-        val rotationMatrix = Matrix()
+        val rotationMatrix = Matrix.identity()
         rotationMatrix.m[0][0] = cosPhi
         rotationMatrix.m[0][1] = -sinPhi
         rotationMatrix.m[1][0] = sinPhi
         rotationMatrix.m[1][1] = cosPhi
-        forwardMatrix = rotationMatrix.mult(forwardMatrix)
+        forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
     fun shear(s: Matrix) {
-        var invShearingMatrix = Matrix()
+        var invShearingMatrix = Matrix.identity()
 
         // discriminant
         val d = ((1.0 - s.m[1][0] * s.m[0][1]
@@ -136,8 +136,8 @@ class AffineTransformation {
         // divide by discriminant
         invShearingMatrix = invShearingMatrix.div(d)
 
-        invMatrix = invMatrix.mult(invShearingMatrix)
-        forwardMatrix = s.mult(forwardMatrix)
+        invMatrix = invMatrix.times(invShearingMatrix)
+        forwardMatrix = s.times(forwardMatrix)
     }
 
 }

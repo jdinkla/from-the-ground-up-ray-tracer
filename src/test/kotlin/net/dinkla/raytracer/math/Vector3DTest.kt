@@ -10,6 +10,7 @@ internal class Vector3DTest {
     private val v0 = Vector3D(0.0, 0.0, 0.0)
     private val v = Vector3D(2.0, 3.0, 5.0)
     private val w = Vector3D(-2.0, -3.0, -5.0)
+    private val el: Element3D = v as Element3D
 
     private val a = 3.0
     private val b = 5.0
@@ -20,7 +21,17 @@ internal class Vector3DTest {
 
     private val v1 = Vector3D(a, b, c)
     private val v2 = Vector3D(d, e, f)
-    
+
+    @Test
+    fun `construct from integers`() {
+        assertEquals(v, Vector3D(2, 3, 5))
+    }
+
+    @Test
+    fun `construct from Element3D`() {
+        assertEquals(v, Vector3D(el))
+    }
+
     @Test
     fun `add vector`() {
         assertEquals(v0, v + w)

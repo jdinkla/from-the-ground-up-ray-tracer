@@ -19,24 +19,22 @@ class WrappedFloat(var value: Double) : Comparable<WrappedFloat> {
     }
 
     override fun toString(): String {
-        return if (null != value) value!!.toString() else "null"
+        return if (null != value) value.toString() else "null"
     }
 
     fun isLessThan(tmin: WrappedFloat): Boolean {
         return value!!.compareTo(tmin.value!!) == -1
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (obj is WrappedFloat) {
-            val wf = obj as WrappedFloat?
-            val f = wf!!.value
-            return if (value == null) {
-                f == null
-            } else {
-                this.value == f
-            }
-        } else {
+    override fun equals(other: Any?): Boolean {
+        if (null == other || other !is WrappedFloat) {
             return false
+        } else {
+            return if (value == null) {
+                other.value == null
+            } else {
+                this.value == other.value
+            }
         }
     }
 

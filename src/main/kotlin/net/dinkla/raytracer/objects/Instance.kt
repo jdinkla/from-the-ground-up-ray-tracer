@@ -50,7 +50,7 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
             for (i in 0..7) {
                 val p = Point3D(vx[i], vy[i], vz[i])
                 v[i] = p
-                v[i] = trans.forwardMatrix.mult(p)
+                v[i] = trans.forwardMatrix.times(p)
             }
             var x0 = MathUtils.K_HUGEVALUE
             var y0 = MathUtils.K_HUGEVALUE
@@ -120,12 +120,12 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val ro = trans.invMatrix.mult(ray.origin)
-        val rd = trans.invMatrix.mult(ray.direction)
+        val ro = trans.invMatrix.times(ray.origin)
+        val rd = trans.invMatrix.times(ray.direction)
         val invRay = Ray(ro, rd)
         if (`object`.hit(invRay, sr)) {
             // TODO: Instance hit?
-            val tmp = trans.invMatrix.mult(sr.normal)
+            val tmp = trans.invMatrix.times(sr.normal)
             sr.normal = tmp.normalize()
             if (null != `object`.material) {
                 sr.`object` = `object`
@@ -138,8 +138,8 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val ro = trans.invMatrix.mult(ray.origin)
-        val rd = trans.invMatrix.mult(ray.direction)
+        val ro = trans.invMatrix.times(ray.origin)
+        val rd = trans.invMatrix.times(ray.direction)
         val invRay = Ray(ro, rd)
         return if (`object`.shadowHit(invRay, tmin)) {
             true

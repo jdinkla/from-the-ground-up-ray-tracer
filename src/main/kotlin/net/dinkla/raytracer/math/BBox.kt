@@ -196,11 +196,6 @@ class BBox {
         return bX && bY && bZ
     }
 
-    /**
-     * Restrict to bbox.
-     * @param bbox
-     * @return
-     */
     fun clipTo(bbox: BBox): BBox {
         if (isContainedIn(bbox)) {
             return this

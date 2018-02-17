@@ -12,7 +12,13 @@ internal class NormalTest {
     private val d = 2.0
 
     private val n = Normal(x, y, z)
+    private val e = n as Element3D
     private val v = Vector3D(x, y, z)
+
+    @Test
+    fun `construct from integers`() {
+        assertEquals(e, Normal(1, 2, 3))
+    }
 
     @Test
     fun `construct from numbers`() {

@@ -4,6 +4,8 @@ import java.lang.Math.sqrt
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+
     constructor(e: Element3D) : this(e.x, e.y, e.z) {}
 
     fun sqrLength(): Double = x * x + y * y + z * z
@@ -30,8 +32,7 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
         if (null == other || other !is Element3D) {
             return false
         } else {
-            val e = other as Element3D?
-            return x == e!!.x && y == e.y && z == e.z
+            return x == other.x && y == other.y && z == other.z
         }
     }
 

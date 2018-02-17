@@ -8,6 +8,8 @@ class Normal : Element3D {
 
     constructor(p0: Point3D, p1: Point3D, p2: Point3D) : super(((p1 - p0) cross (p2 - p0)).normalize()) {}
 
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+
     operator fun plus(normal: Normal) = Vector3D(x + normal.x, y + normal.y, z + normal.z)
 
     operator fun times(s: Double)= Vector3D(s * x, s * y, s * z)

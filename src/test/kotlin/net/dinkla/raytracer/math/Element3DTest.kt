@@ -14,7 +14,12 @@ internal class Element3DTest {
     private val length = Math.sqrt(sqrLength)
 
     @Test
-    fun constructFromElement3D() {
+    fun `construct from integers`() {
+        assertEquals(e, Element3D(1, 2, 3))
+    }
+
+    @Test
+    fun `construct from Element3D`() {
         assertEquals(e, Element3D(e))
     }
 
