@@ -55,7 +55,7 @@ class AffineTransformationTest {
     fun testShear() {
         val t = AffineTransformation()
         val m = Matrix.identity()
-        m.m[1][1] = 2.34
+        m[1, 1] = 2.34
         t.shear(m)
 
         // TODO: shear funktioniert nicht wie erwartet

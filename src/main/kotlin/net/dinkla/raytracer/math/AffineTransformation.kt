@@ -18,15 +18,15 @@ class AffineTransformation {
 
     fun translate(x: Double, y: Double, z: Double) {
         val invTranslationMatrix = Matrix.identity()
-        invTranslationMatrix.m[0][3] = -x
-        invTranslationMatrix.m[1][3] = -y
-        invTranslationMatrix.m[2][3] = -z
+        invTranslationMatrix[0, 3] = -x
+        invTranslationMatrix[1, 3] = -y
+        invTranslationMatrix[2, 3] = -z
         invMatrix = invMatrix.times(invTranslationMatrix)
 
         val translationMatrix = Matrix.identity()
-        translationMatrix.m[0][3] = x
-        translationMatrix.m[1][3] = y
-        translationMatrix.m[2][3] = z
+        translationMatrix[0, 3] = x
+        translationMatrix[1, 3] = y
+        translationMatrix[2, 3] = z
         forwardMatrix = translationMatrix.times(forwardMatrix)
     }
 
@@ -36,15 +36,15 @@ class AffineTransformation {
 
     fun scale(x: Double, y: Double, z: Double) {
         val invScalingMatrix = Matrix.identity()
-        invScalingMatrix.m[0][0] = 1.0 / x
-        invScalingMatrix.m[1][1] = 1.0 / y
-        invScalingMatrix.m[2][2] = 1.0 / z
+        invScalingMatrix[0, 0] = 1.0 / x
+        invScalingMatrix[1, 1] = 1.0 / y
+        invScalingMatrix[2, 2] = 1.0 / z
         invMatrix = invMatrix.times(invScalingMatrix)
 
         val scalingMatrix = Matrix.identity()
-        scalingMatrix.m[0][0] = x
-        scalingMatrix.m[1][1] = y
-        scalingMatrix.m[2][2] = z
+        scalingMatrix[0, 0] = x
+        scalingMatrix[1, 1] = y
+        scalingMatrix[2, 2] = z
         forwardMatrix = scalingMatrix.times(forwardMatrix)
     }
 
@@ -53,17 +53,17 @@ class AffineTransformation {
         val sinPhi = Math.sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
-        invRotationMatrix.m[1][1] = cosPhi
-        invRotationMatrix.m[1][2] = sinPhi
-        invRotationMatrix.m[2][1] = -sinPhi
-        invRotationMatrix.m[2][2] = cosPhi
+        invRotationMatrix[1, 1] = cosPhi
+        invRotationMatrix[1, 2] = sinPhi
+        invRotationMatrix[2, 1] = -sinPhi
+        invRotationMatrix[2, 2] = cosPhi
         invMatrix = invMatrix.times(invRotationMatrix)
 
         val rotationMatrix = Matrix.identity()
-        rotationMatrix.m[1][1] = cosPhi
-        rotationMatrix.m[1][2] = -sinPhi
-        rotationMatrix.m[2][1] = sinPhi
-        rotationMatrix.m[2][2] = cosPhi
+        rotationMatrix[1, 1] = cosPhi
+        rotationMatrix[1, 2] = -sinPhi
+        rotationMatrix[2, 1] = sinPhi
+        rotationMatrix[2, 2] = cosPhi
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
@@ -72,17 +72,17 @@ class AffineTransformation {
         val sinPhi = Math.sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
-        invRotationMatrix.m[2][2] = cosPhi
-        invRotationMatrix.m[0][2] = -sinPhi
-        invRotationMatrix.m[2][0] = sinPhi
-        invRotationMatrix.m[0][0] = cosPhi
+        invRotationMatrix[2, 2] = cosPhi
+        invRotationMatrix[0, 2] = -sinPhi
+        invRotationMatrix[2, 0] = sinPhi
+        invRotationMatrix[0, 0] = cosPhi
         invMatrix = invMatrix.times(invRotationMatrix)
 
         val rotationMatrix = Matrix.identity()
-        rotationMatrix.m[2][2] = cosPhi
-        rotationMatrix.m[0][2] = sinPhi
-        rotationMatrix.m[2][0] = -sinPhi
-        rotationMatrix.m[0][0] = cosPhi
+        rotationMatrix[2, 2] = cosPhi
+        rotationMatrix[0, 2] = sinPhi
+        rotationMatrix[2, 0] = -sinPhi
+        rotationMatrix[0, 0] = cosPhi
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
@@ -91,17 +91,17 @@ class AffineTransformation {
         val sinPhi = Math.sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
-        invRotationMatrix.m[0][0] = cosPhi
-        invRotationMatrix.m[0][1] = sinPhi
-        invRotationMatrix.m[1][0] = -sinPhi
-        invRotationMatrix.m[1][1] = cosPhi
+        invRotationMatrix[0, 0] = cosPhi
+        invRotationMatrix[0, 1] = sinPhi
+        invRotationMatrix[1, 0] = -sinPhi
+        invRotationMatrix[1, 1] = cosPhi
         invMatrix = invMatrix.times(invRotationMatrix)
 
         val rotationMatrix = Matrix.identity()
-        rotationMatrix.m[0][0] = cosPhi
-        rotationMatrix.m[0][1] = -sinPhi
-        rotationMatrix.m[1][0] = sinPhi
-        rotationMatrix.m[1][1] = cosPhi
+        rotationMatrix[0, 0] = cosPhi
+        rotationMatrix[0, 1] = -sinPhi
+        rotationMatrix[1, 0] = sinPhi
+        rotationMatrix[1, 1] = cosPhi
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
@@ -109,29 +109,29 @@ class AffineTransformation {
         var invShearingMatrix = Matrix.identity()
 
         // discriminant
-        val d = ((1.0 - s.m[1][0] * s.m[0][1]
-                - s.m[2][0] * s.m[0][2]
-                - s.m[2][1] * s.m[1][2])
-                + s.m[1][0] * s.m[2][1] * s.m[0][2]
-                + s.m[2][0] * s.m[0][1] * s.m[2][1])
+        val d = ((1.0 - s[1, 0] * s[0, 1]
+                - s[2, 0] * s[0, 2]
+                - s[2, 1] * s[1, 2])
+                + s[1, 0] * s[2, 1] * s[0, 2]
+                + s[2, 0] * s[0, 1] * s[2, 1])
 
         // diagonals
-        invShearingMatrix.m[0][0] = 1.0 - s.m[2][1] * s.m[1][2]
-        invShearingMatrix.m[1][1] = 1.0 - s.m[2][0] * s.m[0][2]
-        invShearingMatrix.m[2][2] = 1.0 - s.m[1][0] * s.m[0][1]
-        invShearingMatrix.m[3][3] = d
+        invShearingMatrix[0, 0] = 1.0 - s[2, 1] * s[1, 2]
+        invShearingMatrix[1, 1] = 1.0 - s[2, 0] * s[0, 2]
+        invShearingMatrix[2, 2] = 1.0 - s[1, 0] * s[0, 1]
+        invShearingMatrix[3, 3] = d
 
         // first row
-        invShearingMatrix.m[0][1] = -s.m[1][0] + s.m[2][0] * s.m[1][2]
-        invShearingMatrix.m[0][2] = -s.m[2][0] + s.m[1][0] * s.m[2][1]
+        invShearingMatrix[0, 1] = -s[1, 0] + s[2, 0] * s[1, 2]
+        invShearingMatrix[0, 2] = -s[2, 0] + s[1, 0] * s[2, 1]
 
         // second row
-        invShearingMatrix.m[1][0] = -s.m[0][1] + s.m[2][1] * s.m[0][2]
-        invShearingMatrix.m[1][2] = -s.m[2][1] + s.m[2][0] * s.m[0][1]
+        invShearingMatrix[1, 0] = -s[0, 1] + s[2, 1] * s[0, 2]
+        invShearingMatrix[1, 2] = -s[2, 1] + s[2, 0] * s[0, 1]
 
         // third row
-        invShearingMatrix.m[2][0] = -s.m[0][2] + s.m[0][1] * s.m[1][2]
-        invShearingMatrix.m[2][1] = -s.m[1][2] + s.m[1][0] * s.m[0][2]
+        invShearingMatrix[2, 0] = -s[0, 2] + s[0, 1] * s[1, 2]
+        invShearingMatrix[2, 1] = -s[1, 2] + s[1, 0] * s[0, 2]
 
         // divide by discriminant
         invShearingMatrix = invShearingMatrix.div(d)
