@@ -2,21 +2,16 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
 
-class AffineTransformation {
+class AffineTransformation : ITransformation {
 
-    var forwardMatrix: Matrix
-    var invMatrix: Matrix
+    override var forwardMatrix: Matrix = Matrix.identity()
+    override var invMatrix: Matrix = Matrix.identity()
 
-    init {
-        forwardMatrix = Matrix.identity()
-        invMatrix = Matrix.identity()
-    }
-
-    fun translate(v: Vector3D) {
+    override fun translate(v: Vector3D) {
         translate(v.x, v.y, v.z)
     }
 
-    fun translate(x: Double, y: Double, z: Double) {
+    override fun translate(x: Double, y: Double, z: Double) {
         val invTranslationMatrix = Matrix.identity()
         invTranslationMatrix[0, 3] = -x
         invTranslationMatrix[1, 3] = -y
@@ -30,11 +25,11 @@ class AffineTransformation {
         forwardMatrix = translationMatrix.times(forwardMatrix)
     }
 
-    fun scale(v: Vector3D) {
+    override fun scale(v: Vector3D) {
         scale(v.x, v.y, v.z)
     }
 
-    fun scale(x: Double, y: Double, z: Double) {
+    override fun scale(x: Double, y: Double, z: Double) {
         val invScalingMatrix = Matrix.identity()
         invScalingMatrix[0, 0] = 1.0 / x
         invScalingMatrix[1, 1] = 1.0 / y
@@ -48,7 +43,7 @@ class AffineTransformation {
         forwardMatrix = scalingMatrix.times(forwardMatrix)
     }
 
-    fun rotateX(phi: Double) {
+    override fun rotateX(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
@@ -67,7 +62,7 @@ class AffineTransformation {
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
-    fun rotateY(phi: Double) {
+    override fun rotateY(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
@@ -86,7 +81,7 @@ class AffineTransformation {
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
-    fun rotateZ(phi: Double) {
+    override fun rotateZ(phi: Double) {
         val cosPhi = Math.cos(phi * PI_ON_180)
         val sinPhi = Math.sin(phi * PI_ON_180)
 
@@ -105,7 +100,7 @@ class AffineTransformation {
         forwardMatrix = rotationMatrix.times(forwardMatrix)
     }
 
-    fun shear(s: Matrix) {
+    override fun shear(s: Matrix) {
         var invShearingMatrix = Matrix.identity()
 
         // discriminant

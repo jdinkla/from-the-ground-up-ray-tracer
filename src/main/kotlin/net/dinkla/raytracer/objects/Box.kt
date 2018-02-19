@@ -4,10 +4,15 @@ import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.objects.compound.Compound
 
 class Box(var p0: Point3D, a: Vector3D, b: Vector3D, c: Vector3D) : Compound() {
-    var p1: Point3D
+
+//    private var p1: Point3D
+//        private get
+
+//    val boundingBox by lazy {
+//
+//    }
 
     init {
-
         // point at the "top left front"
         //Rectangle rBottom = new Rectangle(p0, b, a);
         val rBottom = Rectangle(p0, a, b, true)
@@ -25,7 +30,7 @@ class Box(var p0: Point3D, a: Vector3D, b: Vector3D, c: Vector3D) : Compound() {
         objects.add(rLeft)
         objects.add(rRight)
         objects.add(rFront)
-        this.p1 = p0.plus(a).plus(b).plus(c)
+        val p1 = p0 + a + b + c
 
         boundingBox = BBox(p0, p1)
     }

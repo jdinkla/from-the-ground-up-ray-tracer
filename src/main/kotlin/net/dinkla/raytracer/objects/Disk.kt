@@ -7,10 +7,7 @@ import net.dinkla.raytracer.math.*
 open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : GeometricObject() {
 
     init {
-        // TODO: more exact bounding box of a disk
-        val p = center.minus(radius)
-        val q = center.plus(radius)
-        boundingBox = BBox(p, q)
+        boundingBox = BBox(center - radius, center + radius)
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {

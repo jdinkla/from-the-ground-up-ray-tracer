@@ -2,14 +2,47 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.objects.GeometricObject
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 16.05.2010
- * Time: 14:29:33
- * To change this template use File | Settings | File Templates.
- */
+// TODO simplify and unify
 object PointUtilities {
+
+    fun minimum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
+        var x0 = MathUtils.K_HUGEVALUE
+        var y0 = MathUtils.K_HUGEVALUE
+        var z0 = MathUtils.K_HUGEVALUE
+
+        for (j in 0..(n - 1)) {
+            if (v[j].x < x0) {
+                x0 = v[j].x
+            }
+            if (v[j].y < y0) {
+                y0 = v[j].y
+            }
+            if (v[j].z < z0) {
+                z0 = v[j].z
+            }
+        }
+        return Triple(x0, y0, z0)
+    }
+
+    fun maximum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
+        var x1 = -MathUtils.K_HUGEVALUE
+        var y1 = -MathUtils.K_HUGEVALUE
+        var z1 = -MathUtils.K_HUGEVALUE
+
+        for (j in 0..(n-1)) {
+            if (v[j].x > x1) {
+                x1 = v[j].x
+            }
+            if (v[j].y > y1) {
+                y1 = v[j].y
+            }
+            if (v[j].z > z1) {
+                z1 = v[j].z
+            }
+        }
+
+        return Triple(x1, y1, z1)
+    }
 
     fun minPoints(points: List<Point3D>): Point3D {
         var x = java.lang.Double.POSITIVE_INFINITY

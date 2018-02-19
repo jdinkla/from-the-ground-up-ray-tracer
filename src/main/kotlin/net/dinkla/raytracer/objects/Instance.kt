@@ -3,29 +3,32 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.PointUtilities.maximum
+import net.dinkla.raytracer.math.PointUtilities.minimum
 
-class Instance(val `object`: GeometricObject) : GeometricObject() {
-    internal var transformTexture: Boolean = false
-    internal var trans: AffineTransformation
+class Instance(val `object`: GeometricObject,
+               private val trans: ITransformation) : GeometricObject(), ITransformation by trans {
+//    internal var transformTexture: Boolean = false
 
-    override// Transform these using the forward matrix
-            // Compute the minimum values
-            // Compute the minimum values
-            // Assign values to the bounding box
-    var boundingBox: BBox
+    constructor (`object`: GeometricObject) : this(`object`, AffineTransformation()) {}
+
+    override var boundingBox: BBox
         get() {
             val objectBbox = `object`.boundingBox
 
-            val v = Array<Point3D>(8, { i-> Point3D.ORIGIN })
+            objectBbox.p!!
+            objectBbox.q!!
+
+            val v = Array<Point3D>(8, { _ -> Point3D.ORIGIN })
 
             val vx = DoubleArray(8)
             val vy = DoubleArray(8)
             val vz = DoubleArray(8)
 
-            vx[0] = objectBbox.p!!.x
+            vx[0] = objectBbox.p.x
             vy[0] = objectBbox.p.y
             vz[0] = objectBbox.p.z
-            vx[1] = objectBbox.q!!.x
+            vx[1] = objectBbox.q.x
             vy[1] = objectBbox.p.y
             vz[1] = objectBbox.p.z
             vx[2] = objectBbox.q.x
@@ -50,82 +53,24 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
             for (i in 0..7) {
                 val p = Point3D(vx[i], vy[i], vz[i])
                 v[i] = p
-                v[i] = trans.forwardMatrix.times(p)
+                v[i] = trans.forwardMatrix * p
             }
-            var x0 = MathUtils.K_HUGEVALUE
-            var y0 = MathUtils.K_HUGEVALUE
-            var z0 = MathUtils.K_HUGEVALUE
+            var (x0, y0, z0) = minimum(v, 8)
 
-            for (j in 0..7) {
-                if (v[j].x < x0)
-                    x0 = v[j].x
-            }
-
-            for (j in 0..7) {
-                if (v[j].y < y0)
-                    y0 = v[j].y
-            }
-
-            for (j in 0..7) {
-                if (v[j].z < z0)
-                    z0 = v[j].z
-            }
-
-            var x1 = -MathUtils.K_HUGEVALUE
-            var y1 = -MathUtils.K_HUGEVALUE
-            var z1 = -MathUtils.K_HUGEVALUE
-
-            for (j in 0..7) {
-                if (v[j].x > x1)
-                    x1 = v[j].x
-            }
-
-            for (j in 0..7) {
-                if (v[j].y > y1)
-                    y1 = v[j].y
-            }
-
-            for (j in 0..7) {
-                if (v[j].z > z1)
-                    z1 = v[j].z
-            }
+            var (x1, y1, z1) = maximum(v, 8)
             return BBox(Point3D(x0, y0, z0), Point3D(x1, y1, z1))
         }
         set(value: BBox) {
             super.boundingBox = value
         }
 
-    init {
-        this.trans = AffineTransformation()
-    }
-
-    fun translate(v: Vector3D) = trans.translate(v)
-
-    fun translate(x: Double, y: Double, z: Double) = trans.translate(x, y, z)
-
-    fun scale(v: Vector3D) = trans.scale(v)
-
-    fun scale(x: Double, y: Double, z: Double) = trans.scale(x, y, z)
-
-    fun rotateX(phi: Double) {
-        trans.rotateX(phi)
-    }
-
-    fun rotateY(phi: Double) {
-        trans.rotateY(phi)
-    }
-
-    fun rotateZ(phi: Double) {
-        trans.rotateZ(phi)
-    }
-
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val ro = trans.invMatrix.times(ray.origin)
-        val rd = trans.invMatrix.times(ray.direction)
+        val ro = trans.invMatrix * ray.origin
+        val rd = trans.invMatrix * ray.direction
         val invRay = Ray(ro, rd)
         if (`object`.hit(invRay, sr)) {
             // TODO: Instance hit?
-            val tmp = trans.invMatrix.times(sr.normal)
+            val tmp = trans.invMatrix * sr.normal
             sr.normal = tmp.normalize()
             if (null != `object`.material) {
                 sr.`object` = `object`
@@ -138,16 +83,14 @@ class Instance(val `object`: GeometricObject) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val ro = trans.invMatrix.times(ray.origin)
-        val rd = trans.invMatrix.times(ray.direction)
+        val ro = trans.invMatrix * ray.origin
+        val rd = trans.invMatrix * ray.direction
         val invRay = Ray(ro, rd)
-        return if (`object`.shadowHit(invRay, tmin)) {
-            true
-        } else false
+        return `object`.shadowHit(invRay, tmin)
     }
 
-    override fun initialize() {
-        `object`.initialize()
-    }
+    override fun initialize() = `object`.initialize()
 
 }
+
+
