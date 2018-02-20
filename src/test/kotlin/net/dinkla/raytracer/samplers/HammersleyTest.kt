@@ -2,11 +2,11 @@ package net.dinkla.raytracer.samplers
 
 import org.junit.jupiter.api.BeforeEach
 
-class HammersleyTest : GeneratorTest() {
+class HammersleyTest : IGeneratorTest() {
 
     @BeforeEach
     override fun initialize() {
-        Hammersley().generateSamples(GeneratorTest.NUM_SAMPLES, GeneratorTest.NUM_SETS, samples)
+        Hammersley().generateSamples(IGeneratorTest.NUM_SAMPLES, IGeneratorTest.NUM_SETS, samples)
     }
 
 }

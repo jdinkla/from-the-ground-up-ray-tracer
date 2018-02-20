@@ -1,8 +1,6 @@
 package net.dinkla.raytracer.cameras.lenses
 
-import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 
 interface ILens {

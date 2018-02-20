@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.assertEquals
 
-abstract class GeneratorTest {
+abstract class IGeneratorTest {
 
     protected var samples: MutableList<Point2D> = mutableListOf()
 

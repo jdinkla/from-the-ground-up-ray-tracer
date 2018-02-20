@@ -2,7 +2,7 @@ package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
 
-class Hammersley : Generator() {
+class Hammersley : IGenerator {
 
     protected fun phi(ij: Int): Double {
         var j = ij

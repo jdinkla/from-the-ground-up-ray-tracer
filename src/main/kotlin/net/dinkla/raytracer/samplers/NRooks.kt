@@ -3,7 +3,7 @@ package net.dinkla.raytracer.samplers
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Random
 
-class NRooks : Generator() {
+class NRooks : IGenerator {
 
     override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
         for (p in 0 until numSets) {

@@ -3,17 +3,6 @@ package net.dinkla.raytracer.hits
 import net.dinkla.raytracer.materials.Material
 import net.dinkla.raytracer.math.*
 
-/**
- *
- * Typical lifecycle
- *
- * <pre>
- * Shade sr = world.getAccelerator().hitObjects(world, ray);
- * if (sr.hitsAnObject) {
- * RGBColor color = sr.material.shade(sr); ...
-</pre> *
- *
- */
 class Shade : Hit() {
 
     // for specular highlights, set by Tracer

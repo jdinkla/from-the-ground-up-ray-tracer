@@ -1,9 +1,5 @@
 package net.dinkla.raytracer.utilities
 
-/*
- * Copyright (c) 2012 by Jörn Dinkla, www.dinkla.com, All rights reserved.
- */
-
 import java.io.FileInputStream
 import java.io.IOException
 import java.util.Properties
@@ -22,12 +18,8 @@ object AppProperties {
 
     }
 
-    operator fun get(key: Any): Any? {
-        return properties[key]
-    }
+    operator fun get(key: Any): Any? = properties[key]
 
-    fun getAsInteger(key: Any): Int {
-        return Integer.valueOf(properties[key] as String)
-    }
+    fun getAsInteger(key: Any): Int = Integer.valueOf(properties[key] as String)
 
 }

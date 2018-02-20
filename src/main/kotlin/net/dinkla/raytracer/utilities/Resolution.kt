@@ -1,24 +1,8 @@
 package net.dinkla.raytracer.utilities
 
-class Resolution {
+data class Resolution(val hres: Int, val vres: Int) {
 
-    // Resolution
-    val hres: Int
-    val vres: Int
-
-    constructor(vres: Int) {
-        this.hres = vres / 9 * 16
-        this.vres = vres
-    }
-
-    constructor(hres: Int, vres: Int) {
-        this.hres = hres
-        this.vres = vres
-    }
-
-    override fun toString(): String {
-        return "($hres,$vres)"
-    }
+    constructor(vres: Int) : this(vres / 9 * 16, vres) {}
 
     companion object {
         var RESOLUTION_32 = Resolution(32)

@@ -6,14 +6,7 @@ import net.dinkla.raytracer.math.Random
 
 import java.util.ArrayList
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 21.05.2010
- * Time: 18:11:32
- * To change this template use File | Settings | File Templates.
- */
-class Sampler(protected var sampler: Generator, protected var numSamples: Int, protected var numSets: Int) {
+class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, protected var numSets: Int) {
 
     protected var shuffledIndices: ArrayList<Int>
     protected var samples: ArrayList<Point2D>
