@@ -21,13 +21,9 @@ class DirectionalLight : Light() {
         negatedDirection = Vector3D.DOWN.negate()
     }
 
-    override fun L(world: World, sr: Shade): Color {
-        return color.times(ls)
-    }
+    override fun L(world: World, sr: Shade): Color = color * ls
 
-    override fun getDirection(sr: Shade): Vector3D {
-        return negatedDirection
-    }
+    override fun getDirection(sr: Shade): Vector3D = negatedDirection
 
     override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
         return world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)

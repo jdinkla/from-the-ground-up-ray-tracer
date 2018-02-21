@@ -74,7 +74,6 @@ class AreaLight : Light(), ILightSource {
         throw RuntimeException("NLU")
     }
 
-
     override fun getNormal(p: Point3D): Normal {
         throw RuntimeException("NLU")
     }

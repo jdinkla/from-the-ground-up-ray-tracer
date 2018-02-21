@@ -26,13 +26,9 @@ class ImagePanel(resolution: Resolution) : JPanel(), IFilm {
         add(canvas)
     }
 
-    override fun initialize(numFrames: Int, resolution: Resolution) {
-        film.initialize(numFrames, resolution)
-    }
+    override fun initialize(numFrames: Int, resolution: Resolution) = film.initialize(numFrames, resolution)
 
-    override fun finish() {
-        film.finish()
-    }
+    override fun finish() = film.finish()
 
     override fun setPixel(frame: Int, x: Int, y: Int, color: Color) {
         film.setPixel(frame, x, y, color)
@@ -43,6 +39,5 @@ class ImagePanel(resolution: Resolution) : JPanel(), IFilm {
         film.setBlock(frame, x, y, width, height, color)
         canvas.repaint()
     }
-
 
 }

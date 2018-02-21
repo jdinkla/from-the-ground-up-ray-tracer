@@ -24,9 +24,9 @@ class EnvironmentLight : Light() {
     override fun getDirection(sr: Shade): Vector3D {
         w = Vector3D(sr.normal)
         v = Vector3D(0.0034, 1.0, 0.0071).cross(w)
-        u = v.cross(w)
+        u = v cross w
         val sp = sampler!!.sampleHemisphere()
-        wi = u.times(sp.x).plus(v.times(sp.y)).plus(w.times(sp.z))
+        wi = (u * sp.x) + (v * sp.y) + (w * sp.z)
         return wi
     }
 

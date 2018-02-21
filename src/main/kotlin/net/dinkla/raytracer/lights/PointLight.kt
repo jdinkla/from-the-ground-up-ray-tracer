@@ -31,11 +31,11 @@ class PointLight(var location: Point3D) : Light() {
     }
 
     override fun getDirection(sr: Shade): Vector3D {
-        return Vector3D(location.minus(Vector3D(sr.hitPoint))).normalize()
+        return Vector3D(location - (Vector3D(sr.hitPoint))).normalize()
     }
 
     override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
-        val d = location.minus(ray.origin).length()
+        val d = (location - ray.origin).length()
         return world.inShadow(ray, sr, d)
     }
 

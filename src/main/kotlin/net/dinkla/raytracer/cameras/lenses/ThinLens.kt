@@ -9,15 +9,9 @@ class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
     var sampler: Sampler? = null           // unit disk
 
-    var lensRadius: Double = 0.toDouble()
-    var f: Double = 0.toDouble()
-    var d: Double = 0.toDouble()
-
-    init {
-        lensRadius = 1.0
-        f = 1.0
-        d = 1.0
-    }
+    var lensRadius: Double = 1.0
+    var f: Double = 1.0
+    var d: Double = 1.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
         val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres)

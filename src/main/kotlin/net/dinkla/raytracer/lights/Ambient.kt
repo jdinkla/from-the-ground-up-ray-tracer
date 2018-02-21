@@ -9,24 +9,13 @@ import net.dinkla.raytracer.worlds.World
 open class Ambient : Light() {
 
     // emissive material
-    var ls: Double = 0.toDouble()
-    var color: Color
+    var ls: Double = 1.0
+    var color: Color = Color.WHITE
 
-    init {
-        ls = 1.0
-        color = Color.WHITE
-    }
+    override fun L(world: World, sr: Shade): Color = color * ls
 
-    override fun L(world: World, sr: Shade): Color {
-        return color.times(ls)
-    }
+    override fun getDirection(sr: Shade) = Vector3D.ZERO
 
-    override fun getDirection(sr: Shade): Vector3D {
-        return Vector3D.ZERO
-    }
-
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
-        return false
-    }
+    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean = false
 
 }

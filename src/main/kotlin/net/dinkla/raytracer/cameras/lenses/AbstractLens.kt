@@ -10,7 +10,6 @@ abstract class AbstractLens(var viewPlane: ViewPlane?) : ILens {
 
     //fun getEye(): Point3D? = this.eye
 
-
     var uvw: Basis?
 
     init {
