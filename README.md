@@ -1,5 +1,7 @@
-Ray Tracer in Groovy and Java
+Ray Tracer in Groovy and Kotlin
 =============================
+
+*Remark*: This project is currently rewritten from Java and Groovy to Kotlin. The old code with Java and Groovy is available in the branch `groovy-java`.
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
