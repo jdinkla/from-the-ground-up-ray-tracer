@@ -47,7 +47,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'net.dinkla.raytracer.gui.swing.SwingGui2'
+        attributes 'Main-Class': 'net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerSwing'
     }
 }
 
@@ -58,6 +58,6 @@ task exec_cmd(type: JavaExec) {
 
 task exec_gui(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = "net.dinkla.raytracer.gui.swing.SwingGui2"
+    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerSwing"
 }
 

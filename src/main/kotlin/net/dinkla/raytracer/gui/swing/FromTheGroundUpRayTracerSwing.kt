@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.gui.swing
 
 /*
- * Copyright (c) 2012, 2015 by Jörn Dinkla, www.dinkla.com, All rights reserved.
+ * Copyright (c) 2012, 2015, 2018 by Jörn Dinkla, www.dinkla.com, All rights reserved.
  */
 
 import net.dinkla.raytracer.films.PngFilm
@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
 
-class SwingGui2 : ActionListener {
+class FromTheGroundUpRayTracerSwing : ActionListener {
 
     private var frame: JFrame? = null
     private var pane: JScrollPane? = null
@@ -65,7 +65,7 @@ class SwingGui2 : ActionListener {
 
     fun about() {
         JOptionPane.showMessageDialog(frame,
-                "(c) 2012, 2015 Joern Dinkla\nwww.dinkla.net",
+                "(c) 2012, 2015, 2018 Jörn Dinkla\nwww.dinkla.net",
                 "About",
                 JOptionPane.PLAIN_MESSAGE)
     }
@@ -152,7 +152,7 @@ class SwingGui2 : ActionListener {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val gui = SwingGui2()
+            val gui = FromTheGroundUpRayTracerSwing()
             gui.frame = JFrame()
             gui.frame!!.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             gui.frame!!.jMenuBar = gui.createMenuBar()

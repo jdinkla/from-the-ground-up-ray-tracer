@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SwingGui2" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="FromTheGroundUpRayTracerSwing" type="Application" factoryName="Application" nameIsGenerated="true">
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
       <pattern>
         <option name="PATTERN" value="net.dinkla.raytracer.gui.swing.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="net.dinkla.raytracer.gui.swing.SwingGui2" />
+    <option name="MAIN_CLASS_NAME" value="net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerSwing" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -15,7 +15,7 @@
     <option name="ENABLE_SWING_INSPECTOR" value="false" />
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
-    <module name="groovy-java-ray-tracer" />
+    <module name="from-the-ground-up-ray-tracer" />
     <envs />
     <method />
   </configuration>
