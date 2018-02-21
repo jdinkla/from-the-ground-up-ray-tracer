@@ -21,17 +21,17 @@ class ObjectMedian2Builder : IKDTreeBuilder {
 
     class Partitioner(internal var objects: List<GeometricObject>) {
 
-        internal var objectsL: List<GeometricObject>
-        internal var objectsR: List<GeometricObject>
+        internal var objectsL: ArrayList<GeometricObject>
+        internal var objectsR: ArrayList<GeometricObject>
 
-        internal var objectsLx: MutableList<GeometricObject>
-        internal var objectsRx: MutableList<GeometricObject>
+        internal var objectsLx: ArrayList<GeometricObject>
+        internal var objectsRx: ArrayList<GeometricObject>
 
-        internal var objectsLy: MutableList<GeometricObject>
-        internal var objectsRy: MutableList<GeometricObject>
+        internal var objectsLy: ArrayList<GeometricObject>
+        internal var objectsRy: ArrayList<GeometricObject>
 
-        internal var objectsLz: MutableList<GeometricObject>
-        internal var objectsRz: MutableList<GeometricObject>
+        internal var objectsLz: ArrayList<GeometricObject>
+        internal var objectsRz: ArrayList<GeometricObject>
 
         internal var axis: Axis = Axis.X
         internal var size: Int = 0

@@ -19,7 +19,7 @@ class TestBuilder : IKDTreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    class Partitioner(objects: List<GeometricObject>, voxel: BBox) {
+    class Partitioner(objects: ArrayList<GeometricObject>, voxel: BBox) {
 
         internal var root: Triple
 
@@ -36,7 +36,7 @@ class TestBuilder : IKDTreeBuilder {
         class Triple {
 
             var bbox: BBox = BBox()
-            internal var objects: List<GeometricObject>? = null
+            internal var objects: ArrayList<GeometricObject>? = null
             internal var volume: Double = 0.toDouble()
 
             init {
@@ -123,7 +123,7 @@ class TestBuilder : IKDTreeBuilder {
         }
     }
 
-    fun build(objects: List<GeometricObject>?, voxel: BBox, depth: Int): AbstractNode {
+    fun build(objects: ArrayList<GeometricObject>?, voxel: BBox, depth: Int): AbstractNode {
 
         Counter.count("KDtree.build")
 

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.utilities.Resolution;
 
 def NUM_AMBIENT_SAMPLES = 64
-Grid bunny = builder.ply(file: "/opt/rendering/ply/bunny/bunny4K.ply", multiplier: 2.0, smooth: true)
+Grid bunny = builder.ply(file: "/Users/jdinkla/Desktop/Bunny4K.ply", multiplier: 2.0, smooth: true)
 def sampler = new Sampler(new MultiJittered(), 2500, 100)
 sampler.mapSamplesToHemiSphere(1.0)
 

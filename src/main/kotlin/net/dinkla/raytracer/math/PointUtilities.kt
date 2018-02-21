@@ -44,7 +44,7 @@ object PointUtilities {
         return Triple(x1, y1, z1)
     }
 
-    fun minPoints(points: List<Point3D>): Point3D {
+    fun minPoints(points: ArrayList<Point3D>): Point3D {
         var x = java.lang.Double.POSITIVE_INFINITY
         var y = java.lang.Double.POSITIVE_INFINITY
         var z = java.lang.Double.POSITIVE_INFINITY
@@ -62,7 +62,7 @@ object PointUtilities {
         return Point3D(x, y, z)
     }
 
-    fun maxPoints(points: List<Point3D>): Point3D {
+    fun maxPoints(points: ArrayList<Point3D>): Point3D {
         var x = java.lang.Double.NEGATIVE_INFINITY
         var y = java.lang.Double.NEGATIVE_INFINITY
         var z = java.lang.Double.NEGATIVE_INFINITY
@@ -80,7 +80,7 @@ object PointUtilities {
         return Point3D(x, y, z)
     }
 
-    fun minCoordinates(objects: List<GeometricObject>): Point3D {
+    fun minCoordinates(objects: ArrayList<GeometricObject>): Point3D {
         var x = java.lang.Double.POSITIVE_INFINITY
         var y = java.lang.Double.POSITIVE_INFINITY
         var z = java.lang.Double.POSITIVE_INFINITY
@@ -99,7 +99,7 @@ object PointUtilities {
         return Point3D(x - MathUtils.K_EPSILON, y - MathUtils.K_EPSILON, z - MathUtils.K_EPSILON)
     }
 
-    fun maxCoordinates(objects: List<GeometricObject>): Point3D {
+    fun maxCoordinates(objects: ArrayList<GeometricObject>): Point3D {
         var x = java.lang.Double.NEGATIVE_INFINITY
         var y = java.lang.Double.NEGATIVE_INFINITY
         var z = java.lang.Double.NEGATIVE_INFINITY

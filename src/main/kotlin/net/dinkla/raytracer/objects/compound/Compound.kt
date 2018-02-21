@@ -16,7 +16,7 @@ import java.util.*
 
 open class Compound : GeometricObject() {
 
-    open var objects: MutableList<GeometricObject> = ArrayList()
+    open var objects: ArrayList<GeometricObject> = ArrayList()
 
     var isUnit: Boolean = false
 

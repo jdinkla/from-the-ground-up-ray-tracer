@@ -308,7 +308,7 @@ class BBox {
                     Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON))
         }
 
-        fun create(objects: List<GeometricObject>): BBox {
+        fun create(objects: ArrayList<GeometricObject>): BBox {
             if (objects.size > 0) {
                 val p = PointUtilities.minCoordinates(objects)
                 val q = PointUtilities.maxCoordinates(objects)

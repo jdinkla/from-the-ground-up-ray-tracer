@@ -58,7 +58,7 @@ class MaterialFactory extends AbstractFactory {
         return m
     }
 
-    static Phong createReflective(Map map) {
+    static Reflective createReflective(Map map) {
         Reflective m = new Reflective()
         if (null != map.shadows) m.shadows = map.shadows
         if (null != map.ka) m.setKa(map.ka)
@@ -72,7 +72,7 @@ class MaterialFactory extends AbstractFactory {
         return m
     }
 
-    static Phong createGlossyReflector(Map map) {
+    static GlossyReflector createGlossyReflector(Map map) {
         needs(map, "glossy", ["sampler"])
         GlossyReflector m = new GlossyReflector()
         if (null != map.shadows) m.shadows = map.shadows
@@ -88,7 +88,7 @@ class MaterialFactory extends AbstractFactory {
         return m
     }
 
-    static Phong createTransparent(Map map) {
+    static Transparent createTransparent(Map map) {
         Transparent m = new Transparent()
         if (null != map.shadows) m.shadows = map.shadows
         if (null != map.ka) m.ka = map.ka

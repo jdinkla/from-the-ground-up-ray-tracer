@@ -9,30 +9,18 @@ import java.util.ArrayList
 
 class Mesh {
 
-    var vertices: List<Point3D>
+    var vertices: ArrayList<Point3D> = ArrayList()
     //    public List<Integer> indices;
-    var normals: ArrayList<Normal>
+    var normals: ArrayList<Normal> = ArrayList()
     //    public List<Float> us;
     //    public List<Float> vs;
-    var vertexFaces: ArrayList<List<Int>>
+    var vertexFaces: ArrayList<List<Int>> = ArrayList()
     //    public int numVertices;
     //    public int numTriangles;
 
-    var material: Material?
+    var material: Material? = null
 
-    init {
-        vertices = ArrayList()
-        //        indices = new ArrayList<Integer>();
-        normals = ArrayList()
-        //        us = new ArrayList<Float>();
-        //        vs = new ArrayList<Float>();
-        vertexFaces = ArrayList()
-        //        numVertices = 0;
-        //        numTriangles = 0;
-        material = null
-    }
-
-    fun computeMeshNormals(objects: List<MeshTriangle>) {
+    fun computeMeshNormals(objects: ArrayList<MeshTriangle>) {
         normals.ensureCapacity(vertices.size)
 
         for (index in vertices.indices) {

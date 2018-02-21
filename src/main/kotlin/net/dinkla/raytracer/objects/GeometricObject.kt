@@ -16,10 +16,6 @@ open abstract class GeometricObject {
 
     open var boundingBox: BBox = BBox()
 
-    init {
-        isInitialized = false
-    }
-
     abstract fun hit(ray: Ray, sr: Hit): Boolean
 
     abstract fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean
