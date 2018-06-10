@@ -26,13 +26,13 @@ internal class Vector2DTest {
     }
 
     @Test
-    fun `multiply with scalar`() {
+    fun `left scalar multiplication`() {
         val s = 2.0
         assertEquals(Vector2D(v.x * s, v.y * s), v * s)
     }
 
     @Test
-    fun `multiply with scalar from left`() {
+    fun `right scalar multiplication`() {
         val s = 2.0
         assertEquals(Vector2D(v.x * s, v.y * s), s * v)
     }
@@ -52,5 +52,11 @@ internal class Vector2DTest {
         val x = v.x / v.length()
         val y = v.y / v.length()
         assertEquals(Vector2D(x, y), v.normalize())
+    }
+
+    @Test
+    fun unaryMinus() {
+        val v = Vector2D(a, b)
+        assertEquals(-v, Vector2D(-a, -b))
     }
 }

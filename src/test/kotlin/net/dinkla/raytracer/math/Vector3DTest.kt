@@ -43,13 +43,13 @@ internal class Vector3DTest {
     }
 
     @Test
-    fun `multiply with a scalar`() {
+    fun `right scalar multiplication`() {
         val s = 2.0
         assertEquals(Vector3D(v.x*s, v.y*s, v.z*s), v * s)
     }
 
     @Test
-    fun `multiply with a scalar from left`() {
+    fun `left scalar multiplication`() {
         val s = 2.0
         assertEquals(Vector3D(v.x*s, v.y*s, v.z*s), s * v)
     }
