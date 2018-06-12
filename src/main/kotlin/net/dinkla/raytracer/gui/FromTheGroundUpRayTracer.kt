@@ -1,45 +1,62 @@
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.scene.Scene
-import javafx.scene.control.Menu
-import javafx.scene.control.MenuBar
-import javafx.scene.control.MenuItem
-import javafx.scene.control.SeparatorMenuItem
+import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 
 class FromTheGroundUpRayTracer : Application() {
 
-    @Throws(Exception::class)
-    override fun start(primaryStage: Stage) {
-        val message = "From the ground up raytracer"
-
-        val root = BorderPane()
-        val scene = Scene(root, 1280.0, 720.0) // TODO size from props?
-
-        createMenus(primaryStage, root)
-
-        primaryStage.title = message
-        primaryStage.scene = scene
-        primaryStage.show()
+    private val aboutDialog: Alert by lazy {
+        val alert = Alert(Alert.AlertType.INFORMATION)
+        alert.setTitle("About this application")
+        alert.setHeaderText("From the ground up raytracer")
+        alert.setContentText("(c) 2010 - 2018 Jörn Dinkla - https://www.dinkla.net")
+        alert
     }
 
-    private fun createMenus(primaryStage: Stage, root: BorderPane) {
+    private val exitDialog: Alert by lazy {
+        val alert = Alert(Alert.AlertType.CONFIRMATION)
+        alert.setTitle("Exit this application?")
+        alert.setHeaderText("Do you really want to exit this application?")
+        alert.setContentText("")
+        alert
+    }
+
+    private val menuBar: MenuBar by lazy {
         val menuBar = MenuBar()
-        menuBar.prefWidthProperty().bind(primaryStage.widthProperty())
-        root.setTop(menuBar)
 
         val fileMenu = Menu("File")
         val openMenuItem = MenuItem("Open")
         val exitMenuItem = MenuItem("Exit")
-        exitMenuItem.setOnAction({ actionEvent -> Platform.exit() })
+        exitMenuItem.setOnAction({ actionEvent ->
+            val result = exitDialog.showAndWait()
+            if (result.get() == ButtonType.OK) {
+                Platform.exit()
+            }
+        })
         fileMenu.getItems().addAll(openMenuItem, SeparatorMenuItem(), exitMenuItem)
 
         val helpMenu = Menu("Help")
         val aboutMenuItem = MenuItem("About")
+        aboutMenuItem.setOnAction { actionEvent -> aboutDialog.show() }
         helpMenu.getItems().addAll(aboutMenuItem)
 
         menuBar.getMenus().addAll(fileMenu, helpMenu);
+        menuBar
+    }
+
+    @Throws(Exception::class)
+    override fun start(primaryStage: Stage) {
+        val root = BorderPane()
+        val scene = Scene(root, 1280.0, 720.0) // TODO size from props?
+
+        menuBar.prefWidthProperty().bind(primaryStage.widthProperty())
+        root.setTop(menuBar)
+
+        primaryStage.title = "From the ground up raytracer"
+        primaryStage.scene = scene
+        primaryStage.show()
     }
 
     companion object {
