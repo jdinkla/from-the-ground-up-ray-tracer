@@ -4,6 +4,15 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
+import javafx.scene.web.HTMLEditor
+import javafx.scene.control.SplitPane
+import net.dinkla.raytracer.gui.SceneFileTreeItem
+import java.io.File
+import javafx.scene.control.TreeCell
+import javafx.scene.control.TreeView
+import javafx.scene.text.Text
+import javax.security.auth.callback.Callback
+
 
 class FromTheGroundUpRayTracer : Application() {
 
@@ -53,6 +62,23 @@ class FromTheGroundUpRayTracer : Application() {
 
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty())
         root.setTop(menuBar)
+
+        val fileView = TreeView<File>(SceneFileTreeItem(File("examples")))
+        fileView.setCellFactory { treeView ->
+            object : TreeCell<File>() {
+                override fun updateItem(item: File?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = if (empty || item == null) "" else item.name
+                }
+            }
+        }
+        fileView.getTreeItem(0).setExpanded(true)
+
+        val splitView = SplitPane()
+        splitView.items.add(fileView)
+        splitView.items.add(TextArea("display the source code here"))
+
+        root.setCenter(splitView);
 
         primaryStage.title = "From the ground up raytracer"
         primaryStage.scene = scene
