@@ -3,16 +3,10 @@ import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
+import javafx.scene.text.Text
 import javafx.stage.Stage
-import javafx.scene.web.HTMLEditor
-import javafx.scene.control.SplitPane
 import net.dinkla.raytracer.gui.SceneFileTreeItem
 import java.io.File
-import javafx.scene.control.TreeCell
-import javafx.scene.control.TreeView
-import javafx.scene.text.Text
-import javax.security.auth.callback.Callback
-
 
 class FromTheGroundUpRayTracer : Application() {
 
@@ -59,6 +53,7 @@ class FromTheGroundUpRayTracer : Application() {
     override fun start(primaryStage: Stage) {
         val root = BorderPane()
         val scene = Scene(root, 1280.0, 720.0) // TODO size from props?
+        val textArea = TextArea("display the source code here")
 
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty())
         root.setTop(menuBar)
@@ -72,11 +67,23 @@ class FromTheGroundUpRayTracer : Application() {
                 }
             }
         }
+
+        fileView.setOnMouseClicked { event ->
+            val node = event.pickResult.intersectedNode
+            if (node is Text || node is TreeCell<*> && node.text != null) {
+                val file = (fileView.getSelectionModel().getSelectedItem() as TreeItem<File>).value
+                val name = file.absolutePath
+                if (file.isFile) {
+                    textArea.text = file.readText()
+                }
+            }
+        }
+
         fileView.getTreeItem(0).setExpanded(true)
 
         val splitView = SplitPane()
         splitView.items.add(fileView)
-        splitView.items.add(TextArea("display the source code here"))
+        splitView.items.add(textArea)
 
         root.setCenter(splitView);
 
