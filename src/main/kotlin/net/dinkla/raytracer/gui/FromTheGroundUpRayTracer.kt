@@ -3,6 +3,8 @@ import javafx.application.Platform
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
@@ -12,6 +14,9 @@ import javafx.scene.text.Text
 import javafx.stage.Stage
 import net.dinkla.raytracer.gui.SceneFileTreeItem
 import java.io.File
+import javafx.scene.layout.StackPane
+
+
 
 class FromTheGroundUpRayTracer : Application() {
 
@@ -68,7 +73,7 @@ class FromTheGroundUpRayTracer : Application() {
         root.setTop(menuBar)
 
         val left = leftSide(textArea)
-        val right = rightSide(textArea)
+        val right = rightSide(primaryStage, textArea)
 
         val splitView = SplitPane()
         splitView.items.add(left)
@@ -81,7 +86,7 @@ class FromTheGroundUpRayTracer : Application() {
         primaryStage.show()
     }
 
-    private fun rightSide(textArea: TextArea): BorderPane {
+    private fun rightSide(primaryStage: Stage, textArea: TextArea): BorderPane {
         val padding = Insets(15.0, 12.0, 15.0, 12.0)
         val rightSide = BorderPane()
         val buttons = HBox()
@@ -95,8 +100,8 @@ class FromTheGroundUpRayTracer : Application() {
 
         val buttonRender = Button("Render")
         buttonRender.setPrefSize(100.0, 20.0);
-        buttonRender.setOnAction {_ -> render() }
-        buttonRender.setDisable(true)
+        buttonRender.setOnAction {_ -> render(primaryStage) }
+        //buttonRender.setDisable(true)
 
         buttons.getChildren().addAll(buttonPreview, buttonRender);
 
@@ -110,8 +115,29 @@ class FromTheGroundUpRayTracer : Application() {
         println("preview")
     }
 
-    private fun render() {
-        println("render")
+    private fun render(primaryStage: Stage) {
+        println("render " + this.fileChosen?.name)
+
+        val width = 1280.0
+        val height = 720.0
+
+        val image = Image("file:///C:/workspace/20180209211459_World10.png")
+        val view = ImageView()
+        view.image = image
+        view.fitWidth = width
+        view.isPreserveRatio = true
+        view.isSmooth = false
+        view.isCache = true
+
+        val layout = StackPane()
+        layout.children.add(view)
+
+        val newScene = Scene(layout, width, height)
+
+        val newWindow = Stage()
+        newWindow.title = this.fileChosen?.name
+        newWindow.scene = newScene
+        newWindow.show()
     }
 
     private fun leftSide(textArea: TextArea): TreeView<File> {
