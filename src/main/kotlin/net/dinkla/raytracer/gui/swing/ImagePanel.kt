@@ -1,8 +1,11 @@
+/*
 package net.dinkla.raytracer.gui.swing
 
+*/
 /*
  * Copyright (c) 2012 by Jörn Dinkla, www.dinkla.com, All rights reserved.
- */
+ *//*
+
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.BufferedImageFilm
@@ -41,3 +44,4 @@ class ImagePanel(resolution: Resolution) : JPanel(), IFilm {
     }
 
 }
+*/

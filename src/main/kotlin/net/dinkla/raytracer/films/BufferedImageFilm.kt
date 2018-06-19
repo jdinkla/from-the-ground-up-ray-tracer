@@ -1,24 +1,33 @@
 package net.dinkla.raytracer.films
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.gui.swing.ImageCanvas
 import net.dinkla.raytracer.utilities.Resolution
-
+import java.awt.Canvas
 import java.awt.image.BufferedImage
+import java.io.File
+import java.io.IOException
+import javax.imageio.ImageIO
 
 class BufferedImageFilm : IFilm {
 
-    var img: BufferedImage = BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
+    private val img: BufferedImage
 
-    override var resolution: Resolution = Resolution.RESOLUTION_1080
+    override val resolution: Resolution
 
-    override fun initialize(numFrames: Int, resolution: Resolution) {
+    val canvas: Canvas
+        get() = ImageCanvas(img)
+
+    constructor(resolution: Resolution) {
         this.resolution = resolution
         img = BufferedImage(resolution.hres, resolution.vres, BufferedImage.TYPE_INT_RGB)
     }
 
-    override fun finish() {}
-
     override fun setPixel(frame: Int, x: Int, y: Int, color: Color) {
+        assert(x >= 0)
+        assert(x < resolution.hres)
+        assert(y >= 0)
+        assert(y < resolution.vres)
         img.setRGB(x, resolution.vres - 1 - y, color.asInt())
     }
 
@@ -31,4 +40,14 @@ class BufferedImageFilm : IFilm {
             }
         }
     }
+
+    override fun saveAsPng(fileName: String) {
+        val file = File(fileName)
+        try {
+            ImageIO.write(img, "png", file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
 }

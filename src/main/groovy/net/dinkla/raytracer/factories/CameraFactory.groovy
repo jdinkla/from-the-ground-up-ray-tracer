@@ -1,15 +1,14 @@
 package net.dinkla.raytracer.factories
 
-import net.dinkla.raytracer.worlds.World
-import net.dinkla.raytracer.cameras.lenses.ILens
-import net.dinkla.raytracer.cameras.lenses.Pinhole
-import net.dinkla.raytracer.cameras.render.ISingleRayRenderer
-import net.dinkla.raytracer.cameras.render.SimpleRenderer
-import net.dinkla.raytracer.cameras.render.IRenderer
-import net.dinkla.raytracer.cameras.render.ParallelRenderer
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.IColorCorrector
+import net.dinkla.raytracer.cameras.lenses.ILens
+import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.cameras.render.ForkJoinRenderer
+import net.dinkla.raytracer.cameras.render.IRenderer
+import net.dinkla.raytracer.cameras.render.ISingleRayRenderer
+import net.dinkla.raytracer.cameras.render.SimpleRenderer
+import net.dinkla.raytracer.worlds.World
 
 /**
  * Created by IntelliJ IDEA.
@@ -74,6 +73,7 @@ class CameraFactory extends AbstractFactory {
             c = map.render
             render2 = c.newInstance(srRender, corrector) 
         } else {
+            //render2 = new SequentialRenderer(srRender, corrector)
             // render2 = new ParallelRenderer(srRender, corrector)
             render2 = new ForkJoinRenderer(srRender, corrector)
         }

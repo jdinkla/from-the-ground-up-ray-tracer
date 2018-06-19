@@ -119,33 +119,13 @@ class FromTheGroundUpRayTracerSwing : ActionListener {
         w.initialize()
 
         val vp = w.viewPlane
-        val imf = ImageFrame(vp.resolution, false)
+        val imf = ImageFrame(vp.resolution)
 
-        if (w.isDynamic) {
-
-            //            w.render(imf);
-            //            imf.repaint();
-            //            imf.finish();
-
-            w.set()
-            while (w.hasNext()) {
-                w.render(imf)
-                imf.repaint()
-                w.step()
-                SwingUtilities.invokeLater { }
-            }
-            imf.finish()
-        } else {
-            w.render(imf)
-
-            val fileName2 = GuiUtilities.getOutputPngFileName(file.name)
-            val png = PngFilm(fileName2, imf.film)
-            png.finish()
-
-            imf.repaint()
-            imf.finish()
-        }
-
+        w.render(imf)
+        val fileName2 = GuiUtilities.getOutputPngFileName(file.name)
+        val png = PngFilm(imf.film)
+        png.saveAsPng(fileName2)
+        imf.repaint()
     }
 
     companion object {

@@ -13,8 +13,8 @@ builder.world(id: "World10") {
 
     lights {
         pointLight(location: p(100, 50, 150), ls: 3.141)
-        pointLight(location: p(-100, 50, -30), ls: 1.641, colo9r: c(0.9, 0, 0))
-        pointLight(location: p(400, 180, -200), ls: 2.641, colo9r: c(0, 0.9, 1))
+        pointLight(location: p(-100, 50, -30), ls: 1.641, color: c(0.9, 0, 0))
+        pointLight(location: p(400, 180, -200), ls: 2.641, color: c(0, 0.9, 1))
     }
 
     materials {

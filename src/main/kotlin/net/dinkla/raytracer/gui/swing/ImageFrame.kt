@@ -4,26 +4,21 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Resolution
+import java.awt.Canvas
 
 import javax.swing.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
-class ImageFrame(resolution: Resolution, protected val isMainFrame: Boolean) : JFrame(), IFilm {
+class ImageFrame private constructor(resolution: Resolution, protected val isMainFrame: Boolean) : JFrame(), IFilm {
 
-    val film: BufferedImageFilm
-    private val canvas: ImageCanvas
-
-    protected var counter: Int = 0
+    val film: BufferedImageFilm = BufferedImageFilm(resolution)
+    val canvas: Canvas = film.canvas
 
     override val resolution: Resolution
         get() = film.resolution
 
-    init {
-
-        film = BufferedImageFilm()
-        film.initialize(1, resolution)
-        canvas = ImageCanvas(film.img)
+    constructor(resolution: Resolution) : this(resolution, false) {
         add(canvas)
         setSize(resolution.hres, resolution.vres + 22)
         addWindowListener(
@@ -36,16 +31,6 @@ class ImageFrame(resolution: Resolution, protected val isMainFrame: Boolean) : J
                     }
                 })
         isVisible = true
-
-        counter = 0
-    }
-
-    override fun initialize(numFrames: Int, resolution: Resolution) {
-        film.initialize(numFrames, resolution)
-    }
-
-    override fun finish() {
-        film.finish()
     }
 
     override fun setPixel(frame: Int, x: Int, y: Int, color: Color) {
@@ -63,7 +48,8 @@ class ImageFrame(resolution: Resolution, protected val isMainFrame: Boolean) : J
         canvas.repaint()
     }
 
-    companion object {
-        internal val steps = 100
+    override fun saveAsPng(fileName: String) {
+        film.saveAsPng(fileName)
     }
+
 }

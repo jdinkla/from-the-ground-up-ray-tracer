@@ -1,6 +1,9 @@
 package net.dinkla.raytracer.gui.swing
 
-import java.awt.*
+import java.awt.Canvas
+import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Image
 
 internal class ImageCanvas(val img: Image) : Canvas() {
 

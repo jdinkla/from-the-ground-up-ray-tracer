@@ -8,14 +8,18 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
+import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.Text
 import javafx.stage.Stage
+import net.dinkla.raytracer.films.BufferedImageFilm
+import net.dinkla.raytracer.films.PngFilm
+import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.SceneFileTreeItem
+import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.worlds.WorldBuilder
 import java.io.File
-import javafx.scene.layout.StackPane
-
 
 
 class FromTheGroundUpRayTracer : Application() {
@@ -121,7 +125,18 @@ class FromTheGroundUpRayTracer : Application() {
         val width = 1280.0
         val height = 720.0
 
-        val image = Image("file:///C:/workspace/20180209211459_World10.png")
+        val w = World()
+        val builder = WorldBuilder(w)
+        builder.build(this.fileChosen)
+        w.initialize()
+
+        val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
+        val imf = PngFilm(BufferedImageFilm(w.viewPlane.resolution))
+        w.render(imf)
+        imf.saveAsPng(fileName2)
+
+        val image = Image(fileName2)
+        //val image = Image("file:///C:/workspace/20180209211459_World10.png")
         val view = ImageView()
         view.image = image
         view.fitWidth = width

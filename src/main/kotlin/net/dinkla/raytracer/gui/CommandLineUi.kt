@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.gui
 
+import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.films.PngFilm
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
@@ -31,10 +32,9 @@ object CommandLineUi {
         val w: World = WorldBuilder.create(file)
         w.initialize()
 
-        val png = PngFilm(fileNameOut)
-        png.initialize(1, w.viewPlane.resolution)
+        val png = PngFilm(BufferedImageFilm(w.viewPlane.resolution))
         w.camera!!.render(png as IFilm, 0)
-        png.finish()
+        png.saveAsPng(fileNameOut)
 
         Counter.stats(30)
 
