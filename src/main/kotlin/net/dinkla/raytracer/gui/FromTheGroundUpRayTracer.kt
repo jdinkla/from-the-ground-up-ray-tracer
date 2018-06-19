@@ -15,14 +15,18 @@ import javafx.scene.text.Text
 import javafx.stage.Stage
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.PngFilm
+import net.dinkla.raytracer.gui.CommandLineUi
 import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.SceneFileTreeItem
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
 import java.io.File
+import java.util.logging.Logger
 
 
 class FromTheGroundUpRayTracer : Application() {
+
+    internal val LOGGER = org.apache.log4j.Logger.getLogger(FromTheGroundUpRayTracer::class.java)
 
     private var fileChosen : File? = null
 
@@ -135,8 +139,10 @@ class FromTheGroundUpRayTracer : Application() {
         w.render(imf)
         imf.saveAsPng(fileName2)
 
-        val image = Image(fileName2)
-        //val image = Image("file:///C:/workspace/20180209211459_World10.png")
+        val url = "file:$fileName2"
+        LOGGER.info("Showing url '$url'")
+
+        val image = Image(url)
         val view = ImageView()
         view.image = image
         view.fitWidth = width
