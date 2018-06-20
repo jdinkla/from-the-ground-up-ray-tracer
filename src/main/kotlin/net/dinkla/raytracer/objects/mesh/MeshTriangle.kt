@@ -116,7 +116,7 @@ open class MeshTriangle : GeometricObject {
         //normal = new Normal(p0, p1, p2);
         normal = Normal(p1.minus(p0).cross(p2.minus(p0)).normalize())
         if (reverseNormal) {
-            normal = normal!!.negate()
+            normal = -normal!!
         }
     }
 

@@ -29,7 +29,7 @@ class PerfectTransmitter : BTDF() {
         var eta = ior
         if (cosThetaI < 0) {
             cosThetaI = -cosThetaI
-            n = n.negate()
+            n = -n
             eta = 1.0 / eta
         }
         val cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta)

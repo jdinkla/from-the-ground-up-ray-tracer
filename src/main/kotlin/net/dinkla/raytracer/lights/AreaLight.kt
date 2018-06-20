@@ -24,7 +24,7 @@ class AreaLight : Light(), ILightSource {
         var wi: Vector3D? = null
 
         val nDotD: Double
-            get() = lightNormal!!.negate().dot(wi!!)
+            get() = (-lightNormal!!) dot (wi!!)
     }
 
     init {

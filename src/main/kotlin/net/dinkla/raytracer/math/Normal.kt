@@ -21,7 +21,7 @@ class Normal : Element3D {
         return Normal(x / len, y / len, z / len)
     }
 
-    fun negate() = Normal(-x, -y, -z)
+    inline operator fun unaryMinus() = Normal(-x, -y, -z)
 
     override fun toString() = "Normal($x, $y, $z)"
 

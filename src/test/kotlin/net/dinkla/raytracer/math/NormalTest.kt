@@ -69,6 +69,6 @@ internal class NormalTest {
 
     @Test
     fun negate() {
-        assertEquals(Normal(-x, -y, -z), n.negate())
+        assertEquals(Normal(-x, -y, -z), -n)
     }
 }

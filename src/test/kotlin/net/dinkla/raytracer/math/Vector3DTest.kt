@@ -80,11 +80,18 @@ internal class Vector3DTest {
 
     @Test
     fun negate() {
-        assertEquals(v, w.negate())
+        assertEquals(v, -w)
     }
 
     @Test
     fun volume() {
         assertEquals(a*b*c, v1.volume())
     }
+
+    @Test
+    fun unaryMinus() {
+        val v = Vector3D(a, b, -c)
+        assertEquals(-v, Vector3D(-a, -b, c))
+    }
+
 }

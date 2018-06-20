@@ -26,7 +26,7 @@ class Emissive : Material {
     }
 
     override fun areaLightShade(world: World, sr: Shade): Color {
-        return if (sr.normal.negate().dot(sr.ray.direction) > 0) {
+        return if ( (-(sr.normal)) dot (sr.ray.direction) > 0) {
             getLe(sr)
         } else {
             Color.BLACK

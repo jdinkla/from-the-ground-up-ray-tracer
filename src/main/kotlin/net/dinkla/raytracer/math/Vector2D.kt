@@ -8,7 +8,7 @@ class Vector2D(x: Double, y: Double) : Element2D(x, y) {
 
     operator fun times(s: Double) = Vector2D(s * x, s * y)
 
-   inline infix fun dot(v: Vector2D): Double = x * v.x + y * v.y
+    inline infix fun dot(v: Vector2D): Double = x * v.x + y * v.y
 
     inline infix fun dot(v: Normal): Double = x * v.x + y * v.y
 

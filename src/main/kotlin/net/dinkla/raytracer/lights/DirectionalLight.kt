@@ -18,7 +18,7 @@ class DirectionalLight : Light() {
     init {
         ls = 1.0
         color = Color.WHITE
-        negatedDirection = Vector3D.DOWN.negate()
+        negatedDirection = -Vector3D.DOWN
     }
 
     override fun L(world: World, sr: Shade): Color = color * ls
@@ -30,7 +30,7 @@ class DirectionalLight : Light() {
     }
 
     fun setDirection(direction: Vector3D) {
-        this.negatedDirection = direction.negate()
+        this.negatedDirection = -direction
     }
 
 }

@@ -21,11 +21,6 @@ internal class Point3DTest {
     }
 
     @Test
-    fun negate() {
-        assertEquals(v, p.negate())
-    }
-
-    @Test
     fun `add a vector`() {
         assertEquals(Point3D.ORIGIN, p + v)
     }
@@ -72,5 +67,11 @@ internal class Point3DTest {
     @Test
     fun `a point is not equal to a vector`() {
         assertNotEquals(p, Vector3D(p.x, p.y, p.z))
+    }
+
+    @Test
+    fun unaryMinus() {
+        val p = Point3D(v.x, v.y, -v.z)
+        assertEquals(-p, Point3D(-v.x, -v.y, v.z))
     }
 }

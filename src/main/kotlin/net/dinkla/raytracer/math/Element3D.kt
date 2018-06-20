@@ -19,13 +19,10 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
         return dx * dx + dy * dy + dz * dz
     }
 
-    fun ith(axis: Axis): Double {
-        when (axis) {
-            Axis.X -> return x
-            Axis.Y -> return y
-            Axis.Z -> return z
-            else -> return z
-        }
+    fun ith(axis: Axis) = when (axis) {
+        Axis.X -> x
+        Axis.Y -> y
+        Axis.Z -> z
     }
 
     override fun equals(other: Any?): Boolean {

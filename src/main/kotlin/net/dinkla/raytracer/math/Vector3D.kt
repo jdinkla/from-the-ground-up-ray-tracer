@@ -29,7 +29,7 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         return Vector3D(x / l, y / l, z / l)
     }
 
-    fun negate(): Vector3D = Vector3D(-x, -y, -z)
+    inline operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
     fun volume(): Double = x * y * z
 

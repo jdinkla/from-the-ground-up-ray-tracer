@@ -32,7 +32,7 @@ class GlossyReflector : Phong() {
 
     override fun areaLightShade(world: World, sr: Shade): Color {
         val L = super.areaLightShade(world, sr)
-        val wo = sr.ray.direction.negate()
+        val wo = -sr.ray.direction
         val result = glossySpecularBrdf.sampleF(sr, wo)
         val reflectedRay = Ray(sr.hitPoint, result.wi!!)
         val r = world.tracer.trace(reflectedRay, sr.depth + 1)
