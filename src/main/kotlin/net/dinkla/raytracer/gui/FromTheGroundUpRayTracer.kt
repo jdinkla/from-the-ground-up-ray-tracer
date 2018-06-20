@@ -1,5 +1,6 @@
 import javafx.application.Application
 import javafx.application.Platform
+import javafx.fxml.JavaFXBuilderFactory
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -12,16 +13,15 @@ import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.Text
+import javafx.scene.transform.Rotate
 import javafx.stage.Stage
 import net.dinkla.raytracer.films.BufferedImageFilm
-import net.dinkla.raytracer.films.PngFilm
-import net.dinkla.raytracer.gui.CommandLineUi
+import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.SceneFileTreeItem
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
 import java.io.File
-import java.util.logging.Logger
 
 
 class FromTheGroundUpRayTracer : Application() {
@@ -101,12 +101,12 @@ class FromTheGroundUpRayTracer : Application() {
         buttons.padding = padding
         buttons.spacing = 10.0
 
-        val buttonPreview = Button("Preview")
+        val buttonPreview = Button("JavaFX")
         buttonPreview.setPrefSize(100.0, 20.0);
         buttonPreview.setOnAction {_ -> preview() }
-        buttonPreview.setDisable(true)
+        //buttonPreview.setDisable(true)
 
-        val buttonRender = Button("Render")
+        val buttonRender = Button("PNG")
         buttonRender.setPrefSize(100.0, 20.0);
         buttonRender.setOnAction {_ -> render(primaryStage) }
         //buttonRender.setDisable(true)
@@ -121,6 +121,42 @@ class FromTheGroundUpRayTracer : Application() {
 
     private fun preview() {
         println("preview")
+        println("render " + this.fileChosen?.name)
+
+        val width = 1280.0
+        val height = 720.0
+
+        val w = World()
+        val builder = WorldBuilder(w)
+        builder.build(this.fileChosen)
+        w.initialize()
+
+        val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
+        val imf = JavaFxFilm(w.viewPlane.resolution)
+
+        val url = "file:$fileName2"
+        LOGGER.info("Showing url '$url'")
+
+        val view = ImageView()
+        view.image = imf.img
+        view.fitWidth = width
+        view.isPreserveRatio = true
+        view.isSmooth = false
+        view.isCache = true
+        view.rotationAxis = Rotate.X_AXIS
+        view.setRotate(180.0)
+
+        val layout = StackPane()
+        layout.children.add(view)
+
+        val newScene = Scene(layout, width, height)
+
+        val newWindow = Stage()
+        newWindow.title = this.fileChosen?.name
+        newWindow.scene = newScene
+        newWindow.show()
+
+        w.render(imf)
     }
 
     private fun render(primaryStage: Stage) {
@@ -135,7 +171,7 @@ class FromTheGroundUpRayTracer : Application() {
         w.initialize()
 
         val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
-        val imf = PngFilm(BufferedImageFilm(w.viewPlane.resolution))
+        val imf = BufferedImageFilm(w.viewPlane.resolution)
         w.render(imf)
         imf.saveAsPng(fileName2)
 

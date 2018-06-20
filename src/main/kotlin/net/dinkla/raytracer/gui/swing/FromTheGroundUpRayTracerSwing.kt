@@ -4,7 +4,6 @@ package net.dinkla.raytracer.gui.swing
  * Copyright (c) 2012, 2015, 2018 by Jörn Dinkla, www.dinkla.com, All rights reserved.
  */
 
-import net.dinkla.raytracer.films.PngFilm
 import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.worlds.World
@@ -123,8 +122,7 @@ class FromTheGroundUpRayTracerSwing : ActionListener {
 
         w.render(imf)
         val fileName2 = GuiUtilities.getOutputPngFileName(file.name)
-        val png = PngFilm(imf.film)
-        png.saveAsPng(fileName2)
+        imf.film.saveAsPng(fileName2)
         imf.repaint()
     }
 
