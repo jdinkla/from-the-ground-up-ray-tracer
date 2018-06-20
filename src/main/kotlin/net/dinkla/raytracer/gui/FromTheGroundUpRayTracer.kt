@@ -19,6 +19,7 @@ import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.SceneFileTreeItem
+import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
 import java.io.File
@@ -71,9 +72,8 @@ class FromTheGroundUpRayTracer : Application() {
 
     @Throws(Exception::class)
     override fun start(primaryStage: Stage) {
-
         val root = BorderPane()
-        val scene = Scene(root, 1280.0, 720.0) // TODO size from props?
+        val scene = Scene(root, width, height)
         val textArea = TextArea("display the source code here")
         textArea.font = Font.font("Courier New", FontWeight.NORMAL, 11.0)
 
@@ -225,8 +225,13 @@ class FromTheGroundUpRayTracer : Application() {
         }
     }
 
-    companion object {
-        @JvmStatic
+     companion object {
+
+         val width = AppProperties.getAsDouble("display.width")
+
+         val height = AppProperties.getAsDouble("display.height")
+
+         @JvmStatic
         fun main(args: Array<String>) {
             Application.launch(FromTheGroundUpRayTracer::class.java, *args)
         }

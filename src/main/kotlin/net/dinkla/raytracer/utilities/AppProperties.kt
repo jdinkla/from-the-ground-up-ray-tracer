@@ -15,11 +15,12 @@ object AppProperties {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
     }
 
     operator fun get(key: Any): Any? = properties[key]
 
-    fun getAsInteger(key: Any): Int = Integer.valueOf(properties[key] as String)
+    fun getAsInteger(key: Any): Int = (properties[key] as String).toInt()
+
+    fun getAsDouble(key: Any): Double = (properties[key] as String).toDouble()
 
 }

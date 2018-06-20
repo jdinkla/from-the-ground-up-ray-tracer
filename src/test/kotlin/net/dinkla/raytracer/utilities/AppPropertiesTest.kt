@@ -12,4 +12,13 @@ class AppPropertiesTest {
         assertEquals(a, "4321")
     }
 
+    @Test
+    fun getAsInteger() {
+        assertEquals(AppProperties.getAsInteger("test.id"), 4321)
+    }
+
+    @Test
+    fun getAsDouble() {
+        assertEquals(AppProperties.getAsDouble("test.id"), 4321.0)
+    }
 }
