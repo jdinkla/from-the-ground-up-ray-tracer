@@ -22,9 +22,9 @@ class JavaFxFilm : IFilm {
 
     inline fun transform(color: Color) = javafx.scene.paint.Color.color(color.red, color.green, color.blue)
 
-    override fun setPixel(frame: Int, x: Int, y: Int, color: Color) = pw.setColor(x, y, transform(color))
+    override fun setPixel(x: Int, y: Int, color: Color) = pw.setColor(x, y, transform(color))
 
-    override fun setBlock(frame: Int, x: Int, y: Int, width: Int, height: Int, color: Color) {
+    override fun setBlock(x: Int, y: Int, width: Int, height: Int, color: Color) {
         val c = transform(color)
         for (i in 0 until width) {
             for (j in 0 until height) {

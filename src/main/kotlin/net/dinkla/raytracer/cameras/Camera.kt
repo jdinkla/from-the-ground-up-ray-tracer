@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.cameras
 
 import net.dinkla.raytracer.cameras.lenses.AbstractLens
-import net.dinkla.raytracer.cameras.lenses.ILens
 import net.dinkla.raytracer.cameras.render.IRenderer
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.Timer
@@ -61,7 +59,7 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
         LOGGER.info("rendering: eye=$eye, lookAt=$lookAt, up=$up")
         val t = Timer()
         t.start()
-        render2.render(film, frame)
+        render2.render(film)
         t.stop()
         LOGGER.info("rendering took " + t.duration + " ms")
     }

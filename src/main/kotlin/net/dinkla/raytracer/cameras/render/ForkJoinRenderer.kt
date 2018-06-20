@@ -23,7 +23,7 @@ class ForkJoinRenderer(protected val render: ISingleRayRenderer, protected val c
         pool = ForkJoinPool(procs)
     }
 
-    override fun render(film: IFilm, frame: Int) {
+    override fun render(film: IFilm) {
         this.film = film
         val res = film.resolution
 
@@ -83,7 +83,7 @@ class ForkJoinRenderer(protected val render: ISingleRayRenderer, protected val c
                     var color = render.render(r, c)
                     color = color.times(exposureTime)
                     color = corrector.correct(color)
-                    film!!.setPixel(0, c, r, color)
+                    film!!.setPixel(c, r, color)
                     c += STEP_X
                 }
                 count++

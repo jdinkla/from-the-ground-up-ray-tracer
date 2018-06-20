@@ -4,6 +4,6 @@ import net.dinkla.raytracer.films.IFilm
 
 interface IRenderer {
 
-    fun render(film: IFilm, frame: Int)
+    fun render(film: IFilm)
 
 }

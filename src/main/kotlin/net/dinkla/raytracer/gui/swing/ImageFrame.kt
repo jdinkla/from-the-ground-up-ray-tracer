@@ -33,13 +33,13 @@ class ImageFrame private constructor(resolution: Resolution, protected val isMai
         isVisible = true
     }
 
-    override fun setPixel(frame: Int, x: Int, y: Int, color: Color) {
-        film.setPixel(frame, x, y, color)
+    override fun setPixel(x: Int, y: Int, color: Color) {
+        film.setPixel(x, y, color)
         canvas.repaint()
     }
 
-    override fun setBlock(frame: Int, x: Int, y: Int, width: Int, height: Int, color: Color) {
-        film.setBlock(frame, x, y, width, height, color)
+    override fun setBlock(x: Int, y: Int, width: Int, height: Int, color: Color) {
+        film.setBlock(x, y, width, height, color)
         canvas.repaint()
     }
 

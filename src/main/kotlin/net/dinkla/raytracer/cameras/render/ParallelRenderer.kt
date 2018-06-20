@@ -22,7 +22,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
         barrier = null
     }
 
-    override fun render(film: IFilm, frame: Int) {
+    override fun render(film: IFilm) {
         // Init
         createWorkers(film)
         barrier = CyclicBarrier(numThreads + 1)
@@ -109,7 +109,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
                     var color = render.render(r, c)
                     color = color.times(exposureTime)
                     color = corrector.correct(color)
-                    film!!.setPixel(0, c, r, color)
+                    film!!.setPixel(c, r, color)
                     c += STEP_X
                 }
                 count++

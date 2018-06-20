@@ -23,7 +23,7 @@ class BufferedImageFilm : IFilm {
         img = BufferedImage(resolution.hres, resolution.vres, BufferedImage.TYPE_INT_RGB)
     }
 
-    override fun setPixel(frame: Int, x: Int, y: Int, color: Color) {
+    override fun setPixel(x: Int, y: Int, color: Color) {
         assert(x >= 0)
         assert(x < resolution.hres)
         assert(y >= 0)
@@ -31,7 +31,7 @@ class BufferedImageFilm : IFilm {
         img.setRGB(x, resolution.vres - 1 - y, color.asInt())
     }
 
-    override fun setBlock(frame: Int, x: Int, y: Int, width: Int, height: Int, color: Color) {
+    override fun setBlock(x: Int, y: Int, width: Int, height: Int, color: Color) {
         var pixel: Any? = null
         pixel = img.colorModel.getDataElements(color.asInt(), pixel)
         for (j in 0 until height) {
