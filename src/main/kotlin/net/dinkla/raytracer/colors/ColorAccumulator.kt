@@ -16,7 +16,7 @@ class ColorAccumulator {
             return result
         }
 
-    init {
+    constructor() {
         aggregated = Color.BLACK
         count = 0
     }

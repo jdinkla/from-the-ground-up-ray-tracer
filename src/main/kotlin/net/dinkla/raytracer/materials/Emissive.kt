@@ -4,7 +4,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.worlds.World
 
-class Emissive : Material {
+class Emissive : IMaterial {
 
     var ls: Double = 0.toDouble()
     var ce: Color

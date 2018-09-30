@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import net.dinkla.raytracer.materials.Material
+import net.dinkla.raytracer.materials.IMaterial
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,20 +13,20 @@ import net.dinkla.raytracer.materials.Material
  */
 class MaterialMap {
     
-    Map<String, Material> materials = [:]
+    Map<String, IMaterial> materials = [:]
 
-    public Material get(Map map, String o) {
-        Material m = materials[map.material]
+    public IMaterial get(Map map, String o) {
+        IMaterial m = materials[map.material]
         if (null == m) {
-            throw new RuntimeException("Material '${map.material}' is unknown for '${o}'")
+            throw new RuntimeException("IMaterial '${map.material}' is unknown for '${o}'")
         } else {
             return m
         }
     }
 
-    public void insert(Map map, Material m) {
+    public void insert(Map map, IMaterial m) {
         if (materials[map["id"]]) {
-            throw new RuntimeException("Material '${map.id}' already exists")
+            throw new RuntimeException("IMaterial '${map.id}' already exists")
         }
         materials[map["id"]] = m
     }

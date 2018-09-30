@@ -83,7 +83,7 @@ class ForkJoinRenderer(protected val render: ISingleRayRenderer, protected val c
                     var color = render.render(r, c)
                     color = color.times(exposureTime)
                     color = corrector.correct(color)
-                    film!!.setPixel(c, r, color)
+                    film!!.setPixel(c, r, color.clamp())
                     c += STEP_X
                 }
                 count++

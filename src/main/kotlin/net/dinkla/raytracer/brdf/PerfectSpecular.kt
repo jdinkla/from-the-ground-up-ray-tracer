@@ -4,12 +4,12 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 
-class PerfectSpecular : BRDF() {
+class PerfectSpecular : BRDF {
 
     var kr: Double
     var cr: Color
 
-    init {
+    constructor() {
         kr = 1.0
         cr = Color.WHITE
     }

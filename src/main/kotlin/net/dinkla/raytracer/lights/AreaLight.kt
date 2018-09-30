@@ -2,11 +2,13 @@ package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.materials.Material
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
-
-import java.util.ArrayList
+import java.util.*
 
 
 class AreaLight : Light(), ILightSource {
@@ -14,7 +16,7 @@ class AreaLight : Light(), ILightSource {
     var `object`: ILightSource? = null
 
     // Emissive Material TODO: Warum nicht Emissive?
-    var material: Material? = null
+    var material: IMaterial? = null
 
     var numSamples: Int = 0
 

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
 
-open class Matte : Material {
+open class Matte : IMaterial {
 
     var ambientBrdf: Lambertian
     var diffuseBrdf: Lambertian

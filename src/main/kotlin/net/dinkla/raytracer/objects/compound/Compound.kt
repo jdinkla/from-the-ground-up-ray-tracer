@@ -3,7 +3,7 @@ package net.dinkla.raytracer.objects.compound
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.materials.Material
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.PointUtilities
 import net.dinkla.raytracer.math.Ray
@@ -25,7 +25,7 @@ open class Compound : GeometricObject() {
         isUnit = false
     }
 
-    override var material: Material?
+    override var material: IMaterial?
         get() = super.material
         set(material) {
             super.material = material

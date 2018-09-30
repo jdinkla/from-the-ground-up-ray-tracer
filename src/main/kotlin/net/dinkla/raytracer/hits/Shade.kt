@@ -1,7 +1,8 @@
 package net.dinkla.raytracer.hits
 
-import net.dinkla.raytracer.materials.Material
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 
 class Shade : Hit() {
 
@@ -17,7 +18,7 @@ class Shade : Hit() {
     val localHitPoint: Point3D
         get() = ray.linear(t)
 
-    val material: Material?
+    val material: IMaterial?
         get() = `object`!!.material
 
     init {

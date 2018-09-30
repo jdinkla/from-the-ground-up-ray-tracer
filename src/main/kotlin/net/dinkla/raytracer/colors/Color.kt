@@ -31,6 +31,8 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
     fun clamp(): Color {
         return if (red > 1 || green > 1 || blue > 1) {
             CLAMP_COLOR
+        } else if (red < 0 || green < 0 || blue < 0) {
+            CLAMP_COLOR
         } else {
             this
         }

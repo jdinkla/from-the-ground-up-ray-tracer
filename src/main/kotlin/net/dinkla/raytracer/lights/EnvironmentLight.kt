@@ -2,7 +2,7 @@ package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.materials.Material
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
@@ -11,7 +11,7 @@ import net.dinkla.raytracer.worlds.World
 class EnvironmentLight : Light() {
 
     var sampler: Sampler? = null
-    var material: Material? = null
+    var material: IMaterial? = null
     var u: Vector3D = Vector3D.ZERO
     var v: Vector3D = Vector3D.ZERO
     var w: Vector3D = Vector3D.ZERO

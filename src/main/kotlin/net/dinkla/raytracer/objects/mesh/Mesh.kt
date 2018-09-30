@@ -1,11 +1,9 @@
 package net.dinkla.raytracer.objects.mesh
 
-import net.dinkla.raytracer.materials.Material
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.mesh.MeshTriangle
-
-import java.util.ArrayList
+import java.util.*
 
 class Mesh {
 
@@ -18,7 +16,7 @@ class Mesh {
     //    public int numVertices;
     //    public int numTriangles;
 
-    var material: Material? = null
+    var material: IMaterial? = null
 
     fun computeMeshNormals(objects: ArrayList<MeshTriangle>) {
         normals.ensureCapacity(vertices.size)

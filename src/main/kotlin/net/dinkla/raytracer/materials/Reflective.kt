@@ -6,11 +6,11 @@ import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.worlds.World
 
-class Reflective : Phong() {
+class Reflective : Phong {
 
-    internal var reflectiveBrdf: PerfectSpecular
+    private val reflectiveBrdf: PerfectSpecular
 
-    init {
+    constructor() {
         reflectiveBrdf = PerfectSpecular()
     }
 
