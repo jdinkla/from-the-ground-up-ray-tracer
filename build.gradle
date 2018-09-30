@@ -3,13 +3,16 @@ group 'net.dinkla.raytracer'
 version '1.0'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.71'
+    ext.junit_version = '5.3.0'
+    ext.javafx_version = '11-ea+25'
+
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.2.0'
     }
 }
 
@@ -40,9 +43,21 @@ compileTestKotlin {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.codehaus.groovy:groovy-all:2.4.13'
+
+    if(JavaVersion.current() == JavaVersion.VERSION_11) {
+        compile "org.openjfx:javafx:$javafx_version"
+        compile "org.openjfx:javafx-base:$javafx_version"
+        compile "org.openjfx:javafx-controls:$javafx_version"
+        compile "org.openjfx:javafx-fxml:$javafx_version"
+        compile "org.openjfx:javafx-graphics:$javafx_version"
+        compile "org.openjfx:javafx-media:$javafx_version"
+        compile "org.openjfx:javafx-swing:$javafx_version"
+        compile "org.openjfx:javafx-web:$javafx_version"
+    }
     compile 'log4j:log4j:1.2.17'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.3'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
