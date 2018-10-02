@@ -33,8 +33,6 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         val ORIGIN = Point3D(0, 0, 0)
         val MAX = Point3D(POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY)
         val MIN = Point3D(NEGATIVE_INFINITY, NEGATIVE_INFINITY, NEGATIVE_INFINITY)
-        // TODO refactor to somewhere else
-        val DEFAULT_CAMERA = Point3D(0, 10, 0)
     }
 
 }

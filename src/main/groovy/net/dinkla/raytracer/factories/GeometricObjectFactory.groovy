@@ -54,6 +54,7 @@ class GeometricObjectFactory extends AbstractFactory {
                 "openCylinder": this.&createOpenCylinder,
                 "plane": this.&createPlane,
                 "ply": this.&createFromPly,
+                "xx": this.&xx,
                 "rectangle": this.&createRectangle,
                 "rectangleLight": this.&createRectangleLight,
                 "smoothTriangle": this.&createSmoothTriangle,
@@ -196,6 +197,11 @@ class GeometricObjectFactory extends AbstractFactory {
             }
         }
         return ls;
+    }
+
+    Compound xx(LinkedHashMap lhm) {
+        println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        return createFromPly(lhm)
     }
 
     Compound createFromPly(Map map) {

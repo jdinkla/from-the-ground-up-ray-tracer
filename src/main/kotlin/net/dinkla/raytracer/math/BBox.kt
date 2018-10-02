@@ -2,40 +2,21 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.objects.GeometricObject
 
-class BBox {
-
-    val p: Point3D?
-    val q: Point3D?
+class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
     val volume: Double
         get() {
-            if (null == p) {
-                return 0.0
-            } else {
-                return (q!! - p).volume()
-            }
+            return (q - p).volume()
         }
 
-    constructor() {
-        p = null
-        q = null
-    }
-
-    constructor(p: Point3D?, q: Point3D?) {
-        if (null != p && null != q) {
-            if (p.x > q.x || p.y > q.y || p.z > q.z) {
-                val a = 2
-            }
-            assert(p.x <= q.x && p.y <= q.y && p.z <= q.z)
-        }
-        this.p = p
-        this.q = q
+    init {
+        assert(p.x <= q.x && p.y <= q.y && p.z <= q.z)
     }
 
     fun inside(r: Point3D): Boolean {
-        val isX = r.x > p!!.x && r.x < q!!.x
-        val isY = r.y > p.y && r.y < q!!.y
-        val isZ = r.z > p.z && r.z < q!!.z
+        val isX = r.x > p.x && r.x < q.x
+        val isY = r.y > p.y && r.y < q.y
+        val isZ = r.z > p.z && r.z < q.z
         return isX && isY && isZ
     }
 
@@ -58,9 +39,6 @@ class BBox {
     }
 
     fun hitX(ray: Ray): Hit {
-        if (null == p && null == q) {
-            return Hit()
-        }
         val tx_min: Double
         val ty_min: Double
         val tz_min: Double
@@ -70,11 +48,11 @@ class BBox {
 
         val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p!!.x - ray.origin.x) * a
-            tx_max = (q!!.x - ray.origin.x) * a
+            tx_min = (p.x - ray.origin.x) * a
+            tx_max = (q.x - ray.origin.x) * a
         } else {
-            tx_min = (q!!.x - ray.origin.x) * a
-            tx_max = (p!!.x - ray.origin.x) * a
+            tx_min = (q.x - ray.origin.x) * a
+            tx_max = (p.x - ray.origin.x) * a
         }
 
         val b = 1.0 / ray.direction.y
@@ -124,9 +102,6 @@ class BBox {
 
 
     fun hit(ray: Ray): Boolean {
-        if (null == p && null == q) {
-            return false
-        }
 
         val tx_min: Double
         val ty_min: Double
@@ -137,11 +112,11 @@ class BBox {
 
         val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p!!.x - ray.origin.x) * a
-            tx_max = (q!!.x - ray.origin.x) * a
+            tx_min = (p.x - ray.origin.x) * a
+            tx_max = (q.x - ray.origin.x) * a
         } else {
-            tx_min = (q!!.x - ray.origin.x) * a
-            tx_max = (p!!.x - ray.origin.x) * a
+            tx_min = (q.x - ray.origin.x) * a
+            tx_max = (p.x - ray.origin.x) * a
         }
 
         val b = 1.0 / ray.direction.y
@@ -190,9 +165,9 @@ class BBox {
     }
 
     fun isContainedIn(bbox: BBox): Boolean {
-        val bX = bbox.p!!.x <= p!!.x && q!!.x <= bbox.q!!.x
-        val bY = bbox.p.y <= p.y && q!!.y <= bbox.q!!.y
-        val bZ = bbox.p.z <= p.z && q!!.z <= bbox.q!!.z
+        val bX = bbox.p.x <= p.x && q.x <= bbox.q.x
+        val bY = bbox.p.y <= p.y && q.y <= bbox.q.y
+        val bZ = bbox.p.z <= p.z && q.z <= bbox.q.z
         return bX && bY && bZ
     }
 
@@ -200,31 +175,30 @@ class BBox {
         if (isContainedIn(bbox)) {
             return this
         }
-        val px = Math.max(p!!.x, bbox.p!!.x)
+        val px = Math.max(p.x, bbox.p.x)
         val py = Math.max(p.y, bbox.p.y)
         val pz = Math.max(p.z, bbox.p.z)
 
-        val qx = Math.min(q!!.x, bbox.q!!.x)
+        val qx = Math.min(q.x, bbox.q.x)
         val qy = Math.min(q.y, bbox.q.y)
         val qz = Math.min(q.z, bbox.q.z)
 
         return BBox(Point3D(px, py, pz), Point3D(qx, qy, qz))
     }
 
-
     fun splitLeft(axis: Axis, split: Double): BBox? {
         when (axis) {
-            Axis.X -> return BBox(p, Point3D(split, q!!.y, q.z))
-            Axis.Y -> return BBox(p, Point3D(q!!.x, split, q.z))
-            Axis.Z -> return BBox(p, Point3D(q!!.x, q.y, split))
+            Axis.X -> return BBox(p, Point3D(split, q.y, q.z))
+            Axis.Y -> return BBox(p, Point3D(q.x, split, q.z))
+            Axis.Z -> return BBox(p, Point3D(q.x, q.y, split))
         }
     }
 
     fun splitRight(axis: Axis, split: Double): BBox? {
         when (axis) {
-            Axis.X -> return BBox(Point3D(split, p!!.y, p.z), q)
-            Axis.Y -> return BBox(Point3D(p!!.x, split, p.z), q)
-            Axis.Z -> return BBox(Point3D(p!!.x, p.y, split), q)
+            Axis.X -> return BBox(Point3D(split, p.y, p.z), q)
+            Axis.Y -> return BBox(Point3D(p.x, split, p.z), q)
+            Axis.Z -> return BBox(Point3D(p.x, p.y, split), q)
         }
     }
 
@@ -237,8 +211,10 @@ class BBox {
         }
     }
 
+    override fun hashCode(): Int = 31 * p.hashCode() + q.hashCode()
+
     override fun toString(): String {
-        return "BBox " + p!!.toString() + "-" + q!!.toString()
+        return "BBox " + p.toString() + "-" + q.toString()
     }
 
     companion object {

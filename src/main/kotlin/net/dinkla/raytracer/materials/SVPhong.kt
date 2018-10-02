@@ -11,11 +11,7 @@ import net.dinkla.raytracer.worlds.World
 
 class SVPhong : SVMatte() {
 
-    var specularBrdf: SVGlossySpecular
-
-    init {
-        specularBrdf = SVGlossySpecular()
-    }
+    val specularBrdf: SVGlossySpecular = SVGlossySpecular(0.25, null, 5.0)
 
     fun setKs(ks: Double) {
         specularBrdf.ks = ks

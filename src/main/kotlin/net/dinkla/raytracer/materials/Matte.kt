@@ -11,8 +11,8 @@ import net.dinkla.raytracer.worlds.World
 
 open class Matte : IMaterial {
 
-    var ambientBrdf: Lambertian
-    var diffuseBrdf: Lambertian
+    val ambientBrdf: Lambertian
+    val diffuseBrdf: Lambertian
 
     constructor() {
         ambientBrdf = Lambertian()
@@ -124,8 +124,8 @@ open class Matte : IMaterial {
     }
 
     companion object {
-
-        var materials = arrayOf(Matte(Color(0.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 1.0), 1.0, 1.0))
+        // TODO used?
+        val materials = arrayOf(Matte(Color(0.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 1.0), 1.0, 1.0))
     }
 }
 

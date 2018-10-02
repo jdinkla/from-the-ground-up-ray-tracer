@@ -30,7 +30,7 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
 
     init {
         // setup(Point3D.DEFAULT_CAMERA, Point3D.ORIGIN, Vector3D.UP)
-        val eye = Point3D.DEFAULT_CAMERA
+        val eye = DEFAULT_CAMERA
         val lookAt = Point3D.ORIGIN
         val up = Vector3D.UP
         uvw = Basis(eye, lookAt, up)
@@ -75,8 +75,8 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
 //    }
 
     companion object {
-
         internal val LOGGER = Logger.getLogger(Camera::class.java)
+        val DEFAULT_CAMERA = Point3D(0, 10, 0)
     }
 
 }

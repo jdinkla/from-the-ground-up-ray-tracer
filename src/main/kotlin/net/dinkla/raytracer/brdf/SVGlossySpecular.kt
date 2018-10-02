@@ -18,13 +18,7 @@ class SVGlossySpecular : BRDF {
     // specular exponent
     var exp: Double = 0.toDouble()
 
-    constructor() {
-        this.ks = 0.25
-        this.exp = 5.0
-        this.cs = null
-    }
-
-    constructor(ks: Double, cs: Texture, exp: Double) {
+    constructor(ks: Double, cs: Texture?, exp: Double) {
         this.ks = ks
         this.cs = cs
         this.exp = exp
