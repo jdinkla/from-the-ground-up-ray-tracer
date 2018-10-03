@@ -128,7 +128,10 @@ class FromTheGroundUpRayTracer : Application() {
 
         val w = World()
         val builder = WorldBuilder(w)
-        builder.build(this.fileChosen)
+        val file = this.fileChosen
+        if (file != null) {
+            builder.build(file)
+        }
         w.initialize()
 
         val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
@@ -167,7 +170,10 @@ class FromTheGroundUpRayTracer : Application() {
 
         val w = World()
         val builder = WorldBuilder(w)
-        builder.build(this.fileChosen)
+        val file = this.fileChosen
+        if (file != null) {
+            builder.build(file)
+        }
         w.initialize()
 
         val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")

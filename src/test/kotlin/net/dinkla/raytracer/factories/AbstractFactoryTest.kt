@@ -1,8 +1,6 @@
 package net.dinkla.raytracer.factories
 
 import org.junit.jupiter.api.BeforeEach
-import java.util.HashMap
-import java.util.LinkedList
 
 // TODO DSL in kotlin
 class AbstractFactoryTest {
