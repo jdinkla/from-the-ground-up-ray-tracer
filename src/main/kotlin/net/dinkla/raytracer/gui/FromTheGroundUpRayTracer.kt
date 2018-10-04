@@ -1,6 +1,7 @@
+package net.dinkla.raytracer.gui
+
 import javafx.application.Application
 import javafx.application.Platform
-import javafx.fxml.JavaFXBuilderFactory
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -17,8 +18,6 @@ import javafx.scene.transform.Rotate
 import javafx.stage.Stage
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
-import net.dinkla.raytracer.gui.GuiUtilities
-import net.dinkla.raytracer.gui.SceneFileTreeItem
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
@@ -29,7 +28,7 @@ class FromTheGroundUpRayTracer : Application() {
 
     internal val LOGGER = org.apache.log4j.Logger.getLogger(FromTheGroundUpRayTracer::class.java)
 
-    private var fileChosen : File? = null
+    private var fileChosen: File? = null
 
     private val aboutDialog: Alert by lazy {
         val alert = Alert(Alert.AlertType.INFORMATION)
@@ -103,12 +102,12 @@ class FromTheGroundUpRayTracer : Application() {
 
         val buttonPreview = Button("JavaFX")
         buttonPreview.setPrefSize(100.0, 20.0);
-        buttonPreview.setOnAction {_ -> preview() }
+        buttonPreview.setOnAction { _ -> preview() }
         //buttonPreview.setDisable(true)
 
         val buttonRender = Button("PNG")
         buttonRender.setPrefSize(100.0, 20.0);
-        buttonRender.setOnAction {_ -> render(primaryStage) }
+        buttonRender.setOnAction { _ -> render(primaryStage) }
         //buttonRender.setDisable(true)
 
         buttons.getChildren().addAll(buttonPreview, buttonRender);
@@ -231,13 +230,13 @@ class FromTheGroundUpRayTracer : Application() {
         }
     }
 
-     companion object {
+    companion object {
 
-         val width = AppProperties.getAsDouble("display.width")
+        val width = AppProperties.getAsDouble("display.width")
 
-         val height = AppProperties.getAsDouble("display.height")
+        val height = AppProperties.getAsDouble("display.height")
 
-         @JvmStatic
+        @JvmStatic
         fun main(args: Array<String>) {
             Application.launch(FromTheGroundUpRayTracer::class.java, *args)
         }

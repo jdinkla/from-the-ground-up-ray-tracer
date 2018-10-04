@@ -1,8 +1,9 @@
 package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.materials.Matte
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.assertThrows
 
 internal class MaterialMapTest {
 
@@ -13,7 +14,7 @@ internal class MaterialMapTest {
     @Test
     fun `getting an unknown element yields an exception`() {
         val map = MaterialMap()
-        kotlin.test.assertFailsWith(RuntimeException::class) {
+        assertThrows<RuntimeException> {
             map.get(obj, "name")
         }
     }
@@ -36,7 +37,7 @@ internal class MaterialMapTest {
     fun `inserting a known element yields an exception`() {
         val map = MaterialMap()
         map.insert(mapOf("id" to "name"),  matte)
-        kotlin.test.assertFailsWith(RuntimeException::class) {
+        assertThrows<RuntimeException> {
             map.insert(mapOf("id" to "name"),  matte)
         }
     }

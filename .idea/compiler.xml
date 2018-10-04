@@ -4,6 +4,10 @@
     <bytecodeTargetLevel>
       <module name="from-the-ground-up-ray-tracer_buildSrc_main" target="1.8" />
       <module name="from-the-ground-up-ray-tracer_buildSrc_test" target="1.8" />
+      <module name="from-the-ground-up-ray-tracer_main" target="1.8" />
+      <module name="from-the-ground-up-ray-tracer_test" target="1.8" />
+      <module name="net.dinkla.raytracer_buildSrc_main" target="1.8" />
+      <module name="net.dinkla.raytracer_buildSrc_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
