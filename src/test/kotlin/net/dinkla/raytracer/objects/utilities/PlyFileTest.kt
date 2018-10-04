@@ -2,9 +2,10 @@ package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.TestUtils
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 
+@Disabled
 class PlyFileTest {
 
     @Test

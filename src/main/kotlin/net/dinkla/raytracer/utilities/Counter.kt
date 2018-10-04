@@ -37,26 +37,31 @@ class Counter private constructor() {
         }
 
         fun stats(columns: Int) {
-            val results = TreeMap<String, Int>()
-            for (id in INSTANCE.instances.keys) {
-                val map: TreeMap<String, Int>? = INSTANCE.instances[id!!]
-                if (null != map) {
-                    for (key in map?.keys) {
-                        var c: Int? = results[key]
-                        if (null == c) {
-                            c = 0
-                        }
-                        results[key] = c + (map?.get(key) ?: 0)
-                    }
-                }
-            }
+            val results = calculateStats()
+            printStats(results, columns)
+        }
 
+        private fun printStats(results: TreeMap<String, Int>, columns: Int) {
             println("Counter")
             for (key in results.keys) {
                 val spaces = columns - key.length - 1
                 val count = results[key]
                 println(key + ":" + EMPTY.substring(0, spaces) + count)
             }
+        }
+
+        private fun calculateStats(): TreeMap<String, Int> {
+            val results = TreeMap<String, Int>()
+            for (id in INSTANCE.instances.keys) {
+                val map: TreeMap<String, Int>? = INSTANCE.instances[id!!]
+                if (null != map) {
+                    for (key in map.keys) {
+                        val c: Int = results[key] ?: 0
+                        results[key] = c + (map.get(key) ?: 0)
+                    }
+                }
+            }
+            return results
         }
     }
 

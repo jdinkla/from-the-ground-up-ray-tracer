@@ -6,11 +6,13 @@ import net.dinkla.raytracer.objects.mesh.Mesh
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 
+@Disabled
 class PlyReaderTest {
 
     @Test
-    fun ReadFlat() {
+    fun readFlat() {
         val mesh = Mesh()
         val grid = Grid(mesh)
         PlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, false)
@@ -20,7 +22,7 @@ class PlyReaderTest {
     }
 
     @Test
-    fun ReadSmooth() {
+    fun readSmooth() {
         val mesh = Mesh()
         val grid = Grid(mesh)
         PlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, true)

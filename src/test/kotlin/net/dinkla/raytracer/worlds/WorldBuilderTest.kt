@@ -1,24 +1,21 @@
 package net.dinkla.raytracer.worlds
 
+
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.tracers.AreaLighting
-
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.attribute.BasicFileAttributes
-import java.util.Optional
+import java.util.*
 import java.util.function.BiPredicate
-import java.util.stream.Stream
 
-
-import org.junit.jupiter.api.Test
-
-
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-
+@Disabled
 class WorldBuilderTest {
 
     @Test
