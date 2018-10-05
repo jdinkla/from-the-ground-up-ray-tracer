@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.IFilm
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
@@ -128,7 +128,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
 
     companion object {
 
-        internal val LOGGER = Logger.getLogger(ParallelRenderer::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
         private val STEP_X = 1
         private val STEP_Y = 1

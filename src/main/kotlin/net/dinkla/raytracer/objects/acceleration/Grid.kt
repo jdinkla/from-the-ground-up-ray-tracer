@@ -2,14 +2,17 @@ package net.dinkla.raytracer.objects.acceleration
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Histogram
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.NullObject
+import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Timer
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Created by IntelliJ IDEA.
@@ -595,13 +598,9 @@ open class Grid : Compound {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(Grid::class.java)
-
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
         internal var logInterval = 1000
-
         protected var factorSize = 500
-
         protected var maxDepth = 0
     }
 

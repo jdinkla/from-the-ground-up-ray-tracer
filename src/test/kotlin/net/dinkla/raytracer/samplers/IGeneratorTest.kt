@@ -2,17 +2,13 @@ package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Histogram
 import net.dinkla.raytracer.math.Point2D
-
-import java.util.ArrayList
-
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.assertEquals
-
 abstract class IGeneratorTest {
 
-    protected var samples: MutableList<Point2D> = mutableListOf()
+    protected val samples: MutableList<Point2D> = mutableListOf()
 
     @BeforeEach
     abstract fun initialize()
@@ -55,7 +51,6 @@ abstract class IGeneratorTest {
     }
 
     companion object {
-
         internal val NUM_SAMPLES = 10000
         internal val NUM_SETS = 10
     }

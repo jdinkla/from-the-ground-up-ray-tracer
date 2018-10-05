@@ -21,12 +21,11 @@ import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
+import org.slf4j.LoggerFactory
 import java.io.File
 
 
 class FromTheGroundUpRayTracer : Application() {
-
-    internal val LOGGER = org.apache.log4j.Logger.getLogger(FromTheGroundUpRayTracer::class.java)
 
     private var fileChosen: File? = null
 
@@ -119,8 +118,7 @@ class FromTheGroundUpRayTracer : Application() {
     }
 
     private fun preview() {
-        println("preview")
-        println("render " + this.fileChosen?.name)
+        LOGGER.info("preview " + this.fileChosen?.name)
 
         val width = 1280.0
         val height = 720.0
@@ -162,7 +160,7 @@ class FromTheGroundUpRayTracer : Application() {
     }
 
     private fun render(primaryStage: Stage) {
-        println("render " + this.fileChosen?.name)
+        LOGGER.info("render " + this.fileChosen?.name)
 
         val width = 1280.0
         val height = 720.0
@@ -231,6 +229,8 @@ class FromTheGroundUpRayTracer : Application() {
     }
 
     companion object {
+
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
         val width = AppProperties.getAsDouble("display.width")
 

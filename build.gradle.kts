@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     compile(kotlin("stdlib"))
-    compile("log4j:log4j:1.2.17")
+    compile(group = "ch.qos.logback", name = "logback-classic", version = Deps.logbackVersion)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:" + Deps.junitVersion)
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:" + Deps.junitVersion)

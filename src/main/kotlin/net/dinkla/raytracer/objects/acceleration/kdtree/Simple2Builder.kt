@@ -5,9 +5,8 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
-
-import java.util.ArrayList
+import org.slf4j.LoggerFactory
+import java.util.*
 
 class Simple2Builder : IKDTreeBuilder {
 
@@ -185,8 +184,7 @@ class Simple2Builder : IKDTreeBuilder {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(SpatialMedianBuilder::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 
 }

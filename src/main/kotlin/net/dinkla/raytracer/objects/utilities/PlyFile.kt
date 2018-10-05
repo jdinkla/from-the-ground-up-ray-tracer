@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects.utilities
 
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.FileReader
 
@@ -77,7 +77,7 @@ class PlyFile(val filename: String) {
     }
 
     companion object {
-       val LOGGER : Logger = Logger.getLogger(PlyFile.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 
 }

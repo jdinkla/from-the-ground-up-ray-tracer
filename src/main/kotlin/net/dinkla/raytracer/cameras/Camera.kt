@@ -1,11 +1,12 @@
 package net.dinkla.raytracer.cameras
 
+import ch.qos.logback.classic.Logger
 import net.dinkla.raytracer.cameras.lenses.AbstractLens
 import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.Timer
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,7 +76,7 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
 //    }
 
     companion object {
-        internal val LOGGER = Logger.getLogger(Camera::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
         val DEFAULT_CAMERA = Point3D(0, 10, 0)
     }
 

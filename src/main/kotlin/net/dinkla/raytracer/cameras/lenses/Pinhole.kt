@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.math.*
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 // TODO zoom camera
 class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
@@ -35,8 +35,7 @@ class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(Pinhole::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 
 }

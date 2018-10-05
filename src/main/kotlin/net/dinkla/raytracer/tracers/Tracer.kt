@@ -4,7 +4,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedFloat
 import net.dinkla.raytracer.worlds.World
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 abstract class Tracer(var world: World) {
 
@@ -23,6 +23,6 @@ abstract class Tracer(var world: World) {
     }
 
     companion object {
-        internal val LOGGER = Logger.getLogger(Tracer::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 }

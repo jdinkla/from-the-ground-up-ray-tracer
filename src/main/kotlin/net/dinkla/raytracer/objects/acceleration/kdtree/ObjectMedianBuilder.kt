@@ -3,14 +3,10 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
+import org.slf4j.LoggerFactory
+import java.util.*
 
 class ObjectMedianBuilder : IKDTreeBuilder {
 
@@ -160,7 +156,6 @@ class ObjectMedianBuilder : IKDTreeBuilder {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(ObjectMedianBuilder::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 }

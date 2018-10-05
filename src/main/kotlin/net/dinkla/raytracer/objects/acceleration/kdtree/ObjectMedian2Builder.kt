@@ -6,9 +6,8 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
-
-import java.util.ArrayList
+import org.slf4j.LoggerFactory
+import java.util.*
 
 class ObjectMedian2Builder : IKDTreeBuilder {
 
@@ -213,7 +212,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
 
     companion object {
 
-        internal val LOGGER = Logger.getLogger(ObjectMedian2Builder::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
         private fun weight(a: Int, b: Int, c: Int): Int {
             return Math.abs(a - c / 2) + Math.abs(b - c / 2)

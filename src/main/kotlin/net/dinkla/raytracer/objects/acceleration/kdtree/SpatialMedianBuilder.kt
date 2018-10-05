@@ -1,13 +1,12 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree
 
+import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
-
-import java.util.ArrayList
+import org.slf4j.LoggerFactory
+import java.util.*
 
 class SpatialMedianBuilder : IKDTreeBuilder {
 
@@ -112,7 +111,6 @@ class SpatialMedianBuilder : IKDTreeBuilder {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(SpatialMedianBuilder::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 }

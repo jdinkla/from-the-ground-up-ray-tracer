@@ -6,12 +6,12 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.worlds.World
 import net.dinkla.raytracer.worlds.WorldBuilder
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 
 object CommandLineUi {
 
-    internal val LOGGER = Logger.getLogger(CommandLineUi::class.java)
+    internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -44,5 +44,6 @@ object CommandLineUi {
         InnerNode.fails.println()
 
     }
+
 
 }

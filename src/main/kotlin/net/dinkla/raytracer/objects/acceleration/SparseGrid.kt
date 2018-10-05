@@ -4,12 +4,12 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.utilities.Timer
-import org.apache.log4j.Logger
-import java.util.TreeMap
+import org.slf4j.LoggerFactory
+import java.util.*
 
 class SparseGrid : Grid {
 
@@ -346,8 +346,7 @@ class SparseGrid : Grid {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(SparseGrid::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
     }
 
 }

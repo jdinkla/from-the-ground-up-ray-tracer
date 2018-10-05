@@ -2,12 +2,10 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
-
+import org.slf4j.LoggerFactory
 import java.util.*
 
 class Test2Builder : IKDTreeBuilder {
@@ -201,8 +199,7 @@ class Test2Builder : IKDTreeBuilder {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(TestBuilder::class.java)
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
         fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
             return if (x != null && y != null) {

@@ -4,5 +4,6 @@ open class Deps {
         val kotlinVersion = "1.2.71"
         val javafxVersion = "11-ea+25"
         val detektVersion = "1.0.0.RC9.2"
+        val logbackVersion = "1.2.3"
     }
 }

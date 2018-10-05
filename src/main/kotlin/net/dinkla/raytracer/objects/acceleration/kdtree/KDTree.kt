@@ -2,11 +2,11 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.utilities.Counter
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 class KDTree : Compound {
 
@@ -55,9 +55,7 @@ class KDTree : Compound {
     }
 
     companion object {
-
-        internal val LOGGER = Logger.getLogger(KDTree::class.java)
-
+        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
         internal var maxDepth = 15
     }
 
