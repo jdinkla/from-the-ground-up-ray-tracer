@@ -1,12 +1,15 @@
 package net.dinkla.raytracer.math
 
+import java.util.Arrays
+
+
 class Matrix private constructor() {
 
     private var m: DoubleArray = DoubleArray(4 * 4)
 
     operator fun get(i: Int, j: Int) = m[index(i, j)]
 
-    operator fun set(i: Int, j: Int, value: Double): Unit {
+    operator fun set(i: Int, j: Int, value: Double) {
         m[index(i, j)] = value
     }
 
@@ -93,6 +96,10 @@ class Matrix private constructor() {
         }
     }
 
+    override fun hashCode(): Int {
+        return Arrays.hashCode(m)
+    }
+
     override fun toString() = buildString {
         fun line(i: Int) = "${m[i, 0]}, ${m[i, 1]}, ${m[i, 2]}, ${m[i, 3]}   "
         append(line(0))
@@ -107,12 +114,12 @@ class Matrix private constructor() {
 
         fun zero(): Matrix = Matrix()
 
-        inline fun index(i: Int, j: Int) = 4 * i + j
+        fun index(i: Int, j: Int) = 4 * i + j
 
-        operator fun DoubleArray.get(i: Int, j: Int): Double = this.get(index(i, j))
+        operator fun DoubleArray.get(i: Int, j: Int): Double = this[index(i, j)]
 
-        operator fun DoubleArray.set(i: Int, j: Int, value: Double): Unit {
-            this.set(index(i, j), value)
+        operator fun DoubleArray.set(i: Int, j: Int, value: Double) {
+            this[index(i, j)] = value
         }
 
     }

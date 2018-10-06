@@ -30,12 +30,12 @@ class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val dp = sampler!!.sampleUnitDisk()
         val lp = Point2D(dp.x * lensRadius, dp.y * lensRadius)
         //        Point3D origin = eye.plus(u.minus(lp.x)).plus(v.minus(lp.y));
-        val o = eye!!.plus(uvw!!.pp(lp.x, lp.y, 0.0))
+        // val o = eye!!.plus(uvw!!.pp(lp.x, lp.y, 0.0))
         return Ray(eye!!, getRayDirection(pp, lp))
     }
 
-    protected fun getRayDirection(pixel: Point2D, lens: Point2D): Vector3D {
-        val p = Point2D(pixel.x * f / d, pixel.y * f / d)
+    private fun getRayDirection(pixel: Point2D, lens: Point2D): Vector3D {
+        // val p = Point2D(pixel.x * f / d, pixel.y * f / d)
         //        final Vector3D v1 = u.minus(p.x - lens.x);
         //        final Vector3D v2 = v.minus(p.y - lens.y);
         //        final Vector3D v3 = w.minus(f);

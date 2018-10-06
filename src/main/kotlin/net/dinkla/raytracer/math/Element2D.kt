@@ -9,11 +9,11 @@ open class Element2D(val x: Double, val y: Double) {
     fun length(): Double = sqrt(sqrLength())
 
     override fun equals(other: Any?): Boolean {
-        if (null == other || other !is Element2D) {
-            return false
+        return if (null == other || other !is Element2D) {
+            false
         } else {
             val e = other as Element2D?
-            return x == e!!.x && y == e.y
+            x == e!!.x && y == e.y
         }
     }
 

@@ -241,29 +241,25 @@ object Polynomials {
         var u: Double
         var v: Double
         val sub: Double
-        val A: Double
-        val B: Double
-        val C: Double
-        val D: Double
+        val A: Double = c[3] / c[4]
+        val B: Double = c[2] / c[4]
+        val C: Double = c[1] / c[4]
+        val D: Double = c[0] / c[4]
         val sq_A: Double
         val p: Double
         val q: Double
         val r: Double
-        var i: Int
+        var i = 0
         var num: Int
 
         /* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */
-        A = c[3] / c[4]
-        B = c[2] / c[4]
-        C = c[1] / c[4]
-        D = c[0] / c[4]
 
         /*  substitute x = y - A/4 to eliminate cubic term:
             x^4 + px^2 + qx + r = 0 */
         sq_A = A * A
         p = -3.0 / 8 * sq_A + B
-        q = (1.0 / 8).toDouble() * sq_A * A - (1.0 / 2).toDouble() * A * B + C
-        r = (-3.0 / 256).toDouble() * sq_A * sq_A + (1.0 / 16).toDouble() * sq_A * B - (1.0 / 4).toDouble() * A * C + D
+        q = (1.0 / 8) * sq_A * A - (1.0 / 2) * A * B + C
+        r = (-3.0 / 256) * sq_A * sq_A + (1.0 / 16) * sq_A * B - (1.0 / 4) * A * C + D
 
         if (MathUtils.isZero(r)) {
             /* no absolute term: y(y^3 + py + q) = 0 */
@@ -279,7 +275,7 @@ object Polynomials {
             s[num++] = 0.0
         } else {
             /* solve the resolvent cubic ... */
-            coeffs4[0] = (1.0 / 2).toDouble() * r * p - (1.0 / 8).toDouble() * q * q
+            coeffs4[0] = (1.0 / 2) * r * p - (1.0 / 8) * q * q
             coeffs4[1] = -r
             coeffs4[2] = -1.0 / 2 * p
             coeffs4[3] = 1.0
@@ -297,19 +293,15 @@ object Polynomials {
             u = z * z - r
             v = 2 * z - p
 
-            if (MathUtils.isZero(u)) {
-                u = 0.0
-            } else if (u > 0) {
-                u = Math.sqrt(u)
-            } else {
-                return 0
+            u = when {
+                MathUtils.isZero(u) -> 0.0
+                u > 0 -> Math.sqrt(u)
+                else -> 0.0
             }
-            if (MathUtils.isZero(v)) {
-                v = 0.0
-            } else if (v > 0) {
-                v = Math.sqrt(v)
-            } else {
-                return 0
+            v = when {
+                MathUtils.isZero(v) -> 0.0
+                v > 0 -> Math.sqrt(v)
+                else -> 0.0
             }
             coeffs3[0] = z - u
             coeffs3[1] = if (q < 0) -v else v
@@ -336,7 +328,6 @@ object Polynomials {
         /* resubstitute */
         sub = 1.0 / 4 * A
 
-        i = 0
         while (i < num) {
             s[i] -= sub
             ++i
@@ -348,12 +339,12 @@ object Polynomials {
         assert(c.size == 4)
         assert(s.size == 3)
 
-        var i: Int
+        var i = 0
         val num: Int
         val sub: Double
-        val A: Double
-        val B: Double
-        val C: Double
+        val A: Double = c[2] / c[3]
+        val B: Double = c[1] / c[3]
+        val C: Double = c[0] / c[3]
         val sq_A: Double
         val p: Double
         val q: Double
@@ -361,9 +352,6 @@ object Polynomials {
         val D: Double
 
         /* normal form: x^3 + Ax^2 + Bx + C = 0 */
-        A = c[2] / c[3]
-        B = c[1] / c[3]
-        C = c[0] / c[3]
 
         /*  substitute x = y - A/3 to eliminate quadric term: x^3 +px + q = 0 */
         sq_A = A * A
@@ -403,7 +391,6 @@ object Polynomials {
 
         /* resubstitute */
         sub = 1.0 / 3 * A
-        i = 0
         while (i < num) {
             s[i] -= sub
             ++i

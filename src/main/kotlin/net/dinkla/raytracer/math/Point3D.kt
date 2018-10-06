@@ -9,7 +9,7 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
     constructor(e: Element3D) : this(e.x, e.y, e.z) {}
 
-    inline operator fun unaryMinus() = Vector3D(-x, -y, -z)
+    operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
     operator fun plus(v: Vector3D) = Point3D(x + v.x, y + v.y, z + v.z)
 
@@ -22,11 +22,15 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
     operator fun minus(f: Double) = Point3D(x - f, y - f, z - f)
 
     override fun equals(other: Any?): Boolean {
-        if (null == other || other !is Point3D) {
-            return false
+        return if (null == other || other !is Point3D) {
+            false
         } else {
-            return super.equals(other)
+            super.equals(other)
         }
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 
     companion object {

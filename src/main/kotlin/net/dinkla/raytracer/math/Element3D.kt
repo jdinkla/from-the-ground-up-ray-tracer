@@ -26,10 +26,10 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (null == other || other !is Element3D) {
-            return false
+        return if (null == other || other !is Element3D) {
+            false
         } else {
-            return x == other.x && y == other.y && z == other.z
+            x == other.x && y == other.y && z == other.z
         }
     }
 

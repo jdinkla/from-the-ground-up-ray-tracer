@@ -42,7 +42,7 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         return ray
     }
 
-    protected fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): RayDirection {
+    private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): RayDirection {
         val rd = RayDirection()
         val x = 2.0 / (s * resolution.hres) * pp.x
         val y = 2.0 / (s * resolution.vres) * pp.y

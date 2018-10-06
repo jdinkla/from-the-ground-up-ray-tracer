@@ -27,15 +27,15 @@ class WrappedFloat(var value: Double) : Comparable<WrappedFloat> {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (null == other || other !is WrappedFloat) {
-            return false
+        return if (null == other || other !is WrappedFloat) {
+            false
         } else {
-            return if (value == null) {
-                other.value == null
-            } else {
-                this.value == other.value
-            }
+            this.value == other.value
         }
+    }
+
+    override fun hashCode(): Int {
+        return value.hashCode()
     }
 
     companion object {

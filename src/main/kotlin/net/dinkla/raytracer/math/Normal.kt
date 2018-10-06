@@ -2,13 +2,13 @@ package net.dinkla.raytracer.math
 
 class Normal : Element3D {
 
-    constructor(x: Double, y: Double, z: Double) : super(x, y, z) {}
+    constructor(x: Double, y: Double, z: Double) : super(x, y, z)
 
-    constructor(v: Vector3D) : super(v.normalize()) {}
+    constructor(v: Vector3D) : super(v.normalize())
 
-    constructor(p0: Point3D, p1: Point3D, p2: Point3D) : super(((p1 - p0) cross (p2 - p0)).normalize()) {}
+    constructor(p0: Point3D, p1: Point3D, p2: Point3D) : super(((p1 - p0) cross (p2 - p0)).normalize())
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
     operator fun plus(normal: Normal) = Vector3D(x + normal.x, y + normal.y, z + normal.z)
 
@@ -21,7 +21,7 @@ class Normal : Element3D {
         return Normal(x / len, y / len, z / len)
     }
 
-    inline operator fun unaryMinus() = Normal(-x, -y, -z)
+    operator fun unaryMinus() = Normal(-x, -y, -z)
 
     override fun toString() = "Normal($x, $y, $z)"
 
