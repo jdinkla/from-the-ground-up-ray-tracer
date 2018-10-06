@@ -5,13 +5,6 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Ray
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 16.05.2010
- * Time: 10:03:16
- * To change this template use File | Settings | File Templates.
- */
 class FlatMeshTriangle : MeshTriangle {
 
     constructor(mesh: Mesh) : super(mesh) {}

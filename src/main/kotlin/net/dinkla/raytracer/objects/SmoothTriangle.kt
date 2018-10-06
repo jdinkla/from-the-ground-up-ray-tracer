@@ -6,14 +6,11 @@ import net.dinkla.raytracer.math.*
 
 class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
 
-    var n0: Normal
-    var n1: Normal
-    var n2: Normal
+    var n0: Normal = Normal.UP
+    var n1: Normal = Normal.UP
+    var n2: Normal = Normal.UP
 
     init {
-        n0 = Normal.UP
-        n1 = Normal.UP
-        n2 = Normal.UP
         boundingBox = BBox.create(v0, v1, v2)
     }
 
@@ -73,7 +70,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         return true
     }
 
-    protected fun interpolateNormal(beta: Double, gamma: Double): Normal {
+    private fun interpolateNormal(beta: Double, gamma: Double): Normal {
         val v1 = n0.times(1.0 - beta - gamma)
         val v2 = n1.times(beta)
         val v3 = n2.times(gamma)

@@ -5,10 +5,9 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
 class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
-    var normal: Normal
+    var normal: Normal = Normal(v0, v1, v2)
 
     init {
-        normal = Normal(v0, v1, v2)
         boundingBox = BBox.create(v0, v1, v2)
     }
 

@@ -16,13 +16,7 @@ class Plane : GeometricObject {
     var point: Point3D
     var normal: Normal
 
-    constructor() {
-        this.point = Point3D.ORIGIN
-        this.normal = Normal.UP
-        boundingBox = BBox(Point3D.MIN, Point3D.MAX)
-    }
-
-    constructor(point: Point3D, normal: Normal) {
+    constructor(point: Point3D = Point3D.ORIGIN, normal: Normal = Normal.UP) {
         this.point = point
         this.normal = normal
         boundingBox = BBox(Point3D.MIN, Point3D.MAX)

@@ -10,16 +10,16 @@ class Instance(val `object`: GeometricObject,
                private val trans: ITransformation) : GeometricObject(), ITransformation by trans {
 //    internal var transformTexture: Boolean = false
 
-    constructor (`object`: GeometricObject) : this(`object`, AffineTransformation()) {}
+    constructor (`object`: GeometricObject) : this(`object`, AffineTransformation())
 
     override var boundingBox: BBox
         get() {
             val objectBbox = `object`.boundingBox
 
-            objectBbox.p!!
-            objectBbox.q!!
+            objectBbox.p
+            objectBbox.q
 
-            val v = Array<Point3D>(8, { _ -> Point3D.ORIGIN })
+            val v = Array(8) { _ -> Point3D.ORIGIN }
 
             val vx = DoubleArray(8)
             val vy = DoubleArray(8)
@@ -55,12 +55,12 @@ class Instance(val `object`: GeometricObject,
                 v[i] = p
                 v[i] = trans.forwardMatrix * p
             }
-            var (x0, y0, z0) = minimum(v, 8)
+            val (x0, y0, z0) = minimum(v, 8)
 
-            var (x1, y1, z1) = maximum(v, 8)
+            val (x1, y1, z1) = maximum(v, 8)
             return BBox(Point3D(x0, y0, z0), Point3D(x1, y1, z1))
         }
-        set(value: BBox) {
+        set(value) {
             super.boundingBox = value
         }
 
