@@ -65,6 +65,17 @@ internal class Point3DTest {
     }
 
     @Test
+    fun equals() {
+        val x = e.x
+        val y = e.y
+        val z = e.z
+        assertTrue(e == Point3D(x, y, z))
+        assertTrue(e != Point3D(0.0, y, z))
+        assertTrue(e != Point3D(x, 0.0, z))
+        assertTrue(e != Point3D(x, y, 0.0))
+    }
+
+    @Test
     fun `a point is not equal to a vector`() {
         assertNotEquals(p, Vector3D(p.x, p.y, p.z))
     }

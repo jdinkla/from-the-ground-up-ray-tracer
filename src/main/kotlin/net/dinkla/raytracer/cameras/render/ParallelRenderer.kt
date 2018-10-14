@@ -130,8 +130,8 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
 
         internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
-        private val STEP_X = 1
-        private val STEP_Y = 1
+        private const val STEP_X = 1
+        private const val STEP_Y = 1
     }
 
 }

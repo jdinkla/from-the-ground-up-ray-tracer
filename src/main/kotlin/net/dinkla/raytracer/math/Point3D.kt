@@ -29,6 +29,10 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         }
     }
 
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
     companion object {
         val ORIGIN = Point3D(0, 0, 0)
         val MAX = Point3D(POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY)
