@@ -5,9 +5,7 @@ import net.dinkla.raytracer.objects.GeometricObject
 class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
     val volume: Double
-        get() {
-            return (q - p).volume()
-        }
+        get() = (q - p).volume()
 
     init {
         assert(p.x <= q.x && p.y <= q.y && p.z <= q.z)
@@ -39,62 +37,62 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     fun hitX(ray: Ray): Hit {
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
+        val txMin: Double
+        val tyMin: Double
+        val tzMin: Double
+        val txMax: Double
+        val tyMax: Double
+        val tzMax: Double
 
         val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p.x - ray.origin.x) * a
-            tx_max = (q.x - ray.origin.x) * a
+            txMin = (p.x - ray.origin.x) * a
+            txMax = (q.x - ray.origin.x) * a
         } else {
-            tx_min = (q.x - ray.origin.x) * a
-            tx_max = (p.x - ray.origin.x) * a
+            txMin = (q.x - ray.origin.x) * a
+            txMax = (p.x - ray.origin.x) * a
         }
 
         val b = 1.0 / ray.direction.y
         if (b >= 0) {
-            ty_min = (p.y - ray.origin.y) * b
-            ty_max = (q.y - ray.origin.y) * b
+            tyMin = (p.y - ray.origin.y) * b
+            tyMax = (q.y - ray.origin.y) * b
         } else {
-            ty_min = (q.y - ray.origin.y) * b
-            ty_max = (p.y - ray.origin.y) * b
+            tyMin = (q.y - ray.origin.y) * b
+            tyMax = (p.y - ray.origin.y) * b
         }
 
         val c = 1.0 / ray.direction.z
         if (c >= 0) {
-            tz_min = (p.z - ray.origin.z) * c
-            tz_max = (q.z - ray.origin.z) * c
+            tzMin = (p.z - ray.origin.z) * c
+            tzMax = (q.z - ray.origin.z) * c
         } else {
-            tz_min = (q.z - ray.origin.z) * c
-            tz_max = (p.z - ray.origin.z) * c
+            tzMin = (q.z - ray.origin.z) * c
+            tzMax = (p.z - ray.origin.z) * c
         }
 
         var t0: Double
         var t1: Double
 
         // find largest entering t value
-        if (tx_min > ty_min) {
-            t0 = tx_min
+        t0 = if (txMin > tyMin) {
+            txMin
         } else {
-            t0 = ty_min
+            tyMin
         }
 
-        if (tz_min > t0) {
-            t0 = tz_min
+        if (tzMin > t0) {
+            t0 = tzMin
         }
 
         // find smallest exiting t value
-        if (tx_max < ty_max) {
-            t1 = tx_max
+        t1 = if (txMax < tyMax) {
+            txMax
         } else {
-            t1 = ty_max
+            tyMax
         }
-        if (tz_max < t1) {
-            t1 = tz_max
+        if (tzMax < t1) {
+            t1 = tzMax
         }
 
         return Hit(t0, t1)
@@ -141,10 +139,10 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         var t1: Double
 
         // find largest entering t value
-        if (tx_min > ty_min) {
-            t0 = tx_min
+        t0 = if (tx_min > ty_min) {
+            tx_min
         } else {
-            t0 = ty_min
+            ty_min
         }
 
         if (tz_min > t0) {
@@ -152,10 +150,10 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         }
 
         // find smallest exiting t value
-        if (tx_max < ty_max) {
-            t1 = tx_max
+        t1 = if (tx_max < ty_max) {
+            tx_max
         } else {
-            t1 = ty_max
+            ty_max
         }
         if (tz_max < t1) {
             t1 = tz_max
@@ -164,7 +162,7 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         return t0 < t1 && t1 > MathUtils.K_EPSILON
     }
 
-    fun isContainedIn(bbox: BBox): Boolean {
+    private fun isContainedIn(bbox: BBox): Boolean {
         val bX = bbox.p.x <= p.x && q.x <= bbox.q.x
         val bY = bbox.p.y <= p.y && q.y <= bbox.q.y
         val bZ = bbox.p.z <= p.z && q.z <= bbox.q.z
@@ -187,27 +185,27 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     fun splitLeft(axis: Axis, split: Double): BBox? {
-        when (axis) {
-            Axis.X -> return BBox(p, Point3D(split, q.y, q.z))
-            Axis.Y -> return BBox(p, Point3D(q.x, split, q.z))
-            Axis.Z -> return BBox(p, Point3D(q.x, q.y, split))
+        return when (axis) {
+            Axis.X -> BBox(p, Point3D(split, q.y, q.z))
+            Axis.Y -> BBox(p, Point3D(q.x, split, q.z))
+            Axis.Z -> BBox(p, Point3D(q.x, q.y, split))
         }
     }
 
     fun splitRight(axis: Axis, split: Double): BBox? {
-        when (axis) {
-            Axis.X -> return BBox(Point3D(split, p.y, p.z), q)
-            Axis.Y -> return BBox(Point3D(p.x, split, p.z), q)
-            Axis.Z -> return BBox(Point3D(p.x, p.y, split), q)
+        return when (axis) {
+            Axis.X -> BBox(Point3D(split, p.y, p.z), q)
+            Axis.Y -> BBox(Point3D(p.x, split, p.z), q)
+            Axis.Z -> BBox(Point3D(p.x, p.y, split), q)
         }
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is BBox ) {
-            return false
+        return if (other == null || other !is BBox ) {
+            false
         } else {
             val o = other as BBox?
-            return p == o!!.p && q == o.q
+            p == o!!.p && q == o.q
         }
     }
 
@@ -285,12 +283,10 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         }
 
         fun create(objects: ArrayList<GeometricObject>): BBox {
-            if (objects.size > 0) {
-                val p = PointUtilities.minCoordinates(objects)
-                val q = PointUtilities.maxCoordinates(objects)
-                return BBox(p, q)
+            return if (objects.size > 0) {
+                BBox(PointUtilities.minCoordinates(objects), PointUtilities.maxCoordinates(objects))
             } else {
-                return BBox()
+                BBox()
             }
         }
     }

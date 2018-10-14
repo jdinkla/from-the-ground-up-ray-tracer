@@ -86,7 +86,7 @@ object PointUtilities {
         var z = java.lang.Double.POSITIVE_INFINITY
         for (`object` in objects) {
             val bbox = `object`.boundingBox
-            if (bbox.p!!.x < x) {
+            if (bbox.p.x < x) {
                 x = bbox.p.x
             }
             if (bbox.p.y < y) {
@@ -105,7 +105,7 @@ object PointUtilities {
         var z = java.lang.Double.NEGATIVE_INFINITY
         for (`object` in objects) {
             val bbox = `object`.boundingBox
-            if (bbox.q!!.x > x) {
+            if (bbox.q.x > x) {
                 x = bbox.q.x
             }
             if (bbox.q.y > y) {

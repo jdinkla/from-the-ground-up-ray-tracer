@@ -7,14 +7,14 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 
-class ParallelRenderer(protected val render: ISingleRayRenderer, protected val corrector: IColorCorrector) : IRenderer {
+class ParallelRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
     var exposureTime = 1.0
 
-    var parallel = false
-    protected var numThreads: Int = 0
-    protected var worker: Array<Worker?>
-    protected var barrier: CyclicBarrier?
+    private var parallel = false
+    private var numThreads: Int = 0
+    private var worker: Array<Worker?>
+    private var barrier: CyclicBarrier?
 
     init {
         numThreads = 16
@@ -45,7 +45,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
 
     }
 
-    protected fun createWorkers(film: IFilm) {
+    private fun createWorkers(film: IFilm) {
         val res = film.resolution
         val vertFactor = numThreads / 4
         if (res.vres % vertFactor == 0) {
@@ -93,7 +93,7 @@ class ParallelRenderer(protected val render: ISingleRayRenderer, protected val c
     }
 */
 
-    protected inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : Runnable {
+    private inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : Runnable {
         var film: IFilm? = null
 
         override fun run() {

@@ -5,24 +5,13 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.textures.Texture
 
-class SVGlossySpecular : BRDF {
-
-    /**
-     * specular intensity
-     */
-    var ks: Double = 0.toDouble()
-
-    // specular color
-    var cs: Texture? = null
-
-    // specular exponent
-    var exp: Double = 0.toDouble()
-
-    constructor(ks: Double, cs: Texture?, exp: Double) {
-        this.ks = ks
-        this.cs = cs
-        this.exp = exp
-    }
+class SVGlossySpecular(
+        /**
+         * specular intensity
+         */
+        var ks: Double = 0.0,// specular color
+        var cs: Texture? = null,// specular exponent
+        var exp: Double = 0.0) : BRDF() {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)

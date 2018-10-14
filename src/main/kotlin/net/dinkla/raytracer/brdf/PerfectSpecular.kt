@@ -4,19 +4,14 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 
-class PerfectSpecular : BRDF {
+class PerfectSpecular() : BRDF() {
 
-    var kr: Double
-    var cr: Color
-
-    constructor() {
-        kr = 1.0
-        cr = Color.WHITE
-    }
+    var kr: Double = 1.0
+    var cr: Color = Color.WHITE
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         throw RuntimeException("PerfectSpecular.f")
-        // Im C-Code Black
+        // TODO Im C-Code Black
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {

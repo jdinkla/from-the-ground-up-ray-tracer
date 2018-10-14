@@ -4,11 +4,7 @@ import java.util.*
 
 class Histogram {
 
-    internal var counts: MutableMap<Int, Int>
-
-    init {
-        counts = TreeMap()
-    }
+    internal var counts: MutableMap<Int, Int> = TreeMap()
 
     fun add(key: Int) {
         counts.merge(key, 1) { a, b -> a + b }

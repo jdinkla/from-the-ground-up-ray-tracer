@@ -2,13 +2,13 @@ package net.dinkla.raytracer.math
 
 object MathUtils {
 
-    val INV_PI = 1.0 / Math.PI
+    const val INV_PI = 1.0 / Math.PI
 
-    val PI_ON_180 = Math.PI / 180
+    const val PI_ON_180 = Math.PI / 180
 
-    val K_HUGEVALUE = 1.0E10
+    const val K_HUGEVALUE = 1.0E10
 
-    val K_EPSILON = 0.01
+    const val K_EPSILON = 0.01
 
     fun clamp(x: Double, low: Double, high: Double): Double = if (x < low) low else if (x > high) high else x
 

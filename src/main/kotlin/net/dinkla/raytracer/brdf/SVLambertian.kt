@@ -9,13 +9,8 @@ import net.dinkla.raytracer.math.MathUtils.INV_PI
 
 class SVLambertian : BRDF() {
 
-    var kd: Double = 0.0
+    var kd: Double = 1.0
     var cd: Texture? = null
-
-    init {
-        kd = 1.0
-        cd = null
-    }
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         return cd!!.getColor(sr)* (kd * INV_PI)

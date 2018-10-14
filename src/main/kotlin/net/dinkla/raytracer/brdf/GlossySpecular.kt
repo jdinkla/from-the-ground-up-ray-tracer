@@ -4,28 +4,10 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 
-class GlossySpecular : BRDF {
-
-    // specular intensity
-    var ks: Double = 0.0
-
-    // specular color
-    var cs: Color? = null
-
-    // specular exponent
-    var exp: Double = 0.0
-
-    constructor() {
-        this.ks = 0.25
-        this.exp = 5.0
-        this.cs = Color.WHITE
-    }
-
-    constructor(ks: Double, cs: Color, exp: Double) {
-        this.ks = ks
-        this.cs = cs
-        this.exp = exp
-    }
+class GlossySpecular(// specular intensity
+        var ks: Double = 0.25,// specular color
+        var cs: Color? = Color.WHITE,// specular exponent
+        var exp: Double = 5.0) : BRDF() {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)

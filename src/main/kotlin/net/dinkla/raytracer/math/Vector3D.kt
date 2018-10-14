@@ -2,10 +2,10 @@ package net.dinkla.raytracer.math
 
 class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
     // TODO ugly
-    constructor(e: Element3D?) : this(e?.x ?: 0.0, e?.y ?: 0.0, e?.z ?: 0.0)  {}
+    constructor(e: Element3D?) : this(e?.x ?: 0.0, e?.y ?: 0.0, e?.z ?: 0.0)
 
     operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z)
 
@@ -16,8 +16,8 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
     infix fun dot(v: Vector3D): Double = x * v.x + y * v.y + z * v.z
 
     infix fun dot(v: Normal?): Double {
-        if (null == v) return x * y * z
-        else return x * v.x + y * v.y + z * v.z
+        return if (null == v) x * y * z
+        else x * v.x + y * v.y + z * v.z
     }
 
     infix fun cross(v: Vector3D): Vector3D {
@@ -29,7 +29,7 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         return Vector3D(x / l, y / l, z / l)
     }
 
-    inline operator fun unaryMinus() = Vector3D(-x, -y, -z)
+    operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
     fun volume(): Double = x * y * z
 
