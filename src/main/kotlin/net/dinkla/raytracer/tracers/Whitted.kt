@@ -56,7 +56,7 @@ class Whitted(world: World) : Tracer(world) {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
     }
 
 }

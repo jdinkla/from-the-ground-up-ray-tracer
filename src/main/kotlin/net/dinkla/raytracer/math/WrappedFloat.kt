@@ -13,7 +13,7 @@ class WrappedFloat(var value: Double) : Comparable<WrappedFloat> {
             if (null == o.value) {
                 1
             } else {
-                value!!.compareTo(o.value!!)
+                value!!.compareTo(o.value)
             }
         }
     }
@@ -23,7 +23,7 @@ class WrappedFloat(var value: Double) : Comparable<WrappedFloat> {
     }
 
     fun isLessThan(tmin: WrappedFloat): Boolean {
-        return value!!.compareTo(tmin.value!!) == -1
+        return value.compareTo(tmin.value) == -1
     }
 
     override fun equals(other: Any?): Boolean {

@@ -76,7 +76,7 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
 //    }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
         val DEFAULT_CAMERA = Point3D(0, 10, 0)
     }
 

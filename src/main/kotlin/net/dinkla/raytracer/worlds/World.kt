@@ -35,7 +35,7 @@ class World {
     var tracer: Tracer
         protected set
     var camera: Camera? = null
-        protected set
+        set
     var isDynamic: Boolean = false
     var stepCounter: StepCounter? = null
         protected set

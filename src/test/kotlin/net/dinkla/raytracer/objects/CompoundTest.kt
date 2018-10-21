@@ -19,8 +19,8 @@ class CompoundTest {
         val bboxC = c.boundingBox
         val bboxS = s.boundingBox
 
-        assertEquals(bboxC.p, bboxS.p!!.minus(MathUtils.K_EPSILON))
-        assertEquals(bboxC.q, bboxS.q!!.plus(MathUtils.K_EPSILON))
+        assertEquals(bboxC.p, bboxS.p.minus(MathUtils.K_EPSILON))
+        assertEquals(bboxC.q, bboxS.q.plus(MathUtils.K_EPSILON))
     }
 
 }

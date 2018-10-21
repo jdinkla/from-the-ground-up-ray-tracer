@@ -15,10 +15,10 @@ object ListUtilities {
         objectsR.clear()
         for (`object` in objects) {
             val bbox = `object`.boundingBox
-            if (bbox.p!!.ith(axis) <= split) {
+            if (bbox.p.ith(axis) <= split) {
                 objectsL.add(`object`)
             }
-            if (bbox.q!!.ith(axis) >= split) {
+            if (bbox.q.ith(axis) >= split) {
                 objectsR.add(`object`)
             }
         }
@@ -29,12 +29,12 @@ object ListUtilities {
         val bboxQ = oQ.boundingBox
         val p = bboxP.q
 
-        val pP = bboxP.p!!.ith(axis)
-        val widthP = bboxP.q!!.ith(axis) - pP
+        val pP = bboxP.p.ith(axis)
+        val widthP = bboxP.q.ith(axis) - pP
         val medP = pP + 0.5 * widthP
 
-        val pQ = bboxQ.p!!.ith(axis)
-        val widthQ = bboxQ.q!!.ith(axis) - pQ
+        val pQ = bboxQ.p.ith(axis)
+        val widthQ = bboxQ.q.ith(axis) - pQ
         val medQ = pQ + 0.5 * widthQ
 
         val q = bboxQ.q

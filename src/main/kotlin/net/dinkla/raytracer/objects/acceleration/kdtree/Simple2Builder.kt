@@ -29,9 +29,9 @@ class Simple2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build")
 
-        var node: AbstractNode? = null //new Leaf(objects);
-        var voxelL: BBox? = null
-        var voxelR: BBox? = null
+        var node: AbstractNode?
+        var voxelL: BBox?
+        var voxelR: BBox?
 
         if (objects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
@@ -46,17 +46,17 @@ class Simple2Builder : IKDTreeBuilder {
 
         var split: Double? = null
 
-        var objectsL: List<GeometricObject> = ArrayList()
-        var objectsR: List<GeometricObject> = ArrayList()
+        var objectsL: List<GeometricObject>
+        var objectsR: List<GeometricObject>
 
-        var voxelLx: BBox? = null
-        var voxelRx: BBox? = null
+        var voxelLx: BBox?
+        var voxelRx: BBox?
 
-        var voxelLy: BBox? = null
-        var voxelRy: BBox? = null
+        var voxelLy: BBox?
+        var voxelRy: BBox?
 
-        var voxelLz: BBox? = null
-        var voxelRz: BBox? = null
+        var voxelLz: BBox?
+        var voxelRz: BBox?
 
         val objectsLx = ArrayList<GeometricObject>()
         val objectsRx = ArrayList<GeometricObject>()
@@ -80,11 +80,11 @@ class Simple2Builder : IKDTreeBuilder {
         for (`object` in objects) {
             val bbox = `object`.boundingBox
             var isBoth = false
-            if (bbox.p!!.x <= split) {
+            if (bbox.p.x <= split) {
                 objectsLx.add(`object`)
                 isBoth = true
             }
-            if (bbox.q!!.x >= split) {
+            if (bbox.q.x >= split) {
                 objectsRx.add(`object`)
                 if (isBoth) {
                     bothX++
@@ -103,11 +103,11 @@ class Simple2Builder : IKDTreeBuilder {
         for (`object` in objects) {
             val bbox = `object`.boundingBox
             var isBoth = false
-            if (bbox.p!!.y <= split) {
+            if (bbox.p.y <= split) {
                 objectsLy.add(`object`)
                 isBoth = true
             }
-            if (bbox.q!!.y >= split) {
+            if (bbox.q.y >= split) {
                 objectsRy.add(`object`)
                 if (isBoth) {
                     bothY++
@@ -126,11 +126,11 @@ class Simple2Builder : IKDTreeBuilder {
         for (`object` in objects) {
             val bbox = `object`.boundingBox
             var isBoth = false
-            if (bbox.p!!.z <= split) {
+            if (bbox.p.z <= split) {
                 objectsLz.add(`object`)
                 isBoth = true
             }
-            if (bbox.q!!.z >= split) {
+            if (bbox.q.z >= split) {
                 objectsRz.add(`object`)
                 if (isBoth) {
                     bothZ++
@@ -184,7 +184,7 @@ class Simple2Builder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
     }
 
 }

@@ -128,7 +128,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
 
     companion object {
 
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
 
         private const val STEP_X = 1
         private const val STEP_Y = 1

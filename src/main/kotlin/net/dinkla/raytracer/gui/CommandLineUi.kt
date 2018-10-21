@@ -11,7 +11,7 @@ import java.io.File
 
 object CommandLineUi {
 
-    internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+    internal val LOGGER = LoggerFactory.getLogger(this::class.java)
 
     @JvmStatic
     fun main(args: Array<String>) {

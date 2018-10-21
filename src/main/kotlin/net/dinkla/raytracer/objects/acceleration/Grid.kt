@@ -63,7 +63,7 @@ open class Grid : Compound {
         // setBoundingBox(getBoundingBox());        // TODO: wird in initialize() aufgerufen !!!
         val bbox = boundingBox
 
-        val wx = bbox.q!!.x - bbox.p!!.x
+        val wx = bbox.q.x - bbox.p.x
         val wy = bbox.q.y - bbox.p.y
         val wz = bbox.q.z - bbox.p.z
 
@@ -98,11 +98,11 @@ open class Grid : Compound {
 
             val objBbox = `object`.boundingBox
 
-            val ixmin = MathUtils.clamp((objBbox.p!!.x - bbox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
+            val ixmin = MathUtils.clamp((objBbox.p.x - bbox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
             val iymin = MathUtils.clamp((objBbox.p.y - bbox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
             val izmin = MathUtils.clamp((objBbox.p.z - bbox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
 
-            val ixmax = MathUtils.clamp((objBbox.q!!.x - bbox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
+            val ixmax = MathUtils.clamp((objBbox.q.x - bbox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
             val iymax = MathUtils.clamp((objBbox.q.y - bbox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
             val izmax = MathUtils.clamp((objBbox.q.z - bbox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
 
@@ -192,67 +192,67 @@ open class Grid : Compound {
         val dy = ray.direction.y
         val dz = ray.direction.z
 
-        val x0 = boundingBox.p?.x ?: 0.0
-        val y0 = boundingBox.p?.y ?: 0.0
-        val z0 = boundingBox.p?.z ?: 0.0
-        val x1 = boundingBox.q?.x ?: 0.0
-        val y1 = boundingBox.q?.y ?: 0.0
-        val z1 = boundingBox.q?.z ?: 0.0
+        val x0 = boundingBox.p.x
+        val y0 = boundingBox.p.y
+        val z0 = boundingBox.p.z
+        val x1 = boundingBox.q.x
+        val y1 = boundingBox.q.y
+        val z1 = boundingBox.q.z
 
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
+        val txMin: Double
+        val tyMin: Double
+        val tzMin: Double
+        val txMax: Double
+        val tyMax: Double
+        val tzMax: Double
 
         // the following code includes modifications from Shirley and Morley (2003)
 
         val a = 1.0 / dx
         if (a >= 0) {
-            tx_min = (x0 - ox) * a
-            tx_max = (x1 - ox) * a
+            txMin = (x0 - ox) * a
+            txMax = (x1 - ox) * a
         } else {
-            tx_min = (x1 - ox) * a
-            tx_max = (x0 - ox) * a
+            txMin = (x1 - ox) * a
+            txMax = (x0 - ox) * a
         }
 
         val b = 1.0 / dy
         if (b >= 0) {
-            ty_min = (y0 - oy) * b
-            ty_max = (y1 - oy) * b
+            tyMin = (y0 - oy) * b
+            tyMax = (y1 - oy) * b
         } else {
-            ty_min = (y1 - oy) * b
-            ty_max = (y0 - oy) * b
+            tyMin = (y1 - oy) * b
+            tyMax = (y0 - oy) * b
         }
 
         val c = 1.0 / dz
         if (c >= 0) {
-            tz_min = (z0 - oz) * c
-            tz_max = (z1 - oz) * c
+            tzMin = (z0 - oz) * c
+            tzMax = (z1 - oz) * c
         } else {
-            tz_min = (z1 - oz) * c
-            tz_max = (z0 - oz) * c
+            tzMin = (z1 - oz) * c
+            tzMax = (z0 - oz) * c
         }
 
         var t0: Double
         var t1: Double
 
-        if (tx_min > ty_min)
-            t0 = tx_min
+        t0 = if (txMin > tyMin)
+            txMin
         else
-            t0 = ty_min
+            tyMin
 
-        if (tz_min > t0)
-            t0 = tz_min
+        if (tzMin > t0)
+            t0 = tzMin
 
-        if (tx_max < ty_max)
-            t1 = tx_max
+        t1 = if (txMax < tyMax)
+            txMax
         else
-            t1 = ty_max
+            tyMax
 
-        if (tz_max < t1)
-            t1 = tz_max
+        if (tzMax < t1)
+            t1 = tzMax
 
         if (t0 > t1) {
             Counter.count("Grid.hit.t0>t1")
@@ -278,61 +278,61 @@ open class Grid : Compound {
 
         // ray parameter increments per cell in the x, y, and z directions
 
-        val dtx = (tx_max - tx_min) / nx
-        val dty = (ty_max - ty_min) / ny
-        val dtz = (tz_max - tz_min) / nz
+        val dtx = (txMax - txMin) / nx
+        val dty = (tyMax - tyMin) / ny
+        val dtz = (tzMax - tzMin) / nz
 
-        var tx_next: Double
-        var ty_next: Double
-        var tz_next: Double
-        var ix_step: Int
-        var iy_step: Int
-        var iz_step: Int
-        var ix_stop: Int
-        var iy_stop: Int
-        var iz_stop: Int
+        var txNext: Double
+        var tyNext: Double
+        var tzNext: Double
+        var ixStep: Int
+        var iyStep: Int
+        var izStep: Int
+        var ixStop: Int
+        var iyStop: Int
+        var izStop: Int
 
         if (dx > 0) {
-            tx_next = tx_min + (ix + 1) * dtx
-            ix_step = +1
-            ix_stop = nx
+            txNext = txMin + (ix + 1) * dtx
+            ixStep = +1
+            ixStop = nx
         } else {
-            tx_next = tx_min + (nx - ix) * dtx
-            ix_step = -1
-            ix_stop = -1
+            txNext = txMin + (nx - ix) * dtx
+            ixStep = -1
+            ixStop = -1
         }
         if (dx == 0.0) {
-            tx_next = MathUtils.K_HUGEVALUE
-            ix_step = -1
-            ix_stop = -1
+            txNext = MathUtils.K_HUGEVALUE
+            ixStep = -1
+            ixStop = -1
         }
         if (dy > 0) {
-            ty_next = ty_min + (iy + 1) * dty
-            iy_step = +1
-            iy_stop = ny
+            tyNext = tyMin + (iy + 1) * dty
+            iyStep = +1
+            iyStop = ny
         } else {
-            ty_next = ty_min + (ny - iy) * dty
-            iy_step = -1
-            iy_stop = -1
+            tyNext = tyMin + (ny - iy) * dty
+            iyStep = -1
+            iyStop = -1
         }
         if (dy == 0.0) {
-            ty_next = MathUtils.K_HUGEVALUE
-            iy_step = -1
-            iy_stop = -1
+            tyNext = MathUtils.K_HUGEVALUE
+            iyStep = -1
+            iyStop = -1
         }
         if (dz > 0) {
-            tz_next = tz_min + (iz + 1) * dtz
-            iz_step = +1
-            iz_stop = nz
+            tzNext = tzMin + (iz + 1) * dtz
+            izStep = +1
+            izStop = nz
         } else {
-            tz_next = tz_min + (nz - iz) * dtz
-            iz_step = -1
-            iz_stop = -1
+            tzNext = tzMin + (nz - iz) * dtz
+            izStep = -1
+            izStop = -1
         }
         if (dz == 0.0) {
-            tz_next = MathUtils.K_HUGEVALUE
-            iz_step = -1
-            iz_stop = -1
+            tzNext = MathUtils.K_HUGEVALUE
+            izStep = -1
+            izStop = -1
         }
 
         // traverse the grid
@@ -341,8 +341,8 @@ open class Grid : Compound {
             val idx = ix + nx * iy + nx * ny * iz
             val `object` = cells[ix + nx * iy + nx * ny * iz]
             val sr2 = Hit(sr.t)
-            if (tx_next < ty_next && tx_next < tz_next) {
-                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tx_next) {
+            if (txNext < tyNext && txNext < tzNext) {
+                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < txNext) {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
@@ -353,14 +353,14 @@ open class Grid : Compound {
                     return true
                 }
 
-                tx_next += dtx
-                ix += ix_step
+                txNext += dtx
+                ix += ixStep
 
-                if (ix == ix_stop)
+                if (ix == ixStop)
                     return false
             } else {
-                if (ty_next < tz_next) {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < ty_next) {
+                if (tyNext < tzNext) {
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tyNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
@@ -371,13 +371,13 @@ open class Grid : Compound {
                         return true
                     }
 
-                    ty_next += dty
-                    iy += iy_step
+                    tyNext += dty
+                    iy += iyStep
 
-                    if (iy == iy_stop)
+                    if (iy == iyStop)
                         return false
                 } else {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tz_next) {
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
@@ -388,10 +388,10 @@ open class Grid : Compound {
                         return true
                     }
 
-                    tz_next += dtz
-                    iz += iz_step
+                    tzNext += dtz
+                    iz += izStep
 
-                    if (iz == iz_stop)
+                    if (iz == izStop)
                         return false
                 }
             }
@@ -598,7 +598,7 @@ open class Grid : Compound {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
         internal var logInterval = 1000
         protected var factorSize = 500
         protected var maxDepth = 0

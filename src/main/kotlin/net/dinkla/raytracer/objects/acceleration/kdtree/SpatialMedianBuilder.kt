@@ -33,7 +33,7 @@ class SpatialMedianBuilder : IKDTreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val half = voxel!!.q!!.minus(voxel.p!!).times(0.5)
+        val half = voxel!!.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
 
         var split: Double? = null
@@ -45,7 +45,7 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             // x
             split = mid.x
 
-            val q1 = Point3D(mid.x, voxel.q!!.y, voxel.q.z)
+            val q1 = Point3D(mid.x, voxel.q.y, voxel.q.z)
             voxelL = BBox(voxel.p, q1)
 
             val p2 = Point3D(mid.x, voxel.p.y, voxel.p.z)
@@ -53,10 +53,10 @@ class SpatialMedianBuilder : IKDTreeBuilder {
 
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.x <= split) {
+                if (bbox.p.x <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.x >= split) {
+                if (bbox.q.x >= split) {
                     objectsR.add(`object`)
                 }
             }
@@ -65,7 +65,7 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             // y
             split = mid.y
 
-            val q1 = Point3D(voxel.q!!.x, mid.y, voxel.q.z)
+            val q1 = Point3D(voxel.q.x, mid.y, voxel.q.z)
             voxelL = BBox(voxel.p, q1)
 
             val p2 = Point3D(voxel.p.x, mid.y, voxel.p.z)
@@ -73,10 +73,10 @@ class SpatialMedianBuilder : IKDTreeBuilder {
 
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.y <= split) {
+                if (bbox.p.y <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.y >= split) {
+                if (bbox.q.y >= split) {
                     objectsR.add(`object`)
                 }
             }
@@ -84,7 +84,7 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             // z
             split = mid.z
 
-            val q1 = Point3D(voxel.q!!.x, voxel.q.y, mid.z)
+            val q1 = Point3D(voxel.q.x, voxel.q.y, mid.z)
             voxelL = BBox(voxel.p, q1)
 
             val p2 = Point3D(voxel.p.x, voxel.p.y, mid.z)
@@ -92,10 +92,10 @@ class SpatialMedianBuilder : IKDTreeBuilder {
 
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.z <= split) {
+                if (bbox.p.z <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.z >= split) {
+                if (bbox.q.z >= split) {
                     objectsR.add(`object`)
                 }
             }
@@ -111,6 +111,6 @@ class SpatialMedianBuilder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
     }
 }

@@ -73,7 +73,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
             axis = Axis.X
             ListUtilities.sortByAxis(objects, axis)
             var median = objects[medianIndex]
-            val splitXtmp = median.boundingBox.q!!.ith(axis)
+            val splitXtmp = median.boundingBox.q.ith(axis)
             splitX = splitXtmp
             ListUtilities.splitByAxis(objects, splitXtmp, axis, objectsLx, objectsRx)
             val weightX = weight(objectsLx.size, objectsRx.size, size)
@@ -82,7 +82,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
             axis = Axis.Y
             ListUtilities.sortByAxis(objects, axis)
             median = objects[medianIndex]
-            val splitYtmp = median.boundingBox.q!!.ith(axis)
+            val splitYtmp = median.boundingBox.q.ith(axis)
             splitY = splitYtmp
             ListUtilities.splitByAxis(objects, splitYtmp, axis, objectsLy, objectsRy)
             val weightY = weight(objectsLy.size, objectsRy.size, size)
@@ -91,7 +91,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
             axis = Axis.Z
             ListUtilities.sortByAxis(objects, axis)
             median = objects[medianIndex]
-            val splitZtmp = median.boundingBox.q!!.ith(axis)
+            val splitZtmp = median.boundingBox.q.ith(axis)
             splitZ = splitZtmp
             ListUtilities.splitByAxis(objects, splitZtmp, axis, objectsLz, objectsRz)
             val weightZ = weight(objectsLz.size, objectsRz.size, size)
@@ -122,8 +122,8 @@ class ObjectMedian2Builder : IKDTreeBuilder {
                 val bL = BBox.create(objectsLx)
                 val bR = BBox.create(objectsRx)
 
-                val q1x = Point3D(splitX!!, bL.q!!.y, bL.q.z)
-                val p2x = Point3D(splitX!!, bR.p!!.y, bR.p.z)
+                val q1x = Point3D(splitX!!, bL.q.y, bL.q.z)
+                val p2x = Point3D(splitX!!, bR.p.y, bR.p.z)
 
                 voxelL = BBox(bL.p, q1x)
                 voxelR = BBox(p2x, bR.q)
@@ -137,8 +137,8 @@ class ObjectMedian2Builder : IKDTreeBuilder {
                 val bL = BBox.create(objectsLy)
                 val bR = BBox.create(objectsRy)
 
-                val q1 = Point3D(bL.q!!.x, splitY!!, bL.q.z)
-                val p2 = Point3D(bR.p!!.x, splitY!!, bR.p.z)
+                val q1 = Point3D(bL.q.x, splitY!!, bL.q.z)
+                val p2 = Point3D(bR.p.x, splitY!!, bR.p.z)
 
                 voxelL = BBox(bL.p, q1)
                 voxelR = BBox(p2, bR.q)
@@ -152,8 +152,8 @@ class ObjectMedian2Builder : IKDTreeBuilder {
                 val bL = BBox.create(objectsLz)
                 val bR = BBox.create(objectsRz)
 
-                val q1 = Point3D(bL.q!!.x, bL.q.y, splitZ!!)
-                val p2 = Point3D(bR.p!!.x, bR.p.y, splitZ!!)
+                val q1 = Point3D(bL.q.x, bL.q.y, splitZ!!)
+                val p2 = Point3D(bR.p.x, bR.p.y, splitZ!!)
 
                 voxelL = BBox(bL.p, q1)
                 voxelR = BBox(p2, bR.q)
@@ -212,7 +212,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
 
     companion object {
 
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
 
         private fun weight(a: Int, b: Int, c: Int): Int {
             return Math.abs(a - c / 2) + Math.abs(b - c / 2)

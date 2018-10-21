@@ -41,10 +41,10 @@ class Test2Builder : IKDTreeBuilder {
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
                 val clipped = bbox.clipTo(voxel)
-                candidatesX.add(clipped.p!!.x)
+                candidatesX.add(clipped.p.x)
                 candidatesY.add(clipped.p.y)
                 candidatesX.add(clipped.p.z)
-                candidatesX.add(clipped.q!!.x)
+                candidatesX.add(clipped.q.x)
                 candidatesY.add(clipped.q.y)
                 candidatesX.add(clipped.q.z)
             }
@@ -117,7 +117,7 @@ class Test2Builder : IKDTreeBuilder {
         fun x(axis: Axis, cs: Set<Double>): Split? {
             var min: Split? = null
             for (split in cs) {
-                if (root.bbox!!.p!!.ith(axis) <= split && split <= root.bbox!!.q!!.ith(axis)) {
+                if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
                     val s = calcSplit(axis, split, root)
                     if (s.isOk && (null == min || s.sah < min.sah)) {
                         //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
@@ -148,7 +148,7 @@ class Test2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build")
 
-        var node: AbstractNode? = null
+        var node: AbstractNode?
 
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
@@ -164,7 +164,7 @@ class Test2Builder : IKDTreeBuilder {
         val sY = par.x(Axis.Y, par.candidatesY)
         val sZ = par.x(Axis.Z, par.candidatesZ)
 
-        var split: Partitioner.Split? = null
+        var split: Partitioner.Split?
 
         if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {
@@ -199,7 +199,7 @@ class Test2Builder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
 
         fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
             return if (x != null && y != null) {

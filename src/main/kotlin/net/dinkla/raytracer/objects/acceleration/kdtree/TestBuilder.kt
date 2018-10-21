@@ -94,11 +94,11 @@ class TestBuilder : IKDTreeBuilder {
 
         fun x(axis: Axis, num: Int): Split? {
             var min: Split? = null
-            val width = root.bbox.q!!.ith(axis) - root.bbox.p!!.ith(axis)
+            val width = root.bbox.q.ith(axis) - root.bbox.p.ith(axis)
             // divide interval in num parts
             val step = width / (num + 1)
             for (i in 1 until num) {
-                val split = root.bbox.p!!.ith(axis) + i * step
+                val split = root.bbox.p.ith(axis) + i * step
                 val s = calcSplit(axis, split, root)
                 if (s.isOk && (null == min || s.sah < min.sah)) {
                     //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
@@ -175,7 +175,7 @@ class TestBuilder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
 
         fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
             return if (x != null && y != null) {

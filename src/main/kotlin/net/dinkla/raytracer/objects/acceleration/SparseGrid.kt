@@ -34,9 +34,9 @@ class SparseGrid : Grid {
         val timer = Timer()
         timer.start()
 
-        val wx = (boundingBox.q?.x ?: 0.0) - (boundingBox.p?.x ?: 0.0)
-        val wy = (boundingBox.q?.y ?: 0.0) - (boundingBox.p?.y ?: 0.0)
-        val wz = (boundingBox.q?.z ?: 0.0) - (boundingBox.p?.z ?: 0.0)
+        val wx = boundingBox.q.x - boundingBox.p.x
+        val wy = boundingBox.q.y - boundingBox.p.y
+        val wz = boundingBox.q.z - boundingBox.p.z
 
         val s = Math.pow(wx * wy * wz / objects.size, 1.0 / 3)
         nx = (multiplier * wx / s + 1).toInt()
@@ -64,20 +64,20 @@ class SparseGrid : Grid {
         // insert the objects into the cells
         for (`object` in objects) {
 
-            if (objectsToGo % Grid.Companion.logInterval === 0) {
+            if (objectsToGo % Grid.Companion.logInterval == 0) {
                 LOGGER.info("Grid: $objectsToGo objects to grid")
             }
             objectsToGo--
 
             val objBbox = `object`.boundingBox
 
-            val ixmin = MathUtils.clamp((objBbox.p!!.x - (boundingBox.p?.x ?: 0.0)) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
-            val iymin = MathUtils.clamp((objBbox.p.y - (boundingBox.p?.y ?: 0.0)) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
-            val izmin = MathUtils.clamp((objBbox.p.z - (boundingBox.p?.z?: 0.0)) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
+            val ixmin = MathUtils.clamp((objBbox.p.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
+            val iymin = MathUtils.clamp((objBbox.p.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
+            val izmin = MathUtils.clamp((objBbox.p.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
 
-            val ixmax = MathUtils.clamp((objBbox.q!!.x - (boundingBox.p?.x?: 0.0)) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
-            val iymax = MathUtils.clamp((objBbox.q.y - (boundingBox.p?.y?: 0.0)) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
-            val izmax = MathUtils.clamp((objBbox.q.z - (boundingBox.p?.z?: 0.0)) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
+            val ixmax = MathUtils.clamp((objBbox.q.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
+            val iymax = MathUtils.clamp((objBbox.q.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
+            val izmax = MathUtils.clamp((objBbox.q.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
 
             for (iz in izmin..izmax) {
                 for (iy in iymin..iymax) {
@@ -133,67 +133,67 @@ class SparseGrid : Grid {
         val dy = ray.direction.y
         val dz = ray.direction.z
 
-        val x0 = boundingBox.p?.x ?: 0.0
-        val y0 = boundingBox.p?.y ?: 0.0
-        val z0 = boundingBox.p?.z ?: 0.0
-        val x1 = boundingBox.q?.x ?: 0.0
-        val y1 = boundingBox.q?.y ?: 0.0
-        val z1 = boundingBox.q?.z ?: 0.0
+        val x0 = boundingBox.p.x
+        val y0 = boundingBox.p.y
+        val z0 = boundingBox.p.z
+        val x1 = boundingBox.q.x
+        val y1 = boundingBox.q.y
+        val z1 = boundingBox.q.z
 
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
+        val txMin: Double
+        val tyMin: Double
+        val tzMin: Double
+        val txMax: Double
+        val tyMax: Double
+        val tzMax: Double
 
         // the following code includes modifications from Shirley and Morley (2003)
 
         val a = 1.0 / dx
         if (a >= 0) {
-            tx_min = (x0 - ox) * a
-            tx_max = (x1 - ox) * a
+            txMin = (x0 - ox) * a
+            txMax = (x1 - ox) * a
         } else {
-            tx_min = (x1 - ox) * a
-            tx_max = (x0 - ox) * a
+            txMin = (x1 - ox) * a
+            txMax = (x0 - ox) * a
         }
 
         val b = 1.0 / dy
         if (b >= 0) {
-            ty_min = (y0 - oy) * b
-            ty_max = (y1 - oy) * b
+            tyMin = (y0 - oy) * b
+            tyMax = (y1 - oy) * b
         } else {
-            ty_min = (y1 - oy) * b
-            ty_max = (y0 - oy) * b
+            tyMin = (y1 - oy) * b
+            tyMax = (y0 - oy) * b
         }
 
         val c = 1.0 / dz
         if (c >= 0) {
-            tz_min = (z0 - oz) * c
-            tz_max = (z1 - oz) * c
+            tzMin = (z0 - oz) * c
+            tzMax = (z1 - oz) * c
         } else {
-            tz_min = (z1 - oz) * c
-            tz_max = (z0 - oz) * c
+            tzMin = (z1 - oz) * c
+            tzMax = (z0 - oz) * c
         }
 
         var t0: Double
         var t1: Double
 
-        if (tx_min > ty_min)
-            t0 = tx_min
+        if (txMin > tyMin)
+            t0 = txMin
         else
-            t0 = ty_min
+            t0 = tyMin
 
-        if (tz_min > t0)
-            t0 = tz_min
+        if (tzMin > t0)
+            t0 = tzMin
 
-        if (tx_max < ty_max)
-            t1 = tx_max
+        if (txMax < tyMax)
+            t1 = txMax
         else
-            t1 = ty_max
+            t1 = tyMax
 
-        if (tz_max < t1)
-            t1 = tz_max
+        if (tzMax < t1)
+            t1 = tzMax
 
         if (t0 > t1)
             return false
@@ -217,9 +217,9 @@ class SparseGrid : Grid {
 
         // ray parameter increments per cell in the x, y, and z directions
 
-        val dtx = (tx_max - tx_min) / nx
-        val dty = (ty_max - ty_min) / ny
-        val dtz = (tz_max - tz_min) / nz
+        val dtx = (txMax - txMin) / nx
+        val dty = (tyMax - tyMin) / ny
+        val dtz = (tzMax - tzMin) / nz
 
         var tx_next: Double
         var ty_next: Double
@@ -232,11 +232,11 @@ class SparseGrid : Grid {
         var iz_stop: Int
 
         if (dx > 0) {
-            tx_next = tx_min + (ix + 1) * dtx
+            tx_next = txMin + (ix + 1) * dtx
             ix_step = +1
             ix_stop = nx
         } else {
-            tx_next = tx_min + (nx - ix) * dtx
+            tx_next = txMin + (nx - ix) * dtx
             ix_step = -1
             ix_stop = -1
         }
@@ -246,11 +246,11 @@ class SparseGrid : Grid {
             ix_stop = -1
         }
         if (dy > 0) {
-            ty_next = ty_min + (iy + 1) * dty
+            ty_next = tyMin + (iy + 1) * dty
             iy_step = +1
             iy_stop = ny
         } else {
-            ty_next = ty_min + (ny - iy) * dty
+            ty_next = tyMin + (ny - iy) * dty
             iy_step = -1
             iy_stop = -1
         }
@@ -260,11 +260,11 @@ class SparseGrid : Grid {
             iy_stop = -1
         }
         if (dz > 0) {
-            tz_next = tz_min + (iz + 1) * dtz
+            tz_next = tzMin + (iz + 1) * dtz
             iz_step = +1
             iz_stop = nz
         } else {
-            tz_next = tz_min + (nz - iz) * dtz
+            tz_next = tzMin + (nz - iz) * dtz
             iz_step = -1
             iz_stop = -1
         }
@@ -346,7 +346,7 @@ class SparseGrid : Grid {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
     }
 
 }

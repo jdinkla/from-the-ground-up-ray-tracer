@@ -8,10 +8,10 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
 
 
-class PointLight(var location: Point3D) : Light() {
+class PointLight(val location: Point3D) : Light() {
 
     // emissive material
-    var ls: Double = 0.toDouble()
+    var ls: Double = 0.0
     var color: Color? = null
 
     protected var cachedL: Color? = null

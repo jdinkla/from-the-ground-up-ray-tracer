@@ -22,7 +22,7 @@ class ObjectMedianBuilder : IKDTreeBuilder {
         var objects = origObjects
         Counter.count("KDtree.build")
 
-        var node: AbstractNode? = null //new Leaf(objects);
+        var node: AbstractNode?
         var voxelL: BBox? = null
         var voxelR: BBox? = null
 
@@ -34,30 +34,28 @@ class ObjectMedianBuilder : IKDTreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        var split: Double? = null
-        val width = voxel.q!!.minus(voxel.p!!)
+        val split: Double?
+        val width = voxel.q.minus(voxel.p)
 
         // Find the axis width the largest difference
-        var axis: Axis? = null
-        if (width.x > width.y) {
+        val axis: Axis = if (width.x > width.y) {
             if (width.x > width.z) {
-                axis = Axis.X
+                Axis.X
             } else {
-                axis = Axis.Z
+                Axis.Z
             }
         } else {
             if (width.y > width.z) {
-                axis = Axis.Y
+                Axis.Y
             } else {
-                axis = Axis.Z
+                Axis.Z
             }
         }
 
-        val axis2 = axis
         // Sort the objects by the current axis
         // final Axis axis = Axis.fromInt(depth % 3);
 
-        objects = objects.sortedWith(compareBy { it.boundingBox.q?.ith(axis2) })
+        objects = objects.sortedWith(compareBy { it.boundingBox.q.ith(axis) })
 
 //        objects.sortedWith { o1, o2 ->
 //            val oP = o1 as GeometricObject
@@ -70,24 +68,24 @@ class ObjectMedianBuilder : IKDTreeBuilder {
 //        }
 
         val size = objects.size
-        val minAxis = objects[0].boundingBox.p!!.ith(axis)
-        val maxAxis = objects[objects.size - 1].boundingBox.p!!.ith(axis)
+        val minAxis = objects[0].boundingBox.p.ith(axis)
+        val maxAxis = objects[objects.size - 1].boundingBox.p.ith(axis)
         val fwidth = maxAxis - minAxis
 
         val med = objects[size / 2]
-        split = med.boundingBox.p!!.ith(axis)
+        split = med.boundingBox.p.ith(axis)
 
         val objectsL = ArrayList<GeometricObject>()
         val objectsR = ArrayList<GeometricObject>()
 
-        if (axis2 === Axis.X) {
+        if (axis === Axis.X) {
             // x
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.x <= split) {
+                if (bbox.p.x <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.x >= split) {
+                if (bbox.q.x >= split) {
                     objectsR.add(`object`)
                 }
             }
@@ -95,38 +93,38 @@ class ObjectMedianBuilder : IKDTreeBuilder {
             val bL = BBox.create(objectsL)
             val bR = BBox.create(objectsR)
 
-            val q1 = Point3D(split, bL.q!!.y, bL.q.z)
-            val p2 = Point3D(split, bR.p!!.y, bR.p.z)
+            val q1 = Point3D(split, bL.q.y, bL.q.z)
+            val p2 = Point3D(split, bR.p.y, bR.p.z)
 
             voxelL = BBox(bL.p, q1)
             voxelR = BBox(p2, bR.q)
-        } else if (axis2 === Axis.Y) {
+        } else if (axis === Axis.Y) {
             // y
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.y <= split) {
+                if (bbox.p.y <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.y >= split) {
+                if (bbox.q.y >= split) {
                     objectsR.add(`object`)
                 }
             }
             val bL = BBox.create(objectsL)
             val bR = BBox.create(objectsR)
 
-            val q1 = Point3D(bL.q!!.x, split, bL.q.z)
-            val p2 = Point3D(bR.p!!.x, split, bR.p.z)
+            val q1 = Point3D(bL.q.x, split, bL.q.z)
+            val p2 = Point3D(bR.p.x, split, bR.p.z)
 
             voxelL = BBox(bL.p, q1)
             voxelR = BBox(p2, bR.q)
-        } else if (axis2 === Axis.Z) {
+        } else if (axis === Axis.Z) {
             // z
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
-                if (bbox.p!!.z <= split) {
+                if (bbox.p.z <= split) {
                     objectsL.add(`object`)
                 }
-                if (bbox.q!!.z >= split) {
+                if (bbox.q.z >= split) {
                     objectsR.add(`object`)
                 }
             }
@@ -134,8 +132,8 @@ class ObjectMedianBuilder : IKDTreeBuilder {
             val bL = BBox.create(objectsL)
             val bR = BBox.create(objectsR)
 
-            val q1 = Point3D(bL.q!!.x, bL.q.y, split)
-            val p2 = Point3D(bR.p!!.x, bR.p.y, split)
+            val q1 = Point3D(bL.q.x, bL.q.y, split)
+            val p2 = Point3D(bR.p.x, bR.p.y, split)
 
             voxelL = BBox(bL.p, q1)
             voxelR = BBox(p2, bR.q)
@@ -145,7 +143,7 @@ class ObjectMedianBuilder : IKDTreeBuilder {
             LOGGER.info("Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
             node = Leaf(objects)
         } else {
-            LOGGER.info("Splitting " + axis2 + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
+            LOGGER.info("Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
             val right = build(objectsR, voxelR?: BBox(), depth + 1)
 
@@ -156,6 +154,6 @@ class ObjectMedianBuilder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this.javaClass)
+        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
     }
 }
