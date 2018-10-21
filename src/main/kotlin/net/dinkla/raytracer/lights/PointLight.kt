@@ -7,25 +7,21 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
 
+// emissive material
 
-class PointLight(val location: Point3D) : Light() {
+class PointLight(val location: Point3D,
+                 val ls: Double = 1.0,
+                 val color: Color = Color.WHITE) : Light() {
 
-    // emissive material
-    var ls: Double = 0.0
-    var color: Color? = null
-
-    protected var cachedL: Color? = null
+    private var cachedL: Color? = null
 
     init {
-        color = Color.WHITE
-        ls = 1.0
         shadows = true
     }
 
     override fun L(world: World, sr: Shade): Color {
-        assert(null != color)
         if (null == cachedL) {
-            cachedL = color!!.times(ls)
+            cachedL = color.times(ls)
         }
         return cachedL ?: Color.BLACK
     }
