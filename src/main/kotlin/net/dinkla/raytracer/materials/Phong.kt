@@ -8,12 +8,15 @@ import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.worlds.World
 
-open class Phong : Matte() {
+open class Phong : Matte {
 
-    var specularBrdf: GlossySpecular
+    var specularBrdf: GlossySpecular = GlossySpecular()
 
-    init {
-        specularBrdf = GlossySpecular()
+    constructor(): super()
+    constructor(color: Color, ka: Double, kd: Double): super(color, ka, kd)
+    constructor(color: Color, ka: Double, kd: Double, exp: Double, ks: Double): super(color, ka, kd) {
+        setExp(exp)
+        setKs(ks)
     }
 
     fun setKs(ks: Double) {
