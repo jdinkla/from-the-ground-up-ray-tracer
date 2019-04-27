@@ -7,13 +7,7 @@ import org.slf4j.LoggerFactory
 // TODO zoom camera
 class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
-    var d: Double = 0.toDouble()
-
-    init {
-        this.d = 1.0
-        //        this.zoom = zoom;
-        //viewPlane.size /= zoom;
-    }
+    var d: Double = 1.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
         val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres)

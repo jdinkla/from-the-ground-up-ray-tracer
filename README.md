@@ -74,6 +74,11 @@ Here is another example:
 
 ![Rendered image](http://dinkla.net/images/rendered/VariousObjectsWithReflections.png)
 
+Requirements
+--------
+
+Java 8 SDK is needed.
+
 Keywords
 --------
 ray tracing, rendering, Java, Groovy, DSL, ambient occlusion

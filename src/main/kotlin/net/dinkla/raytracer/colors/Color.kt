@@ -47,6 +47,8 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         }
     }
 
+    override fun toString(): String = "Color $red $green $blue"
+
     companion object {
 
         @JvmField

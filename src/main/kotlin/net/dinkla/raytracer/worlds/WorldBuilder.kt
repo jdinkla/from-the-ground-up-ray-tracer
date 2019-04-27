@@ -10,6 +10,12 @@ class WorldBuilder(val world: World) {
 
     companion object {
         fun create(file: File) : World = World()
+
+        fun world(id: String, build: WorldScope.() -> Unit): World {
+            val scope = WorldScope(id)
+            scope.build()
+            return scope.world
+        }
     }
 }
 

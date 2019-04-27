@@ -16,7 +16,8 @@ import javafx.scene.text.FontWeight
 import javafx.scene.text.Text
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
-import net.dinkla.raytracer.examples.WithoutDslWorld10
+import net.dinkla.raytracer.examples.World10
+import net.dinkla.raytracer.examples.World5
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.utilities.AppProperties
@@ -166,7 +167,7 @@ class FromTheGroundUpRayTracer : Application() {
         val width = 1280.0
         val height = 720.0
 
-        val w = WithoutDslWorld10.create()
+        val w = World5.world()
 
 //        val w = World()
 //        val builder = WorldBuilder(w)

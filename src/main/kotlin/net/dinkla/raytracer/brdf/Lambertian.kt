@@ -5,6 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 
 import net.dinkla.raytracer.math.MathUtils.INV_PI
+import java.util.*
 
 class Lambertian : BRDF() {
 
@@ -26,5 +27,15 @@ class Lambertian : BRDF() {
         return cd.getColor(sr).times(kd)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is Lambertian) {
+            return kd.equals(other.kd) && cd.equals(other.cd)
+        }
+        return false
+    }
+
+    override fun hashCode(): Int = Objects.hash(kd, cd)
+
+    override fun toString(): String = "Lambertian $kd $cd"
 }
 

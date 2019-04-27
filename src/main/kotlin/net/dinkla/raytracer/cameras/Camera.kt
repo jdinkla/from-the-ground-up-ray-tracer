@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
  * 3. Lens: Pinhole, FishEye, Spherical, ThinLens, Orthographic
  * 4. Iterative ?
  */
-open class Camera(var lens: AbstractLens, var render2: IRenderer) {
+open class Camera(val lens: AbstractLens, val render2: IRenderer) {
 
     var eye: Point3D
     var lookAt: Point3D
@@ -31,14 +31,10 @@ open class Camera(var lens: AbstractLens, var render2: IRenderer) {
 
     init {
         // setup(Point3D.DEFAULT_CAMERA, Point3D.ORIGIN, Vector3D.UP)
-        val eye = DEFAULT_CAMERA
-        val lookAt = Point3D.ORIGIN
-        val up = Vector3D.UP
+        eye = DEFAULT_CAMERA
+        lookAt = Point3D.ORIGIN
+        up = Vector3D.UP
         uvw = Basis(eye, lookAt, up)
-
-        this.eye = eye
-        this.lookAt = lookAt
-        this.up = up
         lens.eye = eye
         lens.uvw = uvw
     }

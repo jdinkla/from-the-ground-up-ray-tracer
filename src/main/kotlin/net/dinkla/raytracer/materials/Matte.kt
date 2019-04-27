@@ -8,6 +8,7 @@ import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.worlds.World
+import java.util.*
 
 open class Matte : IMaterial {
 
@@ -22,7 +23,7 @@ open class Matte : IMaterial {
         setCd(Color.WHITE)
     }
 
-    constructor(color: Color, ka: Double, kd: Double) {
+    constructor(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) {
         ambientBrdf = Lambertian()
         diffuseBrdf = Lambertian()
         setKa(ka)
@@ -127,5 +128,16 @@ open class Matte : IMaterial {
         // TODO used?
         val materials = arrayOf(Matte(Color(0.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 1.0), 1.0, 1.0))
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is Matte) {
+            return ambientBrdf.equals(other.ambientBrdf) && diffuseBrdf.equals(other.diffuseBrdf)
+        }
+        return false
+    }
+
+    override fun hashCode(): Int = Objects.hash(ambientBrdf, diffuseBrdf)
+
+    override fun toString(): String = "Matte $ambientBrdf $diffuseBrdf"
 }
 

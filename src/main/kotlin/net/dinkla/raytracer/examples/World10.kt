@@ -17,9 +17,40 @@ import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.worlds.World
 
-object WithoutDslWorld10 {
+/*
+builder.world(id: "World10") {
 
-    fun create(): World {
+    camera(d: 8000, eye: p(0, 0, 500), lookAt: p(0, 0, 0))
+
+    viewPlane(resolution: new Resolution(1440))
+
+    ambientLight(ls: 0.5)
+
+    lights {
+        pointLight(location: p(100, 50, 150), ls: 3.141)
+        pointLight(location: p(-100, 50, -30), ls: 1.641, color: c(0.9, 0, 0))
+        pointLight(location: p(400, 180, -200), ls: 2.641, color: c(0, 0.9, 1))
+    }
+
+    materials {
+        phong(id: "m1", cd: c(1, 1, 0), ka: 0.25, kd: 0.65, exp: 25, ks: 1.0)
+        phong(id: "m2", cd: c(0.71, 0.40, 0.16), ka: 0.25, kd: 0.65, exp: 1, ks: 0.1)
+        phong(id: "m3", cd: c(0.5, 0.5, 0.5), ka: 0.25, kd: 0.55, exp: 15, ks: 0.9)
+        matte(id: "m4", cd: c(0.5, 0.5, 0.99), ka: 0.1, kd: 0.5)
+    }
+
+    objects {
+        sphere(center: p(10, -5, 0), radius: 27, material: "m1")
+        sphere(center: p(-30, 15, -50), radius: 27, material: "m2")
+        plane(point: p(0, -100, 0), material: "m3")
+        plane(point: p(0, 100, 0), normal: n(0, -1, 0), material: "m4")
+    }
+
+}
+ */
+object World10 : IWorld {
+
+    override fun world(): World {
 
         val viewPlane = ViewPlane()
         viewPlane.resolution = Resolution.RESOLUTION_1440
@@ -33,8 +64,7 @@ object WithoutDslWorld10 {
         val sr2 = SequentialRenderer(sr, viewPlane)
         w.camera = Camera(lens, sr2)
 
-        val ambientLight = Ambient()
-        ambientLight.ls = 0.5
+        val ambientLight = Ambient(0.5)
         w.ambientLight = ambientLight
 
         w.lights = listOf(

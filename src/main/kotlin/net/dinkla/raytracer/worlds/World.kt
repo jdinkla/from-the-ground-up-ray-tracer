@@ -9,6 +9,7 @@ import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
@@ -23,36 +24,21 @@ import java.util.LinkedList
 
 class World {
 
-    protected var compound: Compound
-    var backgroundColor: Color
-        protected set
-    var errorColor: Color
-        protected set
-    var lights: List<Light>
-    var ambientLight: Ambient
-    var viewPlane: ViewPlane
-        protected set
-    var tracer: Tracer
-        protected set
+    val compound: Compound = Compound()
+    val viewPlane: ViewPlane = ViewPlane()
+    val tracer: Tracer = Whitted(this)
+
+    var id: String = "unnamed"
+    var backgroundColor: Color = Color.BLACK
+    var errorColor: Color = Color.errorColor
+    var lights : List<Light> = listOf()
+    var ambientLight: Ambient = Ambient()
     var camera: Camera? = null
-        set
     var isDynamic: Boolean = false
     var stepCounter: StepCounter? = null
-        protected set
 
-    init {
-        lights = LinkedList()
-        ambientLight = Ambient()
-        viewPlane = ViewPlane()
-        tracer = Whitted(this)
-        compound = Compound()
-        isDynamic = false
-        stepCounter = null
-
-        // TODO color
-        backgroundColor = Color.BLACK
-        errorColor = Color.errorColor
-    }
+    var materials : Map<String, IMaterial> = mapOf()
+    var objects : List<GeometricObject> = listOf()
 
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")
@@ -105,8 +91,6 @@ class World {
         stepCounter!!.step()
     }
 
-    fun set() {}
-
     fun render(film: IFilm) {
 
         val timer = net.dinkla.raytracer.utilities.Timer()
@@ -126,6 +110,6 @@ class World {
     }
 
     override fun toString(): String {
-        return "World"
+        return "World $id"
     }
 }
