@@ -92,10 +92,11 @@ class World {
     }
 
     fun render(film: IFilm) {
-
+        assert(camera != null)
+        camera!!
         val timer = net.dinkla.raytracer.utilities.Timer()
         timer.start()
-        camera!!.render(film, 0)
+        camera?.render(film, 0)
         timer.stop()
 
         Counter.stats(30)      // ???
