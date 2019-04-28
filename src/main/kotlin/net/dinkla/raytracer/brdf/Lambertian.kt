@@ -7,13 +7,10 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.math.MathUtils.INV_PI
 import java.util.*
 
-class Lambertian : BRDF() {
+// kd: diffuse reflection coefficient, in [0,1]
+// cd: diffuse color
 
-    // diffuse reflection coefficient, in [0,1]
-    var kd: Double = 1.0
-
-    // diffuse color
-    var cd: Color = Color.WHITE
+class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF() {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         return cd.getColor(sr).times(kd * INV_PI)

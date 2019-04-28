@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.materials.Matte
+import net.dinkla.raytracer.materials.Phong
 import net.dinkla.raytracer.materials.Reflective
 
 class MaterialsScope() {
@@ -19,17 +20,37 @@ class MaterialsScope() {
         mutableMaterials[id] = Matte(cd, ka, kd)
     }
 
+    fun phong(id: String,
+              cd: Color = Color.WHITE,
+              ka: Double = 0.25,
+              kd: Double = 0.75,
+              exp: Double = 5.0,
+              ks: Double = 0.25,
+              cs: Color = Color.WHITE) {
+        mutableMaterials[id] = Phong(cd, ka, kd).apply {
+            this.exp = exp
+            this.ks = ks
+            this.cs = cs
+        }
+        println("phong2 ${mutableMaterials[id]}")
+    }
+
     fun reflective(id: String,
                    cd: Color = Color.WHITE,
                    ka: Double = 0.25,
                    kd: Double = 0.75,
+                   exp: Double = 5.0,
+                   ks: Double = 0.25,
+                   cs: Color = Color.WHITE,
                    cr: Color = Color.WHITE,
                    kr: Double = 1.0) {
-        val c = Reflective(cd, ka, kd).apply {
+        mutableMaterials[id] = Reflective(cd, ka, kd).apply {
+            this.exp = exp
+            this.ks = ks
+            this.cs = cs
             this.cr = cr
             this.kr = kr
         }
-        mutableMaterials[id] = c
     }
 
 }

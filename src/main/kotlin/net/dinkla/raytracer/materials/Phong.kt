@@ -13,24 +13,36 @@ open class Phong(color: Color = Color.WHITE,
                  ka: Double = 0.25,
                  kd: Double = 0.75) : Matte(color, ka, kd) {
 
-    var specularBRDF: GlossySpecular = GlossySpecular()
-
-    constructor(color: Color, ka: Double, kd: Double, exp: Double, ks: Double): this(color, ka, kd) {
-        setExp(exp)
-        setKs(ks)
+    constructor(color: Color = Color.WHITE,
+                ka: Double = 0.25,
+                kd: Double = 0.75,
+                exp: Double = 5.0,
+                ks: Double = 0.25,
+                cs: Color = Color.WHITE): this(color, ka, kd) {
+        this.exp = exp
+        this.ks = ks
+        this.cs = cs
     }
 
-    fun setKs(ks: Double) {
-        specularBRDF.ks = ks
-    }
+    protected var specularBRDF = GlossySpecular()
 
-    open fun setExp(exp: Double) {
-        specularBRDF.exp = exp
-    }
+    var ks: Double
+        get() = specularBRDF.ks
+        set(v: Double) {
+            specularBRDF.ks = v
+        }
 
-    fun setCs(cs: Color) {
-        specularBRDF.cs = cs
-    }
+    var cs: Color
+        get() = specularBRDF.cs
+        set(v: Color) {
+            specularBRDF.cs = v
+        }
+
+    open var exp: Double
+        get() = specularBRDF.exp
+        set(v: Double) {
+            specularBRDF.exp = v
+        }
 
     override fun shade(world: World, sr: Shade): Color {
         val wo = -sr.ray.direction

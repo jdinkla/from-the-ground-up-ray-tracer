@@ -6,6 +6,7 @@ import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.cameras.render.ForkJoinRenderer
 import net.dinkla.raytracer.cameras.render.SimpleRenderer
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.dsl.LightsScope
@@ -25,6 +26,9 @@ class WorldScope(val id: String) {
 
     fun c(v: Double) = Color(v)
     fun c(x: Double, y: Double, z: Double) = Color(x, y, z)
+
+    fun n(x: Int, y: Int, z: Int) = Normal(x, y, z)
+    fun n(x: Double, y: Double, z: Double) = Normal(x, y, z)
 
     fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP) {
         val lens = Pinhole(world.viewPlane)

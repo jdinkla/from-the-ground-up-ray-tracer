@@ -10,28 +10,35 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 import java.util.*
 
-open class Matte(val color: Color = Color.WHITE, val ka: Double = 0.25, val kd: Double = 0.75) : IMaterial {
+open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 
-    val ambientBRDF: Lambertian = Lambertian()
-    val diffuseBRDF: Lambertian = Lambertian()
+    protected val ambientBRDF = Lambertian(ka, color)
+    protected val diffuseBRDF = Lambertian(kd, color)
 
+    var ka: Double
+        get() = ambientBRDF.kd
+        set(v) {
+            ambientBRDF.kd = v
+        }
+
+    var kd: Double
+        get() = diffuseBRDF.kd
+        set(v) {
+            diffuseBRDF.kd = v
+        }
+
+    var cd: Color
+        get() = ambientBRDF.cd
+        set(v) {
+            ambientBRDF.cd = v
+            diffuseBRDF.cd = v
+        }
+
+    // TODO unit test, then remove
     init {
-        setKa(ka)
-        setKd(kd)
-        setCd(color)
-    }
-
-    private fun setKa(ka: Double) {
-        ambientBRDF.kd = ka
-    }
-
-    private fun setKd(kd: Double) {
-        diffuseBRDF.kd = kd
-    }
-
-    private fun setCd(cd: Color) {
-        ambientBRDF.cd = cd
-        diffuseBRDF.cd = cd
+        this.cd  = color
+        this.ka = ka
+        this.kd = kd
     }
 
     override fun shade(world: World, sr: Shade): Color {

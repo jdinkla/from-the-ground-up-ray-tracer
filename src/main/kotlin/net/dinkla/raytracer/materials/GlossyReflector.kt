@@ -16,19 +16,20 @@ import net.dinkla.raytracer.world.World
  */
 class GlossyReflector : Phong() {
 
-    protected val glossySpecularBrdf: GlossySpecular
+    protected val glossySpecularBrdf: GlossySpecular = GlossySpecular()
 
-    init {
-        glossySpecularBrdf = GlossySpecular()
-    }
+    // TODO kr == ks? it was like that in the orig code, check the book!
+    var kr: Double
+        get() = glossySpecularBrdf.ks
+        set(v: Double) {
+            glossySpecularBrdf.ks = v
+        }
 
-    fun setKr(kr: Double) {
-        glossySpecularBrdf.ks = kr
-    }
-
-    override fun setExp(exp: Double) {
-        glossySpecularBrdf.exp = exp
-    }
+    override var exp : Double
+        get() = glossySpecularBrdf.exp
+        set(v: Double) {
+            glossySpecularBrdf.exp = v
+        }
 
     override fun areaLightShade(world: World, sr: Shade): Color {
         val L = super.areaLightShade(world, sr)

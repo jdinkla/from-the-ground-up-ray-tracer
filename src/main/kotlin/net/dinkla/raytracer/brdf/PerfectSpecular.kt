@@ -3,6 +3,7 @@ package net.dinkla.raytracer.brdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
+import java.util.*
 
 class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF() {
 
@@ -25,6 +26,15 @@ class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF(
     override fun rho(sr: Shade, wo: Vector3D): Color {
         throw RuntimeException("PerfectSpecular.rho")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is PerfectSpecular) {
+            return kr == other.kr && cr == other.cr
+        }
+        return false
+    }
+
+    override fun hashCode(): Int = Objects.hash(kr, cr)
 
     override fun toString() = "PerfectSpecular($kr, $cr)"
 }
