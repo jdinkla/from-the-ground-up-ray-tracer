@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.worlds
+package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
@@ -19,8 +19,6 @@ import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.StepCounter
-
-import java.util.LinkedList
 
 class World {
 

@@ -4,8 +4,8 @@ import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.worlds.World
-import net.dinkla.raytracer.worlds.WorldBuilder
+import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.Builder
 import org.slf4j.LoggerFactory
 import java.io.File
 
@@ -28,7 +28,7 @@ object CommandLineUi {
         LOGGER.info("Rendering $fileNameIn to $fileNameOut")
 
         val file = File(fileNameIn)
-        val w: World = WorldBuilder.create(file)
+        val w: World = Builder.create(file)
         w.initialize()
 
         val imf = BufferedImageFilm(w.viewPlane.resolution)

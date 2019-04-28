@@ -7,41 +7,31 @@ import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 import java.util.*
 
-open class Matte : IMaterial {
+open class Matte(val color: Color = Color.WHITE, val ka: Double = 0.25, val kd: Double = 0.75) : IMaterial {
 
-    val ambientBrdf: Lambertian
-    val diffuseBrdf: Lambertian
+    val ambientBRDF: Lambertian = Lambertian()
+    val diffuseBRDF: Lambertian = Lambertian()
 
-    constructor() {
-        ambientBrdf = Lambertian()
-        diffuseBrdf = Lambertian()
-        setKa(0.25)
-        setKd(0.75)
-        setCd(Color.WHITE)
-    }
-
-    constructor(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) {
-        ambientBrdf = Lambertian()
-        diffuseBrdf = Lambertian()
+    init {
         setKa(ka)
         setKd(kd)
         setCd(color)
     }
 
-    fun setKa(ka: Double) {
-        ambientBrdf.kd = ka
+    private fun setKa(ka: Double) {
+        ambientBRDF.kd = ka
     }
 
-    fun setKd(kd: Double) {
-        diffuseBrdf.kd = kd
+    private fun setKd(kd: Double) {
+        diffuseBRDF.kd = kd
     }
 
-    fun setCd(cd: Color) {
-        ambientBrdf.cd = cd
-        diffuseBrdf.cd = cd
+    private fun setCd(cd: Color) {
+        ambientBRDF.cd = cd
+        diffuseBRDF.cd = cd
     }
 
     override fun shade(world: World, sr: Shade): Color {
@@ -57,7 +47,7 @@ open class Matte : IMaterial {
                     inShadow = light.inShadow(world, shadowRay, sr)
                 }
                 if (!inShadow) {
-                    val f = diffuseBrdf.f(sr, wo, wi)
+                    val f = diffuseBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
                     val flndotwi = f.times(l).times(nDotWi)
                     L = L.plus(flndotwi)
@@ -98,7 +88,7 @@ open class Matte : IMaterial {
                             inShadow = light1.inShadow(world, shadowRay, sr, sample)
                         }
                         if (!inShadow) {
-                            val f = diffuseBrdf.f(sr, wo, sample.wi!!)
+                            val f = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
                             val flndotwi = f.times(l).times(nDotWi)
                             // TODO: hier ist der Unterschied zu shade()
@@ -115,13 +105,13 @@ open class Matte : IMaterial {
     }
 
     protected fun getAmbientColor(world: World, sr: Shade, wo: Vector3D): Color {
-        val c1 = ambientBrdf.rho(sr, wo)
+        val c1 = ambientBRDF.rho(sr, wo)
         val c2 = world.ambientLight.L(world, sr)
         return c1.times(c2)
     }
 
     override fun getLe(sr: Shade): Color {
-        return diffuseBrdf.rho(sr, null!!)
+        return diffuseBRDF.rho(sr, null!!)
     }
 
     companion object {
@@ -131,13 +121,13 @@ open class Matte : IMaterial {
 
     override fun equals(other: Any?): Boolean {
         if (other != null && other is Matte) {
-            return ambientBrdf.equals(other.ambientBrdf) && diffuseBrdf.equals(other.diffuseBrdf)
+            return ambientBRDF.equals(other.ambientBRDF) && diffuseBRDF.equals(other.diffuseBRDF)
         }
         return false
     }
 
-    override fun hashCode(): Int = Objects.hash(ambientBrdf, diffuseBrdf)
+    override fun hashCode(): Int = Objects.hash(ambientBRDF, diffuseBRDF)
 
-    override fun toString(): String = "Matte $ambientBrdf $diffuseBrdf"
+    override fun toString(): String = "Matte $ambientBRDF $diffuseBRDF"
 }
 

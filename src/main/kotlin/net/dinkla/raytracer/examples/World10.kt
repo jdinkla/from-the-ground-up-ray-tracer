@@ -15,10 +15,11 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.Plane
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.World
 
 /*
-builder.world(id: "World10") {
+builder.build(id: "World10") {
 
     camera(d: 8000, eye: p(0, 0, 500), lookAt: p(0, 0, 0))
 
@@ -48,7 +49,7 @@ builder.world(id: "World10") {
 
 }
  */
-object World10 : IWorld {
+object World10 : WorldDef {
 
     override fun world(): World {
 

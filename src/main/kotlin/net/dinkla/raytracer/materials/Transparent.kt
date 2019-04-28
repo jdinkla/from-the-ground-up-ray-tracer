@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.btdf.PerfectTransmitter
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 
 
 class Transparent : Phong() {

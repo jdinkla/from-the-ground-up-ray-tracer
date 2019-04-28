@@ -6,8 +6,8 @@ package net.dinkla.raytracer.gui.swing
 
 import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.utilities.AppProperties
-import net.dinkla.raytracer.worlds.World
-import net.dinkla.raytracer.worlds.WorldBuilder
+import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.Builder
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
@@ -113,7 +113,7 @@ class FromTheGroundUpRayTracerSwing : ActionListener {
 
     fun render(file: File) {
         val w = World()
-        val builder = WorldBuilder(w)
+        val builder = Builder(w)
         builder.build(file)
         w.initialize()
 

@@ -1,36 +1,49 @@
 package net.dinkla.raytracer.materials
 
+import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
+import java.util.*
 
-class Reflective : Phong {
+class Reflective(color: Color = Color.WHITE,
+                 ka: Double = 0.25,
+                 kd: Double = 0.75) : Phong(color, ka, kd) {
 
-    private val reflectiveBrdf: PerfectSpecular
+    private val reflectiveBRDF = PerfectSpecular()
 
-    constructor() {
-        reflectiveBrdf = PerfectSpecular()
-    }
+    var kr: Double
+        get() = reflectiveBRDF.kr
+        set(v: Double) {
+            reflectiveBRDF.kr = v
+        }
 
-    fun setKr(kr: Double) {
-        reflectiveBrdf.kr = kr
-    }
-
-    fun setCr(cr: Color) {
-        reflectiveBrdf.cr = cr
-    }
+    var cr: Color
+        get() = reflectiveBRDF.cr
+        set(v: Color) {
+            reflectiveBRDF.cr = v
+        }
 
     override fun shade(world: World, sr: Shade): Color {
         val L = super.shade(world, sr)
         val wo = -sr.ray.direction
-        val sample = reflectiveBrdf.sampleF(sr, wo)
+        val sample = reflectiveBRDF.sampleF(sr, wo)
         val f = sr.normal.dot(sample.wi!!)
         val reflectedRay = Ray(sr.hitPoint, sample.wi!!)
         val c1 = world.tracer.trace(reflectedRay, sr.depth + 1)
         val c2 = sample.color!!.times(c1).times(f)
-        return L.plus(c2)
+        return L + c2
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is Reflective) {
+            return super.equals(other) && reflectiveBRDF.equals(other.reflectiveBRDF)
+        }
+        return false
+    }
+
+    override fun hashCode(): Int = Objects.hash(reflectiveBRDF, ambientBRDF, diffuseBRDF, specularBRDF)
+
+    override fun toString() = "Reflective $reflectiveBRDF ${super.toString()}"
 }

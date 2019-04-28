@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 
 /**
  * Da war shared state drin. Böse bei der Parallelisierung

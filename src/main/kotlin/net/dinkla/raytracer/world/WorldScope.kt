@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.worlds
+package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.IColorCorrector
@@ -8,9 +8,9 @@ import net.dinkla.raytracer.cameras.render.SimpleRenderer
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.worlds.dsl.LightsScope
-import net.dinkla.raytracer.worlds.dsl.MaterialsScope
-import net.dinkla.raytracer.worlds.dsl.ObjectsScope
+import net.dinkla.raytracer.world.dsl.LightsScope
+import net.dinkla.raytracer.world.dsl.MaterialsScope
+import net.dinkla.raytracer.world.dsl.ObjectsScope
 
 class WorldScope(val id: String) {
 
@@ -21,7 +21,9 @@ class WorldScope(val id: String) {
     }
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x, y, z)
+    fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
 
+    fun c(v: Double) = Color(v)
     fun c(x: Double, y: Double, z: Double) = Color(x, y, z)
 
     fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP) {

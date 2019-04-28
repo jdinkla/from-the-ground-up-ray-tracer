@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.worlds.dsl
+package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.Light

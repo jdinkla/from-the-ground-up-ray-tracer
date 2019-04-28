@@ -8,7 +8,7 @@ import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.textures.Texture
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 
 open class SVMatte : IMaterial {
 

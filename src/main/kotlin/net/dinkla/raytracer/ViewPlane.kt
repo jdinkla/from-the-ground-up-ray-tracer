@@ -10,7 +10,7 @@ class ViewPlane : IColorCorrector {
     // Resolution
     var resolution: Resolution
 
-    // Size of a pixel [world coordinates]
+    // Size of a pixel [build coordinates]
     var size: Double = 0.toDouble()
 
     // Color correction

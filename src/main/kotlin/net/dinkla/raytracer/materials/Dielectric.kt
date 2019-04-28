@@ -6,7 +6,7 @@ import net.dinkla.raytracer.brdf.FresnelReflector
 import net.dinkla.raytracer.btdf.FresnelTransmitter
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedFloat
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 
 class Dielectric : Phong() {
 

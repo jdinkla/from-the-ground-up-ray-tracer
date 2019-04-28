@@ -49,4 +49,7 @@ class GlossySpecular(// specular intensity
         throw RuntimeException("GlossySpecular.rho")
     }
 
+    override fun toString(): String {
+        return "GlossySpecular($ks, $cs, $exp)"
+    }
 }

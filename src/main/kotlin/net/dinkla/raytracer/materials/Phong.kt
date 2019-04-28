@@ -6,29 +6,30 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
+import java.util.*
 
-open class Phong : Matte {
+open class Phong(color: Color = Color.WHITE,
+                 ka: Double = 0.25,
+                 kd: Double = 0.75) : Matte(color, ka, kd) {
 
-    var specularBrdf: GlossySpecular = GlossySpecular()
+    var specularBRDF: GlossySpecular = GlossySpecular()
 
-    constructor(): super()
-    constructor(color: Color, ka: Double, kd: Double): super(color, ka, kd)
-    constructor(color: Color, ka: Double, kd: Double, exp: Double, ks: Double): super(color, ka, kd) {
+    constructor(color: Color, ka: Double, kd: Double, exp: Double, ks: Double): this(color, ka, kd) {
         setExp(exp)
         setKs(ks)
     }
 
     fun setKs(ks: Double) {
-        specularBrdf.ks = ks
+        specularBRDF.ks = ks
     }
 
     open fun setExp(exp: Double) {
-        specularBrdf.exp = exp
+        specularBRDF.exp = exp
     }
 
     fun setCs(cs: Color) {
-        specularBrdf.cs = cs
+        specularBRDF.cs = cs
     }
 
     override fun shade(world: World, sr: Shade): Color {
@@ -44,8 +45,8 @@ open class Phong : Matte {
                     inShadow = light.inShadow(world, shadowRay, sr)
                 }
                 if (!inShadow) {
-                    val fd = diffuseBrdf.f(sr, wo, wi)
-                    val fs = specularBrdf.f(sr, wo, wi)
+                    val fd = diffuseBRDF.f(sr, wo, wi)
+                    val fs = specularBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
                     val fdfslndotwi = fd.plus(fs).times(l).times(nDotWi)
                     L = L.plus(fdfslndotwi)
@@ -72,8 +73,8 @@ open class Phong : Matte {
                             inShadow = light1.inShadow(world, shadowRay, sr, sample)
                         }
                         if (!inShadow) {
-                            val fd = diffuseBrdf.f(sr, wo, sample.wi!!)
-                            val fs = specularBrdf.f(sr, wo, sample.wi!!)
+                            val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
+                            val fs = specularBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
                             val fsfslndotwi = fd.plus(fs).times(l).times(nDotWi)
                             // TODO: hier ist der Unterschied zu shade()
@@ -91,6 +92,19 @@ open class Phong : Matte {
 
     override fun getLe(sr: Shade): Color {
         // TODO
-        return specularBrdf.cs!!.times(specularBrdf.ks)
+        return specularBRDF.cs!!.times(specularBRDF.ks)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is Phong) {
+            return super.equals(other) && specularBRDF.equals(other.specularBRDF)
+        }
+        return false
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
+    }
+
+    override fun toString() = "Phong(${super.toString()}, $specularBRDF)"
 }

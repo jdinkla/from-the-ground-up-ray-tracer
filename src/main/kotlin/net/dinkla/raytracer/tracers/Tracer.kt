@@ -3,7 +3,7 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedFloat
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 import org.slf4j.LoggerFactory
 
 abstract class Tracer(var world: World) {

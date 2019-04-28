@@ -19,9 +19,11 @@ import javafx.scene.text.Text
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
 import net.dinkla.raytracer.examples.World5
+import net.dinkla.raytracer.examples.World6
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.world.WorldDef
 import org.slf4j.LoggerFactory
 import java.io.File
 
@@ -121,72 +123,60 @@ class FromTheGroundUpRayTracer : Application() {
     }
 
     private fun preview() {
-        LOGGER.info("preview " + this.fileChosen?.name)
+        LOGGER.info("preview " + fileChosen?.name)
 
-        val w = World5.world()
+        val wdef : WorldDef? = when (fileChosen?.name) {
+            "World5.kt" -> World5
+            "World6.kt" -> World6
+            else -> null
+        }
+        if (wdef == null) return
+        val w = wdef.world()
         w.initialize()
-        val imf = JavaFxFilm(w.viewPlane.resolution)
 
-        val view = ImageView().apply {
-            image = imf.img
-            fitWidth = width
-            isPreserveRatio = true
-            isSmooth = false
-            isCache = true
-            rotationAxis = Rotate.X_AXIS
-            setRotate(180.0)
-        }
-
-        val layout = StackPane()
-        layout.children.add(view)
-
-        val newScene = Scene(layout, width, height)
-
-        val newWindow = Stage().apply {
-            title = fileChosen?.name
-            scene = newScene
-            show()
-        }
-
-        w.render(imf)
+        val film = JavaFxFilm(w.viewPlane.resolution)
+        openWindow(film.img, 180.0)
+        w.render(film)
     }
 
     private fun png(primaryStage: Stage) {
         LOGGER.info("png " + fileChosen?.name)
 
+        val fileName = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
+
         val w = World5.world()
         w.initialize()
 
-        val fileName2 = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
-        val imf = BufferedImageFilm(w.viewPlane.resolution)
-        w.render(imf)
-        imf.saveAsPng(fileName2)
+        val film = BufferedImageFilm(w.viewPlane.resolution)
+        w.render(film)
+        film.saveAsPng(fileName)
 
-        val url = "file:$fileName2"
-        LOGGER.info("Showing url '$url'")
+        openWindow(Image("file:$fileName"))
+    }
 
-        val defaultImage = Image(url)
+    private fun openWindow(img: Image, rotateDegree: Double = 0.0) {
         val view = ImageView().apply {
-            image = defaultImage
+            image = img
             fitWidth = width
             isPreserveRatio = true
             isSmooth = false
             isCache = true
+            rotationAxis = Rotate.X_AXIS
+            setRotate(rotateDegree)
         }
+
         val layout = StackPane()
         layout.children.add(view)
 
-        val newScene = Scene(layout, width, height)
-
-        val newWindow = Stage().apply {
+        Stage().apply {
             title = fileChosen?.name
-            scene = newScene
+            scene = Scene(layout, Companion.width, Companion.height)
             show()
         }
     }
 
     private fun leftSide(textArea: TextArea): TreeView<File> {
-        val fileView = TreeView<File>(SceneFileTreeItem(File("examples")))
+        val fileView = TreeView<File>(SceneFileTreeItem(File(examplesDirectory)))
         fileView.setCellFactory { _ -> treeCell() }
         fileView.setOnMouseClicked { event -> selectFileInTree(fileView, textArea, event) }
         fileView.getTreeItem(0).setExpanded(true)
@@ -216,6 +206,8 @@ class FromTheGroundUpRayTracer : Application() {
     companion object {
 
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+
+        private val examplesDirectory = AppProperties["examples.directory"] as String
 
         val width = AppProperties.getAsDouble("display.width")
         val height = AppProperties.getAsDouble("display.height")

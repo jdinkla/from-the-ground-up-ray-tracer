@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.worlds
+package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.AmbientOccluder
@@ -19,12 +19,12 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.util.*
 import java.util.function.BiPredicate
 
-class WorldBuilderTest {
+class BuilderTest {
 
     @Test
     fun `should store name of world`() {
         val id = "idOfWorld"
-        val world = WorldBuilder.world(id) {}
+        val world = Builder.build(id) {}
         assertEquals(id, world.id)
     }
 
@@ -33,7 +33,7 @@ class WorldBuilderTest {
         val d = 500.0
         val eye = Point3D(0, 100, 200)
         val lookAt = Point3D(1, 2, 3)
-        val world = WorldBuilder.world("id") {
+        val world = Builder.build("id") {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = Vector3D.JITTER)
         }
         assertNotNull(world.camera)
@@ -46,7 +46,7 @@ class WorldBuilderTest {
     fun `should set ambient light`() {
         val ls = 123.45
         val color = Color.BLUE
-        val world = WorldBuilder.world("id") {
+        val world = Builder.build("id") {
             ambientLight(color = color, ls = ls)
         }
         assertNotNull(world.ambientLight)
@@ -59,7 +59,7 @@ class WorldBuilderTest {
         val ls = 0.98
         val color = Color.BLUE
         val location = Point3D(0, 100, 200)
-        val world = WorldBuilder.world("id") {
+        val world = Builder.build("id") {
             lights {
                 pointLight(location = location, ls = ls, color = color)
             }
@@ -79,7 +79,7 @@ class WorldBuilderTest {
     fun `should store matte materials`() {
         val id = "m1"
         val cd = Color(1.0, 0.5, 0.3)
-        val world = WorldBuilder.world("id") {
+        val world = Builder.build("id") {
             materials {
                 matte(id = id, cd = cd)
             }
@@ -95,7 +95,7 @@ class WorldBuilderTest {
         val cd = Color(1.0, 0.5, 0.3)
         val center = Point3D(0, 100, 200)
         val radius = 80.0
-        val world = WorldBuilder.world("id") {
+        val world = Builder.build("id") {
             materials {
                 matte(id = id, cd = cd)
             }
@@ -122,7 +122,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate1() {
         val f = findExample("World20.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 3)
         assertEquals(w.lights.size, 1)
     }
@@ -131,7 +131,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate2() {
         val f = findExample("World7.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 6)
         assertEquals(w.lights.size, 3)
     }
@@ -140,7 +140,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate3() {
         val f = findExample("World14.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 2)
         assertEquals(w.lights.size, 0)
         assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)
@@ -150,7 +150,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate4() {
         val f = findExample("World17.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 10)
         assertEquals(w.lights.size, 2)
     }
@@ -159,7 +159,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate5() {
         val f = findExample("World23.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 26)
         assertEquals(w.lights.size, 1)
         assertEquals(w.tracer.javaClass, AreaLighting::class.java)
@@ -169,7 +169,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate6() {
         val f = findExample("World26.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 2)
         assertEquals(w.lights.size, 1)
     }
@@ -178,7 +178,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate7() {
         val f = findExample("World34.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertNotNull(w.viewPlane, "viewPlane == null")
         assertNotNull(w.camera, "camera == null")
         assertNotNull(w.tracer, "tracer == null")
@@ -190,7 +190,7 @@ class WorldBuilderTest {
     @Test
     fun testCreate8() {
         val f = findExample("World38.groovy").get().toFile()
-        val w = WorldBuilder.create(f)
+        val w = Builder.create(f)
         assertEquals(w.size(), 6)
     }
 

@@ -1,13 +1,14 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.worlds.WorldBuilder
+import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.world.WorldDef
 
-object World5 : IWorld {
+object World5 : WorldDef {
 
-    override fun world() = WorldBuilder.world("W5") {
+    override fun world() = Builder.build("World5") {
 
         camera(d = 500.0, eye = p(0, 100, 200), lookAt = p(0, 0, 0))
 

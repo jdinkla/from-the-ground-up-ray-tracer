@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 
 /**
  * Created by IntelliJ IDEA.

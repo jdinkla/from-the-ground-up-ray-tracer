@@ -9,7 +9,7 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.tracers.Whitted
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 

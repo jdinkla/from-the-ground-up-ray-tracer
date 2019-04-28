@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.worlds.dsl
+package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal

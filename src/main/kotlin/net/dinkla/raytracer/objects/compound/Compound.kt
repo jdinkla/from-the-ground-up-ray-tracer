@@ -10,7 +10,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedFloat
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.worlds.World
+import net.dinkla.raytracer.world.World
 import java.util.*
 
 
