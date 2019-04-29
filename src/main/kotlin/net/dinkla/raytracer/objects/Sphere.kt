@@ -3,8 +3,10 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-class Sphere(var center: Point3D = Point3D.ORIGIN, var radius: Double = 0.0) : GeometricObject() {
+class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
 
     init {
         boundingBox = BBox(center - radius, center + radius)
@@ -65,6 +67,12 @@ class Sphere(var center: Point3D = Point3D.ORIGIN, var radius: Double = 0.0) : G
         }
         return false
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Sphere>(other) { a, b ->
+        a.center == b.center && a.radius == b.radius
+    }
+
+    override fun hashCode(): Int = this.hash(center, radius)
 
     override fun toString(): String {
         return "Sphere(" + center.toString() + ", " + radius + ")"

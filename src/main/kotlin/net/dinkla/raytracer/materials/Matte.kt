@@ -7,6 +7,9 @@ import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.objects.Triangle
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
 import java.util.*
 
@@ -126,14 +129,11 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         val materials = arrayOf(Matte(Color(0.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 1.0), 1.0, 1.0))
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other != null && other is Matte) {
-            return ambientBRDF.equals(other.ambientBRDF) && diffuseBRDF.equals(other.diffuseBRDF)
-        }
-        return false
+    override fun equals(other: Any?): Boolean = this.equals<Matte>(other) { a, b ->
+        a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
     }
 
-    override fun hashCode(): Int = Objects.hash(ambientBRDF, diffuseBRDF)
+    override fun hashCode(): Int = this.hash(ambientBRDF, diffuseBRDF)
 
     override fun toString(): String = "Matte $ambientBRDF $diffuseBRDF"
 }

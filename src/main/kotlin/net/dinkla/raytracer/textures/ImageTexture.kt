@@ -3,9 +3,6 @@ package net.dinkla.raytracer.textures
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Histogram
-import net.dinkla.raytracer.math.MathUtils
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.utilities.Resolution
 
 import javax.imageio.ImageIO
@@ -85,7 +82,7 @@ constructor(fileName: String) : Texture() {
             val a = 2
         }
 
-        return Color.createFromInt(rgb)
+        return Color.create(rgb)
     }
 
 }

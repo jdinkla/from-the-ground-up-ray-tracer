@@ -3,6 +3,8 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
 class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
     var normal: Normal = Normal(v0, v1, v2)
@@ -121,4 +123,12 @@ class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObj
 
         return true
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Triangle>(other) { a, b ->
+        a.v0 == b.v0 && a.v1 == b.v1 && a.v2 == b.v2
+    }
+
+    override fun hashCode(): Int = this.hash(v0, v1, v2)
+
+    override fun toString(): String = "Triangle($v0, $v1, $v2)"
 }

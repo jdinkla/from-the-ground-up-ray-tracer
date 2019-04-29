@@ -73,11 +73,23 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         @JvmField
         val CLAMP_COLOR = Color(1.0, 0.0, 0.0)
 
-        fun createFromInt(rgb: Int): Color {
+        fun create(rgb: Int): Color {
             val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
             val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
             val b: Double = (rgb and 0x000000ff) / 255.0
             return Color(r, g, b)
+        }
+
+        fun create(rgb: String) : Color {
+            fun convert(s: Int): Double {
+                val hex = rgb.substring(s, s + 2)
+                val dec =Integer.valueOf(hex, 16)
+                return dec / 255.0
+            }
+            val rf = convert(0)
+            val gf = convert(2)
+            val bf = convert(4)
+            return Color(rf, gf, bf)
         }
     }
 }

@@ -3,9 +3,7 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.Plane
-import net.dinkla.raytracer.objects.Sphere
+import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.compound.Compound
 
 class ObjectsScope(private val materials: Map<String, IMaterial>, private val compound: Compound) {
@@ -16,17 +14,34 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
         get() = mutableObjects.toList()
 
     fun sphere(material: String, center: Point3D = Point3D.ORIGIN, radius: Double = 0.0) {
-        val s = Sphere(center, radius)
-        s.material = materials[material]
-        mutableObjects.add(s)
-        compound.add(s)
+        val obj = Sphere(center, radius).apply {
+            this.material = materials[material]
+        }
+        mutableObjects.add(obj)
+        compound.add(obj)
     }
 
     fun plane(material: String, point: Point3D = Point3D.ORIGIN, normal: Normal = Normal.UP) {
-        val p = Plane(point, normal)
-        p.material = materials[material]
-        mutableObjects.add(p)
-        compound.add(p)
+        val obj = Plane(point, normal).apply {
+            this.material = materials[material]
+        }
+        mutableObjects.add(obj)
+        compound.add(obj)
     }
 
+    fun triangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
+        val obj = Triangle(a, b, c).apply {
+            this.material = materials[material]
+        }
+        mutableObjects.add(obj)
+        compound.add(obj)
+    }
+
+    fun smoothTriangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
+        val obj = SmoothTriangle(a, b, c).apply {
+            this.material = materials[material]
+        }
+        mutableObjects.add(obj)
+        compound.add(obj)
+    }
 }

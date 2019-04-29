@@ -3,22 +3,12 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 10.04.2010
- * Time: 16:06:34
- * To change this template use File | Settings | File Templates.
- */
-class Plane : GeometricObject {
+class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP) : GeometricObject() {
 
-    var point: Point3D
-    var normal: Normal
-
-    constructor(point: Point3D = Point3D.ORIGIN, normal: Normal = Normal.UP) {
-        this.point = point
-        this.normal = normal
+    init {
         boundingBox = BBox(Point3D.MIN, Point3D.MAX)
     }
 
@@ -49,6 +39,12 @@ class Plane : GeometricObject {
             return false
         }
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Plane>(other) { a, b ->
+        a.point == b.point && a.normal == b.normal
+    }
+
+    override fun hashCode(): Int = this.hash(point, normal)
 
     override fun toString(): String {
         return "Plane: " + super.toString() + " " + point.toString() + " " + normal.toString()

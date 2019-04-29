@@ -27,8 +27,13 @@ class WorldScope(val id: String) {
     fun c(v: Double) = Color(v)
     fun c(x: Double, y: Double, z: Double) = Color(x, y, z)
 
+    fun c(s: String) = Color.create(s)
+
     fun n(x: Int, y: Int, z: Int) = Normal(x, y, z)
     fun n(x: Double, y: Double, z: Double) = Normal(x, y, z)
+
+    fun v(x: Int, y: Int, z: Int) = Vector3D(x, y, z)
+    fun v(x: Double, y: Double, z: Double) = Vector3D(x, y, z)
 
     fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP) {
         val lens = Pinhole(world.viewPlane)

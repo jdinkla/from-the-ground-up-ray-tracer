@@ -15,6 +15,11 @@ class DirectionalLight : Light() {
     var color: Color
     var negatedDirection: Vector3D
 
+    // TODO cleanup direction
+//    val direction
+//        get() = negatedDirection
+//        set(v) = this.negatedDirection = -v
+
     init {
         ls = 1.0
         color = Color.WHITE

@@ -18,9 +18,7 @@ import javafx.scene.text.FontWeight
 import javafx.scene.text.Text
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
-import net.dinkla.raytracer.examples.World48
-import net.dinkla.raytracer.examples.World5
-import net.dinkla.raytracer.examples.World6
+import net.dinkla.raytracer.examples.*
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.utilities.AppProperties
@@ -130,6 +128,7 @@ class FromTheGroundUpRayTracer : Application() {
             "World5.kt" -> World5
             "World6.kt" -> World6
             "World48.kt" -> World48
+            "World66.kt" -> World66
             else -> null
         }
         if (wdef == null) return

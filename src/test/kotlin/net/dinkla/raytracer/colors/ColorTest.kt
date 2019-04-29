@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.colors
 
+import net.dinkla.raytracer.colors.Color.Companion.create
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -24,7 +25,6 @@ internal class ColorTest {
     @Test
     fun pow() {
         assertEquals(Color(0.1*0.1, 0.2*0.2, 0.3*0.3), Color(0.1, 0.2, 0.3).pow(2.0))
-
     }
 
     @Test
@@ -39,11 +39,18 @@ internal class ColorTest {
         val g = 31.0 / 255.0
         val b = 139.0 / 255.0
         val rgb = Color(r, g, b).asInt();
-        val c = Color.createFromInt(rgb)
+        val c = create(rgb)
 
         assertEquals(r, c.red, 0.01)
         assertEquals(g, c.green, 0.01)
         assertEquals(b, c.blue, 0.01)
+    }
+
+    @Test
+    fun createFromString() {
+        assertEquals(Color(1.0, 0.0, 0.0), create("FF0000"))
+        assertEquals(Color(0.0, 1.0, 0.0), create("00FF00"))
+        assertEquals(Color(0.0, 0.0, 1.0), create("0000FF"))
     }
 
     @Test
