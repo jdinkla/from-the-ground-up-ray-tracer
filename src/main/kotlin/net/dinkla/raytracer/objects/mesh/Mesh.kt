@@ -12,7 +12,7 @@ class Mesh {
     var normals: ArrayList<Normal> = ArrayList()
     //    public List<Float> us;
     //    public List<Float> vs;
-    var vertexFaces: ArrayList<List<Int>> = ArrayList()
+    var vertexFaces: ArrayList<MutableList<Int>?> = ArrayList()
     //    public int numVertices;
     //    public int numTriangles;
 
@@ -28,7 +28,7 @@ class Mesh {
             //                normal = new Normal(normal.plus(objects.get(vertexFaces.get(index).get(j)).getNormal()));
             //            }
 
-            for (i in vertexFaces[index]) {
+            for (i in vertexFaces[index]!!) {
                 val n = objects[i].normal
                 if (null != n) {
                     normal = Normal(normal.plus(n))

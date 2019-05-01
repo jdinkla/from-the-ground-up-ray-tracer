@@ -7,8 +7,6 @@ import net.dinkla.raytracer.math.Ray
 
 class FlatMeshTriangle : MeshTriangle {
 
-    constructor(mesh: Mesh) : super(mesh) {}
-
     constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) : super(mesh, i0, i1, i2) {}
 
     override fun hit(ray: Ray, sr: Hit): Boolean {

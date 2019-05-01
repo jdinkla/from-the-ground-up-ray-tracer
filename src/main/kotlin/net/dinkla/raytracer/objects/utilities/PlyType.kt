@@ -1,7 +1,5 @@
 package net.dinkla.raytracer.objects.utilities
 
-import java.util.HashMap
-
 enum class PlyType private constructor(internal val key: String, internal val clazz: Class<*>, internal val size: Int) {
 
     CHAR("char", Short::class.java, 1),
@@ -13,22 +11,18 @@ enum class PlyType private constructor(internal val key: String, internal val cl
     FLOAT("float", Int::class.java, 4),
     DOUBLE("double", Int::class.java, 8);
 
-
     companion object {
-
-        val map: MutableMap<String, PlyType>
-
-        init {
-            map = HashMap()
-            map["char"] = CHAR
-            map["uchar"] = UCHAR
-            map["short"] = SHORT
-            map["ushort"] = USHORT
-            map["int"] = INT
-            map["uint"] = UINT
-            map["float"] = FLOAT
-            map["double"] = DOUBLE
-        }
+        val map: Map<String, PlyType> = hashMapOf(
+                Pair("char", CHAR),
+                Pair("uchar", UCHAR),
+                Pair("short", SHORT),
+                Pair("ushort", USHORT),
+                Pair("int", INT),
+                Pair("uint", UINT),
+                Pair("float", FLOAT),
+                Pair("double", DOUBLE)
+        )
     }
-
 }
+
+

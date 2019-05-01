@@ -3,16 +3,7 @@ package net.dinkla.raytracer.objects.mesh
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 16.05.2010
- * Time: 10:04:22
- * To change this template use File | Settings | File Templates.
- */
 class SmoothMeshTriangle : MeshTriangle {
-
-    constructor(mesh: Mesh) : super(mesh) {}
 
     constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) : super(mesh, i0, i1, i2) {}
 

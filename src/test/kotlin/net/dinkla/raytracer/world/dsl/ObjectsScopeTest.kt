@@ -8,6 +8,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -19,7 +20,8 @@ internal class ObjectsScopeTest {
     private val somePoint3 = Point3D(1.2, 3.2, 5.2)
     private val someRadius = 12.3
     private val someNormal = Normal(5.0, 6.0, 7.0)
-    val someMaterialId = "material"
+    private val someFileName = "resources/TwoTriangles.ply"
+    private val someMaterialId = "material"
 
     @Test
     fun `should handle sphere`() {
@@ -56,7 +58,7 @@ internal class ObjectsScopeTest {
         scope.plane(material = someMaterialId, point = somePoint, normal = someNormal)
 
         // then
-        assertEquals(1, scope.objects.size)
+        assertType<GeometricObject, Plane>(scope.objects, 0)
         val created = scope.objects[0] as Plane
         assertEquals(expected, created)
     }
@@ -76,7 +78,7 @@ internal class ObjectsScopeTest {
         scope.triangle(material = someMaterialId, a = somePoint, b = somePoint2, c = somePoint3)
 
         // then
-        assertEquals(1, scope.objects.size)
+        assertType<GeometricObject, Triangle>(scope.objects, 0)
         val created = scope.objects[0] as Triangle
         assertEquals(expected, created)
     }
@@ -96,13 +98,29 @@ internal class ObjectsScopeTest {
         scope.smoothTriangle(material = someMaterialId, a = somePoint, b = somePoint2, c = somePoint3)
 
         // then
-        assertEquals(1, scope.objects.size)
+        assertType<GeometricObject, SmoothTriangle>(scope.objects, 0)
         val created = scope.objects[0] as SmoothTriangle
         assertEquals(expected, created)
     }
 
     @Test
     fun `should handle ply`() {
+        // given
+        val compound = Compound()
+        val someMaterial = Matte()
+        val materials = mapOf(Pair(someMaterialId, someMaterial))
+        val scope = ObjectsScope(materials, compound)
+
+        // when
+        scope.ply(material = someMaterialId, fileName = someFileName)
+
+        // then
+        assertType<GeometricObject, Grid>(scope.objects, 0)
+        val grid = scope.objects[0] as Grid
+        assertEquals(2, grid.objects.size)
+        assertType<GeometricObject, MeshTriangle>(grid.objects, 0)
+        assertType<GeometricObject, MeshTriangle>(grid.objects, 1)
+        assertEquals(someMaterial, grid.material)
     }
 
     @Test

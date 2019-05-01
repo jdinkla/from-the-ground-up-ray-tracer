@@ -1,7 +1,7 @@
-Ray Tracer in Groovy and Kotlin
+Ray Tracer in Kotlin
 =============================
 
-*Remark*: This project is currently rewritten from Java and Groovy to Kotlin. The old code with Java and Groovy is available in the branch `groovy-java`.
+*Remark*: This project is currently rewritten from Java and Groovy to Kotlin. The old code with Java and Groovy is available in the branch `groovy-java`. It is not fully functional at the moment. There is a JavaFX interface and 4 example worlds written in Kotlin DSL.
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
@@ -17,48 +17,51 @@ For easier manipulation of scenes i implemented a DSL for scenes.
 The following image
 ![Rendered image](http://dinkla.net/images/rendered/BasicExample.png)
 
-is described by the following Groovy DSL
+is described by the following Kotlin program: 
 
-```
-import net.dinkla.raytracer.colors.RGBColor
-import net.dinkla.raytracer.utilities.Resolution
+```kotlin
+package net.dinkla.raytracer.examples
 
-builder.world(id: "World48") {
+import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.world.Builder
+import net.dinkla.raytracer.world.WorldDef
 
-    viewPlane(resolution: Resolution.RESOLUTION_1080, maxDepth: 2)
+object World48 : WorldDef {
 
-    camera(d: 1250, eye: p(0, 0.1, 10), lookAt: p(0, -1, 0))
+    override fun world() = Builder.build("World48") {
 
-    ambientLight(color: RGBColor.WHITE, ls: 0.5)
+        camera(d = 1250.0, eye = p(0.0, 0.1, 10.0), lookAt = p(0, -1, 0))
 
-    lights {
-        pointLight(location: p(0, 5, 0), color: c(1, 1, 1), ls: 1)
-    }
+        ambientLight(color = Color.WHITE, ls = 0.5)
 
-    materials {
-        phong(id: "grey", ks: 1.0, cd: c(0.1, 0.1, 0.1), ka: 0.5, kd: 1.0, exp: 10)
-        phong(id: "sky", cd: c(0.1, 0.7, 1.0), ka: 0.75, kd: 1.0)
-        reflective(id: "white", ks: 0.7, cd: c(1.0, 1.0, 1.0), ka: 0.5, kd: 0.75, exp: 2)
-        phong(id: "red", ks: 0.9, cd: c(0.9, 0.4, 0.1), ka: 0.5, kd: 0.75, exp: 10)
-        phong(id: "orange", ks: 0.9, cd: c(0.9, 0.7, 0.1), ka: 0.5, kd: 0.75, exp: 10)
-    }
+        lights {
+            pointLight(location = p(0, 5, 0), color = c(1.0), ls = 1.0)
+        }
 
-    objects {
-        plane(point: p(0,-1.1,0), normal: n(0, 1, 0), material: "white")
-        sphere(center: p(2.5, 0.5, 0.5), radius: 0.5, material: "orange")
-        triangle(a: p(-3, 0, -1), b: p(-3, -1, 1), c: p(-1, 0, 1), material: "orange")
-        smoothTriangle(a: p(-5, 0, -1), b: p(-5, -1, 1), c: p(-3, 0, 1), material: "orange")
-        ply(file: "resources/TwoTriangles.ply", material: "red")
-        grid {
-            triangle(a: p(3, 0, -1), b: p(3, -1, 1), c: p(5, 0, 1), material: "orange")
-            sphere(center: p(1.5, 1.5, 1.5), radius: 0.5, material: "sky")
+        materials {
+            phong(id = "grey", ks = 1.0, cd = c(0.1, 0.1, 0.1), ka = 0.5, kd = 1.0, exp = 10.0)
+            phong(id = "sky", cd = c(0.1, 0.7, 1.0), ka = 0.75, kd = 1.0)
+            reflective(id = "white", ks = 0.7, cd = c(1.0, 1.0, 1.0), ka = 0.5, kd = 0.75, exp = 2.0)
+            phong(id = "red", ks = 0.9, cd = c(0.9, 0.4, 0.1), ka = 0.5, kd = 0.75, exp = 10.0)
+            phong(id = "orange", ks = 0.9, cd = c(0.9, 0.7, 0.1), ka = 0.5, kd = 0.75, exp = 10.0)
+        }
+
+        objects {
+            plane(point = p(0.0,-1.1,0.0), normal = n(0, 1, 0), material = "white")
+            sphere(center = p(2.5, 0.5, 0.5), radius = 0.5, material = "orange")
+            triangle(a = p(-3, 0, -1), b = p(-3, -1, 1), c = p(-1, 0, 1), material = "orange")
+            smoothTriangle(a = p(-5, 0, -1), b = p(-5, -1, 1), c = p(-3, 0, 1), material = "orange")
+            ply(material = "red", fileName = "resources/TwoTriangles.ply")
+            grid {
+                triangle(a = p(3, 0, -1), b = p(3, -1, 1), c = p(5, 0, 1), material = "orange")
+                sphere(center = p(1.5, 1.5, 1.5), radius = 0.5, material = "sky")
+            }
         }
     }
 }
 ```
 
 See [my homepage for further information](http://dinkla.net/de/programming/groovy-rendering.html)
-
 
 Start with
 

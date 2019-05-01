@@ -6,6 +6,8 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.mesh.Mesh
+import net.dinkla.raytracer.objects.utilities.PlyReader
 
 class ObjectsScope(private val materials: Map<String, IMaterial>, private val compound: Compound) {
 
@@ -47,6 +49,20 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
         val grid = Grid()
         val scope = ObjectsScope(materials, grid)
         scope.block()
+        grid.add()
+    }
+
+    fun ply(material: String, fileName: String, isSmooth: Boolean = false) {
+        val mesh = Mesh()
+        val grid = Grid(mesh).apply {
+            this.material = materials[material]
+        }
+        val reverseNormal = false // TODO ? WIT?
+        val isSmooth = false
+
+        val plyReader = PlyReader(grid, isSmooth = isSmooth)
+        plyReader.read(fileName)
+
         grid.add()
     }
 }
