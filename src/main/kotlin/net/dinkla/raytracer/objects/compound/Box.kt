@@ -1,7 +1,7 @@
-package net.dinkla.raytracer.objects
+package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.Rectangle
 
 class Box(var p0: Point3D, a: Vector3D, b: Vector3D, c: Vector3D) : Compound() {
 

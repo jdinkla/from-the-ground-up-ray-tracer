@@ -4,13 +4,6 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 21.04.2010
- * Time: 20:01:41
- * To change this template use File | Settings | File Templates.
- */
 class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
     init {
@@ -172,16 +165,14 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         return false
     }
 
-    internal fun getNormal(face: Int): Normal {
-        when (face) {
-            0 -> return Normal(-1.0, 0.0, 0.0)
-            1 -> return Normal(0.0, -1.0, 0.0)
-            2 -> return Normal(0.0, 0.0, -1.0)
-            3 -> return Normal(1.0, 0.0, 0.0)
-            4 -> return Normal(0.0, 1.0, 0.0)
-            5 -> return Normal(0.0, 0.0, 1.0)
-        }
-        return Normal.ZERO
+    internal fun getNormal(face: Int): Normal = when (face) {
+        0 -> Normal(-1.0, 0.0, 0.0)
+        1 -> Normal(0.0, -1.0, 0.0)
+        2 -> Normal(0.0, 0.0, -1.0)
+        3 -> Normal(1.0, 0.0, 0.0)
+        4 -> Normal(0.0, 1.0, 0.0)
+        5 -> Normal(0.0, 0.0, 1.0)
+        else -> Normal.ZERO
     }
 
 }

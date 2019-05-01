@@ -74,8 +74,6 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
 
     override fun hashCode(): Int = this.hash(center, radius)
 
-    override fun toString(): String {
-        return "Sphere(" + center.toString() + ", " + radius + ")"
-    }
+    override fun toString(): String = "Sphere($center, $radius)"
 
 }

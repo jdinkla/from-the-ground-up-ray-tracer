@@ -5,10 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Resolution
 
-class ViewPlane : IColorCorrector {
-
-    // Resolution
-    var resolution: Resolution
+class ViewPlane(val resolution: Resolution) : IColorCorrector {
 
     // Size of a pixel [build coordinates]
     var size: Double = 0.toDouble()
@@ -24,9 +21,6 @@ class ViewPlane : IColorCorrector {
     var maxDepth: Int = 0
 
     init {
-        val width = AppProperties.getAsInteger("render.resolution.width")
-        val height = AppProperties.getAsInteger("render.resolution.height")
-        this.resolution = Resolution(width, height)
         this.size = 1.0
         this.gamma = 1.0
         this.invGamma = 1.0
@@ -61,4 +55,5 @@ class ViewPlane : IColorCorrector {
                 + ", invGamma=" + invGamma + ", showOutOfGamut=" + showOutOfGamut
                 + ", maxDepth=" + maxDepth)
     }
+
 }

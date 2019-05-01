@@ -125,7 +125,7 @@ open class MeshTriangle : GeometricObject {
         val p1 = mesh.vertices[index1]
         val p2 = mesh.vertices[index2]
 
-        val min = MathUtils.minMin(p0, p1, p2).minus(MathUtils.K_EPSILON)
+        val min = MathUtils.min(p0, p1, p2).minus(MathUtils.K_EPSILON)
         val max = MathUtils.maxMax(p0, p1, p2).plus(MathUtils.K_EPSILON)
         return BBox(min, max)
     }

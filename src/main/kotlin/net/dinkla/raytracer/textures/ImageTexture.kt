@@ -41,7 +41,7 @@ constructor(fileName: String) : Texture() {
 
         if (null != mapping) {
             val p = sr.localHitPoint
-            //Sphere s = (Sphere) sr.getObject();
+            //Sphere s = (Sphere) sr.getGeometricObject();
             //p = new Point3D(p.minus(s.center));
             //Point3D p = new Point3D(sr.getNormal());
             val m = mapping!!.getTexelCoordinates(p, res)

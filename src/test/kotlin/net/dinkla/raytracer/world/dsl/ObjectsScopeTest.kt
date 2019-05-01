@@ -5,6 +5,7 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
@@ -22,13 +23,16 @@ internal class ObjectsScopeTest {
     private val someNormal = Normal(5.0, 6.0, 7.0)
     private val someFileName = "resources/TwoTriangles.ply"
     private val someMaterialId = "material"
+    private val someVector = Vector3D(1.0, 2.0, 3.0)
+    private val someVector2 = Vector3D(1.1, 2.1, 4.1)
+
+    private val someMaterial = Matte()
+    private val materials = mapOf(Pair(someMaterialId, someMaterial))
 
     @Test
     fun `should handle sphere`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
         val expected = Sphere(somePoint, someRadius).apply {
             material = someMaterial
@@ -47,8 +51,6 @@ internal class ObjectsScopeTest {
     fun `should handle plane`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
         val expected = Plane(somePoint, someNormal).apply {
             material = someMaterial
@@ -67,8 +69,6 @@ internal class ObjectsScopeTest {
     fun `should handle triangle`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
         val expected = Triangle(somePoint, somePoint2, somePoint3).apply {
             material = someMaterial
@@ -87,15 +87,13 @@ internal class ObjectsScopeTest {
     fun `should handle smoothTriangle`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
         val expected = SmoothTriangle(somePoint, somePoint2, somePoint3).apply {
             material = someMaterial
         }
 
         // when
-        scope.smoothTriangle(material = someMaterialId, a = somePoint, b = somePoint2, c = somePoint3)
+        scope.triangle(material = someMaterialId, a = somePoint, b = somePoint2, c = somePoint3, smooth = true)
 
         // then
         assertType<GeometricObject, SmoothTriangle>(scope.objects, 0)
@@ -107,8 +105,6 @@ internal class ObjectsScopeTest {
     fun `should handle ply`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
 
         // when
@@ -127,8 +123,6 @@ internal class ObjectsScopeTest {
     fun `should handle grid`() {
         // given
         val compound = Compound()
-        val someMaterial = Matte()
-        val materials = mapOf<String, IMaterial>(Pair(someMaterialId, someMaterial))
         val scope = ObjectsScope(materials, compound)
 
         // precondition
@@ -145,6 +139,42 @@ internal class ObjectsScopeTest {
         assertType<GeometricObject, Sphere>(grid.objects, 0)
         val sphere = grid.objects[0] as Sphere
         assertEquals(Sphere(somePoint, someRadius).apply { material = someMaterial }, sphere)
+    }
+
+    @Test
+    fun `should handle disk`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = Disk(somePoint, radius = someRadius, normal = someNormal).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.disk(material = someMaterialId, center = somePoint, radius = someRadius, normal = someNormal)
+
+        // then
+        assertType<GeometricObject, Disk>(scope.objects, 0)
+        val created = scope.objects[0] as Disk
+        assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle rectangle`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = Rectangle(somePoint, someVector, someVector2).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.rectangle(material = someMaterialId, p0 = somePoint, a = someVector, b = someVector2)
+
+        // then
+        assertType<GeometricObject, Rectangle>(scope.objects, 0)
+        val created = scope.objects[0] as Rectangle
+        assertEquals(expected, created)
     }
 
     @Test

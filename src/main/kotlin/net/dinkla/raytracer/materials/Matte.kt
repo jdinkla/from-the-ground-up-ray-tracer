@@ -121,12 +121,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
     }
 
     override fun getLe(sr: Shade): Color {
-        return diffuseBRDF.rho(sr, null!!)
-    }
-
-    companion object {
-        // TODO used?
-        val materials = arrayOf(Matte(Color(0.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(0.0, 1.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 0.0), 1.0, 1.0), Matte(Color(1.0, 0.0, 1.0), 1.0, 1.0), Matte(Color(1.0, 1.0, 1.0), 1.0, 1.0))
+        return diffuseBRDF.rho(sr, Vector3D.UP) // TODO UP was null
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Matte>(other) { a, b ->
@@ -135,6 +130,6 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
 
     override fun hashCode(): Int = this.hash(ambientBRDF, diffuseBRDF)
 
-    override fun toString(): String = "Matte $ambientBRDF $diffuseBRDF"
+    override fun toString(): String = "Matte($ambientBRDF,$diffuseBRDF)"
 }
 

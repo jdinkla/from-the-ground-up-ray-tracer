@@ -95,14 +95,14 @@ class SparseGrid : Grid {
                         }
                         /*
                         if (null == cells[index]) {
-                            cells[index] = object;
+                            cells[index] = geometricObject;
                         } else if (cells[index] instanceof Compound) {
                             Compound c = (Compound) cells[index];
-                            c.add(object);
+                            c.add(geometricObject);
                         } else {
                             Compound c = new Compound();
                             c.add(cells[index]);
-                            c.add(object);
+                            c.add(geometricObject);
                             cells[index] = c;
                         }
 */
@@ -276,7 +276,7 @@ class SparseGrid : Grid {
         while (true) {
             val idx = ix + nx * iy + nx * ny * iz
             val `object` = cellsX[idx]
-            //GeometricObject object = cells[ix + nx * iy + nx * ny * iz];
+            //GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
             val sr2 = Hit(sr.t)
             if (tx_next < ty_next && tx_next < tz_next) {
                 if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tx_next) {

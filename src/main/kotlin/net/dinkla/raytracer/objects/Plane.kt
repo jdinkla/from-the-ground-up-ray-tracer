@@ -46,7 +46,5 @@ class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP)
 
     override fun hashCode(): Int = this.hash(point, normal)
 
-    override fun toString(): String {
-        return "Plane: " + super.toString() + " " + point.toString() + " " + normal.toString()
-    }
+    override fun toString(): String = "Plane($point, $normal)"
 }

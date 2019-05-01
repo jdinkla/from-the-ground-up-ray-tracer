@@ -52,7 +52,7 @@ open class Compound : GeometricObject() {
 
         var hit = false
         for (geoObj in objects) {
-            Counter.count("Compound.hit.object")
+            Counter.count("Compound.hit.geometricObject")
             val sr2 = Hit(sr.t)
             val b = geoObj.hit(ray, sr2)
             if (b && sr2.t < sr.t) {
@@ -81,7 +81,7 @@ open class Compound : GeometricObject() {
         Counter.count("Compound.shadowHit")
         //WrappedFloat t = WrappedFloat.createMax();
         for (geoObj in objects) {
-            Counter.count("Compound.shadowHit.object")
+            Counter.count("Compound.shadowHit.geometricObject")
             if (geoObj.shadowHit(ray, tmin)) {
                 //                tmin.setT(t.getValue());
                 return true

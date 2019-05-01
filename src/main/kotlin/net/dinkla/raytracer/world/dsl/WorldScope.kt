@@ -1,5 +1,6 @@
-package net.dinkla.raytracer.world
+package net.dinkla.raytracer.world.dsl
 
+import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.cameras.lenses.Pinhole
@@ -9,13 +10,13 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.world.dsl.LightsScope
-import net.dinkla.raytracer.world.dsl.MaterialsScope
-import net.dinkla.raytracer.world.dsl.ObjectsScope
+import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.world.World
 
-class WorldScope(val id: String) {
+class WorldScope(val id: String, val resolution: Resolution) {
 
-    val world: World = World()
+    val viewPlane = ViewPlane(resolution)
+    val world: World = World(viewPlane)
 
     init {
         world.id = id

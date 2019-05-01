@@ -10,7 +10,7 @@ internal class Vector3DTest {
     private val v0 = Vector3D(0.0, 0.0, 0.0)
     private val v = Vector3D(2.0, 3.0, 5.0)
     private val w = Vector3D(-2.0, -3.0, -5.0)
-    private val el: Element3D = v as Element3D
+    private val el: Element3D = v
 
     private val a = 3.0
     private val b = 5.0

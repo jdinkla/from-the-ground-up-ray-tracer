@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.films
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.gui.swing.ImageCanvas
 import net.dinkla.raytracer.utilities.Resolution
-import java.awt.Canvas
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
@@ -14,9 +12,6 @@ class BufferedImageFilm : IFilm {
     private val img: BufferedImage
 
     override val resolution: Resolution
-
-    val canvas: Canvas
-        get() = ImageCanvas(img)
 
     constructor(resolution: Resolution) {
         this.resolution = resolution
@@ -49,5 +44,4 @@ class BufferedImageFilm : IFilm {
             e.printStackTrace()
         }
     }
-
 }

@@ -3,6 +3,8 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
 open class Rectangle : GeometricObject {
 
@@ -148,4 +150,12 @@ open class Rectangle : GeometricObject {
         }
         return BBox(Point3D(x0, y0, z0), Point3D(x1, y1, z1))
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Rectangle>(other) { a, b ->
+        a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.normal == b.normal
+    }
+
+    override fun hashCode(): Int = this.hash(p0, a, b, normal)
+
+    override fun toString(): String = "Rectangle($p0, $a, $b, $normal)"
 }

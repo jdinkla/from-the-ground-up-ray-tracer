@@ -1,13 +1,11 @@
 package net.dinkla.raytracer.gui
 
-import net.dinkla.raytracer.films.BufferedImageFilm
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.world.World
-import net.dinkla.raytracer.world.Builder
+import net.dinkla.raytracer.world.WorldDef
 import org.slf4j.LoggerFactory
-import java.io.File
+import java.lang.System.exit
 
 object CommandLineUi {
 
@@ -15,7 +13,6 @@ object CommandLineUi {
 
     @JvmStatic
     fun main(args: Array<String>) {
-
         Counter.PAUSE = true
 
         if (args.size != 2) {
@@ -27,22 +24,20 @@ object CommandLineUi {
 
         LOGGER.info("Rendering $fileNameIn to $fileNameOut")
 
-        val file = File(fileNameIn)
-        val w: World = Builder.create(file)
-        w.initialize()
+        val wdef: WorldDef? = worldDef(fileNameIn)
+        if (null == wdef) {
+            LOGGER.warn("WorldDef $fileNameIn is not known")
+            exit(1)
+        } else {
+            Png.renderAndSave(wdef, fileNameOut)
+            Counter.stats(30)
 
-        val imf = BufferedImageFilm(w.viewPlane.resolution)
-        w.camera!!.render(imf as IFilm, 0)
-        imf.saveAsPng(fileNameOut)
+            println("Hits")
+            InnerNode.hits.println()
 
-        Counter.stats(30)
-
-        println("Hits")
-        InnerNode.hits.println()
-
-        println("fails")
-        InnerNode.fails.println()
-
+            println("fails")
+            InnerNode.fails.println()
+        }
     }
 
 

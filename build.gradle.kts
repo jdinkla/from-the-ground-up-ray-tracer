@@ -46,11 +46,7 @@ detekt {
 task<JavaExec>("commandline") {
     main = "net.dinkla.raytracer.gui.CommandLineUi"
     classpath = sourceSets["main"].runtimeClasspath
-}
-
-task<JavaExec>("swing") {
-    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerSwing"
-    classpath = sourceSets["main"].runtimeClasspath
+    args = listOf("World10.kt", "build/World10.png")
 }
 
 task<JavaExec>("javafx") {

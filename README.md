@@ -66,7 +66,7 @@ See [my homepage for further information](http://dinkla.net/de/programming/groov
 Start with
 
 ```
-$ gradle exec_gui
+$ gradle javafx
 ```
 
 Then choose an example from the `examples` directory.

@@ -20,12 +20,10 @@ import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.StepCounter
 
-class World {
+class World(val viewPlane: ViewPlane) {
 
     val compound: Compound = Compound()
-    val viewPlane: ViewPlane = ViewPlane()
     val tracer: Tracer = Whitted(this)
-
     var id: String = "unnamed"
     var backgroundColor: Color = Color.BLACK
     var errorColor: Color = Color.errorColor

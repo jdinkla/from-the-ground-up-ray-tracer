@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
 
-class Instance(val `object`: GeometricObject,
+class Instance(val geometricObject: GeometricObject,
                private val trans: ITransformation) : GeometricObject(), ITransformation by trans {
 //    internal var transformTexture: Boolean = false
 
@@ -14,7 +14,7 @@ class Instance(val `object`: GeometricObject,
 
     override var boundingBox: BBox
         get() {
-            val objectBbox = `object`.boundingBox
+            val objectBbox = geometricObject.boundingBox
 
             objectBbox.p
             objectBbox.q
@@ -68,12 +68,12 @@ class Instance(val `object`: GeometricObject,
         val ro = trans.invMatrix * ray.origin
         val rd = trans.invMatrix * ray.direction
         val invRay = Ray(ro, rd)
-        if (`object`.hit(invRay, sr)) {
+        if (geometricObject.hit(invRay, sr)) {
             // TODO: Instance hit?
             val tmp = trans.invMatrix * sr.normal
             sr.normal = tmp.normalize()
-            if (null != `object`.material) {
-                sr.`object` = `object`
+            if (null != geometricObject.material) {
+                sr.`object` = geometricObject
             }
             //            if (!transformTexture) {
             //            }
@@ -86,10 +86,10 @@ class Instance(val `object`: GeometricObject,
         val ro = trans.invMatrix * ray.origin
         val rd = trans.invMatrix * ray.direction
         val invRay = Ray(ro, rd)
-        return `object`.shadowHit(invRay, tmin)
+        return geometricObject.shadowHit(invRay, tmin)
     }
 
-    override fun initialize() = `object`.initialize()
+    override fun initialize() = geometricObject.initialize()
 
 }
 

@@ -528,11 +528,11 @@ open class Grid : Compound {
     //        // traverse the grid
     //        while (true) {
     //            int idx = ix + nx * iy + nx * ny * iz;
-    //            GeometricObject object = cells[ix + nx * iy + nx * ny * iz];
+    //            GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
     //            ShadowHit hit2 = new ShadowHit();
     //            hit2.setT(hit.getT());
     //            if (tx_next < ty_next && tx_next < tz_next) {
-    //                if (null != object && object.shadowHit(ray, hit2) && hit2.getT() < tx_next) {
+    //                if (null != geometricObject && geometricObject.shadowHit(ray, hit2) && hit2.getT() < tx_next) {
     //                    hit.setT(hit2.getT());
     //                    return true;
     //                }
@@ -544,7 +544,7 @@ open class Grid : Compound {
     //                    return (false);
     //            } else {
     //                if (ty_next < tz_next) {
-    //                    if (null != object && object.shadowHit(ray, hit2) && hit2.getT() < ty_next) {
+    //                    if (null != geometricObject && geometricObject.shadowHit(ray, hit2) && hit2.getT() < ty_next) {
     //                        hit.setT(hit2.getT());
     //                        return (true);
     //                    }
@@ -555,7 +555,7 @@ open class Grid : Compound {
     //                    if (iy == iy_stop)
     //                        return (false);
     //                } else {
-    //                    if (null != object && object.shadowHit(ray, hit2) && hit2.getT() < tz_next) {
+    //                    if (null != geometricObject && geometricObject.shadowHit(ray, hit2) && hit2.getT() < tz_next) {
     //                        hit.setT(hit2.getT());
     //                        return true;
     //                    }

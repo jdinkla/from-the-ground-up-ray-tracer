@@ -1,6 +1,8 @@
 package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.examples.World20
+import net.dinkla.raytracer.examples.World7
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
 import net.dinkla.raytracer.materials.Matte
@@ -118,29 +120,27 @@ class BuilderTest {
         assertEquals(1, world.compound.size())
     }
 
-    @Disabled
     @Test
-    fun testCreate1() {
-        val f = findExample("World20.groovy").get().toFile()
-        val w = Builder.create(f)
-        assertEquals(w.size(), 3)
+    fun `should build example world 20`() {
+        val w = World20.world()
+        assertEquals(w.size(), 4)
         assertEquals(w.lights.size, 1)
+        assertEquals(w.objects.size, 4)
     }
 
-    @Disabled
     @Test
-    fun testCreate2() {
-        val f = findExample("World7.groovy").get().toFile()
-        val w = Builder.create(f)
+    fun `should build example world 7`() {
+        val w = World7.world()
         assertEquals(w.size(), 6)
         assertEquals(w.lights.size, 3)
+        assertEquals(w.objects.size, 6)
     }
 
     @Disabled
     @Test
     fun testCreate3() {
         val f = findExample("World14.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertEquals(w.size(), 2)
         assertEquals(w.lights.size, 0)
         assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)
@@ -150,7 +150,7 @@ class BuilderTest {
     @Test
     fun testCreate4() {
         val f = findExample("World17.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertEquals(w.size(), 10)
         assertEquals(w.lights.size, 2)
     }
@@ -159,7 +159,7 @@ class BuilderTest {
     @Test
     fun testCreate5() {
         val f = findExample("World23.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertEquals(w.size(), 26)
         assertEquals(w.lights.size, 1)
         assertEquals(w.tracer.javaClass, AreaLighting::class.java)
@@ -169,7 +169,7 @@ class BuilderTest {
     @Test
     fun testCreate6() {
         val f = findExample("World26.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertEquals(w.size(), 2)
         assertEquals(w.lights.size, 1)
     }
@@ -178,7 +178,7 @@ class BuilderTest {
     @Test
     fun testCreate7() {
         val f = findExample("World34.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertNotNull(w.viewPlane, "viewPlane == null")
         assertNotNull(w.camera, "camera == null")
         assertNotNull(w.tracer, "tracer == null")
@@ -190,7 +190,7 @@ class BuilderTest {
     @Test
     fun testCreate8() {
         val f = findExample("World38.groovy").get().toFile()
-        val w = Builder.create(f)
+        val w = World7.world()
         assertEquals(w.size(), 6)
     }
 

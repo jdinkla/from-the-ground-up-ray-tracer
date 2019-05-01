@@ -1,21 +1,21 @@
 package net.dinkla.raytracer.world
 
-import java.io.File
+import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.world.dsl.WorldScope
 
-class Builder(val world: World) {
+object Builder {
 
-    fun build(file: File) {
+    private val width = AppProperties.getAsInteger("render.resolution.width")
+    private val height = AppProperties.getAsInteger("render.resolution.height")
 
+    var resolution: Resolution = Resolution(width, height)
+
+    fun build(id: String, build: WorldScope.() -> Unit): World {
+        val scope = WorldScope(id, resolution)
+        scope.build()
+        return scope.world
     }
 
-    companion object {
-        fun create(file: File) : World = World()
-
-        fun build(id: String, build: WorldScope.() -> Unit): World {
-            val scope = WorldScope(id)
-            scope.build()
-            return scope.world
-        }
-    }
 }
 

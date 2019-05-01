@@ -3,8 +3,10 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : GeometricObject() {
+open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : GeometricObject() {
 
     init {
         boundingBox = BBox(center - radius, center + radius)
@@ -46,4 +48,12 @@ open class Disk(var center: Point3D, var radius: Double, var normal: Normal) : G
 
     // TODO why with p?
     fun getNormal(p: Point3D): Normal = normal
+
+    override fun equals(other: Any?): Boolean = this.equals<Disk>(other) { a, b ->
+        a.center == b.center && a.radius == b.radius && a.normal == b.normal
+    }
+
+    override fun hashCode(): Int = this.hash(center, radius, normal)
+
+    override fun toString(): String = "Disk($center, $radius, $normal)"
 }

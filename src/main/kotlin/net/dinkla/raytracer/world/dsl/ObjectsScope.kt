@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
@@ -33,14 +34,26 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
         }.add()
     }
 
-    fun triangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
-        Triangle(a, b, c).apply {
+    fun triangle(material: String, a: Point3D, b: Point3D, c: Point3D, smooth: Boolean = false) {
+        if (smooth) {
+            SmoothTriangle(a, b, c).apply {
+                this.material = materials[material]
+            }.add()
+        } else {
+            Triangle(a, b, c).apply {
+                this.material = materials[material]
+            }.add()
+        }
+    }
+
+    fun disk(material: String, center: Point3D = Point3D.ORIGIN, radius: Double = 0.0, normal: Normal = Normal.UP) {
+        Disk(center, radius, normal).apply {
             this.material = materials[material]
         }.add()
     }
 
-    fun smoothTriangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
-        SmoothTriangle(a, b, c).apply {
+    fun rectangle(material: String, p0: Point3D = Point3D.ORIGIN, a: Vector3D = Vector3D.UP, b: Vector3D = Vector3D.RIGHT) {
+        Rectangle(p0, a, b).apply {
             this.material = materials[material]
         }.add()
     }
@@ -54,8 +67,6 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
 
     fun ply(material: String, fileName: String, isSmooth: Boolean = false) {
         val reverseNormal = false // TODO ? WIT?
-        val isSmooth = false
-
         val m = materials[material]!!
         val plyReader = PlyReader(m, isSmooth = isSmooth)
         val ply = plyReader.read(fileName)

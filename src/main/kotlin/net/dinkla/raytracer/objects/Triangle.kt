@@ -7,7 +7,8 @@ import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 
 class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
-    var normal: Normal = Normal(v0, v1, v2)
+
+    val normal: Normal = Normal(v0, v1, v2)
 
     init {
         boundingBox = BBox.create(v0, v1, v2)
