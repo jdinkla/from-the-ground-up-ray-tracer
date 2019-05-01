@@ -8,7 +8,4 @@ interface ILens {
     fun getRaySingle(r: Int, c: Int): Ray?
 
     fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray?
-
-//    fun getEye(): Point3D?
-
 }

@@ -7,27 +7,22 @@ import net.dinkla.raytracer.utilities.Resolution
 
 class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
-    var maxLambda: Double = 0.toDouble()
-    var maxPsi: Double = 0.toDouble()
-
-    init {
-        maxLambda = 180.0
-        maxPsi = 180.0
-    }
+    var maxLambda: Double = 180.0
+    var maxPsi: Double = 180.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres)
-        val y = viewPlane!!.size * (r - 0.5 * viewPlane!!.resolution.vres)
+        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres)
+        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres)
         val pp = Point2D(x, y)
-        val direction = getRayDirection(pp, viewPlane!!.resolution, viewPlane!!.size)
+        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         return Ray(eye!!, direction)
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres + sp.x)
-        val y = viewPlane!!.size * (r - 0.5 * viewPlane!!.resolution.vres + sp.y)
+        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x)
+        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y)
         val pp = Point2D(x, y)
-        val direction = getRayDirection(pp, viewPlane!!.resolution, viewPlane!!.size)
+        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         return Ray(eye!!, direction)
     }
 

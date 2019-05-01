@@ -24,17 +24,12 @@ import org.slf4j.LoggerFactory
  */
 open class Camera(val lens: AbstractLens, val render2: IRenderer) {
 
-    var eye: Point3D
-    var lookAt: Point3D
-    var up: Vector3D
-    var uvw: Basis
+    var eye: Point3D = DEFAULT_CAMERA
+    var lookAt: Point3D = Point3D.ORIGIN
+    var up: Vector3D = Vector3D.UP
+    var uvw: Basis = Basis(eye, lookAt, up)
 
     init {
-        // setup(Point3D.DEFAULT_CAMERA, Point3D.ORIGIN, Vector3D.UP)
-        eye = DEFAULT_CAMERA
-        lookAt = Point3D.ORIGIN
-        up = Vector3D.UP
-        uvw = Basis(eye, lookAt, up)
         lens.eye = eye
         lens.uvw = uvw
     }
