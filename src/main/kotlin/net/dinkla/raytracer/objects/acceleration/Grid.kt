@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 
 open class Grid : Compound {
 
-    var mesh: Mesh = Mesh()
+    val mesh: Mesh = Mesh()
 
     protected var cells: Array<GeometricObject> = Array(0, { i -> NullObject() } )
 
@@ -32,13 +32,6 @@ open class Grid : Compound {
         multiplier = 2.0
         depth = 0
         boundingBox = BBox()
-    }
-
-    constructor(mesh: Mesh) : super() {
-        this.mesh = mesh
-        multiplier = 2.0
-        depth = 0
-        // TODO  setBoundingBox(mesh.get);
     }
 
     override fun initialize() {

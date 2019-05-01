@@ -18,8 +18,6 @@ class SparseGrid : Grid {
 
     constructor() : super() {}
 
-    constructor(mesh: Mesh) : super(mesh) {}
-
     override fun initialize() {
         if (isInitialized) {
             return

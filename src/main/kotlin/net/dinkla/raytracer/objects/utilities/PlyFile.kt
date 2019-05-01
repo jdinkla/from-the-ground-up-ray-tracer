@@ -40,16 +40,16 @@ class PlyFile(val filename: String) {
 //                isInHeader = false
 //            } else if ("""^element\W+vertex""".toRegex().containsMatchIn(line) ) {
 //                line = line.replaceFirst(/element\W+vertex\W+/, '')
-//                numVertices = Integer.valueOf(line)
+//                numVerticesLeft = Integer.valueOf(line)
 //                isInVertexDef = true
 //                isInFaceDef = false
-//                LOGGER.info("PLY: ${numVertices} vertices")
+//                LOGGER.info("PLY: ${numVerticesLeft} vertices")
 //            } else if (line =~ /^element\W+face/) {
 //                line = line.replaceFirst(/element\W+face\W+/, '')
-//                numFaces = Integer.valueOf(line)
+//                numFacesLeft = Integer.valueOf(line)
 //                isInVertexDef = false
 //                isInFaceDef = true
-//                LOGGER.info("PLY: ${numFaces} faces")
+//                LOGGER.info("PLY: ${numFacesLeft} faces")
 //            } else if (line =~ /^property/) {
 //                line = line.replaceFirst(/property\W+/, '')
 //                if (isInVertexDef) {

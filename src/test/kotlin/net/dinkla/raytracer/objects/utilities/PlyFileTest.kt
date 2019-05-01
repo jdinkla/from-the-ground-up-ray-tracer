@@ -32,31 +32,4 @@ class PlyFileTest {
         assertEquals(plyFile.vertexDataLength, 16)
     }
 
-    @Test
-    fun readBinary() {
-        val plyFile = PlyFile(TestUtils.PLY_BINARY_EXAMPLE)
-        plyFile.read()
-        //System.out.println("test");
-    }
-
-    //    @Test
-    //    public void ReadFlat() {
-    //        Mesh mesh = new Mesh();
-    //        Grid grid = new Grid(mesh);
-    //        PlyReader.read(grid, "examples/ply/TwoTriangles.ply", false, false);
-    //        //System.out.println("mesh=" + grid.getMesh());
-    //        assertEquals(grid.getMesh().vertices.size(), 4);
-    //        assertEquals(grid.size(), 2);
-    //    }
-    //
-    //    @Test
-    //    public void ReadSmooth() {
-    //        Mesh mesh = new Mesh();
-    //        Grid grid = new Grid(mesh);
-    //        PlyReader.read(grid, "examples/ply/TwoTriangles.ply", false, true);
-    //        //System.out.println("mesh=" + grid.getMesh());
-    //        assertEquals(grid.getMesh().vertices.size(), 4);
-    //        assertEquals(grid.size(), 2);
-    //    }
-
 }

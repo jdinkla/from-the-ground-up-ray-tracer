@@ -123,14 +123,7 @@ class FromTheGroundUpRayTracer : Application() {
 
     private fun preview() {
         LOGGER.info("preview " + fileChosen?.name)
-
-        val wdef : WorldDef? = when (fileChosen?.name) {
-            "World5.kt" -> World5
-            "World6.kt" -> World6
-            "World48.kt" -> World48
-            "World66.kt" -> World66
-            else -> null
-        }
+        val wdef : WorldDef? = worldDef(fileChosen?.name!!)
         if (wdef == null) return
         val w = wdef.world()
         w.initialize()
@@ -145,7 +138,9 @@ class FromTheGroundUpRayTracer : Application() {
 
         val fileName = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
 
-        val w = World5.world()
+        val wdef : WorldDef? = worldDef(fileChosen?.name!!)
+        if (wdef == null) return
+        val w = wdef.world()
         w.initialize()
 
         val film = BufferedImageFilm(w.viewPlane.resolution)

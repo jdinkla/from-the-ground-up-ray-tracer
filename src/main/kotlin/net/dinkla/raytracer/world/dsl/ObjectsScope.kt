@@ -53,16 +53,12 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
     }
 
     fun ply(material: String, fileName: String, isSmooth: Boolean = false) {
-        val mesh = Mesh()
-        val grid = Grid(mesh).apply {
-            this.material = materials[material]
-        }
         val reverseNormal = false // TODO ? WIT?
         val isSmooth = false
 
-        val plyReader = PlyReader(grid, isSmooth = isSmooth)
-        plyReader.read(fileName)
-
-        grid.add()
+        val m = materials[material]!!
+        val plyReader = PlyReader(m, isSmooth = isSmooth)
+        val ply = plyReader.read(fileName)
+        ply.grid.add()
     }
 }

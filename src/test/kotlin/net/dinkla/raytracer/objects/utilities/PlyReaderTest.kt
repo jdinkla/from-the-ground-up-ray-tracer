@@ -54,14 +54,11 @@ class PlyReaderTest {
     fun readFlat() {
         // given
         val material = Matte()
-        val mesh = Mesh()
-        val grid = Grid(mesh).apply {
-            this.material = material
-        }
 
         // when
-        val plyReader = PlyReader(grid)
+        val plyReader = PlyReader(material)
         val ply = plyReader.read(TestUtils.PLY_EXAMPLE)
+        val grid = ply.grid
 
         // then
         assertEquals(4, ply.numVertices)
@@ -79,14 +76,11 @@ class PlyReaderTest {
     fun readSmooth() {
         // given
         val material = Matte()
-        val mesh = Mesh()
-        val grid = Grid(mesh).apply {
-            this.material = material
-        }
 
         // when
-        val plyReader = PlyReader(grid, isSmooth = true)
+        val plyReader = PlyReader(material, isSmooth = true)
         val ply = plyReader.read(TestUtils.PLY_EXAMPLE)
+        val grid = ply.grid
 
         // then
         assertEquals(4, ply.numVertices)

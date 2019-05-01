@@ -4,28 +4,32 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.Grid.Companion.logInterval
-import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
-import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
+import org.slf4j.LoggerFactory
 import java.io.File
 
-class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth: Boolean = false) {
+class PlyReader(val material: IMaterial, val reverseNormal: Boolean = false, val isSmooth: Boolean = false) {
 
-    val mesh = grid.mesh
+    val grid = Grid()
+    private val mesh = grid.mesh
 
-    val materialOfGrid = grid.material!!
+    init {
+        grid.material = material
+    }
 
     var isInHeader = true
     var numLine = 0
-    var numVertices = -1
+
+    private var numVerticesLeft = -1
+    private var numFacesLeft = -1
+
     var numVerticesOrig = -1
-    var numFaces = -1
     var numFacesOrig = -1
     var countFaces = 0
 
-    fun add(mesh: Mesh, i: Int, countFaces: Int) {
+    fun add(i: Int, countFaces: Int) {
         if (null == mesh.vertexFaces[i]) {
             mesh.vertexFaces[i] = ArrayList()
         }
@@ -35,14 +39,13 @@ class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth
     fun read(fileName: String) = read(File(fileName).readLines())
 
     fun read(lines: List<String>): Ply {
-        assert(materialOfGrid != null)
         lines.forEach { line ->
             handleLine(line)
         }
         if (isSmooth) {
             mesh.computeMeshNormals(grid.objects as java.util.ArrayList<MeshTriangle>)
         }
-        return Ply(numVerticesOrig, numFacesOrig)
+        return Ply(numVerticesOrig, numFacesOrig, grid)
     }
 
     fun handleLine(line: String) {
@@ -53,25 +56,25 @@ class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth
                     isInHeader = false
                 }
                 isElementVertex(line) -> {
-                    numVertices = parseNumVertices(line)
-                    numVerticesOrig = numVertices
-                    mesh.vertices.ensureCapacity(numVertices)
+                    numVerticesLeft = parseNumVertices(line)
+                    numVerticesOrig = numVerticesLeft
+                    mesh.vertices.ensureCapacity(numVerticesLeft)
                     if (isSmooth) {
-                        mesh.vertexFaces.ensureCapacity(numVertices)
-                        for (i in 0..numVertices) {
+                        mesh.vertexFaces.ensureCapacity(numVerticesLeft)
+                        for (i in 0..numVerticesLeft) {
                             mesh.vertexFaces.add(i, ArrayList())
                         }
                     }
                 }
                 isElementFace(line) -> {
-                    numFaces = parseNumFaces(line)
-                    numFacesOrig = numFaces
-                    grid.objects.ensureCapacity(numFaces)
+                    numFacesLeft = parseNumFaces(line)
+                    numFacesOrig = numFacesLeft
+                    grid.objects.ensureCapacity(numFacesLeft)
                 }
             }
         } else {
             when {
-                numVertices > 0 -> {
+                numVerticesLeft > 0 -> {
                     val cs = line.split(" ")
                     if (cs.size < 3) {
                         throw RuntimeException("Not enough elements in line $numLine")
@@ -81,12 +84,12 @@ class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth
                     val z = cs[2].toDouble()
                     val p = Point3D(x, y, z)
                     mesh.vertices.add(p)
-                    numVertices--
+                    numVerticesLeft--
                     if (numLine % logInterval == 0) {
-                        println("PLY: ${numVertices} vertices to read")
+                        LOG.debug("PLY: ${numVerticesLeft} vertices to read")
                     }
                 }
-                numFaces > 0 -> {
+                numFacesLeft > 0 -> {
                     val cs = line.split(" ")
                     val size = cs[0].toInt()
                     if (cs.size < size + 1) {
@@ -95,24 +98,22 @@ class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth
                     val i0 = cs[1].toInt()
                     val i1 = cs[2].toInt()
                     val i2 = cs[3].toInt()
-                    var triangle: MeshTriangle
+                    val triangle: MeshTriangle
                     if (isSmooth) {
                         triangle = SmoothMeshTriangle(mesh, i0, i1, i2)
-                        add(mesh, i0, countFaces)
-                        add(mesh, i1, countFaces)
-                        add(mesh, i2, countFaces)
+                        add(i0, countFaces)
+                        add(i1, countFaces)
+                        add(i2, countFaces)
                     } else {
                         triangle = FlatMeshTriangle(mesh, i0, i1, i2)
                     }
                     triangle.computeNormal(reverseNormal)
-                    triangle.apply {
-                        this.material = materialOfGrid
-                    }
+                    triangle.material = this.material
                     grid.add(triangle)
-                    numFaces--
+                    numFacesLeft--
                     countFaces++
                     if (numLine % logInterval == 0) {
-                        println("PLY: ${numFaces} faces to read")
+                        LOG.debug("PLY: ${numFacesLeft} faces to read")
                     }
                 }
                 isWhiteSpace(line) -> {
@@ -125,12 +126,15 @@ class PlyReader(val grid: Grid, val reverseNormal: Boolean = false, val isSmooth
     }
 
     companion object {
+
+        internal val LOG = LoggerFactory.getLogger(this::class.java)
+
         fun isEndOfHeader(line: String) = line == "end_header"
 
         val elemVertex = "element\\W+vertex".toRegex()
         fun isElementVertex(line: String): Boolean = elemVertex.containsMatchIn(line)
 
-        fun parseNumVertices(line: String): Int {
+        internal fun parseNumVertices(line: String): Int {
             val rest = line.replace(elemVertex, "").trim()
             return Integer.parseInt(rest)
         }

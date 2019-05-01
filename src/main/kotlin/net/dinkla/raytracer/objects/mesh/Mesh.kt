@@ -13,7 +13,7 @@ class Mesh {
     //    public List<Float> us;
     //    public List<Float> vs;
     var vertexFaces: ArrayList<MutableList<Int>?> = ArrayList()
-    //    public int numVertices;
+    //    public int numVerticesLeft;
     //    public int numTriangles;
 
     var material: IMaterial? = null
