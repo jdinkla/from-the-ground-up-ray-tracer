@@ -30,10 +30,10 @@ object World48 : WorldDef {
             triangle(a = p(-3, 0, -1), b = p(-3, -1, 1), c = p(-1, 0, 1), material = "orange")
             smoothTriangle(a = p(-5, 0, -1), b = p(-5, -1, 1), c = p(-3, 0, 1), material = "orange")
 //            ply(file = "resources/TwoTriangles.ply", material = "red")
-//            grid {
-//                triangle(a = p(3, 0, -1), b = p(3, -1, 1), c = p(5, 0, 1), material = "orange")
-//                sphere(center = p(1.5, 1.5, 1.5), radius = 0.5, material = "sky")
-//            }
+            grid {
+                triangle(a = p(3, 0, -1), b = p(3, -1, 1), c = p(5, 0, 1), material = "orange")
+                sphere(center = p(1.5, 1.5, 1.5), radius = 0.5, material = "sky")
+            }
         }
     }
 

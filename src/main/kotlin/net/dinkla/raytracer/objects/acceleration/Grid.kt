@@ -14,13 +14,6 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jörn Dinkla
- * Date: 01.05.2010
- * Time: 15:05:01
- * To change this template use File | Settings | File Templates.
- */
 open class Grid : Compound {
 
     var mesh: Mesh = Mesh()
@@ -593,9 +586,7 @@ open class Grid : Compound {
         return b
     }
 
-    override fun toString(): String {
-        return super.toString() + " (" + objects.size + " elements)"
-    }
+    override fun toString(): String = "Grid(#objs=${objects.size})"
 
     companion object {
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)

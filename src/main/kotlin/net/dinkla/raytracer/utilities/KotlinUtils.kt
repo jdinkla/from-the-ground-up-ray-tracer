@@ -15,4 +15,3 @@ inline fun <reified T> T.equals(other: Any?, f: (p: T, q: T) -> Boolean): Boolea
 
 fun <T> T.hash(vararg objects: Any) = Objects.hash(*objects)
 
-

@@ -4,6 +4,7 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.*
+import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
 
 class ObjectsScope(private val materials: Map<String, IMaterial>, private val compound: Compound) {
@@ -13,35 +14,39 @@ class ObjectsScope(private val materials: Map<String, IMaterial>, private val co
     val objects : List<GeometricObject>
         get() = mutableObjects.toList()
 
+    fun GeometricObject.add() {
+        mutableObjects.add(this)
+        compound.add(this)
+    }
+
     fun sphere(material: String, center: Point3D = Point3D.ORIGIN, radius: Double = 0.0) {
-        val obj = Sphere(center, radius).apply {
+        Sphere(center, radius).apply {
             this.material = materials[material]
-        }
-        mutableObjects.add(obj)
-        compound.add(obj)
+        }.add()
     }
 
     fun plane(material: String, point: Point3D = Point3D.ORIGIN, normal: Normal = Normal.UP) {
-        val obj = Plane(point, normal).apply {
+        Plane(point, normal).apply {
             this.material = materials[material]
-        }
-        mutableObjects.add(obj)
-        compound.add(obj)
+        }.add()
     }
 
     fun triangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
-        val obj = Triangle(a, b, c).apply {
+        Triangle(a, b, c).apply {
             this.material = materials[material]
-        }
-        mutableObjects.add(obj)
-        compound.add(obj)
+        }.add()
     }
 
     fun smoothTriangle(material: String, a: Point3D, b: Point3D, c: Point3D) {
-        val obj = SmoothTriangle(a, b, c).apply {
+        SmoothTriangle(a, b, c).apply {
             this.material = materials[material]
-        }
-        mutableObjects.add(obj)
-        compound.add(obj)
+        }.add()
+    }
+
+    fun grid(block: ObjectsScope.() -> Unit) {
+        val grid = Grid()
+        val scope = ObjectsScope(materials, grid)
+        scope.block()
+        grid.add()
     }
 }
