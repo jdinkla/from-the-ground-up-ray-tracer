@@ -1,11 +1,16 @@
 package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-class SolidCylinder(y0: Double, y1: Double, radius: Double) : Compound() {
+class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compound() {
 
     init {
         val bottom = Disk(Point3D(0.0, y0, 0.0), radius, Normal(0.0, -1.0, 0.0))
@@ -26,4 +31,13 @@ class SolidCylinder(y0: Double, y1: Double, radius: Double) : Compound() {
             false
         }
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<SolidCylinder>(other) { a, b ->
+        a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
+    }
+
+    override fun hashCode(): Int = this.hash(y0, y1, radius)
+
+    override fun toString(): String = "SolidCylinder($y0, $y1, $radius)"
+
 }

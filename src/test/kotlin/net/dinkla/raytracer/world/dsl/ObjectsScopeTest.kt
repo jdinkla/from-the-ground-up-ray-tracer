@@ -1,14 +1,16 @@
 package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.assertType
-import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.materials.Matte
+import net.dinkla.raytracer.math.AffineTransformation
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import org.junit.jupiter.api.Test
 
@@ -25,6 +27,8 @@ internal class ObjectsScopeTest {
     private val someMaterialId = "material"
     private val someVector = Vector3D(1.0, 2.0, 3.0)
     private val someVector2 = Vector3D(1.1, 2.1, 4.1)
+    private val y0 = 1.0
+    private val y1 = 2.0
 
     private val someMaterial = Matte()
     private val materials = mapOf(Pair(someMaterialId, someMaterial))
@@ -175,6 +179,85 @@ internal class ObjectsScopeTest {
         assertType<GeometricObject, Rectangle>(scope.objects, 0)
         val created = scope.objects[0] as Rectangle
         assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle alignedBox`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = AlignedBox(somePoint, somePoint2).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.alignedBox(material = someMaterialId, p = somePoint, q = somePoint2)
+
+        // then
+        assertType<GeometricObject, AlignedBox>(scope.objects, 0)
+        val created = scope.objects[0] as AlignedBox
+        assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle openCylinder`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = OpenCylinder(y0 = y0, y1 = y1, radius = someRadius).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.openCylinder(material = someMaterialId, y0 = y0, y1 = y1, radius = someRadius)
+
+        // then
+        assertType<GeometricObject, OpenCylinder>(scope.objects, 0)
+        val created = scope.objects[0] as OpenCylinder
+        assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle solidCylinder`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = SolidCylinder(y0 = y0, y1 = y1, radius = someRadius).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.solidCylinder(material = someMaterialId, y0 = y0, y1 = y1, radius = someRadius)
+
+        // then
+        assertType<GeometricObject, SolidCylinder>(scope.objects, 0)
+        val created = scope.objects[0] as SolidCylinder
+        assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle instance`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val someOtherMaterial = Matte(Color.RED, 0.12, 0.34)
+        val expected = Sphere(center = somePoint, radius = someRadius).apply {
+            material = someOtherMaterial
+        }
+        val trans = AffineTransformation()
+        trans.translate(someVector)
+
+        // when
+        scope.instance(material = someMaterialId, of = expected) {
+            translate(someVector)
+        }
+
+        // then
+        assertType<GeometricObject, Instance>(scope.objects, 0)
+        val instance = scope.objects[0] as Instance
+        assertEquals(trans, instance.trans)
+        assertEquals(someMaterial, instance.material)
+        assertEquals(someOtherMaterial, expected.material)
     }
 
     @Test

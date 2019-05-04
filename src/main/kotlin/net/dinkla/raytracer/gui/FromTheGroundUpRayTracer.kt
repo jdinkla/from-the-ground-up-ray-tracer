@@ -19,9 +19,9 @@ import javafx.scene.text.Text
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
 import net.dinkla.raytracer.examples.*
-import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.films.JavaFxFilm
 import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.utilities.Png
 import net.dinkla.raytracer.world.WorldDef
 import org.slf4j.LoggerFactory
 import java.io.File

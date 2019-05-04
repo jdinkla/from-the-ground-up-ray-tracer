@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.World20
 import net.dinkla.raytracer.examples.World7
+import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
 import net.dinkla.raytracer.materials.Matte
@@ -146,11 +147,9 @@ class BuilderTest {
         assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)
     }
 
-    @Disabled
     @Test
     fun testCreate4() {
-        val f = findExample("World17.groovy").get().toFile()
-        val w = World7.world()
+        val w = World17.world()
         assertEquals(w.size(), 10)
         assertEquals(w.lights.size, 2)
     }

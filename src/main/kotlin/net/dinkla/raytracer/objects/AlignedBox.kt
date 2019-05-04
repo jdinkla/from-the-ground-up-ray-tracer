@@ -3,6 +3,8 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
 class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
@@ -165,7 +167,8 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         return false
     }
 
-    internal fun getNormal(face: Int): Normal = when (face) {
+    // TODO these normals have names in Normal class
+    private fun getNormal(face: Int): Normal = when (face) {
         0 -> Normal(-1.0, 0.0, 0.0)
         1 -> Normal(0.0, -1.0, 0.0)
         2 -> Normal(0.0, 0.0, -1.0)
@@ -175,4 +178,11 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         else -> Normal.ZERO
     }
 
+    override fun equals(other: Any?): Boolean = this.equals<AlignedBox>(other) { a, b ->
+        a.p == b.p && a.q == b.q
+    }
+
+    override fun hashCode(): Int = this.hash(p, q)
+
+    override fun toString(): String = "AlignedBox($p, $q)"
 }

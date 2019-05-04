@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import java.util.HashMap
-import java.util.TreeMap
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class Counter private constructor() {
@@ -44,7 +43,7 @@ class Counter private constructor() {
         private fun printStats(results: TreeMap<String, Int>, columns: Int) {
             println("Counter")
             for (key in results.keys) {
-                val spaces = columns - key.length - 1
+                val spaces = Math.max(columns - key.length - 1, 0)
                 val count = results[key]
                 println(key + ":" + EMPTY.substring(0, spaces) + count)
             }

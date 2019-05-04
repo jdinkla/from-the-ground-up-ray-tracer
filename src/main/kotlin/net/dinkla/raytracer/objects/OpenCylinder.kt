@@ -3,24 +3,16 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 13.04.2010
- * Time: 13:23:24
- * To change this template use File | Settings | File Templates.
- */
 class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : GeometricObject() {
 
-    private var y0: Double = 0.0
-    internal var y1: Double = 0.0
-    private var invRadius: Double = 0.0
+    private var y0: Double = Math.min(y0, y1)
+    internal var y1: Double = Math.max(y0, y1)
+    private var invRadius: Double = 1.0 / radius
 
     init {
-        this.y0 = Math.min(y0, y1)
-        this.y1 = Math.max(y0, y1)
-        this.invRadius = 1.0 / radius
         boundingBox = calcBoundingBox()
     }
 
@@ -128,4 +120,11 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         return BBox(p, q)
     }
 
+    override fun equals(other: Any?): Boolean = this.equals<OpenCylinder>(other) { a, b ->
+        a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
+    }
+
+    override fun hashCode(): Int = this.hash(y0, y1, radius)
+
+    override fun toString(): String = "OpenCylinder($y0, $y1, $radius)"
 }

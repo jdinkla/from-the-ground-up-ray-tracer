@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui
+package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.world.WorldDef

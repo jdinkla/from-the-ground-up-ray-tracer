@@ -1,6 +1,8 @@
 package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
 class AffineTransformation : ITransformation {
 
@@ -135,4 +137,11 @@ class AffineTransformation : ITransformation {
         forwardMatrix = s.times(forwardMatrix)
     }
 
+    override fun equals(other: Any?): Boolean = this.equals<AffineTransformation>(other) { a, b ->
+        a.forwardMatrix == b.forwardMatrix && a.invMatrix == b.invMatrix
+    }
+
+    override fun hashCode(): Int = this.hash(forwardMatrix, invMatrix)
+
+    override fun toString(): String = "AffineTransformation($forwardMatrix, $invMatrix)"
 }

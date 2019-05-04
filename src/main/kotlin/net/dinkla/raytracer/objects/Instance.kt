@@ -7,7 +7,7 @@ import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
 
 class Instance(val geometricObject: GeometricObject,
-               private val trans: ITransformation) : GeometricObject(), ITransformation by trans {
+               val trans: ITransformation) : GeometricObject(), ITransformation by trans {
 //    internal var transformTexture: Boolean = false
 
     constructor (`object`: GeometricObject) : this(`object`, AffineTransformation())

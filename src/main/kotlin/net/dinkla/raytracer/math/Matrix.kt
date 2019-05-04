@@ -121,6 +121,5 @@ class Matrix private constructor() {
         operator fun DoubleArray.set(i: Int, j: Int, value: Double) {
             this[index(i, j)] = value
         }
-
     }
 }
