@@ -6,6 +6,8 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
 import java.util.*
 
@@ -107,11 +109,8 @@ open class Phong(color: Color = Color.WHITE,
         return specularBRDF.cs!!.times(specularBRDF.ks)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other != null && other is Phong) {
-            return super.equals(other) && specularBRDF.equals(other.specularBRDF)
-        }
-        return false
+    override fun equals(other: Any?): Boolean = this.equals<Phong>(other) { a, b ->
+        a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF
     }
 
     override fun hashCode(): Int {

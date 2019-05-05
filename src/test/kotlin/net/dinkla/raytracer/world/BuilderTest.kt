@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.World20
 import net.dinkla.raytracer.examples.World26
+import net.dinkla.raytracer.examples.World34
 import net.dinkla.raytracer.examples.World7
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
@@ -173,15 +174,13 @@ class BuilderTest {
         assertEquals(3, w.objects.size)
     }
 
-    @Disabled
     @Test
-    fun testCreate7() {
-        val f = findExample("World34.groovy").get().toFile()
-        val w = World7.world()
+    fun `should build example world 34 - transparent`() {
+        val w = World34.world()
         assertNotNull(w.viewPlane, "viewPlane == null")
         assertNotNull(w.camera, "camera == null")
         assertNotNull(w.tracer, "tracer == null")
-        assertEquals(w.size(), 5)
+        assertEquals(6, w.size())
         assertEquals(w.lights.size, 1)
     }
 

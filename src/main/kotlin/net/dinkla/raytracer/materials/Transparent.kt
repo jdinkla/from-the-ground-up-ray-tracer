@@ -1,47 +1,68 @@
 package net.dinkla.raytracer.materials
 
-import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.btdf.PerfectTransmitter
+import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.World
+import java.util.*
 
+class Transparent : Phong {
 
-class Transparent : Phong() {
+    var reflectiveBRDF = PerfectSpecular()
+    var specularBTDF = PerfectTransmitter()
 
-    var reflectiveBrdf: PerfectSpecular
-    var specularBtdf: PerfectTransmitter
-
-    init {
-        this.reflectiveBrdf = PerfectSpecular()
-        this.specularBtdf = PerfectTransmitter()
+    constructor(color: Color = Color.WHITE,
+                ka: Double = 0.25,
+                kd: Double = 0.75,
+                exp: Double = 5.0,
+                ks: Double = 0.25,
+                cs: Color = Color.WHITE,
+                kt: Double = 0.0,
+                ior: Double = 0.0,
+                kr: Double = 0.0,
+                cr: Color = Color.WHITE): super(color, ka, kd, exp, ks, cs) {
+        this.kt = kt
+        this.ior = ior
+        this.kr = kr
+        this.cr = cr
     }
 
-    fun setKt(kt: Double) {
-        specularBtdf.kt = kt
-    }
+    var kt: Double
+        get() = specularBTDF.kt
+        set(v: Double) {
+            specularBTDF.kt = v
+        }
 
-    fun setIor(ior: Double) {
-        specularBtdf.ior = ior
-    }
+    var ior: Double
+        get() = specularBTDF.ior
+        set(v: Double) {
+            specularBTDF.ior = v
+        }
 
-    fun setKr(kr: Double) {
-        reflectiveBrdf.kr = kr
-    }
+    var kr: Double
+        get() =reflectiveBRDF.kr
+        set(v: Double) {
+            reflectiveBRDF.kr = v
+        }
 
-    fun setCr(cr: Color) {
-        reflectiveBrdf.cr = cr
-    }
+    var cr: Color
+        get() =reflectiveBRDF.cr
+        set(v: Color) {
+            reflectiveBRDF.cr = v
+        }
+
 
     override fun shade(world: World, sr: Shade): Color {
         var l = super.shade(world, sr)
         val wo = sr.ray.direction.times(-1.0)
-        val brdf = reflectiveBrdf.sampleF(sr, wo)
+        val brdf = reflectiveBRDF.sampleF(sr, wo)
         // trace reflected ray
         val reflectedRay = Ray(sr.hitPoint, brdf.wi!!)
         val cr = world.tracer.trace(reflectedRay, sr.depth + 1)
-        if (specularBtdf.isTir(sr)) {
+        if (specularBTDF.isTir(sr)) {
             l = l.plus(cr)
         } else {
             // reflected
@@ -49,7 +70,7 @@ class Transparent : Phong() {
             l = l.plus(brdf.color!!.times(cr).times(cfr))
 
             // trace transmitted ray
-            val btdf = specularBtdf.sampleF(sr, wo)
+            val btdf = specularBTDF.sampleF(sr, wo)
             val transmittedRay = Ray(sr.hitPoint, btdf.wt!!)
             val ct = world.tracer.trace(transmittedRay, sr.depth + 1)
             val cft = Math.abs(sr.normal.dot(btdf.wt!!))
@@ -57,4 +78,15 @@ class Transparent : Phong() {
         }
         return l
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Transparent>(other) { a, b ->
+        a.diffuseBRDF == b.diffuseBRDF && a.ambientBRDF == b.ambientBRDF && a.specularBTDF == b.specularBTDF
+                && a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
+    }
+
+    override fun toString() = "Transparent(${super.toString()}, $reflectiveBRDF, $specularBTDF)"
 }

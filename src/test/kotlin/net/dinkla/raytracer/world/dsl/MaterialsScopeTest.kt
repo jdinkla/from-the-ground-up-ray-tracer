@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.Fixture.ex
-import net.dinkla.raytracer.materials.Matte
-import net.dinkla.raytracer.materials.Phong
-import net.dinkla.raytracer.materials.Reflective
+import net.dinkla.raytracer.materials.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -78,6 +76,62 @@ class MaterialsScopeTest {
         assertEquals(reflective.kd, material.kd)
         assertEquals(reflective.exp, material.exp)
         assertEquals(reflective, material)
+    }
+
+    @Test
+    fun `should handle emissive`() {
+        // given
+        val scope = MaterialsScope()
+        val emissive = Emissive(ex.cd, ex.ks)
+
+        // when
+        scope.emissive(id = id, ce = ex.cd, ls = ex.ks)
+
+        // then
+        assertEquals(1, scope.materials.size)
+        assertTrue(scope.materials.containsKey(id))
+        val material = scope.materials[id] as Emissive
+        assertEquals(emissive, material)
+    }
+
+    @Test
+    fun `should handle transparent`() {
+        // given
+        val id = "m1"
+        val scope = MaterialsScope()
+        val transparent = Transparent().apply {
+            cd = ex.cd
+            ka = ex.ka
+            kd = ex.kd
+            exp = ex.exp
+            ks = ex.ks
+            cs = ex.cs
+            kt = ex.kt
+            ior = ex.ior
+            cr = ex.cr
+            kr = ex.kr
+        }
+
+        // when
+        scope.transparent(id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
+                cr = ex.cr, kr = ex.kr,
+                ks = ex.ks, cs = ex.cs, exp = ex.exp,
+                kt = ex.kt, ior = ex.ior)
+
+        // then
+        assertEquals(1, scope.materials.size)
+        assertTrue(scope.materials.containsKey(id))
+        val material = scope.materials[id] as Transparent
+        assertEquals(transparent.kr, material.kr)
+        assertEquals(transparent.cr, material.cr)
+        assertEquals(transparent.ka, material.ka)
+        assertEquals(transparent.kd, material.kd)
+        assertEquals(transparent.exp, material.exp)
+        assertEquals(transparent.kt, material.kt)
+        assertEquals(transparent.ior, material.ior)
+        assertEquals(transparent.cr, material.cr)
+        assertEquals(transparent.kr, material.kr)
+        assertEquals(transparent, material)
     }
 
 }

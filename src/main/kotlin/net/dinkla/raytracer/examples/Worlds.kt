@@ -12,9 +12,11 @@ fun worldDef(filename: String): WorldDef? =
             "World17.kt" -> World17
             "World20.kt" -> World20
             "World26.kt" -> World26
+            "World34.kt" -> World34
             "World48.kt" -> World48
             "World66.kt" -> World66
             "NewWorld1.kt" -> NewWorld1
             "NewWorld2.kt" -> NewWorld2
+            "NewWorld3.kt" -> NewWorld3
             else -> null
         }

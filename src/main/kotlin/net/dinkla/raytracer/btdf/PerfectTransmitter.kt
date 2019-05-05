@@ -3,16 +3,9 @@ package net.dinkla.raytracer.btdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
+import java.util.*
 
-class PerfectTransmitter : BTDF() {
-
-    var ior: Double = 0.toDouble()
-    var kt: Double = 0.toDouble()
-
-    init {
-        kt = 1.0
-        ior = 1.0
-    }
+class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         throw RuntimeException("PerfectTransmitter.f")
@@ -52,4 +45,14 @@ class PerfectTransmitter : BTDF() {
         return cosThetaTSqr < 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other != null && other is PerfectTransmitter) {
+            return this.ior == other.ior && this.kt == other.kt
+        }
+        return false
+    }
+
+    override fun hashCode(): Int = Objects.hash(ior, kt)
+
+    override fun toString() = "PerfectTransmitter($ior, $kt)"
 }

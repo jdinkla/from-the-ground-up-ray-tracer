@@ -29,48 +29,48 @@ class MaterialFactory extends AbstractFactory {
             "svPhong": MaterialFactory.&createSVPhong
     ]
 
-    static Matte createMatte(Map map) {
-        Matte m = new Matte()
-        if (null != map.shadows) m.shadows = map.shadows
-        if (null != map.ka) m.setKa(map.ka)
-        if (null != map.kd) m.setKd(map.kd)
-        if (null != map.cd) m.setCd(map.cd)
-        return m
-    }
+//    static Matte createMatte(Map map) {
+//        Matte m = new Matte()
+//        if (null != map.shadows) m.shadows = map.shadows
+//        if (null != map.ka) m.setKa(map.ka)
+//        if (null != map.kd) m.setKd(map.kd)
+//        if (null != map.cd) m.setCd(map.cd)
+//        return m
+//    }
+//
+//    static Phong createPhong(Map map) {
+//        Phong m = new Phong()
+//        if (null != map.shadows) m.shadows = map.shadows
+//        if (null != map.ka) m.setKa(map.ka)
+//        if (null != map.kd) m.setKd(map.kd)
+//        if (null != map.cd) m.setCd(map.cd)
+//        if (null != map.ks) m.setKs(map.ks)
+//        if (null != map.cs) m.setCs(map.cs)
+//        if (null != map.exp) m.setExp(map.exp)
+//        return m
+//    }
 
-    static Phong createPhong(Map map) {
-        Phong m = new Phong()
-        if (null != map.shadows) m.shadows = map.shadows
-        if (null != map.ka) m.setKa(map.ka)
-        if (null != map.kd) m.setKd(map.kd)
-        if (null != map.cd) m.setCd(map.cd)
-        if (null != map.ks) m.setKs(map.ks)
-        if (null != map.cs) m.setCs(map.cs)
-        if (null != map.exp) m.setExp(map.exp)
-        return m
-    }
+//    static Emissive createEmissive(Map map) {
+//        Emissive m = new Emissive()
+//        if (null != map.shadows) m.shadows = map.shadows
+//        if (null != map.le) m.ls = map.le
+//        if (null != map.ce) m.ce = map.ce
+//        return m
+//    }
 
-    static Emissive createEmissive(Map map) {
-        Emissive m = new Emissive()
-        if (null != map.shadows) m.shadows = map.shadows
-        if (null != map.le) m.ls = map.le
-        if (null != map.ce) m.ce = map.ce
-        return m
-    }
-
-    static Reflective createReflective(Map map) {
-        Reflective m = new Reflective()
-        if (null != map.shadows) m.shadows = map.shadows
-        if (null != map.ka) m.setKa(map.ka)
-        if (null != map.kd) m.setKd(map.kd)
-        if (null != map.cd) m.setCd(map.cd)
-        if (null != map.ks) m.setKs(map.ks)
-        if (null != map.cs) m.setCs(map.cs)
-        if (null != map.exp) m.setExp(map.exp)
-        if (null != map.kr) m.setKr(map.kr)
-        if (null != map.cr) m.setCr(map.cr)
-        return m
-    }
+//    static Reflective createReflective(Map map) {
+//        Reflective m = new Reflective()
+//        if (null != map.shadows) m.shadows = map.shadows
+//        if (null != map.ka) m.setKa(map.ka)
+//        if (null != map.kd) m.setKd(map.kd)
+//        if (null != map.cd) m.setCd(map.cd)
+//        if (null != map.ks) m.setKs(map.ks)
+//        if (null != map.cs) m.setCs(map.cs)
+//        if (null != map.exp) m.setExp(map.exp)
+//        if (null != map.kr) m.setKr(map.kr)
+//        if (null != map.cr) m.setCr(map.cr)
+//        return m
+//    }
 
     static GlossyReflector createGlossyReflector(Map map) {
         needs(map, "glossy", ["sampler"])

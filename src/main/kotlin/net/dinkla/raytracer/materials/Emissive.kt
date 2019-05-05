@@ -2,24 +2,13 @@ package net.dinkla.raytracer.materials
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.World
+import java.util.*
 
-class Emissive : IMaterial {
+class Emissive(val ce: Color= Color.WHITE, val ls: Double =  1.0) : IMaterial {
 
-    var ls: Double = 0.toDouble()
-    var ce: Color
-
-    protected var cachedLe: Color? = null
-
-    constructor() {
-        ls = 1.0
-        ce = Color.WHITE
-    }
-
-    constructor(ce: Color, ls: Double) {
-        this.ce = ce
-        this.ls = ls
-    }
+    val le: Color = ce * ls
 
     override fun shade(world: World, sr: Shade): Color {
         throw RuntimeException("Emissive.shade")
@@ -33,13 +22,15 @@ class Emissive : IMaterial {
         }
     }
 
-    override fun getLe(sr: Shade): Color {
-        var c = cachedLe
-        if (null == c) {
-            c = ce.times(ls)
-            cachedLe = c
-        }
-        return c
+    override fun getLe(sr: Shade): Color = le
+
+    override fun equals(other: Any?): Boolean = this.equals<Emissive>(other) { a, b ->
+        a.ce == b.ce && a.ls == b.ls
     }
 
+    override fun hashCode(): Int {
+        return Objects.hash(ce, ls)
+    }
+
+    override fun toString() = "Emissive($ce, $ls)"
 }
