@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory
  * 3. Lens: Pinhole, FishEye, Spherical, ThinLens, Orthographic
  * 4. Iterative ?
  */
-open class Camera(val lens: AbstractLens, val render2: IRenderer) {
+open class Camera(val lens: AbstractLens) {
 
-    var eye: Point3D = DEFAULT_CAMERA
+    var eye: Point3D = Point3D(0, 10, 0)
     var lookAt: Point3D = Point3D.ORIGIN
     var up: Vector3D = Vector3D.UP
     var uvw: Basis = Basis(eye, lookAt, up)
@@ -45,29 +45,4 @@ open class Camera(val lens: AbstractLens, val render2: IRenderer) {
         lens.eye = eye
         lens.uvw = uvw
     }
-
-    open fun render(film: Film, frame: Int) {
-        LOGGER.info("rendering: eye=$eye, lookAt=$lookAt, up=$up")
-        val t = Timer()
-        t.start()
-        render2.render(film)
-        t.stop()
-        LOGGER.info("rendering took " + t.duration + " ms")
-    }
-
-//    fun getLens(): ILens {
-//        return lens
-//    }
-//
-//    fun setLens(lens: ILens) {
-//        this.lens = lens
-//        this.lens.setEye(eye)
-//        this.lens.setUvw(uvw)
-//    }
-
-    companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-        val DEFAULT_CAMERA = Point3D(0, 10, 0)
-    }
-
 }

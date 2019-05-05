@@ -11,6 +11,9 @@ dependencies {
     compile(kotlin("stdlib"))
     compile(group = "ch.qos.logback", name = "logback-classic", version = Deps.logbackVersion)
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + Deps.coroutinesVersion)
+    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:" + Deps.coroutinesVersion)
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:" + Deps.junitVersion)
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:" + Deps.junitVersion)
 }
@@ -38,7 +41,7 @@ tasks.withType<Test> {
 }
 
 detekt {
-    input = files("src/main/kotlin", "src/test/kotling")
+    input = files("src/main/kotlin", "src/test/kotlin")
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt-config.yml")
 }

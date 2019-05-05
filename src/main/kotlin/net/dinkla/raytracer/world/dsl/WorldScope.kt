@@ -5,22 +5,22 @@ import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.cameras.render.ForkJoinRenderer
-import net.dinkla.raytracer.cameras.render.SimpleRenderer
+import net.dinkla.raytracer.cameras.render.Renderers
+import net.dinkla.raytracer.cameras.render.SimpleSingleRayRenderer
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.world.Renderer
 import net.dinkla.raytracer.world.World
 
 class WorldScope(val id: String, val resolution: Resolution) {
 
     val viewPlane = ViewPlane(resolution)
-    val world: World = World(viewPlane)
-
-    init {
-        world.id = id
-    }
+    val world: World = World(id, viewPlane)
+    val renderer = Renderer()
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x, y, z)
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
@@ -36,17 +36,23 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun v(x: Int, y: Int, z: Int) = Vector3D(x, y, z)
     fun v(x: Double, y: Double, z: Double) = Vector3D(x, y, z)
 
-    fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP) {
+    fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP, engine: Renderers = Renderers.FORK_JOIN) {
         val lens = Pinhole(world.viewPlane)
         lens.d = d
 
-        val renderer = SimpleRenderer(lens, world.tracer)
-        val corrector: IColorCorrector = world.viewPlane
-        val renderer2 = ForkJoinRenderer(renderer, corrector)
-        val camera = Camera(lens, renderer2)
-        camera.setup(eye, lookAt, up)
+        val tracer = Whitted(world)
+        this.renderer.tracer = tracer
 
-        world.camera = camera
+        val singleRayRenderer = SimpleSingleRayRenderer(lens, tracer)
+        val corrector: IColorCorrector = world.viewPlane
+        this.renderer.renderer = engine.create(singleRayRenderer, corrector)
+
+        val camera = Camera(lens)
+        camera.setup(eye, lookAt, up)
+        this.renderer.camera = camera
+
+        // tmp
+        world.renderer = this.renderer
     }
 
     fun ambientLight(color: Color = Color.WHITE, ls: Double = 1.0) {

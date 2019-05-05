@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.world.World
 
-class RayCast(world: World) : Tracer(world) {
+class RayCast(var world: World) : Tracer {
 
     init {
         throw RuntimeException("DO NOT USE")

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.world.World
 import org.slf4j.LoggerFactory
 
-class Whitted(world: World) : Tracer(world) {
+class Whitted(var world: World) : Tracer {
 
     override fun trace(ray: Ray): Color {
         Counter.count("Whitted.trace1")
@@ -22,7 +22,6 @@ class Whitted(world: World) : Tracer(world) {
     }
 
     override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
-        //LOGGER.debug("trace " + ray + " at depth " + depth);
         Counter.count("Whitted.trace3")
 //        var color = build.backgroundColor
         var color: Color

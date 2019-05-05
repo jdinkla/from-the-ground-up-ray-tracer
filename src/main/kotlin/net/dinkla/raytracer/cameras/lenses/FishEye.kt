@@ -1,29 +1,27 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.cameras.lenses.AbstractLens
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Point2D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.Resolution
 
 class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
-    var maxPsi: Double = 0.toDouble()
+    private val maxPsi: Double = 1.0
 
     inner class RayDirection {
         var direction: Vector3D? = null
         var rSquared = 0.0
     }
 
-    init {
-        maxPsi = 1.0
-    }
-
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray? {
         var ray: Ray? = null
-        val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres + sp.x)
-        val y = viewPlane!!.size * (r - 0.5 * viewPlane!!.resolution.vres + sp.y)
+        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x)
+        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y)
         val pp = Point2D(x, y)
-        val rd = getRayDirection(pp, viewPlane!!.resolution, viewPlane!!.size)
+        val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         if (rd.rSquared <= 1) {
             ray = Ray(eye!!, rd.direction!!)
         }
@@ -32,10 +30,10 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
     override fun getRaySingle(r: Int, c: Int): Ray? {
         var ray: Ray? = null
-        val x = viewPlane!!.size * (c - 0.5 * viewPlane!!.resolution.hres)
-        val y = viewPlane!!.size * (r - 0.5 * viewPlane!!.resolution.vres)
+        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres)
+        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres)
         val pp = Point2D(x, y)
-        val rd = getRayDirection(pp, viewPlane!!.resolution, viewPlane!!.size)
+        val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         if (rd.rSquared <= 1) {
             ray = Ray(eye!!, rd.direction!!)
         }
@@ -61,6 +59,5 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
             rd.direction = Vector3D.ZERO
         }
         return rd
-
     }
 }

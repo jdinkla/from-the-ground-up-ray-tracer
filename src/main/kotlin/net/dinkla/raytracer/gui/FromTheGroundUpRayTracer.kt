@@ -135,7 +135,7 @@ class FromTheGroundUpRayTracer : Application() {
             w.initialize()
             val film = JavaFxFilm(w.viewPlane.resolution)
             openWindow(film.img, 180.0)
-            w.render(film)
+            w.renderer?.render(film)
         }
     }
 

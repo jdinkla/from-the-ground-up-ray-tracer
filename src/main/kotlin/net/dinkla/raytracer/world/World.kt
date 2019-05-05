@@ -1,40 +1,42 @@
 package net.dinkla.raytracer.world
 
+import net.dinkla.raytracer.ViewPlane
+import net.dinkla.raytracer.cameras.Camera
+import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.materials.IMaterial
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.utilities.StepCounter
+import net.dinkla.raytracer.utilities.Timer
+import org.slf4j.LoggerFactory
 
-class World(val viewPlane: ViewPlane) {
+class World(val id: String, val viewPlane: ViewPlane) {
 
     val compound: Compound = Compound()
-    val tracer: Tracer = Whitted(this)
-    var id: String = "unnamed"
     var backgroundColor: Color = Color.BLACK
     var errorColor: Color = Color.ERROR
     var lights : List<Light> = listOf()
     var ambientLight: Ambient = Ambient()
-    var camera: Camera? = null
-    var isDynamic: Boolean = false
-    var stepCounter: StepCounter? = null
-
     var materials : Map<String, IMaterial> = mapOf()
     var objects : List<GeometricObject> = listOf()
+
+    // tmp
+    var renderer: Renderer? = null
+    val tracer: Tracer
+        get() = renderer?.tracer!!
+    val camera: Camera
+        get() = renderer?.camera!!
 
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")
@@ -70,40 +72,6 @@ class World(val viewPlane: ViewPlane) {
 
     fun add(objects: List<GeometricObject>) {
         this.compound.add(objects)
-    }
-
-    operator fun hasNext(): Boolean {
-        return stepCounter!!.hasNext()
-    }
-
-    fun step() {
-        val t = stepCounter!!.current
-        if (isDynamic) {
-            val q = camera!!.lens.eye
-            val p = if (q == null) Point3D.ORIGIN else q
-            val p2 = Point3D(p.x + 0.1, p.y + 0.1, p.z)
-            camera!!.lens.eye = p2
-        }
-        stepCounter!!.step()
-    }
-
-    fun render(film: Film) {
-        assert(camera != null)
-        camera!!
-        val timer = net.dinkla.raytracer.utilities.Timer()
-        timer.start()
-        camera?.render(film, 0)
-        timer.stop()
-
-        Counter.stats(30)      // ???
-
-        println("Hits")
-        InnerNode.hits.println()
-
-        println("fails")
-        InnerNode.fails.println()
-
-        println("took " + timer.duration + " [ms]")
     }
 
     override fun toString(): String {

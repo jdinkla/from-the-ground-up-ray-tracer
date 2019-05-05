@@ -13,7 +13,7 @@ object Png {
         val w = wdef.world()
         w.initialize()
         val film = BufferedImageFilm(w.viewPlane.resolution)
-        w.render(film)
+        w.renderer?.render(film)
         save(film.image, pngFileName)
     }
 

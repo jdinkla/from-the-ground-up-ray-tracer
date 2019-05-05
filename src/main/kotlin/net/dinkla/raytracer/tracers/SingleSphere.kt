@@ -6,22 +6,16 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.World
 
-class SingleSphere(world: World) : Tracer(world) {
+class SingleSphere(var world: World) : Tracer {
 
-    override fun trace(ray: Ray): Color {
-        return if (world.hit(ray, Shade())) {
-            Color.ERROR
-        } else {
-            world.backgroundColor
-        }
+    override fun trace(ray: Ray): Color = if (world.hit(ray, Shade())) {
+        Color.ERROR
+    } else {
+        world.backgroundColor
     }
 
-    override fun trace(ray: Ray, depth: Int): Color {
-        return world.backgroundColor
-    }
+    override fun trace(ray: Ray, depth: Int): Color = world.backgroundColor
 
-    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
-        return world.backgroundColor
-    }
+    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color = world.backgroundColor
 
 }

@@ -5,5 +5,6 @@ open class Deps {
         val javafxVersion = "11-ea+25"
         val detektVersion = "1.0.0-RC14"
         val logbackVersion = "1.2.3"
+        val coroutinesVersion = "1.1.1"
     }
 }

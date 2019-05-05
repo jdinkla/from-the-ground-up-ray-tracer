@@ -1,10 +1,7 @@
 package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.examples.World20
-import net.dinkla.raytracer.examples.World26
-import net.dinkla.raytracer.examples.World34
-import net.dinkla.raytracer.examples.World7
+import net.dinkla.raytracer.examples.*
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
@@ -184,33 +181,14 @@ class BuilderTest {
         assertEquals(w.lights.size, 1)
     }
 
-    @Disabled
     @Test
-    fun testCreate8() {
-        val f = findExample("World38.groovy").get().toFile()
-        val w = World7.world()
+    fun `should build example world 38 - Grid`() {
+        val w = World38.world()
         assertEquals(w.size(), 6)
     }
 
     companion object {
-
-        private val DIR = "examples"
-
-        private fun findExample(filename: String): Optional<Path> {
-            val pr = BiPredicate<Path?, BasicFileAttributes> { p, a ->
-                val fn = p?.getFileName().toString()
-                filename == fn
-            }
-            try {
-                val f = File(DIR)
-                val ps = Files.find(f.toPath(), 99, pr)
-                return ps.findFirst()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-            return Optional.empty()
-        }
+        private fun findExample(filename: String): Optional<Path> = Optional.empty()
     }
 
 }

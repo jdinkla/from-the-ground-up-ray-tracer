@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.world.World
 import org.slf4j.LoggerFactory
 
-class AreaLighting(world: World) : Tracer(world) {
+class AreaLighting(var world: World) : Tracer {
 
     override fun trace(ray: Ray, depth: Int): Color {
         LOGGER.debug("trace $ray at depth $depth")
