@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.gui
 
 import net.dinkla.raytracer.examples.worldDef
+import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Png

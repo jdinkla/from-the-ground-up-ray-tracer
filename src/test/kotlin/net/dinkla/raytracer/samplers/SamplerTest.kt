@@ -1,7 +1,5 @@
 package net.dinkla.raytracer.samplers
 
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Point3D
 import org.junit.jupiter.api.Test
 
 class SamplerTest {

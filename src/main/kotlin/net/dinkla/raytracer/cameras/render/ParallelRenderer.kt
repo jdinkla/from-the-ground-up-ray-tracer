@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.films.Film
 import org.slf4j.LoggerFactory
 
 import java.util.concurrent.BrokenBarrierException
@@ -22,7 +22,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
         barrier = null
     }
 
-    override fun render(film: IFilm) {
+    override fun render(film: Film) {
         // Init
         createWorkers(film)
         barrier = CyclicBarrier(numThreads + 1)
@@ -45,7 +45,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
 
     }
 
-    private fun createWorkers(film: IFilm) {
+    private fun createWorkers(film: Film) {
         val res = film.resolution
         val vertFactor = numThreads / 4
         if (res.vres % vertFactor == 0) {
@@ -63,7 +63,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     /*
-    protected void createWorkers(IFilm film) {
+    protected void createWorkers(Film film) {
         final Resolution res = film.getResolution();
         if (res.vres % numThreads == 0) {
             worker = new Worker[numThreads];
@@ -79,7 +79,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     */
 
     /*
-    protected void createWorkers(IFilm film) {
+    protected void createWorkers(Film film) {
         final Resolution res = film.getResolution();
         if (res.vres % numThreads == 0) {
             worker = new Worker[numThreads];
@@ -94,7 +94,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
 */
 
     private inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : Runnable {
-        var film: IFilm? = null
+        var film: Film? = null
 
         override fun run() {
             var count = 0

@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.cameras.render
 
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.films.Film
 
 interface IRenderer {
 
-    fun render(film: IFilm)
+    fun render(film: Film)
 
 }

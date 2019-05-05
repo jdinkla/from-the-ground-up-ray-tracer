@@ -2,11 +2,11 @@ package net.dinkla.raytracer.samplers
 
 import org.junit.jupiter.api.BeforeEach
 
-class PureRandomTest : IGeneratorTest() {
+class PureRandomTest : AbstractGeneratorTest() {
 
     @BeforeEach
     override fun initialize() {
-        PureRandom().generateSamples(IGeneratorTest.NUM_SAMPLES, IGeneratorTest.NUM_SETS, samples)
+        PureRandom().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
     }
 
 }

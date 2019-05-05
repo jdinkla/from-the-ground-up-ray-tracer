@@ -2,11 +2,11 @@ package net.dinkla.raytracer.samplers
 
 import org.junit.jupiter.api.BeforeEach
 
-class JitteredTest : IGeneratorTest() {
+class JitteredTest : AbstractGeneratorTest() {
 
     @BeforeEach
     override fun initialize() {
-        Jittered().generateSamples(IGeneratorTest.NUM_SAMPLES, IGeneratorTest.NUM_SETS, samples)
+        Jittered().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
     }
 
 }

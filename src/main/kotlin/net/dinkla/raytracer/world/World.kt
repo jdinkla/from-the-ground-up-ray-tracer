@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
@@ -87,7 +87,7 @@ class World(val viewPlane: ViewPlane) {
         stepCounter!!.step()
     }
 
-    fun render(film: IFilm) {
+    fun render(film: Film) {
         assert(camera != null)
         camera!!
         val timer = net.dinkla.raytracer.utilities.Timer()

@@ -1,9 +1,8 @@
 package net.dinkla.raytracer.cameras
 
-import ch.qos.logback.classic.Logger
 import net.dinkla.raytracer.cameras.lenses.AbstractLens
 import net.dinkla.raytracer.cameras.render.IRenderer
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
@@ -47,7 +46,7 @@ open class Camera(val lens: AbstractLens, val render2: IRenderer) {
         lens.uvw = uvw
     }
 
-    open fun render(film: IFilm, frame: Int) {
+    open fun render(film: Film, frame: Int) {
         LOGGER.info("rendering: eye=$eye, lookAt=$lookAt, up=$up")
         val t = Timer()
         t.start()

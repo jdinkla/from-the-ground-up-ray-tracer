@@ -5,7 +5,7 @@ import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.cameras.render.SequentialRenderer
 import net.dinkla.raytracer.cameras.render.SimpleRenderer
-import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.tracers.Whitted
@@ -26,7 +26,7 @@ class CameraTest {
         val renderer = SequentialRenderer(render, viewPlane)
 
         val c = object : Camera(lens, renderer as IRenderer) {
-            override fun render(film: IFilm, frame: Int) {}
+            override fun render(film: Film, frame: Int) {}
         }
 
         c.eye = Point3D.ORIGIN

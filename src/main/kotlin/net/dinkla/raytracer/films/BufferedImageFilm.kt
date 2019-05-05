@@ -3,20 +3,14 @@ package net.dinkla.raytracer.films
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 import java.awt.image.BufferedImage
-import java.io.File
-import java.io.IOException
-import javax.imageio.ImageIO
+import java.awt.image.BufferedImage.TYPE_INT_RGB
 
-class BufferedImageFilm : IFilm {
+class BufferedImageFilm(override val resolution: Resolution) : Film {
 
-    private val img: BufferedImage
+    private val img = BufferedImage(resolution.hres, resolution.vres, TYPE_INT_RGB)
 
-    override val resolution: Resolution
-
-    constructor(resolution: Resolution) {
-        this.resolution = resolution
-        img = BufferedImage(resolution.hres, resolution.vres, BufferedImage.TYPE_INT_RGB)
-    }
+    override val image : BufferedImage
+        get() = img
 
     override fun setPixel(x: Int, y: Int, color: Color) {
         assert(x >= 0)
@@ -33,15 +27,6 @@ class BufferedImageFilm : IFilm {
             for (i in 0 until width) {
                 img.raster.setDataElements(x + i, resolution.vres - 1 - y - j, pixel)
             }
-        }
-    }
-
-    override fun saveAsPng(fileName: String) {
-        val file = File(fileName)
-        try {
-            ImageIO.write(img, "png", file)
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
     }
 }

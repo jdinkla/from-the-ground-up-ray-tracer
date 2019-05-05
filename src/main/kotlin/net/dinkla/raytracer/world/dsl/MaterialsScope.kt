@@ -29,7 +29,6 @@ class MaterialsScope() {
             this.ks = ks
             this.cs = cs
         }
-        println("phong2 ${mutableMaterials[id]}")
     }
 
     fun reflective(id: String,

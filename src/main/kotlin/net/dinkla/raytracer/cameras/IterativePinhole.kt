@@ -4,7 +4,7 @@ package net.dinkla.raytracer.cameras;
 import net.dinkla.raytracer.colors.Color;
 import net.dinkla.raytracer.colors.RGBColor;
 import net.dinkla.raytracer.ViewPlane;
-import net.dinkla.raytracer.films.IFilm;
+import net.dinkla.raytracer.films.Film;
 import net.dinkla.raytracer.tracers.Tracer;
 import net.dinkla.raytracer.utilities.Timer;
 
@@ -35,7 +35,7 @@ public class IterativePinhole extends Pinhole {
     }
 
     @Override
-    public void render(IFilm film, final int frame) {
+    public void render(Film film, final int frame) {
         Timer t = new Timer();
         t.reset();
         int direction = 1024; // works fine

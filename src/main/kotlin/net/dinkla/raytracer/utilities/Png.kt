@@ -2,6 +2,10 @@ package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.world.WorldDef
+import java.awt.image.BufferedImage
+import java.io.File
+import java.io.IOException
+import javax.imageio.ImageIO
 
 object Png {
 
@@ -10,7 +14,15 @@ object Png {
         w.initialize()
         val film = BufferedImageFilm(w.viewPlane.resolution)
         w.render(film)
-        film.saveAsPng(pngFileName)
+        save(film.image, pngFileName)
     }
 
+    fun save(img: BufferedImage, fileName: String) {
+        val file = File(fileName)
+        try {
+            ImageIO.write(img, "png", file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
 }
