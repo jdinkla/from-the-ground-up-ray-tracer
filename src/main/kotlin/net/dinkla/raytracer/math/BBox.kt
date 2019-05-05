@@ -4,12 +4,12 @@ import net.dinkla.raytracer.objects.GeometricObject
 
 class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
-    val volume: Double
-        get() = (q - p).volume()
-
     init {
         assert(p.x <= q.x && p.y <= q.y && p.z <= q.z)
     }
+
+    val volume: Double
+        get() = (q - p).volume()
 
     fun inside(r: Point3D): Boolean {
         val isX = r.x > p.x && r.x < q.x

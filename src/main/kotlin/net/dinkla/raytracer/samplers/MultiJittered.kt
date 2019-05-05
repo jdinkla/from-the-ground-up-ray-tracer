@@ -14,8 +14,8 @@ class MultiJittered : IGenerator {
             for (i in 0 until n) {
                 for (j in 0 until n) {
                     val target = i * n + j + p * numSamples
-                    val x = (i * n + j) * subcell_width + Random.randFloat(0.0, subcell_width)
-                    val y = (j * n + i) * subcell_width + Random.randFloat(0.0, subcell_width)
+                    val x = (i * n + j) * subcell_width + Random.double(0.0, subcell_width)
+                    val y = (j * n + i) * subcell_width + Random.double(0.0, subcell_width)
                     samples.add(target, Point2D(x, y))
                 }
             }
@@ -25,7 +25,7 @@ class MultiJittered : IGenerator {
         for (p in 0 until numSets) {
             for (i in 0 until n) {
                 for (j in 0 until n) {
-                    val k = Random.randInt(j, n)
+                    val k = Random.int(j, n)
                     val source = i * n + j + p * numSamples
                     val target = i * n + k + p * numSamples
                     val temp = samples[source].x
@@ -39,7 +39,7 @@ class MultiJittered : IGenerator {
         for (p in 0 until numSets) {
             for (i in 0 until n) {
                 for (j in 0 until n) {
-                    val k = Random.randInt(j, n)
+                    val k = Random.int(j, n)
                     val target = k * n + i + p * numSamples
                     val source = j * n + i + p * numSamples
                     val temp = samples[source].y

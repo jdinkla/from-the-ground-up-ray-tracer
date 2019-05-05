@@ -4,7 +4,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedFloat
+import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.world.World
 import org.slf4j.LoggerFactory
@@ -18,10 +18,10 @@ class Whitted(world: World) : Tracer(world) {
 
     override fun trace(ray: Ray, depth: Int): Color {
         Counter.count("Whitted.trace2")
-        return trace(ray, WrappedFloat.createMax(), depth)
+        return trace(ray, WrappedDouble.createMax(), depth)
     }
 
-    override fun trace(ray: Ray, tmin: WrappedFloat, depth: Int): Color {
+    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
         //LOGGER.debug("trace " + ray + " at depth " + depth);
         Counter.count("Whitted.trace3")
 //        var color = build.backgroundColor
@@ -37,7 +37,7 @@ class Whitted(world: World) : Tracer(world) {
                 tmin.value = sr.t
                 if (null == sr.material) {
                     LOGGER.error("Material is NULL for ray $ray and sr $sr")
-                    color = Color.errorColor
+                    color = Color.ERROR
                 } else {
                     color = sr.material?.shade(world, sr) ?: world.backgroundColor
                 }

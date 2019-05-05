@@ -15,13 +15,13 @@ class RandomTest {
     @Test
     fun randInt() {
         for (i in 0 until NUM) {
-            val r = Random.randInt(10)
+            val r = Random.int(10)
             assert(0 <= r)
             assert(r < 10)
         }
 
         for (i in 0 until NUM) {
-            val r = Random.randInt(18, 44)
+            val r = Random.int(18, 44)
             assert(18 <= r)
             assert(r < 44)
         }
@@ -30,7 +30,7 @@ class RandomTest {
     @Test
     fun randFloat() {
         for (i in 0 until NUM) {
-            val r = Random.randFloat()
+            val r = Random.double()
             assert(0.0 <= r)
             assert(r < 1.0)
         }

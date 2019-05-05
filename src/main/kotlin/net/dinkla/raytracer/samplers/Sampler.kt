@@ -55,7 +55,7 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
 
     fun sampleUnitSquare(): Point2D {
         if (count % numSamples == 0) {
-            jump = Random.randInt(numSets) * numSamples
+            jump = Random.int(numSets) * numSamples
         }
         val index1 = jump + count++ % numSamples
         val index2 = jump + shuffledIndices[index1]
@@ -64,21 +64,21 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
 
     fun sampleUnitDisk(): Point2D {
         if (count % numSamples == 0) {
-            jump = Random.randInt(numSets) * numSamples
+            jump = Random.int(numSets) * numSamples
         }
         return diskSamples[jump + shuffledIndices[jump + count++ % numSamples]]
     }
 
     fun sampleHemisphere(): Point3D {
         if (count % numSamples == 0) {
-            jump = Random.randInt(numSets) * numSamples
+            jump = Random.int(numSets) * numSamples
         }
         return hemisphereSamples[jump + shuffledIndices[jump + count++ % numSamples]]
     }
 
     fun sampleSphere(): Point3D {
         if (count % numSamples == 0) {
-            jump = Random.randInt(numSets) * numSamples
+            jump = Random.int(numSets) * numSamples
         }
         return sphereSamples[jump + shuffledIndices[jump + count++ % numSamples]]
     }
@@ -157,7 +157,7 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
         fun shuffleXCoordinates(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
             for (p in 0 until numSets) {
                 for (i in 0 until numSamples - 1) {
-                    val target = Random.randInt(numSamples) + p * numSamples
+                    val target = Random.int(numSamples) + p * numSamples
                     val source = i + p * numSamples + 1
                     val temp = samples[source].x
                     samples[source] = Point2D(samples[target].x, samples[source].y)
@@ -169,7 +169,7 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
         fun shuffleYCoordinates(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
             for (p in 0 until numSets) {
                 for (i in 0 until numSamples - 1) {
-                    val target = Random.randInt(numSamples) + p * numSamples
+                    val target = Random.int(numSamples) + p * numSamples
                     val source = i + p * numSamples + 1
                     val temp = samples[i + p * numSamples + 1].y
                     samples[source] = Point2D(samples[source].x, samples[target].y)

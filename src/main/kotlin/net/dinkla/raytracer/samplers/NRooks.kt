@@ -8,8 +8,8 @@ class NRooks : IGenerator {
     override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
         for (p in 0 until numSets) {
             for (j in 0 until numSamples) {
-                val x = (j + Random.randFloat()) / numSamples
-                val y = (j + Random.randFloat()) / numSamples
+                val x = (j + Random.double()) / numSamples
+                val y = (j + Random.double()) / numSamples
                 samples.add(Point2D(x, y))
             }
         }

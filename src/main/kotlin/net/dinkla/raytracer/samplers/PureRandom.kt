@@ -9,7 +9,7 @@ class PureRandom : IGenerator {
         assert(samples != null)
         for (p in 0 until numSets) {
             for (q in 0 until numSamples) {
-                samples!!.add(Point2D(Random.randFloat(), Random.randFloat()))
+                samples!!.add(Point2D(Random.double(), Random.double()))
             }
         }
     }

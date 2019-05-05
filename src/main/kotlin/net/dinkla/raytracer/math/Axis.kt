@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-enum class Axis private constructor(internal val value: Int) {
+enum class Axis(internal val value: Int) {
 
     X(0), Y(1), Z(2);
 
@@ -11,15 +11,11 @@ enum class Axis private constructor(internal val value: Int) {
     }
 
     companion object {
-        @JvmStatic
-        fun fromInt(i: Int): Axis {
-            when (i) {
-                0 -> return X
-                1 -> return Y
-                2 -> return Z
-            }
-            return Z
+        fun fromInt(i: Int): Axis = when (i) {
+            0 -> X
+            1 -> Y
+            2 -> Z
+            else -> Z
         }
     }
-
 }

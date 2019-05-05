@@ -28,14 +28,9 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         return r shl 16 or (g shl 8) or b
     }
 
-    fun clamp(): Color {
-        return if (red > 1 || green > 1 || blue > 1) {
-            CLAMP_COLOR
-        } else if (red < 0 || green < 0 || blue < 0) {
-            CLAMP_COLOR
-        } else {
-            this
-        }
+    fun clamp(): Color = when {
+        red > 1 || green > 1 || blue > 1 || red < 0 || green < 0 || blue < 0 -> CLAMP_COLOR
+        else -> this
     }
 
     fun maxToOne(): Color {
@@ -47,30 +42,16 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         }
     }
 
-    override fun toString(): String = "Color $red $green $blue"
+    override fun toString(): String = "Color($red,$green,$blue)"
 
     companion object {
 
-        @JvmField
         val BLACK = Color(0.0, 0.0, 0.0)
-
-        @JvmField
         val RED = Color(1.0, 0.0, 0.0)
-
-        @JvmField
         val GREEN = Color(0.0, 1.0, 0.0)
-
-        @JvmField
         val BLUE = Color(0.0, 0.0, 1.0)
-
-        @JvmField
         val WHITE = Color(1.0, 1.0, 1.0)
-
-        @JvmField
-        val errorColor = Color(1.0, 0.0, 0.0)
-
-        // TODO why red?
-        @JvmField
+        val ERROR = Color(1.0, 0.0, 0.0)
         val CLAMP_COLOR = Color(1.0, 0.0, 0.0)
 
         fun create(rgb: Int): Color {

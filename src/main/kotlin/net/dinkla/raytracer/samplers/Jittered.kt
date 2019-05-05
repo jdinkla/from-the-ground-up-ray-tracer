@@ -10,8 +10,8 @@ class Jittered : IGenerator {
         for (p in 0 until numSets) {
             for (j in 0 until n) {
                 for (k in 0 until n) {
-                    val x = (k + Random.randFloat()) / n
-                    val y = (j + Random.randFloat()) / n
+                    val x = (k + Random.double()) / n
+                    val y = (j + Random.double()) / n
                     samples.add(Point2D(x, y))
                 }
             }

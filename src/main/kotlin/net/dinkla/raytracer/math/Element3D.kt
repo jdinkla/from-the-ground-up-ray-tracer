@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.math
 
 import java.lang.Math.sqrt
+import java.util.*
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 
@@ -25,15 +26,13 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
         Axis.Z -> z
     }
 
-    override fun equals(other: Any?): Boolean {
-        return if (null == other || other !is Element3D) {
-            false
-        } else {
-            x == other.x && y == other.y && z == other.z
-        }
+    override fun equals(other: Any?): Boolean = if (null == other || other !is Element3D) {
+        false
+    } else {
+        x == other.x && y == other.y && z == other.z
     }
 
-    override fun hashCode(): Int = listOf(x, y, z).hashCode()
+    override fun hashCode(): Int = Objects.hash(x, y, z)
 
     override fun toString(): String = "($x,$y,$z)"
 

@@ -3,7 +3,7 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedFloat
+import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.World
 
 class MultipleObjects(world: World) : Tracer(world) {
@@ -25,7 +25,7 @@ class MultipleObjects(world: World) : Tracer(world) {
         throw RuntimeException("MultipleObjects.trace")
     }
 
-    override fun trace(ray: Ray, tmin: WrappedFloat, depth: Int): Color {
+    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
         throw RuntimeException("MultipleObjects.trace")
     }
 

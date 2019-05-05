@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.FresnelReflector
 import net.dinkla.raytracer.btdf.FresnelTransmitter
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedFloat
+import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.World
 
 class Dielectric : Phong() {
@@ -26,7 +26,7 @@ class Dielectric : Phong() {
     override fun shade(world: World, sr: Shade): Color {
         var L = super.shade(world, sr)
         val wo = -sr.ray.direction
-        val t = WrappedFloat.createMax()
+        val t = WrappedDouble.createMax()
         val sample = fresnelBrdf.sampleF(sr, wo)
         val reflectedRay = Ray(sr.hitPoint, sample.wi!!)
         val nDotWi = sr.normal.dot(sample.wi!!)

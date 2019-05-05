@@ -26,7 +26,7 @@ class World(val viewPlane: ViewPlane) {
     val tracer: Tracer = Whitted(this)
     var id: String = "unnamed"
     var backgroundColor: Color = Color.BLACK
-    var errorColor: Color = Color.errorColor
+    var errorColor: Color = Color.ERROR
     var lights : List<Light> = listOf()
     var ambientLight: Ambient = Ambient()
     var camera: Camera? = null
