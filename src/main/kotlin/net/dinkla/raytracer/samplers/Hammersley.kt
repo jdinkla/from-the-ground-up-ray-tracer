@@ -2,9 +2,9 @@ package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
 
-class Hammersley : IGenerator {
+object Hammersley : IGenerator {
 
-    protected fun phi(ij: Int): Double {
+    private fun phi(ij: Int): Double {
         var j = ij
         var x = 0.0
         var f = 0.5
@@ -18,12 +18,10 @@ class Hammersley : IGenerator {
         return x
     }
 
-    override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
-        for (p in 0 until numSets) {
-            for (j in 0 until numSamples) {
-                val pv = Point2D(j.toDouble() / numSamples.toDouble(), phi(j))
-                samples.add(pv)
-            }
+    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> {
+        val numSamplesD = numSamples.toDouble()
+        return generate2D(numSamples, numSets) { _, j ->
+            Point2D(j.toDouble() / numSamplesD, phi(j))
         }
     }
 }

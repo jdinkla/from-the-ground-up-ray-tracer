@@ -26,8 +26,8 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
         sphereSamples = ArrayList()
         setupShuffledIndices()
         samples = ArrayList()
-        samples.ensureCapacity(numSamples * numSets)
-        sampler.generateSamples(numSamples, numSets, samples)
+        // samples.ensureCapacity(numSamples * numSets)
+        samples = ArrayList(sampler.generateSamples(numSamples, numSets).toList())
     }
 
     fun setupShuffledIndices() {

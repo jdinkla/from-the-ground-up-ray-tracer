@@ -1,12 +1,12 @@
 package net.dinkla.raytracer.samplers
 
-import org.junit.jupiter.api.BeforeEach
+import net.dinkla.raytracer.math.Point2D
 
 class RegularTest : AbstractGeneratorTest() {
 
-    @BeforeEach
-    override fun initialize() {
-        Regular().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
-    }
+    override val numberOfSamples: Int = NUM_SETS * IGenerator.sqrt(NUM_SAMPLES) * IGenerator.sqrt(NUM_SAMPLES)
+
+    override fun sample(): MutableList<Point2D> =
+            Regular.generateSamples(NUM_SAMPLES, NUM_SETS)
 
 }

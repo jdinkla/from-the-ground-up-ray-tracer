@@ -3,9 +3,10 @@ package net.dinkla.raytracer.samplers
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Random
 
-class NRooks : IGenerator {
+object NRooks : IGenerator {
 
-    override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
+    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> {
+        val samples = mutableListOf<Point2D>()
         for (p in 0 until numSets) {
             for (j in 0 until numSamples) {
                 val x = (j + Random.double()) / numSamples
@@ -16,6 +17,7 @@ class NRooks : IGenerator {
 
         Sampler.shuffleXCoordinates(numSamples, numSets, samples)
         Sampler.shuffleYCoordinates(numSamples, numSets, samples)
+        return samples
     }
 
 }

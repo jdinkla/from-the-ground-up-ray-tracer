@@ -2,10 +2,11 @@ package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
 
-class Regular : IGenerator {
+object Regular : IGenerator {
 
-    override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
-        val n = Math.sqrt(numSamples.toDouble()).toInt()
+    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> {
+        val samples = mutableListOf<Point2D>()
+        val n = IGenerator.sqrt(numSamples)
         for (j in 0 until numSets) {
             for (p in 0 until n) {
                 for (q in 0 until n) {
@@ -13,6 +14,6 @@ class Regular : IGenerator {
                 }
             }
         }
-
+        return samples
     }
 }

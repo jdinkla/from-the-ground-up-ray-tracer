@@ -1,12 +1,10 @@
 package net.dinkla.raytracer.samplers
 
-import org.junit.jupiter.api.BeforeEach
+import net.dinkla.raytracer.math.Point2D
 
 class NRooksTest : AbstractGeneratorTest() {
 
-    @BeforeEach
-    override fun initialize() {
-        NRooks().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
-    }
+    override fun sample(): MutableList<Point2D> =
+            NRooks.generateSamples(NUM_SAMPLES, NUM_SETS)
 
 }

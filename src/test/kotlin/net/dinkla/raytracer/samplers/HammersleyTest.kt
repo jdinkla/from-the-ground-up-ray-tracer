@@ -1,12 +1,10 @@
 package net.dinkla.raytracer.samplers
 
-import org.junit.jupiter.api.BeforeEach
+import net.dinkla.raytracer.math.Point2D
 
 class HammersleyTest : AbstractGeneratorTest() {
 
-    @BeforeEach
-    override fun initialize() {
-        Hammersley().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
-    }
+    override fun sample(): MutableList<Point2D> =
+            Hammersley.generateSamples(NUM_SAMPLES, NUM_SETS)
 
 }

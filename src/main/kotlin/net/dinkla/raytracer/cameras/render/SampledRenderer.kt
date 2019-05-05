@@ -16,7 +16,7 @@ class SampledRenderer(var lens: ILens, var tracer: Tracer) : ISingleRayRenderer 
 
     init {
         this.numSamples = 1
-        this.sampler = Sampler(MultiJittered(), 2500, 10)
+        this.sampler = Sampler(MultiJittered, 2500, 10)
     }
 
     override fun render(r: Int, c: Int): Color {

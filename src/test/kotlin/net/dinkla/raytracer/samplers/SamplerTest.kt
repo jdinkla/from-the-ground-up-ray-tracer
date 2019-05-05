@@ -6,7 +6,7 @@ class SamplerTest {
 
     internal val NUM = 1000
 
-    internal var s = Sampler(PureRandom(), 100, 10)
+    internal var s = Sampler(PureRandom, 100, 10)
 
     @Test
     @Throws(Exception::class)

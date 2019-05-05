@@ -1,12 +1,9 @@
 package net.dinkla.raytracer.samplers
 
-import org.junit.jupiter.api.BeforeEach
+import net.dinkla.raytracer.math.Point2D
 
 class PureRandomTest : AbstractGeneratorTest() {
 
-    @BeforeEach
-    override fun initialize() {
-        PureRandom().generateSamples(NUM_SAMPLES, NUM_SETS, samples)
-    }
+    override fun sample(): MutableList<Point2D> = PureRandom.generateSamples(NUM_SAMPLES, NUM_SETS)
 
 }

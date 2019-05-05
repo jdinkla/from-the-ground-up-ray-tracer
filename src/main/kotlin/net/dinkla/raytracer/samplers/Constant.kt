@@ -2,15 +2,9 @@ package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
 
-class Constant : IGenerator {
+class Constant(val x: Double = 0.5, val y: Double = 0.5) : IGenerator {
 
-    override fun generateSamples(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
-        val n = Math.sqrt(numSamples.toDouble()).toInt()
-        for (j in 0 until numSets) {
-            for (p in 0 until numSamples) {
-                samples.add(Point2D(0.5, 0.5))
-            }
-        }
-    }
+    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> =
+            generate2D(numSamples, numSets) { _, _ -> Point2D(x, y) }
 
 }
