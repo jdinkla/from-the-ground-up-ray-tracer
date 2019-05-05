@@ -2,6 +2,7 @@ package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.World20
+import net.dinkla.raytracer.examples.World26
 import net.dinkla.raytracer.examples.World7
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
@@ -139,38 +140,37 @@ class BuilderTest {
 
     @Disabled
     @Test
-    fun testCreate3() {
+    fun `should build example world 14 - ambient occluder`() {
         val f = findExample("World14.groovy").get().toFile()
         val w = World7.world()
-        assertEquals(w.size(), 2)
-        assertEquals(w.lights.size, 0)
+        assertEquals(2, w.size())
+        assertEquals(0, w.lights.size)
         assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)
     }
 
     @Test
-    fun testCreate4() {
+    fun `should build example world 17`() {
         val w = World17.world()
-        assertEquals(w.size(), 10)
-        assertEquals(w.lights.size, 2)
+        assertEquals(10, w.size())
+        assertEquals(2, w.lights.size)
     }
 
     @Disabled
     @Test
-    fun testCreate5() {
+    fun `should build example world 23 - area lighting`() {
         val f = findExample("World23.groovy").get().toFile()
         val w = World7.world()
-        assertEquals(w.size(), 26)
-        assertEquals(w.lights.size, 1)
-        assertEquals(w.tracer.javaClass, AreaLighting::class.java)
+        assertEquals(26, w.size())
+        assertEquals(1, w.lights.size)
+        assertEquals(AreaLighting::class.java, w.tracer.javaClass )
     }
 
-    @Disabled
     @Test
-    fun testCreate6() {
-        val f = findExample("World26.groovy").get().toFile()
-        val w = World7.world()
-        assertEquals(w.size(), 2)
-        assertEquals(w.lights.size, 1)
+    fun `should build example world 26 - instancing`() {
+        val w = World26.world()
+        assertEquals(3, w.size())
+        assertEquals(1, w.lights.size)
+        assertEquals(3, w.objects.size)
     }
 
     @Disabled

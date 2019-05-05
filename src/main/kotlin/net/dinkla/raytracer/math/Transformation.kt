@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.math
 
-interface ITransformation {
+interface Transformation {
 
-    var forwardMatrix: Matrix
-    var invMatrix: Matrix
+    val forwardMatrix: Matrix
+    val invMatrix: Matrix
 
     fun translate(v: Vector3D)
     fun translate(x: Double, y: Double, z: Double)
@@ -13,4 +13,6 @@ interface ITransformation {
     fun rotateY(phi: Double)
     fun rotateZ(phi: Double)
     fun shear(s: Matrix)
+
+    fun ray(ray: Ray): Ray
 }

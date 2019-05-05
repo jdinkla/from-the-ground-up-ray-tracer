@@ -6,11 +6,8 @@ import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
 
-class Instance(val geometricObject: GeometricObject,
-               val trans: ITransformation) : GeometricObject(), ITransformation by trans {
-//    internal var transformTexture: Boolean = false
-
-    constructor (`object`: GeometricObject) : this(`object`, AffineTransformation())
+class Instance(private val geometricObject: GeometricObject,
+               val trans: Transformation = AffineTransformation()) : GeometricObject(), Transformation by trans {
 
     override var boundingBox: BBox
         get() {
@@ -65,9 +62,7 @@ class Instance(val geometricObject: GeometricObject,
         }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val ro = trans.invMatrix * ray.origin
-        val rd = trans.invMatrix * ray.direction
-        val invRay = Ray(ro, rd)
+        val invRay = ray(ray)
         if (geometricObject.hit(invRay, sr)) {
             // TODO: Instance hit?
             val tmp = trans.invMatrix * sr.normal
@@ -83,10 +78,7 @@ class Instance(val geometricObject: GeometricObject,
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val ro = trans.invMatrix * ray.origin
-        val rd = trans.invMatrix * ray.direction
-        val invRay = Ray(ro, rd)
-        return geometricObject.shadowHit(invRay, tmin)
+        return geometricObject.shadowHit(ray(ray), tmin)
     }
 
     override fun initialize() = geometricObject.initialize()

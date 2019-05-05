@@ -122,25 +122,34 @@ class FromTheGroundUpRayTracer : Application() {
     }
 
     private fun preview() {
-        LOGGER.info("preview " + fileChosen?.name)
-        val wdef: WorldDef? = worldDef(fileChosen?.name!!)
-        if (wdef == null) return
-        val w = wdef.world()
-        w.initialize()
-
-        val film = JavaFxFilm(w.viewPlane.resolution)
-        openWindow(film.img, 180.0)
-        w.render(film)
+        val fileName = fileChosen?.name
+        if (null == fileName) {
+            LOGGER.warn("preview fileChosen is null")
+            return
+        }
+        LOGGER.info("preview " + fileName)
+        val wdef: WorldDef? = worldDef(fileName)
+        if (wdef != null) {
+            val w = wdef.world()
+            w.initialize()
+            val film = JavaFxFilm(w.viewPlane.resolution)
+            openWindow(film.img, 180.0)
+            w.render(film)
+        }
     }
 
     private fun png(primaryStage: Stage) {
-        LOGGER.info("png " + fileChosen?.name)
-        val fileName = GuiUtilities.getOutputPngFileName(this.fileChosen?.name ?: "")
-
-        val wdef: WorldDef? = worldDef(fileChosen?.name!!)
+        val fileName = fileChosen?.name
+        if (null == fileName) {
+            LOGGER.warn("png fileChosen is null")
+            return
+        }
+        LOGGER.info("png " + fileName)
+        val wdef: WorldDef? = worldDef(fileName)
         if (wdef != null) {
-            Png.renderAndSave(wdef, fileName)
-            openWindow(Image("file:$fileName"))
+            val output = GuiUtilities.getOutputPngFileName(fileName)
+            Png.renderAndSave(wdef, output)
+            openWindow(Image("file:$output"))
         }
     }
 

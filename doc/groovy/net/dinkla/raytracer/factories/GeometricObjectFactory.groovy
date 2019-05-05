@@ -36,126 +36,126 @@ import net.dinkla.raytracer.objects.Torus
  */
 class GeometricObjectFactory extends AbstractFactory {
 
-    final Map<String, Closure> map; 
-    final MaterialMap materials;
+//    final Map<String, Closure> map;
+//    final MaterialMap materials;
+//
+//    GeometricObjectFactory(final MaterialMap materials) {
+//        assert(null != materials)
+//        this.materials = materials
+//        map = [
+//                "alignedBox": this.&createAlignedBox,
+//                "beveledBox": this.&createBeveledBox,
+//                "box": this.&createBox,
+//                "disk": this.&createDisk,
+//                "grid": this.&createGrid,
+//                "imageTexture": this.&createImageTexture,
+//                "instance": this.&createInstance,
+//                "kdtree":  this.&createKDTree,
+//                "openCylinder": this.&createOpenCylinder,
+//                "plane": this.&createPlane,
+//                "ply": this.&createFromPly,
+//                "xx": this.&xx,
+//                "rectangle": this.&createRectangle,
+//                "rectangleLight": this.&createRectangleLight,
+//                "smoothTriangle": this.&createSmoothTriangle,
+//                "solidCylinder": this.&createSolidCylinder,
+//                "sphere": this.&createSphere,
+//                "tesselatedFlatSphere": this.&createTesselatedFlatSphere,
+//                "tesselatedSmoothSphere": this.&createTesselatedSmoothSphere,
+//                "torus": this.&createTorus,
+//                "triangle": this.&createTriangle
+//        ]
+//    }
 
-    GeometricObjectFactory(final MaterialMap materials) {
-        assert(null != materials)
-        this.materials = materials
-        map = [
-                "alignedBox": this.&createAlignedBox,
-                "beveledBox": this.&createBeveledBox,
-                "box": this.&createBox,
-                "disk": this.&createDisk,
-                "grid": this.&createGrid,
-                "imageTexture": this.&createImageTexture,
-                "instance": this.&createInstance,
-                "kdtree":  this.&createKDTree,
-                "openCylinder": this.&createOpenCylinder,
-                "plane": this.&createPlane,
-                "ply": this.&createFromPly,
-                "xx": this.&xx,
-                "rectangle": this.&createRectangle,
-                "rectangleLight": this.&createRectangleLight,
-                "smoothTriangle": this.&createSmoothTriangle,
-                "solidCylinder": this.&createSolidCylinder,
-                "sphere": this.&createSphere,
-                "tesselatedFlatSphere": this.&createTesselatedFlatSphere,
-                "tesselatedSmoothSphere": this.&createTesselatedSmoothSphere,
-                "torus": this.&createTorus,
-                "triangle": this.&createTriangle
-        ]
-    }
+//    Sphere createSphere(Map map) {
+//        needs(map, "sphere", ["radius"])
+//        Sphere s = new Sphere(Point3D.ORIGIN, map.radius)
+//        if (null != map.center) s.center = map.center
+//        if (null != map.shadows) s.shadows = map.shadows
+//        if (null != map.material) s.material = materials.get(map, "sphere")
+//        return s
+//    }
 
-    Sphere createSphere(Map map) {
-        needs(map, "sphere", ["radius"])
-        Sphere s = new Sphere(Point3D.ORIGIN, map.radius)
-        if (null != map.center) s.center = map.center
-        if (null != map.shadows) s.shadows = map.shadows
-        if (null != map.material) s.material = materials.get(map, "sphere")
-        return s
-    }
+//    Plane createPlane(Map map) {
+//        //needs(map, "plane", ["material"])
+//        Plane p = new Plane();
+//        if (null != map.point) p.point = map.point
+//        if (null != map.normal) p.normal = map.normal
+//        if (null != map.shadows) p.shadows = map.shadows
+//        if (null != map.material) p.material = materials.get(map, "plane")
+//        return p
+//    }
 
-    Plane createPlane(Map map) {
-        //needs(map, "plane", ["material"])
-        Plane p = new Plane();
-        if (null != map.point) p.point = map.point
-        if (null != map.normal) p.normal = map.normal
-        if (null != map.shadows) p.shadows = map.shadows
-        if (null != map.material) p.material = materials.get(map, "plane")
-        return p
-    }
+//    Triangle createTriangle(Map map) {
+//        needs(map, "triangle", ["a", "b", "c"])
+//        Triangle t = new Triangle(map.a, map.b, map.c)
+//        if (null != map.material) t.material = materials.get(map, "triangle")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return t
+//    }
 
-    Triangle createTriangle(Map map) {
-        needs(map, "triangle", ["a", "b", "c"])
-        Triangle t = new Triangle(map.a, map.b, map.c)
-        if (null != map.material) t.material = materials.get(map, "triangle")
-        if (null != map.shadows) p.shadows = map.shadows
-        return t
-    }
+//    SmoothTriangle createSmoothTriangle(Map map) {
+//        needs(map, "triangle", ["a", "b", "c"])
+//        SmoothTriangle t = new SmoothTriangle(map.a, map.b, map.c)
+//        if (null != map.n1) t.n1 = map.n1
+//        if (null != map.n2) t.n2 = map.n2
+//        if (null != map.material) t.material = materials.get(map, "smoothTriangle")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return t
+//    }
 
-    SmoothTriangle createSmoothTriangle(Map map) {
-        needs(map, "triangle", ["a", "b", "c"])
-        SmoothTriangle t = new SmoothTriangle(map.a, map.b, map.c)
-        if (null != map.n1) t.n1 = map.n1
-        if (null != map.n2) t.n2 = map.n2
-        if (null != map.material) t.material = materials.get(map, "smoothTriangle")
-        if (null != map.shadows) p.shadows = map.shadows
-        return t
-    }
+//    Disk createDisk(Map map) {
+//        needs(map, "disk", ["center", "radius", "normal"])
+//        Disk d = new Disk(map.center, map.radius, map.normal)
+//        if (null != map.material) d.material = materials.get(map, "disk")
+//        if (null != map.sampler) d.sampler = map.sampler
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return d
+//    }
 
-    Disk createDisk(Map map) {
-        needs(map, "disk", ["center", "radius", "normal"])
-        Disk d = new Disk(map.center, map.radius, map.normal)
-        if (null != map.material) d.material = materials.get(map, "disk")
-        if (null != map.sampler) d.sampler = map.sampler
-        if (null != map.shadows) p.shadows = map.shadows
-        return d
-    }
+//    Rectangle createRectangle(Map map) {
+//        needs(map, "rectangle", ["p0", "a", "b"] )
+//        Rectangle r = new Rectangle(map.p0, map.a, map.b)
+//        if (null != map.normal) r.normal = map.normal
+//        if (null != map.material) r.material = materials.get(map, "rectangle")
+//        if (null != map.sampler) r.sampler = map.sampler
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return r
+//    }
 
-    Rectangle createRectangle(Map map) {
-        needs(map, "rectangle", ["p0", "a", "b"] )
-        Rectangle r = new Rectangle(map.p0, map.a, map.b)
-        if (null != map.normal) r.normal = map.normal
-        if (null != map.material) r.material = materials.get(map, "rectangle")
-        if (null != map.sampler) r.sampler = map.sampler
-        if (null != map.shadows) p.shadows = map.shadows
-        return r
-    }
-
-    RectangleLight createRectangleLight(Map map) {
-        needs(map, "rectangleLight", ["p0", "a", "b"] )
-        RectangleLight r = new RectangleLight(map.p0, map.a, map.b)
-        if (null != map.normal) r.normal = map.normal
-        if (null != map.material) r.material = materials.get(map, "rectangle")
-        if (null != map.sampler) r.sampler = map.sampler
-        if (null != map.shadows) p.shadows = map.shadows
-        return r
-    }
-
-    OpenCylinder createOpenCylinder(Map map) {
-        needs(map, "openCylinder", ["y0", "y1", "radius"])
-        OpenCylinder oc = new OpenCylinder(map.y0, map.y1, map.radius)
-        if (null != map.material) oc.material = materials.get(map, "openCylinder")
-        if (null != map.shadows) p.shadows = map.shadows
-        return oc
-    }
-
-    SolidCylinder createSolidCylinder(Map map) {
-        needs(map, "solidCylinder", ["y0", "y1", "radius"])
-        SolidCylinder oc = new SolidCylinder(map.y0, map.y1, map.radius)
-        if (null != map.material) oc.material = materials.get(map, "solidCylinder")
-        if (null != map.shadows) p.shadows = map.shadows
-        return oc
-    }
-
-    AlignedBox createAlignedBox(Map map) {
-        needs(map, "alignedBox", ["p", "q"])
-        AlignedBox b = new AlignedBox(map.p, map.q)
-        if (null != map.material) b.material = materials.get(map, "alignedBox")
-        if (null != map.shadows) p.shadows = map.shadows
-        return b
-    }
+//    RectangleLight createRectangleLight(Map map) {
+//        needs(map, "rectangleLight", ["p0", "a", "b"] )
+//        RectangleLight r = new RectangleLight(map.p0, map.a, map.b)
+//        if (null != map.normal) r.normal = map.normal
+//        if (null != map.material) r.material = materials.get(map, "rectangle")
+//        if (null != map.sampler) r.sampler = map.sampler
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return r
+//    }
+//
+//    OpenCylinder createOpenCylinder(Map map) {
+//        needs(map, "openCylinder", ["y0", "y1", "radius"])
+//        OpenCylinder oc = new OpenCylinder(map.y0, map.y1, map.radius)
+//        if (null != map.material) oc.material = materials.get(map, "openCylinder")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return oc
+//    }
+//
+//    SolidCylinder createSolidCylinder(Map map) {
+//        needs(map, "solidCylinder", ["y0", "y1", "radius"])
+//        SolidCylinder oc = new SolidCylinder(map.y0, map.y1, map.radius)
+//        if (null != map.material) oc.material = materials.get(map, "solidCylinder")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return oc
+//    }
+//
+//    AlignedBox createAlignedBox(Map map) {
+//        needs(map, "alignedBox", ["p", "q"])
+//        AlignedBox b = new AlignedBox(map.p, map.q)
+//        if (null != map.material) b.material = materials.get(map, "alignedBox")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return b
+//    }
 
     Box createBox(Map map) {
         needs(map, "box", ["p0", "a", "b", "c"])
@@ -165,13 +165,13 @@ class GeometricObjectFactory extends AbstractFactory {
         return b
     }
 
-    Instance createInstance(Map map) {
-        needs(map, "instance", ["object"])
-        Instance instance = new Instance(map.object)
-        if (null != map.material) instance.material = materials.get(map, "instance")
-        if (null != map.shadows) p.shadows = map.shadows
-        return instance
-    }
+//    Instance createInstance(Map map) {
+////        needs(map, "instance", ["object"])
+////        Instance instance = new Instance(map.object)
+////        if (null != map.material) instance.material = materials.get(map, "instance")
+////        if (null != map.shadows) p.shadows = map.shadows
+////        return instance
+////    }
 
     List createTesselatedFlatSphere(Map map) {
         needs(map, "tessellatedFlatSphere", ["m", "n"])
@@ -203,54 +203,54 @@ class GeometricObjectFactory extends AbstractFactory {
         println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         return createFromPly(lhm)
     }
-
-    Compound createFromPly(Map map) {
-        needs(map, "ply", ["file"])
-
-        // TODO: Gibt es einen Grund, das so kompliziert zu machen?
-        boolean reverseNormal = false
-        if (null != map.reverseNormal) reverseNormal = map.reverseNormal
-
-        boolean isSmooth = false
-        if (null != map.smooth) isSmooth = map.smooth
-
-
-        def c = Grid
-        if (null != map.type) {
-            c = map.type
-        }
-        Mesh mesh = new Mesh()
-        Compound compound = c.newInstance(mesh)
-
-        PlyReader.read(compound, map.file, reverseNormal, isSmooth)
-
-        boolean normalized = true
-        if (null != map.normalized) normalized = map.normalized
-        if (normalized) {
-            // TODO: Parametrisierbar machen
-//            compound = CompoundUtilities.norm2(compound)
-            compound = CompoundUtilities.norm(compound)
-        }
-
-        if (null != map.material) compound.material = materials.get(map, "ply")
-
-        // TODO: Nur für Grid und Sparsegrid
-        if (null != map.multiplier) compound.multiplier = map.multiplier
-
-        if (null != map.builder) {
-            def bc = map.builder
-            compound.builder = bc.newInstance()
-
-            if (null != map.maxDepth) {
-                compound.builder.maxDepth = map.maxDepth 
-            }
-            if (null != map.minChildren) {
-                compound.builder.minChildren = map.minChildren
-            }
-        }
-
-        return compound
-    }
+//
+//    Compound createFromPly(Map map) {
+//        needs(map, "ply", ["file"])
+//
+//        // TODO: Gibt es einen Grund, das so kompliziert zu machen?
+//        boolean reverseNormal = false
+//        if (null != map.reverseNormal) reverseNormal = map.reverseNormal
+//
+//        boolean isSmooth = false
+//        if (null != map.smooth) isSmooth = map.smooth
+//
+//
+//        def c = Grid
+//        if (null != map.type) {
+//            c = map.type
+//        }
+//        Mesh mesh = new Mesh()
+//        Compound compound = c.newInstance(mesh)
+//
+//        PlyReader.read(compound, map.file, reverseNormal, isSmooth)
+//
+//        boolean normalized = true
+//        if (null != map.normalized) normalized = map.normalized
+//        if (normalized) {
+//            // TODO: Parametrisierbar machen
+////            compound = CompoundUtilities.norm2(compound)
+//            compound = CompoundUtilities.norm(compound)
+//        }
+//
+//        if (null != map.material) compound.material = materials.get(map, "ply")
+//
+//        // TODO: Nur für Grid und Sparsegrid
+//        if (null != map.multiplier) compound.multiplier = map.multiplier
+//
+//        if (null != map.builder) {
+//            def bc = map.builder
+//            compound.builder = bc.newInstance()
+//
+//            if (null != map.maxDepth) {
+//                compound.builder.maxDepth = map.maxDepth
+//            }
+//            if (null != map.minChildren) {
+//                compound.builder.minChildren = map.minChildren
+//            }
+//        }
+//
+//        return compound
+//    }
 
     Grid createGrid(Map map) {
         Grid grid = null
