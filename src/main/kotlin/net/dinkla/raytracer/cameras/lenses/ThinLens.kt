@@ -1,8 +1,9 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.cameras.lenses.AbstractLens
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.Point2D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 
 class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
@@ -14,14 +15,14 @@ class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
     var d: Double = 1.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres)
-        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres)
+        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres)
+        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres)
         return getRay(x, y)
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x)
-        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y)
+        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres + sp.x)
+        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres + sp.y)
         return getRay(x, y)
     }
 

@@ -10,15 +10,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 02.06.2010
- * Time: 21:36:34
- * To change this template use File | Settings | File Templates.
- */
-class ImageTexture @Throws(IOException::class)
-constructor(fileName: String) : Texture() {
+class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
 
     var res: Resolution
     var mapping: Mapping? = null

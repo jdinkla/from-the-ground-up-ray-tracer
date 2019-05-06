@@ -5,9 +5,7 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Ray
 
-class FlatMeshTriangle : MeshTriangle {
-
-    constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) : super(mesh, i0, i1, i2) {}
+class FlatMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(mesh, i0, i1, i2) {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         val v0 = mesh.vertices[index0]

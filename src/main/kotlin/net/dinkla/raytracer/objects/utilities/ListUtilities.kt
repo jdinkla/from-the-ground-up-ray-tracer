@@ -10,7 +10,9 @@ import java.util.Comparator
 
 object ListUtilities {
 
-    fun splitByAxis(objects: List<GeometricObject>, split: Double, axis: Axis, objectsL: MutableList<GeometricObject>, objectsR: MutableList<GeometricObject>) {
+    fun splitByAxis(objects: List<GeometricObject>, split: Double, axis: Axis,
+                    objectsL: MutableList<GeometricObject>,
+                    objectsR: MutableList<GeometricObject>) {
         objectsL.clear()
         objectsR.clear()
         for (`object` in objects) {
@@ -27,7 +29,6 @@ object ListUtilities {
     fun compare(oP: GeometricObject, oQ: GeometricObject, axis: Axis): Int{
         val bboxP = oP.boundingBox
         val bboxQ = oQ.boundingBox
-        val p = bboxP.q
 
         val pP = bboxP.p.ith(axis)
         val widthP = bboxP.q.ith(axis) - pP
@@ -37,19 +38,9 @@ object ListUtilities {
         val widthQ = bboxQ.q.ith(axis) - pQ
         val medQ = pQ + 0.5 * widthQ
 
-        val q = bboxQ.q
         return java.lang.Double.compare(medP, medQ)
     }
 
-    fun sortByAxis(objects: List<GeometricObject>, axis: Axis) {
-        return Collections.sort(objects, { p, q -> compare(p, q, axis) })
-    }
-
-    fun size(objects: List<GeometricObject>): Int {
-        val size = 0
-        for (`object` in objects) {
-
-        }
-        return size
-    }
+    fun sortByAxis(objects: List<GeometricObject>, axis: Axis) =
+            Collections.sort(objects, { p, q -> compare(p, q, axis) })
 }

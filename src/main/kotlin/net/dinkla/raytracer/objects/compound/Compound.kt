@@ -20,11 +20,6 @@ open class Compound : GeometricObject() {
 
     var isUnit: Boolean = false
 
-    init {
-        objects = ArrayList()
-        isUnit = false
-    }
-
     override var material: IMaterial?
         get() = super.material
         set(material) {
@@ -60,9 +55,9 @@ open class Compound : GeometricObject() {
                 sr.t = sr2.t
                 sr.normal = sr2.normal
                 if (geoObj !is Compound) {
-                    sr.`object` = geoObj
+                    sr.geometricObject = geoObj
                 } else {
-                    sr.`object` = sr2.`object`
+                    sr.geometricObject = sr2.geometricObject
                 }
             }
         }
@@ -103,10 +98,10 @@ open class Compound : GeometricObject() {
         return false
     }
 
-    fun add(`object`: GeometricObject) {
+    fun add(geometricObject: GeometricObject) {
         isInitialized = false
-        `object`.initialize()
-        objects.add(`object`)
+        geometricObject.initialize()
+        objects.add(geometricObject)
         calcBoundingBox()
     }
 
@@ -121,8 +116,8 @@ open class Compound : GeometricObject() {
 
     override fun initialize() {
         super.initialize()
-        for (`object` in objects) {
-            `object`.initialize()
+        for (geometricObject in objects) {
+            geometricObject.initialize()
         }
         // TODO Warum wird das vorberechnet? Warum nicht lazy?
         calcBoundingBox()

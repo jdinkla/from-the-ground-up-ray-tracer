@@ -1,8 +1,10 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.cameras.lenses.AbstractLens
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Point2D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.Resolution
 
 class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
@@ -11,16 +13,16 @@ class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
     var maxPsi: Double = 180.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres)
-        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres)
+        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres)
+        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres)
         val pp = Point2D(x, y)
         val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         return Ray(eye!!, direction)
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.size * (c - 0.5 * viewPlane.resolution.hres + sp.x)
-        val y = viewPlane.size * (r - 0.5 * viewPlane.resolution.vres + sp.y)
+        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres + sp.x)
+        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres + sp.y)
         val pp = Point2D(x, y)
         val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
         return Ray(eye!!, direction)
@@ -34,7 +36,7 @@ class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val psi = y * maxPsi * MathUtils.PI_ON_180
 
         val phi = Math.PI - lambda
-        val theta = 0.5 * Math.PI - psi
+        val theta = OFFSET * Math.PI - psi
 
         val sinPhi = Math.sin(phi)
         val cosPhi = Math.cos(phi)

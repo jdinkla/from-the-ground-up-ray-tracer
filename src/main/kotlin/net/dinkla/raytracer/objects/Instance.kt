@@ -68,7 +68,7 @@ class Instance(private val geometricObject: GeometricObject,
             val tmp = trans.invMatrix * sr.normal
             sr.normal = tmp.normalize()
             if (null != geometricObject.material) {
-                sr.`object` = geometricObject
+                sr.geometricObject = geometricObject
             }
             //            if (!transformTexture) {
             //            }

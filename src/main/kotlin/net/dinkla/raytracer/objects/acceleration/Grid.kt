@@ -332,9 +332,9 @@ open class Grid : Compound {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
-                        sr.`object` = `object`
+                        sr.geometricObject = `object`
                     } else {
-                        sr.`object` = sr2.`object`
+                        sr.geometricObject = sr2.geometricObject
                     }
                     return true
                 }
@@ -350,9 +350,9 @@ open class Grid : Compound {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
-                            sr.`object` = `object`
+                            sr.geometricObject = `object`
                         } else {
-                            sr.`object` = sr2.`object`
+                            sr.geometricObject = sr2.geometricObject
                         }
                         return true
                     }
@@ -367,9 +367,9 @@ open class Grid : Compound {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
-                            sr.`object` = `object`
+                            sr.geometricObject = `object`
                         } else {
-                            sr.`object` = sr2.`object`
+                            sr.geometricObject = sr2.geometricObject
                         }
                         return true
                     }

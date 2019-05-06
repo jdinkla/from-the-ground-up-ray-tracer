@@ -4,6 +4,8 @@ object MathUtils {
 
     const val INV_PI = 1.0 / Math.PI
 
+    const val INV_TWO_PI = 1.0 / (2.0 * Math.PI)
+
     const val PI_ON_180 = Math.PI / 180
 
     const val K_HUGEVALUE = 1.0E10

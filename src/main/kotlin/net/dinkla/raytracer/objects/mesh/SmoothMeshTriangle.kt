@@ -3,9 +3,7 @@ package net.dinkla.raytracer.objects.mesh
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.*
 
-class SmoothMeshTriangle : MeshTriangle {
-
-    constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) : super(mesh, i0, i1, i2) {}
+class SmoothMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(mesh, i0, i1, i2) {
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
         val v0 = mesh.vertices[index0]

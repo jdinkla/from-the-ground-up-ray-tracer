@@ -6,7 +6,7 @@ import java.lang.Math.max
 
 data class Color(val red: Double, val green: Double, val blue: Double) {
 
-    constructor(v: Double) : this(v, v, v) {}
+    constructor(v: Double) : this(v, v, v)
 
     operator fun plus(v: Color) = Color(red + v.red, green + v.green, blue + v.blue)
 

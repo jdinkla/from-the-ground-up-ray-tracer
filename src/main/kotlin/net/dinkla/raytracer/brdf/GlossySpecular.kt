@@ -22,7 +22,7 @@ class GlossySpecular(// specular intensity
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
-        val sample = newSample()
+        val sample = Sample()
         val nDotWo = sr.normal dot wo
         val r = -wo + (sr.normal * (2 * nDotWo))
 

@@ -41,10 +41,8 @@ class Simple2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val half = voxel.q!!.minus(voxel.p!!).times(0.5)
+        val half = voxel.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
-
-        var split: Double? = null
 
         var objectsL: List<GeometricObject>
         var objectsR: List<GeometricObject>
@@ -65,7 +63,7 @@ class Simple2Builder : IKDTreeBuilder {
         val objectsLz = ArrayList<GeometricObject>()
         val objectsRz = ArrayList<GeometricObject>()
 
-        split = mid.x
+        var split = mid.x
 
         val q1 = Point3D(mid.x, voxel.q.y, voxel.q.z)
         voxelLx = BBox(voxel.p, q1)

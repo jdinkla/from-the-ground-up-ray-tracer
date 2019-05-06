@@ -121,7 +121,6 @@ class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, 
     }
 
     fun mapSamplesToHemiSphere(exp: Double) {
-        val size = samples.size
         hemisphereSamples = ArrayList(numSamples * numSets)
         for (sample in samples) {
             val cos_phi = Math.cos(2.0 * Math.PI * sample.x)

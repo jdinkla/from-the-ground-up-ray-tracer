@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 
 abstract class BRDF {
-
     internal var sampler: Sampler? = null
 
     class Sample {
@@ -20,10 +19,4 @@ abstract class BRDF {
     abstract fun sampleF(sr: Shade, wo: Vector3D): Sample
 
     abstract fun rho(sr: Shade, wo: Vector3D): Color
-
-    companion object {
-
-        fun newSample() = Sample()
-
-    }
 }

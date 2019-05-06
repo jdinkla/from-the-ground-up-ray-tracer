@@ -1,12 +1,5 @@
 package net.dinkla.raytracer.math
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 05.05.2010
- * Time: 21:20:07
- * To change this template use File | Settings | File Templates.
- */
 object Polynomials {
 
 //    fun solveQuadric(c: FloatArray, s: FloatArray): Int {

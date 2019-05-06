@@ -8,44 +8,31 @@ import net.dinkla.raytracer.utilities.Resolution
 class ViewPlane(val resolution: Resolution) : IColorCorrector {
 
     // Size of a pixel [build coordinates]
-    var size: Double = 0.toDouble()
+    var size: Double = 1.0
 
     // Color correction
-    private var gamma: Double = 0.toDouble()
-    private var invGamma: Double = 0.toDouble()
+    private var invGamma: Double = 1.0
+
+    var gamma: Double = 1.0
+        set(value) {
+            field = value
+            this.invGamma = 1.0 / value
+        }
 
     // Used for debugging
     var showOutOfGamut: Boolean = false
 
     // maximal recursion depth
-    var maxDepth: Int = 0
-
-    init {
-        this.size = 1.0
-        this.gamma = 1.0
-        this.invGamma = 1.0
-        this.showOutOfGamut = false
-        this.maxDepth = 5
-    }
-
-    fun getGamma(): Double {
-        return gamma
-    }
-
-    fun setGamma(gamma: Double) {
-        this.gamma = gamma
-        this.invGamma = 1.0 / gamma
-    }
+    var maxDepth: Int = 5
 
     override fun correct(color: Color): Color {
-        var newColor: Color
-        if (showOutOfGamut) {
-            newColor = color.clamp()
+        val newColor = if (showOutOfGamut) {
+            color.clamp()
         } else {
-            newColor = color.maxToOne()
+            color.maxToOne()
         }
         if (gamma != 1.0) {
-            newColor = newColor.pow(invGamma)
+            return newColor.pow(invGamma)
         }
         return newColor
     }

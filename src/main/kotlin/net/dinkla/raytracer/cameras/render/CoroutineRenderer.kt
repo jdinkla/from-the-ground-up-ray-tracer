@@ -21,7 +21,6 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
                         var color = render.render(r, c)
                         color *= exposureTime
                         color = corrector.correct(color)
-                        color
                         film.setPixel(c, r, color.clamp())
                     }
                 }

@@ -5,13 +5,6 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.objects.GeometricObject
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 27.05.2010
- * Time: 23:30:10
- * To change this template use File | Settings | File Templates.
- */
 class ConvexPartSphere : GeometricObject() {
 
     var center: Point3D? = null

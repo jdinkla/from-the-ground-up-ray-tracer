@@ -16,7 +16,7 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BTDF.Sample {
-        val result = newSample()
+        val result = Sample()
         var n = sr.normal
         var cosThetaI = n.dot(wo)
         var eta = ior
@@ -45,11 +45,10 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
         return cosThetaTSqr < 0
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other != null && other is PerfectTransmitter) {
-            return this.ior == other.ior && this.kt == other.kt
-        }
-        return false
+    override fun equals(other: Any?): Boolean = if (other != null && other is PerfectTransmitter) {
+        this.ior == other.ior && this.kt == other.kt
+    } else {
+        false
     }
 
     override fun hashCode(): Int = Objects.hash(ior, kt)

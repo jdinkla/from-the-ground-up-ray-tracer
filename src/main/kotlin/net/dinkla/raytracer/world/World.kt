@@ -58,23 +58,13 @@ class World(val id: String, val viewPlane: ViewPlane) {
         return compound.inShadow(ray, sr, d)
     }
 
-    fun initialize() {
-        compound.initialize()
-    }
+    fun initialize() = compound.initialize()
 
-    fun size(): Int {
-        return compound.size()
-    }
+    fun size(): Int = compound.size()
 
-    fun add(`object`: GeometricObject) {
-        compound.add(`object`)
-    }
+    fun add(obj: GeometricObject) = compound.add(obj)
 
-    fun add(objects: List<GeometricObject>) {
-        this.compound.add(objects)
-    }
+    fun add(objects: List<GeometricObject>) = this.compound.add(objects)
 
-    override fun toString(): String {
-        return "World $id"
-    }
+    override fun toString(): String = "World $id"
 }

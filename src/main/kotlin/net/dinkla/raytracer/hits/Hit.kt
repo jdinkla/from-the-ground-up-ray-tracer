@@ -9,31 +9,31 @@ open class Hit : ShadowHit {
     var normal: Normal = Normal.ZERO
 
     // Wird erst ab Compound gefüllt
-    var `object`: GeometricObject?
-        set(`object`: GeometricObject?) {
-            assert(`object` !is Compound)
-            field = `object`
+    var geometricObject: GeometricObject?
+        set(value) {
+            assert(value !is Compound)
+            field = value
         }
 
     constructor() : super() {
         normal = Normal.ZERO
-        `object` = null
+        geometricObject = null
     }
 
     constructor(t: Double) : super(t) {
         normal = Normal.ZERO
-        `object` = null
+        geometricObject = null
     }
 
     constructor(hit: Hit) : super(hit.t) {
         normal = hit.normal
-        `object` = hit.`object`
+        geometricObject = hit.geometricObject
     }
 
     fun set(hit: Hit) {
         t = hit.t
         normal = hit.normal
-        `object` = hit.`object`
+        geometricObject = hit.geometricObject
     }
 
 }

@@ -28,7 +28,7 @@ class SVGlossySpecular(
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
         assert(null != cs)
 
-        val sample = newSample()
+        val sample = Sample()
 
         val nDotWo = wo dot sr.normal
 

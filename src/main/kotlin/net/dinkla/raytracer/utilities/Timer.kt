@@ -2,16 +2,11 @@ package net.dinkla.raytracer.utilities
 
 class Timer {
 
-    internal var startTime: Long = 0
-    internal var endTime: Long = 0
+    private var startTime: Long = 0L
+    private var endTime: Long = 0L
 
     val duration: Long
         get() = endTime - startTime
-
-    init {
-        endTime = 0L
-        startTime = endTime
-    }
 
     fun start() {
         startTime = System.currentTimeMillis()

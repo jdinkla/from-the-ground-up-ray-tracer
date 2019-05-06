@@ -6,7 +6,7 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 
-open abstract class GeometricObject {
+abstract class GeometricObject {
 
     // TODO needed?
     open var isShadows = true

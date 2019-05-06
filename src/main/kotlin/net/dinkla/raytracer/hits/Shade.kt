@@ -3,6 +3,7 @@ package net.dinkla.raytracer.hits
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 
 class Shade : Hit() {
 
@@ -19,12 +20,12 @@ class Shade : Hit() {
         get() = ray.linear(t)
 
     val material: IMaterial?
-        get() = `object`!!.material
+        get() = geometricObject!!.material
 
     init {
         this.depth = 0
-        this.ray = Ray.DEFAULT
-        this.`object` = null
+        this.ray = Ray(Point3D.ORIGIN, Vector3D.ZERO)
+        this.geometricObject = null
     }
 
 }

@@ -1,26 +1,10 @@
 package net.dinkla.raytracer.cameras
 
 import net.dinkla.raytracer.cameras.lenses.AbstractLens
-import net.dinkla.raytracer.cameras.render.IRenderer
-import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.utilities.Timer
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.math.Basis
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 
-/**
- * Created by IntelliJ IDEA.
- * User: jorndinkla
- * Date: 12.04.2010
- * Time: 12:11:32
- * To change this template use File | Settings | File Templates.
- *
- * TODO: Kamera konfigurierbarer und modularer
- *
- * 1. Render: Single | Sample
- * 2. Sequential | Parallel
- * 3. Lens: Pinhole, FishEye, Spherical, ThinLens, Orthographic
- * 4. Iterative ?
- */
 open class Camera(val lens: AbstractLens) {
 
     var eye: Point3D = Point3D(0, 10, 0)

@@ -13,13 +13,8 @@ import net.dinkla.raytracer.tracers.AreaLighting
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import java.io.File
-import java.io.IOException
-import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.attribute.BasicFileAttributes
 import java.util.*
-import java.util.function.BiPredicate
 
 class BuilderTest {
 
@@ -39,9 +34,9 @@ class BuilderTest {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = Vector3D.JITTER)
         }
         assertNotNull(world.camera)
-        assertEquals(eye, world.camera?.eye)
-        assertEquals(lookAt, world.camera?.lookAt)
-        assertEquals(Vector3D.JITTER, world.camera?.up)
+        assertEquals(eye, world.camera.eye)
+        assertEquals(lookAt, world.camera.lookAt)
+        assertEquals(Vector3D.JITTER, world.camera.up)
     }
 
     @Test
@@ -139,7 +134,7 @@ class BuilderTest {
     @Disabled
     @Test
     fun `should build example world 14 - ambient occluder`() {
-        val f = findExample("World14.groovy").get().toFile()
+        val f = findExample().get().toFile()
         val w = World7.world()
         assertEquals(2, w.size())
         assertEquals(0, w.lights.size)
@@ -156,7 +151,7 @@ class BuilderTest {
     @Disabled
     @Test
     fun `should build example world 23 - area lighting`() {
-        val f = findExample("World23.groovy").get().toFile()
+        val f = findExample().get().toFile()
         val w = World7.world()
         assertEquals(26, w.size())
         assertEquals(1, w.lights.size)
@@ -188,7 +183,7 @@ class BuilderTest {
     }
 
     companion object {
-        private fun findExample(filename: String): Optional<Path> = Optional.empty()
+        private fun findExample(): Optional<Path> = Optional.empty()
     }
 
 }

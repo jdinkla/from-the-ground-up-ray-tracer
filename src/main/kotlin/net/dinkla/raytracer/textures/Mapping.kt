@@ -5,12 +5,7 @@ import net.dinkla.raytracer.utilities.Resolution
 
 abstract class Mapping {
 
-    inner class Mapped {
-        var row: Int = 0
-        var column: Int = 0
-    }
-
-    fun newMapped() = Mapped()
+    inner class Mapped(var row: Int = 0, var column: Int = 0)
 
     abstract fun getTexelCoordinates(p: Point3D, res: Resolution): Mapped
 

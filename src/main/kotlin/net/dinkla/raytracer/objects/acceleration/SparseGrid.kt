@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -283,9 +282,9 @@ class SparseGrid : Grid {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
-                        sr.`object` = `object`
+                        sr.geometricObject = `object`
                     } else {
-                        sr.`object` = sr2.`object`
+                        sr.geometricObject = sr2.geometricObject
                     }
                     return true
                 }
@@ -301,9 +300,9 @@ class SparseGrid : Grid {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
-                            sr.`object` = `object`
+                            sr.geometricObject = `object`
                         } else {
-                            sr.`object` = sr2.`object`
+                            sr.geometricObject = sr2.geometricObject
                         }
                         return true
                     }
@@ -318,9 +317,9 @@ class SparseGrid : Grid {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
-                            sr.`object` = `object`
+                            sr.geometricObject = `object`
                         } else {
-                            sr.`object` = sr2.`object`
+                            sr.geometricObject = sr2.geometricObject
                         }
                         return true
                     }
