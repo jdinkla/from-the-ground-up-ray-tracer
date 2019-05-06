@@ -1,11 +1,10 @@
 package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.lights.DirectionalLight
-import net.dinkla.raytracer.lights.Light
-import net.dinkla.raytracer.lights.PointLight
+import net.dinkla.raytracer.lights.*
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.objects.GeometricObject
 
 class LightsScope() {
 
@@ -25,4 +24,14 @@ class LightsScope() {
             this.color = color
         }
     }
+
+    fun areaLight(of: ILightSource, numSamples: Int) {
+        val light = AreaLight().apply {
+            this.source = of
+            this.numSamples = numSamples
+            this.material = of.getLightMaterial()
+        }
+        mutableLights += light
+    }
+
 }

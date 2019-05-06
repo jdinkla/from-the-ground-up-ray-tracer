@@ -10,15 +10,14 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 import java.util.*
 
-
 class AreaLight : Light(), ILightSource {
 
-    var `object`: ILightSource? = null
+    var source: ILightSource? = null
 
     // Emissive Material TODO: Warum nicht Emissive?
     var material: IMaterial? = null
 
-    var numSamples: Int = 0
+    var numSamples: Int = 4
 
     inner class Sample {
         var samplePoint: Point3D? = null
@@ -27,10 +26,6 @@ class AreaLight : Light(), ILightSource {
 
         val nDotD: Double
             get() = (-lightNormal!!) dot (wi!!)
-    }
-
-    init {
-        numSamples = 4
     }
 
     fun L(world: World, sr: Shade, sample: Sample): Color {
@@ -53,13 +48,13 @@ class AreaLight : Light(), ILightSource {
     }
 
     override fun pdf(sr: Shade): Double {
-        return `object`!!.pdf(sr)
+        return source!!.pdf(sr)
     }
 
     fun getSample(sr: Shade): Sample {
         val sample = Sample()
-        sample.samplePoint = `object`!!.sample()
-        sample.lightNormal = `object`!!.getNormal(sample.samplePoint!!)
+        sample.samplePoint = source!!.sample()
+        sample.lightNormal = source!!.getNormal(sample.samplePoint!!)
         sample.wi = sample.samplePoint!!.minus(sr.hitPoint).normalize()
         return sample
     }
@@ -92,4 +87,5 @@ class AreaLight : Light(), ILightSource {
         throw RuntimeException("NLU")
     }
 
+    override fun getLightMaterial(): IMaterial = material!!
 }

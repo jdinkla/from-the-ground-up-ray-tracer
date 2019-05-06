@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 class AreaLighting(var world: World) : Tracer {
 
     override fun trace(ray: Ray, depth: Int): Color {
-        LOGGER.debug("trace $ray at depth $depth")
+        //LOGGER.debug("trace $ray at depth $depth")
         if (depth > world.viewPlane.maxDepth) {
             return Color.BLACK
         } else {

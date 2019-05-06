@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 
@@ -12,4 +13,5 @@ interface ILightSource {
 
     fun getNormal(p: Point3D): Normal
 
+    fun getLightMaterial() : IMaterial
 }

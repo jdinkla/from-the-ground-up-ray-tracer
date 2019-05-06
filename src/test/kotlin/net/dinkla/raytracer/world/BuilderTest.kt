@@ -148,12 +148,10 @@ class BuilderTest {
         assertEquals(2, w.lights.size)
     }
 
-    @Disabled
     @Test
     fun `should build example world 23 - area lighting`() {
-        val f = findExample().get().toFile()
-        val w = World7.world()
-        assertEquals(26, w.size())
+        val w = World23.world()
+        assertEquals(3, w.size())
         assertEquals(1, w.lights.size)
         assertEquals(AreaLighting::class.java, w.tracer.javaClass )
     }

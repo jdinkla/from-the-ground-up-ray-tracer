@@ -85,7 +85,7 @@ class MaterialsScopeTest {
         val emissive = Emissive(ex.cd, ex.ks)
 
         // when
-        scope.emissive(id = id, ce = ex.cd, ls = ex.ks)
+        scope.emissive(id = id, ce = ex.cd, le = ex.ks)
 
         // then
         assertEquals(1, scope.materials.size)

@@ -51,8 +51,8 @@ class MaterialsScope() {
 
     fun emissive(id: String,
                  ce: Color = Color.WHITE,
-                 ls: Double = 0.25) {
-        mutableMaterials[id] = Emissive(ce, ls)
+                 le: Double = 0.25) {
+        mutableMaterials[id] = Emissive(ce, le)
     }
 
     fun transparent(id: String,

@@ -11,6 +11,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.tracers.Tracer
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Renderer
@@ -36,11 +38,16 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun v(x: Int, y: Int, z: Int) = Vector3D(x, y, z)
     fun v(x: Double, y: Double, z: Double) = Vector3D(x, y, z)
 
-    fun camera(d: Double = 1.0, eye: Point3D = Point3D.ORIGIN, lookAt : Point3D = Point3D.ORIGIN, up : Vector3D = Vector3D.UP, engine: Renderers = Renderers.FORK_JOIN) {
+    fun camera(d: Double = 1.0,
+               eye: Point3D = Point3D.ORIGIN,
+               lookAt : Point3D = Point3D.ORIGIN,
+               up : Vector3D = Vector3D.UP,
+               engine: Renderers = Renderers.FORK_JOIN,
+               tracer: Tracers = Tracers.WHITTED) {
         val lens = Pinhole(world.viewPlane)
         lens.d = d
 
-        val tracer = Whitted(world)
+        val tracer = tracer.create(world)
         this.renderer.tracer = tracer
 
         val singleRayRenderer = SimpleSingleRayRenderer(lens, tracer)

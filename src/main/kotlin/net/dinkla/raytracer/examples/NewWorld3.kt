@@ -19,7 +19,7 @@ object NewWorld3 : WorldDef {
         }
 
         materials {
-            emissive(id = "tangerine yellow matte", ce = c("FFCC00"), ls = 10.0)
+            emissive(id = "tangerine yellow matte", ce = c("FFCC00"), le = 10.0)
         }
 
         objects {
