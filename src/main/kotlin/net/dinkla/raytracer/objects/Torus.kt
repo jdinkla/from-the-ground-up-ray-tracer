@@ -3,6 +3,9 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.objects.compound.Box
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
 class Torus(val a: Double, val b: Double) : GeometricObject() {
 
@@ -135,4 +138,12 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         return normal;
     }
 */
+
+    override fun equals(other: Any?): Boolean = this.equals<Torus>(other) { a, b ->
+        a.a == b.a && a.b == b.b
+    }
+
+    override fun hashCode(): Int = this.hash(a, b)
+
+    override fun toString(): String = "Torus($a,$b)"
 }

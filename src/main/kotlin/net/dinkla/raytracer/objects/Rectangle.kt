@@ -17,7 +17,7 @@ open class Rectangle : GeometricObject {
         this.p0 = p0
         this.a = a
         this.b = b
-        val v = a.cross(b)
+        val v = a cross b
         normal = Normal(v.normalize())
         boundingBox = calcBoundingBox()
     }

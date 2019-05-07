@@ -38,8 +38,7 @@ object World23 : WorldDef {
         val sampler1 = Sampler(MultiJittered, 2500, 100)
         sampler1.mapSamplesToUnitDisk()
 
-        val rl = RectangleLight(p0 = p(-10.75, 2.0, -10.0), a = vecW * 15.5, b = vecH * 2.0).apply {
-            this.sampler = sampler1
+        val rl = RectangleLight(sampler1, p0 = p(-10.75, 2.0, -10.0), a = vecW * 15.5, b = vecH * 2.0).apply {
             this.material = world.materials["em"]
         }
 

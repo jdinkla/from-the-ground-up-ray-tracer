@@ -16,9 +16,9 @@ import java.util.*
 
 open class Compound : GeometricObject() {
 
-    open var objects: ArrayList<GeometricObject> = ArrayList()
+    var objects: ArrayList<GeometricObject> = ArrayList()
 
-    var isUnit: Boolean = false
+    private var isUnit: Boolean = false
 
     override var material: IMaterial?
         get() = super.material

@@ -10,18 +10,18 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.samplers.Sampler
 
-class DiskLight(center: Point3D, radius: Double, normal: Normal) : Disk(center, radius, normal), ILightSource {
+class DiskLight(
+        val sampler: Sampler,
+        center: Point3D,
+        radius: Double,
+        normal: Normal) : Disk(center, radius, normal), ILightSource {
 
-    var sampler: Sampler? = null
+    val pdf = 1.0 / (Math.PI * radius * radius)
 
-    override fun pdf(sr: Shade): Double {
-        return 0.0  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    override fun pdf(sr: Shade): Double = pdf
 
-    // TODO: sample auf ner disk
     override fun sample(): Point3D {
-        val sp = sampler!!.sampleUnitDisk()
-        assert(null != sampler)
+        val sp = sampler.sampleUnitDisk()
         val v = Vector2D(sp.x * radius, sp.y * radius)
         return center.plus(Vector3D(v.x, v.y, 0.0))
     }

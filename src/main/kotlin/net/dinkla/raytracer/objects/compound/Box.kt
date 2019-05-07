@@ -1,9 +1,13 @@
 package net.dinkla.raytracer.objects.compound
 
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Rectangle
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-class Box(var p0: Point3D, a: Vector3D, b: Vector3D, c: Vector3D) : Compound() {
+class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : Compound() {
 
     init {
         // point at the "top left front"
@@ -26,5 +30,13 @@ class Box(var p0: Point3D, a: Vector3D, b: Vector3D, c: Vector3D) : Compound() {
 
         boundingBox = BBox(p0, p0 + a + b + c)
     }
+
+    override fun equals(other: Any?): Boolean = this.equals<Box>(other) { a, b ->
+        a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.c == b.c
+    }
+
+    override fun hashCode(): Int = this.hash(p0, a, b, c)
+
+    override fun toString(): String = "AlignedBox($p0,$a,$b,$c)"
 
 }

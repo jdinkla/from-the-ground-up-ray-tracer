@@ -157,13 +157,13 @@ class GeometricObjectFactory extends AbstractFactory {
 //        return b
 //    }
 
-    Box createBox(Map map) {
-        needs(map, "box", ["p0", "a", "b", "c"])
-        Box b = new Box(map.p0, map.a, map.b, map.c)
-        if (null != map.material) b.material = materials.get(map, "box")
-        if (null != map.shadows) p.shadows = map.shadows
-        return b
-    }
+//    Box createBox(Map map) {
+//        needs(map, "box", ["p0", "a", "b", "c"])
+//        Box b = new Box(map.p0, map.a, map.b, map.c)
+//        if (null != map.material) b.material = materials.get(map, "box")
+//        if (null != map.shadows) p.shadows = map.shadows
+//        return b
+//    }
 
 //    Instance createInstance(Map map) {
 ////        needs(map, "instance", ["object"])
@@ -252,16 +252,16 @@ class GeometricObjectFactory extends AbstractFactory {
 //        return compound
 //    }
 
-    Grid createGrid(Map map) {
-        Grid grid = null
-        if (null != map.sparse) {
-            grid = new SparseGrid()
-        } else {
-            grid = new Grid()
-        }
-        if (null != map.multiplier) grid.multiplier = map.multiplier
-        return grid
-    }
+//    Grid createGrid(Map map) {
+//        Grid grid = null
+//        if (null != map.sparse) {
+//            grid = new SparseGrid()
+//        } else {
+//            grid = new Grid()
+//        }
+//        if (null != map.multiplier) grid.multiplier = map.multiplier
+//        return grid
+//    }
 
     BeveledBox createBeveledBox(Map map) {
         needs(map, "beveledBox", ["p0", "p1", "rb"])
@@ -274,12 +274,12 @@ class GeometricObjectFactory extends AbstractFactory {
         return bbox
     }
 
-    Torus createTorus(Map map) {
-        needs(map, "torus", ["a", "b"])
-        Torus torus = new Torus(map.a, map.b)
-        if (null != map.material) torus.material = materials.get(map, "torus")
-        return torus
-    }
+//    Torus createTorus(Map map) {
+//        needs(map, "torus", ["a", "b"])
+//        Torus torus = new Torus(map.a, map.b)
+//        if (null != map.material) torus.material = materials.get(map, "torus")
+//        return torus
+//    }
 
     ImageTexture createImageTexture(Map map) {
         needs(map, "imageTexture", ["fileName"])

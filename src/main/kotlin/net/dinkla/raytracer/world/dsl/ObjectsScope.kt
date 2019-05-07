@@ -6,11 +6,12 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
-import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.objects.utilities.PlyReader
 
+@Suppress("TooManyFunctions")
 class ObjectsScope(internal val materials: Map<String, IMaterial>, private val compound: Compound) {
 
     private val mutableObjects: MutableList<GeometricObject> = mutableListOf()
@@ -25,6 +26,16 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
 
     fun alignedBox(material: String, p: Point3D = Point3D.ORIGIN, q: Point3D = Point3D.ORIGIN) {
         AlignedBox(p, q).apply {
+            this.material = materials[material]
+        }.add()
+    }
+
+    fun box(material: String,
+            p0: Point3D = Point3D.ORIGIN,
+            a: Vector3D = Vector3D.RIGHT,
+            b: Vector3D = Vector3D.UP,
+            c: Vector3D = Vector3D.FORWARD) {
+        Box(p0, a, b, c).apply {
             this.material = materials[material]
         }.add()
     }
@@ -71,7 +82,10 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         ply.grid.add()
     }
 
-    fun rectangle(material: String, p0: Point3D = Point3D.ORIGIN, a: Vector3D = Vector3D.UP, b: Vector3D = Vector3D.RIGHT) {
+    fun rectangle(material: String,
+                  p0: Point3D = Point3D.ORIGIN,
+                  a: Vector3D = Vector3D.RIGHT,
+                  b: Vector3D = Vector3D.UP) {
         Rectangle(p0, a, b).apply {
             this.material = materials[material]
         }.add()
@@ -83,8 +97,18 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         }.add()
     }
 
-    fun sphere(material: String, center: Point3D = Point3D.ORIGIN, radius: Double = 0.0) {
+    fun sphere(material: String,
+               center: Point3D = Point3D.ORIGIN,
+               radius: Double = 0.0) {
         Sphere(center, radius).apply {
+            this.material = materials[material]
+        }.add()
+    }
+
+    fun torus(material: String,
+              a: Double = 1.0,
+              b: Double = 1.0) {
+        Torus(a, b).apply {
             this.material = materials[material]
         }.add()
     }

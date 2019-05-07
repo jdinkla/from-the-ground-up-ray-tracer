@@ -18,6 +18,7 @@ import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Renderer
 import net.dinkla.raytracer.world.World
 
+@Suppress("TooManyFunctions")
 class WorldScope(val id: String, val resolution: Resolution) {
 
     val viewPlane = ViewPlane(resolution)

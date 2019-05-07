@@ -10,6 +10,7 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 import java.util.*
 
+@Suppress("TooManyFunctions")
 class AreaLight : Light(), ILightSource {
 
     var source: ILightSource? = null

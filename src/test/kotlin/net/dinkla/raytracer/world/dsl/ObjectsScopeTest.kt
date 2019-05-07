@@ -9,6 +9,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
@@ -27,6 +28,7 @@ internal class ObjectsScopeTest {
     private val someMaterialId = "material"
     private val someVector = Vector3D(1.0, 2.0, 3.0)
     private val someVector2 = Vector3D(1.1, 2.1, 4.1)
+    private val someVector3 = Vector3D(3.1, -2.1, 2.4)
     private val y0 = 1.0
     private val y1 = 2.0
 
@@ -258,6 +260,43 @@ internal class ObjectsScopeTest {
         assertEquals(trans, instance.trans)
         assertEquals(someMaterial, instance.material)
         assertEquals(someOtherMaterial, expected.material)
+    }
+
+    @Test
+    fun `should handle box`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = Box(somePoint, someVector, someVector2, someVector3).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.box(material = someMaterialId, p0 = somePoint, a = someVector, b = someVector2, c = someVector3)
+
+        // then
+        assertType<GeometricObject, Box>(scope.objects, 0)
+        val created = scope.objects[0] as Box
+        assertEquals(expected, created)
+
+    }
+
+    @Test
+    fun `should handle torus`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = Torus(y0, y1).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.torus(material = someMaterialId, a = y0, b = y1)
+
+        // then
+        assertType<GeometricObject, Torus>(scope.objects, 0)
+        val created = scope.objects[0] as Torus
+        assertEquals(expected, created)
     }
 
     @Test
