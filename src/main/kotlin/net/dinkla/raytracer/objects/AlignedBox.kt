@@ -13,67 +13,37 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
-
-        val a = 1.0 / ray.direction.x
-        if (a >= 0) {
-            tx_min = (p.x - ray.origin.x) * a
-            tx_max = (q.x - ray.origin.x) * a
-        } else {
-            tx_min = (q.x - ray.origin.x) * a
-            tx_max = (p.x - ray.origin.x) * a
-        }
-
-        val b = 1.0 / ray.direction.y
-        if (b >= 0) {
-            ty_min = (p.y - ray.origin.y) * b
-            ty_max = (q.y - ray.origin.y) * b
-        } else {
-            ty_min = (q.y - ray.origin.y) * b
-            ty_max = (p.y - ray.origin.y) * b
-        }
-
-        val c = 1.0 / ray.direction.z
-        if (c >= 0) {
-            tz_min = (p.z - ray.origin.z) * c
-            tz_max = (q.z - ray.origin.z) * c
-        } else {
-            tz_min = (q.z - ray.origin.z) * c
-            tz_max = (p.z - ray.origin.z) * c
-        }
+        val (txMin, txMax, a) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
+        val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
+        val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
         var t0: Double
         var t1: Double
         var faceIn: Int
         var faceOut: Int
         // find largest entering t value
-        if (tx_min > ty_min) {
-            t0 = tx_min
+        if (txMin > tyMin) {
+            t0 = txMin
             faceIn = if (a >= 0) 0 else 3
         } else {
-            t0 = ty_min
+            t0 = tyMin
             faceIn = if (b >= 0) 1 else 4
         }
-        if (tz_min > t0) {
-            t0 = tz_min
+        if (tzMin > t0) {
+            t0 = tzMin
             faceIn = if (c >= 0) 2 else 5
         }
 
         // find smallest exiting t value
-        if (tx_max < ty_max) {
-            t1 = tx_max
+        if (txMax < tyMax) {
+            t1 = txMax
             faceOut = if (a >= 0) 3 else 0
         } else {
-            t1 = ty_max
+            t1 = tyMax
             faceOut = if (b >= 0) 4 else 1
         }
-        if (tz_max < t1) {
-            t1 = tz_max
+        if (tzMax < t1) {
+            t1 = tzMax
             faceOut = if (c >= 0) 5 else 2
         }
 
@@ -92,67 +62,37 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
-
-        val a = 1.0 / ray.direction.x
-        if (a >= 0) {
-            tx_min = (p.x - ray.origin.x) * a
-            tx_max = (q.x - ray.origin.x) * a
-        } else {
-            tx_min = (q.x - ray.origin.x) * a
-            tx_max = (p.x - ray.origin.x) * a
-        }
-
-        val b = 1.0 / ray.direction.y
-        if (b >= 0) {
-            ty_min = (p.y - ray.origin.y) * b
-            ty_max = (q.y - ray.origin.y) * b
-        } else {
-            ty_min = (q.y - ray.origin.y) * b
-            ty_max = (p.y - ray.origin.y) * b
-        }
-
-        val c = 1.0 / ray.direction.z
-        if (c >= 0) {
-            tz_min = (p.z - ray.origin.z) * c
-            tz_max = (q.z - ray.origin.z) * c
-        } else {
-            tz_min = (q.z - ray.origin.z) * c
-            tz_max = (p.z - ray.origin.z) * c
-        }
+        val (txMin, txMax, a) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
+        val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
+        val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
         var t0: Double
         var t1: Double
         var faceIn: Int
         var faceOut: Int
         // find largest entering t value
-        if (tx_min > ty_min) {
-            t0 = tx_min
+        if (txMin > tyMin) {
+            t0 = txMin
             faceIn = if (a >= 0) 0 else 3
         } else {
-            t0 = ty_min
+            t0 = tyMin
             faceIn = if (b >= 0) 1 else 4
         }
-        if (tz_min > t0) {
-            t0 = tz_min
+        if (tzMin > t0) {
+            t0 = tzMin
             faceIn = if (c >= 0) 2 else 5
         }
 
         // find smallest exiting t value
-        if (tx_max < ty_max) {
-            t1 = tx_max
+        if (txMax < tyMax) {
+            t1 = txMax
             faceOut = if (a >= 0) 3 else 0
         } else {
-            t1 = ty_max
+            t1 = tyMax
             faceOut = if (b >= 0) 4 else 1
         }
-        if (tz_max < t1) {
-            t1 = tz_max
+        if (tzMax < t1) {
+            t1 = tzMax
             faceOut = if (c >= 0) 5 else 2
         }
 
@@ -167,14 +107,28 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         return false
     }
 
+    private fun minAndMax(direction: Double, origin: Double, p: Double, q: Double): Triple<Double, Double, Double> {
+        val tMin: Double
+        val tMax: Double
+        val a = 1.0 / direction
+        if (a >= 0) {
+            tMin = (p - origin) * a
+            tMax = (q - origin) * a
+        } else {
+            tMin = (q - origin) * a
+            tMax = (p - origin) * a
+        }
+        return Triple(tMin, tMax, a)
+    }
+
     // TODO these normals have names in Normal class
     private fun getNormal(face: Int): Normal = when (face) {
-        0 -> Normal(-1.0, 0.0, 0.0)
-        1 -> Normal(0.0, -1.0, 0.0)
-        2 -> Normal(0.0, 0.0, -1.0)
-        3 -> Normal(1.0, 0.0, 0.0)
-        4 -> Normal(0.0, 1.0, 0.0)
-        5 -> Normal(0.0, 0.0, 1.0)
+        0 -> Normal.LEFT
+        1 -> Normal.DOWN
+        2 -> Normal.BACKWARD
+        3 -> Normal.RIGHT
+        4 -> Normal.UP
+        5 -> Normal.FORWARD
         else -> Normal.ZERO
     }
 

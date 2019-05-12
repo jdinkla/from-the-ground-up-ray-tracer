@@ -144,7 +144,7 @@ class InnerNode(val left: AbstractNode?, val right: AbstractNode?, override val 
         //                p = new Plane(new Point3D(0, split, 0), Normal.UP);
         //                break;
         //            case Z:
-        //                p = new Plane(new Point3D(0, 0, split), Normal.FRONT);
+        //                p = new Plane(new Point3D(0, 0, split), Normal.FORWARD);
         //                break;
         //        }
         //

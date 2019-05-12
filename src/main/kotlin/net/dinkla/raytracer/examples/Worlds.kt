@@ -22,5 +22,6 @@ fun worldDef(filename: String): WorldDef? =
             "NewWorld1.kt" -> NewWorld1
             "NewWorld2.kt" -> NewWorld2
             "NewWorld3.kt" -> NewWorld3
+            "NewWorld4.kt" -> NewWorld4
             else -> null
         }

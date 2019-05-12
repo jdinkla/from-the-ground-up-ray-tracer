@@ -38,7 +38,7 @@ object World20area : WorldDef {
         sampler2.mapSamplesToUnitDisk()
 
         val rectangle = RectangleLight(sampler = sampler1,
-                p0 = p(-2, 1, -10), a = vecW * 4.0, b = vecH * 5.0, normal = Normal.BACK).apply {
+                p0 = p(-2, 1, -10), a = vecW * 4.0, b = vecH * 5.0, normal = Normal.BACKWARD).apply {
             this.material = world.materials["em"]
         }
 

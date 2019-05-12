@@ -1,13 +1,13 @@
 package net.dinkla.raytracer.math
 
-import java.lang.Double.POSITIVE_INFINITY
 import java.lang.Double.NEGATIVE_INFINITY
+import java.lang.Double.POSITIVE_INFINITY
 
 class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    constructor(e: Element3D) : this(e.x, e.y, e.z) {}
+    constructor(e: Element3D) : this(e.x, e.y, e.z)
 
     operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
@@ -29,11 +29,10 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         }
     }
 
-    override fun hashCode(): Int {
-        return super.hashCode()
-    }
+    override fun hashCode(): Int = super.hashCode()
 
     companion object {
+        val UNIT = Point3D(1.0, 1.0, 1.0)
         val ORIGIN = Point3D(0, 0, 0)
         val MAX = Point3D(POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY)
         val MIN = Point3D(NEGATIVE_INFINITY, NEGATIVE_INFINITY, NEGATIVE_INFINITY)

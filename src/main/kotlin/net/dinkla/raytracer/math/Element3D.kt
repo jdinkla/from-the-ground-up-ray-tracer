@@ -5,9 +5,9 @@ import java.util.*
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble()) {}
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    constructor(e: Element3D) : this(e.x, e.y, e.z) {}
+    constructor(e: Element3D) : this(e.x, e.y, e.z)
 
     fun sqrLength(): Double = x * x + y * y + z * z
 

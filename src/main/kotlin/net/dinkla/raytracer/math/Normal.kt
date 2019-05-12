@@ -27,12 +27,12 @@ class Normal : Element3D {
 
     companion object {
         val RIGHT = Normal(1.0, 0.0, 0.0)
-        val ONE = Normal(1.0, 1.0, 1.0)
         val LEFT = Normal(-1.0, 0.0, 0.0)
         val UP = Normal(0.0, 1.0, 0.0)
         val DOWN = Normal(0.0, -1.0, 0.0)
-        val FRONT = Normal(0.0, 0.0, 1.0)
-        val BACK = Normal(0.0, 0.0, -1.0)
+        val ONE = Normal(1.0, 1.0, 1.0)
+        val FORWARD = Normal(0.0, 0.0, 1.0)
+        val BACKWARD = Normal(0.0, 0.0, -1.0)
         val ZERO = Normal(0.0, 0.0, 0.0)
     }
 }
