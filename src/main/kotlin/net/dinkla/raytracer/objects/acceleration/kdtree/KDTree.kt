@@ -3,30 +3,15 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.objects.mesh.Mesh
+import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
 
-class KDTree : Compound {
+class KDTree : CompoundWithMesh() {
 
-    var builder: IKDTreeBuilder
+    var builder: IKDTreeBuilder = SpatialMedianBuilder()
 
     var root: AbstractNode? = null
-
-    var mesh: Mesh? = null
-
-    constructor() : super() {
-        mesh = null
-        root = null
-        builder = SpatialMedianBuilder()
-    }
-
-    constructor(mesh: Mesh) : super() {
-        this.mesh = mesh
-        root = null
-        builder = SpatialMedianBuilder()
-    }
 
     override fun initialize() {
         super.initialize()
@@ -56,8 +41,6 @@ class KDTree : Compound {
 
     companion object {
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-        internal var maxDepth = 15
+        internal val maxDepth = 15
     }
-
-
 }

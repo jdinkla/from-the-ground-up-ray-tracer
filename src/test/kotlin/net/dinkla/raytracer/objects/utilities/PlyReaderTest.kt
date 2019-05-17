@@ -56,9 +56,8 @@ class PlyReaderTest {
         val material = Matte()
 
         // when
-        val plyReader = PlyReader(material)
-        val ply = plyReader.read(TestUtils.PLY_EXAMPLE)
-        val grid = ply.grid
+        val ply = Ply.fromFile(TestUtils.PLY_EXAMPLE, material = material)
+        val grid = ply.compound
 
         // then
         assertEquals(4, ply.numVertices)
@@ -78,9 +77,8 @@ class PlyReaderTest {
         val material = Matte()
 
         // when
-        val plyReader = PlyReader(material, isSmooth = true)
-        val ply = plyReader.read(TestUtils.PLY_EXAMPLE)
-        val grid = ply.grid
+        val ply = Ply.fromFile(TestUtils.PLY_EXAMPLE, material = material, isSmooth = true)
+        val grid = ply.compound
 
         // then
         assertEquals(4, ply.numVertices)

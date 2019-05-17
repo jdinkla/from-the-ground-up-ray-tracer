@@ -14,9 +14,7 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
 
-open class Grid : Compound {
-
-    val mesh: Mesh = Mesh()
+open class Grid : CompoundWithMesh() {
 
     protected var cells: Array<GeometricObject> = Array(0, { i -> NullObject() } )
 
@@ -24,13 +22,11 @@ open class Grid : Compound {
     protected var ny: Int = 0
     protected var nz: Int = 0
 
-    var multiplier: Double = 0.toDouble()
+    var multiplier: Double = 2.0
 
     protected var depth: Int = 0
 
-    constructor() : super() {
-        multiplier = 2.0
-        depth = 0
+    init {
         boundingBox = BBox()
     }
 

@@ -263,16 +263,16 @@ class GeometricObjectFactory extends AbstractFactory {
 //        return grid
 //    }
 
-    BeveledBox createBeveledBox(Map map) {
-        needs(map, "beveledBox", ["p0", "p1", "rb"])
-        boolean isWireFrame = false
-        if (null != map.wireFrame) {
-            isWireFrame = map.wireFrame 
-        }
-        BeveledBox bbox = new BeveledBox(map.p0, map.p1, map.rb, isWireFrame)
-        if (null != map.material) bbox.material = materials.get(map, "beveledBox")
-        return bbox
-    }
+//    BeveledBox createBeveledBox(Map map) {
+//        needs(map, "beveledBox", ["p0", "p1", "rb"])
+//        boolean isWireFrame = false
+//        if (null != map.wireFrame) {
+//            isWireFrame = map.wireFrame
+//        }
+//        BeveledBox bbox = new BeveledBox(map.p0, map.p1, map.rb, isWireFrame)
+//        if (null != map.material) bbox.material = materials.get(map, "beveledBox")
+//        return bbox
+//    }
 
 //    Torus createTorus(Map map) {
 //        needs(map, "torus", ["a", "b"])

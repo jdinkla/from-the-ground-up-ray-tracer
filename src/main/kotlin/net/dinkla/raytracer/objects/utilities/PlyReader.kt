@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.objects.acceleration.Grid.Companion.logInterval
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
@@ -10,13 +10,15 @@ import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class PlyReader(val material: IMaterial, val reverseNormal: Boolean = false, val isSmooth: Boolean = false) {
+class PlyReader(val material: IMaterial,
+                val reverseNormal: Boolean = false,
+                val isSmooth: Boolean = false,
+                val compound: CompoundWithMesh) {
 
-    val grid = Grid()
-    private val mesh = grid.mesh
+    private val mesh = compound.mesh
 
     init {
-        grid.material = material
+        compound.material = material
     }
 
     var isInHeader = true
@@ -43,9 +45,9 @@ class PlyReader(val material: IMaterial, val reverseNormal: Boolean = false, val
             handleLine(line)
         }
         if (isSmooth) {
-            mesh.computeMeshNormals(grid.objects as java.util.ArrayList<MeshTriangle>)
+            mesh.computeMeshNormals(compound.objects as java.util.ArrayList<MeshTriangle>)
         }
-        return Ply(numVerticesOrig, numFacesOrig, grid)
+        return Ply(numVerticesOrig, numFacesOrig, compound)
     }
 
     fun handleLine(line: String) {
@@ -69,7 +71,7 @@ class PlyReader(val material: IMaterial, val reverseNormal: Boolean = false, val
                 isElementFace(line) -> {
                     numFacesLeft = parseNumFaces(line)
                     numFacesOrig = numFacesLeft
-                    grid.objects.ensureCapacity(numFacesLeft)
+                    compound.objects.ensureCapacity(numFacesLeft)
                 }
             }
         } else {
@@ -109,7 +111,7 @@ class PlyReader(val material: IMaterial, val reverseNormal: Boolean = false, val
                     }
                     triangle.computeNormal(reverseNormal)
                     triangle.material = this.material
-                    grid.add(triangle)
+                    compound.add(triangle)
                     numFacesLeft--
                     countFaces++
                     if (numLine % logInterval == 0) {

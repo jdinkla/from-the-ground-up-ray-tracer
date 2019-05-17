@@ -9,6 +9,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
@@ -31,6 +32,7 @@ internal class ObjectsScopeTest {
     private val someVector3 = Vector3D(3.1, -2.1, 2.4)
     private val y0 = 1.0
     private val y1 = 2.0
+    private val someDouble = 1.23
 
     private val someMaterial = Matte()
     private val materials = mapOf(Pair(someMaterialId, someMaterial))
@@ -278,7 +280,6 @@ internal class ObjectsScopeTest {
         assertType<GeometricObject, Box>(scope.objects, 0)
         val created = scope.objects[0] as Box
         assertEquals(expected, created)
-
     }
 
     @Test
@@ -296,6 +297,24 @@ internal class ObjectsScopeTest {
         // then
         assertType<GeometricObject, Torus>(scope.objects, 0)
         val created = scope.objects[0] as Torus
+        assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle beveledBox`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+        val expected = BeveledBox(somePoint, somePoint2, someDouble).apply {
+            material = someMaterial
+        }
+
+        // when
+        scope.beveledBox(material = someMaterialId, p0 = somePoint, p1 = somePoint2, rb = someDouble)
+
+        // then
+        assertType<GeometricObject, BeveledBox>(scope.objects, 0)
+        val created = scope.objects[0] as BeveledBox
         assertEquals(expected, created)
     }
 

@@ -8,8 +8,13 @@ import net.dinkla.raytracer.objects.OpenCylinder
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 
-class BeveledBox(val p0: Point3D, val p1: Point3D, val rb: Double, isWiredFrame: Boolean) : Compound() {
+class BeveledBox(val p0: Point3D,
+                 val p1: Point3D,
+                 val rb: Double,
+                 val isWiredFrame: Boolean = false) : Compound() {
     init {
 
         val top_front_edge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top front edge
@@ -214,4 +219,11 @@ class BeveledBox(val p0: Point3D, val p1: Point3D, val rb: Double, isWiredFrame:
         }
     }
 
+    override fun equals(other: Any?): Boolean = this.equals<BeveledBox>(other) { a, b ->
+        a.p0 == b.p0 && a.p1 == b.p1 && a.rb == b.rb && a.isWiredFrame == b.isWiredFrame
+    }
+
+    override fun hashCode(): Int = this.hash(p0, p1, rb, isWiredFrame)
+
+    override fun toString(): String = "BeveledBox($p0, $p1, $rb, $isWiredFrame)"
 }

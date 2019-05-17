@@ -5,10 +5,13 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
+import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
+import net.dinkla.raytracer.objects.utilities.Ply
 import net.dinkla.raytracer.objects.utilities.PlyReader
 
 @Suppress("TooManyFunctions")
@@ -24,8 +27,20 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         compound.add(this)
     }
 
-    fun alignedBox(material: String, p: Point3D = Point3D.ORIGIN, q: Point3D = Point3D.ORIGIN) {
+    fun alignedBox(material: String,
+                   p: Point3D = Point3D.ORIGIN,
+                   q: Point3D = Point3D.ORIGIN) {
         AlignedBox(p, q).apply {
+            this.material = materials[material]
+        }.add()
+    }
+
+    fun beveledBox(material: String,
+                   p0: Point3D = Point3D.ORIGIN,
+                   p1: Point3D = Point3D.ORIGIN,
+                   rb: Double = 0.0,
+                   isWiredFrame : Boolean = false) {
+        BeveledBox(p0, p1, rb, isWiredFrame).apply {
             this.material = materials[material]
         }.add()
     }
@@ -40,7 +55,10 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         }.add()
     }
 
-    fun disk(material: String, center: Point3D = Point3D.ORIGIN, radius: Double = 0.0, normal: Normal = Normal.UP) {
+    fun disk(material: String,
+             center: Point3D = Point3D.ORIGIN,
+             radius: Double = 0.0,
+             normal: Normal = Normal.UP) {
         Disk(center, radius, normal).apply {
             this.material = materials[material]
         }.add()
@@ -53,7 +71,9 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         grid.add()
     }
 
-    fun instance(material: String, of: GeometricObject, block: InstanceScope.() -> Unit) {
+    fun instance(material: String,
+                 of: GeometricObject,
+                 block: InstanceScope.() -> Unit) {
         val instance = Instance(of)
         instance.apply {
             this.material = materials[material]
@@ -62,24 +82,31 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         instance.add()
     }
 
-    fun openCylinder(material: String, y0: Double = 0.0, y1: Double = 1.0, radius: Double = 0.0) {
+    fun openCylinder(material: String,
+                     y0: Double = 0.0,
+                     y1: Double = 1.0,
+                     radius: Double = 0.0) {
         OpenCylinder(y0, y1, radius).apply {
             this.material = materials[material]
         }.add()
     }
 
-    fun plane(material: String, point: Point3D = Point3D.ORIGIN, normal: Normal = Normal.UP) {
+    fun plane(material: String,
+              point: Point3D = Point3D.ORIGIN,
+              normal: Normal = Normal.UP) {
         Plane(point, normal).apply {
             this.material = materials[material]
         }.add()
     }
 
-    fun ply(material: String, fileName: String, isSmooth: Boolean = false) {
-        val reverseNormal = false // TODO ? WIT?
+    fun ply(material: String,
+            fileName: String,
+            isSmooth: Boolean = false,
+            reverseNormal: Boolean = false,
+            type: Acceleration = Acceleration.GRID) {
         val m = materials[material]!!
-        val plyReader = PlyReader(m, isSmooth = isSmooth)
-        val ply = plyReader.read(fileName)
-        ply.grid.add()
+        val ply = Ply.fromFile(fileName = fileName, reverseNormal = reverseNormal, material = m, isSmooth = isSmooth, type = type)
+        ply.compound.add()
     }
 
     fun rectangle(material: String,
