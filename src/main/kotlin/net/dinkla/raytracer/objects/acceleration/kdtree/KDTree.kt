@@ -4,14 +4,14 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
 
-class KDTree : CompoundWithMesh() {
-
-    var builder: IKDTreeBuilder = SpatialMedianBuilder()
-
-    var root: AbstractNode? = null
+class KDTree(
+        var builder: IKDTreeBuilder = SpatialMedianBuilder(),
+        var root: AbstractNode? = null) : CompoundWithMesh() {
 
     override fun initialize() {
         super.initialize()
@@ -22,7 +22,7 @@ class KDTree : CompoundWithMesh() {
         //        builder.setMaxDepth(n);
         root = builder.build(this, boundingBox)
         Statistics.statistics(this)
-        LOGGER.info(root!!.printBBoxes(0))
+        // LOGGER.info(root!!.printBBoxes(0))
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
@@ -32,8 +32,7 @@ class KDTree : CompoundWithMesh() {
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         Counter.count("KDTree.shadowHit")
-        val h = Hit()
-        h.t = tmin.t
+        val h = Hit(tmin.t)
         val b = hit(ray, h)
         tmin.t = h.t
         return b

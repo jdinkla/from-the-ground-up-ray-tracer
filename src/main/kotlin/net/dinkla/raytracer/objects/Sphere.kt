@@ -13,11 +13,10 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        var t: Double
         val temp = ray.origin - center
-        val a = ray.direction.dot(ray.direction)
-        val b = temp.times(2.0).dot(ray.direction)
-        val c = temp.dot(temp) - radius * radius
+        val a = ray.direction dot ray.direction
+        val b = (temp * 2.0) dot ray.direction
+        val c = (temp dot temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 
         if (disc < 0) {
@@ -25,16 +24,16 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         } else {
             val e = Math.sqrt(disc)
             val denom = 2 * a
-            t = (-b - e) / denom
+            var t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.direction.times(t).plus(temp).times(1.0 / radius))
+                sr.normal = Normal((ray.direction * t + temp) * (1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(ray.direction.times(t).plus(temp).times(1.0 / radius))
+                sr.normal = Normal(((ray.direction * t) + temp) * (1.0 / radius))
                 return true
             }
         }
@@ -42,11 +41,10 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        var t: Double
-        val temp = ray.origin.minus(center)
-        val a = ray.direction.dot(ray.direction)
-        val b = temp.times(2.0).dot(ray.direction)
-        val c = temp.dot(temp) - radius * radius
+        val temp = ray.origin - center
+        val a = ray.direction dot ray.direction
+        val b = temp * 2.0 dot ray.direction
+        val c = (temp dot temp) - radius * radius
         val disc = b * b - 4.0 * a * c
 
         if (disc < 0) {
@@ -54,7 +52,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         } else {
             val e = Math.sqrt(disc)
             val denom = 2 * a
-            t = (-b - e) / denom
+            var t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 tmin.t = t
                 return true
@@ -69,7 +67,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Sphere>(other) { a, b ->
-        a.center == b.center && a.radius == b.radius
+        a.center == b.center && a.radius == b.radius && a.material == b.material
     }
 
     override fun hashCode(): Int = this.hash(center, radius)

@@ -20,7 +20,7 @@ class Shade : Hit() {
         get() = ray.linear(t)
 
     val material: IMaterial?
-        get() = geometricObject!!.material
+        get() = geometricObject?.material
 
     init {
         this.depth = 0
@@ -28,4 +28,7 @@ class Shade : Hit() {
         this.geometricObject = null
     }
 
+    override fun toString(): String {
+        return "Shade($ray, $depth, $material)"
+    }
 }

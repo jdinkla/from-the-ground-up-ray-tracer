@@ -1,9 +1,13 @@
-package net.dinkla.raytracer.objects.acceleration.kdtree
+package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
+import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory

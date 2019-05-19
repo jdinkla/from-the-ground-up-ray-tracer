@@ -6,18 +6,13 @@ import java.util.concurrent.ConcurrentHashMap
 class Counter private constructor() {
 
     // For each thread-id there is a map
-    protected var instances: ConcurrentHashMap<Long, TreeMap<String, Int>>
-
-    init {
-        instances = ConcurrentHashMap()
-    }
+    protected var instances: ConcurrentHashMap<Long, TreeMap<String, Int>> = ConcurrentHashMap()
 
     companion object {
 
         internal val EMPTY = "                                                            "
-
         var PAUSE = false
-        protected val INSTANCE = Counter()
+        private val INSTANCE = Counter()
 
         fun count(key: String) {
             if (!PAUSE) {
@@ -27,18 +22,11 @@ class Counter private constructor() {
                     map = TreeMap()
                     INSTANCE.instances[id] = map
                 }
-                var c: Int? = map[key]
-                if (null == c) {
-                    c = 0
-                }
-                map[key] = c + 1
+                map[key] = (map[key] ?: 0) + 1
             }
         }
 
-        fun stats(columns: Int) {
-            val results = calculateStats()
-            printStats(results, columns)
-        }
+        fun stats(columns: Int) = printStats(calculateStats(), columns)
 
         private fun printStats(results: TreeMap<String, Int>, columns: Int) {
             println("Counter")
@@ -52,7 +40,7 @@ class Counter private constructor() {
         private fun calculateStats(): TreeMap<String, Int> {
             val results = TreeMap<String, Int>()
             for (id in INSTANCE.instances.keys) {
-                val map: TreeMap<String, Int>? = INSTANCE.instances[id!!]
+                val map: TreeMap<String, Int>? = INSTANCE.instances[id]
                 if (null != map) {
                     for (key in map.keys) {
                         val c: Int = results[key] ?: 0

@@ -9,6 +9,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
@@ -316,6 +317,28 @@ internal class ObjectsScopeTest {
         assertType<GeometricObject, BeveledBox>(scope.objects, 0)
         val created = scope.objects[0] as BeveledBox
         assertEquals(expected, created)
+    }
+
+    @Test
+    fun `should handle kdtree`() {
+        // given
+        val compound = Compound()
+        val scope = ObjectsScope(materials, compound)
+
+        // precondition
+        assertEquals(0, scope.objects.size)
+
+        // when
+        scope.kdtree() {
+            sphere(material = someMaterialId, center = somePoint, radius = someRadius)
+        }
+
+        // then
+        assertType<GeometricObject, KDTree>(scope.objects, 0)
+        val grid = scope.objects[0] as KDTree
+        assertType<GeometricObject, Sphere>(grid.objects, 0)
+        val sphere = grid.objects[0] as Sphere
+        assertEquals(Sphere(somePoint, someRadius).apply { material = someMaterial }, sphere)
     }
 
     @Test

@@ -1,25 +1,33 @@
-package net.dinkla.raytracer.objects.acceleration.kdtree
+package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
+import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class TestBuilder : IKDTreeBuilder {
+class Test2Builder : IKDTreeBuilder {
 
-    override var maxDepth = 30
+    override var maxDepth = 15
     var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): AbstractNode {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    class Partitioner(objects: ArrayList<GeometricObject>, voxel: BBox) {
+    class Partitioner(objects: List<GeometricObject>, voxel: BBox) {
 
         internal var root: Triple
+
+        var candidatesX: MutableSet<Double>
+        var candidatesY: MutableSet<Double>
+        var candidatesZ: Set<Double>
 
         val isFound: Boolean
             get() = true
@@ -29,12 +37,27 @@ class TestBuilder : IKDTreeBuilder {
             root.objects = objects
             root.bbox = voxel
             root.update()
+
+            candidatesX = TreeSet()
+            candidatesY = TreeSet()
+            candidatesZ = TreeSet()
+
+            for (`object` in objects) {
+                val bbox = `object`.boundingBox
+                val clipped = bbox.clipTo(voxel)
+                candidatesX.add(clipped.p.x)
+                candidatesY.add(clipped.p.y)
+                candidatesX.add(clipped.p.z)
+                candidatesX.add(clipped.q.x)
+                candidatesY.add(clipped.q.y)
+                candidatesX.add(clipped.q.z)
+            }
         }
 
         class Triple {
 
-            var bbox: BBox = BBox()
-            internal var objects: ArrayList<GeometricObject>? = null
+            var bbox: BBox? = null
+            internal var objects: List<GeometricObject>? = null
             internal var volume: Double = 0.toDouble()
 
             init {
@@ -42,8 +65,8 @@ class TestBuilder : IKDTreeBuilder {
             }
 
             fun update() {
-                bbox = BBox.create(objects!!)
-                volume = bbox.volume
+                //bbox = BBox.create(objects);
+                volume = bbox!!.volume
             }
         }
 
@@ -76,13 +99,16 @@ class TestBuilder : IKDTreeBuilder {
 
             fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
-                return (constF.toDouble()
-                        + left.volume / vol * left.objects!!.size
-                        + right.volume / vol * right.objects!!.size)
+                val fL = left.volume / vol
+                val fR = right.volume / vol
+                val sL = left.objects!!.size.toDouble()
+                val sR = right.objects!!.size.toDouble()
+                //                return (constF + fL * sL + fR * sR);
+                return (constF + fL * sL + fR * sR) * (5 * (sL + sR) / parent?.objects!!.size)
             }
 
             companion object {
-                val constF = 0.333334f
+                val constF = 0.333334
 
                 fun max(): Split {
                     val s = Split(null)
@@ -92,17 +118,15 @@ class TestBuilder : IKDTreeBuilder {
             }
         }
 
-        fun x(axis: Axis, num: Int): Split? {
+        fun x(axis: Axis, cs: Set<Double>): Split? {
             var min: Split? = null
-            val width = root.bbox.q.ith(axis) - root.bbox.p.ith(axis)
-            // divide interval in num parts
-            val step = width / (num + 1)
-            for (i in 1 until num) {
-                val split = root.bbox.p.ith(axis) + i * step
-                val s = calcSplit(axis, split, root)
-                if (s.isOk && (null == min || s.sah < min.sah)) {
-                    //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
-                    min = s
+            for (split in cs) {
+                if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
+                    val s = calcSplit(axis, split, root)
+                    if (s.isOk && (null == min || s.sah < min.sah)) {
+                        //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
+                        min = s
+                    }
                 }
             }
             return min
@@ -115,17 +139,20 @@ class TestBuilder : IKDTreeBuilder {
                 s.axis = axis
                 s.split = split
                 ListUtilities.splitByAxis(parent.objects!!, split, axis, s.left.objects!!.toMutableList(), s.right.objects!!.toMutableList())
+
+                s.left.bbox = parent.bbox!!.splitLeft(axis, split)
+                s.right.bbox = parent.bbox!!.splitRight(axis, split)
                 s.update()
                 return s
             }
         }
     }
 
-    fun build(objects: ArrayList<GeometricObject>?, voxel: BBox, depth: Int): AbstractNode {
+    fun build(objects: List<GeometricObject>?, voxel: BBox?, depth: Int): AbstractNode {
 
         Counter.count("KDtree.build")
 
-        var node: AbstractNode? = null
+        var node: AbstractNode?
 
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
@@ -135,13 +162,14 @@ class TestBuilder : IKDTreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val par = Partitioner(objects, voxel)
+        val par = Partitioner(objects, voxel
+                ?: BBox())
 
-        val sX = par.x(Axis.X, 3)
-        val sY = par.x(Axis.Y, 3)
-        val sZ = par.x(Axis.Z, 3)
+        val sX = par.x(Axis.X, par.candidatesX)
+        val sY = par.x(Axis.Y, par.candidatesY)
+        val sZ = par.x(Axis.Z, par.candidatesZ)
 
-        var split: Partitioner.Split? = null
+        var split: Partitioner.Split?
 
         if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {
@@ -156,6 +184,7 @@ class TestBuilder : IKDTreeBuilder {
                 split = sZ
             }
         }
+
         if (null == split) {
             LOGGER.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
@@ -168,7 +197,7 @@ class TestBuilder : IKDTreeBuilder {
             LOGGER.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
-            node = InnerNode(left, right, voxel, split.split, split.axis!!)
+            node = InnerNode(left, right, voxel!!, split.split, split.axis!!)
         }
 
         return node
@@ -180,15 +209,13 @@ class TestBuilder : IKDTreeBuilder {
         fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
             return if (x != null && y != null) {
                 x.sah < y.sah
+            } else if (x != null && y == null) {
+                true
             } else {
                 false
             }
         }
-
-        private fun weight(a: Int, b: Int, c: Int): Int {
-            return Math.abs(a - c / 2) + Math.abs(b - c / 2)
-        }
     }
-
 }
+
 

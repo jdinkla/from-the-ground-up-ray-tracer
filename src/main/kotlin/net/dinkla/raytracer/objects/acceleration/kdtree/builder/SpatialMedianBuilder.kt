@@ -1,9 +1,13 @@
-package net.dinkla.raytracer.objects.acceleration.kdtree
+package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
+import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -11,7 +15,7 @@ import java.util.*
 class SpatialMedianBuilder : IKDTreeBuilder {
 
     override var maxDepth = 15
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): AbstractNode {
         return build(tree.objects, tree.boundingBox, 0)
@@ -51,13 +55,13 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             val p2 = Point3D(mid.x, voxel.p.y, voxel.p.z)
             voxelR = BBox(p2, voxel.q)
 
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
+            for (geometricObject in objects) {
+                val bbox = geometricObject.boundingBox
                 if (bbox.p.x <= split) {
-                    objectsL.add(`object`)
+                    objectsL.add(geometricObject)
                 }
                 if (bbox.q.x >= split) {
-                    objectsR.add(`object`)
+                    objectsR.add(geometricObject)
                 }
             }
 
@@ -71,13 +75,13 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             val p2 = Point3D(voxel.p.x, mid.y, voxel.p.z)
             voxelR = BBox(p2, voxel.q)
 
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
+            for (geometricObject in objects) {
+                val bbox = geometricObject.boundingBox
                 if (bbox.p.y <= split) {
-                    objectsL.add(`object`)
+                    objectsL.add(geometricObject)
                 }
                 if (bbox.q.y >= split) {
-                    objectsR.add(`object`)
+                    objectsR.add(geometricObject)
                 }
             }
         } else if (depth % 3 == 2) {
@@ -90,13 +94,13 @@ class SpatialMedianBuilder : IKDTreeBuilder {
             val p2 = Point3D(voxel.p.x, voxel.p.y, mid.z)
             voxelR = BBox(p2, voxel.q)
 
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
+            for (geometricObject in objects) {
+                val bbox = geometricObject.boundingBox
                 if (bbox.p.z <= split) {
-                    objectsL.add(`object`)
+                    objectsL.add(geometricObject)
                 }
                 if (bbox.q.z >= split) {
-                    objectsR.add(`object`)
+                    objectsR.add(geometricObject)
                 }
             }
         }

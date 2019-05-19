@@ -43,9 +43,7 @@ class Statistics {
         }
 
         fun statistics(tree: KDTree) {
-
             val s = Statistics()
-
             cs(tree.root, s, 0)
 
             println("num objects=" + tree.size())
@@ -59,7 +57,6 @@ class Statistics {
             println("depthsNodes")
             s.depthsNodes.println()
 
-
             println("numChildrenInLeafs")
             s.numChildrenInLeafs.println()
 
@@ -71,7 +68,6 @@ class Statistics {
             // Histogram Knoten in Leafs
             // Histogram Object in Knoten (shared objects)
             // Histogramm Knoten pro Tiefe
-
         }
     }
 }

@@ -23,17 +23,9 @@ class Leaf(objects: List<GeometricObject>) : AbstractNode() {
         compound.initialize()
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
-        return compound.hit(ray, sr)
-    }
+    override fun hit(ray: Ray, sr: Hit): Boolean = compound.hit(ray, sr)
 
-    override fun size(): Int {
-        return compound.size()
-    }
-
-    override fun toString(): String {
-        return "Leaf " + size() + " " + boundingBox
-    }
+    override fun size(): Int = compound.size()
 
     override fun printBBoxes(incr: Int): String {
         val sb = StringBuilder()
@@ -43,4 +35,6 @@ class Leaf(objects: List<GeometricObject>) : AbstractNode() {
         sb.append("-")
         return sb.toString()
     }
+
+    override fun toString(): String = "Leaf(${size()}, ${boundingBox}"
 }

@@ -31,7 +31,8 @@ builder.world(id: "World75") {
 
     objects {
         //plane(point: p(0,0,0), normal: n(0, 1, 0), material: "white")
-        kdtree(builder: Simple2Builder) {
+        // kdtree(builder: Simple2Builder) {
+        kdtree {
             for (int k=0; k<NUM; k++) {
                 for (int j=0; j<NUM; j++) {
                     for (int i=0; i<NUM; i++) {
