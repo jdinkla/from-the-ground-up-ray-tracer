@@ -6,7 +6,10 @@ import net.dinkla.raytracer.math.Random
 
 import java.util.ArrayList
 
-class Sampler(protected var sampler: IGenerator, protected var numSamples: Int, protected var numSets: Int) {
+class Sampler(
+        protected var sampler: IGenerator = Jittered,
+        protected var numSamples: Int = 100,
+        protected var numSets: Int = 10) {
 
     protected var shuffledIndices: ArrayList<Int>
     protected var samples: ArrayList<Point2D>

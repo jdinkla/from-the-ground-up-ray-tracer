@@ -53,7 +53,6 @@ class Instance(private val geometricObject: GeometricObject,
                 v[i] = trans.forwardMatrix * p
             }
             val (x0, y0, z0) = minimum(v, 8)
-
             val (x1, y1, z1) = maximum(v, 8)
             return BBox(Point3D(x0, y0, z0), Point3D(x1, y1, z1))
         }

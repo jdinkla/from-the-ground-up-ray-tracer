@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Vector3D
 class Shade : Hit() {
 
     // for specular highlights, set by Tracer
-    var ray: Ray
+    var ray: Ray = Ray(Point3D.ORIGIN, Vector3D.ZERO)
 
     // Recursion depth, set by tracer
     var depth: Int = 0
@@ -23,9 +23,7 @@ class Shade : Hit() {
         get() = geometricObject?.material
 
     init {
-        this.depth = 0
-        this.ray = Ray(Point3D.ORIGIN, Vector3D.ZERO)
-        this.geometricObject = null
+        geometricObject = null
     }
 
     override fun toString(): String {

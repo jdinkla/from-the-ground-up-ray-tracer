@@ -81,41 +81,76 @@ object PointUtilities {
     }
 
     fun minCoordinates(objects: ArrayList<GeometricObject>): Point3D {
-        var x = java.lang.Double.POSITIVE_INFINITY
-        var y = java.lang.Double.POSITIVE_INFINITY
-        var z = java.lang.Double.POSITIVE_INFINITY
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            if (bbox.p.x < x) {
-                x = bbox.p.x
+        var minX = java.lang.Double.POSITIVE_INFINITY
+        var minY = java.lang.Double.POSITIVE_INFINITY
+        var minZ = java.lang.Double.POSITIVE_INFINITY
+        for (geometricObject in objects) {
+            val bbox = geometricObject.boundingBox
+            if (bbox.p.x < minX) {
+                minX = bbox.p.x
             }
-            if (bbox.p.y < y) {
-                y = bbox.p.y
+            if (bbox.p.y < minY) {
+                minY = bbox.p.y
             }
-            if (bbox.p.z < z) {
-                z = bbox.p.z
+            if (bbox.p.z < minZ) {
+                minZ = bbox.p.z
             }
         }
-        return Point3D(x - MathUtils.K_EPSILON, y - MathUtils.K_EPSILON, z - MathUtils.K_EPSILON)
+        return Point3D(minX - MathUtils.K_EPSILON, minY - MathUtils.K_EPSILON, minZ - MathUtils.K_EPSILON)
     }
 
     fun maxCoordinates(objects: ArrayList<GeometricObject>): Point3D {
-        var x = java.lang.Double.NEGATIVE_INFINITY
-        var y = java.lang.Double.NEGATIVE_INFINITY
-        var z = java.lang.Double.NEGATIVE_INFINITY
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            if (bbox.q.x > x) {
-                x = bbox.q.x
+        var maxX = java.lang.Double.NEGATIVE_INFINITY
+        var maxY = java.lang.Double.NEGATIVE_INFINITY
+        var maxZ = java.lang.Double.NEGATIVE_INFINITY
+        for (geometricObject in objects) {
+            val bbox = geometricObject.boundingBox
+            if (bbox.q.x > maxX) {
+                maxX = bbox.q.x
             }
-            if (bbox.q.y > y) {
-                y = bbox.q.y
+            if (bbox.q.y > maxY) {
+                maxY = bbox.q.y
             }
-            if (bbox.q.z > z) {
-                z = bbox.q.z
+            if (bbox.q.z > maxZ) {
+                maxZ = bbox.q.z
             }
         }
-        return Point3D(x + MathUtils.K_EPSILON, y + MathUtils.K_EPSILON, z + MathUtils.K_EPSILON)
+        return Point3D(maxX + MathUtils.K_EPSILON, maxY + MathUtils.K_EPSILON, maxZ + MathUtils.K_EPSILON)
     }
+
+    fun minMaxCoordinates(objects: ArrayList<GeometricObject>): Pair<Point3D, Point3D> {
+        var minX = java.lang.Double.POSITIVE_INFINITY
+        var minY = java.lang.Double.POSITIVE_INFINITY
+        var minZ = java.lang.Double.POSITIVE_INFINITY
+        var maxX = java.lang.Double.NEGATIVE_INFINITY
+        var maxY = java.lang.Double.NEGATIVE_INFINITY
+        var maxZ = java.lang.Double.NEGATIVE_INFINITY
+        for (geometricObject in objects) {
+            val bbox = geometricObject.boundingBox
+            if (bbox.p.x < minX) {
+                minX = bbox.p.x
+            }
+            if (bbox.p.y < minY) {
+                minY = bbox.p.y
+            }
+            if (bbox.p.z < minZ) {
+                minZ = bbox.p.z
+            }
+            if (bbox.q.x > maxX) {
+                maxX = bbox.q.x
+            }
+            if (bbox.q.y > maxY) {
+                maxY = bbox.q.y
+            }
+            if (bbox.q.z > maxZ) {
+                maxZ = bbox.q.z
+            }
+        }
+        return Pair(
+                Point3D(minX - MathUtils.K_EPSILON, minY - MathUtils.K_EPSILON, minZ - MathUtils.K_EPSILON),
+                Point3D(maxX + MathUtils.K_EPSILON, maxY + MathUtils.K_EPSILON, maxZ + MathUtils.K_EPSILON)
+        )
+    }
+
 
 }

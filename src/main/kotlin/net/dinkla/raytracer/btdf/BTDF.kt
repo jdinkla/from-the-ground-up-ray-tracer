@@ -6,12 +6,11 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 
 abstract class BTDF {
-    internal var sampler: Sampler? = null
 
-    class Sample {
-        var color: Color? = null
-        var wt: Vector3D? = null
-    }
+    class Sample(
+            val color: Color = Color.WHITE,
+            val wt: Vector3D = Vector3D.ZERO
+    )
 
     abstract fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color
     abstract fun sampleF(sr: Shade, wo: Vector3D): Sample

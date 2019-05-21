@@ -16,9 +16,8 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BTDF.Sample {
-        val result = Sample()
         var n = sr.normal
-        var cosThetaI = n.dot(wo)
+        var cosThetaI = n dot wo
         var eta = ior
         if (cosThetaI < 0) {
             cosThetaI = -cosThetaI
@@ -27,16 +26,15 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
         }
         val cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta)
         val cosThetaT = Math.sqrt(cosThetaTSqr)
-        result.wt = wo.times(-eta).minus(n.times(cosThetaT - cosThetaI / eta))
+        val wt = (wo * -eta) - n * (cosThetaT - cosThetaI / eta)
         val f1 = kt / (eta * eta)
-        val f2 = sr.normal.dot(result.wt!!)
-        result.color = Color.WHITE.times(f1 / Math.abs(f2))
-        return result
+        val f2 = sr.normal dot wt
+        return Sample(wt = wt, color = Color.WHITE.times(f1 / Math.abs(f2)))
     }
 
     override fun isTir(sr: Shade): Boolean {
-        val wo = sr.ray.direction.times(-1.0)
-        val cosThetaI = wo.dot(sr.normal)
+        val wo = sr.ray.direction * -1.0
+        val cosThetaI = wo dot sr.normal
         var eta = ior
         if (cosThetaI < 0) {
             eta = 1.0 / eta

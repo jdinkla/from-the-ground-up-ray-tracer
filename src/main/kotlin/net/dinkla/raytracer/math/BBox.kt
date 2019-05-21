@@ -1,6 +1,8 @@
 package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.objects.GeometricObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
@@ -100,73 +102,71 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
 
     fun hit(ray: Ray): Boolean {
-
-        val tx_min: Double
-        val ty_min: Double
-        val tz_min: Double
-        val tx_max: Double
-        val ty_max: Double
-        val tz_max: Double
+        val txMin: Double
+        val tyMin: Double
+        val tzMin: Double
+        val txMax: Double
+        val tyMax: Double
+        val tzMax: Double
 
         val a = 1.0 / ray.direction.x
         if (a >= 0) {
-            tx_min = (p.x - ray.origin.x) * a
-            tx_max = (q.x - ray.origin.x) * a
+            txMin = (p.x - ray.origin.x) * a
+            txMax = (q.x - ray.origin.x) * a
         } else {
-            tx_min = (q.x - ray.origin.x) * a
-            tx_max = (p.x - ray.origin.x) * a
+            txMin = (q.x - ray.origin.x) * a
+            txMax = (p.x - ray.origin.x) * a
         }
 
         val b = 1.0 / ray.direction.y
         if (b >= 0) {
-            ty_min = (p.y - ray.origin.y) * b
-            ty_max = (q.y - ray.origin.y) * b
+            tyMin = (p.y - ray.origin.y) * b
+            tyMax = (q.y - ray.origin.y) * b
         } else {
-            ty_min = (q.y - ray.origin.y) * b
-            ty_max = (p.y - ray.origin.y) * b
+            tyMin = (q.y - ray.origin.y) * b
+            tyMax = (p.y - ray.origin.y) * b
         }
 
         val c = 1.0 / ray.direction.z
         if (c >= 0) {
-            tz_min = (p.z - ray.origin.z) * c
-            tz_max = (q.z - ray.origin.z) * c
+            tzMin = (p.z - ray.origin.z) * c
+            tzMax = (q.z - ray.origin.z) * c
         } else {
-            tz_min = (q.z - ray.origin.z) * c
-            tz_max = (p.z - ray.origin.z) * c
+            tzMin = (q.z - ray.origin.z) * c
+            tzMax = (p.z - ray.origin.z) * c
         }
 
         var t0: Double
         var t1: Double
 
         // find largest entering t value
-        t0 = if (tx_min > ty_min) {
-            tx_min
+        t0 = if (txMin > tyMin) {
+            txMin
         } else {
-            ty_min
+            tyMin
         }
 
-        if (tz_min > t0) {
-            t0 = tz_min
+        if (tzMin > t0) {
+            t0 = tzMin
         }
 
         // find smallest exiting t value
-        t1 = if (tx_max < ty_max) {
-            tx_max
+        t1 = if (txMax < tyMax) {
+            txMax
         } else {
-            ty_max
+            tyMax
         }
-        if (tz_max < t1) {
-            t1 = tz_max
+        if (tzMax < t1) {
+            t1 = tzMax
         }
 
         return t0 < t1 && t1 > MathUtils.K_EPSILON
     }
 
     private fun isContainedIn(bbox: BBox): Boolean {
-        val bX = bbox.p.x <= p.x && q.x <= bbox.q.x
-        val bY = bbox.p.y <= p.y && q.y <= bbox.q.y
-        val bZ = bbox.p.z <= p.z && q.z <= bbox.q.z
-        return bX && bY && bZ
+        return bbox.p.x <= p.x && q.x <= bbox.q.x
+                && bbox.p.y <= p.y && q.y <= bbox.q.y
+                && bbox.p.z <= p.z && q.z <= bbox.q.z
     }
 
     fun clipTo(bbox: BBox): BBox {
@@ -201,19 +201,17 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     override fun equals(other: Any?): Boolean {
-        return if (other == null || other !is BBox ) {
+        return if (other == null || other !is BBox) {
             false
         } else {
-            val o = other as BBox?
-            p == o!!.p && q == o.q
+            val o = other as BBox
+            p == o.p && q == o.q
         }
     }
 
-    override fun hashCode(): Int = 31 * p.hashCode() + q.hashCode()
+    override fun hashCode(): Int = Objects.hash(p, q)
 
-    override fun toString(): String {
-        return "BBox " + p.toString() + "-" + q.toString()
-    }
+    override fun toString(): String = "BBox($p, $q)"
 
     companion object {
 
@@ -283,10 +281,11 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         }
 
         fun create(objects: ArrayList<GeometricObject>): BBox {
-            return if (objects.size > 0) {
-                BBox(PointUtilities.minCoordinates(objects), PointUtilities.maxCoordinates(objects))
+            if (objects.size > 0) {
+                val (p0, p1) = PointUtilities.minMaxCoordinates(objects)
+                return BBox(p0, p1)
             } else {
-                BBox()
+                return BBox()
             }
         }
     }

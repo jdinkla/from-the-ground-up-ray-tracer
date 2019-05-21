@@ -4,8 +4,7 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
     constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    // TODO ugly
-    constructor(e: Element3D?) : this(e?.x ?: 0.0, e?.y ?: 0.0, e?.z ?: 0.0)
+    constructor(e: Element3D) : this(e.x, e.y, e.z)
 
     operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z)
 
@@ -20,9 +19,7 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         else x * v.x + y * v.y + z * v.z
     }
 
-    infix fun cross(v: Vector3D): Vector3D {
-        return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x)
-    }
+    infix fun cross(v: Vector3D): Vector3D = Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x)
 
     fun normalize(): Vector3D {
         val l = length()

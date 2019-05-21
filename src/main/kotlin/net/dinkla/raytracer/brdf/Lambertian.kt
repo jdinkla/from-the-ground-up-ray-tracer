@@ -12,13 +12,13 @@ import java.util.*
 
 class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF() {
 
-    override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color = cd.getColor(sr).times(kd * INV_PI)
+    override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color = cd.getColor(sr) * (kd * INV_PI)
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
         throw RuntimeException("Lambertian.sampleF")
     }
 
-    override fun rho(sr: Shade, wo: Vector3D): Color = cd.getColor(sr).times(kd)
+    override fun rho(sr: Shade, wo: Vector3D): Color = cd.getColor(sr) * kd
 
     override fun equals(other: Any?): Boolean = if (other != null && other is Lambertian) {
         kd.equals(other.kd) && cd.equals(other.cd)

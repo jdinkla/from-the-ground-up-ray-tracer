@@ -13,14 +13,11 @@ class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF(
     }
 
     override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
-        val result = Sample()
         val normal = sr.normal
         val nDotWo = normal dot wo
         val wi = -wo + (sr.normal * (2.0 * nDotWo))
-        result.wi = wi
         val nDotWi = normal dot wi
-        result.color = cr * (kr / Math.abs(nDotWi))
-        return result
+        return Sample(wi = wi, color = cr * (kr / Math.abs(nDotWi)), pdf = 1.0)
     }
 
     override fun rho(sr: Shade, wo: Vector3D): Color {

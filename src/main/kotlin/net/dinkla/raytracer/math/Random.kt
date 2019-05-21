@@ -8,10 +8,8 @@ object Random {
 
     fun int(low: Int, high: Int): Int = r.nextInt(high - low) + low
 
-    // TODO rename double
     fun double(): Double = r.nextDouble()
 
-    // TODO rename double
     fun double(low: Double, high: Double): Double = r.nextDouble() * (high - low) + low
 
     fun setRandSeed(seed: Int) {

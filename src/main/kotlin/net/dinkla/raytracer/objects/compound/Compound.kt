@@ -142,8 +142,7 @@ open class Compound : GeometricObject() {
     fun calcBoundingBox() {
         boundingBox = BBox()
         if (objects.size > 0) {
-            val p0 = PointUtilities.minCoordinates(objects)
-            val p1 = PointUtilities.maxCoordinates(objects)
+            val (p0, p1) = PointUtilities.minMaxCoordinates(objects)
             boundingBox = BBox(p0, p1)
         } else {
             boundingBox = BBox()

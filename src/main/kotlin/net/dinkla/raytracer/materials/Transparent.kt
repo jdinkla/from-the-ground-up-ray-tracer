@@ -60,21 +60,21 @@ class Transparent : Phong {
         val wo = sr.ray.direction.times(-1.0)
         val brdf = reflectiveBRDF.sampleF(sr, wo)
         // trace reflected ray
-        val reflectedRay = Ray(sr.hitPoint, brdf.wi!!)
+        val reflectedRay = Ray(sr.hitPoint, brdf.wi)
         val cr = world.tracer.trace(reflectedRay, sr.depth + 1)
         if (specularBTDF.isTir(sr)) {
             l = l.plus(cr)
         } else {
             // reflected
-            val cfr = Math.abs(sr.normal.dot(brdf.wi!!))
-            l = l.plus(brdf.color!!.times(cr).times(cfr))
+            val cfr = Math.abs(sr.normal.dot(brdf.wi))
+            l = l.plus((brdf.color * cr) * cfr)
 
             // trace transmitted ray
             val btdf = specularBTDF.sampleF(sr, wo)
-            val transmittedRay = Ray(sr.hitPoint, btdf.wt!!)
+            val transmittedRay = Ray(sr.hitPoint, btdf.wt)
             val ct = world.tracer.trace(transmittedRay, sr.depth + 1)
-            val cft = Math.abs(sr.normal.dot(btdf.wt!!))
-            l = l.plus(btdf.color!!.times(ct).times(cft))
+            val cft = Math.abs(sr.normal.dot(btdf.wt))
+            l = l.plus(btdf.color.times(ct).times(cft))
         }
         return l
     }
