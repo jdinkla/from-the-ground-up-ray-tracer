@@ -1,21 +1,25 @@
-import Deps.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val junitVersion = "5.5.0"
+val javafxVersion = "11-ea+25"
+val logbackVersion = "1.2.3"
+val coroutinesVersion = "1.1.1"
+
 plugins {
-    kotlin("jvm") version Deps.kotlinVersion
-    id("io.gitlab.arturbosch.detekt").version(Deps.detektVersion)
+    kotlin("jvm") version  "1.3.41"
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC16")
     idea
 }
 
 dependencies {
     compile(kotlin("stdlib"))
-    compile(group = "ch.qos.logback", name = "logback-classic", version = Deps.logbackVersion)
+    compile(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + Deps.coroutinesVersion)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:" + Deps.coroutinesVersion)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:" + Deps.junitVersion)
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:" + Deps.junitVersion)
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 
