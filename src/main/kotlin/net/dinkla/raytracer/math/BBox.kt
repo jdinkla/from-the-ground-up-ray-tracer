@@ -204,8 +204,8 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         return if (other == null || other !is BBox) {
             false
         } else {
-            val o = other as BBox
-            p == o.p && q == o.q
+            val bbox: BBox = other as BBox
+            p == bbox.p && q == bbox.q
         }
     }
 

@@ -248,14 +248,14 @@ open class Grid : CompoundWithMesh() {
         var iz: Int
 
         if (boundingBox.inside(ray.origin)) {              // does the ray start inside the grid?
-            ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
-            iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
-            iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
+            ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
+            iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
+            iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
         } else {
             val p = ray.linear(t0)  // initial hit point with grid's bounding box
-            ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
-            iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
-            iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
+            ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
+            iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
+            iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
         }
 
         // ray parameter increments per cell in the x, y, and z directions

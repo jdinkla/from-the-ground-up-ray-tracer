@@ -49,7 +49,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
             val wi = light.getDirection(sr)
-            val nDotWi = wi.dot(sr.normal)
+            val nDotWi = wi dot sr.normal
             if (nDotWi > 0) {
                 var inShadow = false
                 if (light.shadows) {
@@ -59,8 +59,8 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
                 if (!inShadow) {
                     val f = diffuseBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val flndotwi = f.times(l).times(nDotWi)
-                    L = L.plus(flndotwi)
+                    val flndotwi = (f * l) * nDotWi
+                    L += flndotwi
                 }
             }
         }
@@ -90,7 +90,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
             if (light1 is AreaLight) {
                 val ls = light1.getSamples(sr)
                 for (sample in ls) {
-                    val nDotWi = sample.wi!!.dot(sr.normal)
+                    val nDotWi = sample.wi!! dot sr.normal
                     if (nDotWi > 0) {
                         var inShadow = false
                         if (light1.shadows) {
@@ -100,10 +100,10 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
                         if (!inShadow) {
                             val f = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            val flndotwi = f.times(l).times(nDotWi)
+                            val flndotwi = (f * l) * nDotWi
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = flndotwi.times(f1)
+                            val T = flndotwi * f1
                             S.plus(T)
                         }
                     }
@@ -117,7 +117,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
     protected fun getAmbientColor(world: World, sr: Shade, wo: Vector3D): Color {
         val c1 = ambientBRDF.rho(sr, wo)
         val c2 = world.ambientLight.L(world, sr)
-        return c1.times(c2)
+        return c1 * c2
     }
 
     override fun getLe(sr: Shade): Color {

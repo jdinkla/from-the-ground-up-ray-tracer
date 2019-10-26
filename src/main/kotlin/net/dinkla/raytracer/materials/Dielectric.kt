@@ -29,15 +29,15 @@ class Dielectric : Phong() {
         val t = WrappedDouble.createMax()
         val sample = fresnelBrdf.sampleF(sr, wo)
         val reflectedRay = Ray(sr.hitPoint, sample.wi)
-        val nDotWi = sr.normal.dot(sample.wi)
+        val nDotWi = sr.normal dot sample.wi
 
         if (fresnelBtdf.isTir(sr)) {
             val lr = world.tracer.trace(reflectedRay, t, sr.depth + 1)
             if (nDotWi < 0) {
                 // reflected ray is inside
-                L = L.plus(cfIn.pow(t.value).times(lr))
+                L += cfIn.pow(t.value) * lr
             } else {
-                L = L.plus(cfOut.pow(t.value).times(lr))
+                L += cfOut.pow(t.value) * lr
             }
         } else {
             // no total internal reflection
@@ -47,27 +47,27 @@ class Dielectric : Phong() {
             if (nDotWi < 0) {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1.times(Math.abs(nDotWi))
-                val lr = sample.color.times(c2)
-                L = L.plus(cfIn.pow(t.value).times(lr))
+                val c2 = c1 * Math.abs(nDotWi)
+                val lr = sample.color * c2
+                L += cfIn.pow(t.value) * lr
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3.times(Math.abs(nDotWt))
-                val lt = sampleT.color.times(c4)
-                L = L.plus(cfOut.pow(t.value).times(lt))
+                val c4 = c3 * Math.abs(nDotWt)
+                val lt = sampleT.color * c4
+                L += cfOut.pow(t.value) * lt
             } else {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1.times(Math.abs(nDotWi))
-                val lr = sample.color.times(c2)
-                L = L.plus(cfOut.pow(t.value).times(lr))
+                val c2 = c1 * Math.abs(nDotWi)
+                val lr = sample.color * c2
+                L += cfOut.pow(t.value) * lr
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3.times(Math.abs(nDotWt))
-                val lt = sampleT.color.times(c4)
-                L = L.plus(cfIn.pow(t.value).times(lt))
+                val c4 = c3.times(s = Math.abs(nDotWt))
+                val lt = sampleT.color * c4
+                L += cfIn.pow(t.value) * lt
             }
         }
         return L
