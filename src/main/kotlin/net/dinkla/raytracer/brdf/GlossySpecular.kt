@@ -27,7 +27,7 @@ class GlossySpecular(
         val nDotWo = sr.normal dot wo
         val r = -wo + (sr.normal * (2 * nDotWo))
         val u = (Vector3D(0.00424, 1.0, 0.00764) cross r).normalize()
-        val v = u.cross(r)
+        val v = u cross r
         val sp = sampler.sampleHemisphere()
         var wi = ((u * sp.x) + v * sp.y) + r * sp.z
         val nDotWi = sr.normal dot wi
