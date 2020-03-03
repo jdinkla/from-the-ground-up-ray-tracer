@@ -7,7 +7,7 @@ val coroutinesVersion = "1.1.1"
 
 plugins {
     kotlin("jvm") version  "1.3.41"
-    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC16")
+    id("io.gitlab.arturbosch.detekt").version("1.6.0")
     idea
 }
 
@@ -46,7 +46,6 @@ tasks.withType<Test> {
 
 detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
-    filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt-config.yml")
 }
 
