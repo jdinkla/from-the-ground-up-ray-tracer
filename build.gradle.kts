@@ -6,22 +6,24 @@ val logbackVersion = "1.2.3"
 val coroutinesVersion = "1.1.1"
 
 plugins {
-    kotlin("jvm") version  "1.3.41"
+    kotlin("jvm") version  "1.3.41"  // TODO update
     id("io.gitlab.arturbosch.detekt").version("1.6.0")
+    id("org.openjfx.javafxplugin").version("0.0.8")
     idea
 }
 
 dependencies {
+
     compile(kotlin("stdlib"))
     compile(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:" + Deps.coroutinesVersion)
+    implementation("org.openjfx:javafx:11.0.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
-
 
 repositories {
     jcenter()
@@ -31,11 +33,11 @@ repositories {
 }
 
 val compileKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 val compileTestKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 tasks.withType<Test> {
@@ -58,4 +60,10 @@ task<JavaExec>("commandline") {
 task<JavaExec>("javafx") {
     main = "net.dinkla.raytracer.gui.FromTheGroundUpRayTracer"
     classpath = sourceSets["main"].runtimeClasspath
+    args = listOf("--add-modules=javafx.controls,javafx.base,javafx.graphics")
+}
+
+javafx {
+    version = "11.0.2"
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.base")
 }
