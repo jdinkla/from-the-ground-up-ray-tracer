@@ -3,25 +3,22 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val junitVersion = "5.5.0"
 val javafxVersion = "11-ea+25"
 val logbackVersion = "1.2.3"
-val coroutinesVersion = "1.1.1"
+val coroutinesVersion = "1.3.3"
 
 plugins {
-    kotlin("jvm") version  "1.3.41"
+    kotlin("jvm") version  "1.3.70"
     id("io.gitlab.arturbosch.detekt").version("1.6.0")
     idea
 }
 
 dependencies {
-    compile(kotlin("stdlib"))
-    compile(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
-
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:" + Deps.coroutinesVersion)
+    implementation(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
-
 
 repositories {
     jcenter()

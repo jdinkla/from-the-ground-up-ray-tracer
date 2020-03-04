@@ -82,6 +82,13 @@ Requirements
 
 Java 8 SDK is needed.
 
+On a Mac use something similiar to the following:
+
+```sh
+$ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home
+$ ./gradlew javafx
+```
+
 Keywords
 --------
 ray tracing, rendering, Java, Groovy, DSL, ambient occlusion
