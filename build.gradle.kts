@@ -13,13 +13,10 @@ plugins {
 }
 
 dependencies {
-
-    compile(kotlin("stdlib"))
-    compile(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
-
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:" + Deps.coroutinesVersion)
     implementation("org.openjfx:javafx:11.0.2")
+    implementation(group = "ch.qos.logback", name = "logback-classic", version = logbackVersion)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
@@ -49,6 +46,7 @@ tasks.withType<Test> {
 detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("detekt-config.yml")
+
 }
 
 task<JavaExec>("commandline") {
@@ -60,10 +58,10 @@ task<JavaExec>("commandline") {
 task<JavaExec>("javafx") {
     main = "net.dinkla.raytracer.gui.FromTheGroundUpRayTracer"
     classpath = sourceSets["main"].runtimeClasspath
-    args = listOf("--add-modules=javafx.controls,javafx.base,javafx.graphics")
+    args = listOf("--module-path=${project.projectDir}/javafx-sdk-11.0./lib")
 }
 
 javafx {
     version = "11.0.2"
-    modules = listOf("javafx.controls", "javafx.graphics", "javafx.base")
+    modules = listOf("javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.swing")
 }

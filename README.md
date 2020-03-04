@@ -75,12 +75,12 @@ Some examples require PLY files that are available on the net.
 
 Here is another example:
 
-![Rendered image](http://dinkla.net/images/rendered/VariousObjectsWithReflections.png)
+![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.png)
 
 Requirements
 --------
 
-Java 8 SDK is needed.
+[Java 11 SDK](https://adoptopenjdk.net) and [JavaFX 11.0.2](https://openjfx.io) are needed.
 
 Keywords
 --------
@@ -88,7 +88,7 @@ ray tracing, rendering, Java, Groovy, DSL, ambient occlusion
 
 Author
 ------
-Written by [Jörn Dinkla](http://www.dinkla.net).
+Written by [Jörn Dinkla](https://www.dinkla.net).
 
 Remarks
 -------
