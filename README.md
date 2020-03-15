@@ -1,9 +1,8 @@
 Ray Tracer in Kotlin
 =============================
 
-*Remark*: This project is currently rewritten from Java and Groovy to Kotlin. The old code with Java and 
-Groovy is available in the branch `groovy-java`. It is not fully functional at the moment. There is a JavaFX interface 
-and some example worlds written in Kotlin DSL.
+*Remark*: This project was migrated rom Java and Groovy to Kotlin. The old code with Java and 
+Groovy is available in the branch `groovy-java`. 
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
@@ -18,7 +17,7 @@ by Kevin Suffern I
 For easier manipulation of scenes I implemented a DSL for scenes.
 
 The following image
-![Rendered image](http://dinkla.net/images/rendered/BasicExample.png)
+![Rendered image](https://jdinkla.github.io/images/rendered/BasicExample.png)
 
 is described by the following Kotlin program: 
 
@@ -66,28 +65,19 @@ See [my homepage for further information](http://dinkla.net/de/programming/groov
 Start with
 
 ```
-$ gradle javafx
+$ ./gradlew swing
 ```
 
-Then choose an example from the `examples` directory.
-
-Some examples require PLY files that are available on the net.
+Then choose an example and press `render`. Some examples require PLY files that are available on the net.
 
 Here is another example:
 
-![Rendered image](http://dinkla.net/images/rendered/VariousObjectsWithReflections.png)
+![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.png)
 
 Requirements
 --------
 
-Java 8 SDK is needed.
-
-On a Mac use something similiar to the following:
-
-```sh
-$ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home
-$ ./gradlew javafx
-```
+The Swing user interface runs with all Java versions.
 
 Keywords
 --------
