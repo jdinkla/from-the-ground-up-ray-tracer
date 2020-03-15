@@ -9,9 +9,15 @@ class ViewPlane(val resolution: Resolution) : IColorCorrector {
 
     // Size of a pixel [build coordinates]
     var size: Double = 1.0
+        private set(value: Double) {
+            field = value
+        }
 
     // Color correction
-    private var invGamma: Double = 1.0
+    var invGamma: Double = 1.0
+        private set(value: Double) {
+            field = value
+        }
 
     var gamma: Double = 1.0
         set(value) {
@@ -20,10 +26,13 @@ class ViewPlane(val resolution: Resolution) : IColorCorrector {
         }
 
     // Used for debugging
-    var showOutOfGamut: Boolean = false
+    private var showOutOfGamut: Boolean = false
 
     // maximal recursion depth
     var maxDepth: Int = 5
+        private set(value: Int) {
+            field = value
+        }
 
     override fun correct(color: Color): Color {
         val newColor = if (showOutOfGamut) {

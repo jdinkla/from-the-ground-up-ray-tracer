@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui
+package net.dinkla.raytracer.gui.javafx
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList

@@ -1,6 +1,5 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.gui.awt
 
-import net.dinkla.raytracer.films.BufferedImageFilm
 import net.dinkla.raytracer.world.WorldDef
 import java.awt.image.BufferedImage
 import java.io.File
@@ -12,7 +11,7 @@ object Png {
     fun renderAndSave(wdef: WorldDef, pngFileName: String) {
         val w = wdef.world()
         w.initialize()
-        val film = BufferedImageFilm(w.viewPlane.resolution)
+        val film = AwtFilm(w.viewPlane.resolution)
         w.renderer?.render(film)
         save(film.image, pngFileName)
     }

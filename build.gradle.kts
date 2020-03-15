@@ -52,7 +52,12 @@ task<JavaExec>("commandline") {
     args = listOf("World10.kt", "build/World10.png")
 }
 
+task<JavaExec>("swing") {
+    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracer"
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
 task<JavaExec>("javafx") {
-    main = "net.dinkla.raytracer.gui.FromTheGroundUpRayTracer"
+    main = "net.dinkla.raytracer.gui.javafx.FromTheGroundUpRayTracer"
     classpath = sourceSets["main"].runtimeClasspath
 }
