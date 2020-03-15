@@ -11,111 +11,93 @@ import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
 
+private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
+    add(JMenu("File").apply {
+        mnemonic = KeyEvent.VK_F
+        add(JMenuItem("Open").apply {
+            mnemonic = KeyEvent.VK_O
+            addActionListener(parent)
+        })
+        addSeparator()
+        add(JMenuItem("Quit").apply {
+            mnemonic = KeyEvent.VK_Q
+            addActionListener(parent)
+        })
+    })
+    add(JMenu("Help").apply {
+        mnemonic = KeyEvent.VK_H
+        add(JMenuItem("About").apply {
+            mnemonic = KeyEvent.VK_A
+            addActionListener(parent)
+        })
+    })
+}
+
+private fun about(frame: JFrame) {
+    JOptionPane.showMessageDialog(frame,
+            "(c) 2012-2020 Jörn Dinkla\nwww.dinkla.net",
+            "About",
+            JOptionPane.PLAIN_MESSAGE)
+}
+
+private fun quit(frame: JFrame) {
+    val n = JOptionPane.showOptionDialog(frame,
+            "Do you really want to exit the application?",
+            "Quit?",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE, null, null, null)
+    if (n == 0) {
+        System.exit(0)
+    }
+}
+
+
 class FromTheGroundUpRayTracer : ActionListener {
 
-    private var frame: JFrame? = null
-    private var pane: JScrollPane? = null
-
-    private var fc: JFileChooser? = null
-
+    private val frame: JFrame = JFrame()
+    private var fileChooser = JFileChooser()
     private var isFirst = true
 
-    fun createMenuBar(): JMenuBar {
-        val menuBar: JMenuBar
-        var menu: JMenu
-        var menuItem: JMenuItem
-
-        menuBar = JMenuBar()
-
-        // File
-        menu = JMenu("File")
-        menu.mnemonic = KeyEvent.VK_F
-
-        menuItem = JMenuItem("Open")
-        menuItem.mnemonic = KeyEvent.VK_O
-        menuItem.addActionListener(this)
-        menu.add(menuItem)
-
-        menu.addSeparator()
-
-        menuItem = JMenuItem("Quit")
-        menuItem.mnemonic = KeyEvent.VK_Q
-        menuItem.addActionListener(this)
-        menu.add(menuItem)
-
-        menuBar.add(menu)
-
-        // Help
-        menu = JMenu("Help")
-        menu.mnemonic = KeyEvent.VK_H
-
-        menuItem = JMenuItem("About")
-        menuItem.mnemonic = KeyEvent.VK_A
-        menuItem.addActionListener(this)
-        menu.add(menuItem)
-
-        menuBar.add(menu)
-
-        return menuBar
-    }
-
-    private fun about() {
-        JOptionPane.showMessageDialog(frame,
-                "(c) 2012-2020 Jörn Dinkla\nwww.dinkla.net",
-                "About",
-                JOptionPane.PLAIN_MESSAGE)
-    }
-
-    private fun quit() {
-        val n = JOptionPane.showOptionDialog(frame,
-                "Do you really want to exit the application?",
-                "Quit?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, null, null)
-        if (n == 0) {
-            System.exit(0)
+    init {
+        with(frame) {
+            defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+            jMenuBar = createMenuBar(this@FromTheGroundUpRayTracer)
+            setSize(appWidth, appHeight)
+            title = AppProperties["app.title"] as String
+            isVisible = true
+            add(JScrollPane())
         }
     }
 
     fun open() {
-        if (null == fc) {
-            fc = JFileChooser()
-        }
         if (isFirst) {
-            fc!!.currentDirectory = File(".")
+            fileChooser.currentDirectory = File(".")
             isFirst = false
         }
-        val rc = fc!!.showOpenDialog(this.frame)
+        val rc = fileChooser.showOpenDialog(this.frame)
         if (rc == 0) {
-            val file = fc!!.selectedFile
+            val file = fileChooser.selectedFile
             try {
                 render(file)
             } catch (e: Exception) {
                 e.printStackTrace()
                 JOptionPane.showMessageDialog(frame, "An error occurred. See the log for details.")
             }
-
         }
     }
 
     override fun actionPerformed(e: ActionEvent) {
-        val cmd = e.actionCommand
-        when (cmd) {
-            "About" -> about()
+        when (e.actionCommand) {
+            "About" -> about(frame)
             "Open" -> open()
-            "Quit" -> quit()
+            "Quit" -> quit(frame)
             else -> throw RuntimeException("Unknown Command")
         }
     }
 
     private fun render(file: File) {
-        val fileName = file?.name
-        if (null == fileName) {
-            LOGGER.warn("preview fileChosen is null")
-            return
-        }
-        LOGGER.info("preview $fileName")
-        val wdef: WorldDef? = worldDef(fileName)
+        LOGGER.info("preview ${file.name}")
+        val wdef: WorldDef? = worldDef(file.name)
         if (wdef != null) {
             val w = wdef.world()
             w.initialize()
@@ -127,24 +109,15 @@ class FromTheGroundUpRayTracer : ActionListener {
     }
 
     companion object {
-
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+
+        val appWidth = AppProperties.getAsInteger("display.width")
+        val appHeight = AppProperties.getAsInteger("display.height")
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val gui = FromTheGroundUpRayTracer()
-            gui.frame = JFrame()
-            gui.frame!!.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            gui.frame!!.jMenuBar = gui.createMenuBar()
-            val width = AppProperties.getAsInteger("display.width")
-            val height = AppProperties.getAsInteger("display.height")
-            gui.frame!!.setSize(width, height)
-            gui.frame!!.title = AppProperties["app.title"] as String?
-            gui.frame!!.isVisible = true
-            gui.pane = JScrollPane()
-            gui.frame!!.add(gui.pane)
+            FromTheGroundUpRayTracer()
         }
     }
-
 }
 
