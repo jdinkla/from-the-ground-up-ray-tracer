@@ -11,6 +11,20 @@ import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
 
+val appWidth = AppProperties.getAsInteger("display.width")
+val appHeight = AppProperties.getAsInteger("display.height")
+
+val appTitle = AppProperties["app.title"] as String
+val examplesDirectory = AppProperties["examples.directory"] as String
+
+val informationTitle = AppProperties["information.title"] as String
+val informationHeader = AppProperties["information.headerText"] as String
+val informationContext = AppProperties["information.contentText"] as String
+
+val confirmationTitle = AppProperties["confirmation.title"] as String
+val confirmationHeader = AppProperties["confirmation.headerText"] as String
+val confirmationContext = AppProperties["confirmation.contentText"] as String
+
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
         mnemonic = KeyEvent.VK_F
@@ -35,15 +49,15 @@ private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
 
 private fun about(frame: JFrame) {
     JOptionPane.showMessageDialog(frame,
-            "(c) 2012-2020 Jörn Dinkla\nwww.dinkla.net",
-            "About",
+            informationHeader + '\n' + informationContext,
+            informationTitle,
             JOptionPane.PLAIN_MESSAGE)
 }
 
 private fun quit(frame: JFrame) {
     val n = JOptionPane.showOptionDialog(frame,
-            "Do you really want to exit the application?",
-            "Quit?",
+            confirmationHeader,
+            confirmationTitle,
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE, null, null, null)
     if (n == 0) {
@@ -63,7 +77,7 @@ class FromTheGroundUpRayTracer : ActionListener {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             jMenuBar = createMenuBar(this@FromTheGroundUpRayTracer)
             setSize(appWidth, appHeight)
-            title = AppProperties["app.title"] as String
+            title = appTitle
             isVisible = true
             add(JScrollPane())
         }
@@ -97,22 +111,19 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     private fun render(file: File) {
         LOGGER.info("preview ${file.name}")
-        val wdef: WorldDef? = worldDef(file.name)
-        if (wdef != null) {
-            val w = wdef.world()
-            w.initialize()
-            val film = AwtFilm(w.viewPlane.resolution)
+        val worldDefinition: WorldDef? = worldDef(file.name)
+        if (worldDefinition != null) {
+            val world = worldDefinition.world()
+            world.initialize()
+            val film = AwtFilm(world.viewPlane.resolution)
             val imf = ImageFrame(film)
-            w.renderer?.render(film)
+            world.renderer?.render(film)
             imf.repaint()
         }
     }
 
     companion object {
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-
-        val appWidth = AppProperties.getAsInteger("display.width")
-        val appHeight = AppProperties.getAsInteger("display.height")
 
         @JvmStatic
         fun main(args: Array<String>) {

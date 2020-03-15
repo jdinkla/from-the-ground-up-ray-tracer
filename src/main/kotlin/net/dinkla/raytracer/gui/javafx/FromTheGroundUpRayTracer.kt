@@ -111,12 +111,12 @@ class FromTheGroundUpRayTracer : Application() {
             setOnAction { _ -> png(primaryStage) }
         }
 
-        buttons.getChildren().addAll(buttonPreview, buttonPNG);
+        buttons.getChildren().addAll(buttonPreview, buttonPNG)
 
         val rightSide = BorderPane().apply {
             padding = defaultPadding
             top = buttons
-            center = textArea;
+            center = textArea
         }
         return rightSide
     }

@@ -2,7 +2,8 @@ package net.dinkla.raytracer.utilities
 
 import java.io.FileInputStream
 import java.io.IOException
-import java.util.Properties
+import java.io.InputStreamReader
+import java.util.*
 
 object AppProperties {
 
@@ -11,7 +12,9 @@ object AppProperties {
     init {
         properties = Properties()
         try {
-            properties.load(FileInputStream("raytracer.properties"))
+            val fileInputStream = FileInputStream("raytracer.properties")
+            val reader = InputStreamReader(fileInputStream, "UTF-8")
+            properties.load(reader)
         } catch (e: IOException) {
             e.printStackTrace()
         }

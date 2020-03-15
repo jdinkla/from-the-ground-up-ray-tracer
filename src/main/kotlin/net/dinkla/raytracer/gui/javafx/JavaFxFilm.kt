@@ -14,7 +14,6 @@ class JavaFxFilm(override val resolution: Resolution) : Film {
 
     private val pw: PixelWriter = img.pixelWriter
 
-    // TODO needed?
     override val image: BufferedImage
         get() = SwingFXUtils.fromFXImage(img, null)
 
