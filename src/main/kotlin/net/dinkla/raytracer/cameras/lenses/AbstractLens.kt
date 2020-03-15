@@ -10,6 +10,6 @@ abstract class AbstractLens(val viewPlane: ViewPlane) : ILens {
     var uvw: Basis? = null
 
     companion object {
-        internal val OFFSET: Double = 0.5
+        internal const val OFFSET: Double = 0.5
     }
 }

@@ -10,6 +10,9 @@ import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
+import javax.swing.border.EmptyBorder
+import javax.swing.event.TreeSelectionEvent
+import javax.swing.tree.DefaultMutableTreeNode
 
 val appWidth = AppProperties.getAsInteger("display.width")
 val appHeight = AppProperties.getAsInteger("display.height")
@@ -28,10 +31,6 @@ val confirmationContext = AppProperties["confirmation.contentText"] as String
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
         mnemonic = KeyEvent.VK_F
-        add(JMenuItem("Open").apply {
-            mnemonic = KeyEvent.VK_O
-            addActionListener(parent)
-        })
         addSeparator()
         add(JMenuItem("Quit").apply {
             mnemonic = KeyEvent.VK_Q
@@ -65,45 +64,74 @@ private fun quit(frame: JFrame) {
     }
 }
 
-
 class FromTheGroundUpRayTracer : ActionListener {
 
     private val frame: JFrame = JFrame()
-    private var fileChooser = JFileChooser()
-    private var isFirst = true
+    private val textArea = JTextArea()
+
+    private var selected: String? = null
 
     init {
         with(frame) {
+            title = appTitle
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             jMenuBar = createMenuBar(this@FromTheGroundUpRayTracer)
             setSize(appWidth, appHeight)
-            title = appTitle
+
+            val left = leftSide()
+            val right = rightSide()
+            val splitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right)
+            add(splitPane)
+
             isVisible = true
-            add(JScrollPane())
         }
     }
 
-    fun open() {
-        if (isFirst) {
-            fileChooser.currentDirectory = File(".")
-            isFirst = false
-        }
-        val rc = fileChooser.showOpenDialog(this.frame)
-        if (rc == 0) {
-            val file = fileChooser.selectedFile
-            try {
-                render(file)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                JOptionPane.showMessageDialog(frame, "An error occurred. See the log for details.")
+    private fun rightSide(): JPanel {
+        val button = JButton().apply {
+            text = "Render"
+            addActionListener { event: ActionEvent ->
+                selected?.let { render(File(it)) }
             }
         }
+
+        with (textArea) {
+            append("display the source code here")
+            columns = 80
+            rows = 20
+            border = EmptyBorder(10, 10, 10, 10)
+        }
+
+        return JPanel().apply {
+            add(button)
+            add(textArea)
+        }
+    }
+
+    private fun leftSide(): JTree {
+        val root = DefaultMutableTreeNode(examplesDirectory)
+        val directory = File(examplesDirectory)
+        directory.walk().forEach { file ->
+            if (file.isFile) {
+                val fileName = file.absoluteFile.toString().replaceFirst(directory.absolutePath + "/", "")
+                root.add(DefaultMutableTreeNode(fileName))
+            }
+        }
+        val tree = JTree(root)
+        tree.border = EmptyBorder(10, 10, 10, 10)
+        tree.addTreeSelectionListener { e: TreeSelectionEvent ->
+            val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
+            if (node != null) {
+                selected = node.userObject.toString()
+                textArea.text = File("$examplesDirectory/$selected").readText()
+            }
+        }
+        return tree
     }
 
     override fun actionPerformed(e: ActionEvent) {
         when (e.actionCommand) {
             "About" -> about(frame)
-            "Open" -> open()
             "Quit" -> quit(frame)
             else -> throw RuntimeException("Unknown Command")
         }
