@@ -55,22 +55,22 @@ class MatrixTest {
 
     @Test
     fun `multiplication with a Point3D`() {
-        val r = 2 * 2 + 2 * 3 + 2 * 5 + 2
-        val p = Point3D(2, 3, 5)
+        val r = 2.0 * 2 + 2 * 3 + 2 * 5 + 2
+        val p = Point3D(2.0, 3.0, 5.0)
         assertEquals(Point3D(r, r, r), m2 * p)
     }
 
     @Test
     fun `multiplication with a Vector3D`() {
-        val r = 2 * 2 + 2 * 3 + 2 * 5
-        val p = Vector3D(2, 3, 5)
+        val r = 2.0 * 2 + 2 * 3 + 2 * 5
+        val p = Vector3D(2.0, 3.0, 5.0)
         assertEquals(Vector3D(r, r, r), m2 * p)
     }
 
     @Test
     fun `multiplication with a Normal`() {
-        val r = 2 * 2 + 2 * 3 + 2 * 5
-        val p = Normal(2, 3, 5)
+        val r = 2.0 * 2 + 2 * 3 + 2 * 5
+        val p = Normal(2.0, 3.0, 5.0)
         assertEquals(Normal(r, r, r), m2 * p)
     }
 

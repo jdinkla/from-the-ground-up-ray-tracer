@@ -25,7 +25,7 @@ class WorldScope(val id: String, val resolution: Resolution) {
     val world: World = World(id, viewPlane)
     val renderer = Renderer()
 
-    fun p(x: Int, y: Int, z: Int) = Point3D(x, y, z)
+    fun p(x: Int, y: Int, z: Int) = Point3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
 
     fun c(v: Double) = Color(v)
@@ -33,10 +33,10 @@ class WorldScope(val id: String, val resolution: Resolution) {
 
     fun c(s: String) = Color.create(s)
 
-    fun n(x: Int, y: Int, z: Int) = Normal(x, y, z)
+    fun n(x: Int, y: Int, z: Int) = Normal(x.toDouble(), y.toDouble(), z.toDouble())
     fun n(x: Double, y: Double, z: Double) = Normal(x, y, z)
 
-    fun v(x: Int, y: Int, z: Int) = Vector3D(x, y, z)
+    fun v(x: Int, y: Int, z: Int) = Vector3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun v(x: Double, y: Double, z: Double) = Vector3D(x, y, z)
 
     fun camera(d: Double = 1.0,

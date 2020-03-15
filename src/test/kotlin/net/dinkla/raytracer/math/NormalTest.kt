@@ -17,7 +17,7 @@ internal class NormalTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, Normal(1, 2, 3))
+        assertEquals(e, Normal(1.0, 2.0, 3.0))
     }
 
     @Test

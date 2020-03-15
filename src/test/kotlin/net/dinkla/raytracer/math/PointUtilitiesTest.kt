@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.*
 internal class PointUtilitiesTest {
 
     val p0 = Point3D.ORIGIN
-    val p1 = Point3D(1, 1, 1)
+    val p1 = Point3D.UNIT
 
     val a = arrayOf(p0, p1)
 

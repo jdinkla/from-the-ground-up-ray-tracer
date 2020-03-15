@@ -201,6 +201,7 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     override fun equals(other: Any?): Boolean {
+        //val bbox = other as? Box ?: return false
         return if (other == null || other !is BBox) {
             false
         } else {

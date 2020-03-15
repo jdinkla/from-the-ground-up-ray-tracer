@@ -27,7 +27,7 @@ object World5 : WorldDef {
         objects {
             sphere(material = "m1", center = p(0, -25, 0), radius = 80.0)
             sphere(material = "m2", center = p(0, 30, 0), radius = 60.0)
-            plane(material = "m3", point = Point3D.ORIGIN, normal = Normal(0, 1, 1))
+            plane(material = "m3", point = Point3D.ORIGIN, normal = Normal(0.0, 1.0, 1.0))
         }
     }
 

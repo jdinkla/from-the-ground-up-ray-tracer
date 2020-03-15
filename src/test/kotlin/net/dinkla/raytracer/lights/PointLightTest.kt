@@ -9,7 +9,7 @@ class PointLightTest {
 
     @Test
     fun `construct a point light with defaults for ls and color`() {
-        val location = Point3D(1, 2, 3)
+        val location = Point3D(1.0, 2.0, 3.0)
         val p = PointLight(location)
         assertEquals(1.0, p.ls)
         assertEquals(Color.WHITE, p.color)
@@ -18,7 +18,7 @@ class PointLightTest {
 
     @Test
     fun `construct a point light without defaults`() {
-        val location = Point3D(1, 2, 3)
+        val location = Point3D(1.0, 2.0, 3.0)
         val ls = 0.12
         val color = Color(0.12, 0.23, 0.34)
         val p = PointLight(location, ls, color)

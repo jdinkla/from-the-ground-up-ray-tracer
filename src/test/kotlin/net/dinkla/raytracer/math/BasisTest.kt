@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Assertions.*
 // TODO how to test this without re-implementing the math
 internal class BasisTest {
 
-    private val eye = Point3D(1, 2, 3)
-    private val lookAt = Point3D(3, 2, 1)
-    private val up = Vector3D(0, 1, 0)
+    private val eye = Point3D(1.0, 2.0, 3.0)
+    private val lookAt = Point3D(3.0, 2.0, 1.0)
+    private val up = Vector3D(0.0, 1.0, 0.0)
     private val b = Basis(eye, lookAt, up)
 
     @Test

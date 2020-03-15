@@ -28,8 +28,8 @@ class BuilderTest {
     @Test
     fun `should set camera`() {
         val d = 500.0
-        val eye = Point3D(0, 100, 200)
-        val lookAt = Point3D(1, 2, 3)
+        val eye = Point3D(0.0, 100.0, 200.0)
+        val lookAt = Point3D(1.0, 2.0, 3.0)
         val world = Builder.build("id") {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = Vector3D.JITTER)
         }
@@ -55,7 +55,7 @@ class BuilderTest {
     fun `should add point light`() {
         val ls = 0.98
         val color = Color.BLUE
-        val location = Point3D(0, 100, 200)
+        val location = Point3D(0.0, 100.0, 200.0)
         val world = Builder.build("id") {
             lights {
                 pointLight(location = location, ls = ls, color = color)
@@ -90,7 +90,7 @@ class BuilderTest {
     fun `should store sphere objects using materials`() {
         val id = "m1"
         val cd = Color(1.0, 0.5, 0.3)
-        val center = Point3D(0, 100, 200)
+        val center = Point3D(0.0, 100.0, 200.0)
         val radius = 80.0
         val world = Builder.build("id") {
             materials {

@@ -24,7 +24,7 @@ internal class Vector3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(v, Vector3D(2, 3, 5))
+        assertEquals(v, Vector3D(2.0, 3.0, 5.0))
     }
 
     @Test

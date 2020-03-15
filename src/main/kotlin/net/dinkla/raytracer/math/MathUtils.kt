@@ -1,5 +1,7 @@
 package net.dinkla.raytracer.math
 
+import kotlin.math.max
+
 object MathUtils {
 
     const val INV_PI = 1.0 / Math.PI
@@ -21,26 +23,24 @@ object MathUtils {
         return Point3D(x, y, z)
     }
 
-    internal fun min(x: Double, y: Double, z: Double): Double =
-            if (x < y) {
-                if (x < z) x else z
-            } else {
-                if (y < z) y else z
-            }
+    internal fun min(x: Double, y: Double, z: Double): Double = if (x < y) {
+        if (x < z) x else z
+    } else {
+        if (y < z) y else z
+    }
+
     fun maxMax(p: Point3D, q: Point3D, r: Point3D): Point3D {
-        val x = Math.max(Math.max(p.x, q.x), r.x)
-        val y = Math.max(Math.max(p.y, q.y), r.y)
-        val z = Math.max(Math.max(p.z, q.z), r.z)
+        val x = max(p.x, q.x, r.x)
+        val y = max(p.y, q.y, r.y)
+        val z = max(p.z, q.z, r.z)
         return Point3D(x, y, z)
     }
 
-    internal fun max(x: Double, y: Double, z: Double): Double =
-            if (x > y) {
-                if (x > z) x else z
-            } else {
-                if (y > z) y else z
-            }
+    internal fun max(x: Double, y: Double, z: Double): Double = if (x > y) {
+        if (x > z) x else z
+    } else {
+        if (y > z) y else z
+    }
 
     fun isZero(x: Double): Boolean = x > -K_EPSILON && x < K_EPSILON
-
 }

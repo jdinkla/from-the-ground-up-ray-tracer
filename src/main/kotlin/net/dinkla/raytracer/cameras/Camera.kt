@@ -7,7 +7,7 @@ import net.dinkla.raytracer.math.Vector3D
 
 open class Camera(val lens: AbstractLens) {
 
-    var eye: Point3D = Point3D(0, 10, 0)
+    var eye: Point3D = Point3D(0.0, 10.0, 0.0)
     var lookAt: Point3D = Point3D.ORIGIN
     var up: Vector3D = Vector3D.UP
     var uvw: Basis = Basis(eye, lookAt, up)

@@ -2,8 +2,6 @@ package net.dinkla.raytracer.math
 
 class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
-
     constructor(e: Element3D) : this(e.x, e.y, e.z)
 
     operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z)
@@ -31,12 +29,12 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
     fun volume(): Double = x * y * z
 
     companion object {
-        val ZERO = Vector3D(0, 0, 0)
-        val RIGHT = Vector3D(1, 0, 0)
-        val UP = Vector3D(0, 1, 0)
-        val DOWN = Vector3D(0, -1, 0)
-        val FORWARD = Vector3D(0, 0, 1)
-        val BACK = Vector3D(0, 0, -1)
+        val ZERO = Vector3D(0.0, 0.0, 0.0)
+        val RIGHT = Vector3D(1.0, 0.0, 0.0)
+        val UP = Vector3D(0.0, 1.0, 0.0)
+        val DOWN = Vector3D(0.0, -1.0, 0.0)
+        val FORWARD = Vector3D(0.0, 0.0, 1.0)
+        val BACK = Vector3D(0.0, 0.0, -1.0)
         val JITTER = Vector3D(0.0072, 1.0, 0.0034)
     }
 

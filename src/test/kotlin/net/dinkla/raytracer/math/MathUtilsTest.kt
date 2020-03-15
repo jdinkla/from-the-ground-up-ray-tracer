@@ -26,4 +26,8 @@ internal class MathUtilsTest {
         assertEquals(3.0, MathUtils.max(3.0, 2.0, 1.0))
     }
 
+    @Test
+    fun `maxMax should max the max`() {
+        assertEquals(Point3D(1.0, 2.0, 3.0), MathUtils.maxMax(Point3D.X, 2.0 * Point3D.Y, 3.0 * Point3D.Z))
+    }
 }

@@ -12,7 +12,7 @@ internal class Point3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, Point3D(2, 3, 5))
+        assertEquals(e, p)
     }
 
     @Test

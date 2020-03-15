@@ -15,7 +15,7 @@ internal class Element3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, Element3D(1, 2, 3))
+        assertEquals(e, Element3D(1.0, 2.0, 3.0))
     }
 
     @Test
@@ -68,6 +68,5 @@ internal class Element3DTest {
         assertTrue(e != Element3D(x, 0.0, z))
         assertTrue(e != Element3D(x, y, 0.0))
         assertTrue(e != Element2D(x, y))
-
     }
 }

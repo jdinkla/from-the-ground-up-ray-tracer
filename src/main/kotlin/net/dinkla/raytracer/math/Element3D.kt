@@ -5,8 +5,6 @@ import java.util.*
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
-
     constructor(e: Element3D) : this(e.x, e.y, e.z)
 
     fun sqrLength(): Double = x * x + y * y + z * z
@@ -26,10 +24,9 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
         Axis.Z -> z
     }
 
-    override fun equals(other: Any?): Boolean = if (null == other || other !is Element3D) {
-        false
-    } else {
-        x == other.x && y == other.y && z == other.z
+    override fun equals(other: Any?): Boolean {
+        val p: Element3D = other as? Element3D ?: return false
+        return x == p.x && y == p.y && z == p.z
     }
 
     override fun hashCode(): Int = Objects.hash(x, y, z)
