@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val junitVersion = "5.5.0"
-val javafxVersion = "11-ea+25"
 val logbackVersion = "1.2.3"
 val coroutinesVersion = "1.3.3"
 
@@ -28,11 +27,11 @@ repositories {
 }
 
 val compileKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 val compileTestKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 tasks.withType<Test> {
@@ -54,10 +53,5 @@ task<JavaExec>("commandline") {
 
 task<JavaExec>("swing") {
     main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracer"
-    classpath = sourceSets["main"].runtimeClasspath
-}
-
-task<JavaExec>("javafx") {
-    main = "net.dinkla.raytracer.gui.javafx.FromTheGroundUpRayTracer"
     classpath = sourceSets["main"].runtimeClasspath
 }
