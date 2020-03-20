@@ -2,6 +2,7 @@ package net.dinkla.raytracer.gui.swing
 
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.gui.awt.AwtFilm
+import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.world.WorldDef
 import org.slf4j.LoggerFactory
@@ -95,7 +96,7 @@ class FromTheGroundUpRayTracer : ActionListener {
             }
         }
 
-        with (textArea) {
+        with(textArea) {
             append("display the source code here")
             columns = 80
             rows = 20
@@ -113,7 +114,7 @@ class FromTheGroundUpRayTracer : ActionListener {
         val directory = File(examplesDirectory)
         directory.walk().forEach { file ->
             if (file.isFile) {
-                val fileName = file.absoluteFile.toString().replaceFirst(directory.absolutePath + "/", "")
+                val fileName = extractFileName(file, directory)
                 root.add(DefaultMutableTreeNode(fileName))
             }
         }

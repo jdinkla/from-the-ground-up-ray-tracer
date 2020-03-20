@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.gui
 
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -13,4 +14,10 @@ object GuiUtilities {
         return outFileName
     }
 
+}
+
+fun extractFileName(file: File, directory: File)= extractFileName(file.absoluteFile.toString(), directory.absolutePath.toString())
+
+fun extractFileName(file: String, directory: String, separator: String = File.separator): String {
+    return file.replaceFirst(directory + separator, "")
 }
