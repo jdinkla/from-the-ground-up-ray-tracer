@@ -131,11 +131,9 @@ class BuilderTest {
         assertEquals(w.objects.size, 6)
     }
 
-    @Disabled
     @Test
     fun `should build example world 14 - ambient occluder`() {
-        val f = findExample().get().toFile()
-        val w = World7.world()
+        val w = World14.world()
         assertEquals(2, w.size())
         assertEquals(0, w.lights.size)
         assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)

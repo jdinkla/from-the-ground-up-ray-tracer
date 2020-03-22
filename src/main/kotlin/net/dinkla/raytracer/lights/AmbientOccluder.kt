@@ -8,16 +8,11 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.World
 
-/**
- * Da war shared state drin. Böse bei der Parallelisierung
- */
 class AmbientOccluder(
         val minAmount: Color,
         val sampler: Sampler,
         val numSamples: Int
 ) : Ambient() {
-
-    constructor(sampler: Sampler, numSamples: Int) : this(Color.WHITE, sampler, numSamples) {}
 
     override fun L(world: World, sr: Shade): Color {
         val w = Vector3D(sr.normal)
@@ -44,10 +39,8 @@ class AmbientOccluder(
         val v = w cross (Vector3D.JITTER).normalize()
         val u = v cross w
         return Basis(u, v, w) * p
-        // return (u * p.x) + (v * p.y) + (w * p.z)
     }
 
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
-        return world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
-    }
+    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean =
+            world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
 }

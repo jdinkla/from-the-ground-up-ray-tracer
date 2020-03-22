@@ -8,9 +8,11 @@ import net.dinkla.raytracer.cameras.render.ForkJoinRenderer
 import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.cameras.render.SimpleSingleRayRenderer
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.tracers.Whitted
@@ -66,6 +68,10 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun ambientLight(color: Color = Color.WHITE, ls: Double = 1.0) {
         world.ambientLight.color = color
         world.ambientLight.ls = ls
+    }
+
+    fun ambientOccluder(minAmount: Color, sampler: Sampler, numSamples: Int) {
+        world.ambientLight = AmbientOccluder(minAmount, sampler, numSamples)
     }
 
     fun lights(builder: LightsScope.() -> Unit) {
