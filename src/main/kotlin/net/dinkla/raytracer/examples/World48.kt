@@ -2,9 +2,9 @@ package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object World48 : WorldDef {
+object World48 : WorldDefinition {
 
     override fun world() = Builder.build("World48") {
 

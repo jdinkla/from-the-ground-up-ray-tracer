@@ -3,9 +3,9 @@ package net.dinkla.raytracer.examples
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.Simple2Builder
 import net.dinkla.raytracer.world.Builder
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object World75b : WorldDef {
+object World75b : WorldDefinition {
 
     const val NUM = 20
     const val NUM2 = NUM / 2

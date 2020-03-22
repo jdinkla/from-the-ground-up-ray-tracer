@@ -4,7 +4,7 @@ import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.gui.awt.Png
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 import org.slf4j.LoggerFactory
 import java.lang.System.exit
 
@@ -25,7 +25,7 @@ object CommandLineUi {
 
         LOGGER.info("Rendering $fileNameIn to $fileNameOut")
 
-        val wdef: WorldDef? = worldDef(fileNameIn)
+        val wdef: WorldDefinition? = worldDef(fileNameIn)
         if (null == wdef) {
             LOGGER.warn("WorldDef $fileNameIn is not known")
             exit(1)
@@ -40,6 +40,4 @@ object CommandLineUi {
             InnerNode.fails.println()
         }
     }
-
-
 }

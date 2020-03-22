@@ -1,33 +1,22 @@
 package net.dinkla.raytracer.gui.swing
 
 import net.dinkla.raytracer.examples.worldDef
+import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.awt.AwtFilm
+import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.utilities.AppProperties
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 import org.slf4j.LoggerFactory
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
+import javax.swing.BoxLayout
 import javax.swing.border.EmptyBorder
 import javax.swing.event.TreeSelectionEvent
 import javax.swing.tree.DefaultMutableTreeNode
-
-val appWidth = AppProperties.getAsInteger("display.width")
-val appHeight = AppProperties.getAsInteger("display.height")
-
-val appTitle = AppProperties["app.title"] as String
-val examplesDirectory = AppProperties["examples.directory"] as String
-
-val informationTitle = AppProperties["information.title"] as String
-val informationHeader = AppProperties["information.headerText"] as String
-val informationContext = AppProperties["information.contentText"] as String
-
-val confirmationTitle = AppProperties["confirmation.title"] as String
-val confirmationHeader = AppProperties["confirmation.headerText"] as String
-val confirmationContext = AppProperties["confirmation.contentText"] as String
 
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
@@ -48,6 +37,9 @@ private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
 }
 
 private fun about(frame: JFrame) {
+    val informationTitle = AppProperties["information.title"] as String
+    val informationHeader = AppProperties["information.headerText"] as String
+    val informationContext = AppProperties["information.contentText"] as String
     JOptionPane.showMessageDialog(frame,
             informationHeader + '\n' + informationContext,
             informationTitle,
@@ -55,6 +47,8 @@ private fun about(frame: JFrame) {
 }
 
 private fun quit(frame: JFrame) {
+    val confirmationTitle = AppProperties["confirmation.title"] as String
+    val confirmationHeader = AppProperties["confirmation.headerText"] as String
     val n = JOptionPane.showOptionDialog(frame,
             confirmationHeader,
             confirmationTitle,
@@ -69,10 +63,13 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     private val frame: JFrame = JFrame()
     private val textArea = JTextArea()
-
     private var selected: String? = null
 
     init {
+        val appWidth = AppProperties.getAsInteger("display.width")
+        val appHeight = AppProperties.getAsInteger("display.height")
+        val appTitle = AppProperties["app.title"] as String
+
         with(frame) {
             title = appTitle
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE
@@ -88,28 +85,8 @@ class FromTheGroundUpRayTracer : ActionListener {
         }
     }
 
-    private fun rightSide(): JPanel {
-        val button = JButton().apply {
-            text = "Render"
-            addActionListener { event: ActionEvent ->
-                selected?.let { render(File(it)) }
-            }
-        }
-
-        with(textArea) {
-            append("display the source code here")
-            columns = 80
-            rows = 20
-            border = EmptyBorder(10, 10, 10, 10)
-        }
-
-        return JPanel().apply {
-            add(button)
-            add(textArea)
-        }
-    }
-
     private fun leftSide(): JTree {
+        val examplesDirectory = AppProperties["examples.directory"] as String
         val root = DefaultMutableTreeNode(examplesDirectory)
         val directory = File(examplesDirectory)
         directory.walk().forEach { file ->
@@ -130,6 +107,39 @@ class FromTheGroundUpRayTracer : ActionListener {
         return tree
     }
 
+    private fun rightSide(): JPanel {
+        val renderButton = JButton().apply {
+            text = "Render"
+            addActionListener { event: ActionEvent ->
+                selected?.let { render(File(it)) }
+            }
+        }
+        val pngButton = JButton().apply {
+            text = "PNG"
+            addActionListener { event: ActionEvent ->
+                selected?.let { png(File(it)) }
+            }
+        }
+        with(textArea) {
+            append("display the source code here")
+            columns = 80
+            rows = 20
+            border = EmptyBorder(10, 10, 10, 10)
+        }
+
+        val buttons = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            border = EmptyBorder(10, 10, 10, 10)
+            add(renderButton)
+            add(pngButton)
+        }
+        return JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            add(buttons)
+            add(textArea)
+        }
+    }
+
     override fun actionPerformed(e: ActionEvent) {
         when (e.actionCommand) {
             "About" -> about(frame)
@@ -139,8 +149,8 @@ class FromTheGroundUpRayTracer : ActionListener {
     }
 
     private fun render(file: File) {
-        LOGGER.info("preview ${file.name}")
-        val worldDefinition: WorldDef? = worldDef(file.name)
+        LOGGER.info("render ${file.name}")
+        val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
             val world = worldDefinition.world()
             world.initialize()
@@ -148,6 +158,21 @@ class FromTheGroundUpRayTracer : ActionListener {
             val imf = ImageFrame(film)
             world.renderer?.render(film)
             imf.repaint()
+        }
+    }
+
+    private fun png(file: File) {
+        LOGGER.info("png ${file.name}")
+        val worldDefinition: WorldDefinition? = worldDef(file.name)
+        if (worldDefinition != null) {
+            val output = GuiUtilities.getOutputPngFileName(file.name)
+            Png.renderAndSave(worldDefinition, output)
+            val pngTitle = AppProperties["png.title"] as String
+            val pngMessage = AppProperties["png.message"] as String
+            JOptionPane.showMessageDialog(frame,
+                    pngMessage,
+                    pngTitle,
+                    JOptionPane.INFORMATION_MESSAGE)
         }
     }
 

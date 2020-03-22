@@ -4,9 +4,9 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.world.Builder
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object World26 : WorldDef {
+object World26 : WorldDefinition {
 
     override fun world() = Builder.build("World 26") {
 

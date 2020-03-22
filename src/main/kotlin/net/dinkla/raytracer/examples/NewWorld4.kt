@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
@@ -10,9 +9,9 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object NewWorld4 : WorldDef {
+object NewWorld4 : WorldDefinition {
 
     override fun world(): World = Builder.build("New World 3 - emissive") {
 

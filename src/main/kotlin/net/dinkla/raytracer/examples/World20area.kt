@@ -9,9 +9,9 @@ import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder.build
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object World20area : WorldDef {
+object World20area : WorldDefinition {
 
     val numSamples = 32
 

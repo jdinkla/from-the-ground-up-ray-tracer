@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples.reflective
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.AlignedBox
@@ -8,11 +7,10 @@ import net.dinkla.raytracer.objects.OpenCylinder
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
-import net.dinkla.raytracer.world.WorldDef
-import net.dinkla.raytracer.world.dsl.ObjectsScope
+import net.dinkla.raytracer.world.WorldDefinition
 
 
-object World17 : WorldDef {
+object World17 : WorldDefinition {
 
     override fun world(): World = Builder.build("World 17") {
 

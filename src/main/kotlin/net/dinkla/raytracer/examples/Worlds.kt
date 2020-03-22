@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.examples.reflective.World17
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-fun worldDef(filename: String): WorldDef? =
+fun worldDef(filename: String): WorldDefinition? =
         when (filename) {
             "World5.kt" -> World5
             "World6.kt" -> World6

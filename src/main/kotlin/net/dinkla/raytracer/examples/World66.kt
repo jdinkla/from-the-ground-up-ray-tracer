@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.world.Builder
-import net.dinkla.raytracer.world.WorldDef
+import net.dinkla.raytracer.world.WorldDefinition
 
-object World66 : WorldDef {
+object World66 : WorldDefinition {
 
     override fun world() = Builder.build("World48") {
 
