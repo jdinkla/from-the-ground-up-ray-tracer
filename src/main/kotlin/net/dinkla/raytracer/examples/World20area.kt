@@ -13,7 +13,7 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World20area : WorldDefinition {
 
-    val numSamples = 32
+    const val numSamples = 32
 
     override fun world() = build("World 20 area") {
 

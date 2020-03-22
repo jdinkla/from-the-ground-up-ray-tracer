@@ -40,6 +40,6 @@ class KDTree(
 
     companion object {
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-        internal val maxDepth = 15
+        internal const val maxDepth = 15
     }
 }

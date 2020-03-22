@@ -13,8 +13,8 @@ import net.dinkla.raytracer.utilities.hash
 
 class BeveledBox(val p0: Point3D,
                  val p1: Point3D,
-                 val rb: Double,
-                 val isWiredFrame: Boolean = false) : Compound() {
+                 private val rb: Double,
+                 private val isWiredFrame: Boolean = false) : Compound() {
     init {
 
         val top_front_edge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top front edge

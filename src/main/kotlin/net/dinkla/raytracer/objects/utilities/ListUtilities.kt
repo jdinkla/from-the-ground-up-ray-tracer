@@ -26,7 +26,7 @@ object ListUtilities {
         }
     }
 
-    fun compare(oP: GeometricObject, oQ: GeometricObject, axis: Axis): Int{
+    private fun compare(oP: GeometricObject, oQ: GeometricObject, axis: Axis): Int{
         val bboxP = oP.boundingBox
         val bboxQ = oQ.boundingBox
 
@@ -42,5 +42,5 @@ object ListUtilities {
     }
 
     fun sortByAxis(objects: List<GeometricObject>, axis: Axis) =
-            Collections.sort(objects, { p, q -> compare(p, q, axis) })
+            Collections.sort(objects) { p, q -> compare(p, q, axis) }
 }

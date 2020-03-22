@@ -16,7 +16,7 @@ import java.util.*
 class ObjectMedian2Builder : IKDTreeBuilder {
 
     override var maxDepth = 15
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): AbstractNode {
         return build(tree.objects, tree.boundingBox, 0)
@@ -27,23 +27,23 @@ class ObjectMedian2Builder : IKDTreeBuilder {
         internal var objectsL: ArrayList<GeometricObject>
         internal var objectsR: ArrayList<GeometricObject>
 
-        internal var objectsLx: ArrayList<GeometricObject>
-        internal var objectsRx: ArrayList<GeometricObject>
+        private var objectsLx: ArrayList<GeometricObject>
+        private var objectsRx: ArrayList<GeometricObject>
 
-        internal var objectsLy: ArrayList<GeometricObject>
-        internal var objectsRy: ArrayList<GeometricObject>
+        private var objectsLy: ArrayList<GeometricObject>
+        private var objectsRy: ArrayList<GeometricObject>
 
-        internal var objectsLz: ArrayList<GeometricObject>
-        internal var objectsRz: ArrayList<GeometricObject>
+        private var objectsLz: ArrayList<GeometricObject>
+        private var objectsRz: ArrayList<GeometricObject>
 
         internal var axis: Axis = Axis.X
         internal var size: Int = 0
 
         internal var split: Double? = null
 
-        internal var splitX: Double? = null
-        internal var splitY: Double? = null
-        internal var splitZ: Double? = null
+        private var splitX: Double? = null
+        private var splitY: Double? = null
+        private var splitZ: Double? = null
 
         internal var voxelL: BBox? = null
         internal var voxelR: BBox? = null
@@ -121,51 +121,55 @@ class ObjectMedian2Builder : IKDTreeBuilder {
         }
 
         fun select() {
-            if (axis === Axis.X) {
-                // x
-                val bL = BBox.create(objectsLx)
-                val bR = BBox.create(objectsRx)
+            when {
+                axis === Axis.X -> {
+                    // x
+                    val bL = BBox.create(objectsLx)
+                    val bR = BBox.create(objectsRx)
 
-                val q1x = Point3D(splitX!!, bL.q.y, bL.q.z)
-                val p2x = Point3D(splitX!!, bR.p.y, bR.p.z)
+                    val q1x = Point3D(splitX!!, bL.q.y, bL.q.z)
+                    val p2x = Point3D(splitX!!, bR.p.y, bR.p.z)
 
-                voxelL = BBox(bL.p, q1x)
-                voxelR = BBox(p2x, bR.q)
+                    voxelL = BBox(bL.p, q1x)
+                    voxelR = BBox(p2x, bR.q)
 
-                objectsL = objectsLx
-                objectsR = objectsRx
+                    objectsL = objectsLx
+                    objectsR = objectsRx
 
-                split = splitX
-            } else if (axis === Axis.Y) {
-                // y
-                val bL = BBox.create(objectsLy)
-                val bR = BBox.create(objectsRy)
+                    split = splitX
+                }
+                axis === Axis.Y -> {
+                    // y
+                    val bL = BBox.create(objectsLy)
+                    val bR = BBox.create(objectsRy)
 
-                val q1 = Point3D(bL.q.x, splitY!!, bL.q.z)
-                val p2 = Point3D(bR.p.x, splitY!!, bR.p.z)
+                    val q1 = Point3D(bL.q.x, splitY!!, bL.q.z)
+                    val p2 = Point3D(bR.p.x, splitY!!, bR.p.z)
 
-                voxelL = BBox(bL.p, q1)
-                voxelR = BBox(p2, bR.q)
+                    voxelL = BBox(bL.p, q1)
+                    voxelR = BBox(p2, bR.q)
 
-                objectsL = objectsLy
-                objectsR = objectsRy
+                    objectsL = objectsLy
+                    objectsR = objectsRy
 
-                split = splitY
-            } else if (axis === Axis.Z) {
-                // z
-                val bL = BBox.create(objectsLz)
-                val bR = BBox.create(objectsRz)
+                    split = splitY
+                }
+                axis === Axis.Z -> {
+                    // z
+                    val bL = BBox.create(objectsLz)
+                    val bR = BBox.create(objectsRz)
 
-                val q1 = Point3D(bL.q.x, bL.q.y, splitZ!!)
-                val p2 = Point3D(bR.p.x, bR.p.y, splitZ!!)
+                    val q1 = Point3D(bL.q.x, bL.q.y, splitZ!!)
+                    val p2 = Point3D(bR.p.x, bR.p.y, splitZ!!)
 
-                voxelL = BBox(bL.p, q1)
-                voxelR = BBox(p2, bR.q)
+                    voxelL = BBox(bL.p, q1)
+                    voxelR = BBox(p2, bR.q)
 
-                objectsL = objectsLz
-                objectsR = objectsRz
+                    objectsL = objectsLz
+                    objectsR = objectsRz
 
-                split = splitZ
+                    split = splitZ
+                }
             }
         }
     }

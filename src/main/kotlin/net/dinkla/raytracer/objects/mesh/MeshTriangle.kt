@@ -120,7 +120,7 @@ open class MeshTriangle : GeometricObject {
         }
     }
 
-    fun calcBBox(): BBox {
+    private fun calcBBox(): BBox {
         val p0 = mesh.vertices[index0]
         val p1 = mesh.vertices[index1]
         val p2 = mesh.vertices[index2]

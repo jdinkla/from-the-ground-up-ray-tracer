@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 
 class CoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
-    var exposureTime = 1.0
+    private var exposureTime = 1.0
 
     override fun render(film: Film) {
         LOGGER.info("render starts")

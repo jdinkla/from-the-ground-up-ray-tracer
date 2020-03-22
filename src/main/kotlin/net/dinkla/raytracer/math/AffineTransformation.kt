@@ -3,6 +3,8 @@ package net.dinkla.raytracer.math
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
+import kotlin.math.cos
+import kotlin.math.sin
 
 class AffineTransformation : Transformation {
 
@@ -47,15 +49,15 @@ class AffineTransformation : Transformation {
     }
 
     override fun rotateX(phi: Double) {
-        val cosPhi = Math.cos(phi * PI_ON_180)
-        val sinPhi = Math.sin(phi * PI_ON_180)
+        val cosPhi = cos(phi * PI_ON_180)
+        val sinPhi = sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
         invRotationMatrix[1, 1] = cosPhi
         invRotationMatrix[1, 2] = sinPhi
         invRotationMatrix[2, 1] = -sinPhi
         invRotationMatrix[2, 2] = cosPhi
-        invMatrix = invMatrix * invRotationMatrix
+        invMatrix *= invRotationMatrix
 
         val rotationMatrix = Matrix.identity()
         rotationMatrix[1, 1] = cosPhi
@@ -66,15 +68,15 @@ class AffineTransformation : Transformation {
     }
 
     override fun rotateY(phi: Double) {
-        val cosPhi = Math.cos(phi * PI_ON_180)
-        val sinPhi = Math.sin(phi * PI_ON_180)
+        val cosPhi = cos(phi * PI_ON_180)
+        val sinPhi = sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
         invRotationMatrix[2, 2] = cosPhi
         invRotationMatrix[0, 2] = -sinPhi
         invRotationMatrix[2, 0] = sinPhi
         invRotationMatrix[0, 0] = cosPhi
-        invMatrix = invMatrix * invRotationMatrix
+        invMatrix *= invRotationMatrix
 
         val rotationMatrix = Matrix.identity()
         rotationMatrix[2, 2] = cosPhi
@@ -85,15 +87,15 @@ class AffineTransformation : Transformation {
     }
 
     override fun rotateZ(phi: Double) {
-        val cosPhi = Math.cos(phi * PI_ON_180)
-        val sinPhi = Math.sin(phi * PI_ON_180)
+        val cosPhi = cos(phi * PI_ON_180)
+        val sinPhi = sin(phi * PI_ON_180)
 
         val invRotationMatrix = Matrix.identity()
         invRotationMatrix[0, 0] = cosPhi
         invRotationMatrix[0, 1] = sinPhi
         invRotationMatrix[1, 0] = -sinPhi
         invRotationMatrix[1, 1] = cosPhi
-        invMatrix = invMatrix * invRotationMatrix
+        invMatrix *= invRotationMatrix
 
         val rotationMatrix = Matrix.identity()
         rotationMatrix[0, 0] = cosPhi

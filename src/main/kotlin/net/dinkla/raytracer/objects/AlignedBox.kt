@@ -19,41 +19,41 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
         var t0: Double
         var t1: Double
-        var faceIn: Int
-        var faceOut: Int
+        var faceIn: Face
+        var faceOut: Face
         // find largest entering t value
         if (txMin > tyMin) {
             t0 = txMin
-            faceIn = if (a >= 0) 0 else 3
+            faceIn = if (a >= 0) Face.LEFT else Face.RIGHT
         } else {
             t0 = tyMin
-            faceIn = if (b >= 0) 1 else 4
+            faceIn = if (b >= 0) Face.BOTTOM else Face.TOP
         }
         if (tzMin > t0) {
             t0 = tzMin
-            faceIn = if (c >= 0) 2 else 5
+            faceIn = if (c >= 0) Face.FRONT else Face.BACK
         }
 
         // find smallest exiting t value
         if (txMax < tyMax) {
             t1 = txMax
-            faceOut = if (a >= 0) 3 else 0
+            faceOut = if (a >= 0) Face.RIGHT else Face.LEFT
         } else {
             t1 = tyMax
-            faceOut = if (b >= 0) 4 else 1
+            faceOut = if (b >= 0) Face.TOP else Face.BOTTOM
         }
         if (tzMax < t1) {
             t1 = tzMax
-            faceOut = if (c >= 0) 5 else 2
+            faceOut = if (c >= 0) Face.BACK else Face.FRONT
         }
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
             if (t0 > MathUtils.K_EPSILON) {
                 sr.t = t0
-                sr.normal = getNormal(faceIn)
+                sr.normal = faceIn.normal
             } else {
                 sr.t = t1
-                sr.normal = getNormal(faceOut)
+                sr.normal = faceOut.normal
             }
             //sr.localHitPoint = ray.linear(tmin.getValue());
             return true
@@ -68,32 +68,24 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
         var t0: Double
         var t1: Double
-        var faceIn: Int
-        var faceOut: Int
         // find largest entering t value
-        if (txMin > tyMin) {
-            t0 = txMin
-            faceIn = if (a >= 0) 0 else 3
+        t0 = if (txMin > tyMin) {
+            txMin
         } else {
-            t0 = tyMin
-            faceIn = if (b >= 0) 1 else 4
+            tyMin
         }
         if (tzMin > t0) {
             t0 = tzMin
-            faceIn = if (c >= 0) 2 else 5
         }
 
         // find smallest exiting t value
-        if (txMax < tyMax) {
-            t1 = txMax
-            faceOut = if (a >= 0) 3 else 0
+        t1 = if (txMax < tyMax) {
+            txMax
         } else {
-            t1 = tyMax
-            faceOut = if (b >= 0) 4 else 1
+            tyMax
         }
         if (tzMax < t1) {
             t1 = tzMax
-            faceOut = if (c >= 0) 5 else 2
         }
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
@@ -119,17 +111,6 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             tMax = (p - origin) * a
         }
         return Triple(tMin, tMax, a)
-    }
-
-    // TODO these normals have names in Normal class
-    private fun getNormal(face: Int): Normal = when (face) {
-        0 -> Normal.LEFT
-        1 -> Normal.DOWN
-        2 -> Normal.BACKWARD
-        3 -> Normal.RIGHT
-        4 -> Normal.UP
-        5 -> Normal.FORWARD
-        else -> Normal.ZERO
     }
 
     override fun equals(other: Any?): Boolean = this.equals<AlignedBox>(other) { a, b ->

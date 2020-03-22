@@ -17,7 +17,7 @@ internal class HistogramTest {
         val h = Histogram()
         h.add(3)
         assertEquals(1, h.counts.keys.size)
-        assertEquals(1, h.get(3))
+        assertEquals(1, h[3])
     }
 
     @Test
@@ -26,7 +26,7 @@ internal class HistogramTest {
         h.add(3)
         h.add(3)
         assertEquals(1, h.counts.keys.size)
-        assertEquals(2, h.get(3))
+        assertEquals(2, h[3])
     }
 
     @Test
@@ -35,8 +35,8 @@ internal class HistogramTest {
         h.add(3)
         h.add(4)
         assertEquals(2, h.counts.keys.size)
-        assertEquals(1, h.get(3))
-        assertEquals(1, h.get(4))
+        assertEquals(1, h[3])
+        assertEquals(1, h[4])
     }
 
     @Test
@@ -48,8 +48,8 @@ internal class HistogramTest {
         h.add(4)
         h.add(3)
         assertEquals(2, h.counts.keys.size)
-        assertEquals(3, h.get(3))
-        assertEquals(2, h.get(4))
+        assertEquals(3, h[3])
+        assertEquals(2, h[4])
     }
 
     @Test

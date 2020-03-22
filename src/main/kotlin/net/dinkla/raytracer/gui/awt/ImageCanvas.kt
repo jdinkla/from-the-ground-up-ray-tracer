@@ -5,7 +5,7 @@ import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.Image
 
-internal class ImageCanvas(val img: Image) : Canvas() {
+internal class ImageCanvas(private val img: Image) : Canvas() {
 
     override fun paint(g: Graphics): Unit {
         g.drawImage(img, 0, 0, this)

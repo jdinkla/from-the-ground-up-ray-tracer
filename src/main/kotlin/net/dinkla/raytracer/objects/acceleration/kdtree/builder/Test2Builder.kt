@@ -74,8 +74,8 @@ class Test2Builder : IKDTreeBuilder {
 
             var axis: Axis? = null
             var split: Double = 0.toDouble()
-            var left: Triple
-            var right: Triple
+            var left: Triple = Triple()
+            var right: Triple = Triple()
 
             var sah: Double = 0.toDouble()
 
@@ -85,11 +85,6 @@ class Test2Builder : IKDTreeBuilder {
                     val b2 = parent?.objects!!.size <= right.objects!!.size
                     return !(b1 || b2)
                 }
-
-            init {
-                left = Triple()
-                right = Triple()
-            }
 
             fun update() {
                 left.update()
@@ -108,7 +103,7 @@ class Test2Builder : IKDTreeBuilder {
             }
 
             companion object {
-                val constF = 0.333334
+                const val constF = 0.333334
 
                 fun max(): Split {
                     val s = Split(null)
@@ -152,7 +147,7 @@ class Test2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build")
 
-        var node: AbstractNode?
+        val node: AbstractNode?
 
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
@@ -169,7 +164,7 @@ class Test2Builder : IKDTreeBuilder {
         val sY = par.x(Axis.Y, par.candidatesY)
         val sZ = par.x(Axis.Z, par.candidatesZ)
 
-        var split: Partitioner.Split?
+        val split: Partitioner.Split?
 
         if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {

@@ -106,7 +106,7 @@ open class Phong(color: Color = Color.WHITE,
 
     override fun getLe(sr: Shade): Color {
         // TODO
-        return specularBRDF.cs!!.times(specularBRDF.ks)
+        return specularBRDF.cs * (specularBRDF.ks)
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Phong>(other) { a, b ->

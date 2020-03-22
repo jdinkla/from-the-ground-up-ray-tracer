@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Vector3D
 
 class Orthographic(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
-    var zw = 1111.0
+    private var zw = 1111.0
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
         val x = viewPlane.size * (c - OFFSET * (viewPlane.resolution.hres - 1) + sp.x)

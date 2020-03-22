@@ -24,7 +24,7 @@ class Whitted(var world: World) : Tracer {
     override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
         Counter.count("Whitted.trace3")
 //        var color = build.backgroundColor
-        var color: Color
+        val color: Color
         if (depth > world.viewPlane.maxDepth) {
             color = Color.BLACK
         } else {

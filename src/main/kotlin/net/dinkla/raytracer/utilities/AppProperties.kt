@@ -7,10 +7,9 @@ import java.util.*
 
 object AppProperties {
 
-    var properties: Properties
+    private var properties: Properties = Properties()
 
     init {
-        properties = Properties()
         try {
             val fileInputStream = FileInputStream("raytracer.properties")
             val reader = InputStreamReader(fileInputStream, "UTF-8")

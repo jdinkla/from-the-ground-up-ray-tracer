@@ -6,7 +6,7 @@ import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.World
 import java.util.*
 
-class Emissive(val ce: Color = Color.WHITE, val ls: Double = 1.0) : IMaterial {
+class Emissive(private val ce: Color = Color.WHITE, val ls: Double = 1.0) : IMaterial {
 
     private val le: Color = ce * ls
 

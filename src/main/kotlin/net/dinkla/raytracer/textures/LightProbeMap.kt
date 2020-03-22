@@ -6,7 +6,7 @@ import net.dinkla.raytracer.utilities.Resolution
 
 class LightProbeMap : Mapping() {
 
-    var type: Type= Type.LIGHT_PROBE
+    private var type: Type= Type.LIGHT_PROBE
 
     enum class Type {
         LIGHT_PROBE,

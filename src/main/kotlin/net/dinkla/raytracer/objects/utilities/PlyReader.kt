@@ -21,8 +21,8 @@ class PlyReader(val material: IMaterial,
         compound.material = material
     }
 
-    var isInHeader = true
-    var numLine = 0
+    private var isInHeader = true
+    private var numLine = 0
 
     private var numVerticesLeft = -1
     private var numFacesLeft = -1
@@ -149,7 +149,7 @@ class PlyReader(val material: IMaterial,
             return Integer.parseInt(rest)
         }
 
-        fun isWhiteSpace(line: String) = line.trim().length == 0
+        fun isWhiteSpace(line: String) = line.trim().isEmpty()
 
     }
 

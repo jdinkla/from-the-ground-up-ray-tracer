@@ -55,8 +55,8 @@ class TestBuilder : IKDTreeBuilder {
 
             var axis: Axis? = null
             var split: Double = 0.toDouble()
-            var left: Triple
-            var right: Triple
+            var left: Triple = Triple()
+            var right: Triple = Triple()
 
             var sah: Double = 0.toDouble()
 
@@ -66,11 +66,6 @@ class TestBuilder : IKDTreeBuilder {
                     val b2 = parent?.objects!!.size <= right.objects!!.size
                     return !(b1 || b2)
                 }
-
-            init {
-                left = Triple()
-                right = Triple()
-            }
 
             fun update() {
                 left.update()
@@ -86,7 +81,7 @@ class TestBuilder : IKDTreeBuilder {
             }
 
             companion object {
-                val constF = 0.333334f
+                const val constF = 0.333334f
 
                 fun max(): Split {
                     val s = Split(null)

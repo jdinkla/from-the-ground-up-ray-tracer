@@ -7,8 +7,6 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 
-// emissive material
-
 class PointLight(val location: Point3D = Point3D.ORIGIN,
                  val ls: Double = 1.0,
                  val color: Color = Color.WHITE) : Light() {

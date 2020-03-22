@@ -5,7 +5,7 @@ import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 
-open class Camera(val lens: AbstractLens) {
+open class Camera(private val lens: AbstractLens) {
 
     var eye: Point3D = Point3D(0.0, 10.0, 0.0)
     var lookAt: Point3D = Point3D.ORIGIN
@@ -24,7 +24,7 @@ open class Camera(val lens: AbstractLens) {
         computeUVW()
     }
 
-    fun computeUVW() {
+    private fun computeUVW() {
         uvw = Basis(eye, lookAt, up)
         lens.eye = eye
         lens.uvw = uvw

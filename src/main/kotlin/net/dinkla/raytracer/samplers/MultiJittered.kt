@@ -21,7 +21,7 @@ object MultiJittered : IGenerator {
                     val target = i * n + j + p * numSets
                     val x = (i * n + j) * subcellWidth + Random.double(0.0, subcellWidth)
                     val y = (j * n + i) * subcellWidth + Random.double(0.0, subcellWidth)
-                    samples.set(target, Point2D(x, y))
+                    samples[target] = Point2D(x, y)
                 }
             }
         }

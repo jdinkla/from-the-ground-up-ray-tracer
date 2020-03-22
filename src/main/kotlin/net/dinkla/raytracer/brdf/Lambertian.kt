@@ -21,7 +21,7 @@ class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF() {
     override fun rho(sr: Shade, wo: Vector3D): Color = cd.getColor(sr) * kd
 
     override fun equals(other: Any?): Boolean = if (other != null && other is Lambertian) {
-        kd.equals(other.kd) && cd.equals(other.cd)
+        kd.equals(other.kd) && cd == other.cd
     } else {
         false
     }

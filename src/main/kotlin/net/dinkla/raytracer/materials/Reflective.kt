@@ -29,16 +29,16 @@ class Reflective(color: Color = Color.WHITE,
         val L = super.shade(world, sr)
         val wo = -sr.ray.direction
         val sample = reflectiveBRDF.sampleF(sr, wo)
-        val f = sr.normal.dot(sample.wi!!)
-        val reflectedRay = Ray(sr.hitPoint, sample.wi!!)
+        val f = sr.normal dot sample.wi
+        val reflectedRay = Ray(sr.hitPoint, sample.wi)
         val c1 = world.tracer.trace(reflectedRay, sr.depth + 1)
-        val c2 = sample.color!!.times(c1).times(f)
+        val c2 = sample.color * (c1).times(f)
         return L + c2
     }
 
     override fun equals(other: Any?): Boolean {
         if (other != null && other is Reflective) {
-            return super.equals(other) && reflectiveBRDF.equals(other.reflectiveBRDF)
+            return super.equals(other) && reflectiveBRDF == other.reflectiveBRDF
         }
         return false
     }

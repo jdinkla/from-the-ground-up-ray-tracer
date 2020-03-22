@@ -2,15 +2,16 @@ package net.dinkla.raytracer.utilities
 
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.max
 
 class Counter private constructor() {
 
     // For each thread-id there is a map
-    protected var instances: ConcurrentHashMap<Long, TreeMap<String, Int>> = ConcurrentHashMap()
+    private var instances = ConcurrentHashMap<Long, TreeMap<String, Int>>()
 
     companion object {
 
-        internal val EMPTY = "                                                            "
+        private const val EMPTY = "                                                            "
         var PAUSE = false
         private val INSTANCE = Counter()
 
@@ -31,7 +32,7 @@ class Counter private constructor() {
         private fun printStats(results: TreeMap<String, Int>, columns: Int) {
             println("Counter")
             for (key in results.keys) {
-                val spaces = Math.max(columns - key.length - 1, 0)
+                val spaces = max(columns - key.length - 1, 0)
                 val count = results[key]
                 println(key + ":" + EMPTY.substring(0, spaces) + count)
             }
@@ -44,7 +45,7 @@ class Counter private constructor() {
                 if (null != map) {
                     for (key in map.keys) {
                         val c: Int = results[key] ?: 0
-                        results[key] = c + (map.get(key) ?: 0)
+                        results[key] = c + (map[key] ?: 0)
                     }
                 }
             }

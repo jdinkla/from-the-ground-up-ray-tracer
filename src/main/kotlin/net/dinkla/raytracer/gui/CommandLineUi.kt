@@ -7,6 +7,7 @@ import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.world.WorldDefinition
 import org.slf4j.LoggerFactory
 import java.lang.System.exit
+import kotlin.system.exitProcess
 
 object CommandLineUi {
 
@@ -28,7 +29,7 @@ object CommandLineUi {
         val wdef: WorldDefinition? = worldDef(fileNameIn)
         if (null == wdef) {
             LOGGER.warn("WorldDef $fileNameIn is not known")
-            exit(1)
+            exitProcess(1)
         } else {
             Png.renderAndSave(wdef, fileNameOut)
             Counter.stats(30)

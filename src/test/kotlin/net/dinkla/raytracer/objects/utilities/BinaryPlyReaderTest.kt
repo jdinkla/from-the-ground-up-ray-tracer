@@ -13,7 +13,7 @@ class BinaryPlyReaderTest {
     //    @Test
     fun ReadFlat() {
         val grid = Grid()
-        BinaryPlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, false)
+        BinaryPlyReader.read(grid, TestUtils.PLY_EXAMPLE, reverseNormal = false, isSmooth = false)
         //System.out.println("mesh=" + grid.getMesh());
         assertEquals(grid.mesh.vertices.size, 4)
         assertEquals(grid.size(), 2)
@@ -22,7 +22,7 @@ class BinaryPlyReaderTest {
     //    @Test
     fun ReadSmooth() {
         val grid = Grid()
-        BinaryPlyReader.read(grid, TestUtils.PLY_EXAMPLE, false, true)
+        BinaryPlyReader.read(grid, TestUtils.PLY_EXAMPLE, reverseNormal = false, isSmooth = true)
         //System.out.println("mesh=" + grid.getMesh());
         assertEquals(grid.mesh.vertices.size, 4)
         assertEquals(grid.size(), 2)

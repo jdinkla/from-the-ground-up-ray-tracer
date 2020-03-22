@@ -12,16 +12,16 @@ class PlyFile(val filename: String) {
     var format: String = ""
     var formatVersion: String = ""
     var vertexDataLength: Int? = null
-    var headerLength = 0
+    private var headerLength = 0
 
     init {
         readHeader()
     }
 
-    fun readHeader() {
+    private fun readHeader() {
         LOGGER.info("PLY: reading file '${filename}'")
 
-        var isInHeader = true
+        val isInHeader = true
         var isInVertexDef = false
         var isInFaceDef = false
         var numLine = 0

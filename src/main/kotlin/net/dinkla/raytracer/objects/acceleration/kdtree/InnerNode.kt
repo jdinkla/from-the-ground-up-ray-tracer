@@ -65,7 +65,7 @@ class InnerNode(
 
     override fun hit(ray: Ray, sr: Hit): Boolean = hitRec(ray, sr)
 
-    fun hitRec(ray: Ray, sr: Hit): Boolean {
+    private fun hitRec(ray: Ray, sr: Hit): Boolean {
         val hit = boundingBox.hitX(ray)
         if (!hit.isHit) {
             return false

@@ -61,11 +61,11 @@ class AffineTransformationTest {
         // TODO: shear funktioniert nicht wie erwartet
         assert(false)
         var q = t.invMatrix.times(p)
-        println("q=" + q)
+        println("q=$q")
         println("inv=" + t.invMatrix)
 
         q = t.forwardMatrix.times(p)
-        println("q=" + q)
+        println("q=$q")
         println("for=" + t.forwardMatrix)
 
         //testT(t, new Point3D(1, 1, 1), new Point3D(1, -1, 1), new Point3D(-1, 1, 1));
@@ -91,7 +91,7 @@ class AffineTransformationTest {
 
     companion object {
 
-        private val DELTA = 0.001
+        private const val DELTA = 0.001
     }
 
 }

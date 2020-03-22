@@ -12,13 +12,13 @@ import java.io.IOException
 
 class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
 
-    var res: Resolution
-    var mapping: Mapping? = null
+    private var res: Resolution
+    private var mapping: Mapping? = null
 
-    var hRow: Histogram
-    var hColumn: Histogram
+    private var hRow: Histogram
+    private var hColumn: Histogram
 
-    protected var image: BufferedImage
+    private var image: BufferedImage
 
     init {
         image = ImageIO.read(File(fileName))

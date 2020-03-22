@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 
-
 class PlaneTest {
 
     // Plane
@@ -20,7 +19,7 @@ class PlaneTest {
     private var plane = Plane(p, normal)
 
     // Sample
-    internal var sr: Hit = Hit()
+    private var sr: Hit = Hit()
 
     @BeforeEach
     fun init() {

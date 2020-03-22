@@ -32,9 +32,9 @@ class PolynomialsTest {
 
         val num = Polynomials.solveQuartic(s1, sol)
 
-        println("num=" + num)
+        println("num=$num")
         for (f in sol) {
-            println("f=" + f)
+            println("f=$f")
         }
     }
 

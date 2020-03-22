@@ -28,7 +28,7 @@ class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         return Ray(eye!!, direction)
     }
 
-    protected fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): Vector3D {
+    private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): Vector3D {
         val x = 2.0 / (s * resolution.hres) * pp.x
         val y = 2.0 / (s * resolution.vres) * pp.y
 

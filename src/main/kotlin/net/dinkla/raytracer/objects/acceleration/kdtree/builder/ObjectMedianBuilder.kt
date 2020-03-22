@@ -15,7 +15,7 @@ import java.util.*
 class ObjectMedianBuilder : IKDTreeBuilder {
 
     override var maxDepth = 15
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): AbstractNode {
         return build(tree.objects, tree.boundingBox, 0)
@@ -26,7 +26,7 @@ class ObjectMedianBuilder : IKDTreeBuilder {
         var objects = origObjects
         Counter.count("KDtree.build")
 
-        var node: AbstractNode?
+        val node: AbstractNode?
         var voxelL: BBox? = null
         var voxelR: BBox? = null
 

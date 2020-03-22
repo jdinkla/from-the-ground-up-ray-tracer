@@ -9,7 +9,7 @@ import net.dinkla.raytracer.world.World
 
 class GlossyReflector : Phong() {
 
-    protected val glossySpecularBrdf: GlossySpecular = GlossySpecular()
+    private val glossySpecularBrdf: GlossySpecular = GlossySpecular()
 
     // TODO kr == ks? it was like that in the orig code, check the book!
     var kr: Double
@@ -31,9 +31,9 @@ class GlossyReflector : Phong() {
         val reflectedRay = Ray(sr.hitPoint, result.wi)
         val r = world.tracer.trace(reflectedRay, sr.depth + 1)
         val r2 = result.color * r
-        val r3 = r2.times((result.wi dot sr.normal) / result.pdf)
+        val r3 = r2 * ((result.wi dot sr.normal) / result.pdf)
         val c = result.color
-        return c ?: Color.BLACK
+        return c
         //        L = L.plus(r);
         //        return L;
     }

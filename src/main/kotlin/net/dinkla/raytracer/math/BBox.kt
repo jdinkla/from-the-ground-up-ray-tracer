@@ -3,6 +3,8 @@ package net.dinkla.raytracer.math
 import net.dinkla.raytracer.objects.GeometricObject
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
+import kotlin.math.min
 
 class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
 
@@ -21,7 +23,7 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     class Hit {
-        val t0: Double
+        private val t0: Double
         val t1: Double
         val isHit: Boolean
 
@@ -173,13 +175,13 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         if (isContainedIn(bbox)) {
             return this
         }
-        val px = Math.max(p.x, bbox.p.x)
-        val py = Math.max(p.y, bbox.p.y)
-        val pz = Math.max(p.z, bbox.p.z)
+        val px = max(p.x, bbox.p.x)
+        val py = max(p.y, bbox.p.y)
+        val pz = max(p.z, bbox.p.z)
 
-        val qx = Math.min(q.x, bbox.q.x)
-        val qy = Math.min(q.y, bbox.q.y)
-        val qz = Math.min(q.z, bbox.q.z)
+        val qx = min(q.x, bbox.q.x)
+        val qy = min(q.y, bbox.q.y)
+        val qz = min(q.z, bbox.q.z)
 
         return BBox(Point3D(px, py, pz), Point3D(qx, qy, qz))
     }
@@ -201,12 +203,10 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
     }
 
     override fun equals(other: Any?): Boolean {
-        //val bbox = other as? Box ?: return false
         return if (other == null || other !is BBox) {
             false
         } else {
-            val bbox: BBox = other as BBox
-            p == bbox.p && q == bbox.q
+            p == other.p && q == other.q
         }
     }
 

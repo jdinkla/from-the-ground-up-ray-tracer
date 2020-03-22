@@ -33,9 +33,9 @@ class Simple2Builder : IKDTreeBuilder {
 
         Counter.count("KDtree.build")
 
-        var node: AbstractNode?
-        var voxelL: BBox?
-        var voxelR: BBox?
+        val node: AbstractNode?
+        val voxelL: BBox?
+        val voxelR: BBox?
 
         if (objects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
@@ -48,17 +48,17 @@ class Simple2Builder : IKDTreeBuilder {
         val half = voxel.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
 
-        var objectsL: List<GeometricObject>
-        var objectsR: List<GeometricObject>
+        val objectsL: List<GeometricObject>
+        val objectsR: List<GeometricObject>
 
-        var voxelLx: BBox?
-        var voxelRx: BBox?
+        val voxelLx: BBox?
+        val voxelRx: BBox?
 
-        var voxelLy: BBox?
-        var voxelRy: BBox?
+        val voxelLy: BBox?
+        val voxelRy: BBox?
 
-        var voxelLz: BBox?
-        var voxelRz: BBox?
+        val voxelLz: BBox?
+        val voxelRz: BBox?
 
         val objectsLx = ArrayList<GeometricObject>()
         val objectsRx = ArrayList<GeometricObject>()

@@ -13,7 +13,7 @@ class DirectionalLight : Light() {
 
     var ls: Double = 0.toDouble()
     var color: Color
-    var negatedDirection: Vector3D
+    private var negatedDirection: Vector3D
 
     // TODO cleanup direction
 //    val direction

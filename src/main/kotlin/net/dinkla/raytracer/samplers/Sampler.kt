@@ -7,18 +7,18 @@ import net.dinkla.raytracer.math.Random
 import java.util.ArrayList
 
 class Sampler(
-        protected var sampler: IGenerator = Jittered,
-        protected var numSamples: Int = 100,
-        protected var numSets: Int = 10) {
+        private var sampler: IGenerator = Jittered,
+        private var numSamples: Int = 100,
+        private var numSets: Int = 10) {
 
-    protected var shuffledIndices: ArrayList<Int>
-    protected var samples: ArrayList<Point2D>
-    protected var diskSamples: ArrayList<Point2D>
-    protected var hemisphereSamples: ArrayList<Point3D>
-    protected var sphereSamples: ArrayList<Point3D>
+    private var shuffledIndices: ArrayList<Int>
+    private var samples: ArrayList<Point2D>
+    private var diskSamples: ArrayList<Point2D>
+    private var hemisphereSamples: ArrayList<Point3D>
+    private var sphereSamples: ArrayList<Point3D>
 
-    protected var count: Int = 0
-    protected var jump: Int = 0
+    private var count: Int = 0
+    private var jump: Int = 0
 
     init {
         count = 0

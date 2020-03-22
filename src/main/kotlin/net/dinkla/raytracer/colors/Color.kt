@@ -3,6 +3,7 @@ package net.dinkla.raytracer.colors
 import net.dinkla.raytracer.hits.Shade
 
 import java.lang.Math.max
+import kotlin.math.pow
 
 data class Color(val red: Double, val green: Double, val blue: Double) {
 
@@ -14,7 +15,7 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
 
     operator fun times(s: Double) = Color(s * red, s * green, s * blue)
 
-    fun pow(s: Double) = Color(Math.pow(red, s), Math.pow(green, s), Math.pow(blue, s))
+    fun pow(s: Double) = Color(red.pow(s), green.pow(s), blue.pow(s))
 
     // TODO sick?
     fun getColor(sr: Shade): Color {

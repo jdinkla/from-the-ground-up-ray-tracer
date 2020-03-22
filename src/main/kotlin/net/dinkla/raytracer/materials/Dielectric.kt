@@ -10,18 +10,11 @@ import net.dinkla.raytracer.world.World
 
 class Dielectric : Phong() {
 
-    internal var fresnelBrdf: FresnelReflector
-    internal var fresnelBtdf: FresnelTransmitter
+    private var fresnelBrdf: FresnelReflector = FresnelReflector()
+    private var fresnelBtdf: FresnelTransmitter = FresnelTransmitter()
 
-    internal var cfIn: Color
-    internal var cfOut: Color
-
-    init {
-        fresnelBrdf = FresnelReflector()
-        fresnelBtdf = FresnelTransmitter()
-        cfIn = Color.WHITE
-        cfOut = Color.WHITE
-    }
+    internal var cfIn: Color = Color.WHITE
+    internal var cfOut: Color = Color.WHITE
 
     override fun shade(world: World, sr: Shade): Color {
         var L = super.shade(world, sr)
@@ -72,22 +65,4 @@ class Dielectric : Phong() {
         }
         return L
     }
-
-    fun setEtaIn(etaIn: Double) {
-
-    }
-
-    fun setEtaOut(etaOut: Double) {
-
-    }
-
-
-    fun setCfIn(cfIn: Color) {
-
-    }
-
-    fun setCfOut(cfOut: Color) {
-
-    }
-
 }

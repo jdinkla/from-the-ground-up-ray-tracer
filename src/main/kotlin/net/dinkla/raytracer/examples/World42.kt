@@ -10,7 +10,7 @@ object World42 : WorldDefinition {
 
     const val hasShadows = true
     const val NUM = 25
-    private val column = NUM / 2 - 0.15
+    private const val column = NUM / 2 - 0.15
     val r = Random()
 
     override fun world() = Builder.build("World42") {

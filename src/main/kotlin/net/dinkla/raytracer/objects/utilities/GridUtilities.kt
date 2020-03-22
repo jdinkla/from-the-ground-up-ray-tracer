@@ -17,7 +17,7 @@ object GridUtilities {
         // define the top triangles which all touch the north pole
         var k = 1
 
-        for (j in 0..horizontalSteps - 1) {
+        for (j in 0 until horizontalSteps) {
             // define vertices
 
             val v0 = Point3D(0.0, 1.0, 0.0)                        // top (north pole)
@@ -36,7 +36,7 @@ object GridUtilities {
 
         // define the bottom triangles which all touch the south pole
         k = verticalSteps - 1
-        for (j in 0..horizontalSteps - 1) {
+        for (j in 0 until horizontalSteps) {
             // define vertices
 
             val v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left
@@ -56,7 +56,7 @@ object GridUtilities {
         //  define the other triangles
         k = 1
         while (k <= verticalSteps - 2) {
-            for (j in 0..horizontalSteps - 1) {
+            for (j in 0 until horizontalSteps) {
                 // define the first triangle
 
                 // vertices
@@ -104,7 +104,7 @@ object GridUtilities {
         // define the top triangles which all touch the north pole
         var k = 1
 
-        for (j in 0..horizontalSteps - 1) {
+        for (j in 0 until horizontalSteps) {
             // define vertices
 
             val v0 = Point3D(0.0, 1.0, 0.0)                        // top (north pole)
@@ -126,7 +126,7 @@ object GridUtilities {
 
         // define the bottom triangles which all touch the south pole
         k = verticalSteps - 1
-        for (j in 0..horizontalSteps - 1) {
+        for (j in 0 until horizontalSteps) {
             // define vertices
 
             val v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left
@@ -149,7 +149,7 @@ object GridUtilities {
         //  define the other triangles
         k = 1
         while (k <= verticalSteps - 2) {
-            for (j in 0..horizontalSteps - 1) {
+            for (j in 0 until horizontalSteps) {
                 // define the first triangle
 
                 // vertices

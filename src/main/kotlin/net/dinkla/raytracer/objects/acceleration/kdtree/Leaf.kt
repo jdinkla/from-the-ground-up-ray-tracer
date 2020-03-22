@@ -8,7 +8,8 @@ import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
 
 class Leaf(objects: List<GeometricObject>) : AbstractNode() {
-    protected val compound: Compound
+
+    private val compound: Compound = Compound()
 
     override val boundingBox: BBox
         get() = compound.boundingBox
@@ -17,7 +18,6 @@ class Leaf(objects: List<GeometricObject>) : AbstractNode() {
         //        if (objects.size() > 1000) {
         //            compound = new Grid();
         //        } else {
-        compound = Compound()
         //        }
         compound.add(objects)
         compound.initialize()

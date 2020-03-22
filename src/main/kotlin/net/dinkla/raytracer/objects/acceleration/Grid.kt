@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 
 open class Grid : CompoundWithMesh() {
 
-    protected var cells: Array<GeometricObject> = Array(0, { i -> NullObject() } )
+    private var cells: Array<GeometricObject> = Array(0) { i -> NullObject() }
 
     protected var nx: Int = 0
     protected var ny: Int = 0
@@ -58,7 +58,7 @@ open class Grid : CompoundWithMesh() {
 
         LOGGER.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
-        cells = Array<GeometricObject>(numCells, { i -> NullObject() })
+        cells = Array<GeometricObject>(numCells) { i -> NullObject() }
 
         val counts = IntArray(numCells)
 
@@ -154,7 +154,7 @@ open class Grid : CompoundWithMesh() {
                 + ", numObjects in cells=" + numInCells)
 
         for (key in hist.counts.keys) {
-            val value = hist[key]!!
+            val value = hist[key]
             LOGGER.info("Grid: " + key + ": " + value + " [" + value * 100.0 / numInCells + "%]")
         }
     }

@@ -10,7 +10,7 @@ object PointUtilities {
         var y0 = MathUtils.K_HUGEVALUE
         var z0 = MathUtils.K_HUGEVALUE
 
-        for (j in 0..(n - 1)) {
+        for (j in 0 until n) {
             if (v[j].x < x0) {
                 x0 = v[j].x
             }
@@ -29,7 +29,7 @@ object PointUtilities {
         var y1 = -MathUtils.K_HUGEVALUE
         var z1 = -MathUtils.K_HUGEVALUE
 
-        for (j in 0..(n-1)) {
+        for (j in 0 until n) {
             if (v[j].x > x1) {
                 x1 = v[j].x
             }

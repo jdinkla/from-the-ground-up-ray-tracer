@@ -52,7 +52,7 @@ class AreaLight : Light(), ILightSource {
         return source!!.pdf(sr)
     }
 
-    fun getSample(sr: Shade): Sample {
+    private fun getSample(sr: Shade): Sample {
         val sample = Sample()
         sample.samplePoint = source!!.sample()
         sample.lightNormal = source!!.getNormal(sample.samplePoint!!)

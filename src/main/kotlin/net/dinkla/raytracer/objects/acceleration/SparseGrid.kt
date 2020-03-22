@@ -10,12 +10,10 @@ import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class SparseGrid : Grid {
+class SparseGrid() : Grid() {
 
     //protected GeometricObject[] cells;
-    protected var cellsX: MutableMap<Int, GeometricObject> = mutableMapOf()
-
-    constructor() : super() {}
+    private var cellsX: MutableMap<Int, GeometricObject> = mutableMapOf()
 
     override fun initialize() {
         if (isInitialized) {

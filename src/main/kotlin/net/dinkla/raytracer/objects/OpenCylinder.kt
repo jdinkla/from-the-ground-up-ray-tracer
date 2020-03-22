@@ -113,7 +113,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         return false
     }
 
-    fun calcBoundingBox(): BBox {
+    private fun calcBoundingBox(): BBox {
         // TODO: better bbox of open cylinder // throw new RuntimeException("OpenCylinder.getBoundingBox");
         val p = Point3D(-radius - MathUtils.K_EPSILON, y0, -radius - MathUtils.K_EPSILON)
         val q = Point3D(radius + MathUtils.K_EPSILON, y1, radius + MathUtils.K_EPSILON)
