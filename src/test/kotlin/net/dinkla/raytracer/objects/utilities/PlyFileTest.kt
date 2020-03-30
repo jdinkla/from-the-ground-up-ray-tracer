@@ -1,16 +1,17 @@
 package net.dinkla.raytracer.objects.utilities
 
-import net.dinkla.raytracer.TestUtils
-import org.junit.jupiter.api.Test
+import net.dinkla.raytracer.PLY_BINARY_EXAMPLE
+import net.dinkla.raytracer.PLY_EXAMPLE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 @Disabled
 class PlyFileTest {
 
     @Test
     fun readHeaderAscii() {
-        val plyFile = PlyFile(TestUtils.PLY_EXAMPLE)
+        val plyFile = PlyFile(PLY_EXAMPLE)
         assertEquals(plyFile.numVertices, 4)
         assertEquals(plyFile.numFaces, 2)
         assertEquals(plyFile.vertexProperties.size, 3)
@@ -22,7 +23,7 @@ class PlyFileTest {
 
     @Test
     fun readHeaderBinary() {
-        val plyFile = PlyFile(TestUtils.PLY_BINARY_EXAMPLE)
+        val plyFile = PlyFile(PLY_BINARY_EXAMPLE)
         assertEquals(plyFile.numVertices, 46912)
         assertEquals(plyFile.numFaces, 93820)
         assertEquals(plyFile.vertexProperties.size, 4)
@@ -31,5 +32,4 @@ class PlyFileTest {
         assertEquals(plyFile.formatVersion, "1.0")
         assertEquals(plyFile.vertexDataLength, 16)
     }
-
 }

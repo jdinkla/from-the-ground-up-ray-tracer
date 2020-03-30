@@ -4,16 +4,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-object GuiUtilities {
-
-    @JvmStatic
-    fun getOutputPngFileName(fileName: String): String {
-        var outFileName = fileName.replace(".[a-zA-Z0-9]+$".toRegex(), "")
-        val df = SimpleDateFormat("yyyyMMddHHmmss")
-        outFileName = "../" + df.format(Date()) + "_" + outFileName + ".png"
-        return outFileName
-    }
-
+fun getOutputPngFileName(fileName: String): String {
+    var outFileName = fileName.replace(".[a-zA-Z0-9]+$".toRegex(), "")
+    val df = SimpleDateFormat("yyyyMMddHHmmss")
+    outFileName = "../" + df.format(Date()) + "_" + outFileName + ".png"
+    return outFileName
 }
 
 fun extractFileName(file: File, directory: File)= extractFileName(file.absoluteFile.toString(), directory.absolutePath.toString())

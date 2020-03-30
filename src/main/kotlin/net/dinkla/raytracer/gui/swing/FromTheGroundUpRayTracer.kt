@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.gui.swing
 
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.gui.GuiUtilities
 import net.dinkla.raytracer.gui.awt.AwtFilm
 import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
+import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.world.WorldDefinition
 import org.slf4j.LoggerFactory
@@ -165,7 +165,7 @@ class FromTheGroundUpRayTracer : ActionListener {
         LOGGER.info("png ${file.name}")
         val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
-            val output = GuiUtilities.getOutputPngFileName(file.name)
+            val output = getOutputPngFileName(file.name)
             Png.renderAndSave(worldDefinition, output)
             val pngTitle = AppProperties["png.title"] as String
             val pngMessage = AppProperties["png.message"] as String
@@ -178,11 +178,10 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     companion object {
         internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            FromTheGroundUpRayTracer()
-        }
     }
+}
+
+fun main(args: Array<String>) {
+    FromTheGroundUpRayTracer()
 }
 
