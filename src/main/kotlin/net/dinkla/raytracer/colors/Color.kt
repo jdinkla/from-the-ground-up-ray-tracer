@@ -1,8 +1,7 @@
 package net.dinkla.raytracer.colors
 
 import net.dinkla.raytracer.hits.Shade
-
-import java.lang.Math.max
+import net.dinkla.raytracer.math.MathUtils.max
 import kotlin.math.pow
 
 data class Color(val red: Double, val green: Double, val blue: Double) {
@@ -35,7 +34,7 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
     }
 
     fun maxToOne(): Color {
-        val maxValue = max(red, max(green, blue))
+        val maxValue = max(red, green, blue)
         return if (maxValue > 1) {
             this.times(1 / maxValue)
         } else {

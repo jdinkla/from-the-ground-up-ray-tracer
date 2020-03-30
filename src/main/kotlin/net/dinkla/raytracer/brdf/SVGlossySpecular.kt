@@ -5,6 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.textures.Texture
+import kotlin.math.pow
 
 class SVGlossySpecular(
         var ks: Double = 0.0,
@@ -18,7 +19,7 @@ class SVGlossySpecular(
         val r = (wi * -1.0) + Vector3D(sr.normal) * (2 * nDotWi)
         val rDotWo = r dot wo
         return if (rDotWo > 0) {
-            cs!!.getColor(sr) * (ks * Math.pow(rDotWo, exp))
+            cs!!.getColor(sr) * (ks * rDotWo.pow(exp))
         } else {
             Color.BLACK
         }
@@ -41,7 +42,7 @@ class SVGlossySpecular(
             wi = u * -sp.x + v * -sp.y + w * -sp.z
         }
 
-        val phongLobe = Math.pow(wi dot w, exp)
+        val phongLobe = (wi dot w).pow(exp)
 
         return Sample(wi = wi, pdf = phongLobe * (wi dot sr.normal), color = cs.getColor(sr) * (ks * phongLobe))
     }

@@ -7,12 +7,13 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
+import kotlin.math.abs
 
 class Transparent : Phong {
 
-    var reflectiveBRDF = PerfectSpecular()
-    var specularBTDF = PerfectTransmitter()
+    private var reflectiveBRDF = PerfectSpecular()
+    private var specularBTDF = PerfectTransmitter()
 
     constructor(color: Color = Color.WHITE,
                 ka: Double = 0.25,
@@ -66,14 +67,14 @@ class Transparent : Phong {
             l += cr
         } else {
             // reflected
-            val cfr = Math.abs(sr.normal dot brdf.wi)
+            val cfr = abs(sr.normal dot brdf.wi)
             l += (brdf.color * cr) * cfr
 
             // trace transmitted ray
             val btdf = specularBTDF.sampleF(sr, wo)
             val transmittedRay = Ray(sr.hitPoint, btdf.wt)
             val ct = world.tracer.trace(transmittedRay, sr.depth + 1)
-            val cft = Math.abs(sr.normal dot btdf.wt)
+            val cft = abs(sr.normal dot btdf.wt)
             l += (btdf.color * ct) * cft
         }
         return l

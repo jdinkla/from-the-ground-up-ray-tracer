@@ -7,6 +7,7 @@ import net.dinkla.raytracer.btdf.FresnelTransmitter
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.World
+import kotlin.math.abs
 
 class Dielectric : Phong() {
 
@@ -40,25 +41,25 @@ class Dielectric : Phong() {
             if (nDotWi < 0) {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1 * Math.abs(nDotWi)
+                val c2 = c1 * abs(nDotWi)
                 val lr = sample.color * c2
                 L += cfIn.pow(t.value) * lr
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3 * Math.abs(nDotWt)
+                val c4 = c3 * abs(nDotWt)
                 val lt = sampleT.color * c4
                 L += cfOut.pow(t.value) * lt
             } else {
                 // reflected ray is inside
                 val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
-                val c2 = c1 * Math.abs(nDotWi)
+                val c2 = c1 * abs(nDotWi)
                 val lr = sample.color * c2
                 L += cfOut.pow(t.value) * lr
 
                 // transmitted ray is outside
                 val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
-                val c4 = c3.times(s = Math.abs(nDotWt))
+                val c4 = c3.times(s = abs(nDotWt))
                 val lt = sampleT.color * c4
                 L += cfIn.pow(t.value) * lt
             }

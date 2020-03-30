@@ -3,7 +3,8 @@ package net.dinkla.raytracer.brdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
-import java.util.*
+import java.util.Objects
+import kotlin.math.abs
 
 class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF() {
 
@@ -17,7 +18,7 @@ class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF(
         val nDotWo = normal dot wo
         val wi = -wo + (sr.normal * (2.0 * nDotWo))
         val nDotWi = normal dot wi
-        return Sample(wi = wi, color = cr * (kr / Math.abs(nDotWi)), pdf = 1.0)
+        return Sample(wi = wi, color = cr * (kr / abs(nDotWi)), pdf = 1.0)
     }
 
     override fun rho(sr: Shade, wo: Vector3D): Color {

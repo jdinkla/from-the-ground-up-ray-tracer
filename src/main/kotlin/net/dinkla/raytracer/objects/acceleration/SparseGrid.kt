@@ -8,7 +8,8 @@ import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
-import java.util.*
+import java.util.TreeMap
+import kotlin.math.pow
 
 class SparseGrid() : Grid() {
 
@@ -33,7 +34,7 @@ class SparseGrid() : Grid() {
         val wy = boundingBox.q.y - boundingBox.p.y
         val wz = boundingBox.q.z - boundingBox.p.z
 
-        val s = Math.pow(wx * wy * wz / objects.size, 1.0 / 3)
+        val s = (wx * wy * wz / objects.size).pow(1.0 / 3)
         nx = (multiplier * wx / s + 1).toInt()
         ny = (multiplier * wy / s + 1).toInt()
         nz = (multiplier * wz / s + 1).toInt()

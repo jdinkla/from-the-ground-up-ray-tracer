@@ -4,7 +4,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 class Emissive(private val ce: Color = Color.WHITE, val ls: Double = 1.0) : IMaterial {
 

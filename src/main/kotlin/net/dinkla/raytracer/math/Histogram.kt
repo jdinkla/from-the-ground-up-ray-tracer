@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-import java.util.*
+import java.util.TreeMap
 
 class Histogram {
 

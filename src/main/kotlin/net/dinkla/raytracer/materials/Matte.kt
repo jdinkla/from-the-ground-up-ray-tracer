@@ -11,7 +11,7 @@ import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import java.util.*
+import java.util.Objects
 
 inline fun <reified T> T.equals(other: Any?, f: (p: T, q: T) -> Boolean): Boolean =
         if (other != null && other is T) {

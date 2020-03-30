@@ -1,14 +1,13 @@
 package net.dinkla.raytracer.objects.utilities
 
+import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.SmoothTriangle
 import net.dinkla.raytracer.objects.Triangle
-
-import java.lang.Math.sin
-import java.lang.Math.cos
-import java.lang.Math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 object GridUtilities {
 
@@ -22,13 +21,13 @@ object GridUtilities {
 
             val v0 = Point3D(0.0, 1.0, 0.0)                        // top (north pole)
 
-            val v1 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // bottom left
+            val v1 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // bottom left
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
-            val v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // bottom  right
+            val v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // bottom  right
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle_ptr = Triangle(v0, v1, v2)
             list.add(triangle_ptr)
@@ -39,15 +38,15 @@ object GridUtilities {
         for (j in 0 until horizontalSteps) {
             // define vertices
 
-            val v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left
+            val v0 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val v1 = Point3D(0.0, -1.0, 0.0)                                                                        // bottom (south pole)
 
-            val v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top right
+            val v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // top right
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle_ptr = Triangle(v0, v1, v2)
             list.add(triangle_ptr)
@@ -61,17 +60,17 @@ object GridUtilities {
 
                 // vertices
 
-                var v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom left, use k + 1, j
+                var v0 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom left, use k + 1, j
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
-                var v1 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
+                var v1 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
-                var v2 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
+                var v2 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
                 val triangle_ptr1 = Triangle(v0, v1, v2)
                 list.add(triangle_ptr1)
@@ -81,17 +80,17 @@ object GridUtilities {
 
                 // vertices
 
-                v0 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top right, use k, j + 1
+                v0 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // top right, use k, j + 1
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
-                v1 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
+                v1 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
-                v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
+                v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
                 val triangle_ptr2 = Triangle(v0, v1, v2)
                 list.add(triangle_ptr2)
@@ -109,13 +108,13 @@ object GridUtilities {
 
             val v0 = Point3D(0.0, 1.0, 0.0)                        // top (north pole)
 
-            val v1 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // bottom left
+            val v1 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // bottom left
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
-            val v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // bottom  right
+            val v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // bottom  right
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle = SmoothTriangle(v0, v1, v2)
             triangle.n0 = Normal(Vector3D(v0))
@@ -129,15 +128,15 @@ object GridUtilities {
         for (j in 0 until horizontalSteps) {
             // define vertices
 
-            val v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left
+            val v0 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val v1 = Point3D(0.0, -1.0, 0.0)                                                                        // bottom (south pole)
 
-            val v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top right
+            val v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // top right
                     cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle = SmoothTriangle(v0, v1, v2)
             triangle.n0 = Normal(Vector3D(v0))
@@ -154,17 +153,17 @@ object GridUtilities {
 
                 // vertices
 
-                var v0 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom left, use k + 1, j
+                var v0 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom left, use k + 1, j
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
-                var v1 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
+                var v1 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
-                var v2 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
+                var v2 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
                 val triangle = SmoothTriangle(v0, v1, v2)
                 triangle.n0 = Normal(Vector3D(v0))
@@ -177,17 +176,17 @@ object GridUtilities {
 
                 // vertices
 
-                v0 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top right, use k, j + 1
+                v0 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // top right, use k, j + 1
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
-                v1 = Point3D(sin(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
+                v1 = Point3D(sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left, 	use k, j
                         cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j.toDouble() / horizontalSteps) * sin(PI * k / verticalSteps))
+                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
-                v2 = Point3D(sin(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
+                v2 = Point3D(sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps), // bottom  right, use k + 1, j + 1
                         cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1).toDouble() / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
+                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
                 val triangle2 = SmoothTriangle(v0, v1, v2)
                 triangle2.n0 = Normal(Vector3D(v0))

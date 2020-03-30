@@ -10,7 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
-import java.util.*
+import kotlin.math.abs
 
 class TestBuilder : IKDTreeBuilder {
 
@@ -185,7 +185,7 @@ class TestBuilder : IKDTreeBuilder {
         }
 
         private fun weight(a: Int, b: Int, c: Int): Int {
-            return Math.abs(a - c / 2) + Math.abs(b - c / 2)
+            return abs(a - c / 2) + abs(b - c / 2)
         }
     }
 

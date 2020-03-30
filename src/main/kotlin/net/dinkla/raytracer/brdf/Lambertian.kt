@@ -3,9 +3,8 @@ package net.dinkla.raytracer.brdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
-
 import net.dinkla.raytracer.math.MathUtils.INV_PI
-import java.util.*
+import java.util.Objects
 
 // kd: diffuse reflection coefficient, in [0,1]
 // cd: diffuse color

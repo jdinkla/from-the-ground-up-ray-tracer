@@ -6,6 +6,9 @@ import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.Resolution
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
 
@@ -46,10 +49,10 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val y = 2.0 / (s * resolution.vres) * pp.y
         val rSquared = x * x + y * y
         if (rSquared <= 1) {
-            val r = Math.sqrt(rSquared)
+            val r = sqrt(rSquared)
             val psi = r * maxPsi * MathUtils.PI_ON_180
-            val sinPsi = Math.sin(psi)
-            val cosPsi = Math.cos(psi)
+            val sinPsi = sin(psi)
+            val cosPsi = cos(psi)
             val sinAlpha = y / r
             val cosAlpha = x / r
             //            rd.direction = uvw.u.minus(sinPsi * cosAlpha).plus(uvw.v.minus(sinPsi * sinAlpha)).minus(uvw.w.minus(cosPsi));

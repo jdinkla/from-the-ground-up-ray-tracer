@@ -10,7 +10,7 @@ class BinaryPlyReaderTest {
 
     @Disabled
     @Test
-    fun ReadFlat() {
+    fun readFlat() {
         val grid = Grid()
         BinaryPlyReader.read(grid, PLY_EXAMPLE, reverseNormal = false, isSmooth = false)
         //System.out.println("mesh=" + grid.getMesh());
@@ -20,7 +20,7 @@ class BinaryPlyReaderTest {
 
     @Disabled
     @Test
-    fun ReadSmooth() {
+    fun readSmooth() {
         val grid = Grid()
         BinaryPlyReader.read(grid, PLY_EXAMPLE, reverseNormal = false, isSmooth = true)
         //System.out.println("mesh=" + grid.getMesh());

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 open class Phong(color: Color = Color.WHITE,
                  ka: Double = 0.25,

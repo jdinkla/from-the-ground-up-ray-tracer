@@ -5,11 +5,14 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 
 class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : GeometricObject() {
 
-    private var y0: Double = Math.min(y0, y1)
-    internal var y1: Double = Math.max(y0, y1)
+    private var y0: Double = min(y0, y1)
+    internal var y1: Double = max(y0, y1)
     private var invRadius: Double = 1.0 / radius
 
     init {
@@ -34,7 +37,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         if (disc < 0.0) {
             return false
         } else {
-            val e = Math.sqrt(disc)
+            val e = sqrt(disc)
             val denom = 2.0 * a
 
             t = (-b - e) / denom    // smaller root
@@ -88,7 +91,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         if (disc < 0.0) {
             return false
         } else {
-            val e = Math.sqrt(disc)
+            val e = sqrt(disc)
             val denom = 2.0 * a
 
             t = (-b - e) / denom    // smaller root

@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 @Suppress("TooManyFunctions")
 class AreaLight : Light(), ILightSource {

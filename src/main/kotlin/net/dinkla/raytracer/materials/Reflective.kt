@@ -5,7 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 class Reflective(color: Color = Color.WHITE,
                  ka: Double = 0.25,

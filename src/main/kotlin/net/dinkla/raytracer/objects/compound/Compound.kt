@@ -11,7 +11,7 @@ import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.world.World
-import java.util.*
+import java.util.Objects
 
 
 open class Compound : GeometricObject() {

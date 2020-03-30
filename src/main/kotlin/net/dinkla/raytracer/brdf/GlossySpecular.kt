@@ -4,7 +4,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import java.util.*
+import kotlin.math.pow
+import java.util.Objects
 
 class GlossySpecular(
         var ks: Double = 0.25,
@@ -17,7 +18,7 @@ class GlossySpecular(
         val r = (wi * (-1.0)) + (Vector3D(sr.normal) * (2 * nDotWi))
         val rDotWo = r dot wo
         return if (rDotWo > 0) {
-            cs * (ks * Math.pow(rDotWo, exp))
+            cs * (ks * rDotWo.pow(exp))
         } else {
             Color.BLACK
         }
@@ -34,7 +35,7 @@ class GlossySpecular(
         if (nDotWi < 0) {
             wi = ((u * -sp.x) + v * -sp.y) + r * -sp.z
         }
-        val phongLobe = Math.pow(wi dot r, exp)
+        val phongLobe = (wi dot r).pow(exp)
         return Sample(wi = wi, pdf = phongLobe * nDotWi, color = cs * (ks * phongLobe))
     }
 

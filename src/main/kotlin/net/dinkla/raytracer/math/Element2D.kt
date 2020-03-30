@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
-import java.lang.StrictMath.sqrt
-import java.util.*
+import java.util.Objects
+import kotlin.math.sqrt
 
 open class Element2D(val x: Double, val y: Double) {
 
