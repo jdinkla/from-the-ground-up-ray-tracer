@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.btdf
 
+import net.dinkla.raytracer.btdf.BTDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
@@ -7,7 +8,7 @@ import java.util.Objects
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
+class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         throw RuntimeException("PerfectTransmitter.f")
@@ -17,7 +18,7 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
         throw RuntimeException("PerfectTransmitter.rho")
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): BTDF.Sample {
+    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
         var n = sr.normal
         var cosThetaI = n dot wo
         var eta = ior

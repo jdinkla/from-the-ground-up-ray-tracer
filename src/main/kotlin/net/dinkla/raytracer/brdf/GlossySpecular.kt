@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.brdf
 
+import net.dinkla.raytracer.brdf.BRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
@@ -11,7 +12,7 @@ class GlossySpecular(
         var ks: Double = 0.25,
         var cs: Color = Color.WHITE,
         var exp: Double = 5.0,
-        val sampler: Sampler = Sampler()) : BRDF() {
+        val sampler: Sampler = Sampler()) : BRDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         val nDotWi = wi dot sr.normal
@@ -24,7 +25,7 @@ class GlossySpecular(
         }
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
+    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
         val nDotWo = sr.normal dot wo
         val r = -wo + (sr.normal * (2 * nDotWo))
         val u = (Vector3D(0.00424, 1.0, 0.00764) cross r).normalize()

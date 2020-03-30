@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.brdf
 
+import net.dinkla.raytracer.brdf.BRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
@@ -11,7 +12,7 @@ class SVGlossySpecular(
         var ks: Double = 0.0,
         var cs: Texture? = null,
         var exp: Double = 0.0,
-        val sampler : Sampler = Sampler()) : BRDF() {
+        val sampler : Sampler = Sampler()) : BRDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)
@@ -25,7 +26,7 @@ class SVGlossySpecular(
         }
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
+    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
         assert(null != cs)
         val cs = this.cs!!
 
