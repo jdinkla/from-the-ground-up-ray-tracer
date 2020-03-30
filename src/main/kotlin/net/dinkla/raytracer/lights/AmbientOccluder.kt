@@ -11,7 +11,8 @@ import net.dinkla.raytracer.world.World
 class AmbientOccluder(
         val minAmount: Color,
         val sampler: Sampler,
-        val numSamples: Int
+        val numSamples: Int,
+        override val shadows: Boolean = true
 ) : Ambient() {
 
     override fun L(world: World, sr: Shade): Color {

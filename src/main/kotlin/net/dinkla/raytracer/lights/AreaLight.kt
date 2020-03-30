@@ -11,7 +11,7 @@ import net.dinkla.raytracer.world.World
 import java.util.Objects
 
 @Suppress("TooManyFunctions")
-class AreaLight : Light(), ILightSource {
+class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
 
     var source: ILightSource? = null
 

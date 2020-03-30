@@ -6,11 +6,9 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 
-abstract class Light {
-
-    var shadows = true
-    abstract fun L(world: World, sr: Shade): Color
-    abstract fun getDirection(sr: Shade): Vector3D
-    abstract fun inShadow(world: World, ray: Ray, sr: Shade): Boolean
-
+interface Light {
+    val shadows: Boolean
+    fun L(world: World, sr: Shade): Color
+    fun getDirection(sr: Shade): Vector3D
+    fun inShadow(world: World, ray: Ray, sr: Shade): Boolean
 }

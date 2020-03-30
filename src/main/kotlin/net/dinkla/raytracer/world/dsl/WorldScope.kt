@@ -4,7 +4,6 @@ import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.cameras.lenses.Pinhole
-import net.dinkla.raytracer.cameras.render.ForkJoinRenderer
 import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.cameras.render.SimpleSingleRayRenderer
 import net.dinkla.raytracer.colors.Color
@@ -13,9 +12,7 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.tracers.Tracers
-import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Renderer
 import net.dinkla.raytracer.world.World
@@ -33,7 +30,7 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun c(v: Double) = Color(v)
     fun c(x: Double, y: Double, z: Double) = Color(x, y, z)
 
-    fun c(s: String) = Color.create(s)
+    fun c(s: String) = Color.fromString(s)
 
     fun n(x: Int, y: Int, z: Int) = Normal(x.toDouble(), y.toDouble(), z.toDouble())
     fun n(x: Double, y: Double, z: Double) = Normal(x, y, z)

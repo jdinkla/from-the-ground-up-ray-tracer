@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.World
 
-class EnvironmentLight : Light() {
+class EnvironmentLight(override val shadows: Boolean = true) : Light {
 
     var sampler: Sampler? = null
     var material: IMaterial? = null

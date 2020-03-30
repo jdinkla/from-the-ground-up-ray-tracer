@@ -9,7 +9,7 @@ import net.dinkla.raytracer.world.World
 /**
  * TODO: DirectionalLight Light implementieren
  */
-class DirectionalLight : Light() {
+class DirectionalLight(override val shadows: Boolean = true) : Light {
 
     var ls: Double = 0.toDouble()
     var color: Color
