@@ -4,14 +4,14 @@ import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
-import java.util.Random
+import kotlin.random.Random
 
 object World42 : WorldDefinition {
 
     const val hasShadows = true
     const val NUM = 25
     private const val column = NUM / 2 - 0.15
-    val r = Random()
+    val r = Random.Default
 
     override fun world() = Builder.build("World42") {
         //        viewPlane(resolution= Resolution.RESOLUTION_1080, maxDepth= 10)

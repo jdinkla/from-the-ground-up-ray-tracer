@@ -1,8 +1,10 @@
 package net.dinkla.raytracer.math
 
+import java.util.Random
+
 object Random {
 
-    private val r = java.util.Random()
+    private val r = Random()
 
     fun int(high: Int): Int = r.nextInt(high)
 
@@ -12,8 +14,8 @@ object Random {
 
     fun double(low: Double, high: Double): Double = r.nextDouble() * (high - low) + low
 
-    fun setRandSeed(seed: Int) {
-        r.setSeed(seed.toLong())
+    fun setRandSeed(seed: Long) {
+        r.setSeed(seed)
     }
 
     fun randomShuffle(ls: MutableList<Int>) {

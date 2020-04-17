@@ -45,7 +45,7 @@ class PlyReader(val material: IMaterial,
             handleLine(line)
         }
         if (isSmooth) {
-            mesh.computeMeshNormals(compound.objects as java.util.ArrayList<MeshTriangle>)
+            mesh.computeMeshNormals(compound.objects as ArrayList<MeshTriangle>)
         }
         return Ply(numVerticesOrig, numFacesOrig, compound)
     }

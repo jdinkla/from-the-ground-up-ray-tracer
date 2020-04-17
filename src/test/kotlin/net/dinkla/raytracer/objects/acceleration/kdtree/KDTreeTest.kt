@@ -5,8 +5,6 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.Sphere
 
-import java.util.ArrayList
-
 import org.junit.jupiter.api.Test
 
 class KDTreeTest {

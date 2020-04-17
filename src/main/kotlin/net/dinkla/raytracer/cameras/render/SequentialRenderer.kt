@@ -3,7 +3,6 @@ package net.dinkla.raytracer.cameras.render
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
 import org.slf4j.LoggerFactory
-import java.util.concurrent.ForkJoinPool
 
 class SequentialRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 

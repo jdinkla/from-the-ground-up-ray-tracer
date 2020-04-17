@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-import java.util.Arrays
+import net.dinkla.raytracer.utilities.hash
 
 inline fun loop(f: (Int, Int) -> Unit) {
     for (j in 0..3) {
@@ -92,7 +92,7 @@ class Matrix private constructor() {
         }
     }
 
-    override fun hashCode(): Int = Arrays.hashCode(m)
+    override fun hashCode(): Int = hash(m)
 
     override fun toString() = buildString {
         fun line(i: Int) = "${m[i, 0]}, ${m[i, 1]}, ${m[i, 2]}, ${m[i, 3]}   "

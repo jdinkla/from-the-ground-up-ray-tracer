@@ -1,9 +1,10 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree
 
 import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.utilities.Counter
-
+import net.dinkla.raytracer.math.Axis
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Histogram
+import net.dinkla.raytracer.math.Ray
 import java.util.Stack
 
 class InnerNode(

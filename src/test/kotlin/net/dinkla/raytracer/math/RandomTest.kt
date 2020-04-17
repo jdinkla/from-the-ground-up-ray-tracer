@@ -1,9 +1,6 @@
 package net.dinkla.raytracer.math
 
-
 import org.junit.jupiter.api.Test
-
-import java.util.ArrayList
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
