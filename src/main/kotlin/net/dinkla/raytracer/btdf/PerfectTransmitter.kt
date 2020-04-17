@@ -3,7 +3,7 @@ package net.dinkla.raytracer.btdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
-import java.util.*
+import net.dinkla.raytracer.utilities.hash
 
 class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
 
@@ -49,7 +49,7 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF() {
         false
     }
 
-    override fun hashCode(): Int = Objects.hash(ior, kt)
+    override fun hashCode(): Int = hash(ior, kt)
 
     override fun toString() = "PerfectTransmitter($ior, $kt)"
 }

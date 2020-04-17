@@ -1,15 +1,14 @@
 package net.dinkla.raytracer.materials
 
+import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
 
 open class Phong(color: Color = Color.WHITE,
                  ka: Double = 0.25,
@@ -113,9 +112,7 @@ open class Phong(color: Color = Color.WHITE,
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF
     }
 
-    override fun hashCode(): Int {
-        return Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
-    }
+    override fun hashCode(): Int = hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
 
     override fun toString() = "Phong(${super.toString()}, $specularBRDF)"
 }

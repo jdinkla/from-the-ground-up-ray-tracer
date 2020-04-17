@@ -8,7 +8,7 @@ import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
-import java.util.*
+import java.util.TreeMap
 
 class SparseGrid() : Grid() {
 

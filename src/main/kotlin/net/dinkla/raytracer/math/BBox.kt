@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.objects.GeometricObject
-import java.util.*
+import net.dinkla.raytracer.utilities.hash
 import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
@@ -210,7 +210,7 @@ class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
         }
     }
 
-    override fun hashCode(): Int = Objects.hash(p, q)
+    override fun hashCode(): Int = hash(p, q)
 
     override fun toString(): String = "BBox($p, $q)"
 

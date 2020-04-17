@@ -1,17 +1,15 @@
 package net.dinkla.raytracer.materials
 
+import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
 
 open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 
@@ -128,7 +126,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
     }
 
-    override fun hashCode(): Int = this.hash(ambientBRDF, diffuseBRDF)
+    override fun hashCode(): Int = hash(ambientBRDF, diffuseBRDF)
 
     override fun toString(): String = "Matte($ambientBRDF,$diffuseBRDF)"
 }

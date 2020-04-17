@@ -11,7 +11,6 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
-import java.util.*
 
 class ObjectMedian2Builder : IKDTreeBuilder {
 

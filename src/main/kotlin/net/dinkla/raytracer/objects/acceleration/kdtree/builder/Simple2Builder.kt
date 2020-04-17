@@ -10,7 +10,6 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
-import java.util.*
 
 class Simple2Builder : IKDTreeBuilder {
 

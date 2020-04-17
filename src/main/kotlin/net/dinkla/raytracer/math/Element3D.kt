@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
+import net.dinkla.raytracer.utilities.hash
 import java.lang.Math.sqrt
-import java.util.*
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 
@@ -29,7 +29,7 @@ open class Element3D(val x: Double, val y: Double, val z: Double) {
         return x == p.x && y == p.y && z == p.z
     }
 
-    override fun hashCode(): Int = Objects.hash(x, y, z)
+    override fun hashCode(): Int = hash(x, y, z)
 
     override fun toString(): String = "($x,$y,$z)"
 

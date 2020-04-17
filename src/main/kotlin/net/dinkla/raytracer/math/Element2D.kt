@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
+import net.dinkla.raytracer.utilities.hash
 import java.lang.StrictMath.sqrt
-import java.util.*
 
 open class Element2D(val x: Double, val y: Double) {
 
@@ -18,7 +18,7 @@ open class Element2D(val x: Double, val y: Double) {
         }
     }
 
-    override fun hashCode(): Int = Objects.hash(x, y)
+    override fun hashCode(): Int = hash(x, y)
 
     override fun toString(): String = "($x,$y)"
 

@@ -6,8 +6,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
 
 class Transparent : Phong {
 
@@ -84,9 +84,8 @@ class Transparent : Phong {
                 && a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
     }
 
-    override fun hashCode(): Int {
-        return Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
-    }
+    override fun hashCode(): Int =
+        hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
 
     override fun toString() = "Transparent(${super.toString()}, $reflectiveBRDF, $specularBTDF)"
 }

@@ -3,7 +3,7 @@ package net.dinkla.raytracer.brdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
-import java.util.*
+import net.dinkla.raytracer.utilities.hash
 
 class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF() {
 
@@ -31,7 +31,7 @@ class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF(
         return false
     }
 
-    override fun hashCode(): Int = Objects.hash(kr, cr)
+    override fun hashCode(): Int = hash(kr, cr)
 
     override fun toString() = "PerfectSpecular($kr, $cr)"
 }

@@ -10,11 +10,10 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.tracers.AreaLighting
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import java.nio.file.Path
-import java.util.*
 
 class BuilderTest {
 
@@ -177,9 +176,4 @@ class BuilderTest {
         val w = World38.world()
         assertEquals(w.size(), 6)
     }
-
-    companion object {
-        private fun findExample(): Optional<Path> = Optional.empty()
-    }
-
 }

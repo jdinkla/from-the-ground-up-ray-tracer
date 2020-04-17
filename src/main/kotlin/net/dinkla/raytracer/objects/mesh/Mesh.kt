@@ -3,7 +3,6 @@ package net.dinkla.raytracer.objects.mesh
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
-import java.util.*
 
 class Mesh {
 

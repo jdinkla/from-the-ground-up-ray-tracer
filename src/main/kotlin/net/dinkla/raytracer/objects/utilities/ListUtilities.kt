@@ -1,12 +1,8 @@
 package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.math.Axis
-import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
-
 import java.util.Collections
-import java.util.Comparator
 
 object ListUtilities {
 

@@ -4,8 +4,8 @@ import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.World
-import java.util.*
 
 class Reflective(color: Color = Color.WHITE,
                  ka: Double = 0.25,
@@ -43,7 +43,7 @@ class Reflective(color: Color = Color.WHITE,
         return false
     }
 
-    override fun hashCode(): Int = Objects.hash(reflectiveBRDF, ambientBRDF, diffuseBRDF, specularBRDF)
+    override fun hashCode(): Int = hash(reflectiveBRDF, ambientBRDF, diffuseBRDF, specularBRDF)
 
     override fun toString() = "Reflective $reflectiveBRDF ${super.toString()}"
 }

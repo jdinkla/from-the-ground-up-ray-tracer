@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import java.util.*
+import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
 

@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 
 import net.dinkla.raytracer.math.MathUtils.INV_PI
-import java.util.*
+import net.dinkla.raytracer.utilities.hash
 
 // kd: diffuse reflection coefficient, in [0,1]
 // cd: diffuse color
@@ -26,7 +26,7 @@ class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF() {
         false
     }
 
-    override fun hashCode(): Int = Objects.hash(kd, cd)
+    override fun hashCode(): Int = hash(kd, cd)
 
     override fun toString(): String = "Lambertian($kd,$cd)"
 }

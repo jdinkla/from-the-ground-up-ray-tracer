@@ -4,7 +4,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import java.util.*
+import net.dinkla.raytracer.utilities.hash
 
 class GlossySpecular(
         var ks: Double = 0.25,
@@ -53,5 +53,5 @@ class GlossySpecular(
         return false
     }
 
-    override fun hashCode(): Int = Objects.hash(ks, exp, cs)
+    override fun hashCode(): Int = hash(ks, exp, cs)
 }

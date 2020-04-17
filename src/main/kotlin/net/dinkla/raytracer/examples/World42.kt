@@ -4,7 +4,7 @@ import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
-import java.util.*
+import java.util.Random
 
 object World42 : WorldDefinition {
 
