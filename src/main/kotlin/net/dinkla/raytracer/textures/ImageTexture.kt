@@ -74,7 +74,7 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
             val a = 2
         }
 
-        return Color.create(rgb)
+        return Color.fromInt(rgb)
     }
 
 }

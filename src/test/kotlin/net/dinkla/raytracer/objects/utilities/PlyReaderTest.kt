@@ -1,19 +1,14 @@
 package net.dinkla.raytracer.objects.utilities
 
-import net.dinkla.raytracer.TestUtils
+import net.dinkla.raytracer.PLY_EXAMPLE
 import net.dinkla.raytracer.assertType
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
-import net.dinkla.raytracer.objects.mesh.Mesh
-import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 class PlyReaderTest {
 
@@ -56,7 +51,7 @@ class PlyReaderTest {
         val material = Matte()
 
         // when
-        val ply = Ply.fromFile(TestUtils.PLY_EXAMPLE, material = material)
+        val ply = Ply.fromFile(PLY_EXAMPLE, material = material)
         val grid = ply.compound
 
         // then
@@ -77,7 +72,7 @@ class PlyReaderTest {
         val material = Matte()
 
         // when
-        val ply = Ply.fromFile(TestUtils.PLY_EXAMPLE, material = material, isSmooth = true)
+        val ply = Ply.fromFile(PLY_EXAMPLE, material = material, isSmooth = true)
         val grid = ply.compound
 
         // then

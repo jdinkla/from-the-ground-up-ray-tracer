@@ -1,10 +1,15 @@
 package net.dinkla.raytracer.samplers
 
+import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Random
 
 import java.util.ArrayList
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class Sampler(
         private var sampler: IGenerator = Jittered,
@@ -118,18 +123,18 @@ class Sampler(
                         phi = 0.0
                 }
             }
-            phi *= Math.PI / 4.0
-            diskSamples.add(Point2D(r * Math.cos(phi), r * Math.sin(phi)))
+            phi *= PI / 4.0
+            diskSamples.add(Point2D(r * cos(phi), r * sin(phi)))
         }
     }
 
     fun mapSamplesToHemiSphere(exp: Double) {
         hemisphereSamples = ArrayList(numSamples * numSets)
         for (sample in samples) {
-            val cos_phi = Math.cos(2.0 * Math.PI * sample.x)
-            val sin_phi = Math.sin(2.0 * Math.PI * sample.x)
-            val cos_theta = Math.pow(1.0 - sample.y, 1.0 / (exp + 1.0))
-            val sin_theta = Math.sqrt(1.0 - cos_theta * cos_theta)
+            val cos_phi = cos(2.0 * PI * sample.x)
+            val sin_phi = sin(2.0 * PI * sample.x)
+            val cos_theta = (1.0 - sample.y).pow(1.0 / (exp + 1.0))
+            val sin_theta = sqrt(1.0 - cos_theta * cos_theta)
             val pu = sin_theta * cos_phi
             val pv = sin_theta * sin_phi
             hemisphereSamples.add(Point3D(pu, pv, cos_theta))
@@ -146,10 +151,10 @@ class Sampler(
         for (j in 0 until numSamples * numSets) {
             val p = samples[j]
             z = 1.0 - 2.0 * p.x
-            r = Math.sqrt(1.0 - z * z)
-            phi = 2.0 * Math.PI * p.y
-            x = r * Math.cos(phi)
-            y = r * Math.sin(phi)
+            r = sqrt(1.0 - z * z)
+            phi = 2.0 * PI * p.y
+            x = r * cos(phi)
+            y = r * sin(phi)
             sphereSamples.add(Point3D(x, y, z))
         }
     }

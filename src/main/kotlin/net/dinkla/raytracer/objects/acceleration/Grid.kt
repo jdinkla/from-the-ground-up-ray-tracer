@@ -13,6 +13,7 @@ import net.dinkla.raytracer.objects.mesh.Mesh
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Timer
 import org.slf4j.LoggerFactory
+import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
 
@@ -49,7 +50,7 @@ open class Grid : CompoundWithMesh() {
         val wy = bbox.q.y - bbox.p.y
         val wz = bbox.q.z - bbox.p.z
 
-        val s = Math.pow(wx * wy * wz / objects.size, 1.0 / 3)
+        val s = (wx * wy * wz / objects.size).pow(1.0 / 3)
         nx = (multiplier * wx / s + 1).toInt()
         ny = (multiplier * wy / s + 1).toInt()
         nz = (multiplier * wz / s + 1).toInt()

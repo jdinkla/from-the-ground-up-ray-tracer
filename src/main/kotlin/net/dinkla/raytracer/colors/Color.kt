@@ -1,8 +1,6 @@
 package net.dinkla.raytracer.colors
 
-import net.dinkla.raytracer.hits.Shade
-
-import java.lang.Math.max
+import net.dinkla.raytracer.math.MathUtils.max
 import kotlin.math.pow
 
 data class Color(val red: Double, val green: Double, val blue: Double) {
@@ -17,12 +15,7 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
 
     fun pow(s: Double) = Color(red.pow(s), green.pow(s), blue.pow(s))
 
-    // TODO sick?
-    fun getColor(sr: Shade): Color {
-        return this
-    }
-
-    fun asInt(): Int {
+    fun toInt(): Int {
         val r = (red * 255).toInt()
         val g = (green * 255).toInt()
         val b = (blue * 255).toInt()
@@ -35,9 +28,9 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
     }
 
     fun maxToOne(): Color {
-        val maxValue = max(red, max(green, blue))
+        val maxValue = max(red, green, blue)
         return if (maxValue > 1) {
-            this.times(1 / maxValue)
+            this * (1 / maxValue)
         } else {
             this
         }
@@ -46,7 +39,6 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
     override fun toString(): String = "Color($red,$green,$blue)"
 
     companion object {
-
         val BLACK = Color(0.0, 0.0, 0.0)
         val RED = Color(1.0, 0.0, 0.0)
         val GREEN = Color(0.0, 1.0, 0.0)
@@ -57,14 +49,14 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         val ERROR = Color(1.0, 0.0, 0.0)
         val CLAMP_COLOR = Color(1.0, 0.0, 0.0)
 
-        fun create(rgb: Int): Color {
+        fun fromInt(rgb: Int): Color {
             val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
             val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
             val b: Double = (rgb and 0x000000ff) / 255.0
             return Color(r, g, b)
         }
 
-        fun create(rgb: String) : Color {
+        fun fromString(rgb: String) : Color {
             fun convert(s: Int): Double {
                 val hex = rgb.substring(s, s + 2)
                 val dec =Integer.valueOf(hex, 16)
@@ -77,3 +69,5 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         }
     }
 }
+
+operator fun Double.times(c: Color) = c.times(this)

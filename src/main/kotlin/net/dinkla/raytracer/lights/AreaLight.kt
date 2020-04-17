@@ -10,7 +10,7 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.World
 
 @Suppress("TooManyFunctions")
-class AreaLight : Light(), ILightSource {
+class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
 
     var source: ILightSource? = null
 

@@ -6,39 +6,36 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.world.WorldDefinition
 import org.slf4j.LoggerFactory
-import java.lang.System.exit
 import kotlin.system.exitProcess
 
 object CommandLineUi {
-
     internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+}
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        Counter.PAUSE = true
+fun main(args: Array<String>) {
+    Counter.PAUSE = true
 
-        if (args.size != 2) {
-            throw RuntimeException("CommandLineUI expects input filename and output filename as arguments")
-        }
+    if (args.size != 2) {
+        throw RuntimeException("CommandLineUI expects input filename and output filename as arguments")
+    }
 
-        val fileNameIn = args[0]
-        val fileNameOut = args[1]
+    val fileNameIn = args[0]
+    val fileNameOut = args[1]
 
-        LOGGER.info("Rendering $fileNameIn to $fileNameOut")
+    CommandLineUi.LOGGER.info("Rendering $fileNameIn to $fileNameOut")
 
-        val wdef: WorldDefinition? = worldDef(fileNameIn)
-        if (null == wdef) {
-            LOGGER.warn("WorldDef $fileNameIn is not known")
-            exitProcess(1)
-        } else {
-            Png.renderAndSave(wdef, fileNameOut)
-            Counter.stats(30)
+    val worldDefinition: WorldDefinition? = worldDef(fileNameIn)
+    if (null == worldDefinition) {
+        CommandLineUi.LOGGER.warn("WorldDef $fileNameIn is not known")
+        exitProcess(1)
+    } else {
+        Png.renderAndSave(worldDefinition, fileNameOut)
+        Counter.stats(30)
 
-            println("Hits")
-            InnerNode.hits.println()
+        println("Hits")
+        InnerNode.hits.println()
 
-            println("fails")
-            InnerNode.fails.println()
-        }
+        println("fails")
+        InnerNode.fails.println()
     }
 }

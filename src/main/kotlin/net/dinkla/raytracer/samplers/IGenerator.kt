@@ -17,7 +17,7 @@ interface IGenerator {
     }
 
     companion object {
-        fun sqrt(numSamples: Int) = Math.sqrt(numSamples.toDouble()).toInt()
+        fun sqrt(numSamples: Int) = kotlin.math.sqrt(numSamples.toDouble()).toInt()
     }
 
 }

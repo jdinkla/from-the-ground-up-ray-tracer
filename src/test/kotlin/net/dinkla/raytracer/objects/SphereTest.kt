@@ -5,12 +5,11 @@ import net.dinkla.raytracer.math.*
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import kotlin.math.abs
 
 internal class SphereTest {
 
-    private val point = Point3D.ORIGIN
-    private val radius = 1.0
-    private val sphere = Sphere(point, radius)
+    private val sphere = Sphere(Point3D.ORIGIN, 1.0)
 
     @Test
     fun boundingBox() {
@@ -27,8 +26,8 @@ internal class SphereTest {
         val ray = Ray(o, d)
         val isHit = sphere.hit(ray, sr);
         assert(isHit)
-        assert(Math.abs(sr.t - 1.0) < MathUtils.K_EPSILON)
-        assertEquals(Normal(0.0, 0.0, -1.0), sr.normal)
+        assert(abs(sr.t - 1.0) < MathUtils.K_EPSILON)
+        assertEquals(Normal.BACKWARD, sr.normal)
     }
 
     // TODO test for not hit

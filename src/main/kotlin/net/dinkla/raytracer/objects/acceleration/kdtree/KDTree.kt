@@ -8,6 +8,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
+import kotlin.math.ln
 
 class KDTree(
         var builder: IKDTreeBuilder = SpatialMedianBuilder(),
@@ -15,7 +16,7 @@ class KDTree(
 
     override fun initialize() {
         super.initialize()
-        val n = 8 + (1.3 * (Math.log(objects.size.toDouble()) / Math.log(2.0))).toInt()
+        val n = 8 + (1.3 * (ln(objects.size.toDouble()) / ln(2.0))).toInt()
         if (n != builder.maxDepth) {
             LOGGER.warn("Ideal maxDepth = " + n + ", but set to " + builder.maxDepth)
         }

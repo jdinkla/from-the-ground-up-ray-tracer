@@ -9,13 +9,10 @@ import net.dinkla.raytracer.world.World
 
 class PointLight(val location: Point3D = Point3D.ORIGIN,
                  val ls: Double = 1.0,
-                 val color: Color = Color.WHITE) : Light() {
+                 val color: Color = Color.WHITE,
+                 override val shadows: Boolean = true) : Light {
 
     private var cachedL: Color? = null
-
-    init {
-        shadows = true
-    }
 
     override fun L(world: World, sr: Shade): Color {
         if (null == cachedL) {

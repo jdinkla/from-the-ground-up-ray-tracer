@@ -3,6 +3,7 @@ package net.dinkla.raytracer.math
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import kotlin.math.sqrt
 
 internal class Element2DTest {
 
@@ -10,7 +11,7 @@ internal class Element2DTest {
     private val y = 2.0
     private val e = Element2D(x, y)
     private val sqrLength = x * x + y * y
-    private val length = Math.sqrt(sqrLength)
+    private val length = sqrt(sqrLength)
 
     @Test
     fun getX() {

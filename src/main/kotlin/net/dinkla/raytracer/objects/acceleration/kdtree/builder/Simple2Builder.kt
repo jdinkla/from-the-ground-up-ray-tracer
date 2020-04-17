@@ -10,6 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.utilities.Counter
 import org.slf4j.LoggerFactory
+import kotlin.math.abs
 
 class Simple2Builder : IKDTreeBuilder {
 
@@ -141,9 +142,9 @@ class Simple2Builder : IKDTreeBuilder {
 
         val n = objects.size
 
-        val diffX = Math.abs(objectsLx.size - objectsRx.size) + bothX * 3 + (objectsLx.size + objectsRx.size - n) * 5
-        val diffY = Math.abs(objectsLy.size - objectsRy.size) + bothY * 3 + (objectsLy.size + objectsRy.size - n) * 5
-        val diffZ = Math.abs(objectsLz.size - objectsRz.size) + bothZ * 3 + (objectsLz.size + objectsRz.size - n) * 5
+        val diffX = abs(objectsLx.size - objectsRx.size) + bothX * 3 + (objectsLx.size + objectsRx.size - n) * 5
+        val diffY = abs(objectsLy.size - objectsRy.size) + bothY * 3 + (objectsLy.size + objectsRy.size - n) * 5
+        val diffZ = abs(objectsLz.size - objectsRz.size) + bothZ * 3 + (objectsLz.size + objectsRz.size - n) * 5
 
         if (diffX < diffY) {
             if (diffX < diffZ) {

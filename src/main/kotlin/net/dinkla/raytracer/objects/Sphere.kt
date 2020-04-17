@@ -5,6 +5,7 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
+import kotlin.math.sqrt
 
 class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
 
@@ -22,7 +23,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         if (disc < 0) {
             return false
         } else {
-            val e = Math.sqrt(disc)
+            val e = sqrt(disc)
             val denom = 2 * a
             var t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
@@ -50,7 +51,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         if (disc < 0) {
             return false
         } else {
-            val e = Math.sqrt(disc)
+            val e = sqrt(disc)
             val denom = 2 * a
             var t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {

@@ -1,16 +1,18 @@
 package net.dinkla.raytracer.brdf
 
+import net.dinkla.raytracer.brdf.BRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.textures.Texture
+import kotlin.math.pow
 
 class SVGlossySpecular(
         var ks: Double = 0.0,
         var cs: Texture? = null,
         var exp: Double = 0.0,
-        val sampler : Sampler = Sampler()) : BRDF() {
+        val sampler : Sampler = Sampler()) : BRDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)
@@ -18,13 +20,13 @@ class SVGlossySpecular(
         val r = (wi * -1.0) + Vector3D(sr.normal) * (2 * nDotWi)
         val rDotWo = r dot wo
         return if (rDotWo > 0) {
-            cs!!.getColor(sr) * (ks * Math.pow(rDotWo, exp))
+            cs!!.getColor(sr) * (ks * rDotWo.pow(exp))
         } else {
             Color.BLACK
         }
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): BRDF.Sample {
+    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
         assert(null != cs)
         val cs = this.cs!!
 
@@ -41,7 +43,7 @@ class SVGlossySpecular(
             wi = u * -sp.x + v * -sp.y + w * -sp.z
         }
 
-        val phongLobe = Math.pow(wi dot w, exp)
+        val phongLobe = (wi dot w).pow(exp)
 
         return Sample(wi = wi, pdf = phongLobe * (wi dot sr.normal), color = cs.getColor(sr) * (ks * phongLobe))
     }

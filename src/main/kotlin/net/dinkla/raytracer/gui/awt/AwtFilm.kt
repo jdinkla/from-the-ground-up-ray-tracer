@@ -15,12 +15,12 @@ class AwtFilm(override val resolution: Resolution) : Film {
         assert(x < resolution.hres)
         assert(y >= 0)
         assert(y < resolution.vres)
-        image.setRGB(x, resolution.vres - 1 - y, color.asInt())
+        image.setRGB(x, resolution.vres - 1 - y, color.toInt())
     }
 
     override fun setBlock(x: Int, y: Int, width: Int, height: Int, color: Color) {
         var pixel: Any? = null
-        pixel = image.colorModel.getDataElements(color.asInt(), pixel)
+        pixel = image.colorModel.getDataElements(color.toInt(), pixel)
         for (j in 0 until height) {
             for (i in 0 until width) {
                 image.raster.setDataElements(x + i, resolution.vres - 1 - y - j, pixel)
