@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.interfaces.jvm
 
-import net.dinkla.raytracer.interfaces.Logging
-import org.slf4j.Logger
+import net.dinkla.raytracer.interfaces.GetLogger
+import net.dinkla.raytracer.interfaces.Logger
 import org.slf4j.LoggerFactory
 
-class LoggingImpl(private val logger: Logger) : Logging {
+class LoggerImpl(private val logger: org.slf4j.Logger) : Logger {
 
     override fun debug(s: String) {
         logger.debug(s)
@@ -21,6 +21,10 @@ class LoggingImpl(private val logger: Logger) : Logging {
     override fun error(s: String) {
         logger.error(s)
     }
+
+    companion object : GetLogger {
+        override fun getLogger(clazz: Any): Logger = LoggerImpl(LoggerFactory.getLogger(clazz::class.java))
+    }
 }
 
-fun getLogger(clazz: Any): Logging = LoggingImpl(LoggerFactory.getLogger(clazz::class.java))
+fun getLogger(clazz: Any): Logger = LoggerImpl.getLogger(clazz)
