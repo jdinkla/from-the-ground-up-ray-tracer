@@ -9,7 +9,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.utilities.Counter
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 
 class ObjectMedianBuilder : IKDTreeBuilder {
 
@@ -157,6 +157,6 @@ class ObjectMedianBuilder : IKDTreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 }

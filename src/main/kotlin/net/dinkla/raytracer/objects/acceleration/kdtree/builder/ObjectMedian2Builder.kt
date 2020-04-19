@@ -10,7 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import kotlin.math.abs
 
 class ObjectMedian2Builder : IKDTreeBuilder {
@@ -220,7 +220,7 @@ class ObjectMedian2Builder : IKDTreeBuilder {
 
     companion object {
 
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
 
         private fun weight(a: Int, b: Int, c: Int): Int {
             return abs(a - c / 2) + abs(b - c / 2)

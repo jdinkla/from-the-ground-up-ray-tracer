@@ -7,7 +7,7 @@ import net.dinkla.raytracer.objects.acceleration.Grid.Companion.logInterval
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import java.io.File
 
 class PlyReader(val material: IMaterial,
@@ -129,7 +129,7 @@ class PlyReader(val material: IMaterial,
 
     companion object {
 
-        internal val LOG = LoggerFactory.getLogger(this::class.java)
+        internal val LOG = getLogger(this::class.java)
 
         fun isEndOfHeader(line: String) = line == "end_header"
 

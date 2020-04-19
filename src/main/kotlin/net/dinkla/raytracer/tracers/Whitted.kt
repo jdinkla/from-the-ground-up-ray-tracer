@@ -6,8 +6,8 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.World
-import org.slf4j.LoggerFactory
 
 class Whitted(var world: World) : Tracer {
 
@@ -55,7 +55,7 @@ class Whitted(var world: World) : Tracer {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 
 }

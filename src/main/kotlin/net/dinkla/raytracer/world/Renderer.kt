@@ -7,7 +7,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Timer
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 
 class Renderer {
 
@@ -39,6 +39,6 @@ class Renderer {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 }

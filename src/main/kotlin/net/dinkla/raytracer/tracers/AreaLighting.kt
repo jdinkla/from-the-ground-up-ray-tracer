@@ -3,8 +3,8 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.World
-import org.slf4j.LoggerFactory
 
 class AreaLighting(var world: World) : Tracer {
 
@@ -26,7 +26,7 @@ class AreaLighting(var world: World) : Tracer {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 
 }

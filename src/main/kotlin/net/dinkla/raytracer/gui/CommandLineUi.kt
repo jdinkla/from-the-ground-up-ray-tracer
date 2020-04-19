@@ -1,15 +1,15 @@
 package net.dinkla.raytracer.gui
 
 import net.dinkla.raytracer.examples.worldDef
+import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.gui.awt.Png
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.WorldDefinition
-import org.slf4j.LoggerFactory
 import kotlin.system.exitProcess
 
 object CommandLineUi {
-    internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+    internal val LOGGER = getLogger(this::class.java)
 }
 
 fun main(args: Array<String>) {

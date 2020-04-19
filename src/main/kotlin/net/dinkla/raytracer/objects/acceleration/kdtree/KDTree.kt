@@ -7,7 +7,7 @@ import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.utilities.Counter
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import kotlin.math.ln
 
 class KDTree(
@@ -40,7 +40,7 @@ class KDTree(
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
         internal const val maxDepth = 15
     }
 }

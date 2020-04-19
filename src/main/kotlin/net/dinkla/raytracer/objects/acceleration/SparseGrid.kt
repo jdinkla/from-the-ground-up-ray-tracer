@@ -7,7 +7,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Timer
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import java.util.TreeMap
 import kotlin.math.pow
 
@@ -342,7 +342,7 @@ class SparseGrid() : Grid() {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 
 }

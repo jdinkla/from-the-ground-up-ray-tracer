@@ -4,7 +4,6 @@ import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import org.slf4j.LoggerFactory
 
 // TODO zoom camera
 open class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
@@ -29,9 +28,4 @@ open class Pinhole(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val dir = uvw!!.pm(x, y, d)
         return dir.normalize()
     }
-
-    companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
-    }
-
 }

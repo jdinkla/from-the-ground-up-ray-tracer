@@ -1,12 +1,11 @@
 package net.dinkla.raytracer.cameras.render
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import org.slf4j.LoggerFactory
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 
 class CoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
@@ -32,7 +31,7 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
 
     companion object {
         internal val pool = Dispatchers.Default
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 
 }

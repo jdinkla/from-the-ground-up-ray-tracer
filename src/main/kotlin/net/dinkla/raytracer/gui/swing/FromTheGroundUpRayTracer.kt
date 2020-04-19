@@ -6,8 +6,8 @@ import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.WorldDefinition
-import org.slf4j.LoggerFactory
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
@@ -177,7 +177,7 @@ class FromTheGroundUpRayTracer : ActionListener {
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
     }
 }
 

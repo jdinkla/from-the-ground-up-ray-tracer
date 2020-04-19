@@ -2,8 +2,7 @@ package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import org.slf4j.LoggerFactory
-
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.RecursiveAction
 
@@ -67,7 +66,7 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     companion object {
-        internal val LOGGER = LoggerFactory.getLogger(this::class.java)
+        internal val LOGGER = getLogger(this::class.java)
         private var pool: ForkJoinPool = ForkJoinPool()
     }
 }
