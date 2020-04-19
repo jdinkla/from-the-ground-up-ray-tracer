@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
-import net.dinkla.raytracer.utilities.hash
-import java.lang.Math.sqrt
+import net.dinkla.raytracer.interfaces.hash
+import kotlin.math.sqrt
 
 open class Element3D(val x: Double, val y: Double, val z: Double) {
 

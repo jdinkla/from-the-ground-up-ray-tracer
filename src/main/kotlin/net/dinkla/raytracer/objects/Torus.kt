@@ -3,9 +3,8 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 
 class Torus(val a: Double, val b: Double) : GeometricObject() {
 

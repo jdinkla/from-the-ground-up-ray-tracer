@@ -5,7 +5,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
-import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.World
 

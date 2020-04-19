@@ -13,7 +13,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.tracers.Tracer
-import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.Counter
 
 class World(val id: String, val viewPlane: ViewPlane) {
 

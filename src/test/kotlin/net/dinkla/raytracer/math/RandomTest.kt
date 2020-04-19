@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.math
 
+import net.dinkla.raytracer.interfaces.Random
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.assertEquals

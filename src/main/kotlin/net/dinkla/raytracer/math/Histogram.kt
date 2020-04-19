@@ -1,10 +1,8 @@
 package net.dinkla.raytracer.math
 
-import java.util.TreeMap
-
 class Histogram {
 
-    internal var counts: MutableMap<Int, Int> = TreeMap()
+    internal var counts: MutableMap<Int, Int> = HashMap()
 
     fun add(key: Int) {
         counts.merge(key, 1) { a, b -> a + b }

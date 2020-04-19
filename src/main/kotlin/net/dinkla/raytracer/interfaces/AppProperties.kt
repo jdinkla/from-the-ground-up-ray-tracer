@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.interfaces
 
 import java.io.FileInputStream
 import java.io.IOException

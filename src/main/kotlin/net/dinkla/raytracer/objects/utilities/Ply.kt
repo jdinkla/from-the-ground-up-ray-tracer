@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.objects.utilities
 
+import net.dinkla.raytracer.interfaces.read
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
@@ -16,7 +17,7 @@ class Ply(val numVertices: Int, val numFaces: Int, val compound: CompoundWithMes
                     isSmooth = isSmooth,
                     compound = compound,
                     reverseNormal = reverseNormal)
-            return plyReader.read(fileName)
+            return plyReader.read(read(fileName))
         }
     }
 }

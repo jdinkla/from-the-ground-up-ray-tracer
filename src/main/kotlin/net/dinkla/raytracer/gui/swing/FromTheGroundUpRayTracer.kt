@@ -5,7 +5,7 @@ import net.dinkla.raytracer.gui.awt.AwtFilm
 import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
-import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.interfaces.AppProperties
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.world.WorldDefinition
 import java.awt.event.ActionEvent

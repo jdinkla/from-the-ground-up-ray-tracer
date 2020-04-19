@@ -36,24 +36,25 @@ object World74 : WorldDefinition {
 
             val green = this.materials["green"]!!
 //            val ply1 = Ply.fromFile(fileName = "${path}/bunny/Bunny4K.ply", multiplier = 2.0, isSmooth = true, type = Acceleration.GRID, material = green)
-            val ply1 = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res4.ply", isSmooth = true, type = Acceleration.GRID, material = green)
-            val ply1b = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res3.ply", isSmooth = true, type = Acceleration.GRID, material = green)
-            val ply1c = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res2.ply", isSmooth = true, type = Acceleration.GRID, material = green)
-            val ply2 = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res4.ply", isSmooth = true, type = Acceleration.KDTREE, material = green)
+//            val ply1 = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res4.ply", isSmooth = true, type = Acceleration.GRID, material = green)
+            val ply1 = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res3.ply", isSmooth = true, type = Acceleration.GRID, material = green)
+//            val ply1c = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res2.ply", isSmooth = true, type = Acceleration.GRID, material = green)
+//            val ply1 = Ply.fromFile(fileName = "C:\\workspace\\ply\\happy_vrip_res4.ply", isSmooth = true, type = Acceleration.GRID, material = green)
+            // val ply2 = Ply.fromFile(fileName = "C:\\workspace\\ply\\bunny\\reconstruction\\bun_zipper_res4.ply", isSmooth = true, type = Acceleration.KDTREE, material = green)
 
-            instance(of = ply1.compound, material = "green") {
+            instance(of = ply1.compound, material = "red") {
                 scale(v(3.0, 3.0, 3.0))
                 rotateY(10.0)
                 translate(v(1, 0, 0))
             }
 
-            instance(of = ply1b.compound, material = "green") {
+            instance(of = ply1.compound, material = "green") {
                 scale(v(3.0, 3.0, 3.0))
                 rotateY(10.0)
                 translate(v(2, 0, 0))
             }
 
-            instance(of = ply1c.compound, material = "green") {
+            instance(of = ply1.compound, material = "blue") {
                 scale(v(3.0, 3.0, 3.0))
                 rotateY(10.0)
                 translate(v(3, 0, 0))

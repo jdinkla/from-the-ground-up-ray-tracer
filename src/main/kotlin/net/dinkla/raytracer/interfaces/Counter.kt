@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.interfaces
 
 import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
@@ -50,6 +50,10 @@ class Counter private constructor() {
                 }
             }
             return results
+        }
+
+        fun reset() {
+            INSTANCE.instances.clear()
         }
     }
 

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.math.PointUtilities
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.world.World
 
 open class Compound : GeometricObject() {

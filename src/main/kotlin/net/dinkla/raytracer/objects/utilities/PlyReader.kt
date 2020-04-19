@@ -8,7 +8,6 @@ import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
 import net.dinkla.raytracer.interfaces.jvm.getLogger
-import java.io.File
 
 class PlyReader(val material: IMaterial,
                 val reverseNormal: Boolean = false,
@@ -37,8 +36,6 @@ class PlyReader(val material: IMaterial,
         }
         mesh.vertexFaces[i]?.add(countFaces)
     }
-
-    fun read(fileName: String) = read(File(fileName).readLines())
 
     fun read(lines: List<String>): Ply {
         lines.forEach { line ->

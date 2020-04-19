@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 
 inline fun loop(f: (Int, Int) -> Unit) {
     for (j in 0..3) {

@@ -5,7 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.math.MathUtils.INV_PI
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 
 // kd: diffuse reflection coefficient, in [0,1]
 // cd: diffuse color

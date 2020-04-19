@@ -1,8 +1,6 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.objects.acceleration.Acceleration
-import net.dinkla.raytracer.objects.utilities.Ply
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 

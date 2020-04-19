@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.world
 
-import net.dinkla.raytracer.utilities.AppProperties
+import net.dinkla.raytracer.interfaces.AppProperties
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.dsl.WorldScope
 

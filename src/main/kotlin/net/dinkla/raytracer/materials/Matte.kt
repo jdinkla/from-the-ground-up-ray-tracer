@@ -8,7 +8,7 @@ import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 import net.dinkla.raytracer.world.World
 
 open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {

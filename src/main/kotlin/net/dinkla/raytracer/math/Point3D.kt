@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
-import java.lang.Double.NEGATIVE_INFINITY
-import java.lang.Double.POSITIVE_INFINITY
+import kotlin.Double.Companion.NEGATIVE_INFINITY
+import kotlin.Double.Companion.POSITIVE_INFINITY
 
 class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 

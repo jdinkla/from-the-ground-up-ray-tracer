@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.utilities.Timer
+import net.dinkla.raytracer.interfaces.Timer
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import java.util.TreeMap
 import kotlin.math.pow

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.interfaces
 
 class Timer {
 

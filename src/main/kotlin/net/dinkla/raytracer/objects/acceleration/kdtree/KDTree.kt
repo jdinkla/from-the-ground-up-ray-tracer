@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
-import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import kotlin.math.ln
 

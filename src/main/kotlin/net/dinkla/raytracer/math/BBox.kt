@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min

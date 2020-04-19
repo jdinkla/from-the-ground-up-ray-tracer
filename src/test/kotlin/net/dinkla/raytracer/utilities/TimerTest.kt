@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.utilities
 
+import net.dinkla.raytracer.interfaces.Timer
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

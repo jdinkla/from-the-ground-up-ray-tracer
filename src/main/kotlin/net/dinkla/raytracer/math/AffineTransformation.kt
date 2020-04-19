@@ -2,7 +2,7 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.interfaces.hash
 import kotlin.math.cos
 import kotlin.math.sin
 

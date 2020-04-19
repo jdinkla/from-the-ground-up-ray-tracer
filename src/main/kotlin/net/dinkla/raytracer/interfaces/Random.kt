@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.math
+package net.dinkla.raytracer.interfaces
 
 import java.util.Random
 

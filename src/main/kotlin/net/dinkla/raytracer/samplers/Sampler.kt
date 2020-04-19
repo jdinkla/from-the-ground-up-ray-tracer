@@ -3,7 +3,7 @@ package net.dinkla.raytracer.samplers
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Random
+import net.dinkla.raytracer.interfaces.Random
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin

@@ -8,7 +8,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
-import net.dinkla.raytracer.utilities.Counter
+import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 
 class ObjectMedianBuilder : IKDTreeBuilder {
