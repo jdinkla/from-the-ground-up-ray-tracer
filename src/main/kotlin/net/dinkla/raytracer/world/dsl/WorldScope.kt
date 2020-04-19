@@ -28,9 +28,9 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
 
     fun c(v: Double) = Color(v)
-    fun c(x: Double, y: Double, z: Double) = Color(x, y, z)
-
-    fun c(s: String) = Color.fromString(s)
+    fun c(red: Double, green: Double, blue: Double) = Color(red, green, blue)
+    fun c(red: Int, green: Int, blue: Int) = Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+    fun c(hexCode: String) = Color.fromString(hexCode)
 
     fun n(x: Int, y: Int, z: Int) = Normal(x.toDouble(), y.toDouble(), z.toDouble())
     fun n(x: Double, y: Double, z: Double) = Normal(x, y, z)

@@ -53,6 +53,15 @@ internal class ColorTest {
     }
 
     @Test
+    fun createFromInts() {
+        val color = Color.fromRGB(127, 0, 255)
+
+        assertEquals(127.0/255.0, color.red, 0.01)
+        assertEquals(0.0, color.green, 0.01)
+        assertEquals(1.0, color.blue, 0.01)
+    }
+
+    @Test
     fun createFromString() {
         assertEquals(Color(1.0, 0.0, 0.0), fromString("FF0000"))
         assertEquals(Color(0.0, 1.0, 0.0), fromString("00FF00"))
