@@ -5,6 +5,8 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.interfaces.hash
+import kotlin.Double.Companion.NEGATIVE_INFINITY
+import kotlin.Double.Companion.POSITIVE_INFINITY
 
 open class Rectangle : GeometricObject {
 
@@ -13,24 +15,14 @@ open class Rectangle : GeometricObject {
     val b: Vector3D
     val normal: Normal
 
-    constructor(p0: Point3D, a: Vector3D, b: Vector3D) {
+    constructor(p0: Point3D, a: Vector3D, b: Vector3D, inverted: Boolean = false) {
         this.p0 = p0
         this.a = a
         this.b = b
-        val v = a cross b
-        normal = Normal(v.normalize())
-        boundingBox = calcBoundingBox()
-    }
-
-    constructor(p0: Point3D, a: Vector3D, b: Vector3D, inverted: Boolean) {
-        this.p0 = p0
-        this.a = a
-        this.b = b
-        val v: Vector3D
-        if (inverted) {
-            v = b.cross(a)
+        val v = if (inverted) {
+            b cross a
         } else {
-            v = a.cross(b)
+            a cross b
         }
         normal = Normal(v.normalize())
         boundingBox = calcBoundingBox()
@@ -45,8 +37,8 @@ open class Rectangle : GeometricObject {
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {
-        val nom = p0.minus(ray.origin).dot(normal)
-        val denom = ray.direction.dot(normal)
+        val nom = (p0 - ray.origin) dot normal
+        val denom = ray.direction dot normal
         val t = nom / denom
 
         if (t <= MathUtils.K_EPSILON) {
@@ -54,14 +46,14 @@ open class Rectangle : GeometricObject {
         }
 
         val p = ray.linear(t)
-        val d = p.minus(p0)
+        val d = p - p0
 
-        val ddota = d.dot(a)
+        val ddota = d dot a
         if (ddota < 0 || ddota > a.sqrLength()) {
             return false
         }
 
-        val ddotb = d.dot(b)
+        val ddotb = d dot b
         if (ddotb < 0 || ddotb > b.sqrLength()) {
             return false
         }
@@ -73,8 +65,8 @@ open class Rectangle : GeometricObject {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val nom = p0.minus(ray.origin).dot(normal)
-        val denom = ray.direction.dot(normal)
+        val nom = (p0 - ray.origin) dot normal
+        val denom = ray.direction dot normal
         val t = nom / denom
 
         if (t <= MathUtils.K_EPSILON) {
@@ -82,14 +74,14 @@ open class Rectangle : GeometricObject {
         }
 
         val p = ray.linear(t)
-        val d = p.minus(p0)
+        val d = p - p0
 
-        val ddota = d.dot(a)
+        val ddota = d dot a
         if (ddota < 0 || ddota > a.sqrLength()) {
             return false
         }
 
-        val ddotb = d.dot(b)
+        val ddotb = d dot b
         if (ddotb < 0 || ddotb > b.sqrLength()) {
             return false
         }
@@ -98,16 +90,12 @@ open class Rectangle : GeometricObject {
         return true
     }
 
-    fun getNormal(p: Point3D): Normal {
-        return normal
-    }
-
-    fun calcBoundingBox(): BBox {
+    private fun calcBoundingBox(): BBox {
         val v0 = p0
-        val v1 = p0.plus(a).plus(b)
+        val v1 = p0 + a + b
 
-        var x0 = java.lang.Double.POSITIVE_INFINITY
-        var x1 = java.lang.Double.NEGATIVE_INFINITY
+        var x0 = POSITIVE_INFINITY
+        var x1 = NEGATIVE_INFINITY
         if (v0.x < x0) {
             x0 = v0.x
         }
@@ -120,8 +108,8 @@ open class Rectangle : GeometricObject {
         if (v1.x > x1) {
             x1 = v1.x
         }
-        var y0 = java.lang.Double.POSITIVE_INFINITY
-        var y1 = java.lang.Double.NEGATIVE_INFINITY
+        var y0 = POSITIVE_INFINITY
+        var y1 = NEGATIVE_INFINITY
         if (v0.y < y0) {
             y0 = v0.y
         }
@@ -134,8 +122,8 @@ open class Rectangle : GeometricObject {
         if (v1.y > y1) {
             y1 = v1.y
         }
-        var z0 = java.lang.Double.POSITIVE_INFINITY
-        var z1 = java.lang.Double.NEGATIVE_INFINITY
+        var z0 = POSITIVE_INFINITY
+        var z1 = NEGATIVE_INFINITY
         if (v0.z < z0) {
             z0 = v0.z
         }
@@ -155,7 +143,7 @@ open class Rectangle : GeometricObject {
         a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.normal == b.normal
     }
 
-    override fun hashCode(): Int = this.hash(p0, a, b, normal)
+    override fun hashCode(): Int = hash(p0, a, b, normal)
 
     override fun toString(): String = "Rectangle($p0, $a, $b, $normal)"
 }

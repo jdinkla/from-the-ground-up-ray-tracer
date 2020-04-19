@@ -22,6 +22,8 @@ class RectangleLight(val sampler: Sampler,
 
     override fun pdf(sr: Shade): Double = pdf
 
+    override fun getNormal(p: Point3D): Normal = normal
+
     override fun sample(): Point3D {
         val sp = sampler.sampleUnitSquare()
         return (p0 + a * sp.x) + b * sp.y
