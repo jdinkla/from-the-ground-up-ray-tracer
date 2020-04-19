@@ -108,13 +108,11 @@ open class MeshTriangle : GeometricObject {
         return true
     }
 
-
     fun computeNormal(reverseNormal: Boolean) {
         val p0 = mesh.vertices[index0]
         val p1 = mesh.vertices[index1]
         val p2 = mesh.vertices[index2]
-        //normal = new Normal(p0, p1, p2);
-        normal = Normal(p1.minus(p0).cross(p2.minus(p0)).normalize())
+        normal = Normal((p1 - p0) cross (p2 - p0).normalize())
         if (reverseNormal) {
             normal = -normal!!
         }

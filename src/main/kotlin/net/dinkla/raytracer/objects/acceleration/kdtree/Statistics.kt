@@ -25,7 +25,7 @@ class Statistics {
 
     companion object {
 
-        fun cs(node: AbstractNode?, s: Statistics, depth: Int) {
+        fun cs(node: Node?, s: Statistics, depth: Int) {
             if (node is Leaf) {
                 val n = node as Leaf?
                 s.numLeafs++

@@ -4,10 +4,9 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.compound.Compound
 
-class Leaf(objects: List<GeometricObject>) : AbstractNode() {
+class Leaf(objects: List<GeometricObject>) : Node {
 
     private val compound: Compound = Compound()
 
@@ -27,13 +26,11 @@ class Leaf(objects: List<GeometricObject>) : AbstractNode() {
 
     override fun size(): Int = compound.size()
 
-    override fun printBBoxes(incr: Int): String {
-        val sb = StringBuilder()
+    override fun printBBoxes(incr: Int): String = buildString {
         for (i in 0 until incr) {
-            sb.append(" ")
+            append(" ")
         }
-        sb.append("-")
-        return sb.toString()
+        append("-")
     }
 
     override fun toString(): String = "Leaf(${size()}, ${boundingBox}"

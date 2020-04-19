@@ -6,6 +6,7 @@ import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
 import net.dinkla.raytracer.materials.Matte
+import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Sphere
@@ -29,13 +30,12 @@ class BuilderTest {
         val d = 500.0
         val eye = Point3D(0.0, 100.0, 200.0)
         val lookAt = Point3D(1.0, 2.0, 3.0)
+        val up = Vector3D.JITTER
         val world = Builder.build("id") {
-            camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = Vector3D.JITTER)
+            camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = up)
         }
         assertNotNull(world.camera)
-        assertEquals(eye, world.camera.eye)
-        assertEquals(lookAt, world.camera.lookAt)
-        assertEquals(Vector3D.JITTER, world.camera.up)
+        assertEquals(Basis(eye, lookAt, up), world.camera?.uvw)
     }
 
     @Test
@@ -150,7 +150,7 @@ class BuilderTest {
         val w = World23.world()
         assertEquals(3, w.size())
         assertEquals(1, w.lights.size)
-        assertEquals(AreaLighting::class.java, w.tracer.javaClass )
+        assertEquals(AreaLighting::class.java, w.tracer?.javaClass )
     }
 
     @Test

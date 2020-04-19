@@ -48,7 +48,7 @@ class WorldScope(val id: String, val resolution: Resolution) {
         lens.d = d
 
         val tracer = tracer.create(world)
-        this.renderer.tracer = tracer
+        world.tracer = tracer
 
         val singleRayRenderer = SimpleSingleRayRenderer(lens, tracer)
         val corrector: IColorCorrector = world.viewPlane
@@ -56,7 +56,7 @@ class WorldScope(val id: String, val resolution: Resolution) {
 
         val camera = Camera(lens)
         camera.setup(eye, lookAt, up)
-        this.renderer.camera = camera
+        world.camera = camera
 
         // tmp
         world.renderer = this.renderer

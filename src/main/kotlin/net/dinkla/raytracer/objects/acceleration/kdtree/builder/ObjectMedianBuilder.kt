@@ -4,28 +4,28 @@ import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 
-class ObjectMedianBuilder : IKDTreeBuilder {
+class ObjectMedianBuilder : TreeBuilder {
 
     override var maxDepth = 15
     private var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): AbstractNode {
+    override fun build(tree: KDTree, voxel: BBox): Node {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    fun build(origObjects: List<GeometricObject>, voxel: BBox, depth: Int): AbstractNode {
+    fun build(origObjects: List<GeometricObject>, voxel: BBox, depth: Int): Node {
 
         var objects = origObjects
         Counter.count("KDtree.build")
 
-        val node: AbstractNode?
+        val node: Node?
         var voxelL: BBox? = null
         var voxelR: BBox? = null
 

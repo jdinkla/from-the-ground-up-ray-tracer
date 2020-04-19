@@ -27,10 +27,8 @@ class World(val id: String, val viewPlane: ViewPlane) {
 
     // tmp
     var renderer: Renderer? = null
-    val tracer: Tracer
-        get() = renderer?.tracer!!
-    val camera: Camera
-        get() = renderer?.camera!!
+    var tracer: Tracer? = null
+    var camera: Camera? = null
 
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")

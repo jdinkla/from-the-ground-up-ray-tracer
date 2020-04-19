@@ -17,7 +17,7 @@ object NewWorld4 : WorldDefinition {
 
         camera(d = 1000.0, eye = p(-5.0, 1.5, -5.0), lookAt = p(0.5, 0.5, 0.0), tracer = Tracers.AREA)
 
-        ambientLight(ls = 0.5)
+        ambientLight(ls = 0.75)
 
 //        lights {
 //            directionalLight(direction = v(1.0, -1.0, -0.5), ls = 2.0, color = Color.WHITE)

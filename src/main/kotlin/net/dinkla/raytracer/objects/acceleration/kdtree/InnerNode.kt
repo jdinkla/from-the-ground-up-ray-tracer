@@ -8,17 +8,14 @@ import net.dinkla.raytracer.math.Ray
 import java.util.Stack
 
 class InnerNode(
-        val left: AbstractNode,
-        val right: AbstractNode,
+        val left: Node,
+        val right: Node,
         override val boundingBox: BBox,
         val split: Double,
-        private val axis: Axis) : AbstractNode() {
+        private val axis: Axis) : Node {
 
-    open class Pair(var node: AbstractNode?, var hit: Hit)
-
-    //@Override
     fun hitNR(ray: Ray, sr: Hit): Boolean {
-        val stack = Stack<Pair>()
+        val stack = Stack<Pair<Node?, Hit>>()
         stack.push(Pair(this, sr))
 
         var count = 0
@@ -26,9 +23,9 @@ class InnerNode(
         while (!stack.isEmpty()) {
             val pair = stack.pop()
             count++
-            if (pair.node is Leaf) {
-                val leaf = pair.node as Leaf
-                val sr2 = Hit(pair.hit)
+            if (pair.first is Leaf) {
+                val leaf = pair.first as Leaf
+                val sr2 = Hit(pair.second)
                 val isHit = leaf.hit(ray, sr2)
                 //                if (isHit && sr2.getT() < sr.getT()) {
                 if (isHit) {
@@ -38,13 +35,13 @@ class InnerNode(
                     return true
                 }
             } else {
-                val node = pair.node as InnerNode
+                val node = pair.first as InnerNode
                 val bbox = node.boundingBox
                 val hit = bbox.hitX(ray)
                 if (hit.isHit) {
-                    val srL = Hit(pair.hit)
+                    val srL = Hit(pair.second)
                     srL.t = hit.t1
-                    val srR = Hit(pair.hit)
+                    val srR = Hit(pair.second)
                     if (ray.origin.ith(axis) < node.split) {
                         stack.push(Pair(node.left, srL))
                         stack.push(Pair(node.right, srR))
@@ -306,25 +303,22 @@ class InnerNode(
     override fun toString(): String =
             ("Node ${size()} [ ${left.size()}, ${right.size()}] $boundingBox $split\n($left)\n($right)")
 
-
-    override fun printBBoxes(incr: Int): String {
-        val sb = StringBuilder()
+    override fun printBBoxes(incr: Int): String = buildString {
         for (i in 0 until incr) {
-            sb.append(" ")
+            append(" ")
         }
-        sb.append(size())
-        sb.append(" ")
-        sb.append(axis)
-        sb.append(" ")
-        sb.append(split)
-        sb.append(" ")
-        sb.append(boundingBox.p)
-        sb.append(" ")
-        sb.append(boundingBox.q)
-        sb.append("\n")
-        sb.append(left.printBBoxes(incr + 2))
-        sb.append(right.printBBoxes(incr + 2))
-        return sb.toString()
+        append(size())
+        append(" ")
+        append(axis)
+        append(" ")
+        append(split)
+        append(" ")
+        append(boundingBox.p)
+        append(" ")
+        append(boundingBox.q)
+        append("\n")
+        append(left.printBBoxes(incr + 2))
+        append(right.printBBoxes(incr + 2))
     }
 
     companion object {

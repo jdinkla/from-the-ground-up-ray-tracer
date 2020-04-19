@@ -4,15 +4,15 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import kotlin.math.ln
 
 class KDTree(
-        var builder: IKDTreeBuilder = SpatialMedianBuilder(),
-        var root: AbstractNode? = null) : CompoundWithMesh() {
+        var builder: TreeBuilder = SpatialMedianBuilder(),
+        var root: Node? = null) : CompoundWithMesh() {
 
     override fun initialize() {
         super.initialize()

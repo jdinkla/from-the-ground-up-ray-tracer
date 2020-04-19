@@ -62,7 +62,7 @@ class Transparent : Phong {
         val brdf = reflectiveBRDF.sampleF(sr, wo)
         // trace reflected ray
         val reflectedRay = Ray(sr.hitPoint, brdf.wi)
-        val cr = world.tracer.trace(reflectedRay, sr.depth + 1)
+        val cr = world.tracer?.trace(reflectedRay, sr.depth + 1) ?: Color.BLACK
         if (specularBTDF.isTir(sr)) {
             l += cr
         } else {
@@ -73,7 +73,7 @@ class Transparent : Phong {
             // trace transmitted ray
             val btdf = specularBTDF.sampleF(sr, wo)
             val transmittedRay = Ray(sr.hitPoint, btdf.wt)
-            val ct = world.tracer.trace(transmittedRay, sr.depth + 1)
+            val ct = world.tracer?.trace(transmittedRay, sr.depth + 1) ?: Color.WHITE
             val cft = abs(sr.normal dot btdf.wt)
             l += (btdf.color * ct) * cft
         }

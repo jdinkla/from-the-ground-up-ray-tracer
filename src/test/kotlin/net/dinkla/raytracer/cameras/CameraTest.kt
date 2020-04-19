@@ -13,11 +13,8 @@ class CameraTest {
     @Throws(Exception::class)
     fun testComputeUVW() {
         val lens = Pinhole(ViewPlane(Resolution.RESOLUTION_1080))
-        val c = Camera(lens).apply {
-            eye = Point3D.ORIGIN
-            lookAt = Point3D.ORIGIN
-            up = Vector3D.UP
-        }
+        val c = Camera(lens)
+        c.setup(eye = Point3D.ORIGIN, lookAt = Point3D.ORIGIN, up = Vector3D.UP)
         assertNotNull(c.uvw.u)
         assertNotNull(c.uvw.v)
         assertNotNull(c.uvw.w)

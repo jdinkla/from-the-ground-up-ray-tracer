@@ -1,5 +1,8 @@
 package net.dinkla.raytracer.math
 
+import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.equals
+
 class Basis {
 
     val u: Vector3D
@@ -24,4 +27,10 @@ class Basis {
 
     fun pp(x: Double, y: Double, z: Double): Vector3D = (u * x) + (v * y) + (w * z)
 
+    override fun equals(other: Any?): Boolean =
+            this.equals<Basis>(other) { a, b -> a.u == b.u && a.v == b.v && a.w == b.w }
+
+    override fun hashCode(): Int = hash(u, v, w)
+
+    override fun toString(): String = "Basis($u, $v, $w)"
 }

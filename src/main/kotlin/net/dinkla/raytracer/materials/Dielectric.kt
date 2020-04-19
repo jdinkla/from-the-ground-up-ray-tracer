@@ -26,7 +26,7 @@ class Dielectric : Phong() {
         val nDotWi = sr.normal dot sample.wi
 
         if (fresnelBtdf.isTir(sr)) {
-            val lr = world.tracer.trace(reflectedRay, t, sr.depth + 1)
+            val lr = world.tracer?.trace(reflectedRay, t, sr.depth + 1) ?: Color.WHITE
             if (nDotWi < 0) {
                 // reflected ray is inside
                 L += cfIn.pow(t.value) * lr
@@ -40,25 +40,25 @@ class Dielectric : Phong() {
             val nDotWt = sr.normal.dot(sampleT.wt)
             if (nDotWi < 0) {
                 // reflected ray is inside
-                val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
+                val c1 = world.tracer?.trace(reflectedRay, t, sr.depth + 1) ?: Color.WHITE
                 val c2 = c1 * abs(nDotWi)
                 val lr = sample.color * c2
                 L += cfIn.pow(t.value) * lr
 
                 // transmitted ray is outside
-                val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
+                val c3 = world.tracer?.trace(transmittedRay, t, sr.depth + 1) ?: Color.WHITE
                 val c4 = c3 * abs(nDotWt)
                 val lt = sampleT.color * c4
                 L += cfOut.pow(t.value) * lt
             } else {
                 // reflected ray is inside
-                val c1 = world.tracer.trace(reflectedRay, t, sr.depth + 1)
+                val c1 = world.tracer?.trace(reflectedRay, t, sr.depth + 1) ?: Color.WHITE
                 val c2 = c1 * abs(nDotWi)
                 val lr = sample.color * c2
                 L += cfOut.pow(t.value) * lr
 
                 // transmitted ray is outside
-                val c3 = world.tracer.trace(transmittedRay, t, sr.depth + 1)
+                val c3 = world.tracer?.trace(transmittedRay, t, sr.depth + 1) ?: Color.WHITE
                 val c4 = c3.times(s = abs(nDotWt))
                 val lt = sampleT.color * c4
                 L += cfIn.pow(t.value) * lt

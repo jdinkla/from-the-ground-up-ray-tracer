@@ -3,7 +3,7 @@ package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.AbstractNode
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
@@ -12,12 +12,12 @@ import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import java.util.TreeSet
 
-class Test2Builder : IKDTreeBuilder {
+class Test2Builder : TreeBuilder {
 
     override var maxDepth = 15
     var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): AbstractNode {
+    override fun build(tree: KDTree, voxel: BBox): Node {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
@@ -143,11 +143,11 @@ class Test2Builder : IKDTreeBuilder {
         }
     }
 
-    fun build(objects: List<GeometricObject>?, voxel: BBox?, depth: Int): AbstractNode {
+    fun build(objects: List<GeometricObject>?, voxel: BBox?, depth: Int): Node {
 
         Counter.count("KDtree.build")
 
-        val node: AbstractNode?
+        val node: Node?
 
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")

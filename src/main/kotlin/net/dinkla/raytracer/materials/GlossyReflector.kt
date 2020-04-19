@@ -29,7 +29,7 @@ class GlossyReflector : Phong() {
         val wo = -sr.ray.direction
         val result = glossySpecularBrdf.sampleF(sr, wo)
         val reflectedRay = Ray(sr.hitPoint, result.wi)
-        val r = world.tracer.trace(reflectedRay, sr.depth + 1)
+        val r = world.tracer?.trace(reflectedRay, sr.depth + 1) ?: Color.WHITE
         val r2 = result.color * r
         val r3 = r2 * ((result.wi dot sr.normal) / result.pdf)
         val c = result.color

@@ -7,7 +7,7 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.Grid
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.IKDTreeBuilder
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.objects.beveled.BeveledBox
@@ -82,7 +82,7 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         instance.add()
     }
 
-    fun kdtree(builder : IKDTreeBuilder = SpatialMedianBuilder(), block: ObjectsScope.() -> Unit) {
+    fun kdtree(builder : TreeBuilder = SpatialMedianBuilder(), block: ObjectsScope.() -> Unit) {
         val compound = KDTree(builder)
         val scope = ObjectsScope(materials, compound)
         scope.block()
