@@ -32,7 +32,7 @@ class Reflective(color: Color = Color.WHITE,
         val f = sr.normal dot sample.wi
         val reflectedRay = Ray(sr.hitPoint, sample.wi)
         val c1 = world.tracer?.trace(reflectedRay, sr.depth + 1) ?: Color.WHITE
-        val c2 = sample.color * (c1) * f
+        val c2 = sample.color * c1 * f
         return L + c2
     }
 

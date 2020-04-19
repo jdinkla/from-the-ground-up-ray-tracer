@@ -50,7 +50,7 @@ open class Phong(color: Color = Color.WHITE,
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
             val wi = light.getDirection(sr)
-            val nDotWi = sr.normal.dot(wi)
+            val nDotWi = sr.normal dot wi
             if (nDotWi > 0) {
                 var inShadow = false
                 if (light.shadows) {
@@ -61,8 +61,8 @@ open class Phong(color: Color = Color.WHITE,
                     val fd = diffuseBRDF.f(sr, wo, wi)
                     val fs = specularBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val fdfslndotwi = fd.plus(fs).times(l).times(nDotWi)
-                    L = L.plus(fdfslndotwi)
+                    val fdfslndotwi = (fd + fs) * l * nDotWi
+                    L += fdfslndotwi
                 }
             }
         }
@@ -78,7 +78,7 @@ open class Phong(color: Color = Color.WHITE,
             if (light1 is AreaLight) {
                 val ls = light1.getSamples(sr)
                 for (sample in ls) {
-                    val nDotWi = sample.wi!!.dot(sr.normal)
+                    val nDotWi = sample.wi!! dot sr.normal
                     if (nDotWi > 0) {
                         var inShadow = false
                         if (light1.shadows) {
@@ -89,24 +89,21 @@ open class Phong(color: Color = Color.WHITE,
                             val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val fs = specularBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            val fsfslndotwi = fd.plus(fs).times(l).times(nDotWi)
+                            val fsfslndotwi = (fd + fs) * l * nDotWi
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = fsfslndotwi.times(f1)
+                            val T = fsfslndotwi * f1
                             S.plus(T)
                         }
                     }
                 }
             }
         }
-        L = L.plus(S.average)
+        L += S.average
         return L
     }
 
-    override fun getLe(sr: Shade): Color {
-        // TODO
-        return specularBRDF.cs * (specularBRDF.ks)
-    }
+    override fun getLe(sr: Shade): Color = specularBRDF.cs * (specularBRDF.ks)
 
     override fun equals(other: Any?): Boolean = this.equals<Phong>(other) { a, b ->
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF

@@ -13,7 +13,7 @@ import java.io.IOException
 class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
 
     private var res: Resolution
-    private var mapping: Mapping? = null
+    var mapping: Mapping? = null
 
     private var hRow: Histogram
     private var hColumn: Histogram
