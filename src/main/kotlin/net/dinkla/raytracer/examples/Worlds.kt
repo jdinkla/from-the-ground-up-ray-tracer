@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.examples
 
+import net.dinkla.raytracer.examples.ambient.World61
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.world.WorldDefinition
 
@@ -20,6 +21,7 @@ fun worldDef(filename: String): WorldDefinition? =
             "World38.kt" -> World38
             "World42.kt" -> World42
             "World48.kt" -> World48
+            "World61.kt" -> World61
             "World66.kt" -> World66
             "World71.kt" -> World71
             "World74.kt" -> World74

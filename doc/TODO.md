@@ -1,5 +1,7 @@
 # Todo
 
+- Spec 4K resolution in viewPlane in DSL 
+
 - https://github.com/kotest/kotest
 - Logging
     - https://www.baeldung.com/kotlin-logging

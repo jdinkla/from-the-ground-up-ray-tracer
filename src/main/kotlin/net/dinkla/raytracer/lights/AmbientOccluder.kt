@@ -17,20 +17,19 @@ class AmbientOccluder(
 
     override fun L(world: World, sr: Shade): Color {
         val w = Vector3D(sr.normal)
-        // jitter up vector in case normal is vertical
-        val v = w cross (Vector3D.JITTER).normalize()
+        val v = w cross (Vector3D.JITTER).normalize() // jitter up vector in case normal is vertical
         val u = v cross w
 
-        var numHits = 0
+        var numHits = 0.0
         for (i in 0 until numSamples) {
             val p = sampler.sampleHemisphere()
-            val dir = (u * p.x) + (v * p.y) + (w * p.z)
+            val dir = u * p.x + v * p.y + w * p.z
             val shadowRay = Ray(sr.hitPoint, dir)
             if (inShadow(world, shadowRay, sr)) {
                 numHits++
             }
         }
-        val ratio = 1.0 - 1.0 * numHits / numSamples
+        val ratio = 1.0 - numHits / numSamples
         return color * (ls * ratio)
     }
 
