@@ -19,7 +19,6 @@ class World(val id: String, val viewPlane: ViewPlane) {
 
     val compound: Compound = Compound()
     var backgroundColor: Color = Color.BLACK
-    var errorColor: Color = Color.ERROR
     var lights : List<Light> = listOf()
     var ambientLight: Ambient = Ambient()
     var materials : Map<String, IMaterial> = mapOf()

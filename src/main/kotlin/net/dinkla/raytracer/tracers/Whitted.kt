@@ -36,7 +36,7 @@ class Whitted(var world: World) : Tracer {
                 tmin.value = sr.t
                 if (null == sr.material) {
                     LOGGER.error("Material is NULL for ray $ray and sr $sr")
-                    color = Color.ERROR
+                    color = Color.RED
                 } else {
                     color = sr.material?.shade(world, sr) ?: world.backgroundColor
                 }

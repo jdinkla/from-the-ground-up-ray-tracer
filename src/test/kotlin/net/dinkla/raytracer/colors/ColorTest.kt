@@ -70,7 +70,7 @@ internal class ColorTest {
 
     @Test
     fun clamp() {
-        assertEquals(Color.CLAMP_COLOR, Color(1.1, 2.2, 3.3).clamp())
+        assertEquals(Color.RED, Color(1.1, 2.2, 3.3).clamp())
     }
 
     @Test

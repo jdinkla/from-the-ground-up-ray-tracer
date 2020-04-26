@@ -23,14 +23,14 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
     }
 
     fun clamp(): Color = when {
-        red > 1 || green > 1 || blue > 1 || red < 0 || green < 0 || blue < 0 -> CLAMP_COLOR
+        red > 1.0 || green > 1.0 || blue > 1.0 || red < 0.0 || green < 0.0 || blue < 0.0 -> RED
         else -> this
     }
 
     fun maxToOne(): Color {
         val maxValue = max(red, green, blue)
-        return if (maxValue > 1) {
-            this * (1 / maxValue)
+        return if (maxValue > 1.0) {
+            this * (1.0 / maxValue)
         } else {
             this
         }
@@ -45,9 +45,6 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         val BLUE = Color(0.0, 0.0, 1.0)
         val WHITE = Color(1.0, 1.0, 1.0)
         val YELLOW = Color(1.0, 1.0, 0.0)
-
-        val ERROR = Color(1.0, 0.0, 0.0)
-        val CLAMP_COLOR = Color(1.0, 0.0, 0.0)
 
         fun fromInt(rgb: Int): Color {
             val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0

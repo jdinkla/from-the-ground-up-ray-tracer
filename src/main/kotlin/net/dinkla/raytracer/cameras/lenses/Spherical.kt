@@ -16,18 +16,18 @@ class Spherical(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
     var maxPsi: Double = 180.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres)
-        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres)
         val pp = Point2D(x, y)
-        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
+        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         return Ray(eye!!, direction)
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.size * (c - OFFSET * viewPlane.resolution.hres + sp.x)
-        val y = viewPlane.size * (r - OFFSET * viewPlane.resolution.vres + sp.y)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres + sp.x)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres + sp.y)
         val pp = Point2D(x, y)
-        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.size)
+        val direction = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         return Ray(eye!!, direction)
     }
 

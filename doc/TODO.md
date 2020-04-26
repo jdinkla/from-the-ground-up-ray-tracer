@@ -1,5 +1,10 @@
 # Todo
 
+- https://github.com/kotest/kotest
+- Logging
+    - https://www.baeldung.com/kotlin-logging
+    - https://github.com/MicroUtils/kotlin-logging
+
 - Lenses needed?
 
 

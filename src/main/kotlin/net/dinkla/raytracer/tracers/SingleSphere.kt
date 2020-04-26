@@ -9,7 +9,7 @@ import net.dinkla.raytracer.world.World
 class SingleSphere(var world: World) : Tracer {
 
     override fun trace(ray: Ray): Color = if (world.hit(ray, Shade())) {
-        Color.ERROR
+        Color.RED
     } else {
         world.backgroundColor
     }
