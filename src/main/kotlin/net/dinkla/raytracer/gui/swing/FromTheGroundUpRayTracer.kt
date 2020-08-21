@@ -178,10 +178,14 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     companion object {
         internal val LOGGER = getLogger(this::class.java)
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            FromTheGroundUpRayTracer()
+        }
     }
 }
 
 fun main(args: Array<String>) {
     FromTheGroundUpRayTracer()
 }
-

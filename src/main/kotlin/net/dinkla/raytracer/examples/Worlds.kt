@@ -1,6 +1,8 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.examples.ambient.World61
+import net.dinkla.raytracer.examples.arealights.World20AreaDisk
+import net.dinkla.raytracer.examples.arealights.World20AreaReactangle
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.world.WorldDefinition
 
@@ -14,7 +16,8 @@ fun worldDef(filename: String): WorldDefinition? =
             "World14.kt" -> World14
             "World17.kt" -> World17
             "World20.kt" -> World20
-            "World20area.kt" -> World20area
+            "World20AreaDisk.kt" -> World20AreaDisk
+            "World20AreaReactangle.kt" -> World20AreaReactangle
             "World23.kt" -> World23
             "World26.kt" -> World26
             "World34.kt" -> World34

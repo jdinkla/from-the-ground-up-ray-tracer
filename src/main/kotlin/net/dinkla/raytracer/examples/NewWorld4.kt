@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.examples
 
+import net.dinkla.raytracer.examples.arealights.World20AreaDisk
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
@@ -37,7 +38,7 @@ object NewWorld4 : WorldDefinition {
 
         lights {
             //            areaLight(of = rectangle, numSamples = numSamples)
-            areaLight(of = disk, numSamples = World20area.numSamples)
+            areaLight(of = disk, numSamples = World20AreaDisk.numSamples)
         }
         objects {
             alignedBox(material = "yellow", p = Point3D.ORIGIN, q = Point3D.UNIT)
