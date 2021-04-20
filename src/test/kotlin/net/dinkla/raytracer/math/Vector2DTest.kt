@@ -59,4 +59,14 @@ internal class Vector2DTest {
         val v = Vector2D(a, b)
         assertEquals(-v, Vector2D(-a, -b))
     }
+
+    @Test
+    fun combined() {
+        val v = Vector2D(1.0, 2.0)
+        val w = Vector2D(3.0, -1.0)
+        val x = Vector2D(-1.0, 1.0)
+        val result = -v dot (2.0 * (w + x))
+        assertEquals(-4.0, result)
+    }
+
 }
