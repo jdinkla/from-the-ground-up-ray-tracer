@@ -1,18 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val junitVersion = "5.6.2"
+val junitVersion = "5.7.1"
 val logbackVersion = "1.2.3"
-val coroutinesVersion = "1.3.9"
+val kotlinxCoroutinesVersion = "1.4.2"
 
 plugins {
-    kotlin("jvm") version  "1.4.0"
-    id("io.gitlab.arturbosch.detekt").version("1.7.4")
+    kotlin("jvm") version  "1.4.32"
+    id("io.gitlab.arturbosch.detekt").version("1.16.0")
     idea
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
@@ -52,6 +52,6 @@ task<JavaExec>("commandline") {
 }
 
 task<JavaExec>("swing") {
-    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracer"
+    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerKt"
     classpath = sourceSets["main"].runtimeClasspath
 }

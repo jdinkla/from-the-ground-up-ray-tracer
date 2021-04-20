@@ -1,5 +1,4 @@
-Ray Tracer in Kotlin
-=============================
+# Ray Tracer in Kotlin
 
 *Remark*: This project was migrated rom Java and Groovy to Kotlin. The old code with Java and 
 Groovy is available in the branch `groovy-java`. 
@@ -12,7 +11,24 @@ by Kevin Suffern I
 * made the code more object oriented
 * made the code thread-safe for parallel execution
 * wrote a DSL for easy scene creation and manipulation first 2010 in Groovy, then 2019 in Kotlin
-* Refactored the code (ongoing) quite a bit to develop nice object-functional program
+* Refactored the code (ongoing) quite a bit to develop nice object-functional program. This is work in progress.
+
+### Running
+
+Run the Swing GUI with
+
+```bash
+$ gradlew build
+$ gradlew swing
+```
+
+![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)
+
+Choose a scene file with a left click, see the source code and click render to render it.
+
+Some examples require PLY files that are available on the net.
+
+## Describing scenes with a DSL
 
 For easier manipulation of scenes I implemented a DSL for scenes.
 
@@ -62,36 +78,27 @@ object World48 : WorldDef {
 
 See [my homepage for further information](http://dinkla.net/de/programming/groovy-rendering.html)
 
-Start with
-
-```
-$ ./gradlew swing
-```
-
-Then choose an example and press `render`. Some examples require PLY files that are available on the net.
+See [my home page for more information and examples](https://jdinkla.github.io/software-development/2015/07/08/ray-tracing-with-groovy-and-java.html).
 
 Here is another example:
 
 ![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.png)
 
-Requirements
---------
+## Requirements
 
 The Swing user interface runs with all Java versions.
 
-Keywords
---------
-ray tracing, rendering, Java, Groovy, DSL, ambient occlusion
+## Keywords
 
-Author
-------
+ray tracing, rendering, Java, Groovy, DSL, ambient occlusion, Kotlin
+
+## Author
+
 Written by [Jörn Dinkla](http://www.dinkla.net).
 
-Remarks
--------
+## Remarks
+
 The folder resources contains the following:
 
 * TwoTriangles.ply is from Kevin Suffern, the author of the book.
 * Isis.ply was downloaded from [Cyberware](http://cyberware.com/) (dissolved since 2011 )
-
-

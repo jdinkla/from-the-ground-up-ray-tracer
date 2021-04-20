@@ -13,10 +13,19 @@ import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
-import javax.swing.BoxLayout
 import javax.swing.border.EmptyBorder
 import javax.swing.event.TreeSelectionEvent
 import javax.swing.tree.DefaultMutableTreeNode
+import kotlin.concurrent.thread
+
+val informationTitle = AppProperties["information.title"] as String
+val informationHeader = AppProperties["information.headerText"] as String
+val informationContext = AppProperties["information.contentText"] as String
+val confirmationTitle = AppProperties["confirmation.title"] as String
+val confirmationHeader = AppProperties["confirmation.headerText"] as String
+val appWidth = AppProperties.getAsInteger("display.width")
+val appHeight = AppProperties.getAsInteger("display.height")
+val appTitle = AppProperties["app.title"] as String
 
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
@@ -36,24 +45,21 @@ private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     })
 }
 
-private fun about(frame: JFrame) {
-    val informationTitle = AppProperties["information.title"] as String
-    val informationHeader = AppProperties["information.headerText"] as String
-    val informationContext = AppProperties["information.contentText"] as String
-    JOptionPane.showMessageDialog(frame,
-            informationHeader + '\n' + informationContext,
-            informationTitle,
-            JOptionPane.PLAIN_MESSAGE)
-}
+private fun about(frame: JFrame) = JOptionPane.showMessageDialog(
+    frame,
+    informationHeader + '\n' + informationContext,
+    informationTitle,
+    JOptionPane.PLAIN_MESSAGE
+)
 
 private fun quit(frame: JFrame) {
-    val confirmationTitle = AppProperties["confirmation.title"] as String
-    val confirmationHeader = AppProperties["confirmation.headerText"] as String
-    val n = JOptionPane.showOptionDialog(frame,
-            confirmationHeader,
-            confirmationTitle,
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE, null, null, null)
+    val n = JOptionPane.showOptionDialog(
+        frame,
+        confirmationHeader,
+        confirmationTitle,
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE, null, null, null
+    )
     if (n == 0) {
         System.exit(0)
     }
@@ -66,9 +72,6 @@ class FromTheGroundUpRayTracer : ActionListener {
     private var selected: String? = null
 
     init {
-        val appWidth = AppProperties.getAsInteger("display.width")
-        val appHeight = AppProperties.getAsInteger("display.height")
-        val appTitle = AppProperties["app.title"] as String
 
         with(frame) {
             title = appTitle
@@ -152,12 +155,14 @@ class FromTheGroundUpRayTracer : ActionListener {
         LOGGER.info("render ${file.name}")
         val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
-            val world = worldDefinition.world()
-            world.initialize()
-            val film = AwtFilm(world.viewPlane.resolution)
-            val imf = ImageFrame(film)
-            world.renderer?.render(film)
-            imf.repaint()
+            thread {
+                val world = worldDefinition.world()
+                world.initialize()
+                val film = AwtFilm(world.viewPlane.resolution)
+                val imf = ImageFrame(film)
+                world.renderer?.render(film)
+                imf.repaint()
+            }
         }
     }
 
@@ -165,27 +170,26 @@ class FromTheGroundUpRayTracer : ActionListener {
         LOGGER.info("png ${file.name}")
         val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
-            val output = getOutputPngFileName(file.name)
-            Png.renderAndSave(worldDefinition, output)
-            val pngTitle = AppProperties["png.title"] as String
-            val pngMessage = AppProperties["png.message"] as String
-            JOptionPane.showMessageDialog(frame,
+            thread {
+                val output = getOutputPngFileName(file.name)
+                Png.renderAndSave(worldDefinition, output)
+                val pngTitle = AppProperties["png.title"] as String
+                val pngMessage = AppProperties["png.message"] as String
+                JOptionPane.showMessageDialog(
+                    frame,
                     pngMessage,
                     pngTitle,
-                    JOptionPane.INFORMATION_MESSAGE)
+                    JOptionPane.INFORMATION_MESSAGE
+                )
+            }
         }
     }
 
     companion object {
         internal val LOGGER = getLogger(this::class.java)
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            FromTheGroundUpRayTracer()
-        }
     }
 }
 
-fun main(args: Array<String>) {
+fun main() {
     FromTheGroundUpRayTracer()
 }
