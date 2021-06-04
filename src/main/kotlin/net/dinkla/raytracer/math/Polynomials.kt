@@ -218,16 +218,20 @@ object Polynomials {
         val q = c[0] / c[2]
         val D = p * p - q
 
-        if (isZero(D)) {
-            s[0] = -p
-            return 1
-        } else if (D > 0) {
-            val sqrtD = sqrt(D)
-            s[0] = sqrtD - p
-            s[1] = -sqrtD - p
-            return 2
-        } else {
-            return 0
+        return when {
+            isZero(D) -> {
+                s[0] = -p
+                1
+            }
+            D > 0 -> {
+                val sqrtD = sqrt(D)
+                s[0] = sqrtD - p
+                s[1] = -sqrtD - p
+                2
+            }
+            else -> {
+                0
+            }
         }
     }
 

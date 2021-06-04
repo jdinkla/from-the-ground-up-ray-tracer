@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val junitVersion = "5.7.1"
 val logbackVersion = "1.2.3"
-val kotlinxCoroutinesVersion = "1.4.2"
+val kotlinxCoroutinesVersion = "1.5.0"
 
 plugins {
-    kotlin("jvm") version  "1.4.32"
-    id("io.gitlab.arturbosch.detekt").version("1.16.0")
+    kotlin("jvm") version  "1.5.10"
+    id("io.gitlab.arturbosch.detekt").version("1.17.1")
     idea
 }
 

@@ -18,12 +18,12 @@ class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP)
         val nom = v.dot(normal)
         val denom = ray.direction.dot(normal)
         val t = nom / denom
-        if (t > MathUtils.K_EPSILON) {
+        return if (t > MathUtils.K_EPSILON) {
             sr.t = t
             sr.normal = this.normal
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 
@@ -32,11 +32,11 @@ class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP)
         val nom = v.dot(normal)
         val denom = ray.direction.dot(normal)
         val t = nom / denom
-        if (t > MathUtils.K_EPSILON) {
+        return if (t > MathUtils.K_EPSILON) {
             tmin.t = t
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 

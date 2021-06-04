@@ -20,29 +20,25 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
             return false
         }
         val p = ray.linear(t)
-        if (center.sqrDistance(p) < radius * radius) {
+        return if (center.sqrDistance(p) < radius * radius) {
             sr.t = t
             sr.normal = normal
             //            sr.localHitPoint = p;
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val nom = (center - ray.origin) dot normal
-        val denom = ray.direction dot normal
-        val t = nom / denom
-        if (t <= MathUtils.K_EPSILON) {
-            return false
-        }
-        val p = ray.linear(t)
-        if (center.sqrDistance(p) < radius * radius) {
-            tmin.t = t
-            return true
-        } else {
-            return false
+        val t = ((center - ray.origin) dot normal) / (ray.direction dot normal)
+        return when {
+            t <= MathUtils.K_EPSILON -> false
+            (center.sqrDistance(ray.linear(t)) < radius * radius) -> {
+                tmin.t = t
+                true
+            }
+            else -> false
         }
     }
 

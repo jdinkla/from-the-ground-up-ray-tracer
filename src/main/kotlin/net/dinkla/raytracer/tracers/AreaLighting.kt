@@ -8,20 +8,17 @@ import net.dinkla.raytracer.world.World
 
 class AreaLighting(var world: World) : Tracer {
 
-    override fun trace(ray: Ray, depth: Int): Color {
-        //LOGGER.debug("trace $ray at depth $depth")
-        if (depth > world.viewPlane.maxDepth) {
-            return Color.BLACK
+    override fun trace(ray: Ray, depth: Int): Color = if (depth > world.viewPlane.maxDepth) {
+        Color.BLACK
+    } else {
+        val sr = Shade()
+        if (world.hit(ray, sr)) {
+            sr.depth = depth
+            sr.ray = ray
+            assert(null != sr.material)
+            sr.material?.areaLightShade(world, sr) ?: world.backgroundColor
         } else {
-            val sr = Shade()
-            if (world.hit(ray, sr)) {
-                sr.depth = depth
-                sr.ray = ray
-                assert(null != sr.material)
-                return sr.material?.areaLightShade(world, sr) ?: world.backgroundColor
-            } else {
-                return world.backgroundColor
-            }
+            world.backgroundColor
         }
     }
 

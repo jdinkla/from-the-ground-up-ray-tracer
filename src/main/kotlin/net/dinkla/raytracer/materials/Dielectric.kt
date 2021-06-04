@@ -14,8 +14,8 @@ class Dielectric : Phong() {
     private var fresnelBrdf: FresnelReflector = FresnelReflector()
     private var fresnelBtdf: FresnelTransmitter = FresnelTransmitter()
 
-    internal var cfIn: Color = Color.WHITE
-    internal var cfOut: Color = Color.WHITE
+    private var cfIn: Color = Color.WHITE
+    private var cfOut: Color = Color.WHITE
 
     override fun shade(world: World, sr: Shade): Color {
         var L = super.shade(world, sr)

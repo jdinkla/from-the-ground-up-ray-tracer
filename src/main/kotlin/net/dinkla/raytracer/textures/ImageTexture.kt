@@ -12,20 +12,12 @@ import java.io.IOException
 
 class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
 
-    private var res: Resolution
     var mapping: Mapping? = null
 
-    private var hRow: Histogram
-    private var hColumn: Histogram
-
-    private var image: BufferedImage
-
-    init {
-        image = ImageIO.read(File(fileName))
-        res = Resolution(image.width, image.height)
-        hRow = Histogram()
-        hColumn = Histogram()
-    }
+    private var hRow = Histogram()
+    private var hColumn = Histogram()
+    private var image: BufferedImage = ImageIO.read(File(fileName))
+    private var res = Resolution(image.width, image.height)
 
     override fun getColor(sr: Shade): Color {
         var row = 0

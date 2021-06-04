@@ -10,11 +10,11 @@ class MultipleObjects(var world: World) : Tracer {
 
     override fun trace(ray: Ray): Color {
         val sr = Shade()
-        if (world.hit(ray, sr)) {
+        return if (world.hit(ray, sr)) {
             sr.ray = ray
-            return sr.material?.shade(world, sr) ?: world.backgroundColor
+            sr.material?.shade(world, sr) ?: world.backgroundColor
         } else {
-            return world.backgroundColor
+            world.backgroundColor
         }
     }
 
