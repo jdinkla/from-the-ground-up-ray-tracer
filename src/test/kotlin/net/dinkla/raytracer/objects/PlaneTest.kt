@@ -1,15 +1,19 @@
 package net.dinkla.raytracer.objects
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Normal.Companion.DOWN
+import net.dinkla.raytracer.math.Normal.Companion.RIGHT
+import net.dinkla.raytracer.math.Normal.Companion.UP
+import net.dinkla.raytracer.math.Normal.Companion.ZERO
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
-class PlaneTest {
-    private val plane = Plane(Point3D.ORIGIN, Normal.UP)
+class PlaneTest : AnnotationSpec()  {
+    private val plane = Plane(Point3D.ORIGIN, UP)
 
     @Test
     fun `q=0 plane, point below, vector up, hit`() {
@@ -19,9 +23,9 @@ class PlaneTest {
         val sr = Hit()
 
         val isHit = plane.hit(ray, sr)
-        assert(isHit)
-        assertEquals(sr.t, 1.0)
-        assertEquals(Normal.UP, sr.normal)
+        isHit shouldBe true
+        sr.t shouldBe 1.0
+        sr.normal shouldBe UP
     }
 
     @Test
@@ -33,8 +37,8 @@ class PlaneTest {
         val sr = Hit()
 
         val isHit = plane.hit(ray, sr)
-        assert(!isHit)
-        assertEquals(Normal.ZERO, sr.normal) // TODO null and normals
+        isHit shouldBe false
+        sr.normal shouldBe ZERO
     }
 
     @Test
@@ -48,8 +52,8 @@ class PlaneTest {
 
         val isHit = plane.hit(ray, sr)
         assert(isHit)
-        assertEquals(sr.t, 1.0)
-        assertEquals(Normal.DOWN, sr.normal)
+        sr.t shouldBe 1.0
+        sr.normal shouldBe DOWN
     }
 
     @Test
@@ -60,9 +64,9 @@ class PlaneTest {
         val sr = Hit()
 
         val isHit = plane.hit(ray, sr)
-        assert(isHit)
-        assertEquals(sr.t, 2.0)
-        assertEquals(Normal.UP, sr.normal)
+        isHit shouldBe true
+        sr.t shouldBe 2.0
+        sr.normal shouldBe UP
     }
 
     @Test
@@ -75,9 +79,9 @@ class PlaneTest {
         val sr = Hit()
 
         val isHit = plane.hit(ray, sr)
-        assert(isHit)
-        assertEquals(sr.t, 2.0)
-        assertEquals(Normal.RIGHT, sr.normal)
+        isHit shouldBe true
+        sr.t shouldBe 2.0
+        sr.normal shouldBe RIGHT
     }
 
     @Test
@@ -89,6 +93,6 @@ class PlaneTest {
         val ray = Ray(o, d)
 
         val isHit = plane.hit(ray, Hit())
-        assert(!isHit)
+        isHit shouldBe false
     }
 }

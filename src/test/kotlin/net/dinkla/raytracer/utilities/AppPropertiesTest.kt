@@ -1,25 +1,24 @@
 package net.dinkla.raytracer.utilities
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.interfaces.AppProperties
-import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.assertEquals
-
-class AppPropertiesTest {
+class AppPropertiesTest : AnnotationSpec() {
 
     @Test
     fun get() {
         val a = AppProperties["test.id"] as String?
-        assertEquals(a, "4321")
+        a shouldBe "4321"
     }
 
     @Test
     fun getAsInteger() {
-        assertEquals(AppProperties.getAsInteger("test.id"), 4321)
+        AppProperties.getAsInteger("test.id") shouldBe 4321
     }
 
     @Test
     fun getAsDouble() {
-        assertEquals(AppProperties.getAsDouble("test.id"), 4321.0)
+        AppProperties.getAsDouble("test.id") shouldBe 4321.0
     }
 }

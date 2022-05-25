@@ -1,16 +1,15 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.assertEquals
-
-class WrappedDoubleTest {
+class WrappedDoubleTest : AnnotationSpec() {
 
     @Test
     fun testMethodParameter() {
         val f = WrappedDouble(1.23)
         //        set(f);
-        assert(f.value == 1.23)
+        f.value shouldBe 1.23
     }
 
     @Test
@@ -19,10 +18,11 @@ class WrappedDoubleTest {
         val f2 = WrappedDouble(0.0)
         val f3 = WrappedDouble(1.0)
         val f4 = WrappedDouble(2.0)
-        assertEquals(f1, f2)
-        assertEquals(f3.compareTo(f4), -1)
-        assertEquals(f1.compareTo(f4), -1)
-        assertEquals(f2.compareTo(f4), -1)
-        assertEquals(f4.compareTo(f3), 1)
+
+        f1 shouldBe f2
+        f3.compareTo(f4) shouldBe -1
+        f1.compareTo(f4) shouldBe -1
+        f2.compareTo(f4) shouldBe -1
+        f4.compareTo(f3) shouldBe 1
     }
 }

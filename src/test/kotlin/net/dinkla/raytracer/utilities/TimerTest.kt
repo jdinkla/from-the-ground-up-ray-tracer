@@ -1,11 +1,10 @@
 package net.dinkla.raytracer.utilities
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.longs.shouldBeGreaterThan
 import net.dinkla.raytracer.interfaces.Timer
-import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-
-class TimerTest {
+class TimerTest : AnnotationSpec() {
 
     @Test
     @Throws(Exception::class)
@@ -16,15 +15,15 @@ class TimerTest {
         Thread.sleep(5)
         t.stop()
         val x = t.duration
-        assertTrue(x > 0)
+        x shouldBeGreaterThan 0
 
         t.start()
         Thread.sleep(50)
         t.stop()
         val y = t.duration
-        assertTrue(y > 0)
+        y shouldBeGreaterThan 0
 
-        assertTrue(y > x)
+        y shouldBeGreaterThan x
     }
 
 }

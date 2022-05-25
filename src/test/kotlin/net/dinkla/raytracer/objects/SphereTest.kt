@@ -1,21 +1,25 @@
 package net.dinkla.raytracer.objects
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.doubles.shouldBeLessThan
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.*
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import net.dinkla.raytracer.math.MathUtils.K_EPSILON
+import net.dinkla.raytracer.math.Normal.Companion.BACKWARD
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import kotlin.math.abs
 
-internal class SphereTest {
+internal class SphereTest : AnnotationSpec() {
 
     private val sphere = Sphere(Point3D.ORIGIN, 1.0)
 
     @Test
     fun boundingBox() {
         val bbox = sphere.boundingBox
-        assertEquals(Point3D(-1.0, -1.0, -1.0),  bbox.p)
-        assertEquals(Point3D(1.0, 1.0, 1.0),  bbox.q)
+        bbox.p shouldBe Point3D(-1.0, -1.0, -1.0)
+        bbox.q shouldBe Point3D(1.0, 1.0, 1.0)
     }
 
     @Test
@@ -25,15 +29,9 @@ internal class SphereTest {
         val d = Vector3D(0.0, 0.0, 1.0)
         val ray = Ray(o, d)
         val isHit = sphere.hit(ray, sr);
-        assert(isHit)
-        assert(abs(sr.t - 1.0) < MathUtils.K_EPSILON)
-        assertEquals(Normal.BACKWARD, sr.normal)
-    }
 
-    // TODO test for not hit
-
-    @Test
-    fun shadowHit() {
-        // TODO test for shadowHit
+        isHit shouldBe true
+        abs(sr.t - 1.0) shouldBeLessThan K_EPSILON
+        sr.normal shouldBe BACKWARD
     }
 }

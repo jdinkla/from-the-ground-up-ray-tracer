@@ -1,16 +1,13 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.math.MathUtils
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import net.dinkla.raytracer.math.MathUtils.K_EPSILON
 import net.dinkla.raytracer.objects.compound.Compound
-import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.assertEquals
-
-
-class CompoundTest {
+class CompoundTest : AnnotationSpec()  {
 
     @Test
-    @Throws(Exception::class)
     fun testGetBoundingBox() {
         val s = Sphere(radius = 1.0)
         val c = Compound()
@@ -19,8 +16,8 @@ class CompoundTest {
         val bboxC = c.boundingBox
         val bboxS = s.boundingBox
 
-        assertEquals(bboxC.p, bboxS.p.minus(MathUtils.K_EPSILON))
-        assertEquals(bboxC.q, bboxS.q.plus(MathUtils.K_EPSILON))
+        bboxC.p shouldBe bboxS.p.minus(K_EPSILON)
+        bboxC.q shouldBe bboxS.q.plus(K_EPSILON)
     }
 
 }

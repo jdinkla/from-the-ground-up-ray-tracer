@@ -1,14 +1,11 @@
 package net.dinkla.raytracer.utilities
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class ResolutionTest {
-
+internal class ResolutionTest : AnnotationSpec() {
     @Test
     fun `calculate hres from vres`() {
-        assertEquals(1920, Resolution(1080).hres)
+        Resolution(1080).hres shouldBe 1920
     }
-
 }
