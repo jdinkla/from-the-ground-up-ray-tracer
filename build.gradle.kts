@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val junitVersion = "5.7.1"
-val logbackVersion = "1.2.3"
-val kotlinxCoroutinesVersion = "1.5.0"
+val junitVersion = "5.8.2"
+val logbackVersion = "1.2.11"
+val kotlinxCoroutinesVersion = "1.6.1"
 
 plugins {
-    kotlin("jvm") version  "1.5.10"
-    id("io.gitlab.arturbosch.detekt").version("1.17.1")
+    kotlin("jvm") version  "1.6.20"
+    id("io.gitlab.arturbosch.detekt").version("1.20.0")
     idea
 }
 
@@ -24,14 +24,15 @@ repositories {
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
+    mavenCentral()
 }
 
 val compileKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
 
 val compileTestKotlin by tasks.getting(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
 
 tasks.withType<Test> {
@@ -41,8 +42,9 @@ tasks.withType<Test> {
 }
 
 detekt {
-    input = files("src/main/kotlin", "src/test/kotlin")
     config = files("detekt-config.yml")
+    source = files("src/main/kotlin", "src/test/kotlin")
+
 }
 
 task<JavaExec>("commandline") {
