@@ -10,73 +10,84 @@ import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.math.Axis
 
-class BeveledBox(val p0: Point3D,
-                 val p1: Point3D,
-                 private val rb: Double,
-                 private val isWiredFrame: Boolean = false) : Compound() {
+class BeveledBox(
+    val p0: Point3D,
+    val p1: Point3D,
+    private val rb: Double,
+    private val isWiredFrame: Boolean = false
+) : Compound() {
     init {
 
-        val topFrontEdge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top front edge
-        topFrontEdge.rotateZ(90.0)
-        topFrontEdge.translate((p0.x + p1.x) / 2, p1.y - rb, p1.z - rb)
+        val topFrontEdge =
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top front edge
+        topFrontEdge.rotate(Axis.Z, 90.0)
+        topFrontEdge.translate(Vector3D((p0.x + p1.x) / 2, p1.y - rb, p1.z - rb))
         //top_front_edge.transform_texture(false);
         objects.add(topFrontEdge)
 
         // top back (-ve z)
-        val topBackEdge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top back edge
-        topBackEdge.rotateZ(90.0)
-        topBackEdge.translate((p0.x + p1.x) / 2, p1.y - rb, p0.z + rb)
+        val topBackEdge =
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top back edge
+        topBackEdge.rotate(Axis.Z, 90.0)
+        topBackEdge.translate(Vector3D((p0.x + p1.x) / 2, p1.y - rb, p0.z + rb))
         //top_back_edge->transform_texture(false);
         objects.add(topBackEdge)
 
 
         // top right (+ve x)
-        val topRightEdge = Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top right edge
-        topRightEdge.rotateX(90.0)
-        topRightEdge.translate(p1.x - rb, p1.y - rb, (p0.z + p1.z) / 2)
+        val topRightEdge =
+            Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top right edge
+        topRightEdge.rotate(Axis.X, 90.0)
+        topRightEdge.translate(Vector3D(p1.x - rb, p1.y - rb, (p0.z + p1.z) / 2))
         //top_right_edge->transform_texture(false);
         objects.add(topRightEdge)
 
 
         // top left (-ve x)
-        val topLeftEdge = Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top left edge
-        topLeftEdge.rotateX(90.0)
-        topLeftEdge.translate(p0.x + rb, p1.y - rb, (p0.z + p1.z) / 2)
+        val topLeftEdge =
+            Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top left edge
+        topLeftEdge.rotate(Axis.X, 90.0)
+        topLeftEdge.translate(Vector3D(p0.x + rb, p1.y - rb, (p0.z + p1.z) / 2))
         //top_left_edge->transform_texture(false);
         objects.add(topLeftEdge)
 
         // bottom edges  (-ve y)
 
         // bottom front  (+ve z)
-        val bottomFrontEdge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom fromt edge
-        bottomFrontEdge.rotateZ(90.0)
-        bottomFrontEdge.translate((p0.x + p1.x) / 2, p0.y + rb, p1.z - rb)
+        val bottomFrontEdge =
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom fromt edge
+        bottomFrontEdge.rotate(Axis.Z, 90.0)
+        bottomFrontEdge.translate(Vector3D((p0.x + p1.x) / 2, p0.y + rb, p1.z - rb))
         //bottom_front_edge->transform_texture(false);
         objects.add(bottomFrontEdge)
 
 
         // bottom back  (-ve z)
-        val bottomBackEdge = Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom back edge
-        bottomBackEdge.rotateZ(90.0)
-        bottomBackEdge.translate((p0.x + p1.x) / 2, p0.y + rb, p0.z + rb)
+        val bottomBackEdge =
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom back edge
+        bottomBackEdge.rotate(Axis.Z, 90.0)
+        bottomBackEdge.translate(Vector3D((p0.x + p1.x) / 2, p0.y + rb, p0.z + rb))
         //bottom_back_edge->transform_texture(false);
         objects.add(bottomBackEdge)
 
 
         // bottom right (-ve x, -ve y)
 
-        val bottomRightEdge = Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom right edge
-        bottomRightEdge.rotateX(90.0)
-        bottomRightEdge.translate(p1.x - rb, p0.y + rb, (p0.z + p1.z) / 2)
+        val bottomRightEdge =
+            Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom right edge
+        bottomRightEdge.rotate(Axis.X, 90.0)
+        bottomRightEdge.translate(Vector3D(p1.x - rb, p0.y + rb, (p0.z + p1.z) / 2))
         //bottom_right_edge->transform_texture(false);
         objects.add(bottomRightEdge)
 
         // bottom left (-ve x, -ve y)
 
-        val bottomLeftEdge = Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom left edge
-        bottomLeftEdge.rotateX(90.0)
-        bottomLeftEdge.translate(p0.x + rb, p0.y + rb, (p0.z + p1.z) / 2)
+        val bottomLeftEdge =
+            Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom left edge
+        bottomLeftEdge.rotate(Axis.X,90.0)
+        bottomLeftEdge.translate(Vector3D(p0.x + rb, p0.y + rb, (p0.z + p1.z) / 2))
         //bottom_left_edge->transform_texture(false);
         objects.add(bottomLeftEdge)
 
@@ -86,21 +97,21 @@ class BeveledBox(val p0: Point3D,
         // vertical right front  (+ve x, +ve z)
 
         val verticalRightFrontEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
-        verticalRightFrontEdge.translate(p1.x - rb, 0.0, p1.z - rb)
+        verticalRightFrontEdge.translate(Vector3D(p1.x - rb, 0.0, p1.z - rb))
         //vertical_right_front_edge->transform_texture(false);
         objects.add(verticalRightFrontEdge)
 
         // vertical left front  (-ve x, +ve z)
 
         val verticalLeftFrontEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
-        verticalLeftFrontEdge.translate(p0.x + rb, 0.0, p1.z - rb)
+        verticalLeftFrontEdge.translate(Vector3D(p0.x + rb, 0.0, p1.z - rb))
         //vertical_left_front_edge->transform_texture(false);
         objects.add(verticalLeftFrontEdge)
 
         // vertical left back  (-ve x, -ve z)
 
         val verticalLeftBackEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
-        verticalLeftBackEdge.translate(p0.x + rb, 0.0, p0.z + rb)
+        verticalLeftBackEdge.translate(Vector3D(p0.x + rb, 0.0, p0.z + rb))
         //vertical_left_back_edge->transform_texture(false);
         objects.add(verticalLeftBackEdge)
 
@@ -108,7 +119,7 @@ class BeveledBox(val p0: Point3D,
         // vertical right back  (+ve x, -ve z)
 
         val verticalRightBackEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
-        verticalRightBackEdge.translate(p1.x - rb, 0.0, p0.z + rb)
+        verticalRightBackEdge.translate(Vector3D(p1.x - rb, 0.0, p0.z + rb))
         //vertical_right_back_edge->transform_texture(false);
         objects.add(verticalRightBackEdge)
 
@@ -157,45 +168,57 @@ class BeveledBox(val p0: Point3D,
         // the faces
         if (!isWiredFrame) {
             // bottom face: -ve y
-            val bottomFace = Rectangle(Point3D(p0.x + rb, p0.y, p0.z + rb),
-                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                    Normal.DOWN)
+            val bottomFace = Rectangle(
+                Point3D(p0.x + rb, p0.y, p0.z + rb),
+                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                Normal.DOWN
+            )
             objects.add(bottomFace)
 
             // bottom face: +ve y
-            val topFace = Rectangle(Point3D(p0.x + rb, p1.y, p0.z + rb),
-                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                    Normal.UP)
+            val topFace = Rectangle(
+                Point3D(p0.x + rb, p1.y, p0.z + rb),
+                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                Normal.UP
+            )
             objects.add(topFace)
 
             // back face: -ve z
-            val backFace = Rectangle(Point3D(p0.x + rb, p0.y + rb, p0.z),
-                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                    Normal.BACKWARD)
+            val backFace = Rectangle(
+                Point3D(p0.x + rb, p0.y + rb, p0.z),
+                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                Normal.BACKWARD
+            )
             objects.add(backFace)
 
             // front face: +ve z
-            val frontFace = Rectangle(Point3D(p0.x + rb, p0.y + rb, p1.z),
-                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                    Normal.FORWARD)
+            val frontFace = Rectangle(
+                Point3D(p0.x + rb, p0.y + rb, p1.z),
+                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                Normal.FORWARD
+            )
             objects.add(frontFace)
 
             // left face: -ve x
-            val leftFace = Rectangle(Point3D(p0.x, p0.y + rb, p0.z + rb),
-                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                    Normal.LEFT)
+            val leftFace = Rectangle(
+                Point3D(p0.x, p0.y + rb, p0.z + rb),
+                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                Normal.LEFT
+            )
             objects.add(leftFace)
 
             // right face: +ve x
-            val rightFace = Rectangle(Point3D(p1.x, p0.y + rb, p0.z + rb),
-                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                    Normal.RIGHT)
+            val rightFace = Rectangle(
+                Point3D(p1.x, p0.y + rb, p0.z + rb),
+                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                Normal.RIGHT
+            )
             objects.add(rightFace)
         }
     }

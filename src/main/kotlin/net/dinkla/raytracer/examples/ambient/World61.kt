@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.examples.ambient
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.acceleration.Acceleration
@@ -43,7 +44,7 @@ object World61 : WorldDefinition {
             plane(material = "Green Yellow", point = Point3D.ORIGIN, normal = Normal.UP)
 
             instance(of = stanfordBunny.compound, material = "Moccasin") {
-                rotateY(0.0)
+                rotate(Axis.Y,0.0)
                 scale(v(15, 15, 15))
                 translate(v(0.0, -0.5, 0.0))
             }

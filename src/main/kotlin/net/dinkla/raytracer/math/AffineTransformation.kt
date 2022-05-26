@@ -15,7 +15,7 @@ class AffineTransformation : Transformation {
         translate(v.x, v.y, v.z)
     }
 
-    override fun translate(x: Double, y: Double, z: Double) {
+    private fun translate(x: Double, y: Double, z: Double) {
         val invTranslationMatrix = Matrix.identity()
         invTranslationMatrix[0, 3] = -x
         invTranslationMatrix[1, 3] = -y
@@ -33,7 +33,7 @@ class AffineTransformation : Transformation {
         scale(v.x, v.y, v.z)
     }
 
-    override fun scale(x: Double, y: Double, z: Double) {
+    private fun scale(x: Double, y: Double, z: Double) {
         val invScalingMatrix = Matrix.identity()
         invScalingMatrix[0, 0] = 1.0 / x
         invScalingMatrix[1, 1] = 1.0 / y
@@ -48,7 +48,15 @@ class AffineTransformation : Transformation {
         forwardMatrix = scalingMatrix * forwardMatrix
     }
 
-    override fun rotateX(phi: Double) {
+    override fun rotate(axis: Axis, phi: Double) {
+        when (axis) {
+            Axis.X -> rotateX(phi)
+            Axis.Y -> rotateY(phi)
+            Axis.Z -> rotateZ(phi)
+        }
+    }
+
+    fun rotateX(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 
@@ -67,7 +75,7 @@ class AffineTransformation : Transformation {
         forwardMatrix = rotationMatrix * forwardMatrix
     }
 
-    override fun rotateY(phi: Double) {
+    fun rotateY(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 
@@ -86,7 +94,7 @@ class AffineTransformation : Transformation {
         forwardMatrix = rotationMatrix * forwardMatrix
     }
 
-    override fun rotateZ(phi: Double) {
+    fun rotateZ(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 

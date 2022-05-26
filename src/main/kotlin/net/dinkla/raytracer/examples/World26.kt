@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.world.Builder
@@ -34,8 +35,8 @@ object World26 : WorldDefinition {
             instance(of = sphere, material = "yellow") {
                 scale(v(1.5, 1.1, 0.6))
                 translate(v(2.0, 1.1, 0.0))
-                rotateX(12.0)
-                rotateZ(12.0)
+                rotate(Axis.X, 12.0)
+                rotate(Axis.Z,12.0)
             }
         }
     }

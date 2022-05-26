@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.utilities.Ply
@@ -34,35 +35,40 @@ object World74 : WorldDefinition {
             plane(point = p(0, 10, 0), normal = Normal.Companion.DOWN, material = "provenceBlue")
 
             val green = this.materials["driedSage"]!!
-            val stanfordBunny = Ply.fromFile(fileName = "resources\\Bunny4K.ply", isSmooth = true, type = Acceleration.GRID, material = green)
+            val stanfordBunny = Ply.fromFile(
+                fileName = "resources\\Bunny4K.ply",
+                isSmooth = true,
+                type = Acceleration.GRID,
+                material = green
+            )
 
             instance(of = stanfordBunny.compound, material = "lavender") {
                 scale(v(4.0, 4.0, 4.0))
-                rotateY(10.0)
+                rotate(Axis.Y, 10.0)
                 translate(v(-1.0, -0.14, 0.0))
             }
 
             instance(of = stanfordBunny.compound, material = "driedSage") {
                 scale(v(4.0, 4.0, 4.0))
-                rotateY(10.0)
+                rotate(Axis.Y, 10.0)
                 translate(v(0.0, -0.14, 0.0))
             }
 
             instance(of = stanfordBunny.compound, material = "limonade") {
                 scale(v(4.0, 4.0, 4.0))
-                rotateY(10.0)
+                rotate(Axis.Y, 10.0)
                 translate(v(1.0, -0.14, 0.0))
             }
 
             instance(of = stanfordBunny.compound, material = "provenceIndigo") {
                 scale(v(4.0, 4.0, 4.0))
-                rotateY(10.0)
+                rotate(Axis.Y, 10.0)
                 translate(v(2.0, -0.14, 0.0))
             }
 
             instance(of = stanfordBunny.compound, material = "marseilleYellow") {
                 scale(v(4.0, 4.0, 4.0))
-                rotateY(10.0)
+                rotate(Axis.Y, 10.0)
                 translate(v(-2.0, -0.14, 0.0))
             }
         }
