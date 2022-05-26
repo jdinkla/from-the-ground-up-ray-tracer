@@ -1,9 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val junitVersion = "5.8.2"
-val logbackVersion = "1.2.11"
-val kotlinxCoroutinesVersion = "1.6.1"
 val kotestVersion = "5.3.0"
+val kotlinxCoroutinesVersion = "1.6.1"
+val logbackVersion = "1.2.11"
 
 plugins {
     kotlin("jvm") version  "1.6.20"
@@ -15,9 +14,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
