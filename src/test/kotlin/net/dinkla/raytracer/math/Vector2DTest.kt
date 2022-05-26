@@ -1,10 +1,9 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class Vector2DTest {
+internal class Vector2DTest : AnnotationSpec() {
 
     private val v0 = Vector2D(0.0, 0.0)
     private val v = Vector2D(2.0, 3.0)
@@ -17,47 +16,47 @@ internal class Vector2DTest {
 
     @Test
     fun `add vector`() {
-        assertEquals(v0, v + w)
+        v + w shouldBe v0
     }
 
     @Test
     fun `subtract vector`() {
-        assertEquals(v0, v - v)
+        v - v shouldBe v0
     }
 
     @Test
     fun `left scalar multiplication`() {
         val s = 2.0
-        assertEquals(Vector2D(v.x * s, v.y * s), v * s)
+        v * s shouldBe Vector2D(v.x * s, v.y * s)
     }
 
     @Test
     fun `right scalar multiplication`() {
         val s = 2.0
-        assertEquals(Vector2D(v.x * s, v.y * s), s * v)
+        s * v shouldBe Vector2D(v.x * s, v.y * s)
     }
 
     @Test
     fun `dot product with vector`() {
-        assertEquals(a*c + b*d, Vector2D(a, b) dot Vector2D(c, d))
+        Vector2D(a, b) dot Vector2D(c, d) shouldBe a * c + b * d
     }
 
     @Test
     fun `dot product with normal`() {
-        assertEquals(a*c + b*d, Vector2D(a, b) dot Normal(c, d, 0.0))
+        Vector2D(a, b) dot Normal(c, d, 0.0) shouldBe a * c + b * d
     }
 
     @Test
     fun normalize() {
         val x = v.x / v.length()
         val y = v.y / v.length()
-        assertEquals(Vector2D(x, y), v.normalize())
+        v.normalize() shouldBe Vector2D(x, y)
     }
 
     @Test
     fun unaryMinus() {
         val v = Vector2D(a, b)
-        assertEquals(-v, Vector2D(-a, -b))
+        -v shouldBe Vector2D(-a, -b)
     }
 
     @Test
@@ -66,7 +65,6 @@ internal class Vector2DTest {
         val w = Vector2D(3.0, -1.0)
         val x = Vector2D(-1.0, 1.0)
         val result = -v dot (2.0 * (w + x))
-        assertEquals(-4.0, result)
+        result shouldBe -4.0
     }
-
 }

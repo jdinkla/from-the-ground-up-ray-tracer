@@ -3,8 +3,8 @@ package net.dinkla.raytracer.math
 import net.dinkla.raytracer.interfaces.hash
 
 inline fun loop(f: (Int, Int) -> Unit) {
-    for (j in 0..3) {
-        for (i in 0..3) {
+    for (j in 0 until Matrix.n) {
+        for (i in 0 until Matrix.n) {
             f(i, j)
         }
     }
@@ -12,7 +12,7 @@ inline fun loop(f: (Int, Int) -> Unit) {
 
 class Matrix private constructor() {
 
-    private var m: DoubleArray = DoubleArray(4 * 4)
+    private var m: DoubleArray = DoubleArray(n * n)
 
     operator fun get(i: Int, j: Int) = m[index(i, j)]
 
@@ -104,16 +104,26 @@ class Matrix private constructor() {
 
     companion object {
 
+        val n = 4
+
         fun identity(): Matrix = Matrix().apply { setIdentity() }
 
         fun zero(): Matrix = Matrix()
 
-        fun index(i: Int, j: Int) = 4 * i + j
+        fun index(i: Int, j: Int) = n * i + j
 
         operator fun DoubleArray.get(i: Int, j: Int): Double = this[index(i, j)]
 
         operator fun DoubleArray.set(i: Int, j: Int, value: Double) {
             this[index(i, j)] = value
+        }
+
+        fun indices() = ArrayList<Pair<Int, Int>>().apply {
+            for (j in 0 until Matrix.n) {
+                for (i in 0 until Matrix.n) {
+                    add(Pair(i, j))
+                }
+            }
         }
     }
 }

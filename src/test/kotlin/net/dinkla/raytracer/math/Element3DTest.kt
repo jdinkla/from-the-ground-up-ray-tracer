@@ -1,11 +1,11 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlin.math.sqrt
 
-internal class Element3DTest {
+internal class Element3DTest : AnnotationSpec() {
 
     private val x = 1.0
     private val y = 2.0
@@ -16,58 +16,58 @@ internal class Element3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, Element3D(1.0, 2.0, 3.0))
+        Element3D(1.0, 2.0, 3.0) shouldBe e
     }
 
     @Test
     fun `construct from Element3D`() {
-        assertEquals(e, Element3D(e))
+        Element3D(e) shouldBe e
     }
 
     @Test
     fun getX() {
-        assertEquals(x, e.x)
+        e.x shouldBe x
     }
 
     @Test
     fun getY() {
-        assertEquals(y, e.y)
+        e.y shouldBe y
     }
 
     @Test
     fun getZ() {
-        assertEquals(z, e.z)
+        e.z shouldBe z
     }
 
     @Test
     fun sqrLength() {
-        assertEquals(sqrLength, e.sqrLength())
+        e.sqrLength() shouldBe sqrLength
     }
 
     @Test
     fun length() {
-        assertEquals(length, e.length())
+        e.length() shouldBe length
     }
 
     @Test
     fun sqrDistance() {
         val p = Element3D(0.0, 1.0, 2.0)
-        assertEquals(1.0 + 1.0 + 1.0, e.sqrDistance(p))
+        e.sqrDistance(p) shouldBe 1.0 + 1.0 + 1.0
     }
 
     @Test
     fun ith() {
-        assertEquals(x, e.ith(Axis.X))
-        assertEquals(y, e.ith(Axis.Y))
-        assertEquals(z, e.ith(Axis.Z))
+        e.ith(Axis.X) shouldBe x
+        e.ith(Axis.Y) shouldBe y
+        e.ith(Axis.Z) shouldBe z
     }
 
     @Test
     fun equals() {
-        assertTrue(e == Element3D(x, y, z))
-        assertTrue(e != Element3D(0.0, y, z))
-        assertTrue(e != Element3D(x, 0.0, z))
-        assertTrue(e != Element3D(x, y, 0.0))
-        assertTrue(e != Element2D(x, y))
+        Element3D(x, y, z) shouldBe e
+        Element3D(0.0, y, z) shouldNotBe e
+        Element3D(x, 0.0, z) shouldNotBe e
+        Element3D(x, y, 0.0) shouldNotBe e
+        Element2D(x, y) shouldNotBe e
     }
 }

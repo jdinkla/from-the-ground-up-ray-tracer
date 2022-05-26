@@ -1,10 +1,9 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class NormalTest {
+internal class NormalTest : AnnotationSpec()  {
 
     private val x = 1.0
     private val y = 2.0
@@ -17,23 +16,23 @@ internal class NormalTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, Normal(1.0, 2.0, 3.0))
+        Normal(1.0, 2.0, 3.0) shouldBe e
     }
 
     @Test
     fun `construct from numbers`() {
-        assertEquals(x, n.x)
-        assertEquals(y, n.y)
-        assertEquals(z, n.z)
+        n.x shouldBe x
+        n.y shouldBe y
+        n.z shouldBe z
     }
 
     @Test
     fun `construct from vector`() {
         val n = Normal(v)
         val l = v.length()
-        assertEquals(x/l, n.x)
-        assertEquals(y/l, n.y)
-        assertEquals(z/l, n.z)
+        n.x shouldBe x/l
+        n.y shouldBe y/l
+        n.z shouldBe z/l
     }
 
     @Test
@@ -43,32 +42,32 @@ internal class NormalTest {
         val p2 = Point3D(z, x, y)
         val n = Normal(p0, p1, p2)
         val n2 = Normal(((p1 - p0) cross (p2 - p0)).normalize())
-        assertEquals(n2, n)
+        n shouldBe n2
     }
 
     @Test
     fun plus() {
-        assertEquals(Vector3D(x+x, y+y, z+z), n + n)
+        n + n shouldBe Vector3D(x+x, y+y, z+z)
     }
 
     @Test
     fun times() {
-        assertEquals(Vector3D(d*x, d*y, d*z), n * d)
+        n * d shouldBe Vector3D(d*x, d*y, d*z)
     }
 
     @Test
     fun dot() {
-        assertEquals(x*x + y*y + z*z, n dot v)
+        n dot v shouldBe x*x + y*y + z*z
     }
 
     @Test
     fun normalize() {
         val l = n.length()
-        assertEquals(Normal(x/l, y/l, z/l), n.normalize())
+        n.normalize() shouldBe Normal(x/l, y/l, z/l)
     }
 
     @Test
     fun negate() {
-        assertEquals(Normal(-x, -y, -z), -n)
+        -n shouldBe Normal(-x, -y, -z)
     }
 }

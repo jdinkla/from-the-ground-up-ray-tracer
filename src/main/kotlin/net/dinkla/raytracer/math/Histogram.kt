@@ -2,7 +2,7 @@ package net.dinkla.raytracer.math
 
 class Histogram {
 
-    internal var counts: MutableMap<Int, Int> = HashMap()
+    private var counts: MutableMap<Int, Int> = HashMap()
 
     fun add(key: Int) {
         counts.merge(key, 1) { a, b -> a + b }

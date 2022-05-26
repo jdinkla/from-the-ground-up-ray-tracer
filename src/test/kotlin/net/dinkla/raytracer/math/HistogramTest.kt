@@ -1,23 +1,22 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class HistogramTest {
+internal class HistogramTest : AnnotationSpec() {
 
     @Test
     fun `an empty histogram has no keys`() {
         val h = Histogram()
-        assertEquals(0, h.counts.keys.size)
+        h.keys().size shouldBe 0
     }
 
     @Test
     fun `adding one element`() {
         val h = Histogram()
         h.add(3)
-        assertEquals(1, h.counts.keys.size)
-        assertEquals(1, h[3])
+        h.keys().size shouldBe 1
+        h[3] shouldBe 1
     }
 
     @Test
@@ -25,8 +24,8 @@ internal class HistogramTest {
         val h = Histogram()
         h.add(3)
         h.add(3)
-        assertEquals(1, h.counts.keys.size)
-        assertEquals(2, h[3])
+        h.keys().size shouldBe 1
+        h[3] shouldBe 2
     }
 
     @Test
@@ -34,9 +33,9 @@ internal class HistogramTest {
         val h = Histogram()
         h.add(3)
         h.add(4)
-        assertEquals(2, h.counts.keys.size)
-        assertEquals(1, h[3])
-        assertEquals(1, h[4])
+        h.keys().size shouldBe 2
+        h[3] shouldBe 1
+        h[4] shouldBe 1
     }
 
     @Test
@@ -47,16 +46,16 @@ internal class HistogramTest {
         h.add(3)
         h.add(4)
         h.add(3)
-        assertEquals(2, h.counts.keys.size)
-        assertEquals(3, h[3])
-        assertEquals(2, h[4])
+        h.keys().size shouldBe 2
+        h[3] shouldBe 3
+        h[4] shouldBe 2
     }
 
     @Test
     fun `keys returns the keys`() {
         val h = Histogram()
         h.add(3)
-        assertEquals(1, h.keys().size)
-        assertEquals(setOf(3), h.keys())
+        h.keys().size shouldBe 1
+        h.keys() shouldBe setOf(3)
     }
 }

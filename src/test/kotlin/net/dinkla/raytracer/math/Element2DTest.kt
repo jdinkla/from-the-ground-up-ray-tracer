@@ -1,44 +1,42 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlin.math.sqrt
 
-internal class Element2DTest {
+internal class Element2DTest : AnnotationSpec() {
 
     private val x = 1.0
     private val y = 2.0
     private val e = Element2D(x, y)
     private val sqrLength = x * x + y * y
-    private val length = sqrt(sqrLength)
 
     @Test
     fun getX() {
-        assertEquals(x, e.x)
+        e.x shouldBe x
     }
 
     @Test
     fun getY() {
-        assertEquals(y, e.y)
+        e.y shouldBe y
     }
 
     @Test
     fun sqrLength() {
-        assertEquals(sqrLength, e.sqrLength())
+        e.sqrLength() shouldBe sqrLength
     }
 
     @Test
     fun length() {
-        assertEquals(length, e.length())
+        e.length() shouldBe sqrt(sqrLength)
     }
 
     @Test
     fun equals() {
-        assertTrue(e == Element2D(x, y))
-        assertTrue(e != Element2D(0.0, y))
-        assertTrue(e != Element2D(x, 0.0))
-        assertTrue(e != Element3D(x, y, 0.0))
+        Element2D(x, y) shouldBe e
+        Element2D(0.0, y) shouldNotBe e
+        Element2D(x, 0.0) shouldNotBe e
+        Element3D(x, y, 0.0) shouldNotBe e
     }
-
 }

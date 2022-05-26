@@ -153,7 +153,7 @@ open class Grid : CompoundWithMesh() {
                 + ", numCells=" + numCells
                 + ", numObjects in cells=" + numInCells)
 
-        for (key in hist.counts.keys) {
+        for (key in hist.keys()) {
             val value = hist[key]
             LOGGER.info("Grid: " + key + ": " + value + " [" + value * 100.0 / numInCells + "%]")
         }

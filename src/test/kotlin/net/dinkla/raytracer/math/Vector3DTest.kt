@@ -1,11 +1,9 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-import kotlin.math.exp
-
-internal class Vector3DTest {
+internal class Vector3DTest : AnnotationSpec() {
 
     private val v0 = Vector3D(0.0, 0.0, 0.0)
     private val v = Vector3D(2.0, 3.0, 5.0)
@@ -24,50 +22,50 @@ internal class Vector3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(v, Vector3D(2.0, 3.0, 5.0))
+        Vector3D(2.0, 3.0, 5.0) shouldBe v
     }
 
     @Test
     fun `construct from Element3D`() {
-        assertEquals(v, Vector3D(el))
+        Vector3D(el) shouldBe v
     }
 
     @Test
     fun `add vector`() {
-        assertEquals(v0, v + w)
+        v + w shouldBe v0
     }
 
     @Test
     fun `subtract vector`() {
-        assertEquals(v0, v - v)
+        v - v shouldBe v0
     }
 
     @Test
     fun `right scalar multiplication`() {
         val s = 2.0
-        assertEquals(Vector3D(v.x*s, v.y*s, v.z*s), v * s)
+        v * s shouldBe Vector3D(v.x * s, v.y * s, v.z * s)
     }
 
     @Test
     fun `left scalar multiplication`() {
         val s = 2.0
-        assertEquals(Vector3D(v.x*s, v.y*s, v.z*s), s * v)
+        s*v shouldBe Vector3D(v.x * s, v.y * s, v.z * s)
     }
 
     @Test
     fun `dot product with vector`() {
-        assertEquals(a*d + b*e + c*f, v1 dot v2)
+        v1 dot v2 shouldBe a * d + b * e + c * f
     }
 
     @Test
     fun `dot product with normal`() {
-        assertEquals(a*d + b*e + c*f, v1 dot Normal(d, e, f))
+        v1 dot Normal(d, e, f) shouldBe a * d + b * e + c * f
     }
 
     @Test
     fun `cross product`() {
         val expected = Vector3D(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x)
-        assertEquals(expected, v1 cross v2)
+        v1 cross v2 shouldBe expected
     }
 
     @Test
@@ -75,23 +73,23 @@ internal class Vector3DTest {
         val x = v.x / v.length()
         val y = v.y / v.length()
         val z = v.z / v.length()
-        assertEquals(Vector3D(x, y, z), v.normalize())
+        v.normalize() shouldBe Vector3D(x, y, z)
     }
 
     @Test
     fun negate() {
-        assertEquals(v, -w)
+        -w shouldBe v
     }
 
     @Test
     fun volume() {
-        assertEquals(a*b*c, v1.volume())
+        v1.volume() shouldBe a * b * c
     }
 
     @Test
     fun unaryMinus() {
         val v = Vector3D(a, b, -c)
-        assertEquals(-v, Vector3D(-a, -b, c))
+        -v shouldBe Vector3D(-a, -b, c)
     }
 
 }

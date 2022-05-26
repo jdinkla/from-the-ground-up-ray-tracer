@@ -1,6 +1,14 @@
 package net.dinkla.raytracer
 
+import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
+import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.math.MathUtils
+
+infix fun Double.shouldBeApprox(expected: Double) {
+    this shouldBeGreaterThanOrEqual expected - MathUtils.K_EPSILON
+    this shouldBeLessThanOrEqual expected + MathUtils.K_EPSILON
+}
 
 object Fixture {
 

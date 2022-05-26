@@ -1,23 +1,25 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import net.dinkla.raytracer.math.Axis.X
+import net.dinkla.raytracer.math.Axis.Y
+import net.dinkla.raytracer.math.Axis.Z
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class AxisTest {
+internal class AxisTest : AnnotationSpec() {
 
     @Test
     operator fun next() {
-        assertEquals(Axis.Y, Axis.X.next())
-        assertEquals(Axis.Z, Axis.Y.next())
-        assertEquals(Axis.X, Axis.Z.next())
+        X.next() shouldBe Y
+        Y.next() shouldBe Z
+        Z.next() shouldBe X
     }
 
     @Test
     fun fromInt() {
-        assertEquals(Axis.X, Axis.fromInt(0))
-        assertEquals(Axis.Y, Axis.fromInt(1))
-        assertEquals(Axis.Z, Axis.fromInt(2))
-        assertEquals(Axis.Z, Axis.fromInt(5))
+        Axis.fromInt(0) shouldBe X
+        Axis.fromInt(1) shouldBe Y
+        Axis.fromInt(2) shouldBe Z
+        Axis.fromInt(5) shouldBe Z
     }
 }

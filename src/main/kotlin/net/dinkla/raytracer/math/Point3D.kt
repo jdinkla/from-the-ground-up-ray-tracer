@@ -24,8 +24,6 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
         return super.equals(p)
     }
 
-    override fun hashCode(): Int = super.hashCode()
-
     companion object {
         val UNIT = Point3D(1.0, 1.0, 1.0)
         val ORIGIN = Point3D(0.0, 0.0, 0.0)

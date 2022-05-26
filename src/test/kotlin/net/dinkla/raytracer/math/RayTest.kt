@@ -1,10 +1,9 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class RayTest {
+internal class RayTest : AnnotationSpec() {
 
     private val origin = Point3D(1.0, 1.0, 1.0)
     private val direction = Vector3D.UP
@@ -12,13 +11,13 @@ internal class RayTest {
 
     @Test
     fun `construct from ray`() {
-        val ray2 = Ray(ray)
-        assertEquals(origin, ray2.origin)
-        assertEquals(direction, ray2.direction)
+        val copy = Ray(ray)
+        copy.origin shouldBe origin
+        copy.direction shouldBe direction
     }
 
     @Test
     fun linear() {
-        assertEquals(origin + (direction * 0.5), ray.linear(0.5))
+        ray.linear(0.5) shouldBe origin + (direction * 0.5)
     }
 }

@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.math
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class Point3DTest {
+internal class Point3DTest : AnnotationSpec() {
 
     private val p = Point3D(2.0, 3.0, 5.0)
     private val v = Vector3D(-2.0, -3.0, -5.0)
@@ -12,56 +12,55 @@ internal class Point3DTest {
 
     @Test
     fun `construct from integers`() {
-        assertEquals(e, p)
+        e shouldBe p
+        p shouldNotBe e
     }
 
     @Test
     fun `construct from Element3D`() {
-        assertEquals(e, Point3D(e))
+        e shouldBe Point3D(e)
     }
 
     @Test
     fun `add a vector`() {
-        assertEquals(Point3D.ORIGIN, p + v)
+        p + v shouldBe Point3D.ORIGIN
     }
 
     @Test
     fun `add a scalar`() {
-        assertEquals(Point3D(4.0, 5.0, 7.0), p + 2.0)
+        p + 2.0 shouldBe Point3D(4.0, 5.0, 7.0)
     }
 
     @Test
     fun `subtract a vector`() {
-        assertEquals(Point3D(4.0, 6.0, 10.0), p - v)
+        p - v shouldBe Point3D(4.0, 6.0, 10.0)
     }
 
     @Test
     fun `subtract a point`() {
-        assertEquals(Vector3D.ZERO, p - p)
+        p - p shouldBe Vector3D.ZERO
     }
 
     @Test
     fun `subtract a scalar`() {
-        assertEquals(Point3D(0.0, 1.0, 3.0), p - 2.0)
+        p - 2.0 shouldBe Point3D(0.0, 1.0, 3.0)
     }
 
     @Test
     fun `construct from element`() {
-        val e = Element3D(2.0, 3.0, 5.0)
-        val q = Point3D(e)
-        assertEquals(p, q)
+        Point3D(Element3D(2.0, 3.0, 5.0)) shouldBe p
     }
 
     @Test
     fun `points with same values are equal`() {
-        assertEquals(p, Point3D(p.x, p.y, p.z))
+        p shouldBe Point3D(p.x, p.y, p.z)
     }
 
     @Test
     fun `points with different values are not equal`() {
-        assertNotEquals(p, Point3D(0.0, p.y, p.z))
-        assertNotEquals(p, Point3D(p.x, 0.0, p.z))
-        assertNotEquals(p, Point3D(p.x, p.y, 0.0))
+        p shouldNotBe Point3D(0.0, p.y, p.z)
+        p shouldNotBe Point3D(p.x, 0.0, p.z)
+        p shouldNotBe Point3D(p.x, p.y, 0.0)
     }
 
     @Test
@@ -69,20 +68,20 @@ internal class Point3DTest {
         val x = e.x
         val y = e.y
         val z = e.z
-        assertTrue(e == Point3D(x, y, z))
-        assertTrue(e != Point3D(0.0, y, z))
-        assertTrue(e != Point3D(x, 0.0, z))
-        assertTrue(e != Point3D(x, y, 0.0))
+        e shouldBe Point3D(x, y, z)
+        e shouldNotBe Point3D(0.0, y, z)
+        e shouldNotBe Point3D(x, 0.0, z)
+        e shouldNotBe Point3D(x, y, 0.0)
     }
 
     @Test
     fun `a point is not equal to a vector`() {
-        assertNotEquals(p, Vector3D(p.x, p.y, p.z))
+        p shouldNotBe Vector3D(p.x, p.y, p.z)
     }
 
     @Test
     fun unaryMinus() {
         val p = Point3D(v.x, v.y, -v.z)
-        assertEquals(-p, Point3D(-v.x, -v.y, v.z))
+        -p shouldBe Point3D(-v.x, -v.y, v.z)
     }
 }
