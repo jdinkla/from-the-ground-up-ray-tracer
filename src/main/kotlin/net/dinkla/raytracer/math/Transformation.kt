@@ -8,7 +8,6 @@ interface Transformation {
     fun translate(v: Vector3D)
     fun scale(v: Vector3D)
     fun rotate(axis: Axis, phi: Double)
-    fun shear(s: Matrix)
 
     fun ray(ray: Ray): Ray
 }

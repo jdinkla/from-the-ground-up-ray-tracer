@@ -41,25 +41,6 @@ class AffineTransformationTest : AnnotationSpec() {
         t.rotate(Axis.Z, 90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(1.0, -1.0, 1.0), Point3D(-1.0, 1.0, 1.0))
     }
-
-    // @Test
-    fun testShear() {
-        val t = AffineTransformation()
-        val m = Matrix.identity()
-        m[1, 1] = 2.34
-        t.shear(m)
-
-        // TODO: shear funktioniert nicht wie erwartet
-        var q = t.invMatrix.times(p)
-        println("q=$q")
-        println("inv=" + t.invMatrix)
-
-        q = t.forwardMatrix.times(p)
-        println("q=$q")
-        println("for=" + t.forwardMatrix)
-
-        t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(1.0, -1.0, 1.0), Point3D(-1.0, 1.0, 1.0))
-    }
 }
 
 fun AffineTransformation.shouldSatisfy(p: Point3D, inverse: Point3D, forward: Point3D) {

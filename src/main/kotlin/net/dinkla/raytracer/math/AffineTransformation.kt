@@ -113,41 +113,6 @@ class AffineTransformation : Transformation {
         forwardMatrix = rotationMatrix * forwardMatrix
     }
 
-    override fun shear(s: Matrix) {
-        var invShearingMatrix = Matrix.identity()
-
-        // discriminant
-        val d = ((1.0 - s[1, 0] * s[0, 1]
-                - s[2, 0] * s[0, 2]
-                - s[2, 1] * s[1, 2])
-                + s[1, 0] * s[2, 1] * s[0, 2]
-                + s[2, 0] * s[0, 1] * s[2, 1])
-
-        // diagonals
-        invShearingMatrix[0, 0] = 1.0 - s[2, 1] * s[1, 2]
-        invShearingMatrix[1, 1] = 1.0 - s[2, 0] * s[0, 2]
-        invShearingMatrix[2, 2] = 1.0 - s[1, 0] * s[0, 1]
-        invShearingMatrix[3, 3] = d
-
-        // first row
-        invShearingMatrix[0, 1] = -s[1, 0] + s[2, 0] * s[1, 2]
-        invShearingMatrix[0, 2] = -s[2, 0] + s[1, 0] * s[2, 1]
-
-        // second row
-        invShearingMatrix[1, 0] = -s[0, 1] + s[2, 1] * s[0, 2]
-        invShearingMatrix[1, 2] = -s[2, 1] + s[2, 0] * s[0, 1]
-
-        // third row
-        invShearingMatrix[2, 0] = -s[0, 2] + s[0, 1] * s[1, 2]
-        invShearingMatrix[2, 1] = -s[1, 2] + s[1, 0] * s[0, 2]
-
-        // divide by discriminant
-        invShearingMatrix = invShearingMatrix.div(d)
-
-        invMatrix *= invShearingMatrix
-        forwardMatrix = s * forwardMatrix
-    }
-
     override fun ray(ray: Ray): Ray {
         val origin = invMatrix * ray.origin
         val direction = invMatrix * ray.direction
