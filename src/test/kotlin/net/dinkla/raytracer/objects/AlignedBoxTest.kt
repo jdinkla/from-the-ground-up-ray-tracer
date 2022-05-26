@@ -6,7 +6,6 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class AlignedBoxTest : AnnotationSpec() {
 
@@ -20,7 +19,6 @@ internal class AlignedBoxTest : AnnotationSpec() {
         val sr = Hit()
         val hit = ab.hit(ray, sr)
         hit shouldBe true
-        assertTrue(hit)
         sr.t shouldBe 1.0
     }
 

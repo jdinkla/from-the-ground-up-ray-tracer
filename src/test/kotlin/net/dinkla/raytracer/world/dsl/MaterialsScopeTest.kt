@@ -1,12 +1,11 @@
 package net.dinkla.raytracer.world.dsl
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.Fixture.ex
 import net.dinkla.raytracer.materials.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
 
-class MaterialsScopeTest {
+class MaterialsScopeTest : AnnotationSpec()  {
 
     private val id = "m1"
 
@@ -20,10 +19,9 @@ class MaterialsScopeTest {
         scope.matte(id = id, cd = ex.cd)
 
         // then
-        assertEquals(1, scope.materials.size)
-        assertTrue(scope.materials.containsKey(id))
-        val material = scope.materials[id] as Matte
-        assertEquals(matte, material)
+        scope.materials.size shouldBe 1
+        scope.materials.containsKey(id) shouldBe true
+        scope.materials[id] as Matte shouldBe matte
     }
 
     @Test
@@ -42,10 +40,9 @@ class MaterialsScopeTest {
         scope.phong(id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd, exp = ex.exp, cs = ex.cs, ks = ex.ks)
 
         // then
-        assertEquals(1, scope.materials.size)
-        assertTrue(scope.materials.containsKey(id))
-        val material = scope.materials[id] as Phong
-        assertEquals(phong, material)
+        scope.materials.size shouldBe 1
+        scope.materials.containsKey(id) shouldBe true
+        scope.materials[id] as Phong shouldBe phong
     }
 
     @Test
@@ -67,15 +64,15 @@ class MaterialsScopeTest {
                 ks = ex.ks, cs = ex.cs, exp = ex.exp)
 
         // then
-        assertEquals(1, scope.materials.size)
-        assertTrue(scope.materials.containsKey(id))
+        scope.materials.size shouldBe 1
+        scope.materials.containsKey(id) shouldBe true
         val material = scope.materials[id] as Reflective
-        assertEquals(reflective.kr, material.kr)
-        assertEquals(reflective.cr, material.cr)
-        assertEquals(reflective.ka, material.ka)
-        assertEquals(reflective.kd, material.kd)
-        assertEquals(reflective.exp, material.exp)
-        assertEquals(reflective, material)
+        material.kr shouldBe reflective.kr
+        material.cr shouldBe reflective.cr
+        material.ka shouldBe reflective.ka
+        material.kd shouldBe reflective.kd
+        material.exp shouldBe reflective.exp
+        material shouldBe reflective
     }
 
     @Test
@@ -88,10 +85,9 @@ class MaterialsScopeTest {
         scope.emissive(id = id, ce = ex.cd, le = ex.ks)
 
         // then
-        assertEquals(1, scope.materials.size)
-        assertTrue(scope.materials.containsKey(id))
-        val material = scope.materials[id] as Emissive
-        assertEquals(emissive, material)
+        scope.materials.size shouldBe 1
+        scope.materials.containsKey(id) shouldBe true
+        scope.materials[id] as Emissive shouldBe emissive
     }
 
     @Test
@@ -119,19 +115,18 @@ class MaterialsScopeTest {
                 kt = ex.kt, ior = ex.ior)
 
         // then
-        assertEquals(1, scope.materials.size)
-        assertTrue(scope.materials.containsKey(id))
+        scope.materials.size shouldBe 1
+        scope.materials.containsKey(id) shouldBe true
         val material = scope.materials[id] as Transparent
-        assertEquals(transparent.kr, material.kr)
-        assertEquals(transparent.cr, material.cr)
-        assertEquals(transparent.ka, material.ka)
-        assertEquals(transparent.kd, material.kd)
-        assertEquals(transparent.exp, material.exp)
-        assertEquals(transparent.kt, material.kt)
-        assertEquals(transparent.ior, material.ior)
-        assertEquals(transparent.cr, material.cr)
-        assertEquals(transparent.kr, material.kr)
-        assertEquals(transparent, material)
+        material.kr shouldBe transparent.kr
+        material.cr shouldBe transparent.cr
+        material.ka shouldBe transparent.ka
+        material.kd shouldBe transparent.kd
+        material.exp shouldBe transparent.exp
+        material.kt shouldBe transparent.kt
+        material.ior shouldBe transparent.ior
+        material.cr shouldBe transparent.cr
+        material shouldBe transparent
     }
 
 }

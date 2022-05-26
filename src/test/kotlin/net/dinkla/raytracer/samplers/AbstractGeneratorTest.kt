@@ -1,12 +1,13 @@
 package net.dinkla.raytracer.samplers
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
+import io.kotest.matchers.doubles.shouldBeLessThan
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.math.Histogram
 import net.dinkla.raytracer.math.Point2D
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 
-abstract class AbstractGeneratorTest {
+abstract class AbstractGeneratorTest : AnnotationSpec() {
 
     private var samples: MutableList<Point2D> = mutableListOf()
 
@@ -26,14 +27,16 @@ abstract class AbstractGeneratorTest {
 
     @Test
     fun size() {
-        assertEquals(numberOfSamples, samples.size)
+        samples.size shouldBe numberOfSamples
     }
 
     @Test
     fun betweenZeroAndOne() {
         for (p in samples) {
-            assert(p.x >= 0.0 && p.x < 1.0)
-            assert(p.y >= 0.0 && p.y < 1.0)
+            p.x shouldBeGreaterThanOrEqual 0.0
+            p.x shouldBeLessThan 1.0
+            p.y shouldBeGreaterThanOrEqual 0.0
+            p.y shouldBeLessThan 1.0
         }
     }
 
@@ -51,9 +54,9 @@ abstract class AbstractGeneratorTest {
             histXY.add(x * 10 + y)
         }
 
-        assertEquals(sizeOfX, histX.keys().size)
-        assertEquals(sizeOfY, histY.keys().size)
-        assertEquals(sizeOfXY, histXY.keys().size)
+        histX.keys().size shouldBe sizeOfX
+        histY.keys().size shouldBe sizeOfY
+        histXY.keys().size shouldBe sizeOfXY
     }
 
     companion object {

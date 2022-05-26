@@ -5,12 +5,17 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.materials.IMaterial
 import kotlin.math.sqrt
 
 class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
 
     init {
         boundingBox = BBox(center - radius, center + radius)
+    }
+
+    constructor(center: Point3D, radius: Double, material: IMaterial) : this(center, radius) {
+        this.material = material
     }
 
     override fun hit(ray: Ray, sr: Hit): Boolean {

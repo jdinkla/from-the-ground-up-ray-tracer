@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.samplers
 
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.math.Point2D
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class ConstantTest : AbstractGeneratorTest() {
 
@@ -16,10 +14,10 @@ internal class ConstantTest : AbstractGeneratorTest() {
     @Test
     fun generateSamples() {
         val samples = Constant(0.2, 0.3).generateSamples(2, 3)
-        assertEquals(2*3, samples.size)
+        samples.size shouldBe 2*3
         for (s in samples) {
-            assertEquals(0.2, s.x)
-            assertEquals(0.3, s.y)
+            s.x shouldBe 0.2
+            s.y shouldBe 0.3
         }
     }
 }

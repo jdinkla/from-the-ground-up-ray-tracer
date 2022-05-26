@@ -1,5 +1,10 @@
 package net.dinkla.raytracer.world
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.*
 import net.dinkla.raytracer.examples.reflective.World17
@@ -11,18 +16,14 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.tracers.AreaLighting
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
 
-class BuilderTest {
+class BuilderTest : AnnotationSpec() {
 
     @Test
     fun `should store name of world`() {
         val id = "idOfWorld"
         val world = Builder.build(id) {}
-        assertEquals(id, world.id)
+        world.id shouldBe id
     }
 
     @Test
@@ -34,8 +35,8 @@ class BuilderTest {
         val world = Builder.build("id") {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = up)
         }
-        assertNotNull(world.camera)
-        assertEquals(Basis(eye, lookAt, up), world.camera?.uvw)
+        world.camera shouldNotBe null
+        world.camera?.uvw shouldBe Basis(eye, lookAt, up)
     }
 
     @Test
@@ -45,9 +46,9 @@ class BuilderTest {
         val world = Builder.build("id") {
             ambientLight(color = color, ls = ls)
         }
-        assertNotNull(world.ambientLight)
-        assertEquals(color, world.ambientLight.color)
-        assertEquals(ls, world.ambientLight.ls)
+        world.ambientLight shouldNotBe null
+        world.ambientLight.color shouldBe color
+        world.ambientLight.ls shouldBe ls
     }
 
     @Test
@@ -60,15 +61,8 @@ class BuilderTest {
                 pointLight(location = location, ls = ls, color = color)
             }
         }
-        assertNotNull(world.lights)
-        assertEquals(1, world.lights.size)
-        val light = world.lights[0]
-        assertTrue(light is PointLight)
-        if (light is PointLight) {
-            assertEquals(color, light.color)
-            assertEquals(location, light.location)
-            assertEquals(ls, light.ls)
-        }
+        world.lights shouldNotBe null
+        world.lights.shouldContainExactly(PointLight(location, ls, color))
     }
 
     @Test
@@ -80,9 +74,9 @@ class BuilderTest {
                 matte(id = id, cd = cd)
             }
         }
-        assertEquals(1, world.materials.size)
-        assertTrue(world.materials.containsKey(id))
-        assertEquals(Matte(cd), world.materials[id])
+        world.materials.size shouldBe 1
+        world.materials.containsKey(id) shouldBe true
+        world.materials[id] shouldBe Matte(cd)
     }
 
     @Test
@@ -99,81 +93,73 @@ class BuilderTest {
                 sphere(material = id, center = center, radius = radius)
             }
         }
-        assertEquals(1, world.materials.size)
-        assertTrue(world.materials.containsKey(id))
-        assertEquals(Matte(cd), world.materials[id])
-
-        assertEquals(1, world.objects.size)
-        val sphere = world.objects[0]
-        assertTrue(sphere is Sphere)
-        if (sphere is Sphere) {
-            assertEquals(center, sphere.center)
-            assertEquals(radius, sphere.radius)
-        }
-
-        assertEquals(1, world.compound.size())
+        world.materials.size shouldBe 1
+        world.materials.containsKey(id) shouldBe true
+        world.materials[id] shouldBe Matte(cd)
+        world.objects.shouldContainExactly(Sphere(center, radius, Matte(cd)))
+        world.compound.size() shouldBe 1
     }
 
     @Test
     fun `should build example world 20`() {
         val w = World20.world()
-        assertEquals(w.size(), 4)
-        assertEquals(w.lights.size, 1)
-        assertEquals(w.objects.size, 4)
+        w.size() shouldBe 4
+        w.lights.size shouldBe 1
+        w.objects.size shouldBe 4
     }
 
     @Test
     fun `should build example world 7`() {
         val w = World7.world()
-        assertEquals(w.size(), 6)
-        assertEquals(w.lights.size, 3)
-        assertEquals(w.objects.size, 6)
+        w.size() shouldBe 6
+        w.lights.size shouldBe 3
+        w.objects.size shouldBe 6
     }
 
     @Test
     fun `should build example world 14 - ambient occluder`() {
         val w = World14.world()
-        assertEquals(2, w.size())
-        assertEquals(0, w.lights.size)
-        assertEquals(AmbientOccluder::class.java, w.ambientLight.javaClass)
+        w.size() shouldBe 2
+        w.lights.size shouldBe 0
+        w.ambientLight.shouldBeInstanceOf<AmbientOccluder>()
     }
 
     @Test
     fun `should build example world 17`() {
         val w = World17.world()
-        assertEquals(10, w.size())
-        assertEquals(2, w.lights.size)
+        w.size() shouldBe 10
+        w.lights.size shouldBe 2
     }
 
     @Test
     fun `should build example world 23 - area lighting`() {
         val w = World23.world()
-        assertEquals(3, w.size())
-        assertEquals(1, w.lights.size)
-        assertEquals(AreaLighting::class.java, w.tracer?.javaClass )
+        w.size() shouldBe 3
+        w.lights.size shouldBe 1
+        w.tracer.shouldBeInstanceOf<AreaLighting>()
     }
 
     @Test
     fun `should build example world 26 - instancing`() {
         val w = World26.world()
-        assertEquals(3, w.size())
-        assertEquals(1, w.lights.size)
-        assertEquals(3, w.objects.size)
+        w.size() shouldBe 3
+        w.lights.size shouldBe 1
+        w.objects.size shouldBe 3
     }
 
     @Test
     fun `should build example world 34 - transparent`() {
         val w = World34.world()
-        assertNotNull(w.viewPlane, "viewPlane == null")
-        assertNotNull(w.camera, "camera == null")
-        assertNotNull(w.tracer, "tracer == null")
-        assertEquals(6, w.size())
-        assertEquals(w.lights.size, 1)
+        w.viewPlane shouldNotBe null
+        w.camera shouldNotBe null
+        w.tracer shouldNotBe null
+        w.size() shouldBe 6
+        w.lights.size shouldBe 1
     }
 
     @Test
     fun `should build example world 38 - Grid`() {
         val w = World38.world()
-        assertEquals(w.size(), 6)
+        w.size() shouldBe 6
     }
 }
