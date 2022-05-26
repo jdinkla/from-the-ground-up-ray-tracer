@@ -89,10 +89,6 @@ class Sampler(
         return sphereSamples[jump + shuffledIndices[jump + count++ % numSamples]]
     }
 
-    fun sampleOneSet(): Point2D {
-        return samples[count++ % numSamples]
-    }
-
     fun mapSamplesToUnitDisk() {
         val size = samples.size
         var r: Double

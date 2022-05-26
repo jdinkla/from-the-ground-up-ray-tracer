@@ -1,54 +1,67 @@
 package net.dinkla.raytracer.samplers
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
+import io.kotest.matchers.doubles.shouldBeLessThan
+import net.dinkla.raytracer.shouldBeApprox
+import kotlin.math.sqrt
 
-class SamplerTest {
+class SamplerTest : AnnotationSpec() {
 
-    internal val NUM = 1000
-
-    internal var s = Sampler(PureRandom, 100, 10)
+    private val NUM = 1000
+    private var s = Sampler(PureRandom, 100, 10)
 
     @Test
-    @Throws(Exception::class)
     fun testSampleUnitSquare() {
+        (1..NUM).forEach {
+            val p = s.sampleUnitSquare()
+            p.x shouldBeGreaterThanOrEqual 0.0
+            p.x shouldBeLessThan 1.0
+            p.y shouldBeGreaterThanOrEqual 0.0
+            p.y shouldBeLessThan 1.0
+        }
     }
 
     @Test
-    @Throws(Exception::class)
     fun testSampleUnitDisk() {
-        //        s.mapSamplesToUnitDisk();
-        //        for (int i=0; i<NUM; i++) {
-        //            Point2D p = s.sampleUnitDisk();
-        //            assertTrue(0 <= p.x);
-        //            assertTrue(p.x < 1);
-        //            assertTrue(0 <= p.y);
-        //            assertTrue(p.y < 1);
-        //            assertTrue(p.x + p.y < 1.42);
-        //        }
+        s.mapSamplesToUnitDisk()
+        (1..NUM).forEach {
+            val p = s.sampleUnitDisk()
+            p.x shouldBeGreaterThanOrEqual -1.0
+            p.x shouldBeLessThan 1.0
+            p.y shouldBeGreaterThanOrEqual -1.0
+            p.y shouldBeLessThan 1.0
+            p.length() shouldBeLessThan sqrt(2.0)
+        }
     }
 
     @Test
-    @Throws(Exception::class)
     fun testSampleHemisphere() {
+        s.mapSamplesToHemiSphere(1.0)
+        (1..NUM).forEach {
+            val p = s.sampleHemisphere()
+            p.x shouldBeGreaterThanOrEqual -1.0
+            p.x shouldBeLessThan 1.0
+            p.y shouldBeGreaterThanOrEqual -1.0
+            p.y shouldBeLessThan 1.0
+            p.z shouldBeGreaterThanOrEqual 0.0
+            p.z shouldBeLessThan 1.0
+            p.length() shouldBeApprox 1.0
+        }
     }
 
     @Test
-    @Throws(Exception::class)
     fun testSampleSphere() {
-        //        s.mapSamplesToSphere();
-        //        for (int i=0; i<NUM; i++) {
-        //            Point3D p = s.sampleSphere();
-        //            assertTrue(-1 < p.x);
-        //            assertTrue(p.x < 1);
-        //            assertTrue(-1 < p.y);
-        //            assertTrue(p.y < 1);
-        //            assertTrue(0 <= p.z);
-        //            assertTrue(p.z < 1);
-        //        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun testSampleOneSet() {
+        s.mapSamplesToSphere()
+        (1..NUM).forEach {
+            val p = s.sampleSphere()
+            p.x shouldBeGreaterThanOrEqual -1.0
+            p.x shouldBeLessThan 1.0
+            p.y shouldBeGreaterThanOrEqual -1.0
+            p.y shouldBeLessThan 1.0
+            p.z shouldBeGreaterThanOrEqual -1.0
+            p.z shouldBeLessThan 1.0
+            p.length() shouldBeApprox 1.0
+        }
     }
 }
