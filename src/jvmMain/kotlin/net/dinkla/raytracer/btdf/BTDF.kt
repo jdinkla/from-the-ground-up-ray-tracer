@@ -3,7 +3,6 @@ package net.dinkla.raytracer.btdf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.samplers.Sampler
 
 interface BTDF {
 

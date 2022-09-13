@@ -1,27 +1,22 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 
-internal class Point2DTest : AnnotationSpec() {
-
-    private val p = Point2D(1.0, 2.0)
-
-    @Test
-    fun `add a vector`() {
+internal class Point2DTest : StringSpec({
+    val p = Point2D(1.0, 2.0)
+    "add a vector" {
         val v = Vector2D(-1.0, -2.0)
         p + v shouldBe Point2D.ORIGIN
     }
 
-    @Test
-    fun `subtract a vector`() {
+    "subtract a vector" {
         val v = Vector2D(1.0, 2.0)
         p - v shouldBe Point2D.ORIGIN
     }
 
-    @Test
-    fun equals() {
+    "equals" {
         p shouldBe Point2D(1.0, 2.0)
         p shouldNotBe Point2D(1.0, 1.98)
         p shouldNotBe Point2D(0.98, 2.0)
@@ -29,8 +24,7 @@ internal class Point2DTest : AnnotationSpec() {
         p shouldNotBe null
     }
 
-    @Test
-    fun unaryMinus() {
+    "unaryMinus" {
         -p shouldBe Point2D(-1.0, -2.0)
     }
-}
+})

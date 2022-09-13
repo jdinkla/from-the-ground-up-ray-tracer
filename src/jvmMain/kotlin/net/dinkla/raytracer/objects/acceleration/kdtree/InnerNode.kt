@@ -12,7 +12,8 @@ class InnerNode(
         val right: Node,
         override val boundingBox: BBox,
         val split: Double,
-        private val axis: Axis) : Node {
+        private val axis: Axis
+) : Node {
 
     fun hitNR(ray: Ray, sr: Hit): Boolean {
         val stack = Stack<Pair<Node?, Hit>>()
