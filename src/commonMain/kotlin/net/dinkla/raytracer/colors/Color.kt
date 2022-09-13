@@ -53,19 +53,21 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
             return Color(r, g, b)
         }
 
-        fun fromString(rgb: String) : Color {
+        fun fromString(rgb: String): Color {
             fun convert(s: Int): Double {
                 val hex = rgb.substring(s, s + 2)
-                val dec= Integer.valueOf(hex, 16)
+                val dec = hex.toLong(radix = 16)
                 return dec / 255.0
             }
+
             val rf = convert(0)
             val gf = convert(2)
             val bf = convert(4)
             return Color(rf, gf, bf)
         }
 
-        fun fromRGB(red: Int, green: Int, blue: Int) = Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+        fun fromRGB(red: Int, green: Int, blue: Int) =
+            Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
     }
 }
 

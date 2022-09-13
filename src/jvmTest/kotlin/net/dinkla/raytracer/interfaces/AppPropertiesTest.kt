@@ -1,8 +1,7 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.interfaces
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import net.dinkla.raytracer.interfaces.AppProperties
 
 class AppPropertiesTest : AnnotationSpec() {
 

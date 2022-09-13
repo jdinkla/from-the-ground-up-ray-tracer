@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.cameras
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.lenses.Pinhole
@@ -8,9 +8,8 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.Resolution
 
-class CameraTest : AnnotationSpec() {
-    @Test
-    fun testComputeUVW() {
+class CameraTest : StringSpec({
+    "testComputeUVW" {
         val lens = Pinhole(ViewPlane(Resolution.RESOLUTION_1080))
         val c = Camera(lens)
         c.setup(eye = Point3D.ORIGIN, lookAt = Point3D.ORIGIN, up = Vector3D.UP)
@@ -18,4 +17,4 @@ class CameraTest : AnnotationSpec() {
         c.uvw.v shouldNotBe null
         c.uvw.w shouldNotBe null
     }
-}
+})

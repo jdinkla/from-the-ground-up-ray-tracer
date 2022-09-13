@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.colors
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import net.dinkla.raytracer.colors.Color.Companion.BLUE
@@ -9,41 +9,34 @@ import net.dinkla.raytracer.colors.Color.Companion.RED
 import net.dinkla.raytracer.colors.Color.Companion.fromInt
 import net.dinkla.raytracer.colors.Color.Companion.fromString
 
-internal class ColorTest : AnnotationSpec() {
+internal class ColorTest : StringSpec({
 
-    @Test
-    fun plus() {
+    "plus()" {
         Color(0.1) + Color(0.1, 0.3, 0.4) shouldBe Color(0.2, 0.4, 0.5)
     }
 
-    @Test
-    fun `multiplication of two colors`() {
+    "multiplication of two colors" {
         Color(0.5) * Color(0.5) shouldBe Color(0.25)
     }
 
-    @Test
-    fun `multiplication with scalar`() {
+    "multiplication with scalar" {
         Color(0.1) * 2.5 shouldBe Color(0.25)
     }
 
-    @Test
-    fun `multiplication with scalar from left`() {
+    "multiplication with scalar from left" {
         2.5 * Color(0.1) shouldBe Color(0.25)
     }
 
-    @Test
-    fun pow() {
+    "pow()" {
         Color(0.1, 0.2, 0.3).pow(2.0) shouldBe Color(0.1*0.1, 0.2*0.2, 0.3*0.3)
     }
 
-    @Test
-    fun asInt() {
+    "asInt()" {
         val c = Color(0.0, 0.0, 1.0);
         c.toInt() shouldBe 255
     }
 
-    @Test
-    fun createFromInt() {
+    "createFromInt()" {
         val red = 3.0 / 255.0
         val green = 31.0 / 255.0
         val blue = 139.0 / 255.0
@@ -55,8 +48,7 @@ internal class ColorTest : AnnotationSpec() {
         c.blue shouldBe blue
     }
 
-    @Test
-    fun createFromInts() {
+    "createFromInts()" {
         val color = Color.fromRGB(127, 0, 255)
 
         color.red shouldBe 127.0/255.0
@@ -64,35 +56,30 @@ internal class ColorTest : AnnotationSpec() {
         color.blue shouldBe 1.0
     }
 
-    @Test
-    fun createFromString() {
+    "createFromString()" {
         fromString("FF0000") shouldBe RED
         fromString("00FF00") shouldBe GREEN
         fromString("0000FF") shouldBe BLUE
     }
 
-    @Test
-    fun clamp() {
+    "clamp()" {
         Color(1.1, 2.2, 3.3).clamp() shouldBe RED
     }
 
-    @Test
-    fun `clamp should return input if not clamped`() {
+    "clamp should return input if not clamped" {
         val c = Color(0.1, 0.2, 0.3)
         c.clamp() shouldBe c
     }
 
-    @Test
-    fun maxToOne() {
+    "maxToOne()" {
         Color(0.5, 0.5, 2.0).maxToOne() shouldBe Color(0.25, 0.25, 1.0)
         Color(0.5, 2.0, 0.5).maxToOne() shouldBe Color(0.25, 1.0, 0.25)
         Color(2.0, 0.5, 0.5).maxToOne() shouldBe Color(1.0, 0.25, 0.25)
     }
 
-    @Test
-    fun equals() {
+    "equals()" {
         Color(0.5, 0.2, 0.3) shouldBe Color(0.5, 0.2, 0.3)
         3.0 shouldNotBe Color(0.5, 0.2, 0.3)
         Color(0.5, 0.2, 0.3) shouldNotBe null
     }
-}
+})
