@@ -30,7 +30,9 @@ repositories {
 }
 
 kotlin {
-    jvm()
+    jvm() {
+        withJava()
+    }
     js() {
         nodejs()
         binaries.executable()
@@ -87,4 +89,9 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+task<JavaExec>("swing") {
+    main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerKt"
+    classpath = sourceSets["main"].runtimeClasspath
 }

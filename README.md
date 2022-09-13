@@ -1,7 +1,11 @@
 # Ray Tracer in Kotlin
 
-*Remark*: This project was migrated rom Java and Groovy to Kotlin. The old code with Java and 
+*Remark* I am going to convert this project to Kotlin multiplatform in the next months. 
+
+*Old Remark*: This project was migrated rom Java and Groovy to Kotlin. The old code with Java and 
 Groovy is available in the branch `groovy-java`. 
+
+
 
 While reading the excellent book
 "[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
