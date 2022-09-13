@@ -1,18 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotestVersion = "5.3.0"
-val kotlinxCoroutinesVersion = "1.6.1"
+val kotestVersion = "5.4.2"
+val coroutinesVersion = "1.6.4"
 val logbackVersion = "1.2.11"
 
 plugins {
-    kotlin("jvm") version  "1.6.20"
+    kotlin("jvm") version "1.7.10"
     id("io.gitlab.arturbosch.detekt").version("1.20.0")
     idea
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")

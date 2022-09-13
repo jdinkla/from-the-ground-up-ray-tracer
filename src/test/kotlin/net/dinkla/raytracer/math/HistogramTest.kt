@@ -1,26 +1,24 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 
-internal class HistogramTest : AnnotationSpec() {
+internal class HistogramTest : StringSpec({
 
-    @Test
-    fun `an empty histogram has no keys`() {
+    "an empty histogram has no keys" {
         val h = Histogram()
         h.keys().size shouldBe 0
     }
 
-    @Test
-    fun `adding one element`() {
+    "adding one element" {
         val h = Histogram()
         h.add(3)
         h.keys().size shouldBe 1
         h[3] shouldBe 1
     }
 
-    @Test
-    fun `adding one element twice`() {
+    "adding one element twice" {
         val h = Histogram()
         h.add(3)
         h.add(3)
@@ -28,8 +26,7 @@ internal class HistogramTest : AnnotationSpec() {
         h[3] shouldBe 2
     }
 
-    @Test
-    fun `adding two different elements`() {
+    "adding two different elements" {
         val h = Histogram()
         h.add(3)
         h.add(4)
@@ -38,8 +35,7 @@ internal class HistogramTest : AnnotationSpec() {
         h[4] shouldBe 1
     }
 
-    @Test
-    fun `adding multiple different elements`() {
+    "adding multiple different elements" {
         val h = Histogram()
         h.add(3)
         h.add(4)
@@ -51,11 +47,9 @@ internal class HistogramTest : AnnotationSpec() {
         h[4] shouldBe 2
     }
 
-    @Test
-    fun `keys returns the keys`() {
+    "keys returns the keys" {
         val h = Histogram()
         h.add(3)
-        h.keys().size shouldBe 1
-        h.keys() shouldBe setOf(3)
+        h.keys() shouldContainExactly setOf(3)
     }
-}
+})
