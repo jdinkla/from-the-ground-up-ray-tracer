@@ -4,12 +4,9 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.IMaterial
-import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.math.PointUtilities
-import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.world.World
 
 open class Compound : GeometricObject() {
@@ -140,7 +137,7 @@ open class Compound : GeometricObject() {
     private fun calcBoundingBox() {
         boundingBox = BBox()
         if (objects.size > 0) {
-            val (p0, p1) = PointUtilities.minMaxCoordinates(objects)
+            val (p0, p1) = GeometricObjectUtilities.minMaxCoordinates(objects)
             boundingBox = BBox(p0, p1)
         } else {
             boundingBox = BBox()

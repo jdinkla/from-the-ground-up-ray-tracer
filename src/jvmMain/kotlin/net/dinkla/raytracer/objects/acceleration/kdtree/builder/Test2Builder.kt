@@ -158,7 +158,8 @@ class Test2Builder : TreeBuilder {
         Counter.count("KDtree.build.node")
 
         val par = Partitioner(objects, voxel
-                ?: BBox())
+                ?: BBox()
+        )
 
         val sX = par.x(Axis.X, par.candidatesX)
         val sY = par.x(Axis.Y, par.candidatesY)

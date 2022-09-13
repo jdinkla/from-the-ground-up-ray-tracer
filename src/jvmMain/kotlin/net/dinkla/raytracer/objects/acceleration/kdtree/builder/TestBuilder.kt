@@ -10,6 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.math.GeometricObjectUtilities
 import kotlin.math.abs
 
 class TestBuilder : TreeBuilder {
@@ -46,7 +47,7 @@ class TestBuilder : TreeBuilder {
             }
 
             fun update() {
-                bbox = BBox.create(objects!!)
+                bbox = GeometricObjectUtilities.create(objects!!)
                 volume = bbox.volume
             }
         }

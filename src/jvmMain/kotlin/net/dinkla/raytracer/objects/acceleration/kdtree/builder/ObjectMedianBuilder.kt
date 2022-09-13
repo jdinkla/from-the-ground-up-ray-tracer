@@ -10,6 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.math.GeometricObjectUtilities
 
 class ObjectMedianBuilder : TreeBuilder {
 
@@ -93,8 +94,8 @@ class ObjectMedianBuilder : TreeBuilder {
                 }
             }
 
-            val bL = BBox.create(objectsL)
-            val bR = BBox.create(objectsR)
+            val bL = GeometricObjectUtilities.create(objectsL)
+            val bR = GeometricObjectUtilities.create(objectsR)
 
             val q1 = Point3D(split, bL.q.y, bL.q.z)
             val p2 = Point3D(split, bR.p.y, bR.p.z)
@@ -112,8 +113,8 @@ class ObjectMedianBuilder : TreeBuilder {
                     objectsR.add(`object`)
                 }
             }
-            val bL = BBox.create(objectsL)
-            val bR = BBox.create(objectsR)
+            val bL = GeometricObjectUtilities.create(objectsL)
+            val bR = GeometricObjectUtilities.create(objectsR)
 
             val q1 = Point3D(bL.q.x, split, bL.q.z)
             val p2 = Point3D(bR.p.x, split, bR.p.z)
@@ -132,8 +133,8 @@ class ObjectMedianBuilder : TreeBuilder {
                 }
             }
 
-            val bL = BBox.create(objectsL)
-            val bR = BBox.create(objectsR)
+            val bL = GeometricObjectUtilities.create(objectsL)
+            val bR = GeometricObjectUtilities.create(objectsR)
 
             val q1 = Point3D(bL.q.x, bL.q.y, split)
             val p2 = Point3D(bR.p.x, bR.p.y, split)

@@ -8,11 +8,11 @@ import net.dinkla.raytracer.math.Ray
 import java.util.Stack
 
 class InnerNode(
-        val left: Node,
-        val right: Node,
-        override val boundingBox: BBox,
-        val split: Double,
-        private val axis: Axis
+    val left: Node,
+    val right: Node,
+    override val boundingBox: BBox,
+    val split: Double,
+    private val axis: Axis
 ) : Node {
 
     fun hitNR(ray: Ray, sr: Hit): Boolean {
