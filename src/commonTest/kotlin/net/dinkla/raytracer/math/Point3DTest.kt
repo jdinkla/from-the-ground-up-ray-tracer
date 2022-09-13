@@ -1,58 +1,50 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 
-internal class Point3DTest : AnnotationSpec() {
+internal class Point3DTest : StringSpec({
 
-    private val p = Point3D(2.0, 3.0, 5.0)
-    private val v = Vector3D(-2.0, -3.0, -5.0)
+    val p = Point3D(2.0, 3.0, 5.0)
+    val v = Vector3D(-2.0, -3.0, -5.0)
 
-    private val x = 1.0
-    private val y = 2.0
-    private val z = 3.0
-    private val e = Point3D(x, y, z)
+    val x = 1.0
+    val y = 2.0
+    val z = 3.0
+    val e = Point3D(x, y, z)
 
-    @Test
-    fun `add a vector`() {
+    "add a vector" {
         p + v shouldBe Point3D.ORIGIN
     }
 
-    @Test
-    fun `add a scalar`() {
+    "add a scalar" {
         p + 2.0 shouldBe Point3D(4.0, 5.0, 7.0)
     }
 
-    @Test
-    fun `subtract a vector`() {
+    "subtract a vector" {
         p - v shouldBe Point3D(4.0, 6.0, 10.0)
     }
 
-    @Test
-    fun `subtract a point`() {
+    "subtract a point" {
         p - p shouldBe Vector3D.ZERO
     }
 
-    @Test
-    fun `subtract a scalar`() {
+    "subtract a scalar" {
         p - 2.0 shouldBe Point3D(0.0, 1.0, 3.0)
     }
 
-    @Test
-    fun `points with same values are equal`() {
+    "points with same values are equal" {
         p shouldBe Point3D(p.x, p.y, p.z)
     }
 
-    @Test
-    fun `points with different values are not equal`() {
+    "points with different values are not equal" {
         p shouldNotBe Point3D(0.0, p.y, p.z)
         p shouldNotBe Point3D(p.x, 0.0, p.z)
         p shouldNotBe Point3D(p.x, p.y, 0.0)
     }
 
-    @Test
-    fun equals() {
+    "equals" {
         val x = p.x
         val y = p.y
         val z = p.z
@@ -62,32 +54,27 @@ internal class Point3DTest : AnnotationSpec() {
         p shouldNotBe Point3D(x, y, 0.0)
     }
 
-    @Test
-    fun `a point is not equal to a vector`() {
+    "a point is not equal to a vector" {
         p shouldNotBe Vector3D(p.x, p.y, p.z)
     }
 
-    @Test
-    fun unaryMinus() {
+    "unaryMinus" {
         val p = Point3D(v.x, v.y, -v.z)
         -p shouldBe Vector3D(-v.x, -v.y, v.z)
     }
 
-    @Test
-    fun sqrDistance() {
+    "sqrDistance" {
         val p = Point3D(0.0, 1.0, 2.0)
         e.sqrDistance(p) shouldBe 1.0 + 1.0 + 1.0
     }
 
-    @Test
-    fun ith() {
+    "ith" {
         e.ith(Axis.X) shouldBe x
         e.ith(Axis.Y) shouldBe y
         e.ith(Axis.Z) shouldBe z
     }
 
-    @Test
-    fun times() {
+    "times" {
         2.0 * e shouldBe Point3D(2.0 * e.x, 2.0 * e.y, 2.0 * e.z)
     }
-}
+})

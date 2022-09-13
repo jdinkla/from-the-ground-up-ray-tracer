@@ -4,7 +4,6 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.*
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.objects.GeometricObject
 
 class LightsScope() {
 

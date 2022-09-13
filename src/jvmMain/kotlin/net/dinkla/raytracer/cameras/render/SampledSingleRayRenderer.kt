@@ -3,8 +3,6 @@ package net.dinkla.raytracer.cameras.render
 import net.dinkla.raytracer.cameras.lenses.ILens
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracer

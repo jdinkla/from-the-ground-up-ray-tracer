@@ -12,10 +12,11 @@ import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.samplers.Sampler
 
 class DiskLight(
-        val sampler: Sampler,
-        center: Point3D,
-        radius: Double,
-        normal: Normal) : Disk(center, radius, normal), ILightSource {
+    val sampler: Sampler,
+    center: Point3D,
+    radius: Double,
+    normal: Normal
+) : Disk(center, radius, normal), ILightSource {
 
     val pdf = 1.0 / (PI * radius * radius)
 

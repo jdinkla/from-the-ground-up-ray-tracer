@@ -1,32 +1,29 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-internal class NormalTest : AnnotationSpec()  {
+internal class NormalTest : StringSpec({
 
-    private val x = 1.0
-    private val y = 2.0
-    private val z = 3.0
-    private val d = 2.0
+    val x = 1.0
+    val y = 2.0
+    val z = 3.0
+    val d = 2.0
 
-    private val n = Normal(x, y, z)
-    private val v = Vector3D(x, y, z)
+    val n = Normal(x, y, z)
+    val v = Vector3D(x, y, z)
 
-    @Test
-    fun `construct from integers`() {
+    "construct from integers" {
         Normal(1.0, 2.0, 3.0) shouldBe n
     }
 
-    @Test
-    fun `construct from numbers`() {
+    "construct from numbers" {
         n.x shouldBe x
         n.y shouldBe y
         n.z shouldBe z
     }
 
-    @Test
-    fun `construct from vector`() {
+    "construct from vector" {
         val n = Normal.create(v)
         val l = v.length()
         n.x shouldBe x/l
@@ -34,8 +31,7 @@ internal class NormalTest : AnnotationSpec()  {
         n.z shouldBe z/l
     }
 
-    @Test
-    fun `construct from three points`() {
+    "construct from three points" {
         val p0 = Point3D(x, y, z)
         val p1 = Point3D(y, z, x)
         val p2 = Point3D(z, x, y)
@@ -44,34 +40,28 @@ internal class NormalTest : AnnotationSpec()  {
         n shouldBe n2
     }
 
-    @Test
-    fun plus() {
+    "plus" {
         n + n shouldBe Vector3D(x+x, y+y, z+z)
     }
 
-    @Test
-    fun times() {
+    "times" {
         n * d shouldBe Vector3D(d*x, d*y, d*z)
     }
 
-    @Test
-    fun dot() {
+    "dot" {
         n dot v shouldBe x*x + y*y + z*z
     }
 
-    @Test
-    fun normalize() {
+    "normalize" {
         val l = n.length()
         n.normalize() shouldBe Normal(x/l, y/l, z/l)
     }
 
-    @Test
-    fun negate() {
+    "negate" {
         -n shouldBe Normal(-x, -y, -z)
     }
 
-    @Test
-    fun toVector3D() {
+    "toVector3D" {
         n.toVector3D() shouldBe v
     }
-}
+})
