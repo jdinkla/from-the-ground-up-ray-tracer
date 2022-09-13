@@ -20,7 +20,7 @@ class WrappedDouble(var value: Double) : Comparable<WrappedDouble> {
 
     companion object {
 
-        fun createMax() = WrappedDouble(java.lang.Double.MAX_VALUE)
+        fun createMax() = WrappedDouble(Double.MAX_VALUE)
 
     }
 }

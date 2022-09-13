@@ -7,7 +7,8 @@ import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
 
 class Instance(private val geometricObject: GeometricObject,
-               val trans: Transformation = AffineTransformation()) : GeometricObject(), Transformation by trans {
+               val trans: Transformation = AffineTransformation()
+) : GeometricObject(), Transformation by trans {
 
     override var boundingBox: BBox
         get() {

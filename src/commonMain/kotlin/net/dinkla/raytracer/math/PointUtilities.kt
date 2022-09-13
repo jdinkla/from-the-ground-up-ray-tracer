@@ -42,9 +42,9 @@ object PointUtilities {
     }
 
     fun minPoints(points: ArrayList<Point3D>): Point3D {
-        var x = java.lang.Double.POSITIVE_INFINITY
-        var y = java.lang.Double.POSITIVE_INFINITY
-        var z = java.lang.Double.POSITIVE_INFINITY
+        var x = Double.POSITIVE_INFINITY
+        var y = Double.POSITIVE_INFINITY
+        var z = Double.POSITIVE_INFINITY
         for (p in points) {
             if (p.x < x) {
                 x = p.x
@@ -60,9 +60,9 @@ object PointUtilities {
     }
 
     fun maxPoints(points: ArrayList<Point3D>): Point3D {
-        var x = java.lang.Double.NEGATIVE_INFINITY
-        var y = java.lang.Double.NEGATIVE_INFINITY
-        var z = java.lang.Double.NEGATIVE_INFINITY
+        var x = Double.NEGATIVE_INFINITY
+        var y = Double.NEGATIVE_INFINITY
+        var z = Double.NEGATIVE_INFINITY
         for (p in points) {
             if (p.x > x) {
                 x = p.x

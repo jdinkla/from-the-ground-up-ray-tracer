@@ -2,7 +2,6 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -123,7 +122,7 @@ class AffineTransformation : Transformation {
         a.forwardMatrix == b.forwardMatrix && a.invMatrix == b.invMatrix
     }
 
-    override fun hashCode(): Int = this.hash(forwardMatrix, invMatrix)
+    override fun hashCode(): Int = forwardMatrix.hashCode() + 7 * invMatrix.hashCode()
 
     override fun toString(): String = "AffineTransformation($forwardMatrix, $invMatrix)"
 }
