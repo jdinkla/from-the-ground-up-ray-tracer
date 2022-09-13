@@ -16,7 +16,7 @@ class GlossySpecular(
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         val nDotWi = wi dot sr.normal
-        val r = (wi * (-1.0)) + (Vector3D(sr.normal) * (2 * nDotWi))
+        val r = (wi * (-1.0)) + (sr.normal.toVector3D() * (2 * nDotWi))
         val rDotWo = r dot wo
         return if (rDotWo > 0) {
             cs * (ks * rDotWo.pow(exp))

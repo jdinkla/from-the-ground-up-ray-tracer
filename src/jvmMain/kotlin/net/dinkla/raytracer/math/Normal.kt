@@ -1,16 +1,14 @@
 package net.dinkla.raytracer.math
 
-class Normal : Element3D {
+import kotlin.math.sqrt
 
-    constructor(x: Double, y: Double, z: Double) : super(x, y, z)
-
-    constructor(v: Vector3D) : super(v.normalize())
-
-    constructor(p0: Point3D, p1: Point3D, p2: Point3D) : super(((p1 - p0) cross (p2 - p0)).normalize())
+data class Normal(val x: Double, val y: Double, val z: Double)  {
 
     operator fun plus(normal: Normal) = Vector3D(x + normal.x, y + normal.y, z + normal.z)
 
     operator fun times(s: Double)= Vector3D(s * x, s * y, s * z)
+
+    operator fun unaryMinus() = Normal(-x, -y, -z)
 
     infix fun dot(v: Vector3D): Double = x * v.x + y * v.y + z * v.z
 
@@ -19,11 +17,24 @@ class Normal : Element3D {
         return Normal(x / len, y / len, z / len)
     }
 
-    operator fun unaryMinus() = Normal(-x, -y, -z)
+    fun sqrLength(): Double = x * x + y * y + z * z
 
-    override fun toString() = "Normal($x, $y, $z)"
+    fun length(): Double = sqrt(sqrLength())
+
+    fun toVector3D() = Vector3D(x, y, z)
 
     companion object {
+        fun create(v: Vector3D): Normal {
+            val n = v.normalize()
+            return Normal(n.x, n.y, n.z)
+        }
+
+        fun create(p0: Point3D, p1: Point3D, p2: Point3D): Normal {
+            val n = ((p1 - p0) cross (p2 - p0)).normalize()
+            return Normal(n.x, n.y, n.z)
+
+        }
+
         val RIGHT = Normal(1.0, 0.0, 0.0)
         val LEFT = Normal(-1.0, 0.0, 0.0)
         val UP = Normal(0.0, 1.0, 0.0)

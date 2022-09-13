@@ -3,9 +3,7 @@ package net.dinkla.raytracer.math
 import kotlin.Double.Companion.NEGATIVE_INFINITY
 import kotlin.Double.Companion.POSITIVE_INFINITY
 
-class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
-
-    constructor(e: Element3D) : this(e.x, e.y, e.z)
+data class Point3D(val x: Double, val y: Double, val z: Double) {
 
     operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
@@ -19,10 +17,20 @@ class Point3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
 
     operator fun minus(f: Double) = Point3D(x - f, y - f, z - f)
 
-    override fun equals(other: Any?): Boolean {
-        val p = other as? Point3D ?: return false
-        return super.equals(p)
+    fun sqrDistance(p: Point3D): Double {
+        val dx = x - p.x
+        val dy = y - p.y
+        val dz = z - p.z
+        return dx * dx + dy * dy + dz * dz
     }
+
+    fun ith(axis: Axis) = when (axis) {
+        Axis.X -> x
+        Axis.Y -> y
+        Axis.Z -> z
+    }
+
+    override fun toString(): String = "($x,$y,$z)"
 
     companion object {
         val UNIT = Point3D(1.0, 1.0, 1.0)

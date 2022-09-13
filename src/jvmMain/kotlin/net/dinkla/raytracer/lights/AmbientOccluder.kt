@@ -16,7 +16,7 @@ class AmbientOccluder(
 ) : Ambient() {
 
     override fun L(world: World, sr: Shade): Color {
-        val w = Vector3D(sr.normal)
+        val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize() // jitter up vector in case normal is vertical
         val u = v cross w
 
@@ -35,7 +35,7 @@ class AmbientOccluder(
 
     override fun getDirection(sr: Shade): Vector3D {
         val p = sampler.sampleHemisphere()
-        val w = Vector3D(sr.normal)
+        val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize()
         val u = v cross w
         return Basis(u, v, w) * p

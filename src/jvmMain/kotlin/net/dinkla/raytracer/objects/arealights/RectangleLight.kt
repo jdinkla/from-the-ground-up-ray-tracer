@@ -16,7 +16,7 @@ class RectangleLight(val sampler: Sampler,
                      normal: Normal) : Rectangle(p0, a, b, normal), ILightSource {
 
     constructor(sampler: Sampler, p0: Point3D, a: Vector3D, b: Vector3D)
-            : this(sampler, p0, a, b, Normal((a cross b).normalize()))
+            : this(sampler, p0, a, b, Normal.create((a cross b).normalize()))
 
     private var pdf: Double = 1.0 / (a.length() * b.length())
 

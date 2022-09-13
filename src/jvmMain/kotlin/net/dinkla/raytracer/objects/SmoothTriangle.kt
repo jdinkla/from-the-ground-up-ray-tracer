@@ -76,7 +76,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         val v1 = n0.times(1.0 - beta - gamma)
         val v2 = n1.times(beta)
         val v3 = n2.times(gamma)
-        val normal = Normal(v1.plus(v2).plus(v3))
+        val normal = Normal.create(v1.plus(v2).plus(v3))
         return normal.normalize()
     }
 

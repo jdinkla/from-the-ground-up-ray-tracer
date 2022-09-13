@@ -17,13 +17,13 @@ internal class RectangleTest : AnnotationSpec() {
     fun `should calculate bounding box and normal`() {
         val r = Rectangle(p0, a, b)
         r.boundingBox shouldBe BBox(Point3D.ORIGIN, Point3D(1.1, 2.2, 0.0))
-        r.normal shouldBe Normal((a cross b).normalize())
+        r.normal shouldBe Normal.create((a cross b).normalize())
     }
 
     @Test
     fun `should calculate bounding box and normal when inverted`() {
         val r = Rectangle(p0, a, b, true)
         r.boundingBox shouldBe BBox(Point3D.ORIGIN, Point3D(1.1, 2.2, 0.0))
-        r.normal shouldBe Normal((b cross a).normalize())
+        r.normal shouldBe Normal.create((b cross a).normalize())
     }
 }

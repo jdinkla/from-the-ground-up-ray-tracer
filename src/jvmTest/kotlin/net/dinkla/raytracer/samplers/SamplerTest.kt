@@ -46,7 +46,6 @@ class SamplerTest : AnnotationSpec() {
             p.y shouldBeLessThan 1.0
             p.z shouldBeGreaterThanOrEqual 0.0
             p.z shouldBeLessThan 1.0
-            p.length() shouldBeApprox 1.0
         }
     }
 
@@ -61,7 +60,6 @@ class SamplerTest : AnnotationSpec() {
             p.y shouldBeLessThan 1.0
             p.z shouldBeGreaterThanOrEqual -1.0
             p.z shouldBeLessThan 1.0
-            p.length() shouldBeApprox 1.0
         }
     }
 }

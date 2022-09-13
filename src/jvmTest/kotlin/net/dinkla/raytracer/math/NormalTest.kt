@@ -11,12 +11,11 @@ internal class NormalTest : AnnotationSpec()  {
     private val d = 2.0
 
     private val n = Normal(x, y, z)
-    private val e = n as Element3D
     private val v = Vector3D(x, y, z)
 
     @Test
     fun `construct from integers`() {
-        Normal(1.0, 2.0, 3.0) shouldBe e
+        Normal(1.0, 2.0, 3.0) shouldBe n
     }
 
     @Test
@@ -28,7 +27,7 @@ internal class NormalTest : AnnotationSpec()  {
 
     @Test
     fun `construct from vector`() {
-        val n = Normal(v)
+        val n = Normal.create(v)
         val l = v.length()
         n.x shouldBe x/l
         n.y shouldBe y/l
@@ -40,8 +39,8 @@ internal class NormalTest : AnnotationSpec()  {
         val p0 = Point3D(x, y, z)
         val p1 = Point3D(y, z, x)
         val p2 = Point3D(z, x, y)
-        val n = Normal(p0, p1, p2)
-        val n2 = Normal(((p1 - p0) cross (p2 - p0)).normalize())
+        val n = Normal.create(p0, p1, p2)
+        val n2 = Normal.create(((p1 - p0) cross (p2 - p0)).normalize())
         n shouldBe n2
     }
 
@@ -69,5 +68,10 @@ internal class NormalTest : AnnotationSpec()  {
     @Test
     fun negate() {
         -n shouldBe Normal(-x, -y, -z)
+    }
+
+    @Test
+    fun toVector3D() {
+        n.toVector3D() shouldBe v
     }
 }

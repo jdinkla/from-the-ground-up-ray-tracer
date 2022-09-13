@@ -24,7 +24,7 @@ open class Rectangle : GeometricObject {
         } else {
             a cross b
         }
-        normal = Normal(v.normalize())
+        normal = Normal.create(v.normalize())
         boundingBox = calcBoundingBox()
     }
 

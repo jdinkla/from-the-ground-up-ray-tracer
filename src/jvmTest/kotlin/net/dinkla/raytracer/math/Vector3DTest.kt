@@ -8,7 +8,6 @@ internal class Vector3DTest : AnnotationSpec() {
     private val v0 = Vector3D(0.0, 0.0, 0.0)
     private val v = Vector3D(2.0, 3.0, 5.0)
     private val w = Vector3D(-2.0, -3.0, -5.0)
-    private val el: Element3D = v
 
     private val a = 3.0
     private val b = 5.0
@@ -26,8 +25,8 @@ internal class Vector3DTest : AnnotationSpec() {
     }
 
     @Test
-    fun `construct from Element3D`() {
-        Vector3D(el) shouldBe v
+    fun `construct from Point3D`() {
+        Vector3D(Point3D(a, b, c)) shouldBe v1
     }
 
     @Test

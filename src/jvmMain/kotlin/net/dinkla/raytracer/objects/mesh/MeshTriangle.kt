@@ -112,7 +112,7 @@ open class MeshTriangle : GeometricObject {
         val p0 = mesh.vertices[index0]
         val p1 = mesh.vertices[index1]
         val p2 = mesh.vertices[index2]
-        normal = Normal((p1 - p0) cross (p2 - p0).normalize())
+        normal = Normal.create((p1 - p0) cross (p2 - p0).normalize())
         if (reverseNormal) {
             normal = -normal!!
         }

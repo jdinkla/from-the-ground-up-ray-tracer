@@ -22,7 +22,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
     }
 
     override fun getDirection(sr: Shade): Vector3D {
-        w = Vector3D(sr.normal)
+        w = sr.normal.toVector3D()
         v = Vector3D(0.0034, 1.0, 0.0071).cross(w)
         u = v cross w
         val sp = sampler!!.sampleHemisphere()

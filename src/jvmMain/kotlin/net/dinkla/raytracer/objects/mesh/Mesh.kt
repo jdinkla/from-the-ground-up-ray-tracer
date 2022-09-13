@@ -30,7 +30,7 @@ class Mesh {
             for (i in vertexFaces[index]!!) {
                 val n = objects[i].normal
                 if (null != n) {
-                    normal = Normal(normal.plus(n))
+                    normal = Normal.create(normal.plus(n))
                 }
             }
 

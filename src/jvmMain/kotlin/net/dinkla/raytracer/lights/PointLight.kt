@@ -18,7 +18,7 @@ class PointLight(val location: Point3D = Point3D.ORIGIN,
 
     override fun L(world: World, sr: Shade): Color = color * ls
 
-    override fun getDirection(sr: Shade): Vector3D = Vector3D(location - (Vector3D(sr.hitPoint))).normalize()
+    override fun getDirection(sr: Shade): Vector3D = Vector3D(location - Vector3D(sr.hitPoint)).normalize()
 
     override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
         val d = (location - ray.origin).length()

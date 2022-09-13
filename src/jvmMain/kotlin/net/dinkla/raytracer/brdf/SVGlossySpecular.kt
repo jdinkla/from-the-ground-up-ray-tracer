@@ -17,7 +17,7 @@ class SVGlossySpecular(
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)
         val nDotWi = wi dot sr.normal
-        val r = (wi * -1.0) + Vector3D(sr.normal) * (2 * nDotWi)
+        val r = (wi * -1.0) + sr.normal.toVector3D() * (2 * nDotWi)
         val rDotWo = r dot wo
         return if (rDotWo > 0) {
             cs!!.getColor(sr) * (ks * rDotWo.pow(exp))
@@ -33,7 +33,7 @@ class SVGlossySpecular(
 
         val nDotWo = wo dot sr.normal
 
-        val w = wo * -1.0 + Vector3D(sr.normal) * (2.0 * nDotWo)
+        val w = wo * -1.0 + sr.normal.toVector3D() * (2.0 * nDotWo)
         val u = (Vector3D(0.00424, 1.0, 0.00764) cross w).normalize()
         val v = u cross w
 

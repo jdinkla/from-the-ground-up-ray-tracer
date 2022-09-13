@@ -117,9 +117,9 @@ object GridUtilities {
                     cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle = SmoothTriangle(v0, v1, v2)
-            triangle.n0 = Normal(Vector3D(v0))
-            triangle.n1 = Normal(Vector3D(v1))
-            triangle.n2 = Normal(Vector3D(v2))
+            triangle.n0 = Normal.create(Vector3D(v0))
+            triangle.n1 = Normal.create(Vector3D(v1))
+            triangle.n2 = Normal.create(Vector3D(v2))
             list.add(triangle)
         }
 
@@ -139,9 +139,9 @@ object GridUtilities {
                     cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps))
 
             val triangle = SmoothTriangle(v0, v1, v2)
-            triangle.n0 = Normal(Vector3D(v0))
-            triangle.n1 = Normal(Vector3D(v1))
-            triangle.n2 = Normal(Vector3D(v2))
+            triangle.n0 = Normal.create(Vector3D(v0))
+            triangle.n1 = Normal.create(Vector3D(v1))
+            triangle.n2 = Normal.create(Vector3D(v2))
             list.add(triangle)
         }
 
@@ -166,9 +166,9 @@ object GridUtilities {
                         cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps))
 
                 val triangle = SmoothTriangle(v0, v1, v2)
-                triangle.n0 = Normal(Vector3D(v0))
-                triangle.n1 = Normal(Vector3D(v1))
-                triangle.n2 = Normal(Vector3D(v2))
+                triangle.n0 = Normal.create(Vector3D(v0))
+                triangle.n1 = Normal.create(Vector3D(v1))
+                triangle.n2 = Normal.create(Vector3D(v2))
                 list.add(triangle)
 
 
@@ -189,9 +189,9 @@ object GridUtilities {
                         cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps))
 
                 val triangle2 = SmoothTriangle(v0, v1, v2)
-                triangle2.n0 = Normal(Vector3D(v0))
-                triangle2.n1 = Normal(Vector3D(v1))
-                triangle2.n2 = Normal(Vector3D(v2))
+                triangle2.n0 = Normal.create(Vector3D(v0))
+                triangle2.n1 = Normal.create(Vector3D(v1))
+                triangle2.n2 = Normal.create(Vector3D(v2))
                 list.add(triangle2)
             }
             k++

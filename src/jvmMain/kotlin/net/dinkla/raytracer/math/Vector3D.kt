@@ -1,8 +1,10 @@
 package net.dinkla.raytracer.math
 
-class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
+import kotlin.math.sqrt
 
-    constructor(e: Element3D) : this(e.x, e.y, e.z)
+data class Vector3D(val x: Double, val y: Double, val z: Double) {
+
+    constructor(p: Point3D) : this (p.x, p.y, p.z)
 
     operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z)
 
@@ -27,6 +29,12 @@ class Vector3D(x: Double, y: Double, z: Double) : Element3D(x, y, z) {
     operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
     fun volume(): Double = x * y * z
+
+    fun sqrLength(): Double = x * x + y * y + z * z
+
+    fun length(): Double = sqrt(sqrLength())
+
+    override fun toString(): String = "($x,$y,$z)"
 
     companion object {
         val ZERO = Vector3D(0.0, 0.0, 0.0)

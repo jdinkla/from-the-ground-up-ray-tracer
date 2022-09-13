@@ -48,7 +48,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting from inside
                     if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.times(-1.0))
+                        sr.normal = Normal.create(sr.normal.times(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true
@@ -63,7 +63,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
                     sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
                     // test for hitting inside surface
                     if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
-                        sr.normal = Normal(sr.normal.times(-1.0))
+                        sr.normal = Normal.create(sr.normal.times(-1.0))
                     }
                     //sr.localHitPoint = ray.linear(tmin.getValue());
                     return true

@@ -33,13 +33,13 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
             var t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal((ray.direction * t + temp) * (1.0 / radius))
+                sr.normal = Normal.create((ray.direction * t + temp) * (1.0 / radius))
                 return true
             }
             t = (-b + e) / denom
             if (t > MathUtils.K_EPSILON) {
                 sr.t = t
-                sr.normal = Normal(((ray.direction * t) + temp) * (1.0 / radius))
+                sr.normal = Normal.create(((ray.direction * t) + temp) * (1.0 / radius))
                 return true
             }
         }
