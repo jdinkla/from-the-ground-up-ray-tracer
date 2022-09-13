@@ -1,18 +1,16 @@
 package net.dinkla.raytracer.samplers
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.doubles.shouldBeLessThan
-import net.dinkla.raytracer.shouldBeApprox
 import kotlin.math.sqrt
 
-class SamplerTest : AnnotationSpec() {
+class SamplerTest : StringSpec({
 
-    private val NUM = 1000
-    private var s = Sampler(PureRandom, 100, 10)
+    val NUM = 1000
+    val s = Sampler(PureRandom, 100, 10)
 
-    @Test
-    fun testSampleUnitSquare() {
+    "testSampleUnitSquare" {
         (1..NUM).forEach {
             val p = s.sampleUnitSquare()
             p.x shouldBeGreaterThanOrEqual 0.0
@@ -22,8 +20,7 @@ class SamplerTest : AnnotationSpec() {
         }
     }
 
-    @Test
-    fun testSampleUnitDisk() {
+    "testSampleUnitDisk" {
         s.mapSamplesToUnitDisk()
         (1..NUM).forEach {
             val p = s.sampleUnitDisk()
@@ -35,8 +32,7 @@ class SamplerTest : AnnotationSpec() {
         }
     }
 
-    @Test
-    fun testSampleHemisphere() {
+    "testSampleHemisphere" {
         s.mapSamplesToHemiSphere(1.0)
         (1..NUM).forEach {
             val p = s.sampleHemisphere()
@@ -49,8 +45,7 @@ class SamplerTest : AnnotationSpec() {
         }
     }
 
-    @Test
-    fun testSampleSphere() {
+    "testSampleSphere" {
         s.mapSamplesToSphere()
         (1..NUM).forEach {
             val p = s.sampleSphere()
@@ -62,4 +57,4 @@ class SamplerTest : AnnotationSpec() {
             p.z shouldBeLessThan 1.0
         }
     }
-}
+})

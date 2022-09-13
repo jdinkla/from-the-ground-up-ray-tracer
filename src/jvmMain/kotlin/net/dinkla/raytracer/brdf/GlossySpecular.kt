@@ -12,7 +12,8 @@ class GlossySpecular(
         var ks: Double = 0.25,
         var cs: Color = Color.WHITE,
         var exp: Double = 5.0,
-        val sampler: Sampler = Sampler()) : BRDF {
+        val sampler: Sampler = Sampler()
+) : BRDF {
 
     override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
         val nDotWi = wi dot sr.normal
