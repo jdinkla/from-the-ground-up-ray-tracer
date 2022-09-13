@@ -4,7 +4,6 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.World
 
 class GlossyReflector : Phong() {

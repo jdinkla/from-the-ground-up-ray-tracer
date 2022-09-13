@@ -10,7 +10,7 @@ open class Camera(private val lens: AbstractLens) {
     private var eye: Point3D = Point3D(0.0, 10.0, 0.0)
     private var lookAt: Point3D = Point3D.ORIGIN
     private var up: Vector3D = Vector3D.UP
-    var uvw: Basis = Basis(eye, lookAt, up)
+    var uvw: Basis = Basis.create(eye, lookAt, up)
         private set
 
     init {
@@ -25,7 +25,7 @@ open class Camera(private val lens: AbstractLens) {
     }
 
     private fun computeUVW() {
-        uvw = Basis(eye, lookAt, up)
+        uvw = Basis.create(eye, lookAt, up)
         lens.eye = eye
         lens.uvw = uvw
     }

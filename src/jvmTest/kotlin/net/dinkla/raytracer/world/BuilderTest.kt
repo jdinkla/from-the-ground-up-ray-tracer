@@ -36,7 +36,7 @@ class BuilderTest : AnnotationSpec() {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = up)
         }
         world.camera shouldNotBe null
-        world.camera?.uvw shouldBe Basis(eye, lookAt, up)
+        world.camera?.uvw shouldBe Basis.create(eye, lookAt, up)
     }
 
     @Test

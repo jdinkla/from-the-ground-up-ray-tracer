@@ -18,7 +18,7 @@ object MathUtils {
         return Point3D(x, y, z)
     }
 
-    internal fun min(x: Double, y: Double, z: Double): Double = if (x < y) {
+    fun min(x: Double, y: Double, z: Double): Double = if (x < y) {
         if (x < z) x else z
     } else {
         if (y < z) y else z
@@ -31,7 +31,7 @@ object MathUtils {
         return Point3D(x, y, z)
     }
 
-    internal fun max(x: Double, y: Double, z: Double): Double = if (x > y) {
+    fun max(x: Double, y: Double, z: Double): Double = if (x > y) {
         if (x > z) x else z
     } else {
         if (y > z) y else z
