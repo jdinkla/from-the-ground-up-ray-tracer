@@ -68,6 +68,5 @@ internal class Element3DTest : AnnotationSpec() {
         Element3D(0.0, y, z) shouldNotBe e
         Element3D(x, 0.0, z) shouldNotBe e
         Element3D(x, y, 0.0) shouldNotBe e
-        Element2D(x, y) shouldNotBe e
     }
 }

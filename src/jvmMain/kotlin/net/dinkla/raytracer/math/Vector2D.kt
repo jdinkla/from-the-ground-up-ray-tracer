@@ -1,6 +1,8 @@
 package net.dinkla.raytracer.math
 
-class Vector2D(x: Double, y: Double) : Element2D(x, y) {
+import kotlin.math.sqrt
+
+data class Vector2D(val x: Double, val y: Double) {
 
     operator fun plus(v: Vector2D) = Vector2D(x + v.x, y + v.y)
 
@@ -14,11 +16,14 @@ class Vector2D(x: Double, y: Double) : Element2D(x, y) {
 
     operator fun unaryMinus() = Vector2D(-x, -y)
 
+    fun length(): Double = sqrt(x * x + y * y)
+
     fun normalize(): Vector2D {
         val l = length()
         return Vector2D(x / l, y / l)
     }
 
+    override fun toString(): String = "($x,$y)"
 }
 
 operator fun Double.times(v: Vector2D) = Vector2D(this * v.x, this * v.y)
