@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.math
+package net.dinkla.raytracer.utilities
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContainExactly

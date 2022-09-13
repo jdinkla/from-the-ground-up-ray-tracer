@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.interfaces.Random
+import net.dinkla.raytracer.utilities.Random
 
 object NRooks : IGenerator {
 

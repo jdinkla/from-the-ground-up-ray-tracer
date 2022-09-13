@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.shouldBe
-import net.dinkla.raytracer.math.Histogram
+import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.math.Point2D
 
 abstract class AbstractGeneratorTest : AnnotationSpec() {

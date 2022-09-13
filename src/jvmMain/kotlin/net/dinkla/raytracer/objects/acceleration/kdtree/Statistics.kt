@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree
 
-import net.dinkla.raytracer.math.Histogram
+import net.dinkla.raytracer.utilities.Histogram
 
 class Statistics {
     internal var numObjects: Int = 0

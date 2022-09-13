@@ -1,10 +1,8 @@
-package net.dinkla.raytracer.interfaces
-
-import java.util.Random
+package net.dinkla.raytracer.utilities
 
 object Random {
 
-    private val r = Random()
+    private val r = kotlin.random.Random
 
     fun int(high: Int): Int = r.nextInt(high)
 
@@ -13,10 +11,6 @@ object Random {
     fun double(): Double = r.nextDouble()
 
     fun double(low: Double, high: Double): Double = r.nextDouble() * (high - low) + low
-
-    fun setRandSeed(seed: Long) {
-        r.setSeed(seed)
-    }
 
     fun randomShuffle(ls: MutableList<Int>) {
         val n = ls.size

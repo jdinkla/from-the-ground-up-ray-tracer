@@ -1,20 +1,18 @@
-package net.dinkla.raytracer.math
+package net.dinkla.raytracer.utilities
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
-import net.dinkla.raytracer.interfaces.Random
 
-class RandomTest : AnnotationSpec() {
+class RandomTest : StringSpec({
 
-    private val NUM = 1000
+    val NUM = 1000
 
-    @Test
-    fun randInt() {
+    "randInt" {
         for (i in 0 until NUM) {
             val r = Random.int(10)
             r shouldBeGreaterThanOrEqual 0
@@ -28,8 +26,7 @@ class RandomTest : AnnotationSpec() {
         }
     }
 
-    @Test
-    fun randFloat() {
+    "randFloat" {
         for (i in 0 until NUM) {
             val r = Random.double()
             r shouldBeGreaterThanOrEqual 0.0
@@ -37,8 +34,7 @@ class RandomTest : AnnotationSpec() {
         }
     }
 
-    @Test
-    fun randomShuffle() {
+    "randomShuffle" {
         val ls = ArrayList<Int>()
         ls.size shouldBe 0
 
@@ -69,4 +65,4 @@ class RandomTest : AnnotationSpec() {
         i2.keys().size shouldBe 3
     }
 
-}
+})

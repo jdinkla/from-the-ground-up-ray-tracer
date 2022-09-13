@@ -2,7 +2,7 @@ package net.dinkla.raytracer.textures
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Histogram
+import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.utilities.Resolution
 
 import javax.imageio.ImageIO

@@ -3,16 +3,16 @@ package net.dinkla.raytracer.samplers
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.interfaces.Random
+import net.dinkla.raytracer.utilities.Random
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Sampler(
-        private var sampler: IGenerator = Jittered,
-        private var numSamples: Int = 100,
-        private var numSets: Int = 10) {
+    private var sampler: IGenerator = Jittered,
+    private var numSamples: Int = 100,
+    private var numSets: Int = 10) {
 
     private var shuffledIndices: ArrayList<Int>
     private var samples: ArrayList<Point2D>

@@ -1,11 +1,11 @@
-package net.dinkla.raytracer.math
+package net.dinkla.raytracer.utilities
 
 class Histogram {
 
-    private var counts: MutableMap<Int, Int> = HashMap()
+    private var counts = mutableMapOf<Int, Int>()
 
     fun add(key: Int) {
-        counts.merge(key, 1) { a, b -> a + b }
+        counts[key] = counts.getOrElse(key) { 0 } + 1
     }
 
     operator fun get(key: Int): Int = counts[key] ?: 0
@@ -13,15 +13,15 @@ class Histogram {
     fun keys(): Set<Int> = counts.keys
 
     fun println() {
-        var min: Int = Integer.MAX_VALUE
-        var max: Int = Integer.MIN_VALUE
+        var min: Int = Int.MAX_VALUE
+        var max: Int = Int.MIN_VALUE
         for (k in counts.keys) {
             val v = get(k)
             if (v > max) max = v
             if (v < min) min = v
             println("k=$k, v=$v")
         }
-        if (min != Integer.MAX_VALUE || max != Integer.MIN_VALUE) {
+        if (min != Int.MAX_VALUE || max != Int.MIN_VALUE) {
             println("min=$min, max=$max")
         }
     }
