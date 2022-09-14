@@ -4,11 +4,11 @@ import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.interfaces.hash
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 open class Phong(color: Color = Color.WHITE,
                  ka: Double = 0.25,
@@ -45,7 +45,7 @@ open class Phong(color: Color = Color.WHITE,
             specularBRDF.exp = v
         }
 
-    override fun shade(world: World, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -70,7 +70,7 @@ open class Phong(color: Color = Color.WHITE,
     }
 
 
-    override fun areaLightShade(world: World, sr: Shade): Color {
+    override fun areaLightShade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()

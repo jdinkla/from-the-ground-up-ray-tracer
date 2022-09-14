@@ -4,12 +4,12 @@ import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.interfaces.hash
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 
@@ -42,7 +42,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         this.kd = kd
     }
 
-    override fun shade(world: World, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -80,7 +80,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
 
 	return (L);
     */
-    override fun areaLightShade(world: World, sr: Shade): Color {
+    override fun areaLightShade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -112,7 +112,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         return L
     }
 
-    protected fun getAmbientColor(world: World, sr: Shade, wo: Vector3D): Color {
+    protected fun getAmbientColor(world: IWorld, sr: Shade, wo: Vector3D): Color {
         val c1 = ambientBRDF.rho(sr, wo)
         val c2 = world.ambientLight.L(world, sr)
         return c1 * c2

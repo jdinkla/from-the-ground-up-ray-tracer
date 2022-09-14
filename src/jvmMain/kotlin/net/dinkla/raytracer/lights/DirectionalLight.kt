@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.lights
 
-import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 /**
  * TODO: DirectionalLight Light implementieren
@@ -26,11 +26,11 @@ class DirectionalLight(override val shadows: Boolean = true) : Light {
         negatedDirection = -Vector3D.DOWN
     }
 
-    override fun L(world: World, sr: Shade): Color = color * ls
+    override fun L(world: IWorld, sr: Shade): Color = color * ls
 
     override fun getDirection(sr: Shade): Vector3D = negatedDirection
 
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
+    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean {
         return world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
     }
 

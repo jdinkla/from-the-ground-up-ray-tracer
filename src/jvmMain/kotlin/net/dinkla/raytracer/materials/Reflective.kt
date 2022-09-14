@@ -3,9 +3,9 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.interfaces.hash
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.world.IWorld
 
 class Reflective(color: Color = Color.WHITE,
                  ka: Double = 0.25,
@@ -25,7 +25,7 @@ class Reflective(color: Color = Color.WHITE,
             reflectiveBRDF.cr = v
         }
 
-    override fun shade(world: World, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: Shade): Color {
         val L = super.shade(world, sr)
         val wo = -sr.ray.direction
         val sample = reflectiveBRDF.sampleF(sr, wo)

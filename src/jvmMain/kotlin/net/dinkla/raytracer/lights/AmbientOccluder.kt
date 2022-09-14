@@ -6,7 +6,7 @@ import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 class AmbientOccluder(
     val minAmount: Color,
@@ -15,7 +15,7 @@ class AmbientOccluder(
     override val shadows: Boolean = true
 ) : Ambient() {
 
-    override fun L(world: World, sr: Shade): Color {
+    override fun L(world: IWorld, sr: Shade): Color {
         val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize() // jitter up vector in case normal is vertical
         val u = v cross w
@@ -41,6 +41,6 @@ class AmbientOccluder(
         return Basis(u, v, w) * p
     }
 
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean =
+    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean =
             world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
 }

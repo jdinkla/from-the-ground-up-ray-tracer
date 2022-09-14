@@ -1,8 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="from-the-ground-up-ray-tracer-js-1.0">
     <output-path>$PROJECT_DIR$/build/libs</output-path>
-    <root id="archive" name="from-the-ground-up-ray-tracer-js-1.0.jar">
-      <element id="module-output" name="from-the-ground-up-ray-tracer.jsMain" />
-    </root>
+    <root id="archive" name="from-the-ground-up-ray-tracer-js-1.0.jar" />
   </artifact>
 </component>

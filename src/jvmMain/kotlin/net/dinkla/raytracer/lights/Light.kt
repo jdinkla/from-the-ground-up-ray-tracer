@@ -4,11 +4,11 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 interface Light {
     val shadows: Boolean
-    fun L(world: World, sr: Shade): Color
+    fun L(world: IWorld, sr: Shade): Color
     fun getDirection(sr: Shade): Vector3D
-    fun inShadow(world: World, ray: Ray, sr: Shade): Boolean
+    fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean
 }

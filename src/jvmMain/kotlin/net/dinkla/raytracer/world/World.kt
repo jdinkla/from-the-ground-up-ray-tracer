@@ -15,18 +15,19 @@ import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.interfaces.Counter
 
-class World(val id: String, val viewPlane: ViewPlane) {
+class World(val id: String, val viewPlane: ViewPlane) : IWorld {
+
+    override var lights : List<Light> = listOf()
+    override var tracer: Tracer? = null
+    override var ambientLight: Ambient = Ambient()
+    override var backgroundColor: Color = Color.BLACK
 
     val compound: Compound = Compound()
-    var backgroundColor: Color = Color.BLACK
-    var lights : List<Light> = listOf()
-    var ambientLight: Ambient = Ambient()
     var materials : Map<String, IMaterial> = mapOf()
-    var objects : List<GeometricObject> = listOf()
 
+    var objects : List<GeometricObject> = listOf()
     // tmp
     var renderer: Renderer? = null
-    var tracer: Tracer? = null
     var camera: Camera? = null
 
     fun hit(ray: Ray): Shade {
@@ -44,7 +45,7 @@ class World(val id: String, val viewPlane: ViewPlane) {
         return compound.shadowHit(ray, tmin)
     }
 
-    fun inShadow(ray: Ray, sr: Shade, d: Double): Boolean {
+    override fun inShadow(ray: Ray, sr: Shade, d: Double): Boolean {
         Counter.count("World.inShadow")
         return compound.inShadow(ray, sr, d)
     }

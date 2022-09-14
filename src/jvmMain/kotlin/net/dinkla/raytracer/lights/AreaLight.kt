@@ -7,7 +7,7 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 @Suppress("TooManyFunctions")
 class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
@@ -28,7 +28,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
             get() = (-lightNormal!!) dot (wi!!)
     }
 
-    fun L(world: World, sr: Shade, sample: Sample): Color {
+    fun L(world: IWorld, sr: Shade, sample: Sample): Color {
         return if (sample.nDotD > 0) {
             sr.material?.getLe(sr) ?: world.backgroundColor
         } else {
@@ -36,7 +36,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         }
     }
 
-    fun inShadow(world: World, ray: Ray, sr: Shade, sample: Sample): Boolean {
+    fun inShadow(world: IWorld, ray: Ray, sr: Shade, sample: Sample): Boolean {
         val d = sample.samplePoint!!.minus(ray.origin).dot(ray.direction)
         return world.inShadow(ray, sr, d)
     }
@@ -75,7 +75,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         throw RuntimeException("NLU")
     }
 
-    override fun L(world: World, sr: Shade): Color {
+    override fun L(world: IWorld, sr: Shade): Color {
         throw RuntimeException("NLU")
     }
 
@@ -83,7 +83,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         throw RuntimeException("NLU")
     }
 
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
+    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean {
         throw RuntimeException("NLU")
     }
 

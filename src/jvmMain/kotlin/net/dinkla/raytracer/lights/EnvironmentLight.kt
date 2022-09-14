@@ -6,7 +6,7 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 class EnvironmentLight(override val shadows: Boolean = true) : Light {
 
@@ -17,7 +17,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
     var w: Vector3D = Vector3D.ZERO
     var wi: Vector3D = Vector3D.ZERO
 
-    override fun inShadow(world: World, ray: Ray, sr: Shade): Boolean {
+    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean {
         return world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
     }
 
@@ -30,7 +30,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
         return wi
     }
 
-    override fun L(world: World, sr: Shade): Color {
+    override fun L(world: IWorld, sr: Shade): Color {
         return material!!.getLe(sr)
     }
 }

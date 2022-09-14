@@ -8,6 +8,7 @@ import net.dinkla.raytracer.samplers.Sampler
 import kotlin.math.pow
 import net.dinkla.raytracer.interfaces.hash
 
+// TODO data
 class GlossySpecular(
         var ks: Double = 0.25,
         var cs: Color = Color.WHITE,

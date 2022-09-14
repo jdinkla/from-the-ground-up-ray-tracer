@@ -78,7 +78,7 @@ object GeometricObjectUtilities {
 
     fun create(objects: ArrayList<GeometricObject>): BBox {
         if (objects.size > 0) {
-            val (p0, p1) = GeometricObjectUtilities.minMaxCoordinates(objects)
+            val (p0, p1) = minMaxCoordinates(objects)
             return BBox(p0, p1)
         } else {
             return BBox()

@@ -1,13 +1,14 @@
 package net.dinkla.raytracer.materials
 
 import net.dinkla.raytracer.brdf.SVLambertian
-import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.textures.Texture
+import net.dinkla.raytracer.world.IWorld
 import net.dinkla.raytracer.world.World
 
 open class SVMatte : IMaterial {
@@ -44,7 +45,7 @@ open class SVMatte : IMaterial {
         diffuseBrdf.cd = cd
     }
 
-    override fun shade(world: World, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -67,7 +68,7 @@ open class SVMatte : IMaterial {
         return L
     }
 
-    override fun areaLightShade(world: World, sr: Shade): Color {
+    override fun areaLightShade(world: IWorld, sr: Shade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -99,7 +100,7 @@ open class SVMatte : IMaterial {
         return L
     }
 
-    protected fun getAmbientColor(world: World, sr: Shade, wo: Vector3D): Color {
+    protected fun getAmbientColor(world: IWorld, sr: Shade, wo: Vector3D): Color {
         val c1 = ambientBrdf.rho(sr, wo)
         val c2 = world.ambientLight.L(world, sr)
         return c1.times(c2)
