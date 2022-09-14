@@ -2,10 +2,16 @@ package net.dinkla.raytracer.math
 
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.MathUtils.isZero
-import java.lang.Math.cbrt
 import kotlin.math.acos
 import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sqrt
+
+private fun cbrt(d: Double) = if (d < 0.0) {
+    - (-d).pow(1.0 / 3.0)
+} else {
+    d.pow(1.0 / 3.0)
+}
 
 object Polynomials {
 
@@ -209,6 +215,63 @@ object Polynomials {
 //        return num
 //    }
 
+    fun solveCubic(c: DoubleArray, s: DoubleArray): Int {
+        assert(c.size == 4)
+        assert(s.size == 3)
+
+        val num: Int
+        val A: Double = c[2] / c[3]
+        val B: Double = c[1] / c[3]
+        val C: Double = c[0] / c[3]
+
+        /* normal form: x^3 + Ax^2 + Bx + C = 0 */
+
+        /*  substitute x = y - A/3 to eliminate quadric term: x^3 +px + q = 0 */
+        val sq_A = A * A
+        val p = 1.0 / 3 * (-1.0 / 3 * sq_A + B)
+        val q = 1.0 / 2 * ((2.0 / 27) * A * sq_A - (1.0 / 3) * A * B + C)
+
+        /* use Cardano's formula */
+        val cb_p = p * p * p
+        val D = q * q + cb_p
+
+        if (isZero(D)) {
+            if (isZero(q)) { /* one triple solution */
+                s[0] = 0.0
+                num = 1
+            } else { /* one single and one double solution */
+                val u = cbrt(-q)
+                s[0] = 2.0 * u
+                s[1] = -u
+                num = 2
+            }
+        } else if (D < 0) { /* Casus irreducibilis: three real solutions */
+            val phi = 1.0 / 3.0 * acos(-q / sqrt(-cb_p))
+            val t = 2 * sqrt(-p)
+
+            s[0] = t * cos(phi)
+            s[1] = -t * cos(phi + PI / 3.0)
+            s[2] = -t * cos(phi - PI / 3.0)
+
+            num = 3
+        } else { /* one real solution */
+            val sqrt_D = sqrt(D)
+            val u = cbrt(sqrt_D - q)
+            val v = -cbrt(sqrt_D + q)
+            s[0] = u + v
+            num = 1
+        }
+
+        /* resubstitute */
+        val sub = 1.0 / 3 * A
+        var i = 0
+        while (i < num) {
+            s[i] -= sub
+            ++i
+        }
+        return num
+    }
+
     fun solveQuadric(c: DoubleArray, s: DoubleArray): Int {
         assert(c.size == 3)
         assert(s.size == 2)
@@ -223,12 +286,14 @@ object Polynomials {
                 s[0] = -p
                 1
             }
+
             D > 0 -> {
                 val sqrtD = sqrt(D)
                 s[0] = sqrtD - p
                 s[1] = -sqrtD - p
                 2
             }
+
             else -> {
                 0
             }
@@ -321,64 +386,6 @@ object Polynomials {
 
         /* resubstitute */
         val sub = 1.0 / 4 * A
-        var i = 0
-        while (i < num) {
-            s[i] -= sub
-            ++i
-        }
-        return num
-    }
-
-    // TODO cbrt = a.pow(1.0/3.0)
-    fun solveCubic(c: DoubleArray, s: DoubleArray): Int {
-        assert(c.size == 4)
-        assert(s.size == 3)
-
-        val num: Int
-        val A: Double = c[2] / c[3]
-        val B: Double = c[1] / c[3]
-        val C: Double = c[0] / c[3]
-
-        /* normal form: x^3 + Ax^2 + Bx + C = 0 */
-
-        /*  substitute x = y - A/3 to eliminate quadric term: x^3 +px + q = 0 */
-        val sq_A = A * A
-        val p = 1.0 / 3 * (-1.0 / 3 * sq_A + B)
-        val q = 1.0 / 2 * ((2.0 / 27) * A * sq_A - (1.0 / 3) * A * B + C)
-
-        /* use Cardano's formula */
-        val cb_p = p * p * p
-        val D = q * q + cb_p
-
-        if (isZero(D)) {
-            if (isZero(q)) { /* one triple solution */
-                s[0] = 0.0
-                num = 1
-            } else { /* one single and one double solution */
-                val u = cbrt(-q)
-                s[0] = 2.0 * u
-                s[1] = -u
-                num = 2
-            }
-        } else if (D < 0) { /* Casus irreducibilis: three real solutions */
-            val phi = 1.0 / 3.0 * acos(-q / sqrt(-cb_p))
-            val t = 2 * sqrt(-p)
-
-            s[0] = t * cos(phi)
-            s[1] = -t * cos(phi + PI / 3.0)
-            s[2] = -t * cos(phi - PI / 3.0)
-
-            num = 3
-        } else { /* one real solution */
-            val sqrt_D = sqrt(D)
-            val u = cbrt(sqrt_D - q)
-            val v = -cbrt(sqrt_D + q)
-            s[0] = u + v
-            num = 1
-        }
-
-        /* resubstitute */
-        val sub = 1.0 / 3 * A
         var i = 0
         while (i < num) {
             s[i] -= sub

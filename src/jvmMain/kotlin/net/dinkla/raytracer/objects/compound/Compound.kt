@@ -4,11 +4,11 @@ import net.dinkla.raytracer.hits.*
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.math.GeometricObjectUtilities
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.IGeometricObject
+import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.world.World
 
 open class Compound : GeometricObject() {

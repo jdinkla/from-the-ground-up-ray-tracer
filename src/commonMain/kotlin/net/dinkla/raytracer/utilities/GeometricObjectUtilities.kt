@@ -1,5 +1,8 @@
-package net.dinkla.raytracer.math
+package net.dinkla.raytracer.utilities
 
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.IGeometricObject
 
 object GeometricObjectUtilities {
