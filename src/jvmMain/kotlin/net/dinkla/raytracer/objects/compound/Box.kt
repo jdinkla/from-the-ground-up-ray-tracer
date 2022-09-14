@@ -5,7 +5,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 
 class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : Compound() {
 

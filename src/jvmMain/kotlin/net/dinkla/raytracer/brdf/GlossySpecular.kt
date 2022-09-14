@@ -6,7 +6,7 @@ import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import kotlin.math.pow
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 
 // TODO data
 class GlossySpecular(

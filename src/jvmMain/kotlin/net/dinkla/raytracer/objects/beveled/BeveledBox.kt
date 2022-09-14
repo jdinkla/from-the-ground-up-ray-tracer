@@ -9,7 +9,7 @@ import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.math.Axis
 
 class BeveledBox(

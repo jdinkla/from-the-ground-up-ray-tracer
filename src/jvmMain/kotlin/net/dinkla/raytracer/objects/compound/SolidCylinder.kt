@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.OpenCylinder
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 
 class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compound() {
 

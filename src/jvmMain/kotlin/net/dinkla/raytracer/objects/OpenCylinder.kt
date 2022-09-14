@@ -4,7 +4,7 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt

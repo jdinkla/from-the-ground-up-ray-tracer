@@ -2,13 +2,12 @@ package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.IWorld
-import net.dinkla.raytracer.world.World
 
 class PointLight(val location: Point3D = Point3D.ORIGIN,
                  val ls: Double = 1.0,

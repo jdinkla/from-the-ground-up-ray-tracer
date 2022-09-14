@@ -5,7 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Vector3D
 import kotlin.math.abs
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 
 class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF {
 

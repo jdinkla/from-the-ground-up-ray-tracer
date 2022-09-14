@@ -4,7 +4,7 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 
 open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : GeometricObject() {
 

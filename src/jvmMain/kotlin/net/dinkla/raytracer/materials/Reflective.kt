@@ -3,7 +3,7 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.PerfectSpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.world.IWorld
 

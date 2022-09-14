@@ -4,7 +4,7 @@ import net.dinkla.raytracer.brdf.Lambertian
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.interfaces.hash
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
