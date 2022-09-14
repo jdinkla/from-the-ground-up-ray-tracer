@@ -5,11 +5,7 @@ import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Logger
-import net.dinkla.raytracer.world.WorldDefinition
 import kotlin.system.exitProcess
-
-object CommandLineUi {
-}
 
 fun main(args: Array<String>) {
     Counter.PAUSE = true
@@ -23,12 +19,13 @@ fun main(args: Array<String>) {
 
     Logger.info("Rendering $fileNameIn to $fileNameOut")
 
-    val worldDefinition: WorldDefinition? = worldDef(fileNameIn)
+    val worldDefinition = worldDef(fileNameIn)
     if (null == worldDefinition) {
         Logger.warn("WorldDef $fileNameIn is not known")
         exitProcess(1)
     } else {
-        Png.renderAndSave(worldDefinition, fileNameOut)
+        val (film, _) = Render.render(worldDefinition)
+        Png.save(film.image, fileNameOut)
         Counter.stats(30)
 
         println("Hits")

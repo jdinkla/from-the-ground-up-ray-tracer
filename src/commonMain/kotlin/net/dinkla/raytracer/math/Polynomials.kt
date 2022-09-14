@@ -1,19 +1,17 @@
 package net.dinkla.raytracer.math
 
-import net.dinkla.raytracer.math.MathUtils.PI
-import net.dinkla.raytracer.math.MathUtils.isZero
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-private fun cbrt(d: Double) = if (d < 0.0) {
-    - (-d).pow(1.0 / 3.0)
-} else {
-    d.pow(1.0 / 3.0)
-}
-
 object Polynomials {
+
+    private fun cbrt(d: Double) = if (d < 0.0) {
+        - (-d).pow(1.0 / 3.0)
+    } else {
+        d.pow(1.0 / 3.0)
+    }
 
 //    fun solveQuadric(c: FloatArray, s: FloatArray): Int {
 //        assert(c.size == 3)
@@ -216,8 +214,9 @@ object Polynomials {
 //    }
 
     fun solveCubic(c: DoubleArray, s: DoubleArray): Int {
-        assert(c.size == 4)
-        assert(s.size == 3)
+        if (c.size != 4 || s.size != 3) {
+            throw AssertionError()
+        }
 
         val num: Int
         val A: Double = c[2] / c[3]
@@ -235,8 +234,8 @@ object Polynomials {
         val cb_p = p * p * p
         val D = q * q + cb_p
 
-        if (isZero(D)) {
-            if (isZero(q)) { /* one triple solution */
+        if (MathUtils.isZero(D)) {
+            if (MathUtils.isZero(q)) { /* one triple solution */
                 s[0] = 0.0
                 num = 1
             } else { /* one single and one double solution */
@@ -250,8 +249,8 @@ object Polynomials {
             val t = 2 * sqrt(-p)
 
             s[0] = t * cos(phi)
-            s[1] = -t * cos(phi + PI / 3.0)
-            s[2] = -t * cos(phi - PI / 3.0)
+            s[1] = -t * cos(phi + MathUtils.PI / 3.0)
+            s[2] = -t * cos(phi - MathUtils.PI / 3.0)
 
             num = 3
         } else { /* one real solution */
@@ -273,8 +272,9 @@ object Polynomials {
     }
 
     fun solveQuadric(c: DoubleArray, s: DoubleArray): Int {
-        assert(c.size == 3)
-        assert(s.size == 2)
+        if (c.size != 3 || s.size != 2) {
+            throw AssertionError()
+        }
 
         /* normal form: x^2 + px + q = 0 */
         val p = c[1] / (2 * c[2])
@@ -282,7 +282,7 @@ object Polynomials {
         val D = p * p - q
 
         return when {
-            isZero(D) -> {
+            MathUtils.isZero(D) -> {
                 s[0] = -p
                 1
             }
@@ -301,8 +301,9 @@ object Polynomials {
     }
 
     fun solveQuartic(c: DoubleArray, s: DoubleArray): Int {
-        assert(c.size == 5)
-        assert(s.size == 4)
+        if (c.size != 5 || s.size != 4) {
+            throw AssertionError()
+        }
 
         val coeffs4 = DoubleArray(4)
         val coeffs3 = DoubleArray(3)
@@ -321,7 +322,7 @@ object Polynomials {
         val q = (1.0 / 8) * sq_A * A - (1.0 / 2) * A * B + C
         val r = (-3.0 / 256) * sq_A * sq_A + (1.0 / 16) * sq_A * B - (1.0 / 4) * A * C + D
 
-        if (isZero(r)) {
+        if (MathUtils.isZero(r)) {
             /* no absolute term: y(y^3 + py + q) = 0 */
             coeffs4[0] = q
             coeffs4[1] = p
@@ -352,13 +353,13 @@ object Polynomials {
             /* ... to build two quadric equations */
             var u = z * z - r
             u = when {
-                isZero(u) -> 0.0
+                MathUtils.isZero(u) -> 0.0
                 u > 0 -> sqrt(u)
                 else -> 0.0
             }
             var v = 2 * z - p
             v = when {
-                isZero(v) -> 0.0
+                MathUtils.isZero(v) -> 0.0
                 v > 0 -> sqrt(v)
                 else -> 0.0
             }

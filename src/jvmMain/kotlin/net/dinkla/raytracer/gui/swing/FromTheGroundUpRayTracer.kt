@@ -1,13 +1,16 @@
 package net.dinkla.raytracer.gui.swing
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
+import net.dinkla.raytracer.gui.Render
 import net.dinkla.raytracer.gui.awt.AwtFilm
 import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.interfaces.AppProperties
 import net.dinkla.raytracer.utilities.Logger
-import net.dinkla.raytracer.world.WorldDefinition
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
@@ -16,7 +19,7 @@ import javax.swing.*
 import javax.swing.border.EmptyBorder
 import javax.swing.event.TreeSelectionEvent
 import javax.swing.tree.DefaultMutableTreeNode
-import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 
 val informationTitle = AppProperties["information.title"] as String
 val informationHeader = AppProperties["information.headerText"] as String
@@ -65,11 +68,13 @@ private fun quit(frame: JFrame) {
     }
 }
 
-class FromTheGroundUpRayTracer : ActionListener {
+class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private val frame: JFrame = JFrame()
     private val textArea = JTextArea()
     private var selected: String? = null
+
+    override val coroutineContext: CoroutineContext = Dispatchers.Default
 
     init {
 
@@ -92,7 +97,7 @@ class FromTheGroundUpRayTracer : ActionListener {
         val examplesDirectory = AppProperties["examples.directory"] as String
         val root = DefaultMutableTreeNode(examplesDirectory)
         val directory = File(examplesDirectory)
-        directory.walk().forEach { file ->
+        directory.walk().sorted().forEach { file ->
             if (file.isFile) {
                 val fileName = extractFileName(file, directory)
                 root.add(DefaultMutableTreeNode(fileName))
@@ -153,10 +158,9 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     private fun render(file: File) {
         Logger.info("render ${file.name}")
-        val worldDefinition: WorldDefinition? = worldDef(file.name)
-        if (worldDefinition != null) {
-            thread {
-                val world = worldDefinition.world()
+        worldDef(file.name)?.let {
+            launch {
+                val world = it.world()
                 world.initialize()
                 val film = AwtFilm(world.viewPlane.resolution)
                 val imf = ImageFrame(film)
@@ -168,11 +172,11 @@ class FromTheGroundUpRayTracer : ActionListener {
 
     private fun png(file: File) {
         Logger.info("png ${file.name}")
-        val worldDefinition: WorldDefinition? = worldDef(file.name)
-        if (worldDefinition != null) {
-            thread {
+        worldDef(file.name)?.let {
+            launch {
                 val output = getOutputPngFileName(file.name)
-                Png.renderAndSave(worldDefinition, output)
+                val (film, _) = Render.render(it)
+                Png.save(film.image, output)
                 val pngTitle = AppProperties["png.title"] as String
                 val pngMessage = AppProperties["png.message"] as String
                 JOptionPane.showMessageDialog(
