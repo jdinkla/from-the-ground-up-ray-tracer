@@ -7,7 +7,11 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.IWorld
 
 // emissive material
-open class Ambient(var ls: Double = 1.0, var color: Color = Color.WHITE, override val shadows: Boolean = true) : Light {
+open class Ambient(
+    var ls: Double = 1.0,
+    var color: Color = Color.WHITE,
+    override val shadows: Boolean = true
+) : Light {
 
     override fun L(world: IWorld, sr: IShade): Color = color * ls
 

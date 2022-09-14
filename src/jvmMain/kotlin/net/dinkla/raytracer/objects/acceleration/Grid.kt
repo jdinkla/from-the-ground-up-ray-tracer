@@ -1,17 +1,18 @@
 package net.dinkla.raytracer.objects.acceleration
 
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.Timer
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.NullObject
 import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.Timer
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Histogram
 import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
@@ -159,7 +160,7 @@ open class Grid : CompoundWithMesh() {
         }
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         //if (depth > 0) return false;
         if (!boundingBox.hit(ray)) {
             Counter.count("Grid.hit.bbox")

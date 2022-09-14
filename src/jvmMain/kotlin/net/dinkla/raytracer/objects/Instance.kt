@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.math.PointUtilities.maximum
@@ -61,7 +61,7 @@ class Instance(private val geometricObject: GeometricObject,
             super.boundingBox = value
         }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val invRay = ray(ray)
         if (geometricObject.hit(invRay, sr)) {
             // TODO: Instance hit?

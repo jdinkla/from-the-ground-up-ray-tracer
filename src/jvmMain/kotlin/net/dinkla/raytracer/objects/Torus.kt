@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -12,7 +13,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
         boundingBox = BBox(Point3D(-a - b, -b, -a - b), Point3D(a + b, b, a + b))
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         if (!boundingBox.hit(ray)) {
             return false
         }

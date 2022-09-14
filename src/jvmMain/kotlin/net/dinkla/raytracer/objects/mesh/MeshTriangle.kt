@@ -1,8 +1,11 @@
 package net.dinkla.raytracer.objects.mesh
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 
 open class MeshTriangle : GeometricObject {
@@ -51,7 +54,7 @@ open class MeshTriangle : GeometricObject {
         this.index2 = i2
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         return false
     }
 

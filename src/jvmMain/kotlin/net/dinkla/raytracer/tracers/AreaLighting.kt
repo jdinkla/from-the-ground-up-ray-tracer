@@ -2,13 +2,13 @@ package net.dinkla.raytracer.tracers
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.interfaces.jvm.getLogger
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.world.IWorld
 
-class AreaLighting(var world: World) : Tracer {
+class AreaLighting(var world: IWorld) : Tracer {
 
-    override fun trace(ray: Ray, depth: Int): Color = if (depth > world.viewPlane.maxDepth) {
+    override fun trace(ray: Ray, depth: Int): Color = if (world.shouldStopRecursion(depth)) {
         Color.BLACK
     } else {
         val sr = Shade()

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -12,7 +12,7 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         boundingBox = BBox(p, q)
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val (txMin, txMax, a) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
         val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
         val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)

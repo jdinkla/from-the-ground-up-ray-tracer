@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -12,7 +12,7 @@ class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP)
         boundingBox = BBox(Point3D.MIN, Point3D.MAX)
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         // (point - ray.origin) * normal / (ray.direction * normal)
         val v = point - ray.origin
         val nom = v.dot(normal)

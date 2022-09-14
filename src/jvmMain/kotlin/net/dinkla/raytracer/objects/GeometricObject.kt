@@ -1,18 +1,17 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 
-abstract class GeometricObject {
+abstract class GeometricObject : IGeometricObject {
 
     // TODO needed?
     open var isShadows = true
 
-    // TODO open?
-    open var material: IMaterial? = null
+    override var material: IMaterial? = null
 
     // TODO really needed?
     var isInitialized: Boolean = false
@@ -24,7 +23,7 @@ abstract class GeometricObject {
     // TODO open?
     open var boundingBox: BBox = BBox()
 
-    abstract fun hit(ray: Ray, sr: Hit): Boolean
+    abstract fun hit(ray: Ray, sr: IHit): Boolean
 
     abstract fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean
 

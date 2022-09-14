@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects.compound
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
@@ -24,7 +24,7 @@ class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compou
         boundingBox = BBox(Point3D(-radius, y0, -radius), Point3D(radius, y1, radius))
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         return if (boundingBox.hit(ray)) {
             super.hit(ray, sr)
         } else {

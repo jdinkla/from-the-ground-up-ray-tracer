@@ -1,14 +1,15 @@
 package net.dinkla.raytracer.objects.acceleration
 
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.interfaces.Timer
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.interfaces.Timer
-import net.dinkla.raytracer.interfaces.jvm.getLogger
-import java.util.TreeMap
+import java.util.*
 import kotlin.math.pow
 
 class SparseGrid() : Grid() {
@@ -117,7 +118,7 @@ class SparseGrid() : Grid() {
 
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         if (!boundingBox.hit(ray)) {
             return false
         }

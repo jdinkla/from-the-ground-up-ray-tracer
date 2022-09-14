@@ -3,9 +3,9 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
-class RayCast(var world: World) : Tracer {
+class RayCast(var world: IWorld) : Tracer {
 
     init {
         throw RuntimeException("DO NOT USE")

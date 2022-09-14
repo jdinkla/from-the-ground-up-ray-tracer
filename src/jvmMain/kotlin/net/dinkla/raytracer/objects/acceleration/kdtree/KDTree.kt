@@ -1,13 +1,14 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree
 
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import kotlin.math.ln
 
 class KDTree(
@@ -26,9 +27,9 @@ class KDTree(
         // LOGGER.info(root!!.printBBoxes(0))
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         Counter.count("KDTree.hit")
-        return root!!.hit(ray, sr)
+        return root!!.hit(ray, Hit(sr))
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {

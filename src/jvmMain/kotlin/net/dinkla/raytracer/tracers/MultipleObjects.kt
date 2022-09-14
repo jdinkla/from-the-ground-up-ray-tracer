@@ -4,9 +4,9 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
-class MultipleObjects(var world: World) : Tracer {
+class MultipleObjects(var world: IWorld) : Tracer {
 
     override fun trace(ray: Ray): Color {
         val sr = Shade()

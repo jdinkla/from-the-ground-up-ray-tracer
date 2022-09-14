@@ -2,14 +2,14 @@ package net.dinkla.raytracer.tracers
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
-class Whitted(var world: World) : Tracer {
+class Whitted(var world: IWorld) : Tracer {
 
     override fun trace(ray: Ray): Color {
         Counter.count("Whitted.trace1")
@@ -25,7 +25,7 @@ class Whitted(var world: World) : Tracer {
         Counter.count("Whitted.trace3")
 //        var color = build.backgroundColor
         val color: Color
-        if (depth > world.viewPlane.maxDepth) {
+        if (world.shouldStopRecursion(depth)) {
             color = Color.BLACK
         } else {
             val sr = Shade()
@@ -55,6 +55,7 @@ class Whitted(var world: World) : Tracer {
     }
 
     companion object {
+        // TODO JAVA
         internal val LOGGER = getLogger(this::class.java)
     }
 

@@ -1,11 +1,11 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
-import net.dinkla.raytracer.materials.IMaterial
 import kotlin.math.sqrt
 
 class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
@@ -18,7 +18,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         this.material = material
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val temp = ray.origin - center
         val a = ray.direction dot ray.direction
         val b = (temp * 2.0) dot ray.direction

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -16,7 +16,7 @@ class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geomet
         boundingBox = BBox.create(v0, v1, v2)
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val a = v0.x - v1.x
         val b = v0.x - v2.x
         val c = ray.direction.x

@@ -4,9 +4,9 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
-class SingleSphere(var world: World) : Tracer {
+class SingleSphere(var world: IWorld) : Tracer {
 
     override fun trace(ray: Ray): Color = if (world.hit(ray, Shade())) {
         Color.RED

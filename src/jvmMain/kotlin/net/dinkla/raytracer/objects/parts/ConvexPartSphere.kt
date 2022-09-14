@@ -1,8 +1,10 @@
 package net.dinkla.raytracer.objects.parts
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 
 class ConvexPartSphere : GeometricObject() {
@@ -23,7 +25,7 @@ class ConvexPartSphere : GeometricObject() {
             super.boundingBox = value
         }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         return false
     }
 

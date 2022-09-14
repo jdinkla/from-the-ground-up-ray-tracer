@@ -1,13 +1,13 @@
 package net.dinkla.raytracer.objects.mesh
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Ray
 
 class FlatMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(mesh, i0, i1, i2) {
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val v0 = mesh.vertices[index0]
         val v1 = mesh.vertices[index1]
         val v2 = mesh.vertices[index2]

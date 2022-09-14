@@ -1,9 +1,6 @@
 package net.dinkla.raytracer.objects.compound
 
-import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.hits.IShade
-import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.*
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
@@ -37,7 +34,7 @@ open class Compound : GeometricObject() {
             }
         }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         if (!boundingBox.hit(ray)) {
             Counter.count("Compound.hit.bbox")
             return false

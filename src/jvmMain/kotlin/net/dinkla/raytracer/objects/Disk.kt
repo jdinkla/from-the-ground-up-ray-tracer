@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects
 
-import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -12,7 +12,7 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
         boundingBox = BBox(center - radius, center + radius)
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean {
+    override fun hit(ray: Ray, sr: IHit): Boolean {
         val nom = (center - ray.origin) dot normal
         val denom = ray.direction dot normal
         val t = nom / denom

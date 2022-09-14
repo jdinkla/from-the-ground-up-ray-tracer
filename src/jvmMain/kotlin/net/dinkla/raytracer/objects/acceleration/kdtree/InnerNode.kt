@@ -3,9 +3,8 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.math.Ray
-import java.util.Stack
+import net.dinkla.raytracer.utilities.Histogram
 
 class InnerNode(
     val left: Node,
@@ -14,49 +13,6 @@ class InnerNode(
     val split: Double,
     private val axis: Axis
 ) : Node {
-
-    fun hitNR(ray: Ray, sr: Hit): Boolean {
-        val stack = Stack<Pair<Node?, Hit>>()
-        stack.push(Pair(this, sr))
-
-        var count = 0
-
-        while (!stack.isEmpty()) {
-            val pair = stack.pop()
-            count++
-            if (pair.first is Leaf) {
-                val leaf = pair.first as Leaf
-                val sr2 = Hit(pair.second)
-                val isHit = leaf.hit(ray, sr2)
-                //                if (isHit && sr2.getT() < sr.getT()) {
-                if (isHit) {
-                    sr.set(sr2)
-                    //                    System.out.println("hits count=" + count);
-                    hits.add(count)
-                    return true
-                }
-            } else {
-                val node = pair.first as InnerNode
-                val bbox = node.boundingBox
-                val hit = bbox.hitX(ray)
-                if (hit.isHit) {
-                    val srL = Hit(pair.second)
-                    srL.t = hit.t1
-                    val srR = Hit(pair.second)
-                    if (ray.origin.ith(axis) < node.split) {
-                        stack.push(Pair(node.left, srL))
-                        stack.push(Pair(node.right, srR))
-                    } else {
-                        stack.push(Pair(node.right, srR))
-                        stack.push(Pair(node.left, srL))
-                    }
-                }
-            }
-        }
-        //        System.out.println("fails count=" + count);
-        fails.add(count)
-        return false
-    }
 
     enum class Side {
         Left, Right
