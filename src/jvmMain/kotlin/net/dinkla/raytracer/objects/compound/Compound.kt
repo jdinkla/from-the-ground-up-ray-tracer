@@ -1,12 +1,16 @@
 package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.materials.IMaterial
-import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.GeometricObjectUtilities
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.WrappedDouble
+import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.world.World
 
 open class Compound : GeometricObject() {
@@ -80,7 +84,7 @@ open class Compound : GeometricObject() {
         return false
     }
 
-    fun inShadow(ray: Ray, sr: Shade, d: Double): Boolean {
+    fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
         Counter.count("Compound.inShadow")
         //TODO: Wieso hier createMax ? ShadowHit t = ShadowHit.createMax();
         val t = ShadowHit(d)

@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
@@ -15,7 +15,7 @@ class AmbientOccluder(
     override val shadows: Boolean = true
 ) : Ambient() {
 
-    override fun L(world: IWorld, sr: Shade): Color {
+    override fun L(world: IWorld, sr: IShade): Color {
         val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize() // jitter up vector in case normal is vertical
         val u = v cross w
@@ -33,7 +33,7 @@ class AmbientOccluder(
         return color * (ls * ratio)
     }
 
-    override fun getDirection(sr: Shade): Vector3D {
+    override fun getDirection(sr: IShade): Vector3D {
         val p = sampler.sampleHemisphere()
         val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize()
@@ -41,6 +41,6 @@ class AmbientOccluder(
         return Basis(u, v, w) * p
     }
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean =
+    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean =
             world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
 }

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects.arealights
 
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.MathUtils.PI
@@ -20,7 +20,7 @@ class DiskLight(
 
     val pdf = 1.0 / (PI * radius * radius)
 
-    override fun pdf(sr: Shade): Double = pdf
+    override fun pdf(sr: IShade): Double = pdf
 
     override fun sample(): Point3D {
         val sp = sampler.sampleUnitDisk()

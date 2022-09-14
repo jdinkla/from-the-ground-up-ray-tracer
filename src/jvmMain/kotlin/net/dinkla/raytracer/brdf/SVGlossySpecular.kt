@@ -2,7 +2,7 @@ package net.dinkla.raytracer.brdf
 
 import net.dinkla.raytracer.brdf.BRDF.Sample
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.textures.Texture
@@ -15,7 +15,7 @@ class SVGlossySpecular(
         val sampler : Sampler = Sampler()
 ) : BRDF {
 
-    override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
+    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
         assert(null != cs)
         val nDotWi = wi dot sr.normal
         val r = (wi * -1.0) + sr.normal.toVector3D() * (2 * nDotWi)
@@ -27,7 +27,7 @@ class SVGlossySpecular(
         }
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
+    override fun sampleF(sr: IShade, wo: Vector3D): Sample {
         assert(null != cs)
         val cs = this.cs!!
 
@@ -49,7 +49,7 @@ class SVGlossySpecular(
         return Sample(wi = wi, pdf = phongLobe * (wi dot sr.normal), color = cs.getColor(sr) * (ks * phongLobe))
     }
 
-    override fun rho(sr: Shade, wo: Vector3D): Color {
+    override fun rho(sr: IShade, wo: Vector3D): Color {
         throw RuntimeException("GlossySpecular.rho")
     }
 }

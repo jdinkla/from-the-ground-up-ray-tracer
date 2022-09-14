@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.objects.arealights
 
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
@@ -21,7 +21,7 @@ class RectangleLight(val sampler: Sampler,
 
     private var pdf: Double = 1.0 / (a.length() * b.length())
 
-    override fun pdf(sr: Shade): Double = pdf
+    override fun pdf(sr: IShade): Double = pdf
 
     override fun getNormal(p: Point3D): Normal = normal
 

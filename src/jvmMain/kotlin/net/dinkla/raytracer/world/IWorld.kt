@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.math.Ray
@@ -14,6 +14,6 @@ interface IWorld {
     var ambientLight: Ambient
     var backgroundColor: Color
 
-    fun inShadow(ray: Ray, sr: Shade, d: Double): Boolean
+    fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean
 
 }

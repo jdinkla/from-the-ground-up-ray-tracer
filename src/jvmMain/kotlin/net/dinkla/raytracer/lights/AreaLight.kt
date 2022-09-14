@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.lights
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
@@ -28,7 +28,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
             get() = (-lightNormal!!) dot (wi!!)
     }
 
-    fun L(world: IWorld, sr: Shade, sample: Sample): Color {
+    fun L(world: IWorld, sr: IShade, sample: Sample): Color {
         return if (sample.nDotD > 0) {
             sr.material?.getLe(sr) ?: world.backgroundColor
         } else {
@@ -36,22 +36,22 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         }
     }
 
-    fun inShadow(world: IWorld, ray: Ray, sr: Shade, sample: Sample): Boolean {
+    fun inShadow(world: IWorld, ray: Ray, sr: IShade, sample: Sample): Boolean {
         val d = sample.samplePoint!!.minus(ray.origin).dot(ray.direction)
         return world.inShadow(ray, sr, d)
     }
 
-    fun G(sr: Shade, sample: Sample): Double {
+    fun G(sr: IShade, sample: Sample): Double {
         val nDotD = sample.nDotD
         val d2 = sample.samplePoint!!.sqrDistance(sr.hitPoint)
         return nDotD / d2
     }
 
-    override fun pdf(sr: Shade): Double {
+    override fun pdf(sr: IShade): Double {
         return source!!.pdf(sr)
     }
 
-    private fun getSample(sr: Shade): Sample {
+    private fun getSample(sr: IShade): Sample {
         val sample = Sample()
         sample.samplePoint = source!!.sample()
         sample.lightNormal = source!!.getNormal(sample.samplePoint!!)
@@ -59,7 +59,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         return sample
     }
 
-    fun getSamples(sr: Shade): List<Sample> {
+    fun getSamples(sr: IShade): List<Sample> {
         val result = ArrayList<Sample>()
         for (i in 0 until numSamples) {
             result.add(getSample(sr))
@@ -75,15 +75,15 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         throw RuntimeException("NLU")
     }
 
-    override fun L(world: IWorld, sr: Shade): Color {
+    override fun L(world: IWorld, sr: IShade): Color {
         throw RuntimeException("NLU")
     }
 
-    override fun getDirection(sr: Shade): Vector3D {
+    override fun getDirection(sr: IShade): Vector3D {
         throw RuntimeException("NLU")
     }
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: Shade): Boolean {
+    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean {
         throw RuntimeException("NLU")
     }
 

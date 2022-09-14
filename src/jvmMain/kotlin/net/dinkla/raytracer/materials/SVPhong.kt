@@ -3,7 +3,7 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.SVGlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.textures.Texture
@@ -25,7 +25,7 @@ class SVPhong : SVMatte() {
         specularBrdf.cs = cs
     }
 
-    override fun shade(world: IWorld, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -50,7 +50,7 @@ class SVPhong : SVMatte() {
     }
 
 
-    override fun areaLightShade(world: IWorld, sr: Shade): Color {
+    override fun areaLightShade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -83,7 +83,7 @@ class SVPhong : SVMatte() {
         return L
     }
 
-    override fun getLe(sr: Shade): Color {
+    override fun getLe(sr: IShade): Color {
         // TODO
         return specularBrdf.cs!!.getColor(sr).times(specularBrdf.ks)
     }

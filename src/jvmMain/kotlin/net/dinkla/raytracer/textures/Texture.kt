@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.textures
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 
 abstract class Texture {
 
-    abstract fun getColor(sr: Shade): Color
+    abstract fun getColor(sr: IShade): Color
 }

@@ -4,8 +4,10 @@ import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.materials.IMaterial
@@ -13,7 +15,6 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.tracers.Tracer
-import net.dinkla.raytracer.interfaces.Counter
 
 class World(val id: String, val viewPlane: ViewPlane) : IWorld {
 
@@ -45,7 +46,7 @@ class World(val id: String, val viewPlane: ViewPlane) : IWorld {
         return compound.shadowHit(ray, tmin)
     }
 
-    override fun inShadow(ray: Ray, sr: Shade, d: Double): Boolean {
+    override fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
         Counter.count("World.inShadow")
         return compound.inShadow(ray, sr, d)
     }

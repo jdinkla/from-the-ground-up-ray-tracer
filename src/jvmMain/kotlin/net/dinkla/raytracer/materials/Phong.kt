@@ -3,11 +3,11 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
-import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.utilities.hash
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
 
 open class Phong(color: Color = Color.WHITE,
@@ -45,7 +45,7 @@ open class Phong(color: Color = Color.WHITE,
             specularBRDF.exp = v
         }
 
-    override fun shade(world: IWorld, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -69,7 +69,7 @@ open class Phong(color: Color = Color.WHITE,
         return L
     }
 
-    override fun areaLightShade(world: IWorld, sr: Shade): Color {
+    override fun areaLightShade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -102,7 +102,7 @@ open class Phong(color: Color = Color.WHITE,
         return L
     }
 
-    override fun getLe(sr: Shade): Color = specularBRDF.cs * (specularBRDF.ks)
+    override fun getLe(sr: IShade): Color = specularBRDF.cs * (specularBRDF.ks)
 
     override fun equals(other: Any?): Boolean = this.equals<Phong>(other) { a, b ->
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF

@@ -2,11 +2,11 @@ package net.dinkla.raytracer.brdf
 
 import net.dinkla.raytracer.brdf.BRDF.Sample
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import kotlin.math.pow
 import net.dinkla.raytracer.utilities.hash
+import kotlin.math.pow
 
 // TODO data
 class GlossySpecular(
@@ -16,7 +16,7 @@ class GlossySpecular(
         val sampler: Sampler = Sampler()
 ) : BRDF {
 
-    override fun f(sr: Shade, wo: Vector3D, wi: Vector3D): Color {
+    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
         val nDotWi = wi dot sr.normal
         val r = (wi * (-1.0)) + (sr.normal.toVector3D() * (2 * nDotWi))
         val rDotWo = r dot wo
@@ -27,7 +27,7 @@ class GlossySpecular(
         }
     }
 
-    override fun sampleF(sr: Shade, wo: Vector3D): Sample {
+    override fun sampleF(sr: IShade, wo: Vector3D): Sample {
         val nDotWo = sr.normal dot wo
         val r = -wo + (sr.normal * (2 * nDotWo))
         val u = (Vector3D(0.00424, 1.0, 0.00764) cross r).normalize()
@@ -42,7 +42,7 @@ class GlossySpecular(
         return Sample(wi = wi, pdf = phongLobe * nDotWi, color = cs * (ks * phongLobe))
     }
 
-    override fun rho(sr: Shade, wo: Vector3D): Color {
+    override fun rho(sr: IShade, wo: Vector3D): Color {
         throw RuntimeException("GlossySpecular.rho")
     }
 

@@ -1,14 +1,13 @@
 package net.dinkla.raytracer.textures
 
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.utilities.Resolution
-
-import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
+import javax.imageio.ImageIO
 
 class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
 
@@ -19,18 +18,18 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
     private var image: BufferedImage = ImageIO.read(File(fileName))
     private var res = Resolution(image.width, image.height)
 
-    override fun getColor(sr: Shade): Color {
+    override fun getColor(sr: IShade): Color {
         var row = 0
         var column = 0
 
         if (null != mapping) {
-            val p = sr.localHitPoint
+            //val p = sr.localHitPoint
             //Sphere s = (Sphere) sr.getGeometricObject();
             //p = new Point3D(p.minus(s.center));
             //Point3D p = new Point3D(sr.getNormal());
-            val m = mapping!!.getTexelCoordinates(p, res)
-            row = m.row
-            column = m.column
+            //val m = mapping!!.getTexelCoordinates(p, res)
+            //row = m.row
+            //column = m.column
         } else {
             // TODO Shade u und v
             //row = (int) ();

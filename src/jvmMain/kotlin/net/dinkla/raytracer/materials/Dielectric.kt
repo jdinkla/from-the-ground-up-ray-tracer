@@ -3,7 +3,7 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.FresnelReflector
 import net.dinkla.raytracer.btdf.FresnelTransmitter
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.hits.Shade
+import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.IWorld
@@ -17,7 +17,7 @@ class Dielectric : Phong() {
     private var cfIn: Color = Color.WHITE
     private var cfOut: Color = Color.WHITE
 
-    override fun shade(world: IWorld, sr: Shade): Color {
+    override fun shade(world: IWorld, sr: IShade): Color {
         var L = super.shade(world, sr)
         val wo = -sr.ray.direction
         val t = WrappedDouble.createMax()

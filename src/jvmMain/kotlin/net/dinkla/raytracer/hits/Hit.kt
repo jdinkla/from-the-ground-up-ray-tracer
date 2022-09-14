@@ -1,12 +1,12 @@
 package net.dinkla.raytracer.hits
 
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.compound.Compound
 
-open class Hit : ShadowHit {
+open class Hit : ShadowHit, IHit {
 
-    var normal: Normal = Normal.ZERO
+    override var normal: Normal = Normal.ZERO
 
     // Wird erst ab Compound gefüllt
     var geometricObject: GeometricObject?
