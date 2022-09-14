@@ -3,7 +3,6 @@ package net.dinkla.raytracer.objects
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.hits.Hit
-import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Normal.Companion.DOWN
 import net.dinkla.raytracer.math.Normal.Companion.RIGHT
 import net.dinkla.raytracer.math.Normal.Companion.UP
@@ -43,7 +42,7 @@ class PlaneTest : AnnotationSpec()  {
 
     @Test
     fun `q=0 plane upside down, point below, vector up, hit`() {
-        val plane = Plane(Point3D.ORIGIN, Normal.DOWN)
+        val plane = Plane(Point3D.ORIGIN, DOWN)
 
         val o = Point3D(-1.0, -1.0, -1.0)
         val d = Vector3D(0.0, 1.0, 0.0)
@@ -71,7 +70,7 @@ class PlaneTest : AnnotationSpec()  {
 
     @Test
     fun `plane to the right`() {
-        val plane = Plane(Point3D.ORIGIN, Normal.RIGHT)
+        val plane = Plane(Point3D.ORIGIN, RIGHT)
 
         val o = Point3D(-2.0, -2.0, 0.0)
         val d = Vector3D(1.0, 1.0, 0.0)
@@ -86,7 +85,7 @@ class PlaneTest : AnnotationSpec()  {
 
     @Test
     fun `plane slightly next to origin`() {
-        val plane = Plane(Point3D(0.1234, 0.0, 0.0), Normal.RIGHT)
+        val plane = Plane(Point3D(0.1234, 0.0, 0.0), RIGHT)
 
         val o = Point3D(0.0, 4.0, 3.0)
         val d = Vector3D(-1.0, 0.0, 0.0)
