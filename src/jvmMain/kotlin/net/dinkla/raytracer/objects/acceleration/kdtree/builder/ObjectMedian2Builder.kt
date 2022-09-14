@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.GeometricObjectUtilities
@@ -12,6 +11,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.utilities.ListUtilities
+import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
 class ObjectMedian2Builder : TreeBuilder {
@@ -101,7 +101,7 @@ class ObjectMedian2Builder : TreeBuilder {
             ListUtilities.splitByAxis(objects, splitZtmp, axis, objectsLz, objectsRz)
             val weightZ = weight(objectsLz.size, objectsRz.size, size)
 
-            LOGGER.info("weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size
+            Logger.info("weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size
                     + "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size
                     + "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
             )
@@ -205,12 +205,12 @@ class ObjectMedian2Builder : TreeBuilder {
                 i++
             }
             if (!par.isFound) {
-                LOGGER.info("Not splitting " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+                Logger.info("Not splitting " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
                 node = Leaf(objects)
             }
         }
         if (null == node) {
-            LOGGER.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+            Logger.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
             val left = build(par.objectsL, par.voxelL, depth + 1)
             val right = build(par.objectsR, par.voxelR, depth + 1)
             node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth % 3))
@@ -220,9 +220,6 @@ class ObjectMedian2Builder : TreeBuilder {
     }
 
     companion object {
-
-        internal val LOGGER = getLogger(this::class.java)
-
         private fun weight(a: Int, b: Int, c: Int): Int {
             return abs(a - c / 2) + abs(b - c / 2)
         }

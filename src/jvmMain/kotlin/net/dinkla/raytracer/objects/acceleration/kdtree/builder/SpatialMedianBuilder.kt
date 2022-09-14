@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
@@ -10,6 +9,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.utilities.Logger
 
 class SpatialMedianBuilder : TreeBuilder {
 
@@ -104,16 +104,12 @@ class SpatialMedianBuilder : TreeBuilder {
             }
         }
 
-        LOGGER.info("Splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
+        Logger.info("Splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
         val left = build(objectsL, voxelL, depth + 1)
         val right = build(objectsR, voxelR, depth + 1)
 
         node = InnerNode(left, right, voxel, split!!, Axis.fromInt(depth % 3))
 
         return node
-    }
-
-    companion object {
-        internal val LOGGER = getLogger(this::class.java)
     }
 }

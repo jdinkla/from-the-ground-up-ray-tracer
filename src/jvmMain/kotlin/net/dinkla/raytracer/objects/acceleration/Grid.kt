@@ -5,7 +5,6 @@ import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.Timer
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
@@ -13,6 +12,7 @@ import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.NullObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Histogram
+import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
@@ -57,7 +57,7 @@ open class Grid : CompoundWithMesh() {
 
         val numCells = nx * ny * nz
 
-        LOGGER.info("Grid: numCells=$numCells = $nx*$ny*$nz")
+        Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
         cells = Array(numCells) { i -> NullObject() }
 
@@ -75,7 +75,7 @@ open class Grid : CompoundWithMesh() {
         for (`object` in objects) {
 
             if (objectsToGo % logInterval == 0) {
-                LOGGER.info("Grid: $objectsToGo objects to grid")
+                Logger.info("Grid: $objectsToGo objects to grid")
             }
             objectsToGo--
 
@@ -123,14 +123,14 @@ open class Grid : CompoundWithMesh() {
         }
 
         timer.stop()
-        LOGGER.info("Creating grid took " + timer.duration + " ms")
+        Logger.info("Creating grid took " + timer.duration + " ms")
 
         timer.start()
         for (go in cells) {
             (go as? Grid)?.initialize()
         }
         timer.stop()
-        LOGGER.info("Creating subgrids took " + timer.duration + " ms")
+        Logger.info("Creating subgrids took " + timer.duration + " ms")
 
         if (0 == depth) {
             statistics(numCells, counts)
@@ -148,15 +148,15 @@ open class Grid : CompoundWithMesh() {
             hist.add(count)
         }
 
-        LOGGER.info("Grid statistics")
-        LOGGER.info("multiplier=" + multiplier
+        Logger.info("Grid statistics")
+        Logger.info("multiplier=" + multiplier
                 + ", numObjects=" + objects.size
                 + ", numCells=" + numCells
                 + ", numObjects in cells=" + numInCells)
 
         for (key in hist.keys()) {
             val value = hist[key]
-            LOGGER.info("Grid: " + key + ": " + value + " [" + value * 100.0 / numInCells + "%]")
+            Logger.info("Grid: " + key + ": " + value + " [" + value * 100.0 / numInCells + "%]")
         }
     }
 
@@ -579,7 +579,6 @@ open class Grid : CompoundWithMesh() {
     override fun toString(): String = "Grid(#objs=${objects.size})"
 
     companion object {
-        internal val LOGGER = getLogger(this::class.java)
         internal var logInterval = 1000
         protected var factorSize = 500
         protected var maxDepth = 0

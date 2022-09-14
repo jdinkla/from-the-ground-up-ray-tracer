@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.objects.IGeometricObject
@@ -10,6 +9,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.utilities.ListUtilities
+import net.dinkla.raytracer.utilities.Logger
 import java.util.*
 
 class Test2Builder : TreeBuilder {
@@ -119,7 +119,7 @@ class Test2Builder : TreeBuilder {
                 if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
                     val s = calcSplit(axis, split, root)
                     if (s.isOk && (null == min || s.sah < min.sah)) {
-                        //                    LOGGER.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
+                        //                    Logger.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
                         min = s
                     }
                 }
@@ -182,15 +182,14 @@ class Test2Builder : TreeBuilder {
         }
 
         if (null == split) {
-            LOGGER.info("Not splitting " + objects.size + " objects with depth " + depth)
+            Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
         } else {
             assert(null != split)
             assert(null != objects)
             assert(null != split.left.objects)
             assert(null != split.right.objects)
-
-            LOGGER.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)
+            Logger.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
             node = InnerNode(left, right, voxel!!, split.split, split.axis!!)
@@ -200,8 +199,6 @@ class Test2Builder : TreeBuilder {
     }
 
     companion object {
-        internal val LOGGER = getLogger(this::class.java)
-
         fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
             return if (x != null && y != null) {
                 x.sah < y.sah

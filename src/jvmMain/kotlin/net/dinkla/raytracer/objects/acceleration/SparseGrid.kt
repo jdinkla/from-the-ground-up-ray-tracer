@@ -4,11 +4,11 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.interfaces.Timer
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.utilities.Logger
 import java.util.*
 import kotlin.math.pow
 
@@ -42,7 +42,7 @@ class SparseGrid() : Grid() {
 
         val numCells = nx * ny * nz
 
-        LOGGER.info("Grid: numCells=$numCells = $nx*$ny*$nz")
+        Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
         //cells = new GeometricObject[numCells];
         cellsX = TreeMap()
@@ -62,7 +62,7 @@ class SparseGrid() : Grid() {
         for (`object` in objects) {
 
             if (objectsToGo % Grid.Companion.logInterval == 0) {
-                LOGGER.info("Grid: $objectsToGo objects to grid")
+                Logger.info("Grid: $objectsToGo objects to grid")
             }
             objectsToGo--
 
@@ -112,7 +112,7 @@ class SparseGrid() : Grid() {
         }
 
         timer.stop()
-        LOGGER.info("Creating grid took " + timer.duration + " ms")
+        Logger.info("Creating grid took " + timer.duration + " ms")
 
         statistics(numCells, counts)
 
@@ -341,9 +341,4 @@ class SparseGrid() : Grid() {
         tmin.t = h.t
         return b
     }
-
-    companion object {
-        internal val LOGGER = getLogger(this::class.java)
-    }
-
 }

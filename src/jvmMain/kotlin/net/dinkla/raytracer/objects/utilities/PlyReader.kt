@@ -7,7 +7,7 @@ import net.dinkla.raytracer.objects.acceleration.Grid.Companion.logInterval
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Logger
 
 class PlyReader(val material: IMaterial,
                 val reverseNormal: Boolean = false,
@@ -85,7 +85,7 @@ class PlyReader(val material: IMaterial,
                     mesh.vertices.add(p)
                     numVerticesLeft--
                     if (numLine % logInterval == 0) {
-                        LOG.debug("PLY: ${numVerticesLeft} vertices to read")
+                        Logger.debug("PLY: ${numVerticesLeft} vertices to read")
                     }
                 }
                 numFacesLeft > 0 -> {
@@ -112,7 +112,7 @@ class PlyReader(val material: IMaterial,
                     numFacesLeft--
                     countFaces++
                     if (numLine % logInterval == 0) {
-                        LOG.debug("PLY: ${numFacesLeft} faces to read")
+                        Logger.debug("PLY: ${numFacesLeft} faces to read")
                     }
                 }
                 isWhiteSpace(line) -> {
@@ -125,9 +125,6 @@ class PlyReader(val material: IMaterial,
     }
 
     companion object {
-
-        internal val LOG = getLogger(this::class.java)
-
         fun isEndOfHeader(line: String) = line == "end_header"
 
         val elemVertex = "element\\W+vertex".toRegex()

@@ -6,7 +6,7 @@ import net.dinkla.raytracer.gui.awt.Png
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.interfaces.AppProperties
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.world.WorldDefinition
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
@@ -152,7 +152,7 @@ class FromTheGroundUpRayTracer : ActionListener {
     }
 
     private fun render(file: File) {
-        LOGGER.info("render ${file.name}")
+        Logger.info("render ${file.name}")
         val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
             thread {
@@ -167,7 +167,7 @@ class FromTheGroundUpRayTracer : ActionListener {
     }
 
     private fun png(file: File) {
-        LOGGER.info("png ${file.name}")
+        Logger.info("png ${file.name}")
         val worldDefinition: WorldDefinition? = worldDef(file.name)
         if (worldDefinition != null) {
             thread {
@@ -183,10 +183,6 @@ class FromTheGroundUpRayTracer : ActionListener {
                 )
             }
         }
-    }
-
-    companion object {
-        internal val LOGGER = getLogger(this::class.java)
     }
 }
 

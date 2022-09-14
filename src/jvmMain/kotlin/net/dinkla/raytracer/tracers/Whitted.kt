@@ -3,10 +3,10 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
+import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.world.IWorld
 
 class Whitted(var world: IWorld) : Tracer {
@@ -35,7 +35,7 @@ class Whitted(var world: IWorld) : Tracer {
                 sr.ray = ray
                 tmin.value = sr.t
                 if (null == sr.material) {
-                    LOGGER.error("Material is NULL for ray $ray and sr $sr")
+                    Logger.error("Material is NULL for ray $ray and sr $sr")
                     color = Color.RED
                 } else {
                     color = sr.material?.shade(world, sr) ?: world.backgroundColor
@@ -53,10 +53,4 @@ class Whitted(var world: IWorld) : Tracer {
         return color
 //        return (if (color == null) build.backgroundColor else color)
     }
-
-    companion object {
-        // TODO JAVA
-        internal val LOGGER = getLogger(this::class.java)
-    }
-
 }

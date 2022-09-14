@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 import kotlin.math.max
@@ -102,7 +102,7 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
             var r = yStart
             while (r < yEnd) {
                 if (count % numLogLines == 0) {
-                    LOGGER.info("ParallelRender: " + count + " of " + (yEnd - yStart))
+                    Logger.info("ParallelRender: " + count + " of " + (yEnd - yStart))
                 }
                 var c = xStart
                 while (c < xEnd) {
@@ -127,9 +127,6 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     companion object {
-
-        internal val LOGGER = getLogger(this::class.java)
-
         private const val STEP_X = 1
         private const val STEP_Y = 1
     }

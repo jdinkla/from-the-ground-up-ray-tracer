@@ -2,7 +2,7 @@ package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.RecursiveAction
 
@@ -16,7 +16,7 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
         this.film = film
         val res = film.resolution
         val master = Master(sizeGrid, res.hres, res.vres)
-        LOGGER.info("invoke master")
+        Logger.info("invoke master")
         pool.invoke(master)
         this.film = null
     }
@@ -28,7 +28,7 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
         private var actions: Array<Worker?> = arrayOfNulls(blocks)
 
         override fun compute() {
-            LOGGER.info("Master.compute starts")
+            Logger.info("Master.compute starts")
             for (j in 0 until numBlocks) {
                 for (i in 0 until numBlocks) {
                     val idx = j * numBlocks + i
@@ -42,7 +42,7 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
             for (i in 0 until blocks) {
                 actions[i]?.join()
             }
-            LOGGER.info("Master.compute ends")
+            Logger.info("Master.compute ends")
         }
     }
 
@@ -66,7 +66,6 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     companion object {
-        internal val LOGGER = getLogger(this::class.java)
         private var pool: ForkJoinPool = ForkJoinPool()
     }
 }

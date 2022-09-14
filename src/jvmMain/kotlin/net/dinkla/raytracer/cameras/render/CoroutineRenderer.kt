@@ -5,14 +5,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.utilities.Logger
 
 class CoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
     private var exposureTime = 1.0
 
     override fun render(film: Film) {
-        LOGGER.info("render starts")
+        Logger.info("render starts")
         runBlocking<Unit> {
             for (r in 0 until film.resolution.vres) {
                 for (c in 0 until film.resolution.hres) {
@@ -24,14 +24,13 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
                     }
                 }
             }
-            LOGGER.info("runBlocking stops")
+            Logger.info("runBlocking stops")
         }
-        LOGGER.info("render stops")
+        Logger.info("render stops")
     }
 
     companion object {
         internal val pool = Dispatchers.Default
-        internal val LOGGER = getLogger(this::class.java)
     }
 
 }

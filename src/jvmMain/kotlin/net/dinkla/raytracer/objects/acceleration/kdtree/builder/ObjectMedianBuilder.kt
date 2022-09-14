@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.GeometricObjectUtilities
@@ -11,6 +10,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.utilities.Logger
 
 class ObjectMedianBuilder : TreeBuilder {
 
@@ -144,10 +144,10 @@ class ObjectMedianBuilder : TreeBuilder {
         }
 
         if (objects.size == objectsL.size || objects.size == objectsR.size) {
-            LOGGER.info("Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
+            Logger.info("Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
             node = Leaf(objects)
         } else {
-            LOGGER.info("Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
+            Logger.info("Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
             val right = build(objectsR, voxelR?: BBox(), depth + 1)
 
@@ -155,9 +155,5 @@ class ObjectMedianBuilder : TreeBuilder {
         }
 
         return node
-    }
-
-    companion object {
-        internal val LOGGER = getLogger(this::class.java)
     }
 }

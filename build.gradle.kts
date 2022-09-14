@@ -2,6 +2,7 @@ val logbackVersion = "1.2.11"
 val kotestVersion = "5.4.2"
 val coroutinesVersion = "1.6.4"
 val mockkVersion = "1.12.7"
+val koinVersion = "3.2"
 
 group = "net.dinkla"
 version = "1.0"

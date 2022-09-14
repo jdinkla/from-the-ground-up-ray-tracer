@@ -2,10 +2,10 @@ package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.Timer
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.utilities.Logger
 
 class Renderer {
 
@@ -18,7 +18,7 @@ class Renderer {
         timer.start()
         renderer?.render(film)
         timer.stop()
-        LOGGER.info("rendering took " + timer.duration + " ms")
+        Logger.info("rendering took " + timer.duration + " ms")
 
         // stats
         Counter.stats(30)
@@ -32,9 +32,5 @@ class Renderer {
         println("took " + timer.duration + " [ms]")
 
         Counter.reset()
-    }
-
-    companion object {
-        internal val LOGGER = getLogger(this::class.java)
     }
 }

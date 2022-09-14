@@ -4,11 +4,11 @@ import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
+import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.ln
 
 class KDTree(
@@ -19,12 +19,12 @@ class KDTree(
         super.initialize()
         val n = 8 + (1.3 * (ln(objects.size.toDouble()) / ln(2.0))).toInt()
         if (n != builder.maxDepth) {
-            LOGGER.warn("Ideal maxDepth = " + n + ", but set to " + builder.maxDepth)
+            Logger.warn("Ideal maxDepth = " + n + ", but set to " + builder.maxDepth)
         }
         //        builder.setMaxDepth(n);
         root = builder.build(this, boundingBox)
         Statistics.statistics(this)
-        // LOGGER.info(root!!.printBBoxes(0))
+        // Logger.info(root!!.printBBoxes(0))
     }
 
     override fun hit(ray: Ray, sr: IHit): Boolean {
@@ -41,7 +41,6 @@ class KDTree(
     }
 
     companion object {
-        internal val LOGGER = getLogger(this::class.java)
         internal const val maxDepth = 15
     }
 }
