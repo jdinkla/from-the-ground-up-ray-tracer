@@ -4,14 +4,14 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
-import java.lang.Math.pow
+import kotlin.math.pow
 import kotlin.random.Random
 
 object World11 : WorldDefinition {
 
     const val numSpheres = 25
     val volume = 0.1 / numSpheres
-    val radius = pow(0.75 * volume / PI, 1.0 / 3.0);
+    val radius = (0.75 * volume / PI).pow(1.0 / 3.0);
     val r = Random.Default
 
     override fun world() = Builder.build("World 11") {

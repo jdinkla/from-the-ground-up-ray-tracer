@@ -68,7 +68,7 @@ class ObjectMedianBuilder : TreeBuilder {
 //            val bboxQ = oQ.boundingBox
 //            val p = bboxP.q
 //            val q = bboxQ.q
-//            java.lang.Double.compare(p!!.ith(axis2), q!!.ith(axis2))
+//            Double.compare(p!!.ith(axis2), q!!.ith(axis2))
 //        }
 
         val size = objects.size

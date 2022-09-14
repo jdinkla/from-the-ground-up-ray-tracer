@@ -18,7 +18,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
     var wi: Vector3D = Vector3D.ZERO
 
     override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean {
-        return world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
+        return world.inShadow(ray, sr, Double.MAX_VALUE)
     }
 
     override fun getDirection(sr: IShade): Vector3D {

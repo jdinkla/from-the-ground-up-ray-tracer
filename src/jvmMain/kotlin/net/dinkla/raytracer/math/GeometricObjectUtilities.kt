@@ -5,9 +5,9 @@ import net.dinkla.raytracer.objects.IGeometricObject
 object GeometricObjectUtilities {
 
     fun minCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
-        var minX = java.lang.Double.POSITIVE_INFINITY
-        var minY = java.lang.Double.POSITIVE_INFINITY
-        var minZ = java.lang.Double.POSITIVE_INFINITY
+        var minX = Double.POSITIVE_INFINITY
+        var minY = Double.POSITIVE_INFINITY
+        var minZ = Double.POSITIVE_INFINITY
         for (geometricObject in objects) {
             val bbox = geometricObject.boundingBox
             if (bbox.p.x < minX) {
@@ -24,9 +24,9 @@ object GeometricObjectUtilities {
     }
 
     fun maxCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
-        var maxX = java.lang.Double.NEGATIVE_INFINITY
-        var maxY = java.lang.Double.NEGATIVE_INFINITY
-        var maxZ = java.lang.Double.NEGATIVE_INFINITY
+        var maxX = Double.NEGATIVE_INFINITY
+        var maxY = Double.NEGATIVE_INFINITY
+        var maxZ = Double.NEGATIVE_INFINITY
         for (geometricObject in objects) {
             val bbox = geometricObject.boundingBox
             if (bbox.q.x > maxX) {
@@ -43,12 +43,12 @@ object GeometricObjectUtilities {
     }
 
     fun minMaxCoordinates(objects: ArrayList<IGeometricObject>): Pair<Point3D, Point3D> {
-        var minX = java.lang.Double.POSITIVE_INFINITY
-        var minY = java.lang.Double.POSITIVE_INFINITY
-        var minZ = java.lang.Double.POSITIVE_INFINITY
-        var maxX = java.lang.Double.NEGATIVE_INFINITY
-        var maxY = java.lang.Double.NEGATIVE_INFINITY
-        var maxZ = java.lang.Double.NEGATIVE_INFINITY
+        var minX = Double.POSITIVE_INFINITY
+        var minY = Double.POSITIVE_INFINITY
+        var minZ = Double.POSITIVE_INFINITY
+        var maxX = Double.NEGATIVE_INFINITY
+        var maxY = Double.NEGATIVE_INFINITY
+        var maxZ = Double.NEGATIVE_INFINITY
         for (geometricObject in objects) {
             val bbox = geometricObject.boundingBox
             if (bbox.p.x < minX) {

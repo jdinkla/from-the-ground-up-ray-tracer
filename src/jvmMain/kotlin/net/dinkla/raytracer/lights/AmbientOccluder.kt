@@ -42,5 +42,5 @@ class AmbientOccluder(
     }
 
     override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean =
-            world.inShadow(ray, sr, java.lang.Double.MAX_VALUE)
+            world.inShadow(ray, sr, Double.MAX_VALUE)
 }

@@ -41,7 +41,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
 
         val numRealRoots = Polynomials.solveQuartic(coeffs, roots)
         var intersected = false
-        var t = java.lang.Double.MAX_VALUE
+        var t = Double.MAX_VALUE
 
         if (numRealRoots == 0) {
             return false
@@ -91,7 +91,7 @@ class Torus(val a: Double, val b: Double) : GeometricObject() {
 
         val numRealRoots = Polynomials.solveQuartic(coeffs, roots)
         var intersected = false
-        var t = java.lang.Double.MAX_VALUE
+        var t = Double.MAX_VALUE
 
         if (numRealRoots == 0) {
             return false

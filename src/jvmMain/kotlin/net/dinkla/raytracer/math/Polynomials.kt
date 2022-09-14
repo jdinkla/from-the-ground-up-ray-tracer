@@ -329,6 +329,7 @@ object Polynomials {
         return num
     }
 
+    // TODO cbrt = a.pow(1.0/3.0)
     fun solveCubic(c: DoubleArray, s: DoubleArray): Int {
         assert(c.size == 4)
         assert(s.size == 3)

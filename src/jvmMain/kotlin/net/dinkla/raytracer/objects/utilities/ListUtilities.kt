@@ -36,7 +36,7 @@ object ListUtilities {
         val widthQ = bboxQ.q.ith(axis) - pQ
         val medQ = pQ + 0.5 * widthQ
 
-        return java.lang.Double.compare(medP, medQ)
+        return medP.compareTo(medQ)
     }
 
     fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =

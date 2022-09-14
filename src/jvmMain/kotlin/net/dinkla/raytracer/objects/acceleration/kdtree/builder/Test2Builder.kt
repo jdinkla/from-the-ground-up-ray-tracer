@@ -107,7 +107,7 @@ class Test2Builder : TreeBuilder {
 
                 fun max(): Split {
                     val s = Split(null)
-                    s.sah = java.lang.Float.POSITIVE_INFINITY.toDouble()
+                    s.sah = Double.POSITIVE_INFINITY
                     return s
                 }
             }
