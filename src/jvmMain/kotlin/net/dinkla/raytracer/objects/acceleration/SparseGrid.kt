@@ -7,7 +7,7 @@ import net.dinkla.raytracer.interfaces.Timer
 import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import java.util.*
 import kotlin.math.pow
@@ -15,7 +15,7 @@ import kotlin.math.pow
 class SparseGrid() : Grid() {
 
     //protected GeometricObject[] cells;
-    private var cellsX: MutableMap<Int, GeometricObject> = mutableMapOf()
+    private var cellsX: MutableMap<Int, IGeometricObject> = mutableMapOf()
 
     override fun initialize() {
         if (isInitialized) {

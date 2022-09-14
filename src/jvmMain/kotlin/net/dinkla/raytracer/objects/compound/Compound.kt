@@ -8,11 +8,12 @@ import net.dinkla.raytracer.math.GeometricObjectUtilities
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.world.World
 
 open class Compound : GeometricObject() {
 
-    var objects: ArrayList<GeometricObject> = ArrayList()
+    var objects: ArrayList<IGeometricObject> = ArrayList()
 
     private var isUnit: Boolean = false
 
@@ -94,14 +95,14 @@ open class Compound : GeometricObject() {
         return false
     }
 
-    fun add(geometricObject: GeometricObject) {
+    fun add(geometricObject: IGeometricObject) {
         isInitialized = false
         geometricObject.initialize()
         objects.add(geometricObject)
         calcBoundingBox()
     }
 
-    fun add(objects: List<GeometricObject>) {
+    fun add(objects: List<IGeometricObject>) {
         isInitialized = false
         this.objects.addAll(objects)
         for (`object` in this.objects) {

@@ -1,15 +1,15 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 
 class SpatialMedianBuilder : TreeBuilder {
 
@@ -20,7 +20,7 @@ class SpatialMedianBuilder : TreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    fun build(objects: List<GeometricObject>, voxel: BBox?, depth: Int): Node {
+    fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
 
         Counter.count("KDtree.build")
 
@@ -41,8 +41,8 @@ class SpatialMedianBuilder : TreeBuilder {
 
         var split: Double? = null
 
-        val objectsL = ArrayList<GeometricObject>()
-        val objectsR = ArrayList<GeometricObject>()
+        val objectsL = ArrayList<IGeometricObject>()
+        val objectsR = ArrayList<IGeometricObject>()
 
         if (depth % 3 == 0) {
             // x

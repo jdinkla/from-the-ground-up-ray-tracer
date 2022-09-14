@@ -1,17 +1,17 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.GeometricObjectUtilities
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.utilities.ListUtilities
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
-import net.dinkla.raytracer.math.GeometricObjectUtilities
 import kotlin.math.abs
 
 class ObjectMedian2Builder : TreeBuilder {
@@ -23,19 +23,19 @@ class ObjectMedian2Builder : TreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    class Partitioner(internal var objects: List<GeometricObject>) {
+    class Partitioner(internal var objects: List<IGeometricObject>) {
 
-        internal var objectsL: ArrayList<GeometricObject>
-        internal var objectsR: ArrayList<GeometricObject>
+        internal var objectsL: ArrayList<IGeometricObject>
+        internal var objectsR: ArrayList<IGeometricObject>
 
-        private var objectsLx: ArrayList<GeometricObject>
-        private var objectsRx: ArrayList<GeometricObject>
+        private var objectsLx: ArrayList<IGeometricObject>
+        private var objectsRx: ArrayList<IGeometricObject>
 
-        private var objectsLy: ArrayList<GeometricObject>
-        private var objectsRy: ArrayList<GeometricObject>
+        private var objectsLy: ArrayList<IGeometricObject>
+        private var objectsRy: ArrayList<IGeometricObject>
 
-        private var objectsLz: ArrayList<GeometricObject>
-        private var objectsRz: ArrayList<GeometricObject>
+        private var objectsLz: ArrayList<IGeometricObject>
+        private var objectsRz: ArrayList<IGeometricObject>
 
         internal var axis: Axis = Axis.X
         internal var size: Int = 0
@@ -175,7 +175,7 @@ class ObjectMedian2Builder : TreeBuilder {
         }
     }
 
-    fun build(objects: List<GeometricObject>, voxel: BBox?, depth: Int): Node {
+    fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
 
         Counter.count("KDtree.build")
 

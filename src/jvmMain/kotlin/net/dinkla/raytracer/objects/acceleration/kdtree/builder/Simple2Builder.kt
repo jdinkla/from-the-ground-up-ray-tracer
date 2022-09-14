@@ -1,15 +1,15 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import kotlin.math.abs
 
 class Simple2Builder : TreeBuilder {
@@ -29,7 +29,7 @@ class Simple2Builder : TreeBuilder {
      * @param depth
      * @return
      */
-    fun build(objects: List<GeometricObject>, voxel: BBox, depth: Int): Node {
+    fun build(objects: List<IGeometricObject>, voxel: BBox, depth: Int): Node {
 
         Counter.count("KDtree.build")
 
@@ -48,8 +48,8 @@ class Simple2Builder : TreeBuilder {
         val half = voxel.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
 
-        val objectsL: List<GeometricObject>
-        val objectsR: List<GeometricObject>
+        val objectsL: List<IGeometricObject>
+        val objectsR: List<IGeometricObject>
 
         val voxelLx: BBox?
         val voxelRx: BBox?
@@ -60,12 +60,12 @@ class Simple2Builder : TreeBuilder {
         val voxelLz: BBox?
         val voxelRz: BBox?
 
-        val objectsLx = ArrayList<GeometricObject>()
-        val objectsRx = ArrayList<GeometricObject>()
-        val objectsLy = ArrayList<GeometricObject>()
-        val objectsRy = ArrayList<GeometricObject>()
-        val objectsLz = ArrayList<GeometricObject>()
-        val objectsRz = ArrayList<GeometricObject>()
+        val objectsLx = ArrayList<IGeometricObject>()
+        val objectsRx = ArrayList<IGeometricObject>()
+        val objectsLy = ArrayList<IGeometricObject>()
+        val objectsRy = ArrayList<IGeometricObject>()
+        val objectsLz = ArrayList<IGeometricObject>()
+        val objectsRz = ArrayList<IGeometricObject>()
 
         var split = mid.x
 

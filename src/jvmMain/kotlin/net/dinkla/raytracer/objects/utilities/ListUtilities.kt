@@ -1,14 +1,16 @@
 package net.dinkla.raytracer.objects.utilities
 
 import net.dinkla.raytracer.math.Axis
-import net.dinkla.raytracer.objects.GeometricObject
-import java.util.Collections
+import net.dinkla.raytracer.objects.IGeometricObject
+import java.util.*
 
 object ListUtilities {
 
-    fun splitByAxis(objects: List<GeometricObject>, split: Double, axis: Axis,
-                    objectsL: MutableList<GeometricObject>,
-                    objectsR: MutableList<GeometricObject>) {
+    fun splitByAxis(
+        objects: List<IGeometricObject>, split: Double, axis: Axis,
+        objectsL: MutableList<IGeometricObject>,
+        objectsR: MutableList<IGeometricObject>
+    ) {
         objectsL.clear()
         objectsR.clear()
         for (`object` in objects) {
@@ -22,7 +24,7 @@ object ListUtilities {
         }
     }
 
-    private fun compare(oP: GeometricObject, oQ: GeometricObject, axis: Axis): Int{
+    private fun compare(oP: IGeometricObject, oQ: IGeometricObject, axis: Axis): Int {
         val bboxP = oP.boundingBox
         val bboxQ = oQ.boundingBox
 
@@ -37,6 +39,6 @@ object ListUtilities {
         return java.lang.Double.compare(medP, medQ)
     }
 
-    fun sortByAxis(objects: List<GeometricObject>, axis: Axis) =
-            Collections.sort(objects) { p, q -> compare(p, q, axis) }
+    fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =
+        Collections.sort(objects) { p, q -> compare(p, q, axis) }
 }

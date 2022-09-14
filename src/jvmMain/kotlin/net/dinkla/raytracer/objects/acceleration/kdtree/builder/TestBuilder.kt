@@ -1,16 +1,16 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.math.GeometricObjectUtilities
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.utilities.ListUtilities
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
-import net.dinkla.raytracer.math.GeometricObjectUtilities
 import kotlin.math.abs
 
 class TestBuilder : TreeBuilder {
@@ -22,7 +22,7 @@ class TestBuilder : TreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    class Partitioner(objects: ArrayList<GeometricObject>, voxel: BBox) {
+    class Partitioner(objects: ArrayList<IGeometricObject>, voxel: BBox) {
 
         internal var root: Triple
 
@@ -39,7 +39,7 @@ class TestBuilder : TreeBuilder {
         class Triple {
 
             var bbox: BBox = BBox()
-            internal var objects: ArrayList<GeometricObject>? = null
+            internal var objects: ArrayList<IGeometricObject>? = null
             internal var volume: Double = 0.toDouble()
 
             init {
@@ -121,7 +121,7 @@ class TestBuilder : TreeBuilder {
         }
     }
 
-    fun build(objects: ArrayList<GeometricObject>?, voxel: BBox, depth: Int): Node {
+    fun build(objects: ArrayList<IGeometricObject>?, voxel: BBox, depth: Int): Node {
 
         Counter.count("KDtree.build")
 

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.NullObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Histogram
@@ -17,7 +17,7 @@ import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
 
-    private var cells: Array<GeometricObject> = Array(0) { i -> NullObject() }
+    private var cells: Array<IGeometricObject> = Array(0) { i -> NullObject() }
 
     protected var nx: Int = 0
     protected var ny: Int = 0
@@ -59,7 +59,7 @@ open class Grid : CompoundWithMesh() {
 
         LOGGER.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
-        cells = Array<GeometricObject>(numCells) { i -> NullObject() }
+        cells = Array(numCells) { i -> NullObject() }
 
         val counts = IntArray(numCells)
 

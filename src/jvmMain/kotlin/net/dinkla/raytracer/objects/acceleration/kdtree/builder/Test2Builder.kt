@@ -1,16 +1,16 @@
 package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 
+import net.dinkla.raytracer.interfaces.Counter
+import net.dinkla.raytracer.interfaces.jvm.getLogger
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
-import net.dinkla.raytracer.objects.GeometricObject
-import net.dinkla.raytracer.objects.acceleration.kdtree.Node
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
+import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.objects.utilities.ListUtilities
-import net.dinkla.raytracer.interfaces.Counter
-import net.dinkla.raytracer.interfaces.jvm.getLogger
-import java.util.TreeSet
+import java.util.*
 
 class Test2Builder : TreeBuilder {
 
@@ -21,7 +21,7 @@ class Test2Builder : TreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    class Partitioner(objects: List<GeometricObject>, voxel: BBox) {
+    class Partitioner(objects: List<IGeometricObject>, voxel: BBox) {
 
         internal var root: Triple
 
@@ -57,7 +57,7 @@ class Test2Builder : TreeBuilder {
         class Triple {
 
             var bbox: BBox? = null
-            internal var objects: List<GeometricObject>? = null
+            internal var objects: List<IGeometricObject>? = null
             internal var volume: Double = 0.toDouble()
 
             init {
@@ -143,7 +143,7 @@ class Test2Builder : TreeBuilder {
         }
     }
 
-    fun build(objects: List<GeometricObject>?, voxel: BBox?, depth: Int): Node {
+    fun build(objects: List<IGeometricObject>?, voxel: BBox?, depth: Int): Node {
 
         Counter.count("KDtree.build")
 

@@ -3,10 +3,10 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 
-class Leaf(objects: List<GeometricObject>) : Node {
+class Leaf(objects: List<IGeometricObject>) : Node {
 
     private val compound: Compound = Compound()
 

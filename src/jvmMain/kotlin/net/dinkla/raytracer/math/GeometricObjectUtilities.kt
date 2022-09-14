@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.math
 
-import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.IGeometricObject
 
 object GeometricObjectUtilities {
 
-    fun minCoordinates(objects: ArrayList<GeometricObject>): Point3D {
+    fun minCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
         var minX = java.lang.Double.POSITIVE_INFINITY
         var minY = java.lang.Double.POSITIVE_INFINITY
         var minZ = java.lang.Double.POSITIVE_INFINITY
@@ -23,7 +23,7 @@ object GeometricObjectUtilities {
         return Point3D(minX - MathUtils.K_EPSILON, minY - MathUtils.K_EPSILON, minZ - MathUtils.K_EPSILON)
     }
 
-    fun maxCoordinates(objects: ArrayList<GeometricObject>): Point3D {
+    fun maxCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
         var maxX = java.lang.Double.NEGATIVE_INFINITY
         var maxY = java.lang.Double.NEGATIVE_INFINITY
         var maxZ = java.lang.Double.NEGATIVE_INFINITY
@@ -42,7 +42,7 @@ object GeometricObjectUtilities {
         return Point3D(maxX + MathUtils.K_EPSILON, maxY + MathUtils.K_EPSILON, maxZ + MathUtils.K_EPSILON)
     }
 
-    fun minMaxCoordinates(objects: ArrayList<GeometricObject>): Pair<Point3D, Point3D> {
+    fun minMaxCoordinates(objects: ArrayList<IGeometricObject>): Pair<Point3D, Point3D> {
         var minX = java.lang.Double.POSITIVE_INFINITY
         var minY = java.lang.Double.POSITIVE_INFINITY
         var minZ = java.lang.Double.POSITIVE_INFINITY
@@ -76,7 +76,7 @@ object GeometricObjectUtilities {
         )
     }
 
-    fun create(objects: ArrayList<GeometricObject>): BBox {
+    fun create(objects: ArrayList<IGeometricObject>): BBox {
         if (objects.size > 0) {
             val (p0, p1) = minMaxCoordinates(objects)
             return BBox(p0, p1)

@@ -9,22 +9,21 @@ import net.dinkla.raytracer.math.Ray
 abstract class GeometricObject : IGeometricObject {
 
     // TODO needed?
-    open var isShadows = true
+    override var isShadows = true
 
     override var material: IMaterial? = null
 
     // TODO really needed?
     var isInitialized: Boolean = false
 
-    open fun initialize() {
+    override fun initialize() {
         isInitialized = true
     }
 
-    // TODO open?
-    open var boundingBox: BBox = BBox()
+    override var boundingBox: BBox = BBox()
 
-    abstract fun hit(ray: Ray, sr: IHit): Boolean
+    abstract override fun hit(ray: Ray, sr: IHit): Boolean
 
-    abstract fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean
+    abstract override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean
 
 }
