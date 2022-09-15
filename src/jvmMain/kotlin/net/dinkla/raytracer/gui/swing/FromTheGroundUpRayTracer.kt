@@ -72,11 +72,20 @@ private fun quit(frame: JFrame) {
     }
 }
 
+
 class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private val frame: JFrame = JFrame()
     private val textArea = JTextArea()
     private var selected: String? = null
+
+    private val tracers = Tracers.values()
+    private val tracerNames = tracers.map { it.name }.toTypedArray()
+    private val renderers = Renderers.values()
+    private val rendererNames = renderers.map { it.name }.toTypedArray()
+
+    private var selectedTracer = 0
+    private var selectedRenderer = 0
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default
 
@@ -128,7 +137,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         }
         val pngButton = JButton().apply {
             text = "PNG"
-            addActionListener { event: ActionEvent ->
+            addActionListener { _: ActionEvent ->
                 selected?.let { png(File(it)) }
             }
         }
@@ -139,16 +148,23 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             border = EmptyBorder(10, 10, 10, 10)
         }
 
-        val tracerNames = Tracers.values().map { it.name }.toTypedArray()
-        val tracerSelection = JComboBox<String>(tracerNames)
-        val rendererNames = Renderers.values().map { it.name }.toTypedArray()
-        val rendererSelection = JComboBox<String>(rendererNames)
+        val tracerComboBox = JComboBox(tracerNames).apply {
+            addActionListener { _: ActionEvent ->
+                selectedTracer = selectedIndex
+            }
+        }
+
+        val rendererComboBox = JComboBox(rendererNames).apply {
+            addActionListener { _: ActionEvent ->
+                selectedRenderer = selectedIndex
+            }
+        }
 
         val selections = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             border = EmptyBorder(10, 10, 10, 10)
-            add(tracerSelection)
-            add(rendererSelection)
+            add(tracerComboBox)
+            add(rendererComboBox)
         }
 
         val buttons = JPanel().apply {
@@ -174,18 +190,27 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     }
 
     private fun render(file: File) {
-        Logger.info("render ${file.name}")
-        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create)
+        Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
+        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create)
         worldDef(file.name)?.let {
             launch {
-                Render.render(it, context, { film: Film -> ImageFrame(film) }, { it.repaint() })
+                try {
+                    Render.render(it, context, { film: Film ->  ImageFrame(film) }, { it.repaint() })
+                } catch (e: Exception) {
+                    JOptionPane.showMessageDialog(
+                        frame,
+                        e.message,
+                        "Exception occurred",
+                        JOptionPane.ERROR_MESSAGE
+                    )
+                }
             }
         }
     }
 
     private fun png(file: File) {
-        Logger.info("png ${file.name}")
-        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create)
+        Logger.info("png ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
+        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create)
         worldDef(file.name)?.let {
             launch {
                 val (film, _) = Render.render(it, context)

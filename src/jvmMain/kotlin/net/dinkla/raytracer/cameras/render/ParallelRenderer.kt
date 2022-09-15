@@ -2,10 +2,8 @@ package net.dinkla.raytracer.cameras.render
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
-import kotlin.math.max
 
 class ParallelRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
@@ -98,12 +96,8 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
 
         override fun run() {
             var count = 0
-            val numLogLines = max(25, (yEnd - yStart) / 10)
             var r = yStart
             while (r < yEnd) {
-                if (count % numLogLines == 0) {
-                    Logger.info("ParallelRender: " + count + " of " + (yEnd - yStart))
-                }
                 var c = xStart
                 while (c < xEnd) {
                     var color = render.render(r, c)
