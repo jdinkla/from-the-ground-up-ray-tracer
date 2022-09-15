@@ -4,8 +4,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 actual class Film {
-    actual val resolution: Resolution
-        get() = TODO("Not yet implemented")
+
+    actual var resolution: Resolution = Resolution.RESOLUTION_1080
 
     actual fun setPixel(x: Int, y: Int, color: Color) {
     }
@@ -21,4 +21,5 @@ actual class Film {
 
     actual fun save(filename: String) {
     }
+
 }

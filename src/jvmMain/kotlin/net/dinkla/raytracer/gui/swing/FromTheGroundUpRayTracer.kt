@@ -5,11 +5,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.films.Render
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.interfaces.AppProperties
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.world.Render
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
@@ -163,7 +163,8 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             launch {
                 val world = it.world()
                 world.initialize()
-                val film = Film(world.viewPlane.resolution)
+                val film = Film()
+                film.resolution = world.viewPlane.resolution
                 val imf = ImageFrame(film)
                 world.renderer?.render(film)
                 imf.repaint()

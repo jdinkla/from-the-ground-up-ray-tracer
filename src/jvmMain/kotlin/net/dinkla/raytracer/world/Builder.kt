@@ -11,11 +11,13 @@ object Builder {
 
     var resolution: Resolution = Resolution(width, height)
 
-    fun build(id: String, build: WorldScope.() -> Unit): World {
+    fun build(id: String, resolution: Resolution, build: WorldScope.() -> Unit): World {
         val scope = WorldScope(id, resolution)
         scope.build()
         return scope.world
     }
+
+    fun build(id: String, build: WorldScope.() -> Unit): World = build(id, resolution, build)
 
 }
 

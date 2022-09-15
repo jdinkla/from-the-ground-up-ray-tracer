@@ -1,10 +1,10 @@
 package net.dinkla.raytracer.gui
 
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.films.Render
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.world.Render
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {

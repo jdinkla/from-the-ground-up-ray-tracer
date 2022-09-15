@@ -5,7 +5,9 @@ import net.dinkla.raytracer.utilities.Png
 import net.dinkla.raytracer.utilities.Resolution
 import java.awt.image.BufferedImage
 
-actual class Film(actual val resolution: Resolution) {
+actual class Film {
+
+    actual var resolution: Resolution = Resolution.RESOLUTION_1080
 
     val image = BufferedImage(resolution.hres, resolution.vres, BufferedImage.TYPE_INT_RGB)
 
