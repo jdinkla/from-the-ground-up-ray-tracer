@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.awt
+package net.dinkla.raytracer.gui.swing
 
 import java.awt.Canvas
 import java.awt.Dimension

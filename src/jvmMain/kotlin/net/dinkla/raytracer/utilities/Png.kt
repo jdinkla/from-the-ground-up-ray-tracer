@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.awt
+package net.dinkla.raytracer.utilities
 
 import java.awt.image.RenderedImage
 import java.io.File

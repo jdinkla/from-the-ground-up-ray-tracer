@@ -12,7 +12,7 @@ class Renderer {
     var renderer: IRenderer? = null
 
     fun render(film: Film) {
-        assert(null != renderer)
+        renderer!!
 
         val timer = Timer()
         timer.start()

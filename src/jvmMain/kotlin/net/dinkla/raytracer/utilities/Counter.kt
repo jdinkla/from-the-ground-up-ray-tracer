@@ -24,7 +24,7 @@ actual object Counter {
         }
     }
 
-    fun stats(columns: Int) = printStats(calculateStats(), columns)
+    actual fun stats(columns: Int) = printStats(calculateStats(), columns)
 
     private fun printStats(results: TreeMap<String, Int>, columns: Int) {
         println("Counter")
@@ -49,7 +49,7 @@ actual object Counter {
         return results
     }
 
-    fun reset() {
+    actual fun reset() {
         instances.clear()
     }
 }

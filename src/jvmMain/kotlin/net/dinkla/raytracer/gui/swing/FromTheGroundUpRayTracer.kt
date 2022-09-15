@@ -4,9 +4,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.gui.Render
-import net.dinkla.raytracer.gui.awt.AwtFilm
-import net.dinkla.raytracer.gui.awt.Png
+import net.dinkla.raytracer.films.Film
+import net.dinkla.raytracer.films.Render
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.interfaces.AppProperties
@@ -29,6 +28,8 @@ val confirmationHeader = AppProperties["confirmation.headerText"] as String
 val appWidth = AppProperties.getAsInteger("display.width")
 val appHeight = AppProperties.getAsInteger("display.height")
 val appTitle = AppProperties["app.title"] as String
+val pngTitle = AppProperties["png.title"] as String
+val pngMessage = AppProperties["png.message"] as String
 
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
@@ -162,7 +163,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             launch {
                 val world = it.world()
                 world.initialize()
-                val film = AwtFilm(world.viewPlane.resolution)
+                val film = Film(world.viewPlane.resolution)
                 val imf = ImageFrame(film)
                 world.renderer?.render(film)
                 imf.repaint()
@@ -174,11 +175,8 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         Logger.info("png ${file.name}")
         worldDef(file.name)?.let {
             launch {
-                val output = getOutputPngFileName(file.name)
                 val (film, _) = Render.render(it)
-                Png.save(film.image, output)
-                val pngTitle = AppProperties["png.title"] as String
-                val pngMessage = AppProperties["png.message"] as String
+                film.save(getOutputPngFileName(file.name))
                 JOptionPane.showMessageDialog(
                     frame,
                     pngMessage,

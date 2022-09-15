@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.gui
 
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.gui.awt.Png
+import net.dinkla.raytracer.films.Render
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
         exitProcess(1)
     } else {
         val (film, _) = Render.render(worldDefinition)
-        Png.save(film.image, fileNameOut)
+        film.save(fileNameOut)
         Counter.stats(30)
 
         println("Hits")

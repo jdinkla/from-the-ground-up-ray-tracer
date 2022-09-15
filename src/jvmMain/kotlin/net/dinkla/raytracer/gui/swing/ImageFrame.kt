@@ -1,16 +1,15 @@
 package net.dinkla.raytracer.gui.swing
 
-import net.dinkla.raytracer.gui.awt.AwtFilm
-import net.dinkla.raytracer.gui.awt.ImageCanvas
+import net.dinkla.raytracer.films.Film
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.JFrame
 
-class ImageFrame private constructor(film: AwtFilm, private val isMainFrame: Boolean) : JFrame() {
+class ImageFrame private constructor(film: Film, private val isMainFrame: Boolean) : JFrame() {
 
     private val canvas = ImageCanvas(film.image)
 
-    constructor(film: AwtFilm) : this(film, false) {
+    constructor(film: Film) : this(film, false) {
         add(canvas)
         setSize(film.resolution.hres, film.resolution.vres + 22)
         addWindowListener(windowAdapter)
