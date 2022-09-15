@@ -7,7 +7,6 @@ import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.materials.IMaterial
@@ -15,6 +14,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.tracers.Tracer
+import net.dinkla.raytracer.utilities.Counter
 
 class World(val id: String, val viewPlane: ViewPlane) : IWorld {
 

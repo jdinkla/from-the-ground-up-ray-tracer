@@ -56,7 +56,9 @@ class FlatMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(mes
             return false
 
         sr.t = t
-        assert(normal != null)
+        if (normal == null) {
+            throw AssertionError()
+        }
         sr.normal = normal ?: Normal.ZERO
 
         return true

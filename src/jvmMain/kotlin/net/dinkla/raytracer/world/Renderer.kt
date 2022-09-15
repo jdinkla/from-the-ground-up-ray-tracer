@@ -2,9 +2,9 @@ package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.films.Film
-import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.interfaces.Timer
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 
 class Renderer {

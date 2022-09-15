@@ -8,14 +8,14 @@ import kotlin.math.sqrt
 
 class LightProbeMap : Mapping() {
 
-    private var type: Type= Type.LIGHT_PROBE
+    private var type: Type = Type.LIGHT_PROBE
 
     enum class Type {
         LIGHT_PROBE,
         PANORAMIC
     }
 
-    override fun getTexelCoordinates(p: Point3D, res: Resolution): Mapping.Mapped {
+    override fun getTexelCoordinates(p: Point3D, res: Resolution): Mapped {
         val d = sqrt(p.x * p.x + p.y * p.y)
         val sinBeta = p.y / d
         val cosBeta = p.x / d

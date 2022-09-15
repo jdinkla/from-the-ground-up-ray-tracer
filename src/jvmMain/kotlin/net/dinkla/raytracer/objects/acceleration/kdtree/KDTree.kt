@@ -3,11 +3,11 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
+import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.ln
 

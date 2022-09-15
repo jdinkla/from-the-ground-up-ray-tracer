@@ -1,15 +1,15 @@
 package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.hits.*
-import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.IGeometricObject
+import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
-import net.dinkla.raytracer.world.World
+import net.dinkla.raytracer.world.IWorld
 
 open class Compound : GeometricObject(), ICompound {
 
@@ -61,7 +61,7 @@ open class Compound : GeometricObject(), ICompound {
         return hit
     }
 
-    fun hitObjects(world: World, ray: Ray): Shade {
+    fun hitObjects(world: IWorld, ray: Ray): Shade {
         Counter.count("Compound.hitObjects")
         val tmin = WrappedDouble.createMax()
         val sr = Shade()

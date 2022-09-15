@@ -2,10 +2,10 @@ package net.dinkla.raytracer.tracers
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.interfaces.Counter
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
+import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.world.IWorld
 
