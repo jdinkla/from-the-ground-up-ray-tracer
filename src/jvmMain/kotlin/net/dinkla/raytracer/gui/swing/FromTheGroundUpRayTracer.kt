@@ -122,7 +122,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     private fun rightSide(): JPanel {
         val renderButton = JButton().apply {
             text = "Render"
-            addActionListener { event: ActionEvent ->
+            addActionListener { _: ActionEvent ->
                 selected?.let { render(File(it)) }
             }
         }
@@ -139,6 +139,18 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             border = EmptyBorder(10, 10, 10, 10)
         }
 
+        val tracerNames = Tracers.values().map { it.name }.toTypedArray()
+        val tracerSelection = JComboBox<String>(tracerNames)
+        val rendererNames = Renderers.values().map { it.name }.toTypedArray()
+        val rendererSelection = JComboBox<String>(rendererNames)
+
+        val selections = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            border = EmptyBorder(10, 10, 10, 10)
+            add(tracerSelection)
+            add(rendererSelection)
+        }
+
         val buttons = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             border = EmptyBorder(10, 10, 10, 10)
@@ -147,6 +159,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         }
         return JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            add(selections)
             add(buttons)
             add(textArea)
         }
