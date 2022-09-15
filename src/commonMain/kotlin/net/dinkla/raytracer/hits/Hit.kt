@@ -2,16 +2,17 @@ package net.dinkla.raytracer.hits
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.IGeometricObject
-import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.ICompound
 
 open class Hit : ShadowHit, IHit {
 
     override var normal: Normal = Normal.ZERO
 
-    // Wird erst ab Compound gefüllt
     override var geometricObject: IGeometricObject?
         set(value) {
-            assert(value !is Compound)
+            if (value is ICompound) {
+                throw AssertionError()
+            }
             field = value
         }
 
@@ -30,6 +31,7 @@ open class Hit : ShadowHit, IHit {
         geometricObject = hit.geometricObject
     }
 
+    // TODO mutable state
     fun set(hit: Hit) {
         t = hit.t
         normal = hit.normal

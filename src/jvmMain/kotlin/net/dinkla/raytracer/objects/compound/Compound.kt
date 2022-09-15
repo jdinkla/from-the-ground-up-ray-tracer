@@ -11,7 +11,7 @@ import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.world.World
 
-open class Compound : GeometricObject() {
+open class Compound : GeometricObject(), ICompound {
 
     var objects: ArrayList<IGeometricObject> = ArrayList()
 
