@@ -32,9 +32,9 @@ fun worldDef(filename: String): WorldDefinition? =
             "World74kdt.kt" -> World74kdt
             "World75.kt" -> World75
             "World75b.kt" -> World75b
-            "NewWorld1.kt" -> NewWorld1
-            "NewWorld2.kt" -> NewWorld2
-            "NewWorld3.kt" -> NewWorld3
-            "NewWorld4.kt" -> NewWorld4
+            "NewWorld1.kt" -> net.dinkla.raytracer.examples.NewWorld1
+            "NewWorld2.kt" -> net.dinkla.raytracer.examples.NewWorld2
+            "NewWorld3.kt" -> net.dinkla.raytracer.examples.NewWorld3
+            "NewWorld4.kt" -> net.dinkla.raytracer.examples.NewWorld4
             else -> null
         }

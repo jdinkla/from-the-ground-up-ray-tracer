@@ -3,19 +3,16 @@ package net.dinkla.raytracer.examples
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.Sphere
-import net.dinkla.raytracer.textures.ImageTexture
-import net.dinkla.raytracer.textures.SphericalMap
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
 object World72 : WorldDefinition {
 
-    val tex1 = ImageTexture("/opt/rendering/textures/rtftgu/SphereGrid.png")
-
+    // val tex1 = ImageTexture("/opt/rendering/textures/rtftgu/SphereGrid.png")
 
     override fun world() = Builder.build("World72") {
 
-        tex1.mapping = SphericalMap()
+        //tex1.mapping = SphericalMap()
         val sphere = Sphere(center = p(0, 1, 0), radius = 1.0)
 
         //  camera(d: 2000, eye: p(-4, 3, 20), lookAt: p(3, 1, 1), numThreads: 30)
@@ -36,8 +33,8 @@ object World72 : WorldDefinition {
         }
 
         objects {
-            plane(material= "grey")
-            plane(material= "sky", point= p(0.0, 100.0, 0.0), normal= Normal.DOWN)
+            plane(material = "grey")
+            plane(material = "sky", point = p(0.0, 100.0, 0.0), normal = Normal.DOWN)
 
             sphere(material = "id", center = p(0, 1, 0), radius = 0.5)
 //            instance(material = "tex1", theObject = sphere) {
