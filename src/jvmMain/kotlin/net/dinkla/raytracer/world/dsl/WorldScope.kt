@@ -2,10 +2,8 @@ package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
-import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.cameras.render.Renderers
-import net.dinkla.raytracer.cameras.render.SimpleSingleRayRenderer
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.math.Normal
@@ -14,15 +12,12 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Resolution
-import net.dinkla.raytracer.world.Renderer
 import net.dinkla.raytracer.world.World
 
 @Suppress("TooManyFunctions")
 class WorldScope(val id: String, val resolution: Resolution) {
 
-    val viewPlane = ViewPlane(resolution)
-    val world: World = World(id, viewPlane)
-    val renderer = Renderer()
+    val world: World = World(id, ViewPlane(resolution))
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
@@ -46,20 +41,9 @@ class WorldScope(val id: String, val resolution: Resolution) {
                tracer: Tracers = Tracers.WHITTED) {
         val lens = Pinhole(world.viewPlane)
         lens.d = d
-
-        val tracer = tracer.create(world)
-        world.tracer = tracer
-
-        val singleRayRenderer = SimpleSingleRayRenderer(lens, tracer)
-        val corrector: IColorCorrector = world.viewPlane
-        this.renderer.renderer = engine.create(singleRayRenderer, corrector)
-
         val camera = Camera(lens)
         camera.setup(eye, lookAt, up)
         world.camera = camera
-
-        // tmp
-        world.renderer = this.renderer
     }
 
     fun ambientLight(color: Color = Color.WHITE, ls: Double = 1.0) {

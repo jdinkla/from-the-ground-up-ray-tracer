@@ -18,18 +18,18 @@ import net.dinkla.raytracer.utilities.Counter
 
 class World(val id: String, val viewPlane: ViewPlane) : IWorld {
 
-    override var lights: List<Light> = listOf()
-    override var tracer: Tracer? = null
-    override var ambientLight = Ambient()
-    override var backgroundColor: Color = Color.BLACK
-
     val compound: Compound = Compound()
-    var materials: Map<String, IMaterial> = mapOf()
 
+    override var tracer: Tracer? = null
+    var renderer: Renderer? = null
+
+    override var backgroundColor: Color = Color.BLACK
+    override var lights: List<Light> = listOf()
+    override var ambientLight = Ambient()
+    var materials: Map<String, IMaterial> = mapOf()
     var objects: List<GeometricObject> = listOf()
 
     // tmp
-    var renderer: Renderer? = null
     var camera: Camera? = null
 
     fun hit(ray: Ray): Shade {

@@ -5,7 +5,7 @@ import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 
-open class Camera(private val lens: AbstractLens) {
+open class Camera(val lens: AbstractLens) {
 
     private var eye: Point3D = Point3D(0.0, 10.0, 0.0)
     private var lookAt: Point3D = Point3D.ORIGIN

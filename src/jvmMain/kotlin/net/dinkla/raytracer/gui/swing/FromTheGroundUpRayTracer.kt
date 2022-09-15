@@ -3,12 +3,15 @@ package net.dinkla.raytracer.gui.swing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
-import net.dinkla.raytracer.interfaces.AppProperties
+import net.dinkla.raytracer.tracers.Tracers
+import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
@@ -159,24 +162,20 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun render(file: File) {
         Logger.info("render ${file.name}")
+        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create)
         worldDef(file.name)?.let {
             launch {
-                val world = it.world()
-                world.initialize()
-                val film = Film()
-                film.resolution = world.viewPlane.resolution
-                val imf = ImageFrame(film)
-                world.renderer?.render(film)
-                imf.repaint()
+                Render.render(it, context, { film: Film -> ImageFrame(film) }, { it.repaint() })
             }
         }
     }
 
     private fun png(file: File) {
         Logger.info("png ${file.name}")
+        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create)
         worldDef(file.name)?.let {
             launch {
-                val (film, _) = Render.render(it)
+                val (film, _) = Render.render(it, context)
                 film.save(getOutputPngFileName(file.name))
                 JOptionPane.showMessageDialog(
                     frame,

@@ -15,7 +15,6 @@ import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Sphere
-import net.dinkla.raytracer.tracers.AreaLighting
 
 class BuilderTest : AnnotationSpec() {
 
@@ -136,7 +135,6 @@ class BuilderTest : AnnotationSpec() {
         val w = World23.world()
         w.size() shouldBe 3
         w.lights.size shouldBe 1
-        w.tracer.shouldBeInstanceOf<AreaLighting>()
     }
 
     @Test
@@ -152,7 +150,6 @@ class BuilderTest : AnnotationSpec() {
         val w = World34.world()
         w.viewPlane shouldNotBe null
         w.camera shouldNotBe null
-        w.tracer shouldNotBe null
         w.size() shouldBe 6
         w.lights.size shouldBe 1
     }
