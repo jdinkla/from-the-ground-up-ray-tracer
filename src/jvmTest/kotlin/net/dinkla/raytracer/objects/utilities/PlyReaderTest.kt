@@ -6,6 +6,8 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
+import net.dinkla.raytracer.utilities.Ply
+import net.dinkla.raytracer.utilities.PlyReader
 
 class PlyReaderTest : AnnotationSpec() {
 

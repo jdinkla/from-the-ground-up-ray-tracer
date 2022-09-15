@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.objects.beveled
 
+import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
@@ -10,7 +11,6 @@ import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
-import net.dinkla.raytracer.math.Axis
 
 class BeveledBox(
     val p0: Point3D,

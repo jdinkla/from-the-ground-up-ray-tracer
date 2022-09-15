@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.objects.utilities
+package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.Normal

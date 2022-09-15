@@ -3,13 +3,12 @@ package net.dinkla.raytracer.objects.acceleration
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
-import net.dinkla.raytracer.interfaces.Timer
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Logger
-import java.util.*
+import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.pow
 
 class SparseGrid() : Grid() {
@@ -45,7 +44,7 @@ class SparseGrid() : Grid() {
         Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
         //cells = new GeometricObject[numCells];
-        cellsX = TreeMap()
+        cellsX = mutableMapOf()
         //cellsX.ensureCapacity(numCells/10);
 
         val counts = IntArray(numCells)
@@ -61,7 +60,7 @@ class SparseGrid() : Grid() {
         // insert the objects into the cells
         for (`object` in objects) {
 
-            if (objectsToGo % Grid.Companion.logInterval == 0) {
+            if (objectsToGo % logInterval == 0) {
                 Logger.info("Grid: $objectsToGo objects to grid")
             }
             objectsToGo--

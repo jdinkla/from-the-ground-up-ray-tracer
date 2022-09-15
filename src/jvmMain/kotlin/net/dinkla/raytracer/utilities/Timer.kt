@@ -1,19 +1,19 @@
-package net.dinkla.raytracer.interfaces
+package net.dinkla.raytracer.utilities
 
-class Timer {
+actual class Timer {
 
     private var startTime: Long = 0L
     private var endTime: Long = 0L
 
-    val duration: Long
+    actual val duration: Long
         get() = endTime - startTime
 
-    fun start() {
+    actual fun start() {
         startTime = System.currentTimeMillis()
         endTime = 0L
     }
 
-    fun stop() {
+    actual fun stop() {
         assert(endTime == 0L)
         endTime = System.currentTimeMillis()
     }

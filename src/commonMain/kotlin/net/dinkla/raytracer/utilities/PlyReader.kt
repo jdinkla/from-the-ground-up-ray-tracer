@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.objects.utilities
+package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
@@ -7,12 +7,12 @@ import net.dinkla.raytracer.objects.acceleration.Grid.Companion.logInterval
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
-import net.dinkla.raytracer.utilities.Logger
 
 class PlyReader(val material: IMaterial,
                 val reverseNormal: Boolean = false,
                 val isSmooth: Boolean = false,
-                val compound: CompoundWithMesh) {
+                val compound: CompoundWithMesh
+) {
 
     private val mesh = compound.mesh
 
@@ -132,7 +132,7 @@ class PlyReader(val material: IMaterial,
 
         internal fun parseNumVertices(line: String): Int {
             val rest = line.replace(elemVertex, "").trim()
-            return Integer.parseInt(rest)
+            return rest.toInt()
         }
 
         val elemFace = "element\\W+face".toRegex()
@@ -140,7 +140,7 @@ class PlyReader(val material: IMaterial,
 
         fun parseNumFaces(line: String): Int {
             val rest = line.replace(elemFace, "").trim()
-            return Integer.parseInt(rest)
+            return rest.toInt()
         }
 
         fun isWhiteSpace(line: String) = line.trim().isEmpty()

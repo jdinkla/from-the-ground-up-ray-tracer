@@ -1,6 +1,5 @@
-package net.dinkla.raytracer.objects.utilities
+package net.dinkla.raytracer.utilities
 
-import net.dinkla.raytracer.interfaces.read
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.CompoundWithMesh

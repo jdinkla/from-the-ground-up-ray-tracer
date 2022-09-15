@@ -16,7 +16,7 @@ class SVGlossySpecular(
 ) : BRDF {
 
     override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
-        assert(null != cs)
+        cs!!
         val nDotWi = wi dot sr.normal
         val r = (wi * -1.0) + sr.normal.toVector3D() * (2 * nDotWi)
         val rDotWo = r dot wo
@@ -28,10 +28,7 @@ class SVGlossySpecular(
     }
 
     override fun sampleF(sr: IShade, wo: Vector3D): Sample {
-        assert(null != cs)
-        val cs = this.cs!!
-
-
+        cs!!
         val nDotWo = wo dot sr.normal
 
         val w = wo * -1.0 + sr.normal.toVector3D() * (2.0 * nDotWo)
@@ -46,7 +43,7 @@ class SVGlossySpecular(
 
         val phongLobe = (wi dot w).pow(exp)
 
-        return Sample(wi = wi, pdf = phongLobe * (wi dot sr.normal), color = cs.getColor(sr) * (ks * phongLobe))
+        return Sample(wi = wi, pdf = phongLobe * (wi dot sr.normal), color = cs!!.getColor(sr) * (ks * phongLobe))
     }
 
     override fun rho(sr: IShade, wo: Vector3D): Color {

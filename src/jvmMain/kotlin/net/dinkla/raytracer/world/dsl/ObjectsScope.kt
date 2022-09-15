@@ -7,14 +7,14 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.*
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.Grid
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
+import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
-import net.dinkla.raytracer.objects.utilities.Ply
+import net.dinkla.raytracer.utilities.Ply
 
 @Suppress("TooManyFunctions")
 class ObjectsScope(internal val materials: Map<String, IMaterial>, private val compound: Compound) {

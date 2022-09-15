@@ -1,8 +1,7 @@
-package net.dinkla.raytracer.objects.utilities
+package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.objects.IGeometricObject
-import java.util.*
 
 object ListUtilities {
 
@@ -40,5 +39,6 @@ object ListUtilities {
     }
 
     fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =
-        Collections.sort(objects) { p, q -> compare(p, q, axis) }
+        objects.sortedWith { p, q -> compare(p, q, axis)}
+
 }

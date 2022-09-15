@@ -2,6 +2,7 @@ package net.dinkla.raytracer.interfaces
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
+import net.dinkla.raytracer.utilities.Timer
 
 class TimerTest : AnnotationSpec() {
 

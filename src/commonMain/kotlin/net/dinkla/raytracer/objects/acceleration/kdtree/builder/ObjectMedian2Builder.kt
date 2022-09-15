@@ -8,9 +8,9 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
-import net.dinkla.raytracer.objects.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
+import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
