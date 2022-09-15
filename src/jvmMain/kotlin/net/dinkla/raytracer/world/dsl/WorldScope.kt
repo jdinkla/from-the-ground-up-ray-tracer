@@ -3,14 +3,12 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.lenses.Pinhole
-import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.World
 
@@ -36,9 +34,8 @@ class WorldScope(val id: String, val resolution: Resolution) {
     fun camera(d: Double = 1.0,
                eye: Point3D = Point3D.ORIGIN,
                lookAt : Point3D = Point3D.ORIGIN,
-               up : Vector3D = Vector3D.UP,
-               engine: Renderers = Renderers.FORK_JOIN,
-               tracer: Tracers = Tracers.WHITTED) {
+               up : Vector3D = Vector3D.UP
+    ) {
         val lens = Pinhole(world.viewPlane)
         lens.d = d
         val camera = Camera(lens)

@@ -7,7 +7,6 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.arealights.DiskLight
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -16,7 +15,7 @@ object NewWorld4 : WorldDefinition {
 
     override fun world(): World = Builder.build("New World 3 - emissive") {
 
-        camera(d = 1000.0, eye = p(-5.0, 1.5, -5.0), lookAt = p(0.5, 0.5, 0.0), tracer = Tracers.AREA)
+        camera(d = 1000.0, eye = p(-5.0, 1.5, -5.0), lookAt = p(0.5, 0.5, 0.0))
 
         ambientLight(ls = 0.75)
 

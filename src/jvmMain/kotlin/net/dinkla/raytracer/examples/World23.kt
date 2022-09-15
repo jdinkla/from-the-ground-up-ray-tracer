@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.arealights.RectangleLight
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder.build
 import net.dinkla.raytracer.world.WorldDefinition
 
@@ -19,7 +18,7 @@ object World23 : WorldDefinition {
 //    camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
         // TODO type and maxPSi camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
         //camera(eye= p(0.0, 1.5, 10.0), lookAt= p(0, 1, 0), type = FishEye, maxPsi = 180)
-        camera(eye = p(0.0, 1.5, 10.0), lookAt = p(0, 1, 0), tracer = Tracers.AREA)
+        camera(eye = p(0.0, 1.5, 10.0), lookAt = p(0, 1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.5)
 

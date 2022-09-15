@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples
 
-import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
@@ -21,7 +20,7 @@ object World42 : WorldDefinition {
 //    camera(direction= 1000, eye= p(-5, NUM + 5, NUM + 5), lookAt= p(column, NUM - 10, column), type= IterativePinhole)
 //    camera(direction= 1000, eye= p(-5, NUM + 5, NUM + 5), lookAt= p(column, NUM - NUM/5, column), type= PinholePar)
 //        camera(d= 1000.0, eye= p(-1, NUM, NUM + 5), lookAt= p(column, NUM - NUM/5, column), numThreads= 30)
-        camera(d = 1000.0, eye = p(-1, NUM, NUM + 5), lookAt = p(column, NUM - NUM / 5.0, column), engine = Renderers.COROUTINE)
+        camera(d = 1000.0, eye = p(-1, NUM, NUM + 5), lookAt = p(column, NUM - NUM / 5.0, column))
 
         ambientLight(color = Color.WHITE, ls = 0.5)
 

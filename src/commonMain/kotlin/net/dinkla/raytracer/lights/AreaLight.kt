@@ -68,23 +68,23 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
     }
 
     override fun sample(): Point3D {
-        throw RuntimeException("NLU")
+        throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
     override fun getNormal(p: Point3D): Normal {
-        throw RuntimeException("NLU")
+        throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
     override fun L(world: IWorld, sr: IShade): Color {
-        throw RuntimeException("NLU")
+        throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
     override fun getDirection(sr: IShade): Vector3D {
-        throw RuntimeException("NLU")
+        throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
     override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean {
-        throw RuntimeException("NLU")
+        throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
     override fun getLightMaterial(): IMaterial = material!!
