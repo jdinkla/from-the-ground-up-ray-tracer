@@ -16,9 +16,10 @@ import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 
-class World(val id: String, val viewPlane: ViewPlane) : IWorld {
+class World(val id: String) : IWorld {
 
     val compound: Compound = Compound()
+    val viewPlane = ViewPlane()
 
     override var tracer: Tracer? = null
     var renderer: Renderer? = null

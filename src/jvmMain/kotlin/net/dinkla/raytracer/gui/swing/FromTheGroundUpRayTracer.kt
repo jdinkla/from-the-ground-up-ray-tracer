@@ -11,6 +11,7 @@ import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import java.awt.event.ActionEvent
@@ -33,6 +34,9 @@ val appHeight = AppProperties.getAsInteger("display.height")
 val appTitle = AppProperties["app.title"] as String
 val pngTitle = AppProperties["png.title"] as String
 val pngMessage = AppProperties["png.message"] as String
+val width = AppProperties.getAsInteger("render.resolution.width")
+val height = AppProperties.getAsInteger("render.resolution.height")
+var resolution: Resolution = Resolution(width, height)
 
 private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(JMenu("File").apply {
@@ -191,7 +195,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun render(file: File) {
         Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
-        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create)
+        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
         worldDef(file.name)?.let {
             launch {
                 try {
@@ -210,7 +214,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun png(file: File) {
         Logger.info("png ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
-        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create)
+        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
         worldDef(file.name)?.let {
             launch {
                 val (film, _) = Render.render(it, context)

@@ -1,12 +1,10 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.samplers.Sampler
 
-class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
+class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
     var sampler: Sampler? = null           // unit disk
 
@@ -32,7 +30,7 @@ class ThinLens(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val lp = Point2D(dp.x * lensRadius, dp.y * lensRadius)
         //        Point3D origin = eye.plus(u.minus(lp.x)).plus(v.minus(lp.y));
         // val o = eye!!.plus(uvw!!.pp(lp.x, lp.y, 0.0))
-        return Ray(eye!!, getRayDirection(pp, lp))
+        return Ray(eye, getRayDirection(pp, lp))
     }
 
     private fun getRayDirection(pixel: Point2D, lens: Point2D): Vector3D {

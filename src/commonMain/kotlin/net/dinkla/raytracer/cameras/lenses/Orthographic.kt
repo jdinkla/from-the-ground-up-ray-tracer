@@ -1,12 +1,9 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.*
 
-class Orthographic(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
+class Orthographic(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
     private var zw = 1111.0
 

@@ -4,7 +4,9 @@ import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
-class ViewPlane(val resolution: Resolution) : IColorCorrector {
+class ViewPlane : IColorCorrector {
+    var resolution = Resolution.RESOLUTION_1080
+
     var sizeOfPixel: Double = 1.0
         private set
 
@@ -14,7 +16,7 @@ class ViewPlane(val resolution: Resolution) : IColorCorrector {
     private var showOutOfGamutForDebugging: Boolean = false
 
     var maximalRecursionDepth: Int = 5
-        private set(value: Int) {
+        private set(value) {
             field = value
         }
 

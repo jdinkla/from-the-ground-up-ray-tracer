@@ -6,6 +6,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import kotlin.system.exitProcess
@@ -27,7 +28,7 @@ fun main(args: Array<String>) {
         Logger.warn("WorldDef $fileNameIn is not known")
         exitProcess(1)
     } else {
-        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create)
+        val context = Context(Tracers.WHITTED.create, Renderers.FORK_JOIN.create, Resolution.RESOLUTION_1080)
         val (film, _) = Render.render(worldDefinition, context)
         film.save(fileNameOut)
         Counter.stats(30)

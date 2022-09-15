@@ -1,16 +1,13 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.math.MathUtils
-import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.Resolution
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
+class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
     private val maxPsi: Double = 1.0
 
@@ -26,7 +23,7 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
-            ray = Ray(eye!!, rd.direction!!)
+            ray = Ray(eye, rd.direction!!)
         }
         return ray
     }
@@ -38,7 +35,7 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
-            ray = Ray(eye!!, rd.direction!!)
+            ray = Ray(eye, rd.direction!!)
         }
         return ray
     }
@@ -56,7 +53,7 @@ class FishEye(viewPlane: ViewPlane) : AbstractLens(viewPlane) {
             val sinAlpha = y / r
             val cosAlpha = x / r
             //            rd.direction = uvw.u.minus(sinPsi * cosAlpha).plus(uvw.v.minus(sinPsi * sinAlpha)).minus(uvw.w.minus(cosPsi));
-            rd.direction = uvw!!.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi)
+            rd.direction = uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi)
             rd.rSquared = rSquared
         } else {
             rd.direction = Vector3D.ZERO

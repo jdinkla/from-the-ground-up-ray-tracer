@@ -6,13 +6,10 @@ import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.utilities.Resolution
 
 class CameraTest : StringSpec({
     "testComputeUVW" {
-        val lens = Pinhole(ViewPlane(Resolution.RESOLUTION_1080))
-        val c = Camera(lens)
-        c.setup(eye = Point3D.ORIGIN, lookAt = Point3D.ORIGIN, up = Vector3D.UP)
+        val c = Camera({  eye, uvw -> Pinhole(ViewPlane(), eye, uvw) }, Point3D.ORIGIN, Point3D.ORIGIN, Vector3D.UP)
         c.uvw.u shouldNotBe null
         c.uvw.v shouldNotBe null
         c.uvw.w shouldNotBe null
