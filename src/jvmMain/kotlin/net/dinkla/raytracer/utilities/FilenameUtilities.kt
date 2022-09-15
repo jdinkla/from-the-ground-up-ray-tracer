@@ -2,7 +2,7 @@ package net.dinkla.raytracer.gui
 
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 fun getOutputPngFileName(fileName: String): String {
     var outFileName = fileName.replace(".[a-zA-Z0-9]+$".toRegex(), "")

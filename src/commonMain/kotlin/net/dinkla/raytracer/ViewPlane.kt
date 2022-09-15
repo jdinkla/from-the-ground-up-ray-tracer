@@ -13,8 +13,7 @@ class ViewPlane(val resolution: Resolution) : IColorCorrector {
 
     private var showOutOfGamutForDebugging: Boolean = false
 
-    // maximal recursion depth
-    var maxDepth: Int = 5
+    var maximalRecursionDepth: Int = 5
         private set(value: Int) {
             field = value
         }
@@ -32,6 +31,6 @@ class ViewPlane(val resolution: Resolution) : IColorCorrector {
     }
 
     override fun toString(): String {
-        return ("Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maxDepth")
+        return ("Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maximalRecursionDepth")
     }
 }

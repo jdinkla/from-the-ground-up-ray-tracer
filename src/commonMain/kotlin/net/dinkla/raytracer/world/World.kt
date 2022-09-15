@@ -53,7 +53,7 @@ class World(val id: String, val viewPlane: ViewPlane) : IWorld {
     }
 
     override fun shouldStopRecursion(depth: Int): Boolean {
-        return depth > viewPlane.maxDepth
+        return depth > viewPlane.maximalRecursionDepth
     }
 
     fun initialize() = compound.initialize()
