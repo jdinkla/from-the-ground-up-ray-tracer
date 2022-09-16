@@ -13,6 +13,10 @@ import net.dinkla.raytracer.world.IWorld
 
 open class Compound : GeometricObject(), ICompound {
 
+    init {
+        boundingBox = BBox()
+    }
+
     var objects: ArrayList<IGeometricObject> = ArrayList()
 
     private var isUnit: Boolean = false

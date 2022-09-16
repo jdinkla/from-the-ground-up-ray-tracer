@@ -20,7 +20,7 @@ abstract class GeometricObject : IGeometricObject {
         isInitialized = true
     }
 
-    override var boundingBox: BBox = BBox()
+    override lateinit var boundingBox: BBox
 
     abstract override fun hit(ray: Ray, sr: IHit): Boolean
 
