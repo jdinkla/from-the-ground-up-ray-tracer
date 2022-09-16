@@ -199,7 +199,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         worldDef(file.name)?.let {
             launch {
                 try {
-                    Render.render(it, context, { film: Film ->  ImageFrame(film) }, { it.repaint() })
+                    Render.render(it, context, { film: Film -> ImageFrame(film) }, { it.repaint() })
                 } catch (e: Exception) {
                     JOptionPane.showMessageDialog(
                         frame,
@@ -217,14 +217,23 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
         worldDef(file.name)?.let {
             launch {
-                val (film, _) = Render.render(it, context)
-                film.save(getOutputPngFileName(file.name))
-                JOptionPane.showMessageDialog(
-                    frame,
-                    pngMessage,
-                    pngTitle,
-                    JOptionPane.INFORMATION_MESSAGE
-                )
+                try {
+                    val (film, _) = Render.render(it, context)
+                    film.save(getOutputPngFileName(file.name))
+                    JOptionPane.showMessageDialog(
+                        frame,
+                        pngMessage,
+                        pngTitle,
+                        JOptionPane.INFORMATION_MESSAGE
+                    )
+                } catch (e: Exception) {
+                    JOptionPane.showMessageDialog(
+                        frame,
+                        e.message,
+                        "Exception occurred",
+                        JOptionPane.ERROR_MESSAGE
+                    )
+                }
             }
         }
     }
