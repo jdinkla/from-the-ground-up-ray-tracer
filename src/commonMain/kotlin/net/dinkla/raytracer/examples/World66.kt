@@ -5,7 +5,7 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World66 : WorldDefinition {
 
-    override fun world() = Builder.build("World48") {
+    override fun world() = Builder.build("World66") {
 
         camera(d = 1500.0, eye = p(2.5, 1.35, 10.0), lookAt = p(2.5, 1.0, 0.0))
 

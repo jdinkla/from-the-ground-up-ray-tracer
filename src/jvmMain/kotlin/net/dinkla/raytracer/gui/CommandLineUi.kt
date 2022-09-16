@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.gui
 
-import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
