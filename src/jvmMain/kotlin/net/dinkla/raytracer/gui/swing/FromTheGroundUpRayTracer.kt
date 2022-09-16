@@ -94,18 +94,12 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     override val coroutineContext: CoroutineContext = Dispatchers.Default
 
     init {
-
         with(frame) {
             title = appTitle
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             jMenuBar = createMenuBar(this@FromTheGroundUpRayTracer)
             setSize(appWidth, appHeight)
-
-            val left = leftSide()
-            val right = rightSide()
-            val splitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right)
-            add(splitPane)
-
+            add(JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSide(), rightSide()))
             isVisible = true
         }
     }
