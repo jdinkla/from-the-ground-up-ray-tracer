@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.cameras.render
+package net.dinkla.raytracer.renderer
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

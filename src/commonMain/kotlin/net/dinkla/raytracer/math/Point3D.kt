@@ -1,8 +1,5 @@
 package net.dinkla.raytracer.math
 
-import kotlin.Double.Companion.NEGATIVE_INFINITY
-import kotlin.Double.Companion.POSITIVE_INFINITY
-
 data class Point3D(val x: Double, val y: Double, val z: Double) {
 
     operator fun unaryMinus() = Vector3D(-x, -y, -z)
@@ -35,13 +32,12 @@ data class Point3D(val x: Double, val y: Double, val z: Double) {
     companion object {
         val UNIT = Point3D(1.0, 1.0, 1.0)
         val ORIGIN = Point3D(0.0, 0.0, 0.0)
-        val MAX = Point3D(POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY)
-        val MIN = Point3D(NEGATIVE_INFINITY, NEGATIVE_INFINITY, NEGATIVE_INFINITY)
+        val MAX = Point3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)
+        val MIN = Point3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
         val X = Point3D(1.0, 0.0, 0.0)
         val Y = Point3D(0.0, 1.0, 0.0)
         val Z = Point3D(0.0, 0.0, 1.0)
     }
-
 }
 
 infix operator fun Double.times(p: Point3D) = Point3D(this * p.x, this * p.y, this * p.z)

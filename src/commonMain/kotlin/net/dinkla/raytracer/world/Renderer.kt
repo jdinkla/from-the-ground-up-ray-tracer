@@ -1,8 +1,8 @@
 package net.dinkla.raytracer.world
 
-import net.dinkla.raytracer.cameras.render.IRenderer
 import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
+import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Timer
@@ -23,13 +23,13 @@ class Renderer {
         // stats
         Counter.stats(30)
 
-        println("Hits")
+        Logger.info("Hits")
         InnerNode.hits.println()
 
-        println("fails")
+        Logger.info("fails")
         InnerNode.fails.println()
 
-        println("took " + timer.duration + " [ms]")
+        Logger.info("took " + timer.duration + " [ms]")
 
         Counter.reset()
     }

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.cameras.render
+package net.dinkla.raytracer.renderer
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.Film

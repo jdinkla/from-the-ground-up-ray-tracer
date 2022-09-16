@@ -3,11 +3,11 @@ package net.dinkla.raytracer.gui.swing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dinkla.raytracer.cameras.render.Renderers
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
+import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Logger

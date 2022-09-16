@@ -1,9 +1,9 @@
 package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.cameras.IColorCorrector
-import net.dinkla.raytracer.cameras.render.IRenderer
-import net.dinkla.raytracer.cameras.render.ISingleRayRenderer
-import net.dinkla.raytracer.cameras.render.SimpleSingleRayRenderer
+import net.dinkla.raytracer.renderer.IRenderer
+import net.dinkla.raytracer.renderer.ISingleRayRenderer
+import net.dinkla.raytracer.renderer.SimpleSingleRayRenderer
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Resolution
 
