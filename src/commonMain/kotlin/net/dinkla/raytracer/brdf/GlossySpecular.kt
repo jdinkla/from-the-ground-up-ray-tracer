@@ -8,8 +8,7 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.utilities.hash
 import kotlin.math.pow
 
-// TODO data
-class GlossySpecular(
+data class GlossySpecular(
         var ks: Double = 0.25,
         var cs: Color = Color.WHITE,
         var exp: Double = 5.0,
@@ -44,10 +43,6 @@ class GlossySpecular(
 
     override fun rho(sr: IShade, wo: Vector3D): Color {
         throw RuntimeException("GlossySpecular.rho")
-    }
-
-    override fun toString(): String {
-        return "GlossySpecular($ks, $cs, $exp)"
     }
 
     override fun equals(other: Any?): Boolean {

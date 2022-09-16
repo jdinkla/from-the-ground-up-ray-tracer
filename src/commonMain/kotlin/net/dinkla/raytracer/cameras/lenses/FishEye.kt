@@ -11,10 +11,7 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
 
     private val maxPsi: Double = 1.0
 
-    inner class RayDirection {
-        var direction: Vector3D? = null
-        var rSquared = 0.0
-    }
+    inner class RayDirection(val direction: Vector3D, val rSquared: Double = 0.0)
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray? {
         var ray: Ray? = null
@@ -23,7 +20,7 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
-            ray = Ray(eye, rd.direction!!)
+            ray = Ray(eye, rd.direction)
         }
         return ray
     }
@@ -35,13 +32,12 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
-            ray = Ray(eye, rd.direction!!)
+            ray = Ray(eye, rd.direction)
         }
         return ray
     }
 
     private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): RayDirection {
-        val rd = RayDirection()
         val x = 2.0 / (s * resolution.hres) * pp.x
         val y = 2.0 / (s * resolution.vres) * pp.y
         val rSquared = x * x + y * y
@@ -53,11 +49,9 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
             val sinAlpha = y / r
             val cosAlpha = x / r
             //            rd.direction = uvw.u.minus(sinPsi * cosAlpha).plus(uvw.v.minus(sinPsi * sinAlpha)).minus(uvw.w.minus(cosPsi));
-            rd.direction = uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi)
-            rd.rSquared = rSquared
+            return RayDirection(uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi), rSquared)
         } else {
-            rd.direction = Vector3D.ZERO
+            return RayDirection(Vector3D.ZERO)
         }
-        return rd
     }
 }

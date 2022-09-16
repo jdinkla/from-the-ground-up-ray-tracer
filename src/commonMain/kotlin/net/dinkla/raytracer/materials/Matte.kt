@@ -57,8 +57,7 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
                 if (!inShadow) {
                     val f = diffuseBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val flndotwi = (f * l) * nDotWi
-                    L += flndotwi
+                    L += (f * l) * nDotWi
                 }
             }
         }
@@ -84,24 +83,23 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
-        for (light1 in world.lights) {
-            if (light1 is AreaLight) {
-                val ls = light1.getSamples(sr)
+        for (light in world.lights) {
+            if (light is AreaLight) {
+                val ls = light.getSamples(sr)
                 for (sample in ls) {
                     val nDotWi = sample.wi!! dot sr.normal
                     if (nDotWi > 0) {
                         var inShadow = false
-                        if (light1.shadows) {
+                        if (light.shadows) {
                             val shadowRay = Ray(sr.hitPoint, sample.wi!!)
-                            inShadow = light1.inShadow(world, shadowRay, sr, sample)
+                            inShadow = light.inShadow(world, shadowRay, sr, sample)
                         }
                         if (!inShadow) {
                             val f = diffuseBRDF.f(sr, wo, sample.wi!!)
-                            val l = light1.L(world, sr, sample)
-                            val flndotwi = (f * l) * nDotWi
+                            val l = light.L(world, sr, sample)
                             // TODO: hier ist der Unterschied zu shade()
-                            val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = flndotwi * f1
+                            val f1 = light.G(sr, sample) / light.pdf(sr)
+                            val T = (f * l) * nDotWi * f1
                             S.plus(T)
                         }
                     }

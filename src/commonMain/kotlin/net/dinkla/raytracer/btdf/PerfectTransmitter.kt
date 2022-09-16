@@ -4,12 +4,10 @@ import net.dinkla.raytracer.btdf.BTDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.utilities.hash
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF {
-
+data class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF {
     override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
         throw RuntimeException("PerfectTransmitter.f")
     }
@@ -45,14 +43,4 @@ class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF {
         val cosThetaTSqr = 1.0 - (1.0 - cosThetaI * cosThetaI) / (eta * eta)
         return cosThetaTSqr < 0
     }
-
-    override fun equals(other: Any?): Boolean = if (other != null && other is PerfectTransmitter) {
-        this.ior == other.ior && this.kt == other.kt
-    } else {
-        false
-    }
-
-    override fun hashCode(): Int = hash(ior, kt)
-
-    override fun toString() = "PerfectTransmitter($ior, $kt)"
 }
