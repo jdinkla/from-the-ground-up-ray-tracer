@@ -1,14 +1,10 @@
-package net.dinkla.raytracer.interfaces
+package net.dinkla.raytracer.utilities
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
-import net.dinkla.raytracer.utilities.Timer
 
-class TimerTest : AnnotationSpec() {
-
-    @Test
-    @Throws(Exception::class)
-    fun get() {
+class TimerTest : StringSpec({
+    "get" {
         val t = Timer()
 
         t.start()
@@ -22,8 +18,7 @@ class TimerTest : AnnotationSpec() {
         t.stop()
         val y = t.duration
         y shouldBeGreaterThan 0
-
         y shouldBeGreaterThan x
     }
+})
 
-}

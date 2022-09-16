@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.shouldBeApprox
 
-
 class PolynomialsTest : StringSpec({
 
     "A*x^2 + B*x + C = 0" {

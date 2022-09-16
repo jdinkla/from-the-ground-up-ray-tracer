@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.world.dsl
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
@@ -18,26 +18,25 @@ import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 
-internal class ObjectsScopeTest : AnnotationSpec() {
+internal class ObjectsScopeTest : StringSpec({
 
-    private val somePoint = Point3D(1.0, 2.0, 3.0)
-    private val somePoint2 = Point3D(1.1, 2.1, 4.1)
-    private val somePoint3 = Point3D(1.2, 3.2, 5.2)
-    private val someRadius = 12.3
-    private val someNormal = Normal(5.0, 6.0, 7.0)
-    private val someMaterialId = "material"
-    private val someVector = Vector3D(1.0, 2.0, 3.0)
-    private val someVector2 = Vector3D(1.1, 2.1, 4.1)
-    private val someVector3 = Vector3D(3.1, -2.1, 2.4)
-    private val y0 = 1.0
-    private val y1 = 2.0
-    private val someDouble = 1.23
+    val somePoint = Point3D(1.0, 2.0, 3.0)
+    val somePoint2 = Point3D(1.1, 2.1, 4.1)
+    val somePoint3 = Point3D(1.2, 3.2, 5.2)
+    val someRadius = 12.3
+    val someNormal = Normal(5.0, 6.0, 7.0)
+    val someMaterialId = "material"
+    val someVector = Vector3D(1.0, 2.0, 3.0)
+    val someVector2 = Vector3D(1.1, 2.1, 4.1)
+    val someVector3 = Vector3D(3.1, -2.1, 2.4)
+    val y0 = 1.0
+    val y1 = 2.0
+    val someDouble = 1.23
 
-    private val someMaterial = Matte()
-    private val materials = mapOf(Pair(someMaterialId, someMaterial))
+    val someMaterial = Matte()
+    val materials = mapOf(Pair(someMaterialId, someMaterial))
 
-    @Test
-    fun `should handle sphere`() {
+    "should handle sphere" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Sphere(somePoint, someRadius).apply {
@@ -52,8 +51,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Sphere shouldBe expected
     }
 
-    @Test
-    fun `should handle plane`() {
+    "should handle plane" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Plane(somePoint, someNormal).apply {
@@ -69,8 +67,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Plane shouldBe expected
     }
 
-    @Test
-    fun `should handle triangle`() {
+    "should handle triangle" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Triangle(somePoint, somePoint2, somePoint3).apply {
@@ -86,8 +83,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Triangle shouldBe expected
     }
 
-    @Test
-    fun `should handle smoothTriangle`() {
+    "should handle smoothTriangle" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = SmoothTriangle(somePoint, somePoint2, somePoint3).apply {
@@ -103,8 +99,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as SmoothTriangle shouldBe expected
     }
 
-    @Test
-    fun `should handle disk`() {
+    "should handle disk" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Disk(somePoint, radius = someRadius, normal = someNormal).apply {
@@ -120,8 +115,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Disk shouldBe expected
     }
 
-    @Test
-    fun `should handle rectangle`() {
+    "should handle rectangle" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Rectangle(somePoint, someVector, someVector2).apply {
@@ -137,8 +131,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Rectangle shouldBe expected
     }
 
-    @Test
-    fun `should handle alignedBox`() {
+    "should handle alignedBox" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = AlignedBox(somePoint, somePoint2).apply {
@@ -154,8 +147,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as AlignedBox shouldBe expected
     }
 
-    @Test
-    fun `should handle openCylinder`() {
+    "should handle openCylinder" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = OpenCylinder(y0 = y0, y1 = y1, radius = someRadius).apply {
@@ -171,8 +163,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as OpenCylinder shouldBe expected
     }
 
-    @Test
-    fun `should handle solidCylinder`() {
+    "should handle solidCylinder" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = SolidCylinder(y0 = y0, y1 = y1, radius = someRadius).apply {
@@ -188,8 +179,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as SolidCylinder shouldBe expected
     }
 
-    @Test
-    fun `should handle box`() {
+    "should handle box" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Box(somePoint, someVector, someVector2, someVector3).apply {
@@ -205,8 +195,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Box shouldBe expected
     }
 
-    @Test
-    fun `should handle torus`() {
+    "should handle torus" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = Torus(y0, y1).apply {
@@ -222,8 +211,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as Torus shouldBe expected
     }
 
-    @Test
-    fun `should handle beveledBox`() {
+    "should handle beveledBox" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val expected = BeveledBox(somePoint, somePoint2, someDouble).apply {
@@ -239,8 +227,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         scope.objects[0] as BeveledBox shouldBe expected
     }
 
-    @Test
-    fun `should handle instance`() {
+    "should handle instance" {
         // given
         val scope = ObjectsScope(materials, Compound())
         val someOtherMaterial = Matte(Color.RED, 0.12, 0.34)
@@ -264,8 +251,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         expected.material shouldBe someOtherMaterial
     }
 
-    @Test
-    fun `should handle grid`() {
+    "should handle grid" {
         // given
         val scope = ObjectsScope(materials, Compound())
         scope.objects.size shouldBe 0
@@ -285,8 +271,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         sphere shouldBe Sphere(somePoint, someRadius).apply { material = someMaterial }
     }
 
-    @Test
-    fun `should handle kdtree`() {
+    "should handle kdtree" {
         // given
         val scope = ObjectsScope(materials, Compound())
         scope.objects.size shouldBe 0
@@ -306,8 +291,7 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         sphere shouldBe Sphere(somePoint, someRadius).apply { material = someMaterial }
     }
 
-    @Test
-    fun `should handle ply`() {
+    "should handle ply" {
         // given
         val scope = ObjectsScope(materials, Compound())
 
@@ -323,5 +307,4 @@ internal class ObjectsScopeTest : AnnotationSpec() {
         grid.objects[1].shouldBeInstanceOf<MeshTriangle>()
         grid.material shouldBe someMaterial
     }
-
-}
+})

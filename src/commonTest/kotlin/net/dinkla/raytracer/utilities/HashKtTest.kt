@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 
 class HashTest : StringSpec({
-
     "should hash to value other than zero" {
         hash(0) shouldNotBe 0
     }
@@ -12,5 +11,4 @@ class HashTest : StringSpec({
     "should consider all arguments" {
         hash(1, 1) shouldNotBe hash(1)
     }
-
 })

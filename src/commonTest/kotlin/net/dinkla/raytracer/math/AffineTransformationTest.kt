@@ -1,47 +1,42 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import net.dinkla.raytracer.shouldBeApprox
 
-class AffineTransformationTest : AnnotationSpec() {
+class AffineTransformationTest : StringSpec({
 
-    internal var p = Point3D(1.0, 2.0, 3.0)
+    val p = Point3D(1.0, 2.0, 3.0)
 
-    @Test
-    fun testTranslate() {
+    "testTranslate" {
         val t = AffineTransformation()
         t.translate(Vector3D(2.0, 3.0, 4.0))
         t.shouldSatisfy(p, Point3D(-1.0, -1.0, -1.0), Point3D(3.0, 5.0, 7.0))
     }
 
-    @Test
-    fun testScale() {
+    "testScale" {
         val t = AffineTransformation()
         t.scale(Vector3D(1.0, 2.0, 3.0))
         t.shouldSatisfy(p, Point3D(1.0, 1.0, 1.0), Point3D(1.0, 4.0, 9.0))
     }
 
-    @Test
-    fun testRotateX() {
+    "testRotateX" {
         val t = AffineTransformation()
         t.rotate(Axis.X,90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(1.0, 1.0, -1.0), Point3D(1.0, -1.0, 1.0))
     }
 
-    @Test
-    fun testRotateY() {
+    "testRotateY" {
         val t = AffineTransformation()
         t.rotate(Axis.Y,90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(-1.0, 1.0, 1.0), Point3D(1.0, 1.0, -1.0))
     }
 
-    @Test
-    fun testRotateZ() {
+    "testRotateZ" {
         val t = AffineTransformation()
         t.rotate(Axis.Z, 90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(1.0, -1.0, 1.0), Point3D(-1.0, 1.0, 1.0))
     }
-}
+})
 
 fun AffineTransformation.shouldSatisfy(p: Point3D, inverse: Point3D, forward: Point3D) {
     invMatrix.times(p) shouldBeApprox inverse

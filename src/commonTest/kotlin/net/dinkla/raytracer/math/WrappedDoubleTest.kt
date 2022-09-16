@@ -1,19 +1,16 @@
 package net.dinkla.raytracer.math
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-class WrappedDoubleTest : AnnotationSpec() {
-
-    @Test
-    fun testMethodParameter() {
+class WrappedDoubleTest : StringSpec({
+    "testMethodParameter" {
         val f = WrappedDouble(1.23)
         //        set(f);
         f.value shouldBe 1.23
     }
 
-    @Test
-    fun testComparable() {
+    "testComparable" {
         val f1 = WrappedDouble(0.0)
         val f2 = WrappedDouble(0.0)
         val f3 = WrappedDouble(1.0)
@@ -25,4 +22,4 @@ class WrappedDoubleTest : AnnotationSpec() {
         f2.compareTo(f4) shouldBe -1
         f4.compareTo(f3) shouldBe 1
     }
-}
+})

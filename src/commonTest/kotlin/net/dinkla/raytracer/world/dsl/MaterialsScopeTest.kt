@@ -1,16 +1,13 @@
 package net.dinkla.raytracer.world.dsl
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.Fixture.ex
 import net.dinkla.raytracer.materials.*
 
-class MaterialsScopeTest : AnnotationSpec()  {
-
-    private val id = "m1"
-
-    @Test
-    fun `should handle matte`() {
+class MaterialsScopeTest : StringSpec({
+    val id = "m1"
+    "should handle matte" {
         // given
         val scope = MaterialsScope()
         val matte = Matte(ex.cd)
@@ -24,8 +21,7 @@ class MaterialsScopeTest : AnnotationSpec()  {
         scope.materials[id] as Matte shouldBe matte
     }
 
-    @Test
-    fun `should handle phong`() {
+    "should handle phong" {
         // given
         val phong = Phong(ex.cd, ex.ka, ex.kd).apply {
             exp = ex.exp
@@ -45,8 +41,7 @@ class MaterialsScopeTest : AnnotationSpec()  {
         scope.materials[id] as Phong shouldBe phong
     }
 
-    @Test
-    fun `should handle reflective`() {
+    "should handle reflective" {
         // given
         val id = "m1"
         val scope = MaterialsScope()
@@ -59,9 +54,11 @@ class MaterialsScopeTest : AnnotationSpec()  {
         }
 
         // when
-        scope.reflective(id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
-                cr = ex.cr, kr = ex.kr,
-                ks = ex.ks, cs = ex.cs, exp = ex.exp)
+        scope.reflective(
+            id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
+            cr = ex.cr, kr = ex.kr,
+            ks = ex.ks, cs = ex.cs, exp = ex.exp
+        )
 
         // then
         scope.materials.size shouldBe 1
@@ -75,8 +72,7 @@ class MaterialsScopeTest : AnnotationSpec()  {
         material shouldBe reflective
     }
 
-    @Test
-    fun `should handle emissive`() {
+    "should handle emissive" {
         // given
         val scope = MaterialsScope()
         val emissive = Emissive(ex.cd, ex.ks)
@@ -90,8 +86,7 @@ class MaterialsScopeTest : AnnotationSpec()  {
         scope.materials[id] as Emissive shouldBe emissive
     }
 
-    @Test
-    fun `should handle transparent`() {
+    "should handle transparent" {
         // given
         val id = "m1"
         val scope = MaterialsScope()
@@ -109,10 +104,12 @@ class MaterialsScopeTest : AnnotationSpec()  {
         }
 
         // when
-        scope.transparent(id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
-                cr = ex.cr, kr = ex.kr,
-                ks = ex.ks, cs = ex.cs, exp = ex.exp,
-                kt = ex.kt, ior = ex.ior)
+        scope.transparent(
+            id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
+            cr = ex.cr, kr = ex.kr,
+            ks = ex.ks, cs = ex.cs, exp = ex.exp,
+            kt = ex.kt, ior = ex.ior
+        )
 
         // then
         scope.materials.size shouldBe 1
@@ -128,5 +125,4 @@ class MaterialsScopeTest : AnnotationSpec()  {
         material.cr shouldBe transparent.cr
         material shouldBe transparent
     }
-
-}
+})

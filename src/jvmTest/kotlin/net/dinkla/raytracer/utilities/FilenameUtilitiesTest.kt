@@ -1,9 +1,11 @@
-package net.dinkla.raytracer.gui
+package net.dinkla.raytracer.utilities
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import net.dinkla.raytracer.gui.extractFileName
+import net.dinkla.raytracer.gui.getOutputPngFileName
 
-internal class GuiUtilitiesTest : StringSpec({
+internal class FilenameUtilitiesTest : StringSpec({
 
     "getOutputPngFileName #1" {
         val s = getOutputPngFileName("World73.groovy")
