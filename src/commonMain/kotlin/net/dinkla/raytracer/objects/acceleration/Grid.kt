@@ -325,7 +325,7 @@ open class Grid : CompoundWithMesh() {
             val `object` = cells[ix + nx * iy + nx * ny * iz]
             val sr2 = Hit(sr.t)
             if (txNext < tyNext && txNext < tzNext) {
-                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < txNext) {
+                if (`object`.hit(ray, sr2) && sr2.t < txNext) {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
@@ -343,7 +343,7 @@ open class Grid : CompoundWithMesh() {
                     return false
             } else {
                 if (tyNext < tzNext) {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tyNext) {
+                    if (`object`.hit(ray, sr2) && sr2.t < tyNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
@@ -360,7 +360,7 @@ open class Grid : CompoundWithMesh() {
                     if (iy == iyStop)
                         return false
                 } else {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tzNext) {
+                    if (`object`.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {

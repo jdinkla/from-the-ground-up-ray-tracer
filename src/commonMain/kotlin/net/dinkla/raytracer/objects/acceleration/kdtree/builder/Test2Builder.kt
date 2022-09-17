@@ -184,8 +184,6 @@ class Test2Builder : TreeBuilder {
             Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
         } else {
-            split!!
-            objects!!
             split.left.objects!!
             split.right.objects!!
             Logger.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)

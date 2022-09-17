@@ -122,11 +122,8 @@ class TestBuilder : TreeBuilder {
     }
 
     fun build(objects: ArrayList<IGeometricObject>?, voxel: BBox, depth: Int): Node {
-
         Counter.count("KDtree.build")
-
-        var node: Node? = null
-
+        var node: Node?
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
             node = Leaf(objects)
@@ -141,8 +138,7 @@ class TestBuilder : TreeBuilder {
         val sY = par.x(Axis.Y, 3)
         val sZ = par.x(Axis.Z, 3)
 
-        var split: Partitioner.Split? = null
-
+        var split: Partitioner.Split?
         if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {
                 split = sX
@@ -160,8 +156,6 @@ class TestBuilder : TreeBuilder {
             Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
         } else {
-            split!!
-            objects!!
             split.left.objects!!
             split.right.objects!!
 

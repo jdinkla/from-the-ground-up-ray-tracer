@@ -39,7 +39,7 @@ class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vi
         //        final Vector3D v2 = v.minus(p.y - lens.y);
         //        final Vector3D v3 = w.minus(f);
         //final Vector3D dir = v1.plus(v2).minus(v3).normalize();
-        return uvw!!.pm(1.0, 1.0, 1.0).normalize()
+        return uvw.pm(1.0, 1.0, 1.0).normalize()
     }
 
 }
