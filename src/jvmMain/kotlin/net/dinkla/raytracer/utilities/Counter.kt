@@ -2,14 +2,11 @@ package net.dinkla.raytracer.utilities
 
 import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.math.max
 
 actual object Counter {
 
     // For each thread-id there is a map
     private var instances = ConcurrentHashMap<Long, TreeMap<String, Int>>()
-
-    private const val EMPTY = "                                                            "
     var PAUSE = false
 
     actual fun count(key: String) {
@@ -26,16 +23,7 @@ actual object Counter {
 
     actual fun stats(columns: Int) = printStats(calculateStats(), columns)
 
-    private fun printStats(results: TreeMap<String, Int>, columns: Int) {
-        Logger.info("Counter.stats")
-        for (key in results.keys) {
-            val spaces = max(columns - key.length - 1, 0)
-            val count = results[key]
-            println(key + ":" + EMPTY.substring(0, spaces) + count)
-        }
-    }
-
-    private fun calculateStats(): TreeMap<String, Int> {
+    private fun calculateStats(): Map<String, Int> {
         val results = TreeMap<String, Int>()
         for (id in instances.keys) {
             val map: TreeMap<String, Int>? = instances[id]

@@ -20,3 +20,4 @@ fun main() = runBlocking {
     val context = Context(Tracers.WHITTED.create, Renderers.SEQUENTIAL.create, Resolution.RESOLUTION_1080)
     Render.render(args[0], outputPngFileName(args[0]), context)
 }
+
