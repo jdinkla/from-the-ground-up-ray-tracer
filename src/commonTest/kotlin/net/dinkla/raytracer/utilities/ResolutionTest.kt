@@ -5,6 +5,6 @@ import io.kotest.matchers.shouldBe
 
 internal class ResolutionTest : StringSpec({
     "calculate hres from vres" {
-        Resolution(1080).hres shouldBe 1920
+        Resolution(1080).height shouldBe 1920
     }
 })

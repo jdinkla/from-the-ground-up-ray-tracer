@@ -15,8 +15,8 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray? {
         var ray: Ray? = null
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres + sp.x)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres + sp.y)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.height + sp.x)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.width + sp.y)
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
@@ -27,8 +27,8 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
 
     override fun getRaySingle(r: Int, c: Int): Ray? {
         var ray: Ray? = null
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.height)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.width)
         val pp = Point2D(x, y)
         val rd = getRayDirection(pp, viewPlane.resolution, viewPlane.sizeOfPixel)
         if (rd.rSquared <= 1) {
@@ -38,8 +38,8 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
     }
 
     private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): RayDirection {
-        val x = 2.0 / (s * resolution.hres) * pp.x
-        val y = 2.0 / (s * resolution.vres) * pp.y
+        val x = 2.0 / (s * resolution.height) * pp.x
+        val y = 2.0 / (s * resolution.width) * pp.y
         val rSquared = x * x + y * y
         if (rSquared <= 1) {
             val r = sqrt(rSquared)

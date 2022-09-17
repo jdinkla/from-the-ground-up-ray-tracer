@@ -11,8 +11,8 @@ class SequentialRenderer(private val render: ISingleRayRenderer, private val cor
 
     override fun render(film: Film) {
         Logger.info("render starts")
-        for (r in 0 until film.resolution.vres) {
-            for (c in 0 until film.resolution.hres) {
+        for (r in 0 until film.resolution.width) {
+            for (c in 0 until film.resolution.height) {
                 film.setPixel(c, r, render(r, c))
             }
         }

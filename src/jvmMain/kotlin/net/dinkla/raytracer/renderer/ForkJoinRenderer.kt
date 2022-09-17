@@ -15,7 +15,7 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
     override fun render(film: Film) {
         this.film = film
         val res = film.resolution
-        val master = Master(sizeGrid, res.hres, res.vres)
+        val master = Master(sizeGrid, res.height, res.width)
         Logger.info("invoke master")
         pool.invoke(master)
         this.film = null

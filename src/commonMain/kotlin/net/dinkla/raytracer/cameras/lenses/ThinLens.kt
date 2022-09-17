@@ -13,14 +13,14 @@ class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vi
     var d: Double = 1.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.height)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.width)
         return getRay(x, y)
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.hres + sp.x)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.vres + sp.y)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.height + sp.x)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.width + sp.y)
         return getRay(x, y)
     }
 

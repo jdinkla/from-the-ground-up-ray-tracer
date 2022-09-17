@@ -15,10 +15,10 @@ actual class Film {
 
     actual var resolution: Resolution = Resolution.RESOLUTION_1080
 
-    private val bitmap = Bitmap32(resolution.vres, resolution.hres)
+    private val bitmap = Bitmap32(resolution.width, resolution.height)
 
     actual fun setPixel(x: Int, y: Int, color: Color) {
-        bitmap[x, resolution.vres - 1 - y] = RGBA(color.toRgba())
+        bitmap[x, resolution.width - 1 - y] = RGBA(color.toRgba())
     }
 
     actual fun setBlock(

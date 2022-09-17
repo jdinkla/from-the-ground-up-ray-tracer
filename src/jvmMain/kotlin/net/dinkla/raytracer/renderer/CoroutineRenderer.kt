@@ -14,8 +14,8 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
     override fun render(film: Film) {
         Logger.info("render starts")
         runBlocking<Unit> {
-            for (r in 0 until film.resolution.vres) {
-                for (c in 0 until film.resolution.hres) {
+            for (r in 0 until film.resolution.width) {
+                for (c in 0 until film.resolution.height) {
                     launch(pool) {
                         var color = render.render(r, c)
                         color *= exposureTime

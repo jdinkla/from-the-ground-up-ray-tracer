@@ -11,7 +11,7 @@ class ImageFrame private constructor(film: Film, private val isMainFrame: Boolea
 
     constructor(film: Film) : this(film, false) {
         add(canvas)
-        setSize(film.resolution.hres, film.resolution.vres + 22)
+        setSize(film.resolution.height, film.resolution.width + 22)
         addWindowListener(windowAdapter)
         isVisible = true
     }

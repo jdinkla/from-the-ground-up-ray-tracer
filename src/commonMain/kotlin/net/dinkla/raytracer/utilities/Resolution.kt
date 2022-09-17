@@ -2,7 +2,7 @@ package net.dinkla.raytracer.utilities
 
 const val RATIO_16_TO_9 = 16.0 / 9.0
 
-data class Resolution(val hres: Int, val vres: Int) {
+data class Resolution(val height: Int, val width: Int) {
 
     constructor(vres: Int) : this((vres * RATIO_16_TO_9).toInt(), vres)
 

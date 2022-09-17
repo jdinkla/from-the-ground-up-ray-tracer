@@ -8,14 +8,14 @@ class Orthographic(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLen
     private var zw = 1111.0
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * (viewPlane.resolution.hres - 1) + sp.x)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * (viewPlane.resolution.vres - 1) + sp.y)
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * (viewPlane.resolution.height - 1) + sp.x)
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * (viewPlane.resolution.width - 1) + sp.y)
         return Ray(Point3D(x, y, zw), Vector3D.BACK)
     }
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * (viewPlane.resolution.hres - 1))
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * (viewPlane.resolution.vres - 1))
+        val x = viewPlane.sizeOfPixel * (c - OFFSET * (viewPlane.resolution.height - 1))
+        val y = viewPlane.sizeOfPixel * (r - OFFSET * (viewPlane.resolution.width - 1))
         return Ray(Point3D(x, y, zw), Vector3D.BACK)
     }
 }
