@@ -4,20 +4,18 @@ import net.dinkla.raytracer.math.Point2D
 
 interface IGenerator {
 
-    fun generateSamples(numSamples: Int, numSets: Int) : MutableList<Point2D>
-
-    fun generate2D(numSamples: Int, numSets: Int, sample: (Int, Int) -> Point2D): MutableList<Point2D> {
-        val samples = mutableListOf<Point2D>()
-        for (j in 0 until numSets) {
-            for (p in 0 until numSamples) {
-                samples.add(sample(j, p))
-            }
-        }
-        return samples
-    }
+    fun generateSamples(numSamples: Int, numSets: Int): List<Point2D>
 
     companion object {
         fun sqrt(numSamples: Int) = kotlin.math.sqrt(numSamples.toDouble()).toInt()
-    }
 
+        fun generate2D(numSamples: Int, numSets: Int, sample: (Int, Int) -> Point2D) =
+            buildList<Point2D> {
+                for (j in 0 until numSets) {
+                    for (p in 0 until numSamples) {
+                        add(sample(j, p))
+                    }
+                }
+            }
+    }
 }

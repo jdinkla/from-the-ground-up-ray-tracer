@@ -10,33 +10,27 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Sampler(
-    private var sampler: IGenerator = Jittered,
+    sampler: IGenerator = Jittered,
     private var numSamples: Int = 100,
-    private var numSets: Int = 10) {
+    private var numSets: Int = 10
+) {
 
-    private var shuffledIndices: ArrayList<Int>
-    private var samples: ArrayList<Point2D>
-    private var diskSamples: ArrayList<Point2D>
-    private var hemisphereSamples: ArrayList<Point3D>
-    private var sphereSamples: ArrayList<Point3D>
+    private var shuffledIndices = ArrayList<Int>()
+    private var samples = ArrayList<Point2D>()
+    private var diskSamples = ArrayList<Point2D>()
+    private var hemisphereSamples = ArrayList<Point3D>()
+    private var sphereSamples = ArrayList<Point3D>()
 
     private var count: Int = 0
     private var jump: Int = 0
 
     init {
-        count = 0
-        jump = 0
-        shuffledIndices = ArrayList()
-        diskSamples = ArrayList()
-        hemisphereSamples = ArrayList()
-        sphereSamples = ArrayList()
         setupShuffledIndices()
         samples = ArrayList()
-        // samples.ensureCapacity(numSamples * numSets)
         samples = ArrayList(sampler.generateSamples(numSamples, numSets).toList())
     }
 
-    fun setupShuffledIndices() {
+    private fun setupShuffledIndices() {
         shuffledIndices = ArrayList()
         shuffledIndices.ensureCapacity(numSamples * numSets)
 
@@ -49,14 +43,7 @@ class Sampler(
         for (p in 0 until numSets) {
             Random.randomShuffle(indices)
             shuffledIndices.addAll(indices)
-            //            for (int j = 0; j < indices.size(); j++) {
-            //                shuffledIndices.add(indices.get(j));
-            //            }
         }
-    }
-
-    fun shuffleSamples() {
-
     }
 
     fun sampleUnitSquare(): Point2D {
@@ -180,5 +167,3 @@ class Sampler(
         }
     }
 }
-
-

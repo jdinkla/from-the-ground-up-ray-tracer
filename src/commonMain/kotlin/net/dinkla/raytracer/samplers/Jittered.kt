@@ -1,24 +1,22 @@
 package net.dinkla.raytracer.samplers
 
 import net.dinkla.raytracer.math.Point2D
-import net.dinkla.raytracer.utilities.Random
 import net.dinkla.raytracer.samplers.IGenerator.Companion.sqrt
+import net.dinkla.raytracer.utilities.Random
 
 object Jittered : IGenerator {
-
-    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> {
-        val samples = mutableListOf<Point2D>()
+    override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
         val n = sqrt(numSamples)
-        for (p in 0 until numSets) {
-            for (j in 0 until n) {
-                for (k in 0 until n) {
-                    val x = (k + Random.double()) / n
-                    val y = (j + Random.double()) / n
-                    samples.add(Point2D(x, y))
+        return buildList<Point2D> {
+            for (p in 0 until numSets) {
+                for (j in 0 until n) {
+                    for (k in 0 until n) {
+                        val x = (k + Random.double()) / n
+                        val y = (j + Random.double()) / n
+                        add(Point2D(x, y))
+                    }
                 }
             }
         }
-        return samples
     }
-
 }

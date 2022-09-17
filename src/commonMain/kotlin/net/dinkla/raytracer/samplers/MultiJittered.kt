@@ -5,7 +5,7 @@ import net.dinkla.raytracer.utilities.Random
 
 object MultiJittered : IGenerator {
 
-    override fun generateSamples(numSamples: Int, numSets: Int): MutableList<Point2D> {
+    override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
         val samples = ArrayList<Point2D>()
         val n = IGenerator.sqrt(numSamples)
         val subcellWidth = 1.0 / numSamples
