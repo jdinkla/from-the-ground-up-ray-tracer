@@ -1,4 +1,6 @@
 
+import net.dinkla.raytracer.examples.definitions
+import net.dinkla.raytracer.gui.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
@@ -7,14 +9,15 @@ import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 
 suspend fun main() {
+    val args = listOf<String>("World20.kt")
     Logger.info("From-the-ground-up-raytracer on node/JavaScript")
-    val args = listOf("World10.kt", "out-js1.png")
-    if (args.size != 2) {
-        Logger.error("CommandLineUI expects input filename and output filename as arguments")
+    if (args.size != 1) {
+        Logger.error("CommandLineUI expects world definition filename as input")
+        Logger.info("Possible worlds are ${definitions.keys.joinToString(",")}")
         return
     }
     val context = Context(Tracers.WHITTED.create, Renderers.SEQUENTIAL.create, Resolution.RESOLUTION_480)
-    Render.render(args[0], args[1], context)
+    Render.render(args[0], outputPngFileName(args[0]), context)
 
     // wait?
     var sum = 1.0
