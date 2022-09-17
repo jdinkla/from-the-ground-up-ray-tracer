@@ -1,4 +1,5 @@
-import net.dinkla.raytracer.examples.worldDef
+
+import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
@@ -7,23 +8,13 @@ import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 
 @OptIn(ExperimentalStdlibApi::class)
-fun main() {
-    println("Hello from linux: ${kotlin.native.isExperimentalMM()}")
-    val args = listOf("World10.kt", "out2-linux.png")
+fun main() = runBlocking {
+    Logger.info("From-the-ground-up-raytracer on linux (isExperimentalMM: ${isExperimentalMM()}")
+    val args = listOf("World10.kt", "out-linux.png")
     if (args.size != 2) {
         Logger.error("CommandLineUI expects input filename and output filename as arguments")
-        return
+        return@runBlocking
     }
-    val fileNameIn = args[0]
-    val fileNameOut = args[1]
-    Logger.info("Rendering $fileNameIn to $fileNameOut")
-    val worldDefinition = worldDef(fileNameIn)
-    if (null == worldDefinition) {
-        Logger.warn("WorldDef $fileNameIn is not known")
-    } else {
-        Logger.info("Using world ${worldDefinition.world().id}")
-        val context = Context(Tracers.WHITTED.create, Renderers.SEQUENTIAL.create, Resolution.RESOLUTION_1080)
-        val (film, _) = Render.render(worldDefinition, context)
-        film.save(fileNameOut)
-    }
+    val context = Context(Tracers.WHITTED.create, Renderers.SEQUENTIAL.create, Resolution.RESOLUTION_720)
+    Render.render(args[0], args[1], context)
 }
