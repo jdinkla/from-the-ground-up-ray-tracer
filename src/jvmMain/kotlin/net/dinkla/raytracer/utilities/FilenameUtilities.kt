@@ -2,11 +2,12 @@ package net.dinkla.raytracer.gui
 
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+
+private val df = SimpleDateFormat("yyyyMMddHHmmss")
 
 fun getOutputPngFileName(fileName: String): String {
     var outFileName = fileName.replace(".[a-zA-Z0-9]+$".toRegex(), "")
-    val df = SimpleDateFormat("yyyyMMddHHmmss")
     outFileName = "../" + df.format(Date()) + "_" + outFileName + ".png"
     return outFileName
 }

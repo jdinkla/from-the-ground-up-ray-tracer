@@ -11,6 +11,7 @@ import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.utilities.save
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import java.awt.event.ActionEvent
@@ -199,6 +200,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                     val frame = ImageFrame(film)
                     world.renderer?.render(film)
                     frame.repaint()
+                    film.image.save(getOutputPngFileName(file.name))
                 } catch (e: Exception) {
                     Logger.info(e.message ?: "an exception occurred")
                     Logger.error(e.stackTraceToString())
