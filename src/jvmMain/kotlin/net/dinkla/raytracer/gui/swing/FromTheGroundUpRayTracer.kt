@@ -1,11 +1,12 @@
 package net.dinkla.raytracer.gui.swing
 
+import com.soywiz.klock.DateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.gui.extractFileName
-import net.dinkla.raytracer.gui.getOutputPngFileName
+import net.dinkla.raytracer.gui.fileNameWithoutDirectory
+import net.dinkla.raytracer.gui.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.AppProperties
@@ -110,7 +111,8 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         val directory = File(examplesDirectory)
         directory.walk().sorted().forEach { file ->
             if (file.isFile) {
-                val fileName = extractFileName(file, directory)
+                val fileName =
+                    fileNameWithoutDirectory(file.absoluteFile.toString(), directory.absolutePath.toString(), File.separator)
                 root.add(DefaultMutableTreeNode(fileName))
             }
         }
@@ -200,7 +202,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                     val frame = ImageFrame(film)
                     world.renderer?.render(film)
                     frame.repaint()
-                    film.image.save(getOutputPngFileName(file.name))
+                    film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
                 } catch (e: Exception) {
                     Logger.info(e.message ?: "an exception occurred")
                     Logger.error(e.stackTraceToString())
@@ -222,7 +224,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             launch {
                 try {
                     val (film, _) = Render.render(it, context)
-                    film.save(getOutputPngFileName(file.name))
+                    film.save("../" + outputPngFileName(file.name))
                     JOptionPane.showMessageDialog(
                         frame,
                         pngMessage,
