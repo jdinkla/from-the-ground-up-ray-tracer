@@ -19,7 +19,14 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         val r = (red * 255).toInt()
         val g = (green * 255).toInt()
         val b = (blue * 255).toInt()
-        return r shl 16 or (g shl 8) or b
+        return (r shl 16) or (g shl 8) or b
+    }
+
+    fun toRgba(): Int {
+        val r = (red * 255).toInt()
+        val g = (green * 255).toInt()
+        val b = (blue * 255).toInt()
+        return (255 shl 24) or (b shl 16) or (g shl 8) or r
     }
 
     fun clamp(): Color = when {

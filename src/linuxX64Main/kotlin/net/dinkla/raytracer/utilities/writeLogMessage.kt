@@ -1,5 +1,7 @@
 package net.dinkla.raytracer.utilities
 
+import com.soywiz.klock.DateTime
+
 internal actual fun writeLogMessage(logLevel: Logger.LogLevel, message: String) {
-    println("$logLevel $message")
+    println("${DateTime.now()} $logLevel $message")
 }

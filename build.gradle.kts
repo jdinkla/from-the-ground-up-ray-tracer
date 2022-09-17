@@ -1,8 +1,11 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 val logbackVersion = "1.2.11"
 val kotestVersion = "5.4.2"
 val coroutinesVersion = "1.6.4"
-val mockkVersion = "1.12.7"
-val koinVersion = "3.2"
+val korioVersion = "2.2.0"
+val korimVersion = "2.2.0"
+val kotlinWrappersVersion = "18.7.18-pre.386"
 
 group = "net.dinkla"
 version = "1.0"
@@ -47,6 +50,8 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation(kotlin("script-runtime"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
+                implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
             }
         }
         val commonTest by getting {
@@ -70,11 +75,14 @@ kotlin {
             dependsOn(commonTest)
             dependencies {
                 implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
-                implementation("io.mockk:mockk:$mockkVersion")
             }
         }
+
         val jsMain by getting {
             dependsOn(commonMain)
+            dependencies {
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-node:$kotlinWrappersVersion")
+            }
         }
         val jsTest by getting {
             dependsOn(commonTest)
@@ -84,6 +92,13 @@ kotlin {
         }
         val linuxX64Test by getting {
             dependsOn(commonTest)
+        }
+    }
+
+    targets.withType(KotlinNativeTarget::class.java) {
+        binaries.all {
+            binaryOptions["memoryModel"] = "experimental"
+            binaryOptions["freezing"] = "disabled"
         }
     }
 }
@@ -96,3 +111,4 @@ task<JavaExec>("swing") {
     main = "net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerKt"
     classpath = sourceSets["main"].runtimeClasspath
 }
+

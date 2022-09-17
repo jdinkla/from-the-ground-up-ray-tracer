@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import java.util.*
+import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
 
@@ -27,7 +27,7 @@ actual object Counter {
     actual fun stats(columns: Int) = printStats(calculateStats(), columns)
 
     private fun printStats(results: TreeMap<String, Int>, columns: Int) {
-        println("Counter")
+        Logger.info("Counter.stats")
         for (key in results.keys) {
             val spaces = max(columns - key.length - 1, 0)
             val count = results[key]

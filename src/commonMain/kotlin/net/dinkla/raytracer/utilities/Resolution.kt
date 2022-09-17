@@ -7,6 +7,7 @@ data class Resolution(val hres: Int, val vres: Int) {
     constructor(vres: Int) : this((vres * RATIO_16_TO_9).toInt(), vres)
 
     companion object {
+        val RESOLUTION_480 = Resolution(480)
         val RESOLUTION_720 = Resolution(720)
         val RESOLUTION_1080 = Resolution(1080)
         val RESOLUTION_1440 = Resolution(1440)
