@@ -4,14 +4,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.cameras.IColorCorrector
-import net.dinkla.raytracer.films.Film
+import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 
 class CoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
     private var exposureTime = 1.0
 
-    override fun render(film: Film) {
+    override fun render(film: IFilm) {
         Logger.info("render starts")
         runBlocking<Unit> {
             for (r in 0 until film.resolution.width) {

@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.renderer
 
 import net.dinkla.raytracer.cameras.IColorCorrector
-import net.dinkla.raytracer.films.Film
+import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.RecursiveAction
@@ -10,9 +10,9 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
 
     private var sizeGrid: Int = 4
     var exposureTime = 1.0
-    private var film: Film? = null
+    private var film: IFilm? = null
 
-    override fun render(film: Film) {
+    override fun render(film: IFilm) {
         this.film = film
         val res = film.resolution
         val master = Master(sizeGrid, res.height, res.width)

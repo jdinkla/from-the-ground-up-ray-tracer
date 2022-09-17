@@ -1,36 +1,6 @@
 package net.dinkla.raytracer.films
 
-import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.utilities.Png
-import net.dinkla.raytracer.utilities.Resolution
-import java.awt.image.BufferedImage
+import com.soywiz.korio.file.Vfs
+import com.soywiz.korio.file.std.localCurrentDirVfs
 
-actual class Film {
-
-    actual var resolution: Resolution = Resolution.RESOLUTION_1080
-
-    val image = BufferedImage(resolution.height, resolution.width, BufferedImage.TYPE_INT_RGB)
-
-    actual fun setPixel(x: Int, y: Int, color: Color) {
-        assert(x >= 0)
-        assert(x < resolution.height)
-        assert(y >= 0)
-        assert(y < resolution.width)
-        image.setRGB(x, resolution.width - 1 - y, color.toInt())
-    }
-
-    actual fun setBlock(x: Int, y: Int, width: Int, height: Int, color: Color) {
-        var pixel: Any? = null
-        pixel = image.colorModel.getDataElements(color.toInt(), pixel)
-        for (j in 0 until height) {
-            for (i in 0 until width) {
-                image.raster.setDataElements(x + i, resolution.width - 1 - y - j, pixel)
-            }
-        }
-    }
-
-    actual fun save(filename: String) {
-        Png.save(image, filename)
-    }
-
-}
+actual fun localVfs(): Vfs = localCurrentDirVfs.vfs

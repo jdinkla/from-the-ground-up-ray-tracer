@@ -4,7 +4,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.gui.extractFileName
 import net.dinkla.raytracer.gui.getOutputPngFileName
 import net.dinkla.raytracer.renderer.Renderers
@@ -190,11 +189,19 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     private fun render(file: File) {
         Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
         val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
-        worldDef(file.name)?.let {
+        worldDef(file.name)?.let { worldDefinition ->
             launch {
                 try {
-                    Render.render(it, context, { film: Film -> ImageFrame(film) }, { it.repaint() })
+                    val world = worldDefinition.world()
+                    context.adapt(world)
+                    world.initialize()
+                    val film = SwingFilm(world.viewPlane.resolution)
+                    val frame = ImageFrame(film)
+                    world.renderer?.render(film)
+                    frame.repaint()
                 } catch (e: Exception) {
+                    Logger.info(e.message ?: "an exception occurred")
+                    Logger.error(e.stackTraceToString())
                     JOptionPane.showMessageDialog(
                         frame,
                         e.message,
