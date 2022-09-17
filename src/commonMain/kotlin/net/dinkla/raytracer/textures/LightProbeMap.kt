@@ -29,8 +29,8 @@ class LightProbeMap : Mapping() {
         val u = (1.0 + r * cosBeta) * 0.5
         val v = (1.0 + r * sinBeta) * 0.5
 
-        val row = ((res.width - 1) * v).toInt()
-        val column = ((res.height - 1) * u).toInt()
+        val row = ((res.height - 1) * v).toInt()
+        val column = ((res.width - 1) * u).toInt()
 
         return Mapped(row, column)
     }

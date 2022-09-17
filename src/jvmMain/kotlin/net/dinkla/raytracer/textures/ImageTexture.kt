@@ -46,8 +46,8 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
         //            row = 0;
         //        }
 
-        if (column >= res.height) {
-            column = res.height - 1
+        if (column >= res.width) {
+            column = res.width - 1
         }
 
         if (column < 0) {
@@ -57,7 +57,7 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
         hRow.add(row)
         hColumn.add(column)
         try {
-            rgb = image.getRGB(column, res.width - 1 - row)
+            rgb = image.getRGB(column, res.height - 1 - row)
             if (rgb == 0) {
                 val a = 3
             }

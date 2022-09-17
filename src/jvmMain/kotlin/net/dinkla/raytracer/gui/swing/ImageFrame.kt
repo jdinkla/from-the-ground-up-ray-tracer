@@ -10,7 +10,7 @@ class ImageFrame private constructor(film: SwingFilm, private val isMainFrame: B
 
     constructor(film: SwingFilm) : this(film, false) {
         add(canvas)
-        setSize(film.resolution.height, film.resolution.width + 22)
+        setSize(film.resolution.width, film.resolution.height + 22)
         addWindowListener(windowAdapter)
         isVisible = true
     }

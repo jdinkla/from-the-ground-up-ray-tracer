@@ -23,8 +23,8 @@ class SphericalMap : Mapping() {
         //        double v = 1 - theta * MathUtils.INV_PI;
         val v = 1 - theta * INV_PI
 
-        val row = ((res.width - 1) * v).toInt()
-        val column = ((res.height - 1) * u).toInt()
+        val row = ((res.height - 1) * v).toInt()
+        val column = ((res.width - 1) * u).toInt()
 
         return Mapped(row, column)
     }

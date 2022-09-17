@@ -46,14 +46,14 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     private fun createWorkers(film: IFilm) {
         val res = film.resolution
         val vertFactor = numThreads / 4
-        if (res.width % vertFactor == 0) {
+        if (res.height % vertFactor == 0) {
             worker = arrayOfNulls(numThreads)
-            val yStep = film.resolution.width / vertFactor
+            val yStep = film.resolution.height / vertFactor
             for (i in 0 until numThreads / 4) {
-                worker[4 * i] = Worker(0, 1 * res.height / 4, i * yStep, (i + 1) * yStep)
-                worker[4 * i + 1] = Worker(1 * res.height / 4, 2 * res.height / 4, i * yStep, (i + 1) * yStep)
-                worker[4 * i + 2] = Worker(2 * res.height / 4, 3 * res.height / 4, i * yStep, (i + 1) * yStep)
-                worker[4 * i + 3] = Worker(3 * res.height / 4, 4 * res.height / 4, i * yStep, (i + 1) * yStep)
+                worker[4 * i] = Worker(0, 1 * res.width / 4, i * yStep, (i + 1) * yStep)
+                worker[4 * i + 1] = Worker(1 * res.width / 4, 2 * res.width / 4, i * yStep, (i + 1) * yStep)
+                worker[4 * i + 2] = Worker(2 * res.width / 4, 3 * res.width / 4, i * yStep, (i + 1) * yStep)
+                worker[4 * i + 3] = Worker(3 * res.width / 4, 4 * res.width / 4, i * yStep, (i + 1) * yStep)
             }
         } else {
             throw RuntimeException("viewPlane.vres % numThreads != 0")
