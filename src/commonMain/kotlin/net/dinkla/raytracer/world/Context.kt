@@ -17,9 +17,7 @@ class Context(val createTracer: TracerFactory, val createRenderer: RendererFacto
 
         val singleRayRenderer = SimpleSingleRayRenderer(world.camera!!.lens, theRealTracer)
         val corrector: IColorCorrector = world.viewPlane
-        val renderer = Renderer()
-        renderer.renderer = createRenderer(singleRayRenderer, corrector)
-        world.renderer = renderer
+        world.renderer = createRenderer(singleRayRenderer, corrector)
 
         world.viewPlane.resolution = resolution
     }

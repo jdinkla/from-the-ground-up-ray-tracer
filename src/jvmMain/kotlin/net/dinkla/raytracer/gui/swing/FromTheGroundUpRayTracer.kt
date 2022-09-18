@@ -200,7 +200,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                     world.initialize()
                     val film = SwingFilm(world.viewPlane.resolution)
                     val frame = ImageFrame(film)
-                    world.renderer?.render(film)
+                    Render.render(film, world.renderer!!)
                     frame.repaint()
                     film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
                 } catch (e: Exception) {

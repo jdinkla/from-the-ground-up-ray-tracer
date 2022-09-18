@@ -14,4 +14,4 @@ class TimerTest : StringSpec({
     }
 })
 
-private fun doSomething() = (1..10).toList().map { it + 1 }.reduce { a, b -> a + b }
+private fun doSomething() = (1..100).toList().map { it + 1 }.reduce { a, b -> a + b }

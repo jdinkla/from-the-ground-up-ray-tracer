@@ -13,6 +13,7 @@ import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 
@@ -22,7 +23,7 @@ class World(val id: String) : IWorld {
     val viewPlane = ViewPlane()
 
     override var tracer: Tracer? = null
-    var renderer: Renderer? = null
+    var renderer: IRenderer? = null
 
     override var backgroundColor: Color = Color.BLACK
     override var lights: List<Light> = listOf()

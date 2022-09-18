@@ -9,7 +9,6 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.tracers.Tracer
 
 interface IWorld {
-
     var tracer: Tracer?
     var lights : List<Light>
     var ambientLight: Ambient
