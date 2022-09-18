@@ -1,7 +1,8 @@
 
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.gui.outputPngFileName
-import net.dinkla.raytracer.renderer.Renderers
+import net.dinkla.raytracer.renderer.Renderer
+import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.synopsis
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
@@ -17,6 +18,6 @@ fun main() = runBlocking {
         synopsis("CommandLineUI")
         return@runBlocking
     }
-    val context = Context(Tracers.WHITTED.create, Renderers.SEQUENTIAL.create, Resolution.RESOLUTION_1080)
+    val context = Context(Tracers.WHITTED.create, createRenderer(Renderer.SEQUENTIAL), Resolution.RESOLUTION_1080)
     Render.render(args[0], outputPngFileName(args[0]), context)
 }

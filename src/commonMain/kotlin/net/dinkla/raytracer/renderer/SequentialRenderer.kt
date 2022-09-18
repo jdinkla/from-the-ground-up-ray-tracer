@@ -16,5 +16,5 @@ class SequentialRenderer(private val render: ISingleRayRenderer, private val cor
         Logger.info("render stops")
     }
 
-    private fun render(c: Int, r: Int): Color = corrector.correct(render.render(r, c)).clamp()
+    private fun render(r: Int, c: Int): Color = corrector.correct(render.render(r, c)).clamp()
 }

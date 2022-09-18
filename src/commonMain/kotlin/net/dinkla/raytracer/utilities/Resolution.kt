@@ -13,5 +13,9 @@ data class Resolution(val width: Int, val height: Int) {
         val RESOLUTION_1440 = Resolution(1440)
         val RESOLUTION_2160 = Resolution(2160)
         val RESOLUTION_4320 = Resolution(4320)
+
+        val resolutions =
+            listOf(RESOLUTION_480, RESOLUTION_720, RESOLUTION_1080, RESOLUTION_1440, RESOLUTION_2160, RESOLUTION_4320)
+
     }
 }

@@ -6,6 +6,7 @@ val coroutinesVersion = "1.6.4"
 val korioVersion = "2.2.0"
 val korimVersion = "2.2.0"
 val kotlinWrappersVersion = "18.7.18-pre.386"
+val cliktVersion = "3.5.0"
 
 group = "net.dinkla"
 version = "1.0"
@@ -52,6 +53,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
                 implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
+                implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
+
             }
         }
         val commonTest by getting {

@@ -7,7 +7,8 @@ import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
 import net.dinkla.raytracer.gui.fileNameWithoutDirectory
 import net.dinkla.raytracer.gui.outputPngFileName
-import net.dinkla.raytracer.renderer.Renderers
+import net.dinkla.raytracer.renderer.Renderer
+import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
@@ -33,7 +34,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private val tracers = Tracers.values()
     private val tracerNames = tracers.map { it.name }.toTypedArray()
-    private val renderers = Renderers.values()
+    private val renderers = Renderer.values()
     private val rendererNames = renderers.map { it.name }.toTypedArray()
 
     private var selectedTracer = 0
@@ -149,7 +150,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun render(file: File) {
         Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
-        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
+        val context = Context(tracers[selectedTracer].create, createRenderer(renderers[selectedRenderer]), resolution)
         worldDef(file.name)?.let {
             launch {
                 try {
@@ -172,7 +173,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun png(file: File) {
         Logger.info("png ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
-        val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
+        val context = Context(tracers[selectedTracer].create, createRenderer(renderers[selectedRenderer]), resolution)
         worldDef(file.name)?.let {
             launch {
                 try {
