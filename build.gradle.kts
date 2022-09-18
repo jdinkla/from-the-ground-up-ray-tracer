@@ -116,3 +116,25 @@ task<JavaExec>("cmd-jvm") {
     mainClass.set("MainKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
+
+task<Exec>("cmd-linux") {
+    val args: String = if (project.hasProperty("args")) {
+        project.properties["args"] as String
+    } else {
+        ""
+    }
+    commandLine = listOf("build/bin/linuxX64/releaseExecutable/from-the-ground-up-ray-tracer.kexe")
+    setArgs(args.split(" "))
+}
+
+task<Exec>("cmd-js") {
+    val args: String = if (project.hasProperty("args")) {
+        project.properties["args"] as String
+    } else {
+        ""
+    }
+    val js = "packages/from-the-ground-up-ray-tracer/kotlin/from-the-ground-up-ray-tracer.js"
+    workingDir = File("build/js")
+    commandLine = listOf("node")
+    setArgs(listOf(js) + args.split(" "))
+}

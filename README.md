@@ -25,6 +25,7 @@ Run the different versions with
 $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew cmd-jvm --args="World20.kt"
+$ ./gradlew cmd-js -Pargs="World20.kt"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)

@@ -7,9 +7,12 @@ import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
+import node.process.process
 
-suspend fun main(args: Array<String>) {
+suspend fun main() {
+    val args = process.argv.toList().drop(2)
     Logger.info("From-the-ground-up-raytracer on node/JavaScript")
+    Logger.info("Called with args '$args'")
     if (args.size != 1) {
         synopsis("CommandLineUI")
         return
