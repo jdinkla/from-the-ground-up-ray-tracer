@@ -19,11 +19,12 @@ by Kevin Suffern I
 
 ### Running
 
-Run the Swing GUI with
+Run the different versions with
 
 ```bash
-$ gradlew build
-$ gradlew swing
+$ ./gradlew build
+$ ./gradlew swing
+$ ./gradlew cmd-jvm --args="World20.kt"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)

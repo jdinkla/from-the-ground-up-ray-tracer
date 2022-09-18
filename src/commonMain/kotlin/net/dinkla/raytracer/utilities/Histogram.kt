@@ -5,7 +5,7 @@ class Histogram {
     private var counts = mutableMapOf<Int, Int>()
 
     fun add(key: Int) {
-        counts[key] = counts.getOrElse(key) { 0 } + 1
+        counts[key] = (counts[key] ?: 0) + 1
     }
 
     operator fun get(key: Int): Int = counts[key] ?: 0
