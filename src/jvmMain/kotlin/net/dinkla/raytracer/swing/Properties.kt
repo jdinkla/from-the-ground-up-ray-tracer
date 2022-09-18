@@ -14,3 +14,4 @@ internal val pngTitle = AppProperties["png.title"] as String
 internal val pngMessage = AppProperties["png.message"] as String
 internal val width = AppProperties.getAsInteger("render.resolution.width")
 internal val height = AppProperties.getAsInteger("render.resolution.height")
+internal val examplesDirectory = AppProperties["examples.directory"] as String

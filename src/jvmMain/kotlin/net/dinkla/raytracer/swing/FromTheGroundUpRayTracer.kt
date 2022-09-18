@@ -9,7 +9,6 @@ import net.dinkla.raytracer.gui.fileNameWithoutDirectory
 import net.dinkla.raytracer.gui.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderers
 import net.dinkla.raytracer.tracers.Tracers
-import net.dinkla.raytracer.utilities.AppProperties
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.utilities.save
@@ -54,29 +53,71 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     }
 
     private fun leftSide(): JTree {
-        val examplesDirectory = AppProperties["examples.directory"] as String
-        val root = DefaultMutableTreeNode(examplesDirectory)
-        val directory = File(examplesDirectory)
-        directory.walk().sorted().forEach { file ->
-            if (file.isFile) {
-                val fileName =
-                    fileNameWithoutDirectory(file.absoluteFile.toString(), directory.absolutePath.toString(), File.separator)
-                root.add(DefaultMutableTreeNode(fileName))
-            }
-        }
+        val root = createTreeFromDirectory(examplesDirectory)
         val tree = JTree(root)
         tree.border = EmptyBorder(10, 10, 10, 10)
-        tree.addTreeSelectionListener { e: TreeSelectionEvent ->
-            val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
-            if (node != null) {
-                selected = node.userObject.toString()
-                textArea.text = File("$examplesDirectory/$selected").readText()
-            }
-        }
+        tree.addTreeSelectionListener(treeSelectionListener(tree))
         return tree
     }
 
+    private fun createTreeFromDirectory(directoryName: String): DefaultMutableTreeNode {
+        val root = DefaultMutableTreeNode(directoryName)
+        val directory = File(directoryName)
+        directory.walk().sorted().forEach { file ->
+            if (file.isFile) {
+                val fileName =
+                    fileNameWithoutDirectory(
+                        file.absoluteFile.toString(),
+                        directory.absolutePath.toString(),
+                        File.separator
+                    )
+                root.add(DefaultMutableTreeNode(fileName))
+            }
+        }
+        return root
+    }
+
+    private fun treeSelectionListener(tree: JTree) = { e: TreeSelectionEvent ->
+        val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
+        if (node != null) {
+            selected = node.userObject.toString()
+            textArea.text = File("$examplesDirectory/$selected").readText()
+        }
+    }
+
     private fun rightSide(): JPanel {
+        val buttons = createButtons()
+        with(textArea) {
+            append("display the source code here")
+            columns = 80
+            rows = 20
+            border = EmptyBorder(10, 10, 10, 10)
+        }
+        val tracerComboBox = JComboBox(tracerNames).apply {
+            addActionListener { _: ActionEvent ->
+                selectedTracer = selectedIndex
+            }
+        }
+        val rendererComboBox = JComboBox(rendererNames).apply {
+            addActionListener { _: ActionEvent ->
+                selectedRenderer = selectedIndex
+            }
+        }
+        val selections = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            border = EmptyBorder(10, 10, 10, 10)
+            add(tracerComboBox)
+            add(rendererComboBox)
+        }
+        return JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            add(selections)
+            add(buttons)
+            add(textArea)
+        }
+    }
+
+    private fun createButtons(): JPanel {
         val renderButton = JButton().apply {
             text = "Render"
             addActionListener { _: ActionEvent ->
@@ -89,44 +130,13 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                 selected?.let { png(File(it)) }
             }
         }
-        with(textArea) {
-            append("display the source code here")
-            columns = 80
-            rows = 20
-            border = EmptyBorder(10, 10, 10, 10)
-        }
-
-        val tracerComboBox = JComboBox(tracerNames).apply {
-            addActionListener { _: ActionEvent ->
-                selectedTracer = selectedIndex
-            }
-        }
-
-        val rendererComboBox = JComboBox(rendererNames).apply {
-            addActionListener { _: ActionEvent ->
-                selectedRenderer = selectedIndex
-            }
-        }
-
-        val selections = JPanel().apply {
-            layout = BoxLayout(this, BoxLayout.X_AXIS)
-            border = EmptyBorder(10, 10, 10, 10)
-            add(tracerComboBox)
-            add(rendererComboBox)
-        }
-
         val buttons = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             border = EmptyBorder(10, 10, 10, 10)
             add(renderButton)
             add(pngButton)
         }
-        return JPanel().apply {
-            layout = BoxLayout(this, BoxLayout.Y_AXIS)
-            add(selections)
-            add(buttons)
-            add(textArea)
-        }
+        return buttons
     }
 
     override fun actionPerformed(e: ActionEvent) {
@@ -140,10 +150,10 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     private fun render(file: File) {
         Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
         val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].create, resolution)
-        worldDef(file.name)?.let { worldDefinition ->
+        worldDef(file.name)?.let {
             launch {
                 try {
-                    val world = worldDefinition.world()
+                    val world = it.world()
                     context.adapt(world)
                     world.initialize()
                     val film = SwingFilm(world.viewPlane.resolution)
@@ -154,12 +164,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                 } catch (e: Exception) {
                     Logger.info(e.message ?: "an exception occurred")
                     Logger.error(e.stackTraceToString())
-                    JOptionPane.showMessageDialog(
-                        frame,
-                        e.message,
-                        "Exception occurred",
-                        JOptionPane.ERROR_MESSAGE
-                    )
+                    dialog(e.message, "Exception occurred", JOptionPane.ERROR_MESSAGE)
                 }
             }
         }
@@ -173,23 +178,16 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                 try {
                     val (film, _) = Render.render(it, context)
                     film.save("../" + outputPngFileName(file.name))
-                    JOptionPane.showMessageDialog(
-                        frame,
-                        pngMessage,
-                        pngTitle,
-                        JOptionPane.INFORMATION_MESSAGE
-                    )
+                    dialog(pngMessage, pngTitle, JOptionPane.INFORMATION_MESSAGE)
                 } catch (e: Exception) {
-                    JOptionPane.showMessageDialog(
-                        frame,
-                        e.message,
-                        "Exception occurred",
-                        JOptionPane.ERROR_MESSAGE
-                    )
+                    dialog(e.message, "Exception occurred", JOptionPane.ERROR_MESSAGE)
                 }
             }
         }
     }
+
+    private fun dialog(message: String?, title: String, type: Int) =
+        JOptionPane.showMessageDialog(frame, message, title, type)
 }
 
 fun main() {
