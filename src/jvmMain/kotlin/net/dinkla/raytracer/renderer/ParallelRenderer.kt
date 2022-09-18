@@ -6,9 +6,6 @@ import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 
 class ParallelRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
-
-    var exposureTime = 1.0
-
     private var parallel = false
     private var numThreads: Int = 0
     private var worker: Array<Worker?>
@@ -21,18 +18,13 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     override fun render(film: IFilm) {
-        // Init
         createWorkers(film)
         barrier = CyclicBarrier(numThreads + 1)
         parallel = numThreads > 1
-
-        // Work
         for (aWorker in worker) {
             aWorker?.film = film
             Thread(aWorker).start()
         }
-
-        // Wait for workers to finish
         try {
             barrier?.await()
         } catch (e: InterruptedException) {
@@ -40,7 +32,6 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
         } catch (e: BrokenBarrierException) {
             e.printStackTrace()
         }
-
     }
 
     private fun createWorkers(film: IFilm) {
@@ -60,54 +51,20 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
         }
     }
 
-    /*
-    protected void createWorkers(Film film) {
-        final Resolution res = film.getResolution();
-        if (res.vres % numThreads == 0) {
-            worker = new Worker[numThreads];
-            int yStep = film.getResolution().vres / (numThreads/2);
-            for (int i = 0; i < numThreads / 2; i++) {
-                worker[2*i] = new Worker(0, res.hres/2, i * yStep, (i + 1) * yStep);
-                worker[2*i+1] = new Worker(res.hres/2, res.hres, i * yStep, (i + 1) * yStep);
-            }
-        } else {
-            throw new RuntimeException("viewPlane.vres % numThreads != 0");
-        }
-    }
-    */
-
-    /*
-    protected void createWorkers(Film film) {
-        final Resolution res = film.getResolution();
-        if (res.vres % numThreads == 0) {
-            worker = new Worker[numThreads];
-            int yStep = film.getResolution().vres / numThreads;
-            for (int i = 0; i < numThreads; i++) {
-                worker[i] = new Worker(0, res.hres, i * yStep, (i + 1) * yStep);
-            }
-        } else {
-            throw new RuntimeException("viewPlane.vres % numThreads != 0");
-        }
-    }
-*/
-
     private inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : Runnable {
         var film: IFilm? = null
-
         override fun run() {
             var count = 0
             var r = yStart
             while (r < yEnd) {
                 var c = xStart
                 while (c < xEnd) {
-                    var color = render.render(r, c)
-                    color = color.times(exposureTime)
-                    color = corrector.correct(color)
-                    film!!.setPixel(c, r, color)
-                    c += STEP_X
+                    val color = corrector.correct(render.render(r, c)).clamp()
+                    film?.setPixel(c, r, color)
+                    c += 1
                 }
                 count++
-                r += STEP_Y
+                r += 1
             }
             try {
                 barrier?.await()
@@ -116,13 +73,6 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
             } catch (e: BrokenBarrierException) {
                 e.printStackTrace()
             }
-
         }
     }
-
-    companion object {
-        private const val STEP_X = 1
-        private const val STEP_Y = 1
-    }
-
 }

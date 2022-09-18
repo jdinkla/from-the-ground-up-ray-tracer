@@ -10,7 +10,6 @@ import java.util.concurrent.RecursiveAction
 class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
     private var sizeGrid: Int = 8
-    var exposureTime = 1.0
     private var film: IFilm? = null
 
     override fun render(film: IFilm) {
@@ -53,10 +52,8 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
             while (r < yEnd) {
                 var c = xStart
                 while (c < xEnd) {
-                    var color = render.render(r, c)
-                    color *= exposureTime
-                    color = corrector.correct(color)
-                    film?.setPixel(c, r, color.clamp())
+                    val color = corrector.correct(render.render(r, c)).clamp()
+                    film?.setPixel(c, r, color)
                     c += 1
                 }
                 count++

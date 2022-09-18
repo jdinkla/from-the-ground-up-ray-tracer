@@ -6,10 +6,10 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 
-class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
+class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) :
+    IRenderer {
 
     private var sizeGrid: Int = 32
-    var exposureTime = 1.0
 
     override fun render(film: IFilm) {
         Logger.info("render starts")
@@ -25,7 +25,7 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
 
     private var film: IFilm? = null
 
-    suspend fun master(numBlocks: Int, resolution: Resolution) = coroutineScope {
+    private suspend fun master(numBlocks: Int, resolution: Resolution) = coroutineScope {
         val blockHeight: Int = resolution.height / numBlocks
         val blockWidth: Int = resolution.width / numBlocks
         val blocks: Int = numBlocks * numBlocks
@@ -49,16 +49,14 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
         Logger.info("Master.compute ends")
     }
 
-    suspend fun work(xStart: Int, xEnd: Int, yStart: Int, yEnd: Int) {
+    private suspend fun work(xStart: Int, xEnd: Int, yStart: Int, yEnd: Int) {
         var count = 0
         var r = yStart
         while (r < yEnd) {
             var c = xStart
             while (c < xEnd) {
-                var color = render.render(r, c)
-                color *= exposureTime
-                color = corrector.correct(color)
-                film?.setPixel(c, r, color.clamp())
+                val color = corrector.correct(render.render(r, c)).clamp()
+                film?.setPixel(c, r, color)
                 c += 1
                 yield()
             }

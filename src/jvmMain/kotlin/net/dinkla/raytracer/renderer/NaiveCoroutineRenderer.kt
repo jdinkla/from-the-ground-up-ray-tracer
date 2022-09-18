@@ -9,18 +9,14 @@ import net.dinkla.raytracer.utilities.Logger
 
 class NaiveCoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
-    private var exposureTime = 1.0
-
     override fun render(film: IFilm) {
         Logger.info("render starts")
         runBlocking<Unit> {
             for (r in 0 until film.resolution.height) {
                 for (c in 0 until film.resolution.width) {
                     launch(Dispatchers.Default) {
-                        var color = render.render(r, c)
-                        color *= exposureTime
-                        color = corrector.correct(color)
-                        film.setPixel(c, r, color.clamp())
+                        val color = corrector.correct(render.render(r, c)).clamp()
+                        film.setPixel(c, r, color)
                     }
                 }
             }
