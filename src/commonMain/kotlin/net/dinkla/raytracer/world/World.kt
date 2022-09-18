@@ -19,6 +19,9 @@ import net.dinkla.raytracer.utilities.Counter
 
 class World(val id: String) : IWorld {
 
+    var title: String = ""
+    var description: String = ""
+
     val compound: Compound = Compound()
     val viewPlane = ViewPlane()
 
@@ -66,6 +69,6 @@ class World(val id: String) : IWorld {
 
     fun add(objects: List<GeometricObject>) = this.compound.add(objects)
 
-    override fun toString(): String = "World $id"
+    override fun toString(): String = "World ($id, $title)"
 }
 

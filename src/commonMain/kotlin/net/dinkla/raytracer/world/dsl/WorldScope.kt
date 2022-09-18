@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
@@ -43,8 +44,7 @@ class WorldScope(val id: String) {
     }
 
     fun ambientLight(color: Color = Color.WHITE, ls: Double = 1.0) {
-        world.ambientLight.color = color
-        world.ambientLight.ls = ls
+        world.ambientLight = Ambient(ls, color)
     }
 
     fun ambientOccluder(minAmount: Color, sampler: Sampler, numSamples: Int) {
@@ -67,6 +67,14 @@ class WorldScope(val id: String) {
         val scope = ObjectsScope(world.materials, world.compound)
         scope.builder()
         world.objects = scope.objects
+    }
+
+    fun title(title: String) {
+        world.title = title
+    }
+
+    fun description(description: String) {
+        world.description = description
     }
 
 }
