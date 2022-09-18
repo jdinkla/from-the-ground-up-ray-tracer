@@ -15,8 +15,9 @@ class AreaLighting(var world: IWorld) : Tracer {
             sr.ray = ray
             if (null == sr.material) {
                 throw AssertionError()
+            } else {
+                sr.material?.areaLightShade(world, sr) ?: world.backgroundColor
             }
-            sr.material?.areaLightShade(world, sr) ?: world.backgroundColor
         } else {
             world.backgroundColor
         }

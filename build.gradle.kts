@@ -108,7 +108,7 @@ tasks.named<Test>("jvmTest") {
 }
 
 task<JavaExec>("swing") {
-    mainClass.set("net.dinkla.raytracer.gui.swing.FromTheGroundUpRayTracerKt")
+    mainClass.set("net.dinkla.raytracer.swing.FromTheGroundUpRayTracerKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
 

@@ -334,8 +334,7 @@ class SparseGrid() : Grid() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val h = Hit()
-        h.t = tmin.t
+        val h = Hit(tmin.t)
         val b = hit(ray, h)
         tmin.t = h.t
         return b

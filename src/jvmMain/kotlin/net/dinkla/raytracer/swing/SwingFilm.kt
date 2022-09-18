@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.swing
+package net.dinkla.raytracer.swing
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.swing
+package net.dinkla.raytracer.swing
 
 import java.awt.Canvas
 import java.awt.Dimension
@@ -6,7 +6,7 @@ import java.awt.Graphics
 import java.awt.Image
 
 internal class ImageCanvas(private val image: Image) : Canvas() {
-    override fun paint(g: Graphics): Unit {
+    override fun paint(g: Graphics) {
         g.drawImage(image, 0, 0, this)
     }
 

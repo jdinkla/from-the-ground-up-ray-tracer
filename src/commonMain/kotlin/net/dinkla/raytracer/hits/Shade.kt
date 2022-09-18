@@ -7,6 +7,10 @@ import net.dinkla.raytracer.math.Vector3D
 
 class Shade : Hit(), IShade {
 
+    init {
+        geometricObject = null
+    }
+
     // for specular highlights, set by Tracer
     override var ray: Ray = Ray(Point3D.ORIGIN, Vector3D.ZERO)
 
@@ -21,10 +25,6 @@ class Shade : Hit(), IShade {
 
     override val material: IMaterial?
         get() = geometricObject?.material
-
-    init {
-        geometricObject = null
-    }
 
     override fun toString(): String {
         return "Shade($ray, $depth, $material)"

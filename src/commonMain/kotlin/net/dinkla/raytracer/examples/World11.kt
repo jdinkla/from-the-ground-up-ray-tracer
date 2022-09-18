@@ -9,10 +9,10 @@ import kotlin.random.Random
 
 object World11 : WorldDefinition {
 
-    const val numSpheres = 25
-    val volume = 0.1 / numSpheres
-    val radius = (0.75 * volume / PI).pow(1.0 / 3.0);
-    val r = Random.Default
+    private const val numSpheres = 25
+    private const val volume = 0.1 / numSpheres
+    private val radius = (0.75 * volume / PI).pow(1.0 / 3.0)
+    private val r = Random.Default
 
     override fun world() = Builder.build("World 11") {
 

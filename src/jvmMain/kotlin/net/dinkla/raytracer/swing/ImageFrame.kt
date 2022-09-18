@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.swing
+package net.dinkla.raytracer.swing
 
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent

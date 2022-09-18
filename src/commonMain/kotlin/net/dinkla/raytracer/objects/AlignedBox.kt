@@ -3,10 +3,8 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.math.*
-import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
 
-class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
+data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
     init {
         boundingBox = BBox(p, q)
@@ -62,9 +60,9 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
     }
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val (txMin, txMax, a) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
-        val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
-        val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
+        val (txMin, txMax, _) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
+        val (tyMin, tyMax, _) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
+        val (tzMin, tzMax, _) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
         var t0: Double
         var t1: Double
@@ -112,12 +110,4 @@ class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         }
         return Triple(tMin, tMax, a)
     }
-
-    override fun equals(other: Any?): Boolean = this.equals<AlignedBox>(other) { a, b ->
-        a.p == b.p && a.q == b.q
-    }
-
-    override fun hashCode(): Int = this.hash(p, q)
-
-    override fun toString(): String = "AlignedBox($p, $q)"
 }

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui.swing
+package net.dinkla.raytracer.swing
 
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,6 @@ import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
-import java.awt.event.KeyEvent
 import java.io.File
 import javax.swing.*
 import javax.swing.border.EmptyBorder
@@ -25,58 +24,7 @@ import javax.swing.event.TreeSelectionEvent
 import javax.swing.tree.DefaultMutableTreeNode
 import kotlin.coroutines.CoroutineContext
 
-val informationTitle = AppProperties["information.title"] as String
-val informationHeader = AppProperties["information.headerText"] as String
-val informationContext = AppProperties["information.contentText"] as String
-val confirmationTitle = AppProperties["confirmation.title"] as String
-val confirmationHeader = AppProperties["confirmation.headerText"] as String
-val appWidth = AppProperties.getAsInteger("display.width")
-val appHeight = AppProperties.getAsInteger("display.height")
-val appTitle = AppProperties["app.title"] as String
-val pngTitle = AppProperties["png.title"] as String
-val pngMessage = AppProperties["png.message"] as String
-val width = AppProperties.getAsInteger("render.resolution.width")
-val height = AppProperties.getAsInteger("render.resolution.height")
 var resolution: Resolution = Resolution(width, height)
-
-private fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
-    add(JMenu("File").apply {
-        mnemonic = KeyEvent.VK_F
-        addSeparator()
-        add(JMenuItem("Quit").apply {
-            mnemonic = KeyEvent.VK_Q
-            addActionListener(parent)
-        })
-    })
-    add(JMenu("Help").apply {
-        mnemonic = KeyEvent.VK_H
-        add(JMenuItem("About").apply {
-            mnemonic = KeyEvent.VK_A
-            addActionListener(parent)
-        })
-    })
-}
-
-private fun about(frame: JFrame) = JOptionPane.showMessageDialog(
-    frame,
-    informationHeader + '\n' + informationContext,
-    informationTitle,
-    JOptionPane.PLAIN_MESSAGE
-)
-
-private fun quit(frame: JFrame) {
-    val n = JOptionPane.showOptionDialog(
-        frame,
-        confirmationHeader,
-        confirmationTitle,
-        JOptionPane.YES_NO_OPTION,
-        JOptionPane.QUESTION_MESSAGE, null, null, null
-    )
-    if (n == 0) {
-        System.exit(0)
-    }
-}
-
 
 class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 

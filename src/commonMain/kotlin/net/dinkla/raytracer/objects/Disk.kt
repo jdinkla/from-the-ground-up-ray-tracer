@@ -32,14 +32,12 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
 
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         val t = ((center - ray.origin) dot normal) / (ray.direction dot normal)
-        return when {
-            t <= MathUtils.K_EPSILON -> false
-            (center.sqrDistance(ray.linear(t)) < radius * radius) -> {
-                tmin.t = t
-                true
-            }
-            else -> false
+        return if (t <= MathUtils.K_EPSILON) false
+        else if ((center.sqrDistance(ray.linear(t)) < radius * radius)) {
+            tmin.t = t
+            true
         }
+        else false
     }
 
     // TODO why with p?
@@ -49,7 +47,7 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
         a.center == b.center && a.radius == b.radius && a.normal == b.normal
     }
 
-    override fun hashCode(): Int = this.hash(center, radius, normal)
+    override fun hashCode(): Int = hash(center, radius, normal)
 
     override fun toString(): String = "Disk($center, $radius, $normal)"
 }

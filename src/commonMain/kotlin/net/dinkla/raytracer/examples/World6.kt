@@ -7,13 +7,6 @@ object World6 : WorldDefinition {
 
     override fun world() = Builder.build("World6") {
 
-        // // TODO ? viewPlane and Threads, oversampling
-//        viewPlane {
-//                resolution = Resolution.RESOLUTION_720
-//        //, numSamples: 4
-//        }
-
-        // camera(d = 750.0, eye = p(0, 30, 80), lookAt = p(0, 10, 0), numThreads = 4)
         camera(d = 750.0, eye = p(0, 30, 80), lookAt = p(0, 10, 0))
 
         ambientLight(ls = 0.75)
