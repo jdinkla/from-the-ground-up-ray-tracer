@@ -3,32 +3,32 @@ package net.dinkla.raytracer.renderer
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.utilities.Resolution
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.RecursiveAction
 
 class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
-    private var sizeGrid: Int = 4
+    private var sizeGrid: Int = 8
     var exposureTime = 1.0
     private var film: IFilm? = null
 
     override fun render(film: IFilm) {
         this.film = film
-        val res = film.resolution
-        val master = Master(sizeGrid, res.width, res.height)
+        val master = Master(sizeGrid, film.resolution)
         Logger.info("invoke master")
         pool.invoke(master)
         this.film = null
     }
 
-    internal inner class Master(private val numBlocks: Int, width: Int, height: Int) : RecursiveAction() {
-        private val blockHeight: Int = height / numBlocks
-        private val blockWidth: Int = width / numBlocks
+    internal inner class Master(private val numBlocks: Int, resolution: Resolution) : RecursiveAction() {
+        private val blockHeight: Int = resolution.height / numBlocks
+        private val blockWidth: Int = resolution.width / numBlocks
         private val blocks: Int = numBlocks * numBlocks
         private var actions: Array<Worker?> = arrayOfNulls(blocks)
 
         override fun compute() {
-            Logger.info("Master.compute starts")
+            Logger.info("Master.compute starts for $numBlocks * $numBlocks blocks")
             for (j in 0 until numBlocks) {
                 for (i in 0 until numBlocks) {
                     val idx = j * numBlocks + i

@@ -7,7 +7,7 @@ import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 
-class CoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
+class NaiveCoroutineRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
 
     private var exposureTime = 1.0
 
@@ -16,7 +16,7 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
         runBlocking<Unit> {
             for (r in 0 until film.resolution.height) {
                 for (c in 0 until film.resolution.width) {
-                    launch(pool) {
+                    launch(Dispatchers.Default) {
                         var color = render.render(r, c)
                         color *= exposureTime
                         color = corrector.correct(color)
@@ -28,9 +28,4 @@ class CoroutineRenderer(private val render: ISingleRayRenderer, private val corr
         }
         Logger.info("render stops")
     }
-
-    companion object {
-        internal val pool = Dispatchers.Default
-    }
-
 }
