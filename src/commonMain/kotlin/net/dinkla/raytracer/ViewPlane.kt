@@ -5,7 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
 
 class ViewPlane : IColorCorrector {
-    var resolution = Resolution.RESOLUTION_1080
+    var resolution = Resolution(1080)
 
     var sizeOfPixel: Double = 1.0
         private set

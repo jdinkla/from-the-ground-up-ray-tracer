@@ -15,7 +15,7 @@ class CommandLineJvm(
     worlds: Collection<String>,
     tracers: Collection<Tracers>,
     renderers: Collection<Renderer>,
-    resolutions: Collection<Resolution>
+    resolutions: Collection<Resolution.Predefined>
 ) : CommandLine(worlds, tracers, renderers, resolutions) {
     override fun render(context: Context) {
         runBlocking {

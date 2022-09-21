@@ -25,7 +25,7 @@ Run the different versions with
 $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew cmd-js -Pargs="World20.kt"
-$ ./gradlew cmd-jvm --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN"
+$ ./gradlew cmd-jvm --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)
