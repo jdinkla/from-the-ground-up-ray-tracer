@@ -26,6 +26,7 @@ $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew cmd-js -Pargs="World20.kt"
 $ ./gradlew cmd-jvm --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
+$ ./gradlew cmd-jvm --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720p"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)

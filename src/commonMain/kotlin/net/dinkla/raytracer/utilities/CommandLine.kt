@@ -10,13 +10,13 @@ import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Context
 
 abstract class CommandLine(
-    val worlds: Collection<String>,
+    worlds: Collection<String>,
     val tracers: Collection<Tracers>,
     val renderers: Collection<Renderer>,
     val resolutions: Collection<Resolution.Predefined>
 ) : CliktCommand() {
 
-    val world by option(help = "world definition id").default("World20.kt")
+    val world by option(help = "world definition id").choice(*worlds.toTypedArray()).default("World20.kt")
     val tracer by option(help = "tracer").choice(*tracers.map { it.name }.toTypedArray()).default("WHITTED")
     val renderer by option(help = "renderers").choice(*renderers.map { it.name }.toTypedArray()).default("SEQUENTIAL")
     val resolution by option(help = "resolution").choice(*resolutions.map { it.id }.toTypedArray()).default("1080p")
