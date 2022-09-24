@@ -48,15 +48,20 @@ internal class Vector2DTest : StringSpec({
     }
 
     "unaryMinus" {
-        val v = Vector2D(a, b)
-        -v shouldBe Vector2D(-a, -b)
+        val someVector = Vector2D(a, b)
+        -someVector shouldBe Vector2D(-a, -b)
     }
 
     "combined" {
-        val v = Vector2D(1.0, 2.0)
-        val w = Vector2D(3.0, -1.0)
-        val x = Vector2D(-1.0, 1.0)
-        val result = -v dot (2.0 * (w + x))
+        // Given
+        val vec = Vector2D(1.0, 2.0)
+        val wec = Vector2D(3.0, -1.0)
+        val xec = Vector2D(-1.0, 1.0)
+
+        // When
+        val result = -vec dot (2.0 * (wec + xec))
+
+        // Then
         result shouldBe -4.0
     }
 })

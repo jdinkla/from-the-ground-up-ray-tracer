@@ -45,13 +45,10 @@ internal class Point3DTest : StringSpec({
     }
 
     "equals" {
-        val x = p.x
-        val y = p.y
-        val z = p.z
-        p shouldBe Point3D(x, y, z)
-        p shouldNotBe Point3D(0.0, y, z)
-        p shouldNotBe Point3D(x, 0.0, z)
-        p shouldNotBe Point3D(x, y, 0.0)
+        p shouldBe Point3D(p.x, p.y, p.z)
+        p shouldNotBe Point3D(0.0, p.y, p.z)
+        p shouldNotBe Point3D(p.x, 0.0, p.z)
+        p shouldNotBe Point3D(p.x, p.y, 0.0)
     }
 
     "a point is not equal to a vector" {
@@ -59,13 +56,12 @@ internal class Point3DTest : StringSpec({
     }
 
     "unaryMinus" {
-        val p = Point3D(v.x, v.y, -v.z)
-        -p shouldBe Vector3D(-v.x, -v.y, v.z)
+        val somePoint = Point3D(v.x, v.y, -v.z)
+        -somePoint shouldBe Vector3D(-v.x, -v.y, v.z)
     }
 
     "sqrDistance" {
-        val p = Point3D(0.0, 1.0, 2.0)
-        e.sqrDistance(p) shouldBe 1.0 + 1.0 + 1.0
+        e.sqrDistance(Point3D(0.0, 1.0, 2.0)) shouldBe 1.0 + 1.0 + 1.0
     }
 
     "ith" {

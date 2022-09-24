@@ -74,7 +74,6 @@ internal class Vector3DTest : StringSpec({
     }
 
     "unaryMinus" {
-        val v = Vector3D(a, b, -c)
-        -v shouldBe Vector3D(-a, -b, c)
+        -Vector3D(a, b, -c) shouldBe Vector3D(-a, -b, c)
     }
 })

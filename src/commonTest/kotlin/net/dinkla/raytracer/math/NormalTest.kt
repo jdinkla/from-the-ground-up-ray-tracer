@@ -24,20 +24,20 @@ internal class NormalTest : StringSpec({
     }
 
     "construct from vector" {
-        val n = Normal.create(v)
+        val normal = Normal.create(v)
         val l = v.length()
-        n.x shouldBe x/l
-        n.y shouldBe y/l
-        n.z shouldBe z/l
+        normal.x shouldBe x/l
+        normal.y shouldBe y/l
+        normal.z shouldBe z/l
     }
 
     "construct from three points" {
         val p0 = Point3D(x, y, z)
         val p1 = Point3D(y, z, x)
         val p2 = Point3D(z, x, y)
-        val n = Normal.create(p0, p1, p2)
-        val n2 = Normal.create(((p1 - p0) cross (p2 - p0)).normalize())
-        n shouldBe n2
+        val normal = Normal.create(p0, p1, p2)
+        val otherNormal = Normal.create(((p1 - p0) cross (p2 - p0)).normalize())
+        normal shouldBe otherNormal
     }
 
     "plus" {

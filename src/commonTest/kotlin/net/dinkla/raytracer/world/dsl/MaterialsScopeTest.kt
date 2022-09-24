@@ -43,7 +43,6 @@ class MaterialsScopeTest : StringSpec({
 
     "should handle reflective" {
         // given
-        val id = "m1"
         val scope = MaterialsScope()
         val reflective = Reflective(ex.cd, ex.ka, ex.kd).apply {
             exp = ex.exp
@@ -88,7 +87,6 @@ class MaterialsScopeTest : StringSpec({
 
     "should handle transparent" {
         // given
-        val id = "m1"
         val scope = MaterialsScope()
         val transparent = Transparent().apply {
             cd = ex.cd
