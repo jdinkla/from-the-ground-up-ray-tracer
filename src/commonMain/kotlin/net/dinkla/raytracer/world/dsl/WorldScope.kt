@@ -1,20 +1,36 @@
 package net.dinkla.raytracer.world.dsl
 
+import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.AmbientOccluder
+import net.dinkla.raytracer.lights.Light
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.objects.GeometricObject
+import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.samplers.Sampler
+import net.dinkla.raytracer.world.Metadata
 import net.dinkla.raytracer.world.World
 
 @Suppress("TooManyFunctions")
 class WorldScope {
 
-    val world: World = World()
+    private var metadata: Metadata = Metadata("someId")
+    private var camera: Camera? = null
+    private val viewPlane = ViewPlane()
+    private var ambientLight = Ambient()
+    private var lights: List<Light> = listOf()
+    private var materials: Map<String, IMaterial> = mapOf()
+    private var objects: List<GeometricObject> = listOf()
+    private val compound: Compound = Compound()
+
+    val world: World
+        get() = World(metadata, camera!!, viewPlane, ambientLight, lights, materials, objects, compound)
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
@@ -36,43 +52,43 @@ class WorldScope {
         lookAt: Point3D = Point3D.ORIGIN,
         up: Vector3D = Vector3D.UP
     ) {
-        world.camera = Camera({ eye, uvw ->
-            val p = Pinhole(world.viewPlane, eye, uvw)
+        camera = Camera({ eye, uvw ->
+            val p = Pinhole(viewPlane, eye, uvw)
             p.d = d
             p
         }, eye, lookAt, up)
     }
 
     fun ambientLight(color: Color = Color.WHITE, ls: Double = 1.0) {
-        world.ambientLight = Ambient(ls, color)
+        ambientLight = Ambient(ls, color)
     }
 
     fun ambientOccluder(minAmount: Color, sampler: Sampler, numSamples: Int) {
-        world.ambientLight = AmbientOccluder(minAmount, sampler, numSamples)
+        ambientLight = AmbientOccluder(minAmount, sampler, numSamples)
     }
 
     fun lights(builder: LightsScope.() -> Unit) {
         val scope = LightsScope()
         scope.builder()
-        world.lights = scope.lights
+        lights = scope.lights
     }
 
     fun materials(builder: MaterialsScope.() -> Unit) {
         val scope = MaterialsScope()
         scope.builder()
-        world.materials = scope.materials
+        materials = scope.materials
     }
 
     fun objects(builder: ObjectsScope.() -> Unit) {
-        val scope = ObjectsScope(world.materials, world.compound)
+        val scope = ObjectsScope(materials, compound)
         scope.builder()
-        world.objects = scope.objects
+        objects = scope.objects
     }
 
     fun metadata(builder: MetadataScope.() -> Unit) {
         val scope = MetadataScope()
         scope.builder()
-        world.metadata = scope.metadata
+        metadata = scope.metadata
     }
 }
 

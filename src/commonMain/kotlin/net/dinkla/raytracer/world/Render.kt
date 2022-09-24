@@ -15,7 +15,6 @@ object Render {
         if (null == worldDefinition) {
             Logger.warn("WorldDef $fileNameIn is not known")
         } else {
-            Logger.info("Using world ${worldDefinition.world().id}")
             val (film, _) = render(worldDefinition, context)
             film.save(fileNameOut)
         }

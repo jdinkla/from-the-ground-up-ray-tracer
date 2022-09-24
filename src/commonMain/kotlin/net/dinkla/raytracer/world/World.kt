@@ -17,22 +17,21 @@ import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 
-class World(var id: String = "") : IWorld {
-
-    var metadata: Metadata = Metadata(id)
+class World(
+    val metadata: Metadata,
+    val camera: Camera,
+    val viewPlane: ViewPlane,
+    override val ambientLight: Ambient,
+    override val lights: List<Light>,
+    val materials: Map<String, IMaterial>,
+    val objects: List<GeometricObject>,
+    val compound: Compound
+) : IWorld {
 
     override var backgroundColor: Color = Color.BLACK
-    override var lights: List<Light> = listOf()
-    override var ambientLight = Ambient()
-    var materials: Map<String, IMaterial> = mapOf()
-    var objects: List<GeometricObject> = listOf()
 
-    var camera: Camera? = null
     override var tracer: Tracer? = null
     var renderer: IRenderer? = null
-
-    val compound: Compound = Compound()
-    val viewPlane = ViewPlane()
 
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")

@@ -17,28 +17,22 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Sphere
 
 class BuilderTest : StringSpec({
-    "should store name of world" {
-        val id = "idOfWorld"
-        val world = Builder.build(id) {}
-        world.id shouldBe id
-    }
-
     "should set camera" {
         val d = 500.0
         val eye = Point3D(0.0, 100.0, 200.0)
         val lookAt = Point3D(1.0, 2.0, 3.0)
         val up = Vector3D.JITTER
-        val world = Builder.build("id") {
+        val world = Builder.build {
             camera(d = d, eye = p(0, 100, 200), lookAt = p(1, 2, 3), up = up)
         }
         world.camera shouldNotBe null
-        world.camera?.uvw shouldBe Basis.create(eye, lookAt, up)
+        world.camera.uvw shouldBe Basis.create(eye, lookAt, up)
     }
 
     "should set ambient light" {
         val ls = 123.45
         val color = Color.BLUE
-        val world = Builder.build("id") {
+        val world = Builder.build {
             ambientLight(color = color, ls = ls)
         }
         world.ambientLight shouldNotBe null
@@ -50,7 +44,7 @@ class BuilderTest : StringSpec({
         val ls = 0.98
         val color = Color.BLUE
         val location = Point3D(0.0, 100.0, 200.0)
-        val world = Builder.build("id") {
+        val world = Builder.build {
             lights {
                 pointLight(location = location, ls = ls, color = color)
             }
@@ -62,7 +56,7 @@ class BuilderTest : StringSpec({
     "should store matte materials" {
         val id = "m1"
         val cd = Color(1.0, 0.5, 0.3)
-        val world = Builder.build("id") {
+        val world = Builder.build {
             materials {
                 matte(id = id, cd = cd)
             }
@@ -77,7 +71,7 @@ class BuilderTest : StringSpec({
         val cd = Color(1.0, 0.5, 0.3)
         val center = Point3D(0.0, 100.0, 200.0)
         val radius = 80.0
-        val world = Builder.build("id") {
+        val world = Builder.build {
             materials {
                 matte(id = id, cd = cd)
             }
