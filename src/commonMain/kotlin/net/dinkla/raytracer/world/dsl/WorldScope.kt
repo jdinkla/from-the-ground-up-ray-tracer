@@ -12,9 +12,9 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.World
 
 @Suppress("TooManyFunctions")
-class WorldScope(val id: String) {
+class WorldScope {
 
-    val world: World = World(id)
+    val world: World = World()
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
@@ -69,13 +69,10 @@ class WorldScope(val id: String) {
         world.objects = scope.objects
     }
 
-    fun title(title: String) {
-        world.title = title
+    fun metadata(builder: MetadataScope.() -> Unit) {
+        val scope = MetadataScope()
+        scope.builder()
+        world.metadata = scope.metadata
     }
-
-    fun description(description: String) {
-        world.description = description
-    }
-
 }
 

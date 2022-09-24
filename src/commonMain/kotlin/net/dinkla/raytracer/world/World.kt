@@ -17,16 +17,9 @@ import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 
-class World(val id: String) : IWorld {
+class World(var id: String = "") : IWorld {
 
-    var title: String = ""
-    var description: String = ""
-
-    val compound: Compound = Compound()
-    val viewPlane = ViewPlane()
-
-    override var tracer: Tracer? = null
-    var renderer: IRenderer? = null
+    var metadata: Metadata = Metadata(id)
 
     override var backgroundColor: Color = Color.BLACK
     override var lights: List<Light> = listOf()
@@ -34,8 +27,12 @@ class World(val id: String) : IWorld {
     var materials: Map<String, IMaterial> = mapOf()
     var objects: List<GeometricObject> = listOf()
 
-    // tmp
     var camera: Camera? = null
+    override var tracer: Tracer? = null
+    var renderer: IRenderer? = null
+
+    val compound: Compound = Compound()
+    val viewPlane = ViewPlane()
 
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")
@@ -67,8 +64,8 @@ class World(val id: String) : IWorld {
 
     fun add(obj: GeometricObject) = compound.add(obj)
 
-    fun add(objects: List<GeometricObject>) = this.compound.add(objects)
+    fun add(objects: List<GeometricObject>) = compound.add(objects)
 
-    override fun toString(): String = "World ($id, $title)"
+    override fun toString(): String = "World ($metadata)"
 }
 

@@ -6,14 +6,14 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World10 : WorldDefinition {
 
-    override fun world(): World = Builder.build("World 10") {
-
-        title("World 10")
-        description("This should describe the world.")
+    override fun world(): World = Builder.build {
+        metadata {
+            id("World 10")
+            title("World 10")
+            description("This should describe the world.")
+        }
 
         camera(d = 8000.0, eye = p(0, 0, 500), lookAt = p(0, 0, 0))
-
-        // viewPlane(resolution= new Resolution(1440))
 
         ambientLight(ls = 0.5)
 

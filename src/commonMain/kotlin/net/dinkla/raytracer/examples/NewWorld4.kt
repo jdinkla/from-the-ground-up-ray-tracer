@@ -13,7 +13,10 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object NewWorld4 : WorldDefinition {
 
-    override fun world(): World = Builder.build("New World 3 - emissive") {
+    override fun world(): World = Builder.build {
+        metadata {
+            id("New World 4 - emissive")
+        }
 
         camera(d = 1000.0, eye = p(-5.0, 1.5, -5.0), lookAt = p(0.5, 0.5, 0.0))
 
