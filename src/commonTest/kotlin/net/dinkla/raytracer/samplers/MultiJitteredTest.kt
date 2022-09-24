@@ -11,6 +11,6 @@ class MultiJitteredTest : StringSpec({
     val samples = MultiJittered.generateSamples(numSamples, numSets)
 
     include(size(samples, numberOfSamples))
-    include(unitCube(samples, numberOfSamples))
+    include(unitCube(samples))
     include(distribution(samples, DistributionParams(10.0, 10.0)))
 })

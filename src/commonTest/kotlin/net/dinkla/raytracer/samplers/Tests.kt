@@ -20,7 +20,7 @@ fun size(samples: List<Point2D>, numberOfSamples: Int) = stringSpec {
     }
 }
 
-fun unitCube(samples: List<Point2D>, numberOfSamples: Int) = stringSpec {
+fun unitCube(samples: List<Point2D>) = stringSpec {
     "points should be within unit cube" {
         for (p in samples) {
             p.shouldBeWithinCube(0.0, 1.0)

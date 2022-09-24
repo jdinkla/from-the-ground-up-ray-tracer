@@ -12,7 +12,7 @@ class ConstantTest : StringSpec({
     val samples = Constant(0.2, 0.8).generateSamples(numSamples, numSets)
 
     include(size(samples, numberOfSamples))
-    include(unitCube(samples, numberOfSamples))
+    include(unitCube(samples))
     include(distribution(samples, DistributionParams(10.0, 10.0, 1, 1, 1)))
 
     "generated values should be (0.2, 0.3)" {

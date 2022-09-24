@@ -11,6 +11,6 @@ class JitteredTest : StringSpec({
     val samples = Jittered.generateSamples(numSamples, numSets)
 
     include(size(samples, numberOfSamples))
-    include(unitCube(samples, numberOfSamples))
+    include(unitCube(samples))
     include(distribution(samples, DistributionParams(10.0, 10.0)))
 })
