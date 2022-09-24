@@ -17,6 +17,6 @@ internal class AxisTest : StringSpec({
         Axis.fromInt(0) shouldBe X
         Axis.fromInt(1) shouldBe Y
         Axis.fromInt(2) shouldBe Z
-        Axis.fromInt(5) shouldBe Z
+        Axis.fromInt(3) shouldBe X
     }
 })

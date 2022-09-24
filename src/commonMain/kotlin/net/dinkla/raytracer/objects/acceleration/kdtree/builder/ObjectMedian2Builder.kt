@@ -101,9 +101,10 @@ class ObjectMedian2Builder : TreeBuilder {
             ListUtilities.splitByAxis(objects, splitZtmp, axis, objectsLz, objectsRz)
             val weightZ = weight(objectsLz.size, objectsRz.size, size)
 
-            Logger.info("weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size
-                    + "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size
-                    + "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
+            Logger.info(
+                "weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size
+                        + "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size
+                        + "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
             )
 
             if (weightX < weightY) {
@@ -139,6 +140,7 @@ class ObjectMedian2Builder : TreeBuilder {
 
                     split = splitX
                 }
+
                 axis === Axis.Y -> {
                     // y
                     val bL = GeometricObjectUtilities.create(objectsLy)
@@ -155,6 +157,7 @@ class ObjectMedian2Builder : TreeBuilder {
 
                     split = splitY
                 }
+
                 axis === Axis.Z -> {
                     // z
                     val bL = GeometricObjectUtilities.create(objectsLz)
@@ -213,7 +216,7 @@ class ObjectMedian2Builder : TreeBuilder {
             Logger.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
             val left = build(par.objectsL, par.voxelL, depth + 1)
             val right = build(par.objectsR, par.voxelR, depth + 1)
-            node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth % 3))
+            node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth))
         }
 
         return node

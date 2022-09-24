@@ -149,9 +149,8 @@ class ObjectMedianBuilder : TreeBuilder {
         } else {
             Logger.info("Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
-            val right = build(objectsR, voxelR?: BBox(), depth + 1)
-
-            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth % 3))
+            val right = build(objectsR, voxelR ?: BBox(), depth + 1)
+            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth))
         }
 
         return node

@@ -178,8 +178,7 @@ class Simple2Builder : TreeBuilder {
             Logger.info("Splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
             val left = build(objectsL, voxelL, depth + 1)
             val right = build(objectsR, voxelR, depth + 1)
-
-            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth % 3))
+            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth))
         }
 
         return node

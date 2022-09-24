@@ -21,7 +21,8 @@ import net.dinkla.raytracer.world.World
 class WorldScope {
 
     private var metadata: Metadata = Metadata("someId")
-    private var camera: Camera? = null
+    private var camera: Camera =
+        Camera({ p, uvw -> Pinhole(ViewPlane(), p, uvw) }, Point3D.ORIGIN, Point3D.ORIGIN, Vector3D.UP)
     private val viewPlane = ViewPlane()
     private var ambientLight = Ambient()
     private var lights: List<Light> = listOf()
@@ -30,14 +31,16 @@ class WorldScope {
     private val compound: Compound = Compound()
 
     val world: World
-        get() = World(metadata, camera!!, viewPlane, ambientLight, lights, materials, objects, compound)
+        get() = World(metadata, camera, viewPlane, ambientLight, lights, materials, objects, compound)
 
     fun p(x: Int, y: Int, z: Int) = Point3D(x.toDouble(), y.toDouble(), z.toDouble())
     fun p(x: Double, y: Double, z: Double) = Point3D(x, y, z)
 
     fun c(v: Double) = Color(v)
     fun c(red: Double, green: Double, blue: Double) = Color(red, green, blue)
-    fun c(red: Int, green: Int, blue: Int) = Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+    fun c(red: Int, green: Int, blue: Int) =
+        Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+
     fun c(hexCode: String) = Color.fromString(hexCode)
 
     fun n(x: Int, y: Int, z: Int) = Normal(x.toDouble(), y.toDouble(), z.toDouble())

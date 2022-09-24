@@ -11,7 +11,7 @@ enum class Axis(internal val value: Int) {
     }
 
     companion object {
-        fun fromInt(i: Int): Axis = when (i) {
+        fun fromInt(i: Int): Axis = when (i % 3) {
             0 -> X
             1 -> Y
             2 -> Z
