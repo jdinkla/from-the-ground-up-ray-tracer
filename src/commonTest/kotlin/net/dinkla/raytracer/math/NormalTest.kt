@@ -25,10 +25,10 @@ internal class NormalTest : StringSpec({
 
     "construct from vector" {
         val normal = Normal.create(v)
-        val l = v.length()
-        normal.x shouldBe x/l
-        normal.y shouldBe y/l
-        normal.z shouldBe z/l
+        val len = v.length
+        normal.x shouldBe x / len
+        normal.y shouldBe y / len
+        normal.z shouldBe z / len
     }
 
     "construct from three points" {
@@ -41,20 +41,20 @@ internal class NormalTest : StringSpec({
     }
 
     "plus" {
-        n + n shouldBe Vector3D(x+x, y+y, z+z)
+        n + n shouldBe Vector3D(x + x, y + y, z + z)
     }
 
     "times" {
-        n * d shouldBe Vector3D(d*x, d*y, d*z)
+        n * d shouldBe Vector3D(d * x, d * y, d * z)
     }
 
     "dot" {
-        n dot v shouldBe x*x + y*y + z*z
+        n dot v shouldBe x * x + y * y + z * z
     }
 
     "normalize" {
         val l = n.length()
-        n.normalize() shouldBe Normal(x/l, y/l, z/l)
+        n.normalize() shouldBe Normal(x / l, y / l, z / l)
     }
 
     "negate" {

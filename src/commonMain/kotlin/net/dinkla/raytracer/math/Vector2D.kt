@@ -16,11 +16,12 @@ data class Vector2D(val x: Double, val y: Double) {
 
     operator fun unaryMinus() = Vector2D(-x, -y)
 
-    fun length(): Double = sqrt(x * x + y * y)
+    val length: Double
+        get() = sqrt(x * x + y * y)
 
     fun normalize(): Vector2D {
-        val l = length()
-        return Vector2D(x / l, y / l)
+        val len = length
+        return Vector2D(x / len, y / len)
     }
 
     override fun toString(): String = "($x,$y)"

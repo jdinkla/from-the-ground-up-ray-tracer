@@ -42,8 +42,8 @@ internal class Vector2DTest : StringSpec({
     }
 
     "normalize" {
-        val x = v.x / v.length()
-        val y = v.y / v.length()
+        val x = v.x / v.length
+        val y = v.y / v.length
         v.normalize() shouldBe Vector2D(x, y)
     }
 

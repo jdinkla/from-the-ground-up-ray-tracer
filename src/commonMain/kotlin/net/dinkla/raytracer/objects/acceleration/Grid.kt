@@ -248,7 +248,7 @@ open class Grid : CompoundWithMesh() {
         var iy: Int
         var iz: Int
 
-        if (boundingBox.inside(ray.origin)) {              // does the ray start inside the grid?
+        if (boundingBox.isInside(ray.origin)) {              // does the ray start inside the grid?
             ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
             iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
             iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()

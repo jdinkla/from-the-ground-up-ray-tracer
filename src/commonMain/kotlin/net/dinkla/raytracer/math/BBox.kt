@@ -12,9 +12,9 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
     }
 
     val volume: Double
-        get() = (q - p).volume()
+        get() = (q - p).volume
 
-    fun inside(r: Point3D): Boolean {
+    fun isInside(r: Point3D): Boolean {
         val isX = r.x > p.x && r.x < q.x
         val isY = r.y > p.y && r.y < q.y
         val isZ = r.z > p.z && r.z < q.z
@@ -164,41 +164,35 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         return t0 < t1 && t1 > MathUtils.K_EPSILON
     }
 
-    private fun isContainedIn(bbox: BBox): Boolean {
-        return bbox.p.x <= p.x && q.x <= bbox.q.x
-                && bbox.p.y <= p.y && q.y <= bbox.q.y
-                && bbox.p.z <= p.z && q.z <= bbox.q.z
-    }
+    private fun isContainedIn(bBox: BBox): Boolean = bBox.p.x <= p.x && q.x <= bBox.q.x
+            && bBox.p.y <= p.y && q.y <= bBox.q.y
+            && bBox.p.z <= p.z && q.z <= bBox.q.z
 
-    fun clipTo(bbox: BBox): BBox {
-        if (isContainedIn(bbox)) {
+    fun clipTo(bBox: BBox): BBox {
+        if (isContainedIn(bBox)) {
             return this
         }
-        val px = max(p.x, bbox.p.x)
-        val py = max(p.y, bbox.p.y)
-        val pz = max(p.z, bbox.p.z)
+        val px = max(p.x, bBox.p.x)
+        val py = max(p.y, bBox.p.y)
+        val pz = max(p.z, bBox.p.z)
 
-        val qx = min(q.x, bbox.q.x)
-        val qy = min(q.y, bbox.q.y)
-        val qz = min(q.z, bbox.q.z)
+        val qx = min(q.x, bBox.q.x)
+        val qy = min(q.y, bBox.q.y)
+        val qz = min(q.z, bBox.q.z)
 
         return BBox(Point3D(px, py, pz), Point3D(qx, qy, qz))
     }
 
-    fun splitLeft(axis: Axis, split: Double): BBox? {
-        return when (axis) {
-            Axis.X -> BBox(p, Point3D(split, q.y, q.z))
-            Axis.Y -> BBox(p, Point3D(q.x, split, q.z))
-            Axis.Z -> BBox(p, Point3D(q.x, q.y, split))
-        }
+    fun splitLeft(axis: Axis, split: Double): BBox = when (axis) {
+        Axis.X -> BBox(p, Point3D(split, q.y, q.z))
+        Axis.Y -> BBox(p, Point3D(q.x, split, q.z))
+        Axis.Z -> BBox(p, Point3D(q.x, q.y, split))
     }
 
-    fun splitRight(axis: Axis, split: Double): BBox? {
-        return when (axis) {
-            Axis.X -> BBox(Point3D(split, p.y, p.z), q)
-            Axis.Y -> BBox(Point3D(p.x, split, p.z), q)
-            Axis.Z -> BBox(Point3D(p.x, p.y, split), q)
-        }
+    fun splitRight(axis: Axis, split: Double): BBox = when (axis) {
+        Axis.X -> BBox(Point3D(split, p.y, p.z), q)
+        Axis.Y -> BBox(Point3D(p.x, split, p.z), q)
+        Axis.Z -> BBox(Point3D(p.x, p.y, split), q)
     }
 
     companion object {
@@ -266,11 +260,8 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
             }
             return BBox(
                 Point3D(x0 - MathUtils.K_EPSILON, y0 - MathUtils.K_EPSILON, z0 - MathUtils.K_EPSILON),
-                    Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON)
+                Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON)
             )
         }
-
-
     }
-
 }

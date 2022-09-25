@@ -28,7 +28,7 @@ class SamplerTest : StringSpec({
             p.x shouldBeLessThan 1.0
             p.y shouldBeGreaterThanOrEqual -1.0
             p.y shouldBeLessThan 1.0
-            p.length() shouldBeLessThan sqrt(2.0)
+            p.length shouldBeLessThan sqrt(2.0)
         }
     }
 

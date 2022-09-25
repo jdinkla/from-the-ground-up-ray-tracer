@@ -31,7 +31,7 @@ internal class Point2DTest : StringSpec({
     }
 
     "length" {
-        p.length() shouldBe sqrt(1.0 + 4.0)
+        p.length shouldBe sqrt(1.0 + 4.0)
     }
 
 })

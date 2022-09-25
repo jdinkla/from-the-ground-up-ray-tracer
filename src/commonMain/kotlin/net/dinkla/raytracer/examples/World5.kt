@@ -11,7 +11,7 @@ object World5 : WorldDefinition {
     override fun world() = Builder.build {
         metadata {
             id("World5")
-            title("SomeTitle")
+            title("Yellow and red sphere partially covered by a green plane")
             description("SomeDescription")
         }
 
@@ -20,7 +20,7 @@ object World5 : WorldDefinition {
         ambientLight(color = Color.WHITE, ls = 0.75)
 
         lights {
-            pointLight(location = p(0, 100, 0), ls = 2.0)
+            pointLight(location = p(0, 100, 50), ls = 2.0)
         }
 
         materials {
@@ -35,6 +35,5 @@ object World5 : WorldDefinition {
             plane(material = "m3", point = Point3D.ORIGIN, normal = Normal(0.0, 1.0, 1.0))
         }
     }
-
 }
 

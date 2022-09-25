@@ -49,12 +49,12 @@ open class Rectangle : GeometricObject {
         val d = p - p0
 
         val ddota = d dot a
-        if (ddota < 0 || ddota > a.sqrLength()) {
+        if (ddota < 0 || ddota > a.sqrLength) {
             return false
         }
 
         val ddotb = d dot b
-        if (ddotb < 0 || ddotb > b.sqrLength()) {
+        if (ddotb < 0 || ddotb > b.sqrLength) {
             return false
         }
 
@@ -77,12 +77,12 @@ open class Rectangle : GeometricObject {
         val d = p - p0
 
         val ddota = d dot a
-        if (ddota < 0 || ddota > a.sqrLength()) {
+        if (ddota < 0 || ddota > a.sqrLength) {
             return false
         }
 
         val ddotb = d dot b
-        if (ddotb < 0 || ddotb > b.sqrLength()) {
+        if (ddotb < 0 || ddotb > b.sqrLength) {
             return false
         }
 

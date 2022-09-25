@@ -10,7 +10,8 @@ data class Point2D(val x: Double, val y: Double) {
 
     operator fun minus(v: Vector2D) = Point2D(x - v.x, y - v.y)
 
-    fun length(): Double = sqrt(x * x + y * y)
+    val length: Double
+        get() = sqrt(x * x + y * y)
 
     override fun toString(): String = "($x,$y)"
 

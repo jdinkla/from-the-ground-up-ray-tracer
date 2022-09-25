@@ -102,7 +102,7 @@ class Matrix private constructor() {
 
     companion object {
 
-        val n = 4
+        const val n = 4
 
         fun identity(): Matrix = Matrix().apply { setIdentity() }
 
@@ -117,8 +117,8 @@ class Matrix private constructor() {
         }
 
         fun indices() = ArrayList<Pair<Int, Int>>().apply {
-            for (j in 0 until Matrix.n) {
-                for (i in 0 until Matrix.n) {
+            for (j in 0 until n) {
+                for (i in 0 until n) {
                     add(Pair(i, j))
                 }
             }

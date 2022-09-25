@@ -59,9 +59,9 @@ internal class Vector3DTest : StringSpec({
     }
 
     "normalize" {
-        val x = v.x / v.length()
-        val y = v.y / v.length()
-        val z = v.z / v.length()
+        val x = v.x / v.length
+        val y = v.y / v.length
+        val z = v.z / v.length
         v.normalize() shouldBe Vector3D(x, y, z)
     }
 
@@ -70,7 +70,7 @@ internal class Vector3DTest : StringSpec({
     }
 
     "volume" {
-        v1.volume() shouldBe a * b * c
+        v1.volume shouldBe a * b * c
     }
 
     "unaryMinus" {

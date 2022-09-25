@@ -15,4 +15,4 @@ class TimerTest : StringSpec({
     }
 })
 
-private fun doSomething() = (1..100).toList().map { it.toDouble() }.reduce { a, b -> a * sin(b) }
+private fun doSomething() = (1..1000).toList().map { it.toDouble() }.reduce { a, b -> a * sin(b) }

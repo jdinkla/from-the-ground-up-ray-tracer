@@ -19,7 +19,7 @@ class RectangleLight(val sampler: Sampler,
     constructor(sampler: Sampler, p0: Point3D, a: Vector3D, b: Vector3D)
             : this(sampler, p0, a, b, Normal.create((a cross b).normalize()))
 
-    private var pdf: Double = 1.0 / (a.length() * b.length())
+    private var pdf: Double = 1.0 / (a.length * b.length)
 
     override fun pdf(sr: IShade): Double = pdf
 
