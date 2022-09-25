@@ -6,14 +6,18 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.arealights.DiskLight
 import net.dinkla.raytracer.samplers.PureRandom
 import net.dinkla.raytracer.samplers.Sampler
-import net.dinkla.raytracer.world.Builder.build
+import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
 object World20AreaDisk : WorldDefinition {
 
     const val numSamples = 32
 
-    override fun world() = build("World 20 area") {
+    override fun world() = Builder.build {
+
+        metadata {
+            id("World 20 area disk")
+        }
 
         camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))
 

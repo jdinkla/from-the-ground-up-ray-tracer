@@ -3,6 +3,7 @@ package net.dinkla.raytracer.examples
 import net.dinkla.raytracer.examples.ambient.World61
 import net.dinkla.raytracer.examples.arealights.World20AreaDisk
 import net.dinkla.raytracer.examples.arealights.World20AreaReactangle
+import net.dinkla.raytracer.examples.arealights.World66area
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.world.WorldDefinition
 
@@ -25,6 +26,7 @@ val definitions = mapOf(
     "World48.kt" to World48,
     "World61.kt" to World61,
     "World66.kt" to World66,
+    World66area.id to World66area,
     "World66b.kt" to World66b,
     "World71.kt" to World71,
     "World74.kt" to World74,

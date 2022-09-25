@@ -11,7 +11,7 @@ import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
 
-open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
+open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 
     protected val ambientBRDF = Lambertian(ka, color)
     protected val diffuseBRDF = Lambertian(kd, color)
@@ -35,13 +35,6 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
             diffuseBRDF.cd = v
         }
 
-    // TODO unit test, then remove
-    init {
-        this.cd  = color
-        this.ka = ka
-        this.kd = kd
-    }
-
     override fun shade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
@@ -64,24 +57,9 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
         return L
     }
 
-    /*
-    	Vector3D 	wo 			= -sr.ray.direction;
-	RGBColor 	L 			= ambient_brdf->rho(sr, wo) * sr.w.ambient_ptr->L(sr);
-	int 		num_lights	= sr.w.lights.size();
-
-	for (int j = 0; j < num_lights; j++) {
-		Vector3D wi = sr.w.lights[j]->get_direction(sr);
-		double ndotwi = sr.normal * wi;
-
-		if (ndotwi > 0.0)
-			L += diffuse_brdf->f(sr, wo, wi) * sr.w.lights[j]->L(sr) * ndotwi;
-	}
-
-	return (L);
-    */
     override fun areaLightShade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
-        var L = getAmbientColor(world, sr, wo)
+        val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
         for (light in world.lights) {
             if (light is AreaLight) {
@@ -100,14 +78,13 @@ open class Matte(val color: Color = Color.WHITE, ka: Double = 0.25, kd: Double =
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light.G(sr, sample) / light.pdf(sr)
                             val T = (f * l) * nDotWi * f1
-                            S.plus(T)
+                            S + T
                         }
                     }
                 }
             }
         }
-        L = L.plus(S.average)
-        return L
+        return L + S.average
     }
 
     protected fun getAmbientColor(world: IWorld, sr: IShade, wo: Vector3D): Color {

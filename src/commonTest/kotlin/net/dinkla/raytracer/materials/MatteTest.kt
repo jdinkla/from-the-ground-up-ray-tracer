@@ -30,4 +30,15 @@ internal class MatteTest : StringSpec({
         val matte2 = Matte(ex.cd, ex.ka, ex.kd + 0.1)
         matte1 shouldNotBe matte2
     }
+
+    "should get ka from ambient BRDF" {
+        val matte1 = Matte(ex.cd, ex.ka, ex.kd)
+        matte1.ka shouldBe ex.ka
+    }
+
+    "should get kd from diffuse BRDF" {
+        val matte1 = Matte(ex.cd, ex.ka, ex.kd)
+        matte1.kd shouldBe ex.kd
+    }
+
 })

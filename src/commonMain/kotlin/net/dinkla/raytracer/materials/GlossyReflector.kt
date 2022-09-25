@@ -8,18 +8,17 @@ import net.dinkla.raytracer.world.IWorld
 
 class GlossyReflector : Phong() {
 
-    private val glossySpecularBrdf: GlossySpecular = GlossySpecular()
+    private val glossySpecularBrdf = GlossySpecular()
 
-    // TODO kr == ks? it was like that in the orig code, check the book!
     var kr: Double
         get() = glossySpecularBrdf.ks
-        set(v: Double) {
+        set(v) {
             glossySpecularBrdf.ks = v
         }
 
     override var exp : Double
         get() = glossySpecularBrdf.exp
-        set(v: Double) {
+        set(v) {
             glossySpecularBrdf.exp = v
         }
 

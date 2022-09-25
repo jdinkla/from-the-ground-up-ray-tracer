@@ -6,16 +6,27 @@ import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.MathUtils.INV_PI
 import net.dinkla.raytracer.math.Vector3D
 
-// kd: diffuse reflection coefficient, in [0,1]
-// cd: diffuse color
 data class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF {
 
-    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color = cd * (kd * INV_PI)
+    init {
+        if (kd < 0.0 || kd > 1.0) {
+            throw AssertionError("kd: diffuse reflection coefficient, in [0,1]")
+        }
+    }
+
+    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color = f
 
     override fun sampleF(sr: IShade, wo: Vector3D): Sample {
         throw RuntimeException("Lambertian.sampleF")
     }
 
-    override fun rho(sr: IShade, wo: Vector3D): Color = cd * kd
+    override fun rho(sr: IShade, wo: Vector3D): Color = rho
+
+    val f: Color
+        get() = cd * (kd * INV_PI)
+
+    val rho: Color
+        get() = cd * kd
+
 }
 

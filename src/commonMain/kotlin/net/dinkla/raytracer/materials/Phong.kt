@@ -14,6 +14,8 @@ open class Phong(color: Color = Color.WHITE,
                  ka: Double = 0.25,
                  kd: Double = 0.75) : Matte(color, ka, kd) {
 
+    protected val specularBRDF = GlossySpecular()
+
     constructor(color: Color = Color.WHITE,
                 ka: Double = 0.25,
                 kd: Double = 0.75,
@@ -25,23 +27,21 @@ open class Phong(color: Color = Color.WHITE,
         this.cs = cs
     }
 
-    protected var specularBRDF = GlossySpecular()
-
     var ks: Double
         get() = specularBRDF.ks
-        set(v: Double) {
+        set(v) {
             specularBRDF.ks = v
         }
 
     var cs: Color
         get() = specularBRDF.cs
-        set(v: Color) {
+        set(v) {
             specularBRDF.cs = v
         }
 
     open var exp: Double
         get() = specularBRDF.exp
-        set(v: Double) {
+        set(v) {
             specularBRDF.exp = v
         }
 
@@ -61,8 +61,7 @@ open class Phong(color: Color = Color.WHITE,
                     val fd = diffuseBRDF.f(sr, wo, wi)
                     val fs = specularBRDF.f(sr, wo, wi)
                     val l = light.L(world, sr)
-                    val fdfslndotwi = (fd + fs) * l * nDotWi
-                    L += fdfslndotwi
+                    L += (fd + fs) * l * nDotWi
                 }
             }
         }
@@ -71,7 +70,7 @@ open class Phong(color: Color = Color.WHITE,
 
     override fun areaLightShade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
-        var L = getAmbientColor(world, sr, wo)
+        val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
         for (light1 in world.lights) {
             if (light1 is AreaLight) {
@@ -88,18 +87,16 @@ open class Phong(color: Color = Color.WHITE,
                             val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val fs = specularBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            val fsfslndotwi = (fd + fs) * l * nDotWi
                             // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = fsfslndotwi * f1
-                            S.plus(T)
+                            val T = (fd + fs) * l * nDotWi * f1
+                            S + T
                         }
                     }
                 }
             }
         }
-        L += S.average
-        return L
+        return L + S.average
     }
 
     override fun getLe(sr: IShade): Color = specularBRDF.cs * (specularBRDF.ks)
