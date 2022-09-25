@@ -10,7 +10,7 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World66area : WorldDefinition {
 
-    const val id = "World66area.kt"
+    override val id = "World66area.kt"
 
     override fun world() = Builder.build {
 

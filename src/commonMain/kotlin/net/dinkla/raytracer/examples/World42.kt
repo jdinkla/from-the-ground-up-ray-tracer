@@ -7,11 +7,13 @@ import kotlin.random.Random
 
 object World42 : WorldDefinition {
 
+    override val id: String = "World42.kt"
+
     private const val NUM = 25
     private const val column = NUM / 2 - 0.15
     val r = Random.Default
 
-    override fun world() = Builder.build("World42") {
+    override fun world() = Builder.build {
         camera(d = 1000.0, eye = p(-1, NUM, NUM + 5), lookAt = p(column, NUM - NUM / 5.0, column))
 
         ambientLight(color = Color.WHITE, ls = 0.5)

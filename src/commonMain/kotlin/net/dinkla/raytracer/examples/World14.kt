@@ -10,6 +10,8 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World14 : WorldDefinition {
 
+    override val id: String = "World14.kt"
+
     private const val numberOfSamples = 2500
     private const val numberOfAmbientSamples = 512
     private const val numberOfSets = 10
@@ -21,15 +23,16 @@ object World14 : WorldDefinition {
         sampler.mapSamplesToHemiSphere(3.0)
     }
 
-
-    override fun world(): World = Builder.build("World 14") {
+    override fun world(): World = Builder.build {
 
         // viewPlane(numSamples: 16)
         camera(d = 1000.0, eye = p(0.0, 1.0, 7.0), lookAt = p(0.0, 0.75, 0.0))
 
-        ambientOccluder(minAmount = Color.WHITE,
-                sampler = sampler,
-                numSamples = numberOfAmbientSamples)
+        ambientOccluder(
+            minAmount = Color.WHITE,
+            sampler = sampler,
+            numSamples = numberOfAmbientSamples
+        )
 
         lights {
         }

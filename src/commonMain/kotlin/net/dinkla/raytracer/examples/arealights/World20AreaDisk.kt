@@ -11,12 +11,13 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World20AreaDisk : WorldDefinition {
 
+    override val id: String = "World20AreaDisk.kt"
     const val numSamples = 32
 
     override fun world() = Builder.build {
 
         metadata {
-            id("World 20 area disk")
+            id(id)
         }
 
         camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))

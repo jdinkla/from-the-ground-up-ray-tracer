@@ -12,7 +12,9 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World17 : WorldDefinition {
 
-    override fun world(): World = Builder.build("World 17") {
+    override val id: String = "World17.kt"
+
+    override fun world(): World = Builder.build {
 
 //        viewPlane(numSamples = 0, maxDepth = 5)
         //camera(direction= 800, eye= p(0, 2.5, 7), lookAt= p(1, 0.5, 1))

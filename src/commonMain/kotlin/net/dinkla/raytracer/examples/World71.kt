@@ -6,7 +6,9 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World71 : WorldDefinition {
 
-    override fun world() = Builder.build("World71") {
+    override val id: String = "World71.kt"
+
+    override fun world() = Builder.build {
 
         val v = 0.5
 

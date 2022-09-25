@@ -7,10 +7,12 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World75 : WorldDefinition {
 
+    override val id: String = "World75.kt"
+
     const val NUM = 20
     const val NUM2 = NUM / 2
 
-    override fun world() = Builder.build("World75") {
+    override fun world() = Builder.build {
 
         // viewPlane(resolution= Resolution.RESOLUTION_1440, maxDepth= 2, numSamples= 4)
 

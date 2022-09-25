@@ -10,7 +10,9 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World74 : WorldDefinition {
 
-    override fun world() = Builder.build("World74") {
+    override val id: String = "World74.kt"
+
+    override fun world() = Builder.build {
 
         camera(d = 1000.0, eye = p(0.0, 0.5, 3.0), lookAt = p(0.0, 0.0, 0.0))
 
@@ -31,8 +33,8 @@ object World74 : WorldDefinition {
         }
 
         objects {
-            plane(point = p(0, 0, 0), normal = Normal.Companion.UP, material = "freshLinen")
-            plane(point = p(0, 10, 0), normal = Normal.Companion.DOWN, material = "provenceBlue")
+            plane(point = p(0, 0, 0), normal = Normal.UP, material = "freshLinen")
+            plane(point = p(0, 10, 0), normal = Normal.DOWN, material = "provenceBlue")
 
             val green = this.materials["driedSage"]!!
             val stanfordBunny = Ply.fromFile(

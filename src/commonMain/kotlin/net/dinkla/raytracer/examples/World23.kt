@@ -11,9 +11,11 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World23 : WorldDefinition {
 
+    override val id: String = "World23.kt"
+
     private const val numSamples = 4
 
-    override fun world() = build("World 23") {
+    override fun world() = build {
 
 //    camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
         // TODO type and maxPSi camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)

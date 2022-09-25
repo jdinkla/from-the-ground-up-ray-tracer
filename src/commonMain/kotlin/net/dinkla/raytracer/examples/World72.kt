@@ -8,9 +8,11 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World72 : WorldDefinition {
 
+    override val id: String = "World72.kt"
+
     // val tex1 = ImageTexture("/opt/rendering/textures/rtftgu/SphereGrid.png")
 
-    override fun world() = Builder.build("World72") {
+    override fun world() = Builder.build {
 
         //tex1.mapping = SphericalMap()
         val sphere = Sphere(center = p(0, 1, 0), radius = 1.0)

@@ -7,10 +7,10 @@ import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
 object NewWorld2 : WorldDefinition {
-
+    override val id: String = "NewWorld2.kt"
     override fun world(): World = Builder.build {
         metadata {
-            id("New World 2")
+            id(id)
         }
 
         camera(d = 1000.0, eye = p(0, 0, 0), lookAt = p(0, 0, 1000))

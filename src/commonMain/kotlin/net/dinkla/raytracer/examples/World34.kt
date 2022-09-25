@@ -6,7 +6,9 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World34 : WorldDefinition {
 
-    override fun world() = Builder.build("World 34") {
+    override val id: String = "World34.kt"
+
+    override fun world() = Builder.build {
 
         camera(d = 1500.0, eye = p(-4.0, -0.25, 4.0), lookAt = p(3.0, -0.2, 1.0), up = v(0, 1, 0))
 

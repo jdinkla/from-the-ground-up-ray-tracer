@@ -12,7 +12,7 @@ import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
 object NewWorld4 : WorldDefinition {
-
+    override val id: String = "NewWorld4.kt"
     override fun world(): World = Builder.build {
         metadata {
             id("New World 4 - emissive")

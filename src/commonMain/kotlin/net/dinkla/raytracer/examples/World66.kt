@@ -4,11 +4,11 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
 object World66 : WorldDefinition {
-
+    override val id: String = "World66.kt"
     override fun world() = Builder.build {
 
         metadata {
-            id("World66")
+            id(id)
         }
 
         camera(d = 1500.0, eye = p(2.5, 1.35, 10.0), lookAt = p(2.5, 1.0, 0.0))

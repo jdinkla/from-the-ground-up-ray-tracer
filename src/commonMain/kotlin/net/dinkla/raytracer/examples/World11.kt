@@ -8,13 +8,13 @@ import kotlin.math.pow
 import kotlin.random.Random
 
 object World11 : WorldDefinition {
-
+    override val id: String = "World11.kt"
     private const val numSpheres = 25
     private const val volume = 0.1 / numSpheres
     private val radius = (0.75 * volume / PI).pow(1.0 / 3.0)
     private val r = Random.Default
 
-    override fun world() = Builder.build("World 11") {
+    override fun world() = Builder.build {
 
         camera(d = 1500.0, eye = p(1, 2, 10), lookAt = p(0, 0, 0))
 

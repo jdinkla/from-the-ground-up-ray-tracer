@@ -15,7 +15,9 @@ const val NUM_AMBIENT_SAMPLES = 4
 
 object World61 : WorldDefinition {
 
-    override fun world() = Builder.build("World61") {
+    override val id: String = "World61.kt"
+
+    override fun world() = Builder.build {
 
         val sampler1 = Sampler(Jittered, 2500, 10)
         sampler1.mapSamplesToHemiSphere(1.0)
