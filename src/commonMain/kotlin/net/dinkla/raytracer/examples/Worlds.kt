@@ -22,6 +22,7 @@ private val worlds = listOf(
     World38,
     World42,
     World48,
+    World57,
     World61,
     World66, World66area, World66b, World71,
     World74,

@@ -36,39 +36,38 @@ object World74kdt : WorldDefinition {
             plane(point = p(0, 0, 0), normal = Normal.UP, material = "freshLinen")
             plane(point = p(0, 10, 0), normal = Normal.DOWN, material = "provenceBlue")
 
-            val green = this.materials["driedSage"]!!
-            val stanfordBunny = Ply.fromFile(
-                fileName = "resources\\Bunny4K.ply",
+            val bunny = Ply.fromFile(
+                fileName = "resources/bunny4K.ply",
                 isSmooth = true,
                 type = Acceleration.KDTREE,
-                material = green
+                material = materials["driedSage"]!!
             )
 
-            instance(of = stanfordBunny.compound, material = "lavender") {
+            instance(of = bunny.compound, material = "lavender") {
                 scale(v(4.0, 4.0, 4.0))
                 rotate(Axis.Y, 10.0)
                 translate(v(-1.0, -0.14, 0.0))
             }
 
-            instance(of = stanfordBunny.compound, material = "driedSage") {
+            instance(of = bunny.compound, material = "driedSage") {
                 scale(v(4.0, 4.0, 4.0))
                 rotate(Axis.Y, 10.0)
                 translate(v(0.0, -0.14, 0.0))
             }
 
-            instance(of = stanfordBunny.compound, material = "limonade") {
+            instance(of = bunny.compound, material = "limonade") {
                 scale(v(4.0, 4.0, 4.0))
                 rotate(Axis.Y, 10.0)
                 translate(v(1.0, -0.14, 0.0))
             }
 
-            instance(of = stanfordBunny.compound, material = "provenceIndigo") {
+            instance(of = bunny.compound, material = "provenceIndigo") {
                 scale(v(4.0, 4.0, 4.0))
                 rotate(Axis.Y, 10.0)
                 translate(v(2.0, -0.14, 0.0))
             }
 
-            instance(of = stanfordBunny.compound, material = "marseilleYellow") {
+            instance(of = bunny.compound, material = "marseilleYellow") {
                 scale(v(4.0, 4.0, 4.0))
                 rotate(Axis.Y, 10.0)
                 translate(v(-2.0, -0.14, 0.0))
