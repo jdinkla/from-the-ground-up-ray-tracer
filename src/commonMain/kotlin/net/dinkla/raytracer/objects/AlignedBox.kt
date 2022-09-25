@@ -15,11 +15,8 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
         val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
-        var t0: Double
-        var t1: Double
+        var t0: Double // largest entering t value
         var faceIn: Face
-        var faceOut: Face
-        // find largest entering t value
         if (txMin > tyMin) {
             t0 = txMin
             faceIn = if (a >= 0) Face.LEFT else Face.RIGHT
@@ -32,7 +29,8 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             faceIn = if (c >= 0) Face.FRONT else Face.BACK
         }
 
-        // find smallest exiting t value
+        var t1: Double // find smallest exiting t value
+        var faceOut: Face
         if (txMax < tyMax) {
             t1 = txMax
             faceOut = if (a >= 0) Face.RIGHT else Face.LEFT

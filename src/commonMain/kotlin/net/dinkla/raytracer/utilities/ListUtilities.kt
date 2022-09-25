@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.utilities
 
 import net.dinkla.raytracer.math.Axis
+import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.objects.IGeometricObject
 
 object ListUtilities {
@@ -12,33 +13,30 @@ object ListUtilities {
     ) {
         objectsL.clear()
         objectsR.clear()
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            if (bbox.p.ith(axis) <= split) {
-                objectsL.add(`object`)
+        for (obj in objects) {
+            val bBox = obj.boundingBox
+            if (bBox.p.ith(axis) <= split) {
+                objectsL.add(obj)
             }
-            if (bbox.q.ith(axis) >= split) {
-                objectsR.add(`object`)
+            if (bBox.q.ith(axis) >= split) {
+                objectsR.add(obj)
             }
         }
     }
 
-    private fun compare(oP: IGeometricObject, oQ: IGeometricObject, axis: Axis): Int {
-        val bboxP = oP.boundingBox
-        val bboxQ = oQ.boundingBox
+    private fun compare(p: IGeometricObject, q: IGeometricObject, axis: Axis): Int {
+        val medianOfP = p.boundingBox.median(axis)
+        val medianOfQ = q.boundingBox.median(axis)
+        return medianOfP.compareTo(medianOfQ)
+    }
 
-        val pP = bboxP.p.ith(axis)
-        val widthP = bboxP.q.ith(axis) - pP
-        val medP = pP + 0.5 * widthP
-
-        val pQ = bboxQ.p.ith(axis)
-        val widthQ = bboxQ.q.ith(axis) - pQ
-        val medQ = pQ + 0.5 * widthQ
-
-        return medP.compareTo(medQ)
+    private fun BBox.median(axis: Axis): Double {
+        val p = p.ith(axis)
+        val width = q.ith(axis) - p
+        return p + 0.5 * width
     }
 
     fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =
         objects.sortedWith { p, q -> compare(p, q, axis)}
-
 }
+
