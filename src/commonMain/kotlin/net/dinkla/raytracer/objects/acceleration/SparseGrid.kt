@@ -217,57 +217,57 @@ class SparseGrid() : Grid() {
         val dty = (tyMax - tyMin) / ny
         val dtz = (tzMax - tzMin) / nz
 
-        var tx_next: Double
-        var ty_next: Double
-        var tz_next: Double
-        var ix_step: Int
-        var iy_step: Int
-        var iz_step: Int
-        var ix_stop: Int
-        var iy_stop: Int
-        var iz_stop: Int
+        var txNext: Double
+        var tyNext: Double
+        var tzNext: Double
+        var ixStep: Int
+        var iyStep: Int
+        var izStep: Int
+        var ixStop: Int
+        var iyStop: Int
+        var izStop: Int
 
         if (dx > 0) {
-            tx_next = txMin + (ix + 1) * dtx
-            ix_step = +1
-            ix_stop = nx
+            txNext = txMin + (ix + 1) * dtx
+            ixStep = +1
+            ixStop = nx
         } else {
-            tx_next = txMin + (nx - ix) * dtx
-            ix_step = -1
-            ix_stop = -1
+            txNext = txMin + (nx - ix) * dtx
+            ixStep = -1
+            ixStop = -1
         }
         if (dx == 0.0) {
-            tx_next = MathUtils.K_HUGEVALUE
-            ix_step = -1
-            ix_stop = -1
+            txNext = MathUtils.K_HUGEVALUE
+            ixStep = -1
+            ixStop = -1
         }
         if (dy > 0) {
-            ty_next = tyMin + (iy + 1) * dty
-            iy_step = +1
-            iy_stop = ny
+            tyNext = tyMin + (iy + 1) * dty
+            iyStep = +1
+            iyStop = ny
         } else {
-            ty_next = tyMin + (ny - iy) * dty
-            iy_step = -1
-            iy_stop = -1
+            tyNext = tyMin + (ny - iy) * dty
+            iyStep = -1
+            iyStop = -1
         }
         if (dy == 0.0) {
-            ty_next = MathUtils.K_HUGEVALUE
-            iy_step = -1
-            iy_stop = -1
+            tyNext = MathUtils.K_HUGEVALUE
+            iyStep = -1
+            iyStop = -1
         }
         if (dz > 0) {
-            tz_next = tzMin + (iz + 1) * dtz
-            iz_step = +1
-            iz_stop = nz
+            tzNext = tzMin + (iz + 1) * dtz
+            izStep = +1
+            izStop = nz
         } else {
-            tz_next = tzMin + (nz - iz) * dtz
-            iz_step = -1
-            iz_stop = -1
+            tzNext = tzMin + (nz - iz) * dtz
+            izStep = -1
+            izStop = -1
         }
         if (dz == 0.0) {
-            tz_next = MathUtils.K_HUGEVALUE
-            iz_step = -1
-            iz_stop = -1
+            tzNext = MathUtils.K_HUGEVALUE
+            izStep = -1
+            izStop = -1
         }
 
         // traverse the grid
@@ -276,8 +276,8 @@ class SparseGrid() : Grid() {
             val `object` = cellsX[idx]
             //GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
             val sr2 = Hit(sr.t)
-            if (tx_next < ty_next && tx_next < tz_next) {
-                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tx_next) {
+            if (txNext < tyNext && txNext < tzNext) {
+                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < txNext) {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
                     if (`object` !is Compound) {
@@ -288,14 +288,14 @@ class SparseGrid() : Grid() {
                     return true
                 }
 
-                tx_next += dtx
-                ix += ix_step
+                txNext += dtx
+                ix += ixStep
 
-                if (ix == ix_stop)
+                if (ix == ixStop)
                     return false
             } else {
-                if (ty_next < tz_next) {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < ty_next) {
+                if (tyNext < tzNext) {
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tyNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
@@ -306,13 +306,13 @@ class SparseGrid() : Grid() {
                         return true
                     }
 
-                    ty_next += dty
-                    iy += iy_step
+                    tyNext += dty
+                    iy += iyStep
 
-                    if (iy == iy_stop)
+                    if (iy == iyStop)
                         return false
                 } else {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tz_next) {
+                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
                         if (`object` !is Compound) {
@@ -323,10 +323,10 @@ class SparseGrid() : Grid() {
                         return true
                     }
 
-                    tz_next += dtz
-                    iz += iz_step
+                    tzNext += dtz
+                    iz += izStep
 
-                    if (iz == iz_stop)
+                    if (iz == izStop)
                         return false
                 }
             }

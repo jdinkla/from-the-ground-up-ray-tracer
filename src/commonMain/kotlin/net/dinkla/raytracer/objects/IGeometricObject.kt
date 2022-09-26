@@ -6,6 +6,7 @@ import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.utilities.Logger
 
 interface IGeometricObject {
     var isShadows: Boolean
@@ -31,6 +32,7 @@ interface IGeometricObject {
     }
 
     fun shadowHit(ray: Ray): Shadow {
+        Logger.warn("Who is calling me?")
         val t = ShadowHit()
         return if (shadowHit(ray, t)) {
             Shadow.Hit(t.t)
