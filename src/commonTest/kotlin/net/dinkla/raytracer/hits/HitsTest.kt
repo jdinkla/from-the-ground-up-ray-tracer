@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.hits
 
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.objects.compound.SolidCylinder
@@ -10,14 +10,15 @@ class HitsTest : StringSpec({
     "not compound should be accepted" {
         val p = Point3D.ORIGIN
         val hit = Hit()
-        hit.geometricObject = Triangle(p, p, p)
+        val notAcompound = Triangle(p, p, p)
+        hit.geometricObject = notAcompound
+        hit.geometricObject shouldBe notAcompound
     }
 
-    "compound should not be accepted" {
-        shouldThrowExactly<AssertionError> {
-            val hit = Hit()
-            hit.geometricObject = SolidCylinder(1.0, 2.0, 3.0)
-            null
-        }
+    "compound should be accepted" {
+        val hit = Hit()
+        val compound = SolidCylinder(1.0, 2.0, 3.0)
+        hit.geometricObject = compound
+        hit.geometricObject shouldBe compound
     }
 })
