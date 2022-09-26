@@ -11,11 +11,6 @@ import net.dinkla.raytracer.world.IWorld
 
 class Whitted(var world: IWorld) : Tracer {
 
-    override fun trace(ray: Ray): Color {
-        Counter.count("Whitted.trace1")
-        return trace(ray, 0)
-    }
-
     override fun trace(ray: Ray, depth: Int): Color {
         Counter.count("Whitted.trace2")
         return trace(ray, WrappedDouble.createMax(), depth)

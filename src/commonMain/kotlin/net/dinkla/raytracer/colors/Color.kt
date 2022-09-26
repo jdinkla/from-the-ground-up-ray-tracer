@@ -66,7 +66,6 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
                 val dec = hex.toLong(radix = 16)
                 return dec / 255.0
             }
-
             val rf = convert(0)
             val gf = convert(2)
             val bf = convert(4)

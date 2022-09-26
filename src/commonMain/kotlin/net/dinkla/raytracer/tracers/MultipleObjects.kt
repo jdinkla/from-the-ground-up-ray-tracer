@@ -8,7 +8,7 @@ import net.dinkla.raytracer.world.IWorld
 
 class MultipleObjects(var world: IWorld) : Tracer {
 
-    override fun trace(ray: Ray): Color {
+    override fun trace(ray: Ray, depth: Int): Color {
         val sr = Shade()
         return if (world.hit(ray, sr)) {
             sr.ray = ray
@@ -16,10 +16,6 @@ class MultipleObjects(var world: IWorld) : Tracer {
         } else {
             world.backgroundColor
         }
-    }
-
-    override fun trace(ray: Ray, depth: Int): Color {
-        throw RuntimeException("MultipleObjects.trace")
     }
 
     override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {

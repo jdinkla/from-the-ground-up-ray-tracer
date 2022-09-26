@@ -22,7 +22,7 @@ class SampledSingleRayRenderer(var lens: ILens, var tracer: Tracer) : ISingleRay
         for (j in 0 until numSamples) {
             val sp = sampler.sampleUnitSquare()
             val ray = lens.getRaySampled(r, c, sp)
-            color.plus(tracer.trace(ray!!))
+            color.plus(tracer.trace(ray!!, 0))
         }
         return color.average
     }

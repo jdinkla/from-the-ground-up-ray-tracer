@@ -8,7 +8,7 @@ class SimpleSingleRayRenderer(private var lens: ILens, private var tracer: Trace
 
     override fun render(r: Int, c: Int): Color {
         val ray = lens.getRaySingle(r, c)
-        return tracer.trace(ray!!)
+        return tracer.trace(ray!!, 0)
     }
 
 }

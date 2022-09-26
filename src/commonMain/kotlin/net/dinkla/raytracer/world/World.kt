@@ -33,6 +33,7 @@ class World(
     override var tracer: Tracer? = null
     var renderer: IRenderer? = null
 
+    @Deprecated("unused")
     fun hit(ray: Ray): Shade {
         Counter.count("World.hit1")
         return compound.hitObjects(this, ray)
@@ -43,6 +44,7 @@ class World(
         return compound.hit(ray, sr)
     }
 
+    @Deprecated("unused")
     fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         Counter.count("World.shadowHit")
         return compound.shadowHit(ray, tmin)
