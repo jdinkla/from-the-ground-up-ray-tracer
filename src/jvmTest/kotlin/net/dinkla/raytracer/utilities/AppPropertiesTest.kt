@@ -4,16 +4,20 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class AppPropertiesTest : StringSpec({
+    val key = "display.width"
     "get" {
-        val a = AppProperties["test.id"] as String?
-        a shouldBe "4321"
+        AppProperties[key] as String? shouldBe "1920"
+    }
+
+    "should handle umlauts" {
+        AppProperties["app.title"] as String? shouldBe "\"From the ground up\" ray tracer by Jörn Dinkla"
     }
 
     "getAsInteger" {
-        AppProperties.getAsInteger("test.id") shouldBe 4321
+        AppProperties.getAsInteger(key) shouldBe 1920
     }
 
     "getAsDouble" {
-        AppProperties.getAsDouble("test.id") shouldBe 4321.0
+        AppProperties.getAsDouble(key) shouldBe 1920.0
     }
 })
