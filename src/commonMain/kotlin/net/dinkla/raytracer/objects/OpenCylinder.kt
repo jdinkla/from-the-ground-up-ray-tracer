@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
@@ -20,8 +20,6 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
     }
 
     override fun hit(ray: Ray, sr: IHit): Boolean {
-
-        var t: Double
         val ox = ray.origin.x
         val oy = ray.origin.y
         val oz = ray.origin.z
@@ -40,12 +38,12 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
             val e = sqrt(disc)
             val denom = 2.0 * a
 
-            t = (-b - e) / denom    // smaller root
-            if (t > MathUtils.K_EPSILON) {
-                val yhit = oy + t * dy
+            val t1 = (-b - e) / denom    // smaller root
+            if (t1 > MathUtils.K_EPSILON) {
+                val yhit = oy + t1 * dy
                 if (yhit > y0 && yhit < y1) {
-                    sr.t = t
-                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
+                    sr.t = t1
+                    sr.normal = Normal((ox + t1 * dx) * invRadius, 0.0, (oz + t1 * dz) * invRadius)
                     // test for hitting from inside
                     if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
                         sr.normal = Normal.create(sr.normal.times(-1.0))
@@ -55,12 +53,12 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
                 }
             }
 
-            t = (-b + e) / denom    // larger root
-            if (t > MathUtils.K_EPSILON) {
-                val yhit = oy + t * dy
+            val t2 = (-b + e) / denom    // larger root
+            if (t2 > MathUtils.K_EPSILON) {
+                val yhit = oy + t2 * dy
                 if (yhit > y0 && yhit < y1) {
-                    sr.t = t
-                    sr.normal = Normal((ox + t * dx) * invRadius, 0.0, (oz + t * dz) * invRadius)
+                    sr.t = t2
+                    sr.normal = Normal((ox + t2 * dx) * invRadius, 0.0, (oz + t2 * dz) * invRadius)
                     // test for hitting inside surface
                     if (ray.direction.times(-1.0).dot(sr.normal) < 0.0) {
                         sr.normal = Normal.create(sr.normal.times(-1.0))
@@ -74,8 +72,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         return false
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        var t: Double
+    override fun shadowHit(ray: Ray): Shadow {
         val ox = ray.origin.x
         val oy = ray.origin.y
         val oz = ray.origin.z
@@ -89,30 +86,25 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         val disc = b * b - 4.0 * a * c
 
         if (disc < 0.0) {
-            return false
+            return Shadow.None
         } else {
             val e = sqrt(disc)
             val denom = 2.0 * a
+            val t1 = (-b - e) / denom    // smaller root
+            if (isHit(t1, oy, dy)) return Shadow.Hit(t1)
+            val t2 = (-b + e) / denom    // larger root
+            if (isHit(t2, oy, dy)) return Shadow.Hit(t2)
+        }
+        return Shadow.None
+    }
 
-            t = (-b - e) / denom    // smaller root
-            if (t > MathUtils.K_EPSILON) {
-                val yhit = oy + t * dy
-                if (yhit > y0 && yhit < y1) {
-                    tmin.t = t
-                    return true
-                }
-            }
-
-            t = (-b + e) / denom    // larger root
-            if (t > MathUtils.K_EPSILON) {
-                val yhit = oy + t * dy
-                if (yhit > y0 && yhit < y1) {
-                    tmin.t = t
-                    return true
-                }
+    private fun isHit(t: Double, oy: Double, dy: Double): Boolean {
+        if (t > MathUtils.K_EPSILON) {
+            val yHit = oy + t * dy
+            if (yHit > y0 && yHit < y1) {
+                return true
             }
         }
-
         return false
     }
 

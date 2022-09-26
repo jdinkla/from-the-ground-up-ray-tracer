@@ -11,7 +11,7 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.world.IWorld
 
-open class Compound : GeometricObject(), ICompound {
+open class Compound : GeometricObject() {
 
     init {
         boundingBox = BBox()
@@ -73,17 +73,17 @@ open class Compound : GeometricObject(), ICompound {
         return sr
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         Counter.count("Compound.shadowHit")
         //WrappedDouble t = WrappedDouble.createMax();
         for (geoObj in objects) {
             Counter.count("Compound.shadowHit.geometricObject")
-            if (geoObj.shadowHit(ray, tmin)) {
-                //                tmin.setT(t.getValue());
-                return true
+            val shadow = geoObj.shadowHit(ray)
+            if (shadow.isHit()) {
+                return shadow
             }
         }
-        return false
+        return Shadow.None
     }
 
     fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {

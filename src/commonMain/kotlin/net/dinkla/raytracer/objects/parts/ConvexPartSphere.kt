@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects.parts
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
@@ -88,7 +88,5 @@ class ConvexPartSphere : GeometricObject() {
     }
     */
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        return false
-    }
+    override fun shadowHit(ray: Ray) = Shadow.None
 }

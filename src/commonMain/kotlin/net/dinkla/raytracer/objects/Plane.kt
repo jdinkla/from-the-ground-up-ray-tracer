@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 
 data class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP) : GeometricObject() {
@@ -21,13 +21,13 @@ data class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Norma
         }
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val t = ((point - ray.origin) dot normal) / (ray.direction dot normal)
         return if (t > MathUtils.K_EPSILON) {
-            tmin.t = t
-            true
+            Shadow.Hit(t)
         } else {
-            false
+            Shadow.None
         }
     }
+
 }

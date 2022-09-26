@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 
 data class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
@@ -68,8 +68,7 @@ data class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geometr
         return true
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-
+    override fun shadowHit(ray: Ray): Shadow {
         val a = v0.x - v1.x
         val b = v0.x - v2.x
         val c = ray.direction.x
@@ -97,7 +96,7 @@ data class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geometr
         val beta = e1 * invDenom
 
         if (beta < 0) {
-            return false
+            return Shadow.None
         }
 
         val r = e * l - h * i
@@ -105,21 +104,19 @@ data class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : Geometr
         val gamma = e2 * invDenom
 
         if (gamma < 0) {
-            return false
+            return Shadow.None
         }
 
         if (beta + gamma > 1) {
-            return false
+            return Shadow.None
         }
 
         val e3 = a * p - b * r + d * s
         val t = e3 * invDenom
 
         if (t < MathUtils.K_EPSILON) {
-            return false
+            return Shadow.None
         }
-        tmin.t = t
-
-        return true
+        return Shadow.Hit(t)
     }
 }

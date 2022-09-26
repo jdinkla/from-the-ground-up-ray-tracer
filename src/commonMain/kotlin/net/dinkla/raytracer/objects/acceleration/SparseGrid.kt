@@ -333,6 +333,7 @@ class SparseGrid() : Grid() {
         }
     }
 
+    @Deprecated("sparseGrid shadowHit uses tmin as input?")
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         val h = Hit(tmin.t)
         val b = hit(ray, h)

@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects.mesh
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
@@ -58,7 +58,7 @@ open class MeshTriangle : GeometricObject {
         return false
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val p0 = mesh.vertices[index0]
         val p1 = mesh.vertices[index1]
         val p2 = mesh.vertices[index2]
@@ -88,7 +88,7 @@ open class MeshTriangle : GeometricObject {
         val beta = e1 * invDenom
 
         if (beta < 0.0) {
-            return false
+            return Shadow.None
         }
 
         val r = e * l - h * i
@@ -96,19 +96,18 @@ open class MeshTriangle : GeometricObject {
         val gamma = e2 * invDenom
 
         if (gamma < 0.0) {
-            return false
+            return Shadow.None
         }
         if (beta + gamma > 1.0) {
-            return false
+            return Shadow.None
         }
         val e3 = a * p - b * r + d * s
         val t = e3 * invDenom
 
         if (t < MathUtils.K_EPSILON) {
-            return false
+            return Shadow.None
         }
-        tmin.t = t
-        return true
+        return Shadow.Hit(t)
     }
 
     fun computeNormal(reverseNormal: Boolean) {

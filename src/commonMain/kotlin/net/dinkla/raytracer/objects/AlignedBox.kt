@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 
 data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
@@ -57,15 +57,13 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         return false
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val (txMin, txMax, _) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
         val (tyMin, tyMax, _) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
         val (tzMin, tzMax, _) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
-        var t0: Double
-        var t1: Double
-        // find largest entering t value
-        t0 = if (txMin > tyMin) {
+        // find largest entering t value TODO max!
+        var t0 = if (txMin > tyMin) {
             txMin
         } else {
             tyMin
@@ -74,8 +72,8 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
             t0 = tzMin
         }
 
-        // find smallest exiting t value
-        t1 = if (txMax < tyMax) {
+        // find smallest exiting t value  TODO min!
+        var t1 = if (txMax < tyMax) {
             txMax
         } else {
             tyMax
@@ -86,13 +84,12 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
             if (t0 > MathUtils.K_EPSILON) {
-                tmin.t = t0
+                return Shadow.Hit(t0)
             } else {
-                tmin.t = t1
+                return Shadow.Hit(t1)
             }
-            return true
         }
-        return false
+        return Shadow.None
     }
 
     private fun minAndMax(direction: Double, origin: Double, p: Double, q: Double): Triple<Double, Double, Double> {

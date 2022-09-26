@@ -32,6 +32,7 @@ class KDTree(
         return root!!.hit(ray, Hit(sr))
     }
 
+    @Deprecated("KDTree shadowHit uses tmin as input?")
     override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
         Counter.count("KDTree.shadowHit")
         val h = Hit(tmin.t)

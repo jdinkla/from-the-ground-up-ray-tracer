@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
@@ -46,7 +46,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         return false
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val temp = ray.origin - center
         val a = ray.direction dot ray.direction
         val b = temp * 2.0 dot ray.direction
@@ -54,22 +54,20 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         val disc = b * b - 4.0 * a * c
 
         if (disc < 0) {
-            return false
+            return Shadow.None
         } else {
             val e = sqrt(disc)
             val denom = 2 * a
-            var t = (-b - e) / denom
+            val t = (-b - e) / denom
             if (t > MathUtils.K_EPSILON) {
-                tmin.t = t
-                return true
+                return Shadow.Hit(t)
             }
-            t = (-b + e) / denom
-            if (t > MathUtils.K_EPSILON) {
-                tmin.t = t
-                return true
+            val t2 = (-b + e) / denom
+            if (t2 > MathUtils.K_EPSILON) {
+                return Shadow.Hit(t2)
             }
         }
-        return false
+        return Shadow.None
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Sphere>(other) { a, b ->

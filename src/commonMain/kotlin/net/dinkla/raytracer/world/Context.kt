@@ -15,7 +15,7 @@ class Context(val tracer: TracerCreator, val renderer: RendererCreator, val reso
         val theRealTracer = tracer(world)
         world.tracer = theRealTracer
 
-        val singleRayRenderer = SimpleSingleRayRenderer(world.camera!!.lens, theRealTracer)
+        val singleRayRenderer = SimpleSingleRayRenderer(world.camera.lens, theRealTracer)
         val corrector: IColorCorrector = world.viewPlane
         world.renderer = renderer(singleRayRenderer, corrector)
 

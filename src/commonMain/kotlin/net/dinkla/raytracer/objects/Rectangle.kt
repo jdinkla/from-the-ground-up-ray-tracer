@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
@@ -64,30 +64,28 @@ open class Rectangle : GeometricObject {
         return true
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val nom = (p0 - ray.origin) dot normal
         val denom = ray.direction dot normal
         val t = nom / denom
 
         if (t <= MathUtils.K_EPSILON) {
-            return false
+            return Shadow.None
         }
 
         val p = ray.linear(t)
         val d = p - p0
 
-        val ddota = d dot a
-        if (ddota < 0 || ddota > a.sqrLength) {
-            return false
+        val dDotA = d dot a
+        if (dDotA < 0 || dDotA > a.sqrLength) {
+            return Shadow.None
         }
 
-        val ddotb = d dot b
-        if (ddotb < 0 || ddotb > b.sqrLength) {
-            return false
+        val dDotB = d dot b
+        if (dDotB < 0 || dDotB > b.sqrLength) {
+            return Shadow.None
         }
-
-        tmin.t = t
-        return true
+        return Shadow.Hit(t)
     }
 
     private fun calcBoundingBox(): BBox {

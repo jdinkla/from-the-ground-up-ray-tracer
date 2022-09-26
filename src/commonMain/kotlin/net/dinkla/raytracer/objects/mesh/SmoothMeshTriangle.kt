@@ -69,5 +69,4 @@ class SmoothMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(m
         val normal = Normal.create(v1.plus(v2).plus(v3))
         return normal.normalize()
     }
-
 }

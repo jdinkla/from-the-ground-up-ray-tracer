@@ -2,7 +2,9 @@ package net.dinkla.raytracer.objects
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.Normal.Companion.DOWN
 import net.dinkla.raytracer.math.Normal.Companion.RIGHT
 import net.dinkla.raytracer.math.Normal.Companion.UP
@@ -85,6 +87,19 @@ class PlaneTest : StringSpec({
 
         val isHit = plane.hit(ray, Hit())
         isHit shouldBe false
+    }
+
+    "shadow hit" {
+        // Given
+        val plane = Plane(Point3D.ORIGIN, UP)
+        val ray = Ray(Point3D(-1.0, -1.0, -1.0), Vector3D.UP)
+
+        // When
+        val shadow = plane.shadowHit(ray)
+
+        // Then
+        shadow.shouldBeInstanceOf<Shadow.Hit>()
+        shadow.t shouldBe 1.0
     }
 })
 

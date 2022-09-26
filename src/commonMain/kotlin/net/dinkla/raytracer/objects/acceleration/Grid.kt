@@ -17,7 +17,7 @@ import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
 
-    private var cells: Array<IGeometricObject> = Array(0) { i -> NullObject() }
+    private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
     protected var nx: Int = 0
     protected var ny: Int = 0
@@ -59,7 +59,7 @@ open class Grid : CompoundWithMesh() {
 
         Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
-        cells = Array(numCells) { i -> NullObject() }
+        cells = Array(numCells) { _ -> NullObject() }
 
         val counts = IntArray(numCells)
 

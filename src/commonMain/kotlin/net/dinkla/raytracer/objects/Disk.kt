@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
@@ -30,14 +30,13 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
         }
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(ray: Ray): Shadow {
         val t = ((center - ray.origin) dot normal) / (ray.direction dot normal)
-        return if (t <= MathUtils.K_EPSILON) false
-        else if ((center.sqrDistance(ray.linear(t)) < radius * radius)) {
-            tmin.t = t
-            true
+        return when {
+            t <= MathUtils.K_EPSILON -> Shadow.None
+            center.sqrDistance(ray.linear(t)) < radius * radius -> Shadow.Hit(t)
+            else -> Shadow.None
         }
-        else false
     }
 
     // TODO why with p?

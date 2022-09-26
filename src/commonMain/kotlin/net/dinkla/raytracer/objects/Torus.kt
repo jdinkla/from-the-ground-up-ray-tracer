@@ -2,7 +2,7 @@ package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 
 data class Torus(val a: Double, val b: Double) : GeometricObject() {
@@ -111,9 +111,8 @@ data class Torus(val a: Double, val b: Double) : GeometricObject() {
         return true
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        return false
-    }
+    // TODO implement!!!
+    override fun shadowHit(ray: Ray): Shadow = Shadow.None
 
     private fun computeNormal(p: Point3D): Normal {
         val paramSquared = a * a + b * b

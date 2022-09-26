@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.ShadowHit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.*
 import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
@@ -77,9 +77,7 @@ class Instance(private val geometricObject: GeometricObject,
         return false
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        return geometricObject.shadowHit(ray(ray), tmin)
-    }
+    override fun shadowHit(ray: Ray): Shadow = geometricObject.shadowHit(ray(ray))
 
     override fun initialize() = geometricObject.initialize()
 
