@@ -1,24 +1,11 @@
 # Todo
 
-- Spec 4K resolution in viewPlane in DSL 
-
-- https://github.com/kotest/kotest
-- Logging
-    - https://www.baeldung.com/kotlin-logging
-    - https://github.com/MicroUtils/kotlin-logging
-
 - Lenses needed?
 
-
-
 - World definition ohne Camera und Viewplane. Dieses muss in eine Extra-Def.
-- Konvertierung
-    - Bisherige Welten einlesen und Welt mit saveAsJSON() speichern
-    - Teilweise wird aber gerechnet in der Welt-Konfiguration
-
 - Viewplane
     - Gamma und ColorCorrection gehören da nicht rein
-    - maxDepth Rekursionstiefe ist das nicht eine Eigenschaft des Renderers
+    - maxDepth Rekursionstiefe ist das nicht eine Eigenschaft des Tracers
     - Eigene Klasse für ColorCorrection+Gamma
 
 - World
