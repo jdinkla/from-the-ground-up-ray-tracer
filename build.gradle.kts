@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.7.10"
+    kotlin("multiplatform") version "1.7.20"
     id("io.kotest.multiplatform") version "5.4.2"
     application
 }
@@ -43,6 +43,9 @@ kotlin {
         binaries.executable()
     }
     linuxX64() {
+        binaries.executable()
+    }
+    macosX64 {
         binaries.executable()
     }
     sourceSets {
@@ -96,6 +99,12 @@ kotlin {
         val linuxX64Test by getting {
             dependsOn(commonTest)
         }
+        val macosX64Main by getting {
+            dependsOn(commonMain)
+        }
+        val macosX64Test by getting {
+            dependsOn(commonTest)
+        }
     }
 
     targets.withType(KotlinNativeTarget::class.java) {
@@ -127,6 +136,16 @@ task<Exec>("cmd-linux") {
         ""
     }
     commandLine = listOf("build/bin/linuxX64/releaseExecutable/from-the-ground-up-ray-tracer.kexe")
+    setArgs(args.split(" "))
+}
+
+task<Exec>("cmd-macos") {
+    val args: String = if (project.hasProperty("args")) {
+        project.properties["args"] as String
+    } else {
+        ""
+    }
+    commandLine = listOf("build/bin/macosX64/releaseExecutable/from-the-ground-up-ray-tracer.kexe")
     setArgs(args.split(" "))
 }
 
