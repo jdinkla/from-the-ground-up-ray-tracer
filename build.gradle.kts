@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
-val logbackVersion = "1.2.11"
-val kotestVersion = "5.4.2"
-val coroutinesVersion = "1.6.4"
+val logbackVersion = "1.4.11"
+val kotestVersion = "5.7.2"
+val coroutinesVersion = "1.7.3"
 val korioVersion = "2.2.0"
 val korimVersion = "2.2.0"
-val kotlinWrappersVersion = "18.7.18-pre.386"
-val cliktVersion = "3.5.0"
+val kotlinWrappersVersion = "18.16.12-pre.636"
+val cliktVersion = "4.2.1"
 
 group = "net.dinkla"
 version = "1.0"
@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.7.20"
+    kotlin("multiplatform") version "1.9.20"
     id("io.kotest.multiplatform") version "5.4.2"
     application
 }
@@ -57,7 +57,6 @@ kotlin {
                 implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
                 implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
                 implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
-
             }
         }
         val commonTest by getting {
