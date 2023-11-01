@@ -2,7 +2,11 @@ package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.Shadow
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Face
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 
 data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
 
@@ -51,7 +55,7 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
                 sr.t = t1
                 sr.normal = faceOut.normal
             }
-            //sr.localHitPoint = ray.linear(tmin.getValue());
+            // sr.localHitPoint = ray.linear(tmin.getValue());
             return true
         }
         return false

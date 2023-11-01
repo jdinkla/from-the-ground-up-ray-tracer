@@ -9,7 +9,16 @@ import net.dinkla.raytracer.math.AffineTransformation
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
-import net.dinkla.raytracer.objects.*
+import net.dinkla.raytracer.objects.AlignedBox
+import net.dinkla.raytracer.objects.Disk
+import net.dinkla.raytracer.objects.Instance
+import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.objects.Plane
+import net.dinkla.raytracer.objects.Rectangle
+import net.dinkla.raytracer.objects.SmoothTriangle
+import net.dinkla.raytracer.objects.Sphere
+import net.dinkla.raytracer.objects.Torus
+import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.beveled.BeveledBox

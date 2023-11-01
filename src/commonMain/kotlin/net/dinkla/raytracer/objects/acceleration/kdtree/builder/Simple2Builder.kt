@@ -30,7 +30,6 @@ class Simple2Builder : TreeBuilder {
      * @return
      */
     fun build(objects: List<IGeometricObject>, voxel: BBox, depth: Int): Node {
-
         Counter.count("KDtree.build")
 
         val node: Node?

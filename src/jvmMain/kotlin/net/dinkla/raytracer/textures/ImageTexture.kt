@@ -9,7 +9,8 @@ import java.io.File
 import java.io.IOException
 import javax.imageio.ImageIO
 
-class ImageTexture @Throws(IOException::class) constructor(fileName: String) : Texture() {
+class ImageTexture @Throws(IOException::class)
+constructor(fileName: String) : Texture() {
 
     var mapping: Mapping? = null
 
@@ -23,17 +24,17 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
         var column = 0
 
         if (null != mapping) {
-            //val p = sr.localHitPoint
-            //Sphere s = (Sphere) sr.getGeometricObject();
-            //p = new Point3D(p.minus(s.center));
-            //Point3D p = new Point3D(sr.getNormal());
-            //val m = mapping!!.getTexelCoordinates(p, res)
-            //row = m.row
-            //column = m.column
+            // val p = sr.localHitPoint
+            // Sphere s = (Sphere) sr.getGeometricObject();
+            // p = new Point3D(p.minus(s.center));
+            // Point3D p = new Point3D(sr.getNormal());
+            // val m = mapping!!.getTexelCoordinates(p, res)
+            // row = m.row
+            // column = m.column
         } else {
             // TODO Shade u und v
-            //row = (int) ();
-            //m.column = (int) ();
+            // row = (int) ();
+            // m.column = (int) ();
         }
 
         //        System.out.println("row=" +row + ", column=" + column);
@@ -67,5 +68,4 @@ class ImageTexture @Throws(IOException::class) constructor(fileName: String) : T
 
         return Color.fromInt(rgb)
     }
-
 }

@@ -20,5 +20,4 @@ class BBoxTest : StringSpec({
     "should construct if p < q" {
         BBox(p, q) shouldBe BBox(Point3D(0.0, 0.0, 0.0), Point3D(1.0, 1.0, 1.0))
     }
-
 })

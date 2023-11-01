@@ -9,15 +9,16 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.samplers.Sampler
 
-class RectangleLight(val sampler: Sampler,
-                     p0: Point3D,
-                     a: Vector3D,
-                     b: Vector3D,
-                     normal: Normal
+class RectangleLight(
+    val sampler: Sampler,
+    p0: Point3D,
+    a: Vector3D,
+    b: Vector3D,
+    normal: Normal
 ) : Rectangle(p0, a, b, normal), ILightSource {
 
-    constructor(sampler: Sampler, p0: Point3D, a: Vector3D, b: Vector3D)
-            : this(sampler, p0, a, b, Normal.create((a cross b).normalize()))
+    constructor(sampler: Sampler, p0: Point3D, a: Vector3D, b: Vector3D) :
+        this(sampler, p0, a, b, Normal.create((a cross b).normalize()))
 
     private var pdf: Double = 1.0 / (a.length * b.length)
 
@@ -31,7 +32,4 @@ class RectangleLight(val sampler: Sampler,
     }
 
     override fun getLightMaterial(): IMaterial = material!!
-
 }
-
-

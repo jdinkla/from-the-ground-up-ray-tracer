@@ -7,12 +7,12 @@ data class Resolution(val width: Int, val height: Int) {
     constructor(height: Int) : this((height * RATIO_16_TO_9).toInt(), height)
 
     enum class Predefined(val id: String, val height: Int) {
-        Resolution_480("480p", 480),
-        Resolution_720("720p", 720),
-        Resolution_1080("1080p", 1080),
-        Resolution_1440("1440p", 1440),
-        Resolution_2160("2160p", 2160),
-        Resolution_4320("4320p", 4320);
+        RESOLUTION_480("480p", 480),
+        RESOLUTION_720("720p", 720),
+        RESOLUTION_1080("1080p", 1080),
+        RESOLUTION_1440("1440p", 1440),
+        RESOLUTION_2160("2160p", 2160),
+        RESOLUTION_4320("4320p", 4320);
 
         fun create(): Resolution = Resolution(height)
     }

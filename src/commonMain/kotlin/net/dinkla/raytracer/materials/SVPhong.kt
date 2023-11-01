@@ -49,7 +49,6 @@ class SVPhong : SVMatte() {
         return L
     }
 
-
     override fun areaLightShade(world: IWorld, sr: IShade): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
@@ -88,4 +87,3 @@ class SVPhong : SVMatte() {
         return specularBrdf.cs!!.getColor(sr).times(specularBrdf.ks)
     }
 }
-

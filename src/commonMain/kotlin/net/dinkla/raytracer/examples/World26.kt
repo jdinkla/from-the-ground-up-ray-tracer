@@ -12,7 +12,6 @@ object World26 : WorldDefinition {
     override val id: String = "World26.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 2000.0, eye = p(0, 1, -10), lookAt = p(0, 1, 0))
 
         ambientLight(ls = 0.5)
@@ -38,7 +37,7 @@ object World26 : WorldDefinition {
                 scale(v(1.5, 1.1, 0.6))
                 translate(v(2.0, 1.1, 0.0))
                 rotate(Axis.X, 12.0)
-                rotate(Axis.Z,12.0)
+                rotate(Axis.Z, 12.0)
             }
         }
     }

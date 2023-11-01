@@ -33,5 +33,5 @@ class Leaf(objects: List<IGeometricObject>) : Node {
         append("-")
     }
 
-    override fun toString(): String = "Leaf(${size()}, ${boundingBox}"
+    override fun toString(): String = "Leaf(${size()}, $boundingBox"
 }

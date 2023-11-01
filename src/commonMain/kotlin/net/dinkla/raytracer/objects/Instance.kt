@@ -2,12 +2,17 @@ package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.Shadow
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.AffineTransformation
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.PointUtilities.maximum
 import net.dinkla.raytracer.math.PointUtilities.minimum
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Transformation
 
-class Instance(private val geometricObject: GeometricObject,
-               val trans: Transformation = AffineTransformation()
+class Instance(
+    private val geometricObject: GeometricObject,
+    val trans: Transformation = AffineTransformation()
 ) : GeometricObject(), Transformation by trans {
 
     override var boundingBox: BBox
@@ -80,7 +85,4 @@ class Instance(private val geometricObject: GeometricObject,
     override fun shadowHit(ray: Ray): Shadow = geometricObject.shadowHit(ray(ray))
 
     override fun initialize() = geometricObject.initialize()
-
 }
-
-

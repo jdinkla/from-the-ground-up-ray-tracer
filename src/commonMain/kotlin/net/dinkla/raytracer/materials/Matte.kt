@@ -105,4 +105,3 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
 
     override fun toString(): String = "Matte($ambientBRDF,$diffuseBRDF)"
 }
-

@@ -36,4 +36,3 @@ object World5 : WorldDefinition {
         }
     }
 }
-

@@ -6,7 +6,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.examples.*
+import net.dinkla.raytracer.examples.World14
+import net.dinkla.raytracer.examples.World20
+import net.dinkla.raytracer.examples.World23
+import net.dinkla.raytracer.examples.World26
+import net.dinkla.raytracer.examples.World34
+import net.dinkla.raytracer.examples.World38
+import net.dinkla.raytracer.examples.World7
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight

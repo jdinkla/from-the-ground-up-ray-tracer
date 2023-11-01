@@ -102,4 +102,3 @@ class PlaneTest : StringSpec({
         shadow.t shouldBe 1.0
     }
 })
-

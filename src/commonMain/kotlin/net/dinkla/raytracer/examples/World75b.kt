@@ -13,7 +13,6 @@ object World75b : WorldDefinition {
     const val NUM2 = NUM / 2
 
     override fun world() = Builder.build {
-
         // viewPlane(resolution= Resolution.RESOLUTION_1440, maxDepth= 2, numSamples= 4)
 
         camera(d = 1000.0, eye = p(0, 0, 5), lookAt = p(0, 0, 0))
@@ -35,19 +34,17 @@ object World75b : WorldDefinition {
         }
 
         objects {
-
-            //plane(point= p(0,0,0), normal= n(0, 1, 0), material= "white")
+            // plane(point= p(0,0,0), normal= n(0, 1, 0), material= "white")
             kdtree(builder = Simple2Builder()) {
                 for (k in 0 until NUM) {
                     for (j in 0 until NUM) {
                         for (i in 0 until NUM) {
                             val pc = (i + j + k) % 4
-                            sphere(center = p(-NUM2 + i, -NUM2 + j, -k), radius = 0.25, material = "p${pc}")
+                            sphere(center = p(-NUM2 + i, -NUM2 + j, -k), radius = 0.25, material = "p$pc")
                         }
                     }
                 }
             }
         }
-
     }
 }

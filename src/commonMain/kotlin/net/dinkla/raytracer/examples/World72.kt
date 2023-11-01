@@ -13,8 +13,7 @@ object World72 : WorldDefinition {
     // val tex1 = ImageTexture("/opt/rendering/textures/rtftgu/SphereGrid.png")
 
     override fun world() = Builder.build {
-
-        //tex1.mapping = SphericalMap()
+        // tex1.mapping = SphericalMap()
         val sphere = Sphere(center = p(0, 1, 0), radius = 1.0)
 
         //  camera(d: 2000, eye: p(-4, 3, 20), lookAt: p(3, 1, 1), numThreads: 30)

@@ -50,7 +50,6 @@ data class Vector3D(val x: Double, val y: Double, val z: Double) {
         val BACK = Vector3D(0.0, 0.0, -1.0)
         val JITTER = Vector3D(0.0072, 1.0, 0.0034)
     }
-
 }
 
 operator fun Double.times(v: Vector3D) = Vector3D(this * v.x, this * v.y, this * v.z)

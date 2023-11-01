@@ -20,5 +20,4 @@ class RayCast(var world: IWorld) : Tracer {
             world.backgroundColor
         }
     }
-
 }

@@ -29,5 +29,4 @@ open class Hit : ShadowHit, IHit {
         normal = hit.normal
         geometricObject = hit.geometricObject
     }
-
 }

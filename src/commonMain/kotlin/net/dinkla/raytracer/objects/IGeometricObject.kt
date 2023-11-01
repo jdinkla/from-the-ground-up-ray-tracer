@@ -40,5 +40,4 @@ interface IGeometricObject {
             Shadow.None
         }
     }
-
 }

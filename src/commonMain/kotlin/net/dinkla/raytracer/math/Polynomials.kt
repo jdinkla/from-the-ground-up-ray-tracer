@@ -8,7 +8,7 @@ import kotlin.math.sqrt
 object Polynomials {
 
     private fun cbrt(d: Double) = if (d < 0.0) {
-        - (-d).pow(1.0 / 3.0)
+        -(-d).pow(1.0 / 3.0)
     } else {
         d.pow(1.0 / 3.0)
     }
@@ -382,7 +382,6 @@ object Polynomials {
             num += solveQuadric(coeffs3, ss3)
             s[0] = ss3[0]
             s[1] = ss3[1]
-
         }
 
         /* resubstitute */
@@ -394,5 +393,4 @@ object Polynomials {
         }
         return num
     }
-
 }

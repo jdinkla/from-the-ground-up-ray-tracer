@@ -11,7 +11,7 @@ internal class AlignedBoxTest : StringSpec({
 
     val p = Point3D.ORIGIN
     val q = Point3D.UNIT
-    
+
     "hit" {
         val ab = AlignedBox(p, q)
         val ray = Ray(Point3D(0.5, 0.5, -1.0), Vector3D.FORWARD)

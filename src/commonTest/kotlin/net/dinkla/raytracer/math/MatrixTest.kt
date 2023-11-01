@@ -69,7 +69,7 @@ class MatrixTest : StringSpec({
     "indices" {
         val indices = Matrix.indices()
         indices.size shouldBe Matrix.n * Matrix.n
-        indices[0] shouldBe Pair(0,0)
+        indices[0] shouldBe Pair(0, 0)
         indices[Matrix.n * Matrix.n - 1] shouldBe Pair(Matrix.n - 1, Matrix.n - 1)
     }
 

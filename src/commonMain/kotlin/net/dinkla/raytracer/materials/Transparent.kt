@@ -15,16 +15,18 @@ class Transparent : Phong {
     private var reflectiveBRDF = PerfectSpecular()
     private var specularBTDF = PerfectTransmitter()
 
-    constructor(color: Color = Color.WHITE,
-                ka: Double = 0.25,
-                kd: Double = 0.75,
-                exp: Double = 5.0,
-                ks: Double = 0.25,
-                cs: Color = Color.WHITE,
-                kt: Double = 0.0,
-                ior: Double = 0.0,
-                kr: Double = 0.0,
-                cr: Color = Color.WHITE): super(color, ka, kd, exp, ks, cs) {
+    constructor(
+        color: Color = Color.WHITE,
+        ka: Double = 0.25,
+        kd: Double = 0.75,
+        exp: Double = 5.0,
+        ks: Double = 0.25,
+        cs: Color = Color.WHITE,
+        kt: Double = 0.0,
+        ior: Double = 0.0,
+        kr: Double = 0.0,
+        cr: Color = Color.WHITE
+    ) : super(color, ka, kd, exp, ks, cs) {
         this.kt = kt
         this.ior = ior
         this.kr = kr
@@ -44,17 +46,16 @@ class Transparent : Phong {
         }
 
     var kr: Double
-        get() =reflectiveBRDF.kr
+        get() = reflectiveBRDF.kr
         set(v: Double) {
             reflectiveBRDF.kr = v
         }
 
     var cr: Color
-        get() =reflectiveBRDF.cr
+        get() = reflectiveBRDF.cr
         set(v: Color) {
             reflectiveBRDF.cr = v
         }
-
 
     override fun shade(world: IWorld, sr: IShade): Color {
         var l = super.shade(world, sr)
@@ -81,8 +82,8 @@ class Transparent : Phong {
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Transparent>(other) { a, b ->
-        a.diffuseBRDF == b.diffuseBRDF && a.ambientBRDF == b.ambientBRDF && a.specularBTDF == b.specularBTDF
-                && a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
+        a.diffuseBRDF == b.diffuseBRDF && a.ambientBRDF == b.ambientBRDF && a.specularBTDF == b.specularBTDF &&
+            a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
     }
 
     override fun hashCode(): Int =

@@ -1,12 +1,16 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.Basis
+import net.dinkla.raytracer.math.Point2D
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 
 class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
-    var sampler: Sampler? = null           // unit disk
+    var sampler: Sampler? = null // unit disk
 
     var lensRadius: Double = 1.0
     var f: Double = 1.0
@@ -38,8 +42,7 @@ class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vi
         //        final Vector3D v1 = u.minus(p.x - lens.x);
         //        final Vector3D v2 = v.minus(p.y - lens.y);
         //        final Vector3D v3 = w.minus(f);
-        //final Vector3D dir = v1.plus(v2).minus(v3).normalize();
+        // final Vector3D dir = v1.plus(v2).minus(v3).normalize();
         return uvw.pm(1.0, 1.0, 1.0).normalize()
     }
-
 }

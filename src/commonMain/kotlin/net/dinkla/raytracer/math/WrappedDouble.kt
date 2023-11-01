@@ -21,6 +21,5 @@ class WrappedDouble(var value: Double) : Comparable<WrappedDouble> {
     companion object {
 
         fun createMax() = WrappedDouble(Double.MAX_VALUE)
-
     }
 }

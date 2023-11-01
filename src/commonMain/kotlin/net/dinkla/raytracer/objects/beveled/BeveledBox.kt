@@ -21,57 +21,53 @@ class BeveledBox(
     init {
 
         val topFrontEdge =
-            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top front edge
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb)) // top front edge
         topFrontEdge.rotate(Axis.Z, 90.0)
         topFrontEdge.translate(Vector3D((p0.x + p1.x) / 2, p1.y - rb, p1.z - rb))
-        //top_front_edge.transform_texture(false);
+        // top_front_edge.transform_texture(false);
         objects.add(topFrontEdge)
 
         // top back (-ve z)
         val topBackEdge =
-            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // top back edge
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb)) // top back edge
         topBackEdge.rotate(Axis.Z, 90.0)
         topBackEdge.translate(Vector3D((p0.x + p1.x) / 2, p1.y - rb, p0.z + rb))
-        //top_back_edge->transform_texture(false);
+        // top_back_edge->transform_texture(false);
         objects.add(topBackEdge)
-
 
         // top right (+ve x)
         val topRightEdge =
             Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top right edge
         topRightEdge.rotate(Axis.X, 90.0)
         topRightEdge.translate(Vector3D(p1.x - rb, p1.y - rb, (p0.z + p1.z) / 2))
-        //top_right_edge->transform_texture(false);
+        // top_right_edge->transform_texture(false);
         objects.add(topRightEdge)
-
 
         // top left (-ve x)
         val topLeftEdge =
             Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // top left edge
         topLeftEdge.rotate(Axis.X, 90.0)
         topLeftEdge.translate(Vector3D(p0.x + rb, p1.y - rb, (p0.z + p1.z) / 2))
-        //top_left_edge->transform_texture(false);
+        // top_left_edge->transform_texture(false);
         objects.add(topLeftEdge)
 
         // bottom edges  (-ve y)
 
         // bottom front  (+ve z)
         val bottomFrontEdge =
-            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom fromt edge
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb)) // bottom fromt edge
         bottomFrontEdge.rotate(Axis.Z, 90.0)
         bottomFrontEdge.translate(Vector3D((p0.x + p1.x) / 2, p0.y + rb, p1.z - rb))
-        //bottom_front_edge->transform_texture(false);
+        // bottom_front_edge->transform_texture(false);
         objects.add(bottomFrontEdge)
-
 
         // bottom back  (-ve z)
         val bottomBackEdge =
-            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb))    // bottom back edge
+            Instance(OpenCylinder(-(p1.x - p0.x - 2 * rb) / 2, (p1.x - p0.x - 2 * rb) / 2, rb)) // bottom back edge
         bottomBackEdge.rotate(Axis.Z, 90.0)
         bottomBackEdge.translate(Vector3D((p0.x + p1.x) / 2, p0.y + rb, p0.z + rb))
-        //bottom_back_edge->transform_texture(false);
+        // bottom_back_edge->transform_texture(false);
         objects.add(bottomBackEdge)
-
 
         // bottom right (-ve x, -ve y)
 
@@ -79,18 +75,17 @@ class BeveledBox(
             Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom right edge
         bottomRightEdge.rotate(Axis.X, 90.0)
         bottomRightEdge.translate(Vector3D(p1.x - rb, p0.y + rb, (p0.z + p1.z) / 2))
-        //bottom_right_edge->transform_texture(false);
+        // bottom_right_edge->transform_texture(false);
         objects.add(bottomRightEdge)
 
         // bottom left (-ve x, -ve y)
 
         val bottomLeftEdge =
             Instance(OpenCylinder(-(p1.z - p0.z - 2 * rb) / 2, (p1.z - p0.z - 2 * rb) / 2, rb)) // bottom left edge
-        bottomLeftEdge.rotate(Axis.X,90.0)
+        bottomLeftEdge.rotate(Axis.X, 90.0)
         bottomLeftEdge.translate(Vector3D(p0.x + rb, p0.y + rb, (p0.z + p1.z) / 2))
-        //bottom_left_edge->transform_texture(false);
+        // bottom_left_edge->transform_texture(false);
         objects.add(bottomLeftEdge)
-
 
         // vertical edges
 
@@ -98,29 +93,28 @@ class BeveledBox(
 
         val verticalRightFrontEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
         verticalRightFrontEdge.translate(Vector3D(p1.x - rb, 0.0, p1.z - rb))
-        //vertical_right_front_edge->transform_texture(false);
+        // vertical_right_front_edge->transform_texture(false);
         objects.add(verticalRightFrontEdge)
 
         // vertical left front  (-ve x, +ve z)
 
         val verticalLeftFrontEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
         verticalLeftFrontEdge.translate(Vector3D(p0.x + rb, 0.0, p1.z - rb))
-        //vertical_left_front_edge->transform_texture(false);
+        // vertical_left_front_edge->transform_texture(false);
         objects.add(verticalLeftFrontEdge)
 
         // vertical left back  (-ve x, -ve z)
 
         val verticalLeftBackEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
         verticalLeftBackEdge.translate(Vector3D(p0.x + rb, 0.0, p0.z + rb))
-        //vertical_left_back_edge->transform_texture(false);
+        // vertical_left_back_edge->transform_texture(false);
         objects.add(verticalLeftBackEdge)
-
 
         // vertical right back  (+ve x, -ve z)
 
         val verticalRightBackEdge = Instance(OpenCylinder(p0.y + rb, p1.y - rb, rb))
         verticalRightBackEdge.translate(Vector3D(p1.x - rb, 0.0, p0.z + rb))
-        //vertical_right_back_edge->transform_texture(false);
+        // vertical_right_back_edge->transform_texture(false);
         objects.add(verticalRightBackEdge)
 
         // corner spheres

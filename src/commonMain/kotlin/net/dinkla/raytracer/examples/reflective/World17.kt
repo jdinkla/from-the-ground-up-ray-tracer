@@ -9,15 +9,13 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-
 object World17 : WorldDefinition {
 
     override val id: String = "World17.kt"
 
     override fun world(): World = Builder.build {
-
 //        viewPlane(numSamples = 0, maxDepth = 5)
-        //camera(direction= 800, eye= p(0, 2.5, 7), lookAt= p(1, 0.5, 1))
+        // camera(direction= 800, eye= p(0, 2.5, 7), lookAt= p(1, 0.5, 1))
 //    camera(direction= 800, eye= p(0, 2.5, 15), lookAt= p(1.5, 0.5, 1))
 //    camera(direction= 800, eye= p(0, 12.5, 15), lookAt= p(1.5, 0.5, 1))
 //    camera(direction= 800, eye= p(0, 1.1, 15), lookAt= p(1.5, 0.5, 1), numThreads= 30)
@@ -52,9 +50,9 @@ object World17 : WorldDefinition {
             solidCylinder(material = "m1", y0 = 0.0, y1 = 3.5, radius = 0.9)
             alignedBox(material = "m3", p = p(2, 0, -2), q = p(3.0, 2.3, 3.0))
 
-            val o1 = OpenCylinder(y0= 0.0, y1 = 3.5, radius = 0.9).apply { this.material = materials["m1"]}
-            val s1 = SolidCylinder(y0= 0.0, y1 = 3.5, radius = 0.9).apply { this.material = materials["m1"]}
-            val a1 = AlignedBox(p = p(2, 0, -2), q = p(2.1, 3.3, 5.0)).apply { this.material = materials["m1"]}
+            val o1 = OpenCylinder(y0 = 0.0, y1 = 3.5, radius = 0.9).apply { this.material = materials["m1"] }
+            val s1 = SolidCylinder(y0 = 0.0, y1 = 3.5, radius = 0.9).apply { this.material = materials["m1"] }
+            val a1 = AlignedBox(p = p(2, 0, -2), q = p(2.1, 3.3, 5.0)).apply { this.material = materials["m1"] }
 
             instance(material = "m3", of = a1) {
                 translate(v(2, 0, 0))

@@ -11,8 +11,8 @@ actual enum class Renderer {
     COROUTINE
 }
 
-actual fun createRenderer(renderer: Renderer) : RendererCreator {
-    return when(renderer) {
+actual fun createRenderer(renderer: Renderer): RendererCreator {
+    return when (renderer) {
         Renderer.SEQUENTIAL -> { r: ISingleRayRenderer, c: IColorCorrector -> SequentialRenderer(r, c) }
         Renderer.FORK_JOIN -> { r: ISingleRayRenderer, c: IColorCorrector -> ForkJoinRenderer(r, c) }
         Renderer.PARALLEL -> { r: ISingleRayRenderer, c: IColorCorrector -> ParallelRenderer(r, c) }
@@ -20,4 +20,3 @@ actual fun createRenderer(renderer: Renderer) : RendererCreator {
         Renderer.COROUTINE -> { r: ISingleRayRenderer, c: IColorCorrector -> CoroutineBlockRenderer(r, c) }
     }
 }
-

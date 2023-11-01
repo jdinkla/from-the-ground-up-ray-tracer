@@ -12,5 +12,8 @@ class FresnelReflector : BRDF {
 
     // TODO def
     override fun sampleF(sr: IShade, wo: Vector3D): Sample = Sample(
-            wi = Vector3D.ZERO, color = Color.BLACK, pdf = 1.0)
+        wi = Vector3D.ZERO,
+        color = Color.BLACK,
+        pdf = 1.0
+    )
 }

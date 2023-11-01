@@ -9,7 +9,6 @@ object World38 : WorldDefinition {
     override val id: String = "World38.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 500.0, eye = p(0, 5, 10), lookAt = p(0, 1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.5)

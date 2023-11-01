@@ -13,7 +13,8 @@ import kotlin.math.ln
 
 class KDTree(
     var builder: TreeBuilder = SpatialMedianBuilder(),
-    var root: Node? = null) : CompoundWithMesh() {
+    var root: Node? = null
+) : CompoundWithMesh() {
 
     override fun initialize() {
         super.initialize()

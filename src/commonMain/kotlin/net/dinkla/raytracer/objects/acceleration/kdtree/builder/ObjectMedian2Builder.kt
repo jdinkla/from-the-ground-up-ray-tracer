@@ -69,7 +69,6 @@ class ObjectMedian2Builder : TreeBuilder {
 
             objectsLz = ArrayList()
             objectsRz = ArrayList()
-
         }
 
         // TODO die sortierten merken
@@ -102,9 +101,9 @@ class ObjectMedian2Builder : TreeBuilder {
             val weightZ = weight(objectsLz.size, objectsRz.size, size)
 
             Logger.info(
-                "weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size
-                        + "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size
-                        + "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
+                "weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size +
+                    "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size +
+                    "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
             )
 
             if (weightX < weightY) {
@@ -179,7 +178,6 @@ class ObjectMedian2Builder : TreeBuilder {
     }
 
     fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
-
         Counter.count("KDtree.build")
 
         var node: Node? = null
@@ -227,5 +225,4 @@ class ObjectMedian2Builder : TreeBuilder {
             return abs(a - c / 2) + abs(b - c / 2)
         }
     }
-
 }

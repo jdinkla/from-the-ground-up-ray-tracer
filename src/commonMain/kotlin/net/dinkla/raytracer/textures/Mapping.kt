@@ -8,5 +8,4 @@ abstract class Mapping {
     inner class Mapped(var row: Int = 0, var column: Int = 0)
 
     abstract fun getTexelCoordinates(p: Point3D, res: Resolution): Mapped
-
 }

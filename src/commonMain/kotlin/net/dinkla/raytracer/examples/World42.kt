@@ -40,9 +40,9 @@ object World42 : WorldDefinition {
         }
 
         objects {
-            plane(material = "grey", point = p(0, 0, -5), normal = n(0, 0, 1))    // hinten
-            plane(material = "grey", point = p(0, -5, 0), normal = n(0, 1, 0))    // unten
-            plane(material = "grey", point = p(NUM + 5, 0, 0), normal = n(-1, 0, 0))    // rechts hinten
+            plane(material = "grey", point = p(0, 0, -5), normal = n(0, 0, 1)) // hinten
+            plane(material = "grey", point = p(0, -5, 0), normal = n(0, 1, 0)) // unten
+            plane(material = "grey", point = p(NUM + 5, 0, 0), normal = n(-1, 0, 0)) // rechts hinten
             plane(material = "grey", point = p(0, NUM * 2 + 5, 0), normal = n(0, -1, 0)) // oben
             plane(material = "grey", point = p(0, 0, NUM * 2 + 5), normal = n(0, 0, -1)) // rechts vorne
             plane(material = "grey", point = p(-NUM - 5, 0, 0), normal = n(1, 0, 0)) // links

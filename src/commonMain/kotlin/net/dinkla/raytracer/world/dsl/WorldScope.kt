@@ -94,4 +94,3 @@ class WorldScope {
         metadata = scope.metadata
     }
 }
-

@@ -65,7 +65,7 @@ open class Grid : CompoundWithMesh() {
 
         // initialize
         for (i in 0 until numCells) {
-            //cells[i] = null;
+            // cells[i] = null;
             counts[i] = 0
         }
 
@@ -73,7 +73,6 @@ open class Grid : CompoundWithMesh() {
 
         // insert the objects into the cells
         for (`object` in objects) {
-
             if (objectsToGo % logInterval == 0) {
                 Logger.info("Grid: $objectsToGo objects to grid")
             }
@@ -135,7 +134,6 @@ open class Grid : CompoundWithMesh() {
         if (0 == depth) {
             statistics(numCells, counts)
         }
-
     }
 
     protected fun statistics(numCells: Int, counts: IntArray) {
@@ -149,10 +147,12 @@ open class Grid : CompoundWithMesh() {
         }
 
         Logger.info("Grid statistics")
-        Logger.info("multiplier=" + multiplier
-                + ", numObjects=" + objects.size
-                + ", numCells=" + numCells
-                + ", numObjects in cells=" + numInCells)
+        Logger.info(
+            "multiplier=" + multiplier +
+                ", numObjects=" + objects.size +
+                ", numCells=" + numCells +
+                ", numObjects in cells=" + numInCells
+        )
 
         for (key in hist.keys()) {
             val value = hist[key]
@@ -161,7 +161,7 @@ open class Grid : CompoundWithMesh() {
     }
 
     override fun hit(ray: Ray, sr: IHit): Boolean {
-        //if (depth > 0) return false;
+        // if (depth > 0) return false;
         if (!boundingBox.hit(ray)) {
             Counter.count("Grid.hit.bbox")
             return false
@@ -221,21 +221,25 @@ open class Grid : CompoundWithMesh() {
         var t0: Double
         var t1: Double
 
-        t0 = if (txMin > tyMin)
+        t0 = if (txMin > tyMin) {
             txMin
-        else
+        } else {
             tyMin
+        }
 
-        if (tzMin > t0)
+        if (tzMin > t0) {
             t0 = tzMin
+        }
 
-        t1 = if (txMax < tyMax)
+        t1 = if (txMax < tyMax) {
             txMax
-        else
+        } else {
             tyMax
+        }
 
-        if (tzMax < t1)
+        if (tzMax < t1) {
             t1 = tzMax
+        }
 
         if (t0 > t1) {
             Counter.count("Grid.hit.t0>t1")
@@ -248,12 +252,12 @@ open class Grid : CompoundWithMesh() {
         var iy: Int
         var iz: Int
 
-        if (boundingBox.isInside(ray.origin)) {              // does the ray start inside the grid?
+        if (boundingBox.isInside(ray.origin)) { // does the ray start inside the grid?
             ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
             iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
             iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
         } else {
-            val p = ray.linear(t0)  // initial hit point with grid's bounding box
+            val p = ray.linear(t0) // initial hit point with grid's bounding box
             ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
             iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
             iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
@@ -339,8 +343,9 @@ open class Grid : CompoundWithMesh() {
                 txNext += dtx
                 ix += ixStep
 
-                if (ix == ixStop)
+                if (ix == ixStop) {
                     return false
+                }
             } else {
                 if (tyNext < tzNext) {
                     if (`object`.hit(ray, sr2) && sr2.t < tyNext) {
@@ -357,8 +362,9 @@ open class Grid : CompoundWithMesh() {
                     tyNext += dty
                     iy += iyStep
 
-                    if (iy == iyStop)
+                    if (iy == iyStop) {
                         return false
+                    }
                 } else {
                     if (`object`.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
@@ -374,8 +380,9 @@ open class Grid : CompoundWithMesh() {
                     tzNext += dtz
                     iz += izStep
 
-                    if (iz == izStop)
+                    if (iz == izStop) {
                         return false
+                    }
                 }
             }
         }
@@ -582,5 +589,4 @@ open class Grid : CompoundWithMesh() {
         protected var factorSize = 500
         protected var maxDepth = 0
     }
-
 }

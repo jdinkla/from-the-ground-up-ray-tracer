@@ -6,4 +6,3 @@ import net.dinkla.raytracer.objects.mesh.Mesh
 abstract class CompoundWithMesh : Compound() {
     val mesh = Mesh()
 }
-

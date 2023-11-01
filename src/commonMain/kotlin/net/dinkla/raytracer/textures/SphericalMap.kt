@@ -11,7 +11,6 @@ import kotlin.math.atan2
 class SphericalMap : Mapping() {
 
     override fun getTexelCoordinates(p: Point3D, res: Resolution): Mapped {
-
         val theta = acos(p.y)
         var phi = atan2(p.x, p.z)
         if (phi < 0) {

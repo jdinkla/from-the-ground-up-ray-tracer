@@ -28,11 +28,11 @@ internal class ColorTest : StringSpec({
     }
 
     "pow()" {
-        Color(0.1, 0.2, 0.3).pow(2.0) shouldBe Color(0.1*0.1, 0.2*0.2, 0.3*0.3)
+        Color(0.1, 0.2, 0.3).pow(2.0) shouldBe Color(0.1 * 0.1, 0.2 * 0.2, 0.3 * 0.3)
     }
 
     "asInt()" {
-        val c = Color(0.0, 0.0, 1.0);
+        val c = Color(0.0, 0.0, 1.0)
         c.toInt() shouldBe 255
     }
 
@@ -40,7 +40,7 @@ internal class ColorTest : StringSpec({
         val red = 3.0 / 255.0
         val green = 31.0 / 255.0
         val blue = 139.0 / 255.0
-        val rgb = Color(red, green, blue).toInt();
+        val rgb = Color(red, green, blue).toInt()
         val c = fromInt(rgb)
 
         c.red shouldBe red
@@ -51,7 +51,7 @@ internal class ColorTest : StringSpec({
     "createFromInts()" {
         val color = Color.fromRGB(127, 0, 255)
 
-        color.red shouldBe 127.0/255.0
+        color.red shouldBe 127.0 / 255.0
         color.green shouldBe 0.0
         color.blue shouldBe 1.0
     }

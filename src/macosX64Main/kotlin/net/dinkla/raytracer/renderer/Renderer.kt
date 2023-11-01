@@ -7,9 +7,8 @@ actual enum class Renderer {
     SEQUENTIAL
 }
 
-actual fun createRenderer(renderer: Renderer) : RendererCreator {
-    return when(renderer) {
+actual fun createRenderer(renderer: Renderer): RendererCreator {
+    return when (renderer) {
         Renderer.SEQUENTIAL -> { r: ISingleRayRenderer, c: IColorCorrector -> SequentialRenderer(r, c) }
     }
 }
-

@@ -9,7 +9,6 @@ object World71 : WorldDefinition {
     override val id: String = "World71.kt"
 
     override fun world() = Builder.build {
-
         val v = 0.5
 
         // viewPlane(maxDepth= 10)
@@ -40,18 +39,18 @@ object World71 : WorldDefinition {
         }
 
         objects {
-            plane(material= "r")
-            plane(material= "b", point= p(0.0, 100.0, 0.0), normal= n(0.0, -1.0, 0.0))
+            plane(material = "r")
+            plane(material = "b", point = p(0.0, 100.0, 0.0), normal = n(0.0, -1.0, 0.0))
 
-            sphere(material= "trans2", center= p(3.0, 1.0, 0.0), radius= 1.0)
+            sphere(material = "trans2", center = p(3.0, 1.0, 0.0), radius = 1.0)
 
-            alignedBox(p= p(-1.25, 0.0, -2.25), q= p(-1.0, 2.0, -2.0), material= "rr")
-            alignedBox(p= p(7.0, 0.0, -2.25), q= p(7.25, 2.0, -2.0), material= "gr")
-            alignedBox(p= p(3.0, 0.0, -2.25), q= p(3.25, 2.0, -2.0), material= "br")
-            alignedBox(p= p(-1.25, 0.0, 2.0), q= p(-1.0, 2.0, 2.25), material= "r")
-            alignedBox(p= p(7.0, 0.0, 2.0), q= p(7.25, 2.0, 2.25), material= "g")
-            alignedBox(p= p(3.0, 0.0, 2.0), q= p(3.25, 2.0, 2.25), material= "b")
-            alignedBox(p= p(3.0-v, 1.0-v, 0.0-v), q= p(3.0+v, 1.0+v, 0.0+v), material= "b")
+            alignedBox(p = p(-1.25, 0.0, -2.25), q = p(-1.0, 2.0, -2.0), material = "rr")
+            alignedBox(p = p(7.0, 0.0, -2.25), q = p(7.25, 2.0, -2.0), material = "gr")
+            alignedBox(p = p(3.0, 0.0, -2.25), q = p(3.25, 2.0, -2.0), material = "br")
+            alignedBox(p = p(-1.25, 0.0, 2.0), q = p(-1.0, 2.0, 2.25), material = "r")
+            alignedBox(p = p(7.0, 0.0, 2.0), q = p(7.25, 2.0, 2.25), material = "g")
+            alignedBox(p = p(3.0, 0.0, 2.0), q = p(3.25, 2.0, 2.25), material = "b")
+            alignedBox(p = p(3.0 - v, 1.0 - v, 0.0 - v), q = p(3.0 + v, 1.0 + v, 0.0 + v), material = "b")
         }
     }
 }

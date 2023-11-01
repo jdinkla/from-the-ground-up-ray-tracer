@@ -21,10 +21,9 @@ class SpatialMedianBuilder : TreeBuilder {
     }
 
     fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
-
         Counter.count("KDtree.build")
 
-        var node: Node? = null //new Leaf(objects);
+        var node: Node? = null // new Leaf(objects);
         var voxelL: BBox? = null
         var voxelR: BBox? = null
 
@@ -63,7 +62,6 @@ class SpatialMedianBuilder : TreeBuilder {
                     objectsR.add(geometricObject)
                 }
             }
-
         } else if (depth % 3 == 1) {
             // y
             split = mid.y

@@ -5,7 +5,6 @@ import com.soywiz.korio.file.VfsFile
 import com.soywiz.korio.file.std.NodeVfs
 
 actual fun read(fileName: String): List<String> {
-
     runBlockingNoSuspensions {
         println("**********************************")
         val vfsFile = VfsFile(NodeVfs(true), "/c/workspace")

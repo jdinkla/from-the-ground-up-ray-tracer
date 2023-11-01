@@ -9,5 +9,4 @@ interface TreeBuilder {
     var maxDepth: Int
 
     fun build(tree: KDTree, voxel: BBox): Node
-
 }

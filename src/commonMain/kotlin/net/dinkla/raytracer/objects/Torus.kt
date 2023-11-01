@@ -3,7 +3,12 @@ package net.dinkla.raytracer.objects
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.Shadow
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Polynomials
+import net.dinkla.raytracer.math.Ray
 
 data class Torus(val a: Double, val b: Double) : GeometricObject() {
 
@@ -135,5 +140,4 @@ data class Torus(val a: Double, val b: Double) : GeometricObject() {
         return normal;
     }
 */
-
 }

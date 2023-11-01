@@ -22,7 +22,6 @@ class ObjectMedianBuilder : TreeBuilder {
     }
 
     fun build(origObjects: List<IGeometricObject>, voxel: BBox, depth: Int): Node {
-
         var objects = origObjects
         Counter.count("KDtree.build")
 

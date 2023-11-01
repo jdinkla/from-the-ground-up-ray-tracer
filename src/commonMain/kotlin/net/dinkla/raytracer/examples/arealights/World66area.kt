@@ -13,7 +13,6 @@ object World66area : WorldDefinition {
     override val id = "World66area.kt"
 
     override fun world() = Builder.build {
-
         val numSamples = 128
         val sampler2 = Sampler(Jittered, 100, 100)
         sampler2.mapSamplesToUnitDisk()

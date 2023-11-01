@@ -20,5 +20,4 @@ object NRooks : IGenerator {
         Sampler.shuffleYCoordinates(numSamples, numSets, mutableSamples)
         return mutableSamples
     }
-
 }

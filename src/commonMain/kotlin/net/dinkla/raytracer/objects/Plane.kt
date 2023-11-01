@@ -2,7 +2,11 @@ package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.Shadow
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 
 data class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP) : GeometricObject() {
 
@@ -29,5 +33,4 @@ data class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Norma
             Shadow.None
         }
     }
-
 }

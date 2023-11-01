@@ -64,5 +64,4 @@ class RandomTest : StringSpec({
         i1.keys().size shouldBe 3
         i2.keys().size shouldBe 3
     }
-
 })

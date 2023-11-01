@@ -36,7 +36,6 @@ internal class Vector2DTest : StringSpec({
         Vector2D(a, b) dot Vector2D(c, d) shouldBe a * c + b * d
     }
 
-
     "dot product with normal" {
         Vector2D(a, b) dot Normal(c, d, 0.0) shouldBe a * c + b * d
     }

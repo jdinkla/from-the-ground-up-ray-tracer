@@ -30,7 +30,10 @@ class DirectionalLight(override val shadows: Boolean = true) : Light {
 
     override fun getDirection(sr: IShade): Vector3D = negatedDirection
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade
     ): Boolean {
         return world.inShadow(ray, sr, Double.MAX_VALUE)
     }
@@ -38,5 +41,4 @@ class DirectionalLight(override val shadows: Boolean = true) : Light {
     fun setDirection(direction: Vector3D) {
         this.negatedDirection = -direction
     }
-
 }

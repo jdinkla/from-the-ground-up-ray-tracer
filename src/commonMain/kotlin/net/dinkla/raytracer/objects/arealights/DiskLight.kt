@@ -29,5 +29,4 @@ class DiskLight(
     }
 
     override fun getLightMaterial(): IMaterial = material!!
-
 }

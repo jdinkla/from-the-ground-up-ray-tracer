@@ -13,5 +13,5 @@ interface ILightSource {
 
     fun getNormal(p: Point3D): Normal
 
-    fun getLightMaterial() : IMaterial
+    fun getLightMaterial(): IMaterial
 }

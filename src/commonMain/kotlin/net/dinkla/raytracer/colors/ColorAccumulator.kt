@@ -2,7 +2,7 @@ package net.dinkla.raytracer.colors
 
 class ColorAccumulator {
 
-    private var aggregated= Color.BLACK
+    private var aggregated = Color.BLACK
     private var count: Int = 0
 
     val average: Color
@@ -16,5 +16,4 @@ class ColorAccumulator {
         aggregated += color
         count++
     }
-
 }

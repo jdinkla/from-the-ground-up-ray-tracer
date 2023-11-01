@@ -33,8 +33,12 @@ object NewWorld4 : WorldDefinition {
 
         val sampler2 = Sampler(MultiJittered, 100, 100)
         sampler2.mapSamplesToUnitDisk()
-        val disk = DiskLight(sampler = sampler2,
-                center = p(0.5, 20.0, -2.0), radius = 10.0, normal = Normal.create(Vector3D.DOWN + Vector3D.FORWARD)).apply {
+        val disk = DiskLight(
+            sampler = sampler2,
+            center = p(0.5, 20.0, -2.0),
+            radius = 10.0,
+            normal = Normal.create(Vector3D.DOWN + Vector3D.FORWARD)
+        ).apply {
             this.material = world.materials["em"]
         }
 

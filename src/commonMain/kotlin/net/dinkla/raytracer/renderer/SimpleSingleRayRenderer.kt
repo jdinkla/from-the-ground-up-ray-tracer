@@ -10,5 +10,4 @@ class SimpleSingleRayRenderer(private var lens: ILens, private var tracer: Trace
         val ray = lens.getRaySingle(r, c)
         return tracer.trace(ray!!, 0)
     }
-
 }

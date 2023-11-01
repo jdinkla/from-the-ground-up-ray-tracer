@@ -16,10 +16,9 @@ object World23 : WorldDefinition {
     private const val numSamples = 4
 
     override fun world() = build {
-
 //    camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
         // TODO type and maxPSi camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
-        //camera(eye= p(0.0, 1.5, 10.0), lookAt= p(0, 1, 0), type = FishEye, maxPsi = 180)
+        // camera(eye= p(0.0, 1.5, 10.0), lookAt= p(0, 1, 0), type = FishEye, maxPsi = 180)
         camera(eye = p(0.0, 1.5, 10.0), lookAt = p(0, 1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.5)
@@ -52,13 +51,11 @@ object World23 : WorldDefinition {
 //            box(p0 = p(-2, 0, 1), a= vecW, b= vecH, c= vecD, material= "m1")
 //            box(p0 = p(2, 0, 1), a= vecW, b= vecH, c= vecD, material= "m1")
 //            box(p0 = p(6, 0, 1), a= vecW, b= vecH, c= vecD, material= "m1")
-            plane(material= "m2", point= Point3D.ORIGIN, normal= Normal.UP)
+            plane(material = "m2", point = Point3D.ORIGIN, normal = Normal.UP)
             sphere(material = "m1")
             sphere(material = "m2", center = p(2, 2, 2))
 //            r1 = rectangleLight(p0= p(-10.75f, 2, -10), a= vecW.times(15.5f), b= vecH.times(2), sampler= sampler1, material= "em")
 //        r1 = disk(center= p(0, 5, -10), radius= 2, normal= n(0, 0, 1), sampler= sampler1, material= "em")
         }
-
-
     }
 }

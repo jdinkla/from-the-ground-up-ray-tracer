@@ -7,7 +7,9 @@ import net.dinkla.raytracer.objects.IGeometricObject
 object ListUtilities {
 
     fun splitByAxis(
-        objects: List<IGeometricObject>, split: Double, axis: Axis,
+        objects: List<IGeometricObject>,
+        split: Double,
+        axis: Axis,
         objectsL: MutableList<IGeometricObject>,
         objectsR: MutableList<IGeometricObject>
     ) {
@@ -37,6 +39,5 @@ object ListUtilities {
     }
 
     fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =
-        objects.sortedWith { p, q -> compare(p, q, axis)}
+        objects.sortedWith { p, q -> compare(p, q, axis) }
 }
-

@@ -101,7 +101,6 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         return Hit(t0, t1)
     }
 
-
     fun hit(ray: Ray): Boolean {
         val txMin: Double
         val tyMin: Double
@@ -164,9 +163,9 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         return t0 < t1 && t1 > MathUtils.K_EPSILON
     }
 
-    private fun isContainedIn(bBox: BBox): Boolean = bBox.p.x <= p.x && q.x <= bBox.q.x
-            && bBox.p.y <= p.y && q.y <= bBox.q.y
-            && bBox.p.z <= p.z && q.z <= bBox.q.z
+    private fun isContainedIn(bBox: BBox): Boolean = bBox.p.x <= p.x && q.x <= bBox.q.x &&
+        bBox.p.y <= p.y && q.y <= bBox.q.y &&
+        bBox.p.z <= p.z && q.z <= bBox.q.z
 
     fun clipTo(bBox: BBox): BBox {
         if (isContainedIn(bBox)) {

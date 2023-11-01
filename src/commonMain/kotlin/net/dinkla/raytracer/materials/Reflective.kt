@@ -7,9 +7,11 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
 
-class Reflective(color: Color = Color.WHITE,
-                 ka: Double = 0.25,
-                 kd: Double = 0.75) : Phong(color, ka, kd) {
+class Reflective(
+    color: Color = Color.WHITE,
+    ka: Double = 0.25,
+    kd: Double = 0.75
+) : Phong(color, ka, kd) {
 
     private val reflectiveBRDF = PerfectSpecular()
 

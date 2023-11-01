@@ -22,5 +22,4 @@ abstract class GeometricObject : IGeometricObject {
     override lateinit var boundingBox: BBox
 
     abstract override fun hit(ray: Ray, sr: IHit): Boolean
-
 }

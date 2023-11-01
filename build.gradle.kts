@@ -73,8 +73,8 @@ kotlin {
         val jvmMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation("ch.qos.logback:logback-classic:${logbackVersion}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${coroutinesVersion}")
+                implementation("ch.qos.logback:logback-classic:$logbackVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }
         }
         val jvmTest by getting {

@@ -10,7 +10,6 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-
 object World57 : WorldDefinition {
 
     val sampler = Sampler(MultiJittered, 2500, 1000)
@@ -59,9 +58,7 @@ object World57 : WorldDefinition {
                     scale(v(15.0, 15.0, 15.0))
                     translate(v(i.toDouble(), 0.0, 0.0))
                 }
-
             }
         }
-
     }
 }

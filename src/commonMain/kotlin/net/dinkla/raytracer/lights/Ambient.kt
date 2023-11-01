@@ -18,5 +18,4 @@ open class Ambient(
     override fun getDirection(sr: IShade) = Vector3D.ZERO
 
     override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean = false
-
 }

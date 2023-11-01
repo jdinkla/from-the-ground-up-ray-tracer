@@ -39,5 +39,4 @@ class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compou
     override fun hashCode(): Int = this.hash(y0, y1, radius)
 
     override fun toString(): String = "SolidCylinder($y0, $y1, $radius)"
-
 }

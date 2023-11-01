@@ -36,28 +36,32 @@ class SmoothMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(m
         val e1 = d * m - b * n - c * p
         val beta = e1 * invDenom
 
-        if (beta < 0.0)
+        if (beta < 0.0) {
             return false
+        }
 
         val r = e * l - h * i
         val e2 = a * n + d * q + c * r
         val gamma = e2 * invDenom
 
-        if (gamma < 0.0)
+        if (gamma < 0.0) {
             return false
+        }
 
-        if (beta + gamma > 1.0)
+        if (beta + gamma > 1.0) {
             return false
+        }
 
         val e3 = a * p - b * r + d * s
         val t = e3 * invDenom
 
-        if (t < MathUtils.K_EPSILON)
+        if (t < MathUtils.K_EPSILON) {
             return false
+        }
 
         sr.t = t
         sr.normal = interpolateNormal(beta, gamma) // for smooth shading
-        //sr.localHitPoint = ray.linear(t);
+        // sr.localHitPoint = ray.linear(t);
 
         return true
     }

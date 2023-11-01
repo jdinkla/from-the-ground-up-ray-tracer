@@ -3,7 +3,13 @@ package net.dinkla.raytracer.examples
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
-import net.dinkla.raytracer.samplers.*
+import net.dinkla.raytracer.samplers.Constant
+import net.dinkla.raytracer.samplers.Hammersley
+import net.dinkla.raytracer.samplers.Jittered
+import net.dinkla.raytracer.samplers.MultiJittered
+import net.dinkla.raytracer.samplers.PureRandom
+import net.dinkla.raytracer.samplers.Regular
+import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -24,7 +30,6 @@ object World14 : WorldDefinition {
     }
 
     override fun world(): World = Builder.build {
-
         // viewPlane(numSamples: 16)
         camera(d = 1000.0, eye = p(0.0, 1.0, 7.0), lookAt = p(0.0, 0.75, 0.0))
 

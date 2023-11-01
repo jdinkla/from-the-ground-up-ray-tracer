@@ -86,7 +86,7 @@ class PlyReader(
                 mesh.vertices.add(p)
                 numVerticesLeft--
                 if (numLine % logInterval == 0) {
-                    Logger.debug("PLY: ${numVerticesLeft} vertices to read")
+                    Logger.debug("PLY: $numVerticesLeft vertices to read")
                 }
             }
 
@@ -114,7 +114,7 @@ class PlyReader(
                 numFacesLeft--
                 countFaces++
                 if (numLine % logInterval == 0) {
-                    Logger.debug("PLY: ${numFacesLeft} faces to read")
+                    Logger.debug("PLY: $numFacesLeft faces to read")
                 }
             }
 

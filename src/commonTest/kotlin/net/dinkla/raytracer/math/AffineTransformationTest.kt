@@ -21,13 +21,13 @@ class AffineTransformationTest : StringSpec({
 
     "testRotateX" {
         val t = AffineTransformation()
-        t.rotate(Axis.X,90.0)
+        t.rotate(Axis.X, 90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(1.0, 1.0, -1.0), Point3D(1.0, -1.0, 1.0))
     }
 
     "testRotateY" {
         val t = AffineTransformation()
-        t.rotate(Axis.Y,90.0)
+        t.rotate(Axis.Y, 90.0)
         t.shouldSatisfy(Point3D(1.0, 1.0, 1.0), Point3D(-1.0, 1.0, 1.0), Point3D(1.0, 1.0, -1.0))
     }
 
@@ -45,6 +45,3 @@ fun AffineTransformation.shouldSatisfy(p: Point3D, inverse: Point3D, forward: Po
     invMatrix.times(forwardMatrix.times(p)) shouldBeApprox p
     forwardMatrix.times(invMatrix.times(p)) shouldBeApprox p
 }
-
-
-

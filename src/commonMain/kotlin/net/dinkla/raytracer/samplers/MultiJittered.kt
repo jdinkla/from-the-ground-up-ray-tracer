@@ -10,7 +10,7 @@ object MultiJittered : IGenerator {
         val n = IGenerator.sqrt(numSamples)
         val subcellWidth = 1.0 / numSamples
 
-        for (i in 0 .. numSets * n * n) {
+        for (i in 0..numSets * n * n) {
             samples.add(i, Point2D.ORIGIN)
         }
 
@@ -55,5 +55,4 @@ object MultiJittered : IGenerator {
         }
         return samples
     }
-
 }

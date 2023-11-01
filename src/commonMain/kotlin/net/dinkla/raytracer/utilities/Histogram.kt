@@ -25,5 +25,4 @@ class Histogram {
             println("min=$min, max=$max")
         }
     }
-
 }

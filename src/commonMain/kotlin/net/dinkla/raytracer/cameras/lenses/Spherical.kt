@@ -1,9 +1,13 @@
 package net.dinkla.raytracer.cameras.lenses
 
 import net.dinkla.raytracer.ViewPlane
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.Basis
 import net.dinkla.raytracer.math.MathUtils.PI
 import net.dinkla.raytracer.math.MathUtils.PI_ON_180
+import net.dinkla.raytracer.math.Point2D
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.Resolution
 import kotlin.math.cos
 import kotlin.math.sin

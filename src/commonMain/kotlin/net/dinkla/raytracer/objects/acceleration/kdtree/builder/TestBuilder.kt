@@ -76,9 +76,11 @@ class TestBuilder : TreeBuilder {
 
             fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
-                return (constF.toDouble()
-                        + left.volume / vol * left.objects!!.size
-                        + right.volume / vol * right.objects!!.size)
+                return (
+                    constF.toDouble() +
+                        left.volume / vol * left.objects!!.size +
+                        right.volume / vol * right.objects!!.size
+                    )
             }
 
             companion object {
@@ -181,6 +183,4 @@ class TestBuilder : TreeBuilder {
             return abs(a - c / 2) + abs(b - c / 2)
         }
     }
-
 }
-

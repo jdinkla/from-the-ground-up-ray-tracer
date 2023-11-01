@@ -13,7 +13,7 @@ import kotlin.math.pow
 
 class SparseGrid() : Grid() {
 
-    //protected GeometricObject[] cells;
+    // protected GeometricObject[] cells;
     private var cellsX: MutableMap<Int, IGeometricObject> = mutableMapOf()
 
     override fun initialize() {
@@ -43,15 +43,15 @@ class SparseGrid() : Grid() {
 
         Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
-        //cells = new GeometricObject[numCells];
+        // cells = new GeometricObject[numCells];
         cellsX = mutableMapOf()
-        //cellsX.ensureCapacity(numCells/10);
+        // cellsX.ensureCapacity(numCells/10);
 
         val counts = IntArray(numCells)
 
         // initialize
         for (i in 0 until numCells) {
-            //cells[i] = null;
+            // cells[i] = null;
             counts[i] = 0
         }
 
@@ -59,7 +59,6 @@ class SparseGrid() : Grid() {
 
         // insert the objects into the cells
         for (`object` in objects) {
-
             if (objectsToGo % logInterval == 0) {
                 Logger.info("Grid: $objectsToGo objects to grid")
             }
@@ -114,7 +113,6 @@ class SparseGrid() : Grid() {
         Logger.info("Creating grid took " + timer.duration + " ms")
 
         statistics(numCells, counts)
-
     }
 
     override fun hit(ray: Ray, sr: IHit): Boolean {
@@ -175,24 +173,29 @@ class SparseGrid() : Grid() {
         var t0: Double
         var t1: Double
 
-        if (txMin > tyMin)
+        if (txMin > tyMin) {
             t0 = txMin
-        else
+        } else {
             t0 = tyMin
+        }
 
-        if (tzMin > t0)
+        if (tzMin > t0) {
             t0 = tzMin
+        }
 
-        if (txMax < tyMax)
+        if (txMax < tyMax) {
             t1 = txMax
-        else
+        } else {
             t1 = tyMax
+        }
 
-        if (tzMax < t1)
+        if (tzMax < t1) {
             t1 = tzMax
+        }
 
-        if (t0 > t1)
+        if (t0 > t1) {
             return false
+        }
 
         // initial cell coordinates
 
@@ -200,12 +203,12 @@ class SparseGrid() : Grid() {
         var iy: Int
         var iz: Int
 
-        if (boundingBox.isInside(ray.origin)) {              // does the ray start inside the grid?
+        if (boundingBox.isInside(ray.origin)) { // does the ray start inside the grid?
             ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
             iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
             iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
         } else {
-            val p = ray.linear(t0)  // initial hit point with grid's bounding box
+            val p = ray.linear(t0) // initial hit point with grid's bounding box
             ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
             iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
             iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
@@ -274,7 +277,7 @@ class SparseGrid() : Grid() {
         while (true) {
             val idx = ix + nx * iy + nx * ny * iz
             val `object` = cellsX[idx]
-            //GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
+            // GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
             val sr2 = Hit(sr.t)
             if (txNext < tyNext && txNext < tzNext) {
                 if (null != `object` && `object`.hit(ray, sr2) && sr2.t < txNext) {
@@ -291,8 +294,9 @@ class SparseGrid() : Grid() {
                 txNext += dtx
                 ix += ixStep
 
-                if (ix == ixStop)
+                if (ix == ixStop) {
                     return false
+                }
             } else {
                 if (tyNext < tzNext) {
                     if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tyNext) {
@@ -309,8 +313,9 @@ class SparseGrid() : Grid() {
                     tyNext += dty
                     iy += iyStep
 
-                    if (iy == iyStop)
+                    if (iy == iyStop) {
                         return false
+                    }
                 } else {
                     if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
@@ -326,8 +331,9 @@ class SparseGrid() : Grid() {
                     tzNext += dtz
                     iz += izStep
 
-                    if (iz == izStop)
+                    if (iz == izStop) {
                         return false
+                    }
                 }
             }
         }

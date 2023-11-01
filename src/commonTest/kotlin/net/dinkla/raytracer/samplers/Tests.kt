@@ -15,7 +15,7 @@ fun Point2D.shouldBeWithinCube(start: Double, end: Double) {
 }
 
 fun size(samples: List<Point2D>, numberOfSamples: Int) = stringSpec {
-    "size should be ${numberOfSamples}" {
+    "size should be $numberOfSamples" {
         samples shouldHaveSize numberOfSamples
     }
 }

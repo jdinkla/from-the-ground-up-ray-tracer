@@ -32,7 +32,7 @@ private val worlds = listOf(
     NewWorld1,
     NewWorld2,
     NewWorld3,
-    NewWorld4,
+    NewWorld4
 )
 
 val definitions = worlds.map { it -> it.id to it }.toMap()

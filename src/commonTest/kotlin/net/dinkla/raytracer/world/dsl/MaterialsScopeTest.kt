@@ -3,7 +3,11 @@ package net.dinkla.raytracer.world.dsl
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.Fixture.ex
-import net.dinkla.raytracer.materials.*
+import net.dinkla.raytracer.materials.Emissive
+import net.dinkla.raytracer.materials.Matte
+import net.dinkla.raytracer.materials.Phong
+import net.dinkla.raytracer.materials.Reflective
+import net.dinkla.raytracer.materials.Transparent
 
 class MaterialsScopeTest : StringSpec({
     val id = "m1"

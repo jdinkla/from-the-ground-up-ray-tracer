@@ -10,18 +10,22 @@ import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
 
-open class Phong(color: Color = Color.WHITE,
-                 ka: Double = 0.25,
-                 kd: Double = 0.75) : Matte(color, ka, kd) {
+open class Phong(
+    color: Color = Color.WHITE,
+    ka: Double = 0.25,
+    kd: Double = 0.75
+) : Matte(color, ka, kd) {
 
     protected val specularBRDF = GlossySpecular()
 
-    constructor(color: Color = Color.WHITE,
-                ka: Double = 0.25,
-                kd: Double = 0.75,
-                exp: Double = 5.0,
-                ks: Double = 0.25,
-                cs: Color = Color.WHITE): this(color, ka, kd) {
+    constructor(
+        color: Color = Color.WHITE,
+        ka: Double = 0.25,
+        kd: Double = 0.75,
+        exp: Double = 5.0,
+        ks: Double = 0.25,
+        cs: Color = Color.WHITE
+    ) : this(color, ka, kd) {
         this.exp = exp
         this.ks = ks
         this.cs = cs

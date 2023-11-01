@@ -10,7 +10,7 @@ import net.dinkla.raytracer.tracers.Tracer
 
 interface IWorld {
     var tracer: Tracer?
-    val lights : List<Light>
+    val lights: List<Light>
     val ambientLight: Ambient
     var backgroundColor: Color
 

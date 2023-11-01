@@ -12,6 +12,5 @@ interface IMaterial {
 
     fun getLe(sr: IShade): Color
 
-    //abstract public RGBColor pathShade(Shade sr);
-
+    // abstract public RGBColor pathShade(Shade sr);
 }

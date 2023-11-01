@@ -12,7 +12,7 @@ class SVGlossySpecular(
     var ks: Double = 0.0,
     var cs: Texture? = null,
     var exp: Double = 0.0,
-    val sampler : Sampler = Sampler()
+    val sampler: Sampler = Sampler()
 ) : BRDF {
 
     override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
@@ -50,4 +50,3 @@ class SVGlossySpecular(
         throw RuntimeException("GlossySpecular.rho")
     }
 }
-

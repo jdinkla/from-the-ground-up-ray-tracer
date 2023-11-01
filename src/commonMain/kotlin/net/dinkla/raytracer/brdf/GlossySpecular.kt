@@ -9,10 +9,10 @@ import net.dinkla.raytracer.utilities.hash
 import kotlin.math.pow
 
 data class GlossySpecular(
-        var ks: Double = 0.25,
-        var cs: Color = Color.WHITE,
-        var exp: Double = 5.0,
-        val sampler: Sampler = Sampler()
+    var ks: Double = 0.25,
+    var cs: Color = Color.WHITE,
+    var exp: Double = 5.0,
+    val sampler: Sampler = Sampler()
 ) : BRDF {
 
     override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {

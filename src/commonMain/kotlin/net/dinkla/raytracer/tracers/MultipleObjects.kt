@@ -21,5 +21,4 @@ class MultipleObjects(var world: IWorld) : Tracer {
     override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
         throw RuntimeException("MultipleObjects.trace")
     }
-
 }

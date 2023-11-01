@@ -9,5 +9,4 @@ class ConstantColor(private var color: Color) : Texture() {
     override fun getColor(sr: IShade): Color {
         return color
     }
-
 }

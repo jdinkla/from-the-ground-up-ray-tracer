@@ -8,7 +8,6 @@ object World66b : WorldDefinition {
     override val id: String = "World66b.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 1000.0, eye = p(2.5, 1.35, 10.0), lookAt = p(2.5, 1.0, 0.0))
 
         ambientLight(ls = 0.0)

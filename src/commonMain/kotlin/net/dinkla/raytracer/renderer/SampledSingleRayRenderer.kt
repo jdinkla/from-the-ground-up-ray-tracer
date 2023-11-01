@@ -26,5 +26,4 @@ class SampledSingleRayRenderer(var lens: ILens, var tracer: Tracer) : ISingleRay
         }
         return color.average
     }
-
 }

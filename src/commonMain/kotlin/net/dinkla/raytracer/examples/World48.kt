@@ -9,7 +9,6 @@ object World48 : WorldDefinition {
     override val id: String = "World48.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 1250.0, eye = p(0.0, 0.1, 10.0), lookAt = p(0, -1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.5)
@@ -26,7 +25,7 @@ object World48 : WorldDefinition {
         }
 
         objects {
-            plane(point = p(0.0,-1.1,0.0), normal = n(0, 1, 0), material = "white")
+            plane(point = p(0.0, -1.1, 0.0), normal = n(0, 1, 0), material = "white")
             ply(material = "red", fileName = "resources/TwoTriangles.ply")
             sphere(center = p(2.5, 0.5, 0.5), radius = 0.5, material = "orange")
             sphere(center = p(1.5, 1.5, 1.5), radius = 0.5, material = "sky")

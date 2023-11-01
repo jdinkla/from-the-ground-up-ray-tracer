@@ -12,5 +12,5 @@ actual object Counter {
         map.clear()
     }
 
-    actual fun stats(columns: Int)= printStats(map, columns)
+    actual fun stats(columns: Int) = printStats(map, columns)
 }

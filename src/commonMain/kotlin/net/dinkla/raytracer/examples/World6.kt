@@ -6,7 +6,6 @@ import net.dinkla.raytracer.world.WorldDefinition
 object World6 : WorldDefinition {
     override val id: String = "World6.kt"
     override fun world() = Builder.build {
-
         metadata {
             id("World6")
             description("reflective")
@@ -21,9 +20,9 @@ object World6 : WorldDefinition {
         }
 
         materials {
-            reflective(id = "m1", cd= c(1.0, 1.0, 0.0), ka= 0.25, kd= 0.65)
-            reflective(id = "m2", cd= c(0.71, 0.40, 0.16), ka= 0.25, kd= 0.65)
-            reflective(id = "m3", cd= c(0.7), ka= 0.25, kd= 0.65)
+            reflective(id = "m1", cd = c(1.0, 1.0, 0.0), ka = 0.25, kd = 0.65)
+            reflective(id = "m2", cd = c(0.71, 0.40, 0.16), ka = 0.25, kd = 0.65)
+            reflective(id = "m3", cd = c(0.7), ka = 0.25, kd = 0.65)
         }
 
         objects {

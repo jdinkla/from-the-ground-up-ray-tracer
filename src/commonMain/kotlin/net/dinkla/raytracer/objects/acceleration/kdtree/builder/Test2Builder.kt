@@ -64,7 +64,7 @@ class Test2Builder : TreeBuilder {
             }
 
             fun update() {
-                //bbox = BBox.create(objects);
+                // bbox = BBox.create(objects);
                 volume = bbox!!.volume
             }
         }
@@ -143,7 +143,6 @@ class Test2Builder : TreeBuilder {
     }
 
     fun build(objects: List<IGeometricObject>?, voxel: BBox?, depth: Int): Node {
-
         Counter.count("KDtree.build")
 
         val node: Node?
@@ -156,7 +155,9 @@ class Test2Builder : TreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val par = Partitioner(objects, voxel
+        val par = Partitioner(
+            objects,
+            voxel
                 ?: BBox()
         )
 
@@ -207,5 +208,3 @@ class Test2Builder : TreeBuilder {
         }
     }
 }
-
-

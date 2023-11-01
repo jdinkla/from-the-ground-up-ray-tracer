@@ -40,5 +40,4 @@ internal class MatteTest : StringSpec({
         val matte1 = Matte(ex.cd, ex.ka, ex.kd)
         matte1.kd shouldBe ex.kd
     }
-
 })

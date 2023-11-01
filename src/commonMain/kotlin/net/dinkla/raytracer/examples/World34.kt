@@ -9,7 +9,6 @@ object World34 : WorldDefinition {
     override val id: String = "World34.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 1500.0, eye = p(-4.0, -0.25, 4.0), lookAt = p(3.0, -0.2, 1.0), up = v(0, 1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.7)
@@ -35,7 +34,7 @@ object World34 : WorldDefinition {
 
         objects {
             plane(material = "grey", point = p(0, -1, 0), normal = n(0, 1, 0))
-            plane(material= "sky", point= p(0, 10000, 0), normal= n(0, -1, 0))
+            plane(material = "sky", point = p(0, 10000, 0), normal = n(0, -1, 0))
             plane(material = "r", point = p(0, 10000, 0), normal = n(0, -1, 0))
             sphere(material = "rt", center = p(1, 0, 1), radius = 0.9)
             sphere(material = "gt", center = p(3, 0, 1), radius = 0.9)

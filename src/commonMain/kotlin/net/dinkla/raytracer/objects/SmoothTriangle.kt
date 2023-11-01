@@ -2,7 +2,11 @@ package net.dinkla.raytracer.objects
 
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.Shadow
-import net.dinkla.raytracer.math.*
+import net.dinkla.raytracer.math.BBox
+import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Normal
+import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Ray
 
 data class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
 
@@ -65,7 +69,7 @@ data class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : G
         }
         sr.t = t
         sr.normal = interpolateNormal(beta, gamma)
-        //sr.localHitPoint = ray.linear(t);
+        // sr.localHitPoint = ray.linear(t);
 
         return true
     }

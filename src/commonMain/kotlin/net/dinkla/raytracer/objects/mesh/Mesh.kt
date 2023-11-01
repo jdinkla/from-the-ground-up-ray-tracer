@@ -7,8 +7,10 @@ import net.dinkla.raytracer.math.Point3D
 class Mesh {
 
     var vertices: ArrayList<Point3D> = ArrayList()
+
     //    public List<Integer> indices;
     var normals: ArrayList<Normal> = ArrayList()
+
     //    public List<Float> us;
     //    public List<Float> vs;
     var vertexFaces: ArrayList<MutableList<Int>?> = ArrayList()
@@ -55,5 +57,4 @@ class Mesh {
         cout << "finished constructing normals" << endl;
     */
     }
-
 }

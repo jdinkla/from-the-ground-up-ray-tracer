@@ -13,7 +13,6 @@ object World74kdt : WorldDefinition {
     override val id: String = "World74kdt.kt"
 
     override fun world() = Builder.build {
-
         camera(d = 1000.0, eye = p(0.0, 0.5, 3.0), lookAt = p(0.0, 0.0, 0.0))
 
         ambientLight(color = Color.WHITE, ls = 0.75)
@@ -73,6 +72,5 @@ object World74kdt : WorldDefinition {
                 translate(v(-2.0, -0.14, 0.0))
             }
         }
-
     }
 }

@@ -30,7 +30,7 @@ open class MeshTriangle : GeometricObject {
     internal var index2: Int = 0
     var normal: Normal? = null
         internal set
-    //double area;
+    // double area;
 
     override var boundingBox: BBox
         get() = calcBBox()
@@ -44,7 +44,7 @@ open class MeshTriangle : GeometricObject {
         index1 = 0
         index2 = 0
         normal = null
-        //area = 0;
+        // area = 0;
     }
 
     constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) {

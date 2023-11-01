@@ -13,4 +13,3 @@ class NRooksTest : StringSpec({
     include(unitCube(samples))
     include(distribution(samples, DistributionParams(10.0, 10.0)))
 })
-

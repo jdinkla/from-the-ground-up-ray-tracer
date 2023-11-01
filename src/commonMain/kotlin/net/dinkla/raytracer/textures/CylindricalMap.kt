@@ -7,5 +7,4 @@ import net.dinkla.raytracer.utilities.Resolution
 class CylindricalMap : Mapping() {
 
     override fun getTexelCoordinates(p: Point3D, res: Resolution): Mapped = Mapped()
-
 }

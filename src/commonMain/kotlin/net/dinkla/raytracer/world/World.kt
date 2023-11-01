@@ -69,4 +69,3 @@ class World(
 
     override fun toString(): String = "World ($metadata)"
 }
-

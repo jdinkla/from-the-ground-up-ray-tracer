@@ -11,7 +11,7 @@ class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : 
 
     init {
         // point at the "top left front"
-        //Rectangle rBottom = new Rectangle(p0, b, a);
+        // Rectangle rBottom = new Rectangle(p0, b, a);
         val rBottom = Rectangle(p0, a, b, true)
         val rTop = Rectangle(p0.plus(c), a, b)
         val rFront = Rectangle(p0, a, c)
@@ -38,5 +38,4 @@ class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : 
     override fun hashCode(): Int = this.hash(p0, a, b, c)
 
     override fun toString(): String = "AlignedBox($p0,$a,$b,$c)"
-
 }

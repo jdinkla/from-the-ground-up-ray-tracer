@@ -18,7 +18,6 @@ object World61 : WorldDefinition {
     override val id: String = "World61.kt"
 
     override fun world() = Builder.build {
-
         val sampler1 = Sampler(Jittered, 2500, 10)
         sampler1.mapSamplesToHemiSphere(1.0)
 
@@ -38,7 +37,6 @@ object World61 : WorldDefinition {
         }
 
         objects {
-
             val green = this.materials["mirror"]!!
             val stanfordBunny = Ply.fromFile(fileName = "resources\\Bunny4K.ply", isSmooth = true, type = Acceleration.GRID, material = green)
 
@@ -46,7 +44,7 @@ object World61 : WorldDefinition {
             plane(material = "Green Yellow", point = Point3D.ORIGIN, normal = Normal.UP)
 
             instance(of = stanfordBunny.compound, material = "Moccasin") {
-                rotate(Axis.Y,0.0)
+                rotate(Axis.Y, 0.0)
                 scale(v(15, 15, 15))
                 translate(v(0.0, -0.5, 0.0))
             }

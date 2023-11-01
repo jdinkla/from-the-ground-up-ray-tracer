@@ -14,5 +14,4 @@ class FresnelTransmitter : BTDF {
     override fun rho(sr: IShade, wo: Vector3D): Color = Color.BLACK
 
     override fun sampleF(sr: IShade, wo: Vector3D): Sample = Sample()
-
 }

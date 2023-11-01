@@ -26,4 +26,3 @@ class Film(override val resolution: Resolution) : IFilm {
         vfsFile.writeBitmap(bitmap, PNG)
     }
 }
-

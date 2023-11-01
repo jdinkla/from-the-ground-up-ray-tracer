@@ -16,7 +16,7 @@ class GlossyReflector : Phong() {
             glossySpecularBrdf.ks = v
         }
 
-    override var exp : Double
+    override var exp: Double
         get() = glossySpecularBrdf.exp
         set(v) {
             glossySpecularBrdf.exp = v
@@ -35,5 +35,4 @@ class GlossyReflector : Phong() {
         //        L = L.plus(r);
         //        return L;
     }
-
 }

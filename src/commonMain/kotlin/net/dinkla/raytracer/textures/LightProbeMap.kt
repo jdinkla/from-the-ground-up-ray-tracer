@@ -35,6 +35,3 @@ class LightProbeMap : Mapping() {
         return Mapped(row, column)
     }
 }
-
-
-

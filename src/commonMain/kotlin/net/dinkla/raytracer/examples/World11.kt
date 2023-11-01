@@ -15,7 +15,6 @@ object World11 : WorldDefinition {
     private val r = Random.Default
 
     override fun world() = Builder.build {
-
         camera(d = 1500.0, eye = p(1, 2, 10), lookAt = p(0, 0, 0))
 
         ambientLight(ls = 0.5)
@@ -33,7 +32,7 @@ object World11 : WorldDefinition {
                 val exp = (r.nextDouble() * 50)
                 val ks = r.nextDouble()
                 val col = Color(r.nextDouble(), r.nextDouble(), r.nextDouble())
-                phong(id = "p${i}", cd = col, ka = 0.25, kd = 0.75, exp = exp, ks = ks)
+                phong(id = "p$i", cd = col, ka = 0.25, kd = 0.75, exp = exp, ks = ks)
             }
         }
 
@@ -45,7 +44,7 @@ object World11 : WorldDefinition {
             grid {
                 for (i in 0 until numSpheres) {
                     val cent = p(1.0 - 2.0 * r.nextFloat(), 1.0 - 2.0 * r.nextFloat(), 1.0 - 2.0 * r.nextFloat())
-                    sphere(center = cent, radius = radius, material = "p${i}")
+                    sphere(center = cent, radius = radius, material = "p$i")
                 }
             }
         }

@@ -39,7 +39,6 @@ class AffineTransformation : Transformation {
         invScalingMatrix[2, 2] = 1.0 / z
         invMatrix *= invScalingMatrix
 
-
         val scalingMatrix = Matrix.identity()
         scalingMatrix[0, 0] = x
         scalingMatrix[1, 1] = y

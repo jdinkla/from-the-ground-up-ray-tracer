@@ -27,6 +27,4 @@ data class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF 
 
     val rho: Color
         get() = cd * kd
-
 }
-

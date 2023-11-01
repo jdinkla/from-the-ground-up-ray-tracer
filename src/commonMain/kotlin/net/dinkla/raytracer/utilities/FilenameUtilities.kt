@@ -13,4 +13,3 @@ fun outputPngFileName(fileName: String, timeStamp: DateTime = DateTime.now()): S
 fun fileNameWithoutDirectory(fileName: String, directory: String, separator: String): String {
     return fileName.replaceFirst(directory + separator, "")
 }
-

@@ -14,8 +14,8 @@ internal class FilenameUtilitiesTest : StringSpec({
     val timeStamp = DateTime(Year(2022), Month.September, 17, 17, 42, 20, 0)
 
     "should exchange extension" {
-        val s = outputPngFileName("${fileNameBase}.kt", timeStamp)
-        s shouldBe "20220917174220_${fileNameBase}.png"
+        val s = outputPngFileName("$fileNameBase.kt", timeStamp)
+        s shouldBe "20220917174220_$fileNameBase.png"
     }
 
     "should extract filename from Windows directories" {

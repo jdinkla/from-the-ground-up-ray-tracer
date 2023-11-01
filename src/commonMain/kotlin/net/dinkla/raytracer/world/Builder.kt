@@ -9,4 +9,3 @@ object Builder {
         return scope.world
     }
 }
-

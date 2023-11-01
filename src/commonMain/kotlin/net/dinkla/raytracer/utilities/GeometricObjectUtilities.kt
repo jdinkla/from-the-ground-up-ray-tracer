@@ -87,5 +87,4 @@ object GeometricObjectUtilities {
             return BBox()
         }
     }
-
 }
