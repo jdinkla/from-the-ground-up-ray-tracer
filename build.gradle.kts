@@ -20,8 +20,9 @@ buildscript {
 
 plugins {
     kotlin("multiplatform") version "1.9.20"
-    id("io.kotest.multiplatform") version "5.4.2"
+    id("io.kotest.multiplatform") version "5.7.2"
     application
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
 
 repositories {
