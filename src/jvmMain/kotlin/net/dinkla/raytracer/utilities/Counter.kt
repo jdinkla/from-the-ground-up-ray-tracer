@@ -3,13 +3,13 @@ package net.dinkla.raytracer.utilities
 import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
 
-actual object Counter {
+object Counter {
 
     // For each thread-id there is a map
     private var instances = ConcurrentHashMap<Long, TreeMap<String, Int>>()
     var PAUSE = false
 
-    actual fun count(key: String) {
+    fun count(key: String) {
         if (!PAUSE) {
             val id = Thread.currentThread().id
             var map: TreeMap<String, Int>? = instances[id]
@@ -21,7 +21,7 @@ actual object Counter {
         }
     }
 
-    actual fun stats(columns: Int) = printStats(calculateStats(), columns)
+    fun stats(columns: Int) = printStats(calculateStats(), columns)
 
     private fun calculateStats(): Map<String, Int> {
         val results = TreeMap<String, Int>()
@@ -37,7 +37,7 @@ actual object Counter {
         return results
     }
 
-    actual fun reset() {
+    fun reset() {
         instances.clear()
     }
 }

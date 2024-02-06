@@ -2,12 +2,6 @@ package net.dinkla.raytracer.utilities
 
 import kotlin.math.max
 
-expect object Counter {
-    fun count(key: String)
-    fun reset()
-    fun stats(columns: Int)
-}
-
 private const val EMPTY = "                                                            "
 
 fun printStats(map: Map<String, Int>, columns: Int) {

@@ -3,7 +3,7 @@ package net.dinkla.raytracer.renderer
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.world.RendererCreator
 
-actual enum class Renderer {
+enum class Renderer {
     SEQUENTIAL,
     FORK_JOIN,
     PARALLEL,
@@ -11,7 +11,7 @@ actual enum class Renderer {
     COROUTINE
 }
 
-actual fun createRenderer(renderer: Renderer): RendererCreator {
+fun createRenderer(renderer: Renderer): RendererCreator {
     return when (renderer) {
         Renderer.SEQUENTIAL -> { r: ISingleRayRenderer, c: IColorCorrector -> SequentialRenderer(r, c) }
         Renderer.FORK_JOIN -> { r: ISingleRayRenderer, c: IColorCorrector -> ForkJoinRenderer(r, c) }

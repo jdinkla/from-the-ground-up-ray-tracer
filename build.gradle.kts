@@ -1,122 +1,52 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
-val logbackVersion = "1.4.11"
-val kotestVersion = "5.7.2"
+val kotestVersion = "5.8.0"
 val coroutinesVersion = "1.7.3"
+val logbackVersion = "1.4.14"
 val korioVersion = "2.2.0"
 val korimVersion = "2.2.0"
-val kotlinWrappersVersion = "18.16.12-pre.636"
 val cliktVersion = "4.2.1"
 
-group = "net.dinkla"
-version = "1.0"
-
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
+plugins {
+    kotlin("jvm") version "2.0.0-Beta3"
+    id("io.gitlab.arturbosch.detekt") version "1.23.5"
+    idea
+    application
 }
 
-plugins {
-    kotlin("multiplatform") version "1.9.20"
-    id("io.kotest.multiplatform") version "5.7.2"
-    application
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+dependencies {
+    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
+    implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
+    implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
+
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 
 repositories {
-    mavenCentral()
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
-    maven {
-        url = uri("https://kotlin.bintray.com/kotlinx")
-    }
+    mavenCentral()
 }
 
 kotlin {
-    jvm() {
-        withJava()
-    }
-    js() {
-        nodejs()
-        binaries.executable()
-    }
-    linuxX64() {
-        binaries.executable()
-    }
-    macosX64 {
-        binaries.executable()
-    }
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation(kotlin("script-runtime"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
-                implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
-                implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
-                implementation("io.kotest:kotest-framework-engine:$kotestVersion")
-            }
-        }
-        val jvmMain by getting {
-            dependsOn(commonMain)
-            dependencies {
-                implementation("ch.qos.logback:logback-classic:$logbackVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
-            }
-        }
-        val jvmTest by getting {
-            dependsOn(commonTest)
-            dependencies {
-                implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
-            }
-        }
-
-        val jsMain by getting {
-            dependsOn(commonMain)
-            dependencies {
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-node:$kotlinWrappersVersion")
-            }
-        }
-        val jsTest by getting {
-            dependsOn(commonTest)
-        }
-        val linuxX64Main by getting {
-            dependsOn(commonMain)
-        }
-        val linuxX64Test by getting {
-            dependsOn(commonTest)
-        }
-        val macosX64Main by getting {
-            dependsOn(commonMain)
-        }
-        val macosX64Test by getting {
-            dependsOn(commonTest)
-        }
-    }
-
-    targets.withType(KotlinNativeTarget::class.java) {
-        binaries.all {
-            binaryOptions["memoryModel"] = "experimental"
-            binaryOptions["freezing"] = "disabled"
-        }
-    }
+    jvmToolchain(21)
+    sourceSets["main"].kotlin.srcDir("src/commonMain/kotlin")
+    sourceSets["main"].kotlin.srcDir("src/jvmMain/kotlin")
+    sourceSets["test"].kotlin.srcDir("src/commonTest/kotlin")
+    sourceSets["test"].kotlin.srcDir("src/jvmTest/kotlin")
 }
 
-tasks.named<Test>("jvmTest") {
+tasks.test {
     useJUnitPlatform()
+}
+
+task<JavaExec>("commandline") {
+    mainClass.set("MainKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    args = listOf("World10.kt", "build/World10.png")
 }
 
 task<JavaExec>("swing") {
@@ -124,39 +54,18 @@ task<JavaExec>("swing") {
     classpath = sourceSets["main"].runtimeClasspath
 }
 
-task<JavaExec>("cmd-jvm") {
+application {
     mainClass.set("MainKt")
-    classpath = sourceSets["main"].runtimeClasspath
 }
 
-task<Exec>("cmd-linux") {
-    val args: String = if (project.hasProperty("args")) {
-        project.properties["args"] as String
-    } else {
-        ""
-    }
-    commandLine = listOf("build/bin/linuxX64/releaseExecutable/from-the-ground-up-ray-tracer.kexe")
-    setArgs(args.split(" "))
-}
-
-task<Exec>("cmd-macos") {
-    val args: String = if (project.hasProperty("args")) {
-        project.properties["args"] as String
-    } else {
-        ""
-    }
-    commandLine = listOf("build/bin/macosX64/releaseExecutable/from-the-ground-up-ray-tracer.kexe")
-    setArgs(args.split(" "))
-}
-
-task<Exec>("cmd-js") {
-    val args: String = if (project.hasProperty("args")) {
-        project.properties["args"] as String
-    } else {
-        ""
-    }
-    val js = "packages/from-the-ground-up-ray-tracer/kotlin/from-the-ground-up-ray-tracer.js"
-    workingDir = File("build/js")
-    commandLine = listOf("node")
-    setArgs(listOf(js) + args.split(" "))
+detekt {
+    config.setFrom("detekt-config.yml")
+    source.setFrom(
+        "src/main/java",
+        "src/main/kotlin",
+        "src/commonMain/kotlin",
+        "src/jvmMain/kotlin",
+        "src/commonTest/kotlin",
+        "src/jvmTest/kotlin",
+    )
 }

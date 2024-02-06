@@ -1,21 +1,21 @@
 # Ray Tracer in Kotlin
 
-*Remark* I am going to convert this project to Kotlin multiplatform in the next months. 
+A long time ago in 2010 I read the excellent book "[Ray tracing from the ground up](http://www.raytracegroundup.com/)" by Kevin Suffern. 
+While reading this book 
 
-*Old Remark*: This project was migrated rom Java and Groovy to Kotlin. The old code with Java and 
-Groovy is available in the branch `groovy-java`. 
-
-
-
-While reading the excellent book
-"[Ray tracing from the ground up](http://www.raytracegroundup.com/)"
-by Kevin Suffern I
-
-* translated the C++ code to Java in 2010, in 2018 started to port the code to Kotlin
+* I translated the C++ code to Javan
 * made the code more object oriented
 * made the code thread-safe for parallel execution
-* wrote a DSL for easy scene creation and manipulation first 2010 in Groovy, then 2019 in Kotlin
-* Refactored the code (ongoing) quite a bit to develop nice object-functional program. This is work in progress.
+* wrote a DSL for easy scene creation and manipulation in Groovy
+* Refactored the code quite a bit to develop nice object-functional program
+
+## Rewrite to Kotlin
+
+From 2018-2020 I ported the code to Kotlin. The groovy DSL is not a Kotlin DSL.
+In 2022/2023 I experimented with Kotlin multiplatform and it worked, but the APIs were changed too often. 
+So I reverted back to JVM only in 2024. 
+
+The old code with Java and Groovy is available in the branch `groovy-java`.
 
 ### Running
 
@@ -24,9 +24,9 @@ Run the different versions with
 ```bash
 $ ./gradlew build
 $ ./gradlew swing
-$ ./gradlew cmd-js -Pargs="World20.kt"
-$ ./gradlew cmd-jvm --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
-$ ./gradlew cmd-jvm --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720p"
+$ ./gradlew run --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
+$ ./gradlew run --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720p"
+$ ./gradlew run --args="--world=World42.kt --renderer=COROUTINE --resolution=2160p"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)
