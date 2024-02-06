@@ -76,14 +76,14 @@ class MatrixTest : StringSpec({
     "division with double value" {
         val value = 1.5
         val m = m2 / value
-        Matrix.indices().forEach { it ->
+        Matrix.indices().forEach {
             m[it.first, it.second] shouldBe m2[it.first, it.second] / value
         }
     }
 
     "create a matrix filled with zeros" {
         val m = Matrix.zero()
-        Matrix.indices().forEach { it ->
+        Matrix.indices().forEach {
             m[it.first, it.second] shouldBe 0.0
         }
     }

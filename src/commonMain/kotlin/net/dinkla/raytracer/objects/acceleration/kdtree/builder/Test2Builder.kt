@@ -118,7 +118,7 @@ class Test2Builder : TreeBuilder {
                 if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
                     val s = calcSplit(axis, split, root)
                     if (s.isOk && (null == min || s.sah < min.sah)) {
-                        //                    Logger.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
+                        // Logger.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
                         min = s
                     }
                 }

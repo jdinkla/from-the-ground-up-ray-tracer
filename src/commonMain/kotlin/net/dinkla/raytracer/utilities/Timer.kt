@@ -2,7 +2,7 @@ package net.dinkla.raytracer.utilities
 
 import com.soywiz.klock.DateTime
 
-class Timer() {
+class Timer {
     private var start: Double = 0.0
     private var end: Double = 0.0
 

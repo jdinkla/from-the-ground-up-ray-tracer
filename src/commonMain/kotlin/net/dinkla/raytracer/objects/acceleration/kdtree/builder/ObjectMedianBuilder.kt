@@ -57,19 +57,17 @@ class ObjectMedianBuilder : TreeBuilder {
 
         // Sort the objects by the current axis
         // final Axis axis = Axis.fromInt(depth % 3);
-
         objects = objects.sortedWith(compareBy { it.boundingBox.q.ith(axis) })
 
-//        objects.sortedWith { o1, o2 ->
-//            val oP = o1 as GeometricObject
-//            val oQ = o2 as GeometricObject
-//            val bboxP = oP.boundingBox
-//            val bboxQ = oQ.boundingBox
-//            val p = bboxP.q
-//            val q = bboxQ.q
-//            Double.compare(p!!.ith(axis2), q!!.ith(axis2))
-//        }
-
+        //        objects.sortedWith { o1, o2 ->
+        //            val oP = o1 as GeometricObject
+        //            val oQ = o2 as GeometricObject
+        //            val bboxP = oP.boundingBox
+        //            val bboxQ = oQ.boundingBox
+        //            val p = bboxP.q
+        //            val q = bboxQ.q
+        //            Double.compare(p!!.ith(axis2), q!!.ith(axis2))
+        //        }
         val size = objects.size
         val minAxis = objects[0].boundingBox.p.ith(axis)
         val maxAxis = objects[objects.size - 1].boundingBox.p.ith(axis)
@@ -81,8 +79,7 @@ class ObjectMedianBuilder : TreeBuilder {
         val objectsL = ArrayList<IGeometricObject>()
         val objectsR = ArrayList<IGeometricObject>()
 
-        if (axis === Axis.X) {
-            // x
+        if (axis === Axis.X) { // x
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
                 if (bbox.p.x <= split) {
@@ -101,8 +98,7 @@ class ObjectMedianBuilder : TreeBuilder {
 
             voxelL = BBox(bL.p, q1)
             voxelR = BBox(p2, bR.q)
-        } else if (axis === Axis.Y) {
-            // y
+        } else if (axis === Axis.Y) { // y
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
                 if (bbox.p.y <= split) {
@@ -120,8 +116,7 @@ class ObjectMedianBuilder : TreeBuilder {
 
             voxelL = BBox(bL.p, q1)
             voxelR = BBox(p2, bR.q)
-        } else if (axis === Axis.Z) {
-            // z
+        } else if (axis === Axis.Z) { // z
             for (`object` in objects) {
                 val bbox = `object`.boundingBox
                 if (bbox.p.z <= split) {
@@ -143,10 +138,14 @@ class ObjectMedianBuilder : TreeBuilder {
         }
 
         if (objects.size == objectsL.size || objects.size == objectsR.size) {
-            Logger.info("Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
+            Logger.info(
+                "Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth
+            )
             node = Leaf(objects)
         } else {
-            Logger.info("Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width)
+            Logger.info(
+                "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width
+            )
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
             val right = build(objectsR, voxelR ?: BBox(), depth + 1)
             node = InnerNode(left, right, voxel, split, Axis.fromInt(depth))
