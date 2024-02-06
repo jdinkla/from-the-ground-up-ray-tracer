@@ -9,10 +9,10 @@ class TimerTest : StringSpec({
     "duration should be greater than 0" {
         val t = Timer()
         t.start()
-        doSomething() shouldBeGreaterThan 0.0
+        doSomething()
         t.stop()
         t.duration shouldBeGreaterThan 0
     }
 })
 
-private fun doSomething() = (1..1000).toList().map { it.toDouble() }.reduce { a, b -> a * sin(b) }
+private fun doSomething() = Thread.sleep(1L)

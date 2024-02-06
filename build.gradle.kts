@@ -35,6 +35,7 @@ kotlin {
     jvmToolchain(21)
     sourceSets["main"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["main"].kotlin.srcDir("src/jvmMain/kotlin")
+    sourceSets["main"].kotlin.srcDir("src/examples/kotlin")
     sourceSets["test"].kotlin.srcDir("src/commonTest/kotlin")
     sourceSets["test"].kotlin.srcDir("src/jvmTest/kotlin")
 }

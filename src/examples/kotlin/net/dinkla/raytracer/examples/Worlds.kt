@@ -35,6 +35,6 @@ private val worlds = listOf(
     NewWorld4
 )
 
-val definitions = worlds.map { it -> it.id to it }.toMap()
+val definitions = worlds.map { it.id to it }.toMap()
 
 fun worldDef(filename: String): WorldDefinition? = definitions[filename]
