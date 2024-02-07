@@ -11,7 +11,7 @@ object World34 : WorldDefinition {
     override fun world() = Builder.build {
         camera(d = 1500.0, eye = p(-4.0, -0.25, 4.0), lookAt = p(3.0, -0.2, 1.0), up = v(0, 1, 0))
 
-        ambientLight(color = Color.WHITE, ls = 0.7)
+        ambientLight(ls = 0.7)
 
         lights {
             pointLight(location = p(0, 0, 5), ls = 1.0)

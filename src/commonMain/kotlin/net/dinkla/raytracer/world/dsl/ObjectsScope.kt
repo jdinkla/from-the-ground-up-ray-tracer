@@ -159,4 +159,6 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
     } else {
         Triangle(a, b, c).add(material)
     }
+
+    fun smoothTriangle(material: String, a: Point3D, b: Point3D, c: Point3D) = SmoothTriangle(a, b, c).add(material)
 }

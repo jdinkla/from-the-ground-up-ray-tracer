@@ -38,8 +38,12 @@ class WorldScope {
 
     fun c(v: Double) = Color(v)
     fun c(red: Double, green: Double, blue: Double) = Color(red, green, blue)
-    fun c(red: Int, green: Int, blue: Int) =
-        Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+    fun c(red: Int, green: Int, blue: Int) : Color {
+        require(red == 0 || red == 1)
+        require(green == 0 || green == 1)
+        require(blue == 0 || blue == 1)
+        return Color(red.toDouble(), green.toDouble(), blue.toDouble())
+    }
 
     fun c(hexCode: String) = Color.fromString(hexCode)
 
@@ -51,7 +55,7 @@ class WorldScope {
 
     fun camera(
         d: Double = 1.0,
-        eye: Point3D = Point3D.ORIGIN,
+        eye: Point3D = Point3D(5.0, 50.0, 50.0),
         lookAt: Point3D = Point3D.ORIGIN,
         up: Vector3D = Vector3D.UP
     ) {
