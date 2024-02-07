@@ -51,7 +51,9 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
         }
     }
 
-    private inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : Runnable {
+    private inner class Worker(
+        private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int
+    ) : Runnable {
         var film: IFilm? = null
         override fun run() {
             var count = 0
