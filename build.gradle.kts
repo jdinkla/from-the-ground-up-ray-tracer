@@ -25,9 +25,6 @@ dependencies {
 }
 
 repositories {
-    maven {
-        url = uri("https://plugins.gradle.org/m2/")
-    }
     mavenCentral()
 }
 
@@ -56,7 +53,7 @@ task<JavaExec>("swing") {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("net.dinkla.raytracer.MainKt")
 }
 
 detekt {

@@ -1,4 +1,4 @@
-
+package net.dinkla.raytracer
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.examples.definitions
 import net.dinkla.raytracer.gui.outputPngFileName
