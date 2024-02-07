@@ -6,6 +6,7 @@ import net.dinkla.raytracer.examples.lights.area.World20AreaReactangle
 import net.dinkla.raytracer.examples.lights.area.World66area
 import net.dinkla.raytracer.examples.cameras.World58
 import net.dinkla.raytracer.examples.lights.area.World23b
+import net.dinkla.raytracer.examples.objects.ManySpheres
 import net.dinkla.raytracer.examples.objects.World16
 import net.dinkla.raytracer.examples.reflective.World17
 import net.dinkla.raytracer.examples.reflective.World27
@@ -47,7 +48,8 @@ private val worlds = listOf(
     NewWorld2,
     NewWorld3,
     NewWorld4,
-    MultipleObjects
+    MultipleObjects,
+    ManySpheres
 )
 
 val definitions = worlds.map { it.id to it }.toMap()
