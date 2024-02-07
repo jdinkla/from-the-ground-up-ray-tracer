@@ -1,6 +1,6 @@
 package net.dinkla.raytracer
 import kotlinx.coroutines.runBlocking
-import net.dinkla.raytracer.examples.definitions
+import net.dinkla.raytracer.examples.worldMap
 import net.dinkla.raytracer.gui.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.tracers.Tracers
@@ -28,5 +28,5 @@ fun main(args: Array<String>) {
     Logger.info("From-the-ground-up-raytracer on JVM")
     val renderers = Renderer.values().toList()
     val tracers = Tracers.values().toList()
-    CommandLineJvm(definitions.keys, tracers, renderers, resolutions).main(args)
+    CommandLineJvm(worldMap.keys, tracers, renderers, resolutions).main(args)
 }

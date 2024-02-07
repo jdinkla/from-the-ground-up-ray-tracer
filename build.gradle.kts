@@ -14,11 +14,13 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
     implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
     implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
+    implementation("io.github.classgraph:classgraph:4.8.90")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
