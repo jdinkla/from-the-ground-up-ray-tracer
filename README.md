@@ -29,7 +29,7 @@ $ ./gradlew run --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720
 $ ./gradlew run --args="--world=World42.kt --renderer=COROUTINE --resolution=2160p"
 ```
 
-![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.png)
+![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.webp)
 
 Choose a scene file with a left click, see the source code and click render to render it.
 
@@ -40,7 +40,7 @@ Some examples require PLY files that are available on the net.
 For easier manipulation of scenes I implemented a DSL for scenes.
 
 The following image
-![Rendered image](https://jdinkla.github.io/images/rendered/BasicExample.png)
+![Rendered image](https://jdinkla.github.io/images/rendered/BasicExample.webp)
 
 is described by the following Kotlin program: 
 
@@ -89,7 +89,7 @@ See [my home page for more information and examples](https://jdinkla.github.io/s
 
 Here is another example:
 
-![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.png)
+![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.webp)
 
 ## Requirements
 
