@@ -6,7 +6,7 @@ import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 import kotlin.math.pow
 
-const val NUM_SPHERES = 1000
+const val NUM_SPHERES = 10000
 const val VOLUME = 0.1 / NUM_SPHERES
 private val radius = (0.75 * VOLUME / Math.PI).pow(1.0 / 3)
 private fun rand() = r.nextDouble()
@@ -27,29 +27,24 @@ object ManySpheres : WorldDefinition {
         materials {
             matte(id = "ground", cd = c(0.8, 0.8, 0.8))
             matte(id = "sky", cd = Color.fromString("87ceeb"))
-
-            for (i in 0..<NUM_SPHERES) {
-                val exp = (rand() * 50);
+            repeat(NUM_SPHERES) {
+                val exp = 50 * rand()
                 val ks = rand()
                 val col = c(rand(), rand(), rand())
-                phong(id = "p${i}", cd = col, ka = 0.25, kd = 0.75, exp = exp, ks = ks)
+                phong(id = "p${it}", cd = col, ka = 0.25, kd = 0.75, exp = exp, ks = ks)
             }
         }
 
         objects {
             plane(point = p(0.0, -1.0 - radius, 0.0), material = "ground")
             plane(point = p(0.0, 5.0, 0.0), material = "sky")
-
             grid {
-                for (i in 0..<NUM_SPHERES) {
-                    val cent = p(
-                        1.0 - 2.0 * rand(), 1.0 - 2.0 * rand(), 1.0 - 2.0 * rand()
-                    )
-                    sphere(center = cent, radius = radius, material = "p${i}")
+                repeat(NUM_SPHERES) {
+                    val cent = p(1.0 - 2.0 * rand(), 1.0 - 2.0 * rand(), 1.0 - 2.0 * rand())
+                    sphere(center = cent, radius = radius, material = "p${it}")
+
                 }
             }
         }
     }
-
-
 }
