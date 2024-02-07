@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.arealights
+package net.dinkla.raytracer.examples.lights.area
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
@@ -17,6 +17,7 @@ object World20AreaReactangle : WorldDefinition {
     override fun world() = Builder.build {
         metadata {
             id(id)
+            description("Use area tracer")
         }
 
         camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))
@@ -24,7 +25,15 @@ object World20AreaReactangle : WorldDefinition {
         ambientLight(color = Color.WHITE, ls = 0.0)
 
         materials {
-            phong(id = "yellow", ka = 0.75, kd = 0.25, cd = c("CC8400"), exp = 2.0, ks = 0.98, cs = c("FFA500") * 0.1 + c("CC8400") * 0.9)
+            phong(
+                id = "yellow",
+                ka = 0.75,
+                kd = 0.25,
+                cd = c("CC8400"),
+                exp = 2.0,
+                ks = 0.98,
+                cs = c("FFA500") * 0.1 + c("CC8400") * 0.9
+            )
             phong(id = "grey", ka = 0.75, kd = 0.25, cd = c(1.0), exp = 10.0, ks = 0.9, cs = Color.WHITE)
             phong(id = "red", ka = 0.5, kd = 0.5, cd = c(1.0, 0.0, 0.0), exp = 10.0, ks = 0.9, cs = Color.WHITE)
             emissive(id = "em", ce = c(1.0), le = 2.0)
@@ -37,11 +46,7 @@ object World20AreaReactangle : WorldDefinition {
         val vecH = v(0, 1, 0)
 
         val rectangle = RectangleLight(
-            sampler = sampler1,
-            p0 = p(-2, 1, -10),
-            a = vecW * 4.0,
-            b = vecH * 5.0,
-            normal = Normal.DOWN
+            sampler = sampler1, p0 = p(-2, 1, -10), a = vecW * 4.0, b = vecH * 5.0, normal = Normal.DOWN
         ).apply {
             this.material = world.materials["em"]
         }

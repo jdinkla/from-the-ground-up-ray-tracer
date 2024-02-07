@@ -11,7 +11,7 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object World23 : WorldDefinition {
 
-    override val id: String = "World23.kt"
+    override val id: String = "World23b.kt"
 
     private const val numSamples = 4
 

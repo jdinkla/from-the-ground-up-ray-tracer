@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.arealights
+package net.dinkla.raytracer.examples.lights.area
 
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.math.Normal
@@ -19,6 +19,7 @@ object World66area : WorldDefinition {
 
         metadata {
             id("World66 with area")
+            description("Use area tracer")
         }
 
         camera(d = 1500.0, eye = p(2.5, 1.35, 10.0), lookAt = p(2.5, 1.0, 0.0))
@@ -35,7 +36,9 @@ object World66area : WorldDefinition {
             phong(id = "Gold2", cd = c("EEC900"), ka = 0.5, kd = 0.75, ks = 0.75, exp = 5.0)
         }
 
-        val disk = DiskLight(sampler = sampler2, center = p(30.0, 5.0, -0.0), radius = 40.0, normal = Normal.LEFT).apply {
+        val disk = DiskLight(
+            sampler = sampler2, center = p(30.0, 5.0, -0.0), radius = 40.0, normal = Normal.LEFT
+        ).apply {
             this.material = Emissive()
         }
 
