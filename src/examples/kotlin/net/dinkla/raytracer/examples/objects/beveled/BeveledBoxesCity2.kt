@@ -4,9 +4,11 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
+import net.dinkla.raytracer.world.rand
+import net.dinkla.raytracer.world.randInt
 
 object BeveledBoxesCity2 : WorldDefinition {
-    override val id: String = "World69b.kt"
+    override val id: String = "BeveledBoxesCity2.kt"
     private const val NUM_COLORS = 4
     private const val NUM_OBJECTS = 1000
     override fun world(): World = Builder.build {
@@ -46,7 +48,7 @@ object BeveledBoxesCity2 : WorldDefinition {
                     val x2 = x + rand()
                     val y2 = y + rand()
                     val z2 = z + rand()
-                    val c = r.nextInt(NUM_COLORS)
+                    val c = randInt(NUM_COLORS)
                     val mat = "c-$c"
                     alignedBox(p = p(x, y, z), q = p(x2, y2, z2), material = mat)
                 }
@@ -54,6 +56,3 @@ object BeveledBoxesCity2 : WorldDefinition {
         }
     }
 }
-
-private fun rand() = r.nextDouble()
-private val r = java.util.Random()

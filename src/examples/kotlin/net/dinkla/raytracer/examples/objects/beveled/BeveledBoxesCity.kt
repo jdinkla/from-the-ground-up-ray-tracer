@@ -4,12 +4,11 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
+import net.dinkla.raytracer.world.rand
 
 object BeveledBoxesCity : WorldDefinition {
-    override val id: String = "World69.kt"
+    override val id: String = "BeveledBoxesCity.kt"
     override fun world(): World = Builder.build {
-
-
         camera(d = 1500.0, eye = p(5.0, 1.5, 10.0), lookAt = p(5, 0, -5))
 
         ambientLight(ls = 0.5)
@@ -48,6 +47,3 @@ object BeveledBoxesCity : WorldDefinition {
         }
     }
 }
-
-private fun rand() = r.nextDouble()
-private val r = java.util.Random()

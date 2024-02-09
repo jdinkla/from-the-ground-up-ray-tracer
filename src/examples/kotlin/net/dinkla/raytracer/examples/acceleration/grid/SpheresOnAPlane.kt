@@ -1,19 +1,18 @@
-package net.dinkla.raytracer.examples.objects
+package net.dinkla.raytracer.examples.acceleration.grid
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
+import net.dinkla.raytracer.world.rand
 import kotlin.math.pow
 
 const val NUM_SPHERES = 10000
 const val VOLUME = 0.1 / NUM_SPHERES
 private val radius = (0.75 * VOLUME / Math.PI).pow(1.0 / 3)
-private fun rand() = r.nextDouble()
-private val r = java.util.Random()
 
-object ManySpheres : WorldDefinition {
-    override val id: String = "ManySpheres.kt"
+object SpheresOnAPlane : WorldDefinition {
+    override val id: String = "SpheresOnAPlane.kt"
     override fun world(): World = Builder.build {
         camera(d = 1500.0, eye = p(1, 2, 10), lookAt = p(0, 0, 0))
 
@@ -42,7 +41,6 @@ object ManySpheres : WorldDefinition {
                 repeat(NUM_SPHERES) {
                     val cent = p(1.0 - 2.0 * rand(), 1.0 - 2.0 * rand(), 1.0 - 2.0 * rand())
                     sphere(center = cent, radius = radius, material = "p${it}")
-
                 }
             }
         }
