@@ -26,6 +26,7 @@ $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew run --args="--world=World20AreaDisk.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
 $ ./gradlew run --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720p"
+$ ./gradlew run --args="--world=World66.kt --renderer=PARALLEL --resolution=1080p"
 $ ./gradlew run --args="--world=World42.kt --renderer=COROUTINE --resolution=2160p"
 ```
 
