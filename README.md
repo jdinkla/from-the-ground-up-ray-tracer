@@ -1,6 +1,6 @@
 # Ray Tracer in Kotlin
 
-A long time ago in 2010 I read the excellent book "[Ray tracing from the ground up](http://www.raytracegroundup.com/)" by Kevin Suffern. 
+A long time ago in 2010 I read the excellent book "[Ray tracing from the ground up](https://www.goodreads.com/book/show/2241769.Ray_Tracing_from_the_Ground_Up)" by Kevin Suffern. 
 While reading this book 
 
 * I translated the C++ code to Javan
