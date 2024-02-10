@@ -1,7 +1,7 @@
 package net.dinkla.raytracer.utilities
 
-import com.soywiz.klock.DateFormat
-import com.soywiz.klock.DateTime
+import korlibs.time.DateFormat
+import korlibs.time.DateTime
 
 private val dateFormat = DateFormat("yyyyMMddHHmmss")
 

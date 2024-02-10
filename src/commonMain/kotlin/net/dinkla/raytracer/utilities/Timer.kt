@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.utilities
 
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 
 class Timer {
     private var start: Double = 0.0
@@ -17,5 +17,5 @@ class Timer {
         end = timeStamp()
     }
 
-    private fun timeStamp() = DateTime.nowUnix()
+    private fun timeStamp() = DateTime.now().unixMillis
 }

@@ -108,3 +108,14 @@ The folder resources contains the following:
 
 * TwoTriangles.ply is from Kevin Suffern, the author of the book.
 * Isis.ply was downloaded from [Cyberware](http://cyberware.com/) (dissolved since 2011 )
+
+
+## Upgrade dependencies
+
+The project uses [refreshVersions](https://splitties.github.io/refreshVersions/)
+
+```sh
+$ gradle refreshVersions
+```
+
+(c) 2010 - 2024 Jörn Dinkla https://www.dinkla.net

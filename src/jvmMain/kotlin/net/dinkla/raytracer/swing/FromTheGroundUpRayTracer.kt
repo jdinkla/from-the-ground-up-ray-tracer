@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.swing
 
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

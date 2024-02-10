@@ -1,12 +1,12 @@
 package net.dinkla.raytracer.films
 
-import com.soywiz.korim.bitmap.Bitmap32
-import com.soywiz.korim.color.RGBA
-import com.soywiz.korim.format.PNG
-import com.soywiz.korim.format.writeBitmap
-import com.soywiz.korio.file.Vfs
-import com.soywiz.korio.file.VfsFile
-import com.soywiz.korio.file.std.localCurrentDirVfs
+import korlibs.image.bitmap.Bitmap32
+import korlibs.image.color.RGBA
+import korlibs.image.format.PNG
+import korlibs.image.format.writeBitmap
+import korlibs.io.file.Vfs
+import korlibs.io.file.VfsFile
+import korlibs.io.file.std.localCurrentDirVfs
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution

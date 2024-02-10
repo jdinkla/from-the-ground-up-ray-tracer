@@ -1,15 +1,15 @@
 package net.dinkla.raytracer.utilities
 
-import com.soywiz.klock.DateTime
-import com.soywiz.klock.Month
-import com.soywiz.klock.Year
+
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import korlibs.time.Month
+import korlibs.time.Year
 
 internal class FilenameUtilitiesTest : StringSpec({
 
     val fileNameBase = "World73"
-    val timeStamp = DateTime(Year(2022), Month.September, 17, 17, 42, 20, 0)
+    val timeStamp = korlibs.time.DateTime(Year(2022), Month.September, 17, 17, 42, 20, 0)
 
     "should exchange extension" {
         val s = outputPngFileName("$fileNameBase.kt", timeStamp)

@@ -1,7 +1,8 @@
 package net.dinkla.raytracer.utilities
 
-import com.soywiz.klock.DateFormat.Companion.FORMAT2
-import com.soywiz.klock.DateTime
+import korlibs.time.DateFormat.Companion.FORMAT2
+import korlibs.time.DateTime
+
 
 object Logger {
     enum class LogLevel {

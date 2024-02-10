@@ -1,13 +1,6 @@
-val kotestVersion = "5.8.0"
-val coroutinesVersion = "1.7.3"
-val logbackVersion = "1.4.14"
-val korioVersion = "2.2.0"
-val korimVersion = "2.2.0"
-val cliktVersion = "4.2.1"
-
 plugins {
     kotlin("jvm") version "2.0.0-Beta3"
-    id("io.gitlab.arturbosch.detekt") version "1.23.5"
+    id("io.gitlab.arturbosch.detekt")
     idea
     application
 }
@@ -15,15 +8,15 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("com.soywiz.korlibs.korio:korio:$korioVersion")
-    implementation("com.soywiz.korlibs.korim:korim:$korimVersion")
-    implementation("com.github.ajalt.clikt:clikt:$cliktVersion")
-    implementation("io.github.classgraph:classgraph:4.8.90")
+    implementation(KotlinX.coroutines.core)
+    implementation("ch.qos.logback:logback-classic:_")
+    implementation("com.soywiz.korlibs.korio:korio:_")
+    implementation("com.soywiz.korlibs.korim:korim:_")
+    implementation("com.github.ajalt.clikt:clikt:_")
+    implementation("io.github.classgraph:classgraph:_")
 
-    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation(Testing.kotest.runner.junit5)
+    testImplementation(Testing.kotest.assertions.core)
 }
 
 repositories {
