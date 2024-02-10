@@ -34,8 +34,8 @@ processors:
 console-reports:
   active: true
   exclude:
-     - 'ProjectStatisticsReport'
-     - 'ComplexityReport'
+#     - 'ProjectStatisticsReport'
+#     - 'ComplexityReport'
      - 'NotificationReport'
      - 'FindingsReport'
      - 'FileBasedFindingsReport'

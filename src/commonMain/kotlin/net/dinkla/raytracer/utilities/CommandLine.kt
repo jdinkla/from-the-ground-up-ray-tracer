@@ -9,6 +9,7 @@ import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Context
 
+@Suppress("SpreadOperator")
 abstract class CommandLine(
     worlds: Collection<String>,
     val tracers: Collection<Tracers>,
