@@ -2,19 +2,11 @@ package net.dinkla.raytracer.hits
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.IGeometricObject
-import net.dinkla.raytracer.objects.compound.Compound
-import net.dinkla.raytracer.utilities.Logger
 
 open class Hit : ShadowHit, IHit {
 
     override var normal: Normal = Normal.ZERO
     override var geometricObject: IGeometricObject? = null
-        set(value) {
-            if (value is Compound) {
-                Logger.warn("Hit value is a compound")
-            }
-            field = value
-        }
 
     constructor() : super()
     constructor(t: Double) : super(t)

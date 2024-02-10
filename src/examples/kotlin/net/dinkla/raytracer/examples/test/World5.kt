@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.test
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal

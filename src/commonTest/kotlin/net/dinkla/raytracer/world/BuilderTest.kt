@@ -8,11 +8,11 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.AmbientOccludedSphere
 import net.dinkla.raytracer.examples.YellowAndRedSphere
-import net.dinkla.raytracer.examples.World23
+import net.dinkla.raytracer.examples.lights.area.World23
 import net.dinkla.raytracer.examples.InstanceExample
 import net.dinkla.raytracer.examples.TransparentSpheres
 import net.dinkla.raytracer.examples.acceleration.SpheresInNestedGrids
-import net.dinkla.raytracer.examples.World7
+import net.dinkla.raytracer.examples.VariousObjects
 import net.dinkla.raytracer.examples.materials.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
@@ -100,7 +100,7 @@ class BuilderTest : StringSpec({
     }
 
     "should build example world 7" {
-        val w = World7.world()
+        val w = VariousObjects.world()
         w.size() shouldBe 6
         w.lights.size shouldBe 3
         w.objects.size shouldBe 6

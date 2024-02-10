@@ -6,8 +6,8 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object NewWorld3 : WorldDefinition {
-    override val id: String = "NewWorld3.kt"
+object YellowSpheres : WorldDefinition {
+    override val id: String = "YellowSpheres.kt"
     override fun world(): World = Builder.build {
         metadata {
             id(id)
@@ -22,7 +22,7 @@ object NewWorld3 : WorldDefinition {
         }
 
         materials {
-            emissive(id = "tangerine yellow matte", ce = c("FFCC00"), le = 10.0)
+            matte(id = "tangerine yellow matte", cd = c("FFCC00"), ka = 0.25, kd = 0.65)
         }
 
         objects {

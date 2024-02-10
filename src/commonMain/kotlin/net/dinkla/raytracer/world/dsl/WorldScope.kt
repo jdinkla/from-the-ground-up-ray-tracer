@@ -44,7 +44,7 @@ class WorldScope {
         require(blue == 0 || blue == 1)
         return Color(red.toDouble(), green.toDouble(), blue.toDouble())
     }
-
+    fun cInt(red: Int, green: Int, blue: Int) : Color = Color(red/255.0, green/255.0, blue/255.0)
     fun c(hexCode: String) = Color.fromString(hexCode)
 
     fun n(x: Int, y: Int, z: Int) = Normal(x.toDouble(), y.toDouble(), z.toDouble())

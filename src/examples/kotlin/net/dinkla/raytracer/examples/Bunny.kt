@@ -10,27 +10,21 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World57 : WorldDefinition {
+object Bunny : WorldDefinition {
+    override val id: String = "Bunny.kt"
 
-    val sampler = Sampler(MultiJittered, 2500, 1000)
-
-    private const val NUM_AMBIENT_SAMPLES = 4
-
-    init {
-        sampler.mapSamplesToHemiSphere(1.0)
+    val sampler = Sampler(MultiJittered, 2500, 100).apply {
+        mapSamplesToHemiSphere(1.0)
     }
-
-    override val id: String = "World57.kt"
 
     override fun world(): World = Builder.build {
         metadata {
-            id(id)
+            description("This can take longer")
         }
 
-        // TODO camera(d: 1000, eye: p(8, 1, 7), lookAt: p(11.2, 1, 0), numThreads: 64, ray: SampledRenderer, raySampler: sampler, rayNumSamples: 2 )
-        camera(d = 1000.0, eye = p(0, 1, -10), lookAt = p(0.0, 1.0, 0.0))
+        camera(d = 2000.0, eye = p(0, 1, 10), lookAt = p(0.0, 1.0, 0.0))
 
-        ambientOccluder(minAmount = Color.WHITE, sampler = sampler, numSamples = NUM_AMBIENT_SAMPLES)
+        ambientOccluder(minAmount = Color.WHITE, sampler = sampler, numSamples = 1)
 
         lights {
             pointLight(location = p(0, 5, 5), ls = 1.0)
@@ -44,16 +38,14 @@ object World57 : WorldDefinition {
         }
 
         val bunny = Ply.fromFile(
-            fileName = "resources/bunny4K.ply",
+            fileName = "resources/Bunny4K.ply",
             isSmooth = true,
-            material = this.world.materials["chocolate"]!!
+            material = world.materials["chocolate"]!!
         )
 
         objects {
             plane(material = "orange", point = Point3D.ORIGIN, normal = Normal.UP)
-            // plane(material = "yellow", point = p(0, 1000, 0), normal = Normal.DOWN)
-
-            for (i in listOf(-10, -5, 0, 5, 10)) {
+            for (i in listOf(0)) {
                 instance(material = "chocolate", of = bunny.compound) {
                     scale(v(15.0, 15.0, 15.0))
                     translate(v(i.toDouble(), 0.0, 0.0))

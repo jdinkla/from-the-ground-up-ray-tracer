@@ -3,8 +3,8 @@ package net.dinkla.raytracer.examples
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World66 : WorldDefinition {
-    override val id: String = "World66.kt"
+object SpheresOnABlackMirror : WorldDefinition {
+    override val id: String = "SpheresOnABlackMirror.kt"
     override fun world() = Builder.build {
         metadata {
             id(id)

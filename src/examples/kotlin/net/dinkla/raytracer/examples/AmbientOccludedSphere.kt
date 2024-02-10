@@ -18,8 +18,8 @@ object AmbientOccludedSphere : WorldDefinition {
 
     override val id: String = "AmbientOccludedSphere.kt"
 
-    private const val numberOfSamples = 2500
-    private const val numberOfAmbientSamples = 512
+    private const val numberOfSamples = 512
+    private const val numberOfAmbientSamples = 32
     private const val numberOfSets = 10
 
     val s = listOf(PureRandom, Hammersley, Jittered, Regular, Constant(), MultiJittered)

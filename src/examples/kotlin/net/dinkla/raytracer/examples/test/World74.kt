@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.test
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Axis
@@ -15,32 +15,31 @@ object World74 : WorldDefinition {
     override fun world() = Builder.build {
         camera(d = 1000.0, eye = p(0.0, 0.5, 3.0), lookAt = p(0.0, 0.0, 0.0))
 
-        ambientLight(color = Color.WHITE, ls = 0.75)
+        ambientLight(ls = 0.75)
 
         lights {
             pointLight(location = p(-1, 2, 3), color = c(1.0, 1.0, 1.0), ls = 1.0)
         }
 
         materials {
-            phong(id = "provenceBlue", cd = c(111, 148, 205), ka = 0.75, kd = 1.0, exp = 10.0)
-            phong(id = "driedSage", ks = 0.7, cd = c(185, 187, 136), ka = 0.5, kd = 1.0, exp = 10.0)
-            phong(id = "lavender", ks = 0.7, cd = c(148, 131, 185), ka = 0.5, kd = 0.7, exp = 10.0)
-            phong(id = "marseilleYellow", ks = 0.7, cd = c(233, 190, 84), ka = 0.5, kd = 0.7, exp = 10.0)
-            phong(id = "limonade", ks = 0.7, cd = c(242, 239, 197), ka = 0.5, kd = 0.7, exp = 10.0)
-            phong(id = "provenceIndigo", ks = 0.9, cd = c(65, 95, 155), ka = 0.5, kd = 0.7, exp = 10.0)
-            phong(id = "freshLinen", ks = 0.9, cd = c(250, 251, 244), ka = 0.5, kd = 0.7, exp = 10.0)
+            phong(id = "provenceBlue", cd = cInt(111, 148, 205), ka = 0.75, kd = 1.0, exp = 10.0)
+            phong(id = "driedSage", ks = 0.7, cd = cInt(185, 187, 136), ka = 0.5, kd = 1.0, exp = 10.0)
+            phong(id = "lavender", ks = 0.7, cd = cInt(148, 131, 185), ka = 0.5, kd = 0.7, exp = 10.0)
+            phong(id = "marseilleYellow", ks = 0.7, cd = cInt(233, 190, 84), ka = 0.5, kd = 0.7, exp = 10.0)
+            phong(id = "limonade", ks = 0.7, cd = cInt(242, 239, 197), ka = 0.5, kd = 0.7, exp = 10.0)
+            phong(id = "provenceIndigo", ks = 0.9, cd = cInt(65, 95, 155), ka = 0.5, kd = 0.7, exp = 10.0)
+            phong(id = "freshLinen", ks = 0.9, cd = cInt(250, 251, 244), ka = 0.5, kd = 0.7, exp = 10.0)
         }
 
         objects {
             plane(point = p(0, 0, 0), normal = Normal.UP, material = "freshLinen")
             plane(point = p(0, 10, 0), normal = Normal.DOWN, material = "provenceBlue")
 
-            val green = this.materials["driedSage"]!!
             val stanfordBunny = Ply.fromFile(
-                fileName = "resources\\Bunny4K.ply",
+                fileName = "resources/Bunny4K.ply",
                 isSmooth = true,
                 type = Acceleration.GRID,
-                material = green
+                material = materials["driedSage"]!!
             )
 
             instance(of = stanfordBunny.compound, material = "lavender") {

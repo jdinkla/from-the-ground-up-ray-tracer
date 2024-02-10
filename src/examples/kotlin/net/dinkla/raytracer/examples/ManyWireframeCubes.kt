@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.examples
 
 import net.dinkla.raytracer.math.Normal
-import net.dinkla.raytracer.objects.acceleration.kdtree.builder.Simple2Builder
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -9,8 +8,8 @@ import net.dinkla.raytracer.world.rand
 import net.dinkla.raytracer.world.randInt
 import net.dinkla.raytracer.world.repeat3
 
-object World78 : WorldDefinition {
-    override val id: String = "World78.kt"
+object ManyWireframeCubes : WorldDefinition {
+    override val id: String = "ManyWireframeCubes.kt"
 
     const val NUM = 20
     const val rb = 0.025

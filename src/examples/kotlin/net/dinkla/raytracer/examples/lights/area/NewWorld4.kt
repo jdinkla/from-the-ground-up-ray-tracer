@@ -1,6 +1,5 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.lights.area
 
-import net.dinkla.raytracer.examples.lights.area.TwoAreaShadedSpheres
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D

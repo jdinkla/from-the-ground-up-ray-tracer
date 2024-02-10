@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.test
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Axis
@@ -20,7 +20,6 @@ object World28 : WorldDefinition {
         ambientLight(ls = 0.8)
 
         lights {
-            pointLight(location = p(0.0, 9.0, 0.5), ls = 1.0)
             pointLight(location = p(0.0, 9.0, 0.5), ls = 1.0)
         }
 
