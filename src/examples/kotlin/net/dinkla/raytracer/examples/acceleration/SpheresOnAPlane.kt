@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.acceleration.grid
+package net.dinkla.raytracer.examples.acceleration
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder

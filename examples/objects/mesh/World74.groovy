@@ -1,23 +1,20 @@
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
-import net.dinkla.raytracer.objects.acceleration.kdtree.Test2Builder
 
 String path = '/opt/rendering/ply'
 
-def ply1 = builder.ply(file: "${path}/dragon/dragon_vrip_res4.ply", smooth: true,
-//        type: KDTree, builder: ObjectMedian2Builder, maxDepth: 15, minChildren: 5)
-        type: KDTree, builder: Test2Builder, maxDepth: 10, minChildren: 5)
-//        type: KDTree, builder: SpatialMedianBuilder, maxDepth: 15, minChildren: 5)
-//type: KDTree, builder: Simple2Builder, maxDepth: 25, minChildren: 5)
+def ply1 = builder.ply(file: "${path}/bunny/Bunny4K.ply", multiplier: 2.0, smooth: true, type: Grid)
+def ply2 = builder.ply(file: "${path}/bunny/Bunny4K.ply", smooth: true, type: KDTree)
 
 def r = new Random()
 
-builder.world(id: "World76") {
+builder.world(id: "World74") {
 
     viewPlane(resolution: Resolution.RESOLUTION_480, maxDepth: 2, numSamples: 4)
 
-    camera(d: 1500, eye: p(0.4, 1, 3), lookAt: p(0.4, 0, 0), numThreads: 32)
+    camera(d: 1000, eye: p(1.6, 1, 3), lookAt: p(1.6, 0, 0), numThreads: 32)
 
     ambientLight(color: Color.WHITE, ls: 0.5)
 
@@ -36,12 +33,18 @@ builder.world(id: "World76") {
     }
 
     objects {
-        plane(point: p(0,0,0), normal: n(0, 1, 0), material: "white")
+        //plane(point: p(0,0,0), normal: n(0, 1, 0), material: "white")
 
         instance(object: ply1, material: "green") {
             scale(v(3, 3, 3))
             rotateY(10)
-            translate(v(0, 0, 0))
+            translate(v(1, 0, 0))
+        }
+
+        instance(object: ply2, material: "green") {
+            scale(v(3, 3, 3))
+            rotateY(10)
+            translate(v(2, 0, 0))
         }
 
     }

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.acceleration.grid
+package net.dinkla.raytracer.examples.acceleration
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.world.Builder
@@ -10,15 +10,15 @@ import net.dinkla.raytracer.world.repeat3
 object SpheresInABox : WorldDefinition {
     override val id: String = "SpheresInABox.kt"
 
-    const val NUM = 25.0
-    const val column = NUM / 2 - 0.15
+    private const val NUM = 25.0
+    private const val COLUMN = NUM / 2 - 0.15
 
     override fun world(): World = Builder.build {
         metadata {
             description("This may take a while on slower machines.")
         }
 
-        camera(d = 1000.0, eye = p(-1.0, NUM, NUM + 5), lookAt = p(column, NUM - NUM / 5, column))
+        camera(d = 1000.0, eye = p(-1.0, NUM, NUM + 5), lookAt = p(COLUMN, NUM - NUM / 5, COLUMN))
 
         ambientLight(ls = 0.5)
 
