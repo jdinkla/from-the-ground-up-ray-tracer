@@ -84,8 +84,6 @@ object World48 : WorldDef {
 }
 ```
 
-See [my homepage for further information](http://dinkla.net/de/programming/groovy-rendering.html)
-
 See [my home page for more information and examples](https://jdinkla.github.io/software-development/2015/07/08/ray-tracing-with-groovy-and-java.html).
 
 Here is another example:
