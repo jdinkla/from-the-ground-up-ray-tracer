@@ -8,9 +8,9 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World66area : WorldDefinition {
+object AreaShadedSpheres : WorldDefinition {
 
-    override val id = "World66area.kt"
+    override val id = "AreaShadedSpheres.kt"
 
     override fun world() = Builder.build {
         val numSamples = 128

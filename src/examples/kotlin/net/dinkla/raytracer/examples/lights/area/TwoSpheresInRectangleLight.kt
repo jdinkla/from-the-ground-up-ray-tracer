@@ -9,20 +9,19 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World20AreaReactangle : WorldDefinition {
-
-    override val id: String = "World20AreaReactangle.kt"
-    const val numSamples = 32
+object TwoSpheresInRectangleLight : WorldDefinition {
+    override val id: String = "TwoSpheresInRectangleLight.kt"
+    private const val NUM_SAMPLES = 32
 
     override fun world() = Builder.build {
         metadata {
-            id(id)
-            description("Use area tracer")
+            title("Two Spheres in Rectangle Light")
+            description("Use area tracer. This is not working yet.")
         }
 
         camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))
 
-        ambientLight(color = Color.WHITE, ls = 0.0)
+        ambientLight(ls = 0.5)
 
         materials {
             phong(
@@ -39,8 +38,9 @@ object World20AreaReactangle : WorldDefinition {
             emissive(id = "em", ce = c(1.0), le = 2.0)
         }
 
-        val sampler1 = Sampler(PureRandom, 100, 100)
-        sampler1.mapSamplesToUnitDisk()
+        val sampler1 = Sampler(PureRandom, 100, 100).apply {
+            mapSamplesToUnitDisk()
+        }
 
         val vecW = v(1, 0, 0)
         val vecH = v(0, 1, 0)
@@ -48,11 +48,11 @@ object World20AreaReactangle : WorldDefinition {
         val rectangle = RectangleLight(
             sampler = sampler1, p0 = p(-2, 1, -10), a = vecW * 4.0, b = vecH * 5.0, normal = Normal.DOWN
         ).apply {
-            this.material = world.materials["em"]
+            material = world.materials["em"]
         }
 
         lights {
-            areaLight(of = rectangle, numSamples = numSamples)
+            areaLight(of = rectangle, numSamples = NUM_SAMPLES)
         }
 
         objects {
