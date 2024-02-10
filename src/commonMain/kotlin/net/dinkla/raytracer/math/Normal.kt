@@ -17,7 +17,7 @@ data class Normal(val x: Double, val y: Double, val z: Double) {
         return Normal(x / len, y / len, z / len)
     }
 
-    fun sqrLength(): Double = x * x + y * y + z * z
+    private fun sqrLength(): Double = x * x + y * y + z * z
 
     fun length(): Double = sqrt(sqrLength())
 

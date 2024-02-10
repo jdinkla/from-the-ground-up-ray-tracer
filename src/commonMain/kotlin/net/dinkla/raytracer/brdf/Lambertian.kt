@@ -25,6 +25,6 @@ data class Lambertian(var kd: Double = 1.0, var cd: Color = Color.WHITE) : BRDF 
     val f: Color
         get() = cd * (kd * INV_PI)
 
-    val rho: Color
+    private val rho: Color
         get() = cd * kd
 }

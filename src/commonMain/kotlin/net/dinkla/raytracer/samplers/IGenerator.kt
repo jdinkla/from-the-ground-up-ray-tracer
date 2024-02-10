@@ -10,7 +10,7 @@ interface IGenerator {
         fun sqrt(numSamples: Int) = kotlin.math.sqrt(numSamples.toDouble()).toInt()
 
         fun generate2D(numSamples: Int, numSets: Int, sample: (Int, Int) -> Point2D) =
-            buildList<Point2D> {
+            buildList {
                 for (j in 0 until numSets) {
                     for (p in 0 until numSamples) {
                         add(sample(j, p))

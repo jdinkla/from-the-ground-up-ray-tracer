@@ -13,7 +13,7 @@ class NaiveCoroutineRenderer(
 ) : IRenderer {
     override fun render(film: IFilm) {
         Logger.info("render starts")
-        runBlocking<Unit> {
+        runBlocking {
             for (r in 0 until film.resolution.height) {
                 for (c in 0 until film.resolution.width) {
                     launch(Dispatchers.Default) {

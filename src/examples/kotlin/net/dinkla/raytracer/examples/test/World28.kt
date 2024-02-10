@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples.test
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.Rectangle

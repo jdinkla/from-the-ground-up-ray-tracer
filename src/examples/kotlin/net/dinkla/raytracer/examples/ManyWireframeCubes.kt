@@ -7,19 +7,20 @@ import net.dinkla.raytracer.world.WorldDefinition
 import net.dinkla.raytracer.world.rand
 import net.dinkla.raytracer.world.randInt
 import net.dinkla.raytracer.world.repeat3
+import kotlin.math.sqrt
 
 object ManyWireframeCubes : WorldDefinition {
     override val id: String = "ManyWireframeCubes.kt"
 
-    const val NUM = 20
-    const val rb = 0.025
-    const val rx = 0.5
-    const val w = rx
-    const val h = rx
-    const val d = rx
-    const val step = 0.05
-    const val delta = 0.01
-    const val df = 0.5
+    private const val NUM = 20
+    private const val rb = 0.025
+    private const val rx = 0.5
+    private const val w = rx
+    private const val h = rx
+    private const val d = rx
+    private const val step = 0.05
+    private const val delta = 0.01
+    private const val df = 0.5
 
     override fun world(): World = Builder.build {
         camera(d = 2500.0, eye = p(NUM / 2, NUM, 20), lookAt = p(NUM / 2.0, 1.5, -NUM / 2.0))
@@ -59,7 +60,7 @@ object ManyWireframeCubes : WorldDefinition {
             grid {
                 for (iz in 0..<NUM) {
                     for (ix in 0..<NUM) {
-                        val maxHeight = randInt(Math.sqrt(iz + 1.0).toInt())
+                        val maxHeight = randInt(sqrt(iz + 1.0).toInt())
                         var height = 0.0
                         var nextHeight = height + h
                         var w2 = w

@@ -127,10 +127,10 @@ open class Compound : GeometricObject() {
         } else {
             var size = 0
             for (geoObj in objects) {
-                if (geoObj is Compound) {
-                    size += geoObj.size()
+                size += if (geoObj is Compound) {
+                    geoObj.size()
                 } else {
-                    size += 1
+                    1
                 }
             }
             return size

@@ -16,7 +16,7 @@ class Simple2Builder : TreeBuilder {
 
     override var maxDepth = 10
 
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): Node {
         return build(tree.objects, tree.boundingBox, 0)

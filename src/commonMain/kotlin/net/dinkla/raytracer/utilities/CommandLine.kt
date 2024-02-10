@@ -12,8 +12,8 @@ import net.dinkla.raytracer.world.Context
 abstract class CommandLine(
     worlds: Collection<String>,
     val tracers: Collection<Tracers>,
-    val renderers: Collection<Renderer>,
-    val resolutions: Collection<Resolution.Predefined>
+    private val renderers: Collection<Renderer>,
+    private val resolutions: Collection<Resolution.Predefined>
 ) : CliktCommand() {
 
     val world by option(help = "world definition id").choice(*worlds.toTypedArray()).default("World20.kt")

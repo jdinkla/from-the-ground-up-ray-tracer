@@ -5,7 +5,6 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 import net.dinkla.raytracer.world.rand
 import net.dinkla.raytracer.world.repeat3
-import kotlin.random.Random
 
 object SpheresInABox3 : WorldDefinition {
 

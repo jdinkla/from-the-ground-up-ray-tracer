@@ -12,7 +12,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
 
     var sampler: Sampler? = null
     var material: IMaterial? = null
-    var u: Vector3D = Vector3D.ZERO
+    private var u: Vector3D = Vector3D.ZERO
     var v: Vector3D = Vector3D.ZERO
     var w: Vector3D = Vector3D.ZERO
     var wi: Vector3D = Vector3D.ZERO

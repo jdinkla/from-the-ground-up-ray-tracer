@@ -7,7 +7,7 @@ object Counter {
 
     // For each thread-id there is a map
     private var instances = ConcurrentHashMap<Long, TreeMap<String, Int>>()
-    var PAUSE = false
+    private var PAUSE = false
 
     fun count(key: String) {
         if (!PAUSE) {

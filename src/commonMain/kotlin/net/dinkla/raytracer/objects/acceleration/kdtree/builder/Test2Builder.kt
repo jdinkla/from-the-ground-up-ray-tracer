@@ -14,7 +14,7 @@ import net.dinkla.raytracer.utilities.Logger
 class Test2Builder : TreeBuilder {
 
     override var maxDepth = 15
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): Node {
         return build(tree.objects, tree.boundingBox, 0)
@@ -65,7 +65,7 @@ class Test2Builder : TreeBuilder {
             }
         }
 
-        class Split(var parent: Triple?) {
+        class Split(private var parent: Triple?) {
 
             var axis: Axis? = null
             var split: Double = 0.toDouble()
@@ -87,7 +87,7 @@ class Test2Builder : TreeBuilder {
                 sah = calcSah()
             }
 
-            fun calcSah(): Double {
+            private fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
                 val fL = left.volume / vol
                 val fR = right.volume / vol
@@ -166,19 +166,17 @@ class Test2Builder : TreeBuilder {
         val sY = par.x(Axis.Y, par.candidatesY)
         val sZ = par.x(Axis.Z, par.candidatesZ)
 
-        val split: Partitioner.Split?
-
-        if (isLess(sX, sY)) {
+        val split: Partitioner.Split? = if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {
-                split = sX
+                sX
             } else {
-                split = sZ
+                sZ
             }
         } else {
             if (isLess(sY, sZ)) {
-                split = sY
+                sY
             } else {
-                split = sZ
+                sZ
             }
         }
 

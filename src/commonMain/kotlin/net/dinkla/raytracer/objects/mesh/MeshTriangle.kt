@@ -18,7 +18,7 @@ open class MeshTriangle : GeometricObject {
 
     override var boundingBox: BBox
         get() = calcBBox()
-        set(value: BBox) {
+        set(value) {
             super.boundingBox = value
         }
 

@@ -7,7 +7,7 @@ import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracer
 
-class SampledSingleRayRenderer(var lens: ILens, var tracer: Tracer) : ISingleRayRenderer {
+class SampledSingleRayRenderer(private var lens: ILens, var tracer: Tracer) : ISingleRayRenderer {
     var sampler: Sampler
     var numSamples: Int = 0
 

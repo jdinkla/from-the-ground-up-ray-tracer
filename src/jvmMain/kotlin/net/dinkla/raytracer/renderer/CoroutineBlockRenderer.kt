@@ -19,7 +19,7 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
     override fun render(film: IFilm) {
         Logger.info("render starts")
         this.film = film
-        runBlocking<Unit>(Dispatchers.Default) {
+        runBlocking(Dispatchers.Default) {
             Logger.info("invoke master")
             master(sizeGrid, film.resolution)
             Logger.info("runBlocking stops")

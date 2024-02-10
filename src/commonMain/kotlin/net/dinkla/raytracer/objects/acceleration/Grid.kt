@@ -280,7 +280,7 @@ open class Grid : CompoundWithMesh() {
 
         if (dx > 0) {
             txNext = txMin + (ix + 1) * dtx
-            ixStep = +1
+            ixStep = 1
             ixStop = nx
         } else {
             txNext = txMin + (nx - ix) * dtx
@@ -294,7 +294,7 @@ open class Grid : CompoundWithMesh() {
         }
         if (dy > 0) {
             tyNext = tyMin + (iy + 1) * dty
-            iyStep = +1
+            iyStep = 1
             iyStop = ny
         } else {
             tyNext = tyMin + (ny - iy) * dty
@@ -308,7 +308,7 @@ open class Grid : CompoundWithMesh() {
         }
         if (dz > 0) {
             tzNext = tzMin + (iz + 1) * dtz
-            izStep = +1
+            izStep = 1
             izStop = nz
         } else {
             tzNext = tzMin + (nz - iz) * dtz

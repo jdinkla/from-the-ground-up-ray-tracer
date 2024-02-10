@@ -17,6 +17,6 @@ data class Resolution(val width: Int, val height: Int) {
         fun create(): Resolution = Resolution(height)
     }
     companion object {
-        val resolutions = Predefined.values().toList()
+        val resolutions = Predefined.entries
     }
 }

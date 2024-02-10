@@ -17,13 +17,13 @@ class Reflective(
 
     var kr: Double
         get() = reflectiveBRDF.kr
-        set(v: Double) {
+        set(v) {
             reflectiveBRDF.kr = v
         }
 
     var cr: Color
         get() = reflectiveBRDF.cr
-        set(v: Color) {
+        set(v) {
             reflectiveBRDF.cr = v
         }
 

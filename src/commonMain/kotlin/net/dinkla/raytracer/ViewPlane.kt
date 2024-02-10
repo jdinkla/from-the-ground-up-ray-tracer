@@ -10,8 +10,7 @@ class ViewPlane : IColorCorrector {
     var sizeOfPixel: Double = 1.0
         private set
 
-    var gamma: Double = 1.0
-        private set
+    private var gamma: Double = 1.0
 
     private var showOutOfGamutForDebugging: Boolean = false
 

@@ -7,7 +7,7 @@ import net.dinkla.raytracer.utilities.Random
 object Jittered : IGenerator {
     override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
         val n = sqrt(numSamples)
-        return buildList<Point2D> {
+        return buildList {
             for (p in 0 until numSets) {
                 for (j in 0 until n) {
                     for (k in 0 until n) {

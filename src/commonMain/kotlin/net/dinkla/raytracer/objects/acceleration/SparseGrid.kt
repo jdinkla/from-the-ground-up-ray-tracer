@@ -79,16 +79,20 @@ class SparseGrid : Grid() {
                     for (ix in ixmin..ixmax) {
                         val index = iz * nx * ny + iy * nx + ix
                         val go = cellsX[index]
-                        if (null == go) {
-                            cellsX[index] = `object`
-                        } else if (go is Compound) {
-                            val c = go as Compound?
-                            c!!.add(`object`)
-                        } else {
-                            val c = Compound()
-                            c.add(go)
-                            c.add(`object`)
-                            cellsX[index] = c
+                        when (go) {
+                            null        -> {
+                                cellsX[index] = `object`
+                            }
+                            is Compound -> {
+                                val c = go as Compound?
+                                c!!.add(`object`)
+                            }
+                            else        -> {
+                                val c = Compound()
+                                c.add(go)
+                                c.add(`object`)
+                                cellsX[index] = c
+                            }
                         }
                         counts[index]++
                     }
@@ -160,20 +164,20 @@ class SparseGrid : Grid() {
         var t0: Double
         var t1: Double
 
-        if (txMin > tyMin) {
-            t0 = txMin
+        t0 = if (txMin > tyMin) {
+            txMin
         } else {
-            t0 = tyMin
+            tyMin
         }
 
         if (tzMin > t0) {
             t0 = tzMin
         }
 
-        if (txMax < tyMax) {
-            t1 = txMax
+        t1 = if (txMax < tyMax) {
+            txMax
         } else {
-            t1 = tyMax
+            tyMax
         }
 
         if (tzMax < t1) {
@@ -219,7 +223,7 @@ class SparseGrid : Grid() {
 
         if (dx > 0) {
             txNext = txMin + (ix + 1) * dtx
-            ixStep = +1
+            ixStep = 1
             ixStop = nx
         } else {
             txNext = txMin + (nx - ix) * dtx
@@ -233,7 +237,7 @@ class SparseGrid : Grid() {
         }
         if (dy > 0) {
             tyNext = tyMin + (iy + 1) * dty
-            iyStep = +1
+            iyStep = 1
             iyStop = ny
         } else {
             tyNext = tyMin + (ny - iy) * dty
@@ -247,7 +251,7 @@ class SparseGrid : Grid() {
         }
         if (dz > 0) {
             tzNext = tzMin + (iz + 1) * dtz
-            izStep = +1
+            izStep = 1
             izStop = nz
         } else {
             tzNext = tzMin + (nz - iz) * dtz

@@ -3,6 +3,7 @@ package net.dinkla.raytracer.swing
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.JFrame
+import kotlin.system.exitProcess
 
 class ImageFrame private constructor(film: SwingFilm, private val isMainFrame: Boolean) : JFrame() {
 
@@ -24,7 +25,7 @@ class ImageFrame private constructor(film: SwingFilm, private val isMainFrame: B
         override fun windowClosing(ev: WindowEvent?) {
             dispose()
             if (isMainFrame) {
-                System.exit(0)
+                exitProcess(0)
             }
         }
     }

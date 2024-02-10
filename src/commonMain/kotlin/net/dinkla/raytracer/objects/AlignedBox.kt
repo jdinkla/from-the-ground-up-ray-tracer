@@ -87,10 +87,10 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         }
 
         if (t0 < t1 && t1 > MathUtils.K_EPSILON) {
-            if (t0 > MathUtils.K_EPSILON) {
-                return Shadow.Hit(t0)
+            return if (t0 > MathUtils.K_EPSILON) {
+                Shadow.Hit(t0)
             } else {
-                return Shadow.Hit(t1)
+                Shadow.Hit(t1)
             }
         }
         return Shadow.None

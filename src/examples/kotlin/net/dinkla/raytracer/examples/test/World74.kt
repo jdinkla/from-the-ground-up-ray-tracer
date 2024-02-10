@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples.test
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.acceleration.Acceleration

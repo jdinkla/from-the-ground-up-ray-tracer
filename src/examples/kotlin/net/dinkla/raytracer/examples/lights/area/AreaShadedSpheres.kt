@@ -8,6 +8,7 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
+@Suppress("unused")
 object AreaShadedSpheres : WorldDefinition {
 
     override val id = "AreaShadedSpheres.kt"

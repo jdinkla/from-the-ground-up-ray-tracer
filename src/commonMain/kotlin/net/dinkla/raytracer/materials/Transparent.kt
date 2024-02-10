@@ -36,25 +36,25 @@ class Transparent : Phong {
 
     var kt: Double
         get() = specularBTDF.kt
-        set(v: Double) {
+        set(v) {
             specularBTDF.kt = v
         }
 
     var ior: Double
         get() = specularBTDF.ior
-        set(v: Double) {
+        set(v) {
             specularBTDF.ior = v
         }
 
     var kr: Double
         get() = reflectiveBRDF.kr
-        set(v: Double) {
+        set(v) {
             reflectiveBRDF.kr = v
         }
 
     var cr: Color
         get() = reflectiveBRDF.cr
-        set(v: Color) {
+        set(v) {
             reflectiveBRDF.cr = v
         }
 

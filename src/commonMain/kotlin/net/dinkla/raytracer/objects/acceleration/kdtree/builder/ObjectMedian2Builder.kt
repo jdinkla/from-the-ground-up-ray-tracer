@@ -105,17 +105,17 @@ class ObjectMedian2Builder : TreeBuilder {
                     "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
             )
 
-            if (weightX < weightY) {
+            axis = if (weightX < weightY) {
                 if (weightX < weightZ) {
-                    axis = Axis.X
+                    Axis.X
                 } else {
-                    axis = Axis.Z
+                    Axis.Z
                 }
             } else {
                 if (weightY < weightZ) {
-                    axis = Axis.Y
+                    Axis.Y
                 } else {
-                    axis = Axis.Z
+                    Axis.Z
                 }
             }
         }

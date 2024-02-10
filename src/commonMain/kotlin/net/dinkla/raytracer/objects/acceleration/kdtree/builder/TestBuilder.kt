@@ -11,12 +11,11 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
-import kotlin.math.abs
 
 class TestBuilder : TreeBuilder {
 
     override var maxDepth = 30
-    var minChildren = 4
+    private var minChildren = 4
 
     override fun build(tree: KDTree, voxel: BBox): Node {
         return build(tree.objects, tree.boundingBox, 0)
@@ -24,7 +23,7 @@ class TestBuilder : TreeBuilder {
 
     class Partitioner(objects: ArrayList<IGeometricObject>, voxel: BBox) {
 
-        internal var root: Triple
+        private var root: Triple
 
         init {
             root = Triple()
@@ -49,7 +48,7 @@ class TestBuilder : TreeBuilder {
             }
         }
 
-        class Split(var parent: Triple?) {
+        class Split(private var parent: Triple?) {
 
             var axis: Axis? = null
             var split: Double = 0.0
@@ -71,7 +70,7 @@ class TestBuilder : TreeBuilder {
                 sah = calcSah()
             }
 
-            fun calcSah(): Double {
+            private fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
                 return (constF + left.volume / vol * left.objects!!.size + right.volume / vol * right.objects!!.size)
             }
@@ -118,7 +117,7 @@ class TestBuilder : TreeBuilder {
 
     fun build(objects: ArrayList<IGeometricObject>?, voxel: BBox, depth: Int): Node {
         Counter.count("KDtree.build")
-        var node: Node?
+        val node: Node?
         if (objects!!.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
             node = Leaf(objects)
@@ -133,18 +132,18 @@ class TestBuilder : TreeBuilder {
         val sY = par.x(Axis.Y, 3)
         val sZ = par.x(Axis.Z, 3)
 
-        var split: Partitioner.Split?
-        if (isLess(sX, sY)) {
+        val split: Partitioner.Split?
+        split = if (isLess(sX, sY)) {
             if (isLess(sX, sZ)) {
-                split = sX
+                sX
             } else {
-                split = sZ
+                sZ
             }
         } else {
             if (isLess(sY, sZ)) {
-                split = sY
+                sY
             } else {
-                split = sZ
+                sZ
             }
         }
         if (null == split) {

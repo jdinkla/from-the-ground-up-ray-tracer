@@ -18,7 +18,7 @@ fun worlds(): List<WorldDefinition> =
     }.filterNotNull()
 
 val worldMap: Map<String, WorldDefinition> by lazy {
-    worlds().map { it.id to it }.toMap()
+    worlds().associateBy { it.id }
 }
 
 fun worldDef(filename: String): WorldDefinition? = worldMap[filename]

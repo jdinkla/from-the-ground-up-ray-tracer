@@ -59,15 +59,6 @@ class ObjectMedianBuilder : TreeBuilder {
         // final Axis axis = Axis.fromInt(depth % 3);
         objects = objects.sortedWith(compareBy { it.boundingBox.q.ith(axis) })
 
-        //        objects.sortedWith { o1, o2 ->
-        //            val oP = o1 as GeometricObject
-        //            val oQ = o2 as GeometricObject
-        //            val bboxP = oP.boundingBox
-        //            val bboxQ = oQ.boundingBox
-        //            val p = bboxP.q
-        //            val q = bboxQ.q
-        //            Double.compare(p!!.ith(axis2), q!!.ith(axis2))
-        //        }
         val size = objects.size
         val minAxis = objects[0].boundingBox.p.ith(axis)
         val maxAxis = objects[objects.size - 1].boundingBox.p.ith(axis)

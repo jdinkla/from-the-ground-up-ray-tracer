@@ -3,7 +3,6 @@ package net.dinkla.raytracer.materials
 import net.dinkla.raytracer.brdf.GlossySpecular
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
-import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.world.IWorld
 
 class GlossyReflector : Phong() {

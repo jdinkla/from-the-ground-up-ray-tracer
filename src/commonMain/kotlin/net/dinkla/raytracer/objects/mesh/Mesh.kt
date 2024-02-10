@@ -38,10 +38,10 @@ class Mesh {
 
             // The following code attempts to avoid (nan, nan, nan) normalised normals when all components = 0
 
-            if (normal.x == 0.0 && normal.y == 0.0 && normal.z == 0.0) {
-                normal = Normal(normal.x, 1.0, normal.z)
+            normal = if (normal.x == 0.0 && normal.y == 0.0 && normal.z == 0.0) {
+                Normal(normal.x, 1.0, normal.z)
             } else {
-                normal = normal.normalize()
+                normal.normalize()
             }
 
             normals.add(index, normal)

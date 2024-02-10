@@ -7,6 +7,7 @@ import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
+import kotlin.system.exitProcess
 
 internal fun createMenuBar(parent: ActionListener): JMenuBar = JMenuBar().apply {
     add(
@@ -53,6 +54,6 @@ internal fun quit(frame: JFrame) {
         null
     )
     if (n == 0) {
-        System.exit(0)
+        exitProcess(0)
     }
 }

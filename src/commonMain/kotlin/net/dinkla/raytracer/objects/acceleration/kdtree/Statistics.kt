@@ -3,7 +3,6 @@ package net.dinkla.raytracer.objects.acceleration.kdtree
 import net.dinkla.raytracer.utilities.Histogram
 
 class Statistics {
-    internal var numObjects: Int = 0
     internal var numInner: Int = 0
     internal var numLeafs: Int = 0
     internal var numObjectsInLeafs: Int = 0
@@ -11,7 +10,6 @@ class Statistics {
     internal var depthsLeafs: Histogram
     internal var depthsNodes: Histogram
     internal var numChildrenInLeafs: Histogram
-    internal var numObjectsShared: Histogram? = null
 
     init {
         numInner = 0

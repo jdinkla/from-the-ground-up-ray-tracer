@@ -97,11 +97,11 @@ class Sampler(
                     phi = 4 + sp.y / sp.x
                 } else { // sector 4
                     r = -sp.y
-                    if (sp.y != 0.0) {
+                    phi = if (sp.y != 0.0) {
                         // avoid division by zero at origin
-                        phi = 6 - sp.x / sp.y
+                        6 - sp.x / sp.y
                     } else {
-                        phi = 0.0
+                        0.0
                     }
                 }
             }

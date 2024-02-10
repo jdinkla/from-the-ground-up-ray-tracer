@@ -11,7 +11,7 @@ class SamplerTest : StringSpec({
     val s = Sampler(PureRandom, 100, 10)
 
     "testSampleUnitSquare" {
-        (1..NUM).forEach {
+        repeat(NUM) {
             val p = s.sampleUnitSquare()
             p.x shouldBeGreaterThanOrEqual 0.0
             p.x shouldBeLessThan 1.0
@@ -22,7 +22,7 @@ class SamplerTest : StringSpec({
 
     "testSampleUnitDisk" {
         s.mapSamplesToUnitDisk()
-        (1..NUM).forEach {
+        repeat(NUM) {
             val p = s.sampleUnitDisk()
             p.x shouldBeGreaterThanOrEqual -1.0
             p.x shouldBeLessThan 1.0
@@ -34,7 +34,7 @@ class SamplerTest : StringSpec({
 
     "testSampleHemisphere" {
         s.mapSamplesToHemiSphere(1.0)
-        (1..NUM).forEach {
+        repeat(NUM) {
             val p = s.sampleHemisphere()
             p.x shouldBeGreaterThanOrEqual -1.0
             p.x shouldBeLessThan 1.0
@@ -47,7 +47,7 @@ class SamplerTest : StringSpec({
 
     "testSampleSphere" {
         s.mapSamplesToSphere()
-        (1..NUM).forEach {
+        repeat(NUM) {
             val p = s.sampleSphere()
             p.x shouldBeGreaterThanOrEqual -1.0
             p.x shouldBeLessThan 1.0

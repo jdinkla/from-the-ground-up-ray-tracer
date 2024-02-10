@@ -27,11 +27,11 @@ class Dielectric : Phong() {
 
         if (fresnelBtdf.isTir(sr)) {
             val lr = world.tracer?.trace(reflectedRay, t, sr.depth + 1) ?: Color.WHITE
-            if (nDotWi < 0) {
+            L += if (nDotWi < 0) {
                 // reflected ray is inside
-                L += cfIn.pow(t.value) * lr
+                cfIn.pow(t.value) * lr
             } else {
-                L += cfOut.pow(t.value) * lr
+                cfOut.pow(t.value) * lr
             }
         } else {
             // no total internal reflection

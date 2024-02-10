@@ -4,7 +4,7 @@ internal fun rand() = r.nextDouble()
 internal fun randInt(n: Int) = r.nextInt(n)
 private val r = java.util.Random()
 
-internal fun repeat3(n: Int, closure: (Int, Int, Int) -> Unit): Unit {
+internal fun repeat3(n: Int, closure: (Int, Int, Int) -> Unit) {
     repeat(n) { i ->
         repeat(n) { j ->
             repeat(n) { k ->

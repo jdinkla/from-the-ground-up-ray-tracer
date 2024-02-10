@@ -14,8 +14,8 @@ import kotlin.math.sin
 
 class Spherical(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
-    var maxLambda: Double = 180.0
-    var maxPsi: Double = 180.0
+    private var maxLambda: Double = 180.0
+    private var maxPsi: Double = 180.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
         val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width)
