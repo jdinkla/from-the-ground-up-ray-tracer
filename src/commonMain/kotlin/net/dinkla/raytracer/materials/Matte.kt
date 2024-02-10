@@ -75,7 +75,6 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
                         if (!inShadow) {
                             val f = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val l = light.L(world, sr, sample)
-                            // TODO: hier ist der Unterschied zu shade()
                             val f1 = light.G(sr, sample) / light.pdf(sr)
                             val T = (f * l) * nDotWi * f1
                             S + T
@@ -94,7 +93,7 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
     }
 
     override fun getLe(sr: IShade): Color {
-        return diffuseBRDF.rho(sr, Vector3D.UP) // TODO UP was null
+        return diffuseBRDF.rho(sr, Vector3D.UP)
     }
 
     override fun equals(other: Any?): Boolean = this.equals<Matte>(other) { a, b ->

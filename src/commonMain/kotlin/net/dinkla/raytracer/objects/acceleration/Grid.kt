@@ -43,7 +43,6 @@ open class Grid : CompoundWithMesh() {
 
         val timer = Timer()
         timer.start()
-        // setBoundingBox(getBoundingBox());        // TODO: wird in initialize() aufgerufen !!!
         val bbox = boundingBox
 
         val wx = bbox.q.x - bbox.p.x

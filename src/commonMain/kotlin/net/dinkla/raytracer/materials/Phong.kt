@@ -91,7 +91,6 @@ open class Phong(
                             val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
                             val fs = specularBRDF.f(sr, wo, sample.wi!!)
                             val l = light1.L(world, sr, sample)
-                            // TODO: hier ist der Unterschied zu shade()
                             val f1 = light1.G(sr, sample) / light1.pdf(sr)
                             val T = (fd + fs) * l * nDotWi * f1
                             S + T

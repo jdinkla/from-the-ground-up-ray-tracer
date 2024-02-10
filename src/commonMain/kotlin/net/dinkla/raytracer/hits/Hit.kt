@@ -15,7 +15,6 @@ open class Hit : ShadowHit, IHit {
         geometricObject = hit.geometricObject
     }
 
-    // TODO mutable state
     fun set(hit: Hit) {
         t = hit.t
         normal = hit.normal

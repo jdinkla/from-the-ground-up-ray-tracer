@@ -7,12 +7,8 @@ import net.dinkla.raytracer.math.Ray
 
 abstract class GeometricObject : IGeometricObject {
 
-    // TODO needed?
     override var isShadows = true
-
     override var material: IMaterial? = null
-
-    // TODO really needed?
     var isInitialized: Boolean = false
 
     override fun initialize() {

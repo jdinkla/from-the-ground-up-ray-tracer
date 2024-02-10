@@ -5,8 +5,6 @@ import com.soywiz.klock.Month
 import com.soywiz.klock.Year
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import net.dinkla.raytracer.gui.fileNameWithoutDirectory
-import net.dinkla.raytracer.gui.outputPngFileName
 
 internal class FilenameUtilitiesTest : StringSpec({
 

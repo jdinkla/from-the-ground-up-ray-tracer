@@ -18,8 +18,7 @@ infix fun Point3D.shouldBeApprox(expected: Point3D) {
 }
 
 object Fixture {
-
-    object ex {
+    object Ex {
         const val ka = 0.1
         const val kd = 0.2
         const val ks = 0.3

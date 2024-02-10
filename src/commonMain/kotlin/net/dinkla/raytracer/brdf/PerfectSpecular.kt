@@ -9,7 +9,6 @@ import kotlin.math.abs
 data class PerfectSpecular(var kr: Double = 1.0, var cr: Color = Color.WHITE) : BRDF {
     override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
         throw RuntimeException("PerfectSpecular.f")
-        // TODO Im C-Code Black
     }
 
     override fun sampleF(sr: IShade, wo: Vector3D): Sample {

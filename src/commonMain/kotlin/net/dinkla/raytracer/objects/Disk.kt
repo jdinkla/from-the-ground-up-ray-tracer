@@ -43,7 +43,6 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
         }
     }
 
-    // TODO why with p?
     fun getNormal(p: Point3D): Normal = normal
 
     override fun equals(other: Any?): Boolean = this.equals<Disk>(other) { a, b ->

@@ -1,7 +1,7 @@
 package net.dinkla.raytracer
 import kotlinx.coroutines.runBlocking
 import net.dinkla.raytracer.examples.worldMap
-import net.dinkla.raytracer.gui.outputPngFileName
+import net.dinkla.raytracer.utilities.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.CommandLine

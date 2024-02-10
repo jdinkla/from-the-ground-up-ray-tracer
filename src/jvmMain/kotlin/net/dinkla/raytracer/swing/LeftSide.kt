@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.swing
 
-import net.dinkla.raytracer.gui.fileNameWithoutDirectory
+import net.dinkla.raytracer.utilities.fileNameWithoutDirectory
 import java.awt.Component
 import java.io.File
 import javax.swing.JScrollPane

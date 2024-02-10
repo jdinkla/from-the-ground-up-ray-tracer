@@ -69,7 +69,6 @@ class Instance(
     override fun hit(ray: Ray, sr: IHit): Boolean {
         val invRay = ray(ray)
         if (geometricObject.hit(invRay, sr)) {
-            // TODO: Instance hit?
             val tmp = trans.invMatrix * sr.normal
             sr.normal = tmp.normalize()
             if (null != geometricObject.material) {

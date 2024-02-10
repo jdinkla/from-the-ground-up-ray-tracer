@@ -376,8 +376,6 @@ object Polynomials {
             coeffs3[1] = if (q < 0) v else -v
             coeffs3[2] = 1.0
 
-            // TODO: Was heißt s+ num
-            //            double[] ss3 = { s[0 + num], s[1 + num] };
             val ss3 = doubleArrayOf(s[0 + num], s[1 + num])
             num += solveQuadric(coeffs3, ss3)
             s[0] = ss3[0]

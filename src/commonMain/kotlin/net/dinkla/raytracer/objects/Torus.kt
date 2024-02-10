@@ -116,7 +116,6 @@ data class Torus(val a: Double, val b: Double) : GeometricObject() {
         return true
     }
 
-    // TODO implement!!!
     override fun shadowHit(ray: Ray): Shadow = Shadow.None
 
     private fun computeNormal(p: Point3D): Normal {

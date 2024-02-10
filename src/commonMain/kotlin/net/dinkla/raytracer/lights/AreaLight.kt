@@ -13,10 +13,7 @@ import net.dinkla.raytracer.world.IWorld
 class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
 
     var source: ILightSource? = null
-
-    // Emissive Material TODO: Warum nicht Emissive?
     var material: IMaterial? = null
-
     var numSamples: Int = 4
 
     inner class Sample {

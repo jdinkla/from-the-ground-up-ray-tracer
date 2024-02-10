@@ -71,7 +71,6 @@ class ObjectMedian2Builder : TreeBuilder {
             objectsRz = ArrayList()
         }
 
-        // TODO die sortierten merken
         fun split(medianIndex: Int) {
             // --------------- X ---------------
             axis = Axis.X

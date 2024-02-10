@@ -2,7 +2,7 @@ package net.dinkla.raytracer.world.dsl
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import net.dinkla.raytracer.Fixture.ex
+import net.dinkla.raytracer.Fixture.Ex
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.materials.Phong
@@ -14,10 +14,10 @@ class MaterialsScopeTest : StringSpec({
     "should handle matte" {
         // given
         val scope = MaterialsScope()
-        val matte = Matte(ex.cd)
+        val matte = Matte(Ex.cd)
 
         // when
-        scope.matte(id = id, cd = ex.cd)
+        scope.matte(id = id, cd = Ex.cd)
 
         // then
         scope.materials.size shouldBe 1
@@ -27,17 +27,17 @@ class MaterialsScopeTest : StringSpec({
 
     "should handle phong" {
         // given
-        val phong = Phong(ex.cd, ex.ka, ex.kd).apply {
-            exp = ex.exp
-            cs = ex.cs
-            ks = ex.ks
+        val phong = Phong(Ex.cd, Ex.ka, Ex.kd).apply {
+            exp = Ex.exp
+            cs = Ex.cs
+            ks = Ex.ks
         }
 
         println("phong $phong")
         val scope = MaterialsScope()
 
         // when
-        scope.phong(id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd, exp = ex.exp, cs = ex.cs, ks = ex.ks)
+        scope.phong(id = id, cd = Ex.cd, ka = Ex.ka, kd = Ex.kd, exp = Ex.exp, cs = Ex.cs, ks = Ex.ks)
 
         // then
         scope.materials.size shouldBe 1
@@ -48,19 +48,19 @@ class MaterialsScopeTest : StringSpec({
     "should handle reflective" {
         // given
         val scope = MaterialsScope()
-        val reflective = Reflective(ex.cd, ex.ka, ex.kd).apply {
-            exp = ex.exp
-            cs = ex.cs
-            ks = ex.ks
-            cr = ex.cr
-            kr = ex.kr
+        val reflective = Reflective(Ex.cd, Ex.ka, Ex.kd).apply {
+            exp = Ex.exp
+            cs = Ex.cs
+            ks = Ex.ks
+            cr = Ex.cr
+            kr = Ex.kr
         }
 
         // when
         scope.reflective(
-            id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
-            cr = ex.cr, kr = ex.kr,
-            ks = ex.ks, cs = ex.cs, exp = ex.exp
+            id = id, cd = Ex.cd, ka = Ex.ka, kd = Ex.kd,
+            cr = Ex.cr, kr = Ex.kr,
+            ks = Ex.ks, cs = Ex.cs, exp = Ex.exp
         )
 
         // then
@@ -78,10 +78,10 @@ class MaterialsScopeTest : StringSpec({
     "should handle emissive" {
         // given
         val scope = MaterialsScope()
-        val emissive = Emissive(ex.cd, ex.ks)
+        val emissive = Emissive(Ex.cd, Ex.ks)
 
         // when
-        scope.emissive(id = id, ce = ex.cd, le = ex.ks)
+        scope.emissive(id = id, ce = Ex.cd, le = Ex.ks)
 
         // then
         scope.materials.size shouldBe 1
@@ -93,24 +93,24 @@ class MaterialsScopeTest : StringSpec({
         // given
         val scope = MaterialsScope()
         val transparent = Transparent().apply {
-            cd = ex.cd
-            ka = ex.ka
-            kd = ex.kd
-            exp = ex.exp
-            ks = ex.ks
-            cs = ex.cs
-            kt = ex.kt
-            ior = ex.ior
-            cr = ex.cr
-            kr = ex.kr
+            cd = Ex.cd
+            ka = Ex.ka
+            kd = Ex.kd
+            exp = Ex.exp
+            ks = Ex.ks
+            cs = Ex.cs
+            kt = Ex.kt
+            ior = Ex.ior
+            cr = Ex.cr
+            kr = Ex.kr
         }
 
         // when
         scope.transparent(
-            id = id, cd = ex.cd, ka = ex.ka, kd = ex.kd,
-            cr = ex.cr, kr = ex.kr,
-            ks = ex.ks, cs = ex.cs, exp = ex.exp,
-            kt = ex.kt, ior = ex.ior
+            id = id, cd = Ex.cd, ka = Ex.ka, kd = Ex.kd,
+            cr = Ex.cr, kr = Ex.kr,
+            ks = Ex.ks, cs = Ex.cs, exp = Ex.exp,
+            kt = Ex.kt, ior = Ex.ior
         )
 
         // then

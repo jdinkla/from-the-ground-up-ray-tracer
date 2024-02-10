@@ -93,7 +93,6 @@ open class Compound : GeometricObject() {
 
     fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
         Counter.count("Compound.inShadow")
-        // TODO: Wieso hier createMax ? ShadowHit t = ShadowHit.createMax();
         val t = ShadowHit(d)
         for (geoObj in objects) {
             val b = geoObj.shadowHit(ray, t)
@@ -125,7 +124,6 @@ open class Compound : GeometricObject() {
         for (geometricObject in objects) {
             geometricObject.initialize()
         }
-        // TODO Warum wird das vorberechnet? Warum nicht lazy?
         calcBoundingBox()
     }
 

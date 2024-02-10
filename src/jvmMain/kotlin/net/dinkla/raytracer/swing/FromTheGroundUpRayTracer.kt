@@ -5,8 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.gui.fileNameWithoutDirectory
-import net.dinkla.raytracer.gui.outputPngFileName
+import net.dinkla.raytracer.utilities.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.tracers.Tracers

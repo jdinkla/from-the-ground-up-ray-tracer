@@ -16,9 +16,6 @@ object World23 : WorldDefinition {
     private const val numSamples = 4
 
     override fun world() = build {
-//    camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), numThreads: 20)
-        // TODO type and maxPSi camera(direction: 500, eye: p(0, 1.5, 10), lookAt: p(0, 1, 0), type: FishEye, maxPsi: 180)
-        // camera(eye= p(0.0, 1.5, 10.0), lookAt= p(0, 1, 0), type = FishEye, maxPsi = 180)
         camera(eye = p(0.0, 1.5, 10.0), lookAt = p(0, 1, 0))
 
         ambientLight(color = Color.WHITE, ls = 0.5)

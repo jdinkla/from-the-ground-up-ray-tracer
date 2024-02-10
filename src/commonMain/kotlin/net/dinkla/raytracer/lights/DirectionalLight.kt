@@ -6,19 +6,11 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.IWorld
 
-/**
- * TODO: DirectionalLight Light implementieren
- */
 class DirectionalLight(override val shadows: Boolean = true) : Light {
 
     var ls: Double = 0.toDouble()
     var color: Color
     private var negatedDirection: Vector3D
-
-    // TODO cleanup direction
-//    val direction
-//        get() = negatedDirection
-//        set(v) = this.negatedDirection = -v
 
     init {
         ls = 1.0

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.gui
+package net.dinkla.raytracer.utilities
 
 import com.soywiz.klock.DateFormat
 import com.soywiz.klock.DateTime

@@ -14,7 +14,6 @@ data class Vector3D(val x: Double, val y: Double, val z: Double) {
 
     infix fun dot(v: Vector3D): Double = x * v.x + y * v.y + z * v.z
 
-    // TODO null check elsewhere?
     infix fun dot(v: Normal?): Double = if (null == v) {
         x * y * z
     } else {
