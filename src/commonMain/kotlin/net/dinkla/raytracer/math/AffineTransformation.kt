@@ -5,6 +5,7 @@ import net.dinkla.raytracer.utilities.equals
 import kotlin.math.cos
 import kotlin.math.sin
 
+@Suppress("TooManyFunctions")
 class AffineTransformation : Transformation {
 
     override var forwardMatrix: Matrix = Matrix.identity()

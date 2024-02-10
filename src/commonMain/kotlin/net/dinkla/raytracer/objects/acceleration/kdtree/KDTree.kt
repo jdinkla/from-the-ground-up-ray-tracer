@@ -24,7 +24,7 @@ class KDTree(
         }
         //        builder.setMaxDepth(n);
         root = builder.build(this, boundingBox)
-        Statistics.statistics(this)
+        Statistics.print(this)
         // Logger.info(root!!.printBBoxes(0))
     }
 

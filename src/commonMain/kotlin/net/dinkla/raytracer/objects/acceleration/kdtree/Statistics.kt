@@ -42,7 +42,7 @@ class Statistics {
             }
         }
 
-        fun statistics(tree: KDTree) {
+        fun print(tree: KDTree) {
             val s = Statistics()
             cs(tree.root, s, 0)
 
@@ -59,15 +59,6 @@ class Statistics {
 
             println("numChildrenInLeafs")
             s.numChildrenInLeafs.println()
-
-            // Anzahl Innernodes + Anzahl Leafs
-            // Anzahl Objekte
-
-            // maxDepth
-            // minDepth Leaf
-            // Histogram Knoten in Leafs
-            // Histogram Object in Knoten (shared objects)
-            // Histogramm Knoten pro Tiefe
         }
     }
 }

@@ -70,7 +70,7 @@ class WorldScope {
         ambientLight = Ambient(ls, color)
     }
 
-    fun ambientOccluder(minAmount: Color, sampler: Sampler, numSamples: Int) {
+    fun ambientOccluder(sampler: Sampler, numSamples: Int) {
         ambientLight = AmbientOccluder(sampler, numSamples)
     }
 

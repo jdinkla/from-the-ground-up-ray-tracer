@@ -31,6 +31,7 @@ class ViewPlane : IColorCorrector {
     }
 
     override fun toString(): String {
-        return ("Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maximalRecursionDepth")
+        return ("Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, "
+                + "gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maximalRecursionDepth")
     }
 }

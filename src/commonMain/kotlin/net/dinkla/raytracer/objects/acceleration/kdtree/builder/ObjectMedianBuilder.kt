@@ -139,12 +139,14 @@ class ObjectMedianBuilder : TreeBuilder {
 
         if (objects.size == objectsL.size || objects.size == objectsR.size) {
             Logger.info(
-                "Not splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth
+                "Not splitting " + objects.size + " objects into " + objectsL.size + " and "
+                        + objectsR.size + " objects at " + split + " with depth " + depth
             )
             node = Leaf(objects)
         } else {
             Logger.info(
-                "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width
+                "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and "
+                        + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width
             )
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
             val right = build(objectsR, voxelR ?: BBox(), depth + 1)

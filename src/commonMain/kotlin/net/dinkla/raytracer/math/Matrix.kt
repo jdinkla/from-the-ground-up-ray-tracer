@@ -8,6 +8,7 @@ inline fun loop(f: (Int, Int) -> Unit) {
     }
 }
 
+@SuppressWarnings("TooManyFunctions")
 class Matrix private constructor() {
 
     private var m: DoubleArray = DoubleArray(n * n)

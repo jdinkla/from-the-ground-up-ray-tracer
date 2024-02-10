@@ -17,6 +17,7 @@ import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Counter
 
+@SuppressWarnings("LongParameterList")
 class World(
     val metadata: Metadata,
     val camera: Camera,
@@ -29,14 +30,13 @@ class World(
 ) : IWorld {
 
     override var backgroundColor: Color = Color.BLACK
-
     override var tracer: Tracer? = null
     var renderer: IRenderer? = null
 
     @Deprecated("unused")
-    fun hit(ray: Ray): Shade {
+    fun hit(): Shade {
         Counter.count("World.hit1")
-        return compound.hitObjects(this, ray)
+        return compound.hitObjects()
     }
 
     override fun hit(ray: Ray, sr: IHit): Boolean {
@@ -52,7 +52,7 @@ class World(
 
     override fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
         Counter.count("World.inShadow")
-        return compound.inShadow(ray, sr, d)
+        return compound.inShadow(ray, d)
     }
 
     override fun shouldStopRecursion(depth: Int): Boolean {

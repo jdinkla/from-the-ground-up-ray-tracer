@@ -45,7 +45,9 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
         }
     }
 
-    internal inner class Worker(private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int) : RecursiveAction() {
+    internal inner class Worker(
+        private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int
+    ) : RecursiveAction() {
         override fun compute() {
             var count = 0
             var r = yStart

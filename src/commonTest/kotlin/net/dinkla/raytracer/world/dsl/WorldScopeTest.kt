@@ -17,7 +17,7 @@ class WorldScopeTest : StringSpec({
     "ambientOccluder" {
         val scope = WorldScope()
         val old = scope.world.ambientLight
-        scope.ambientOccluder(Color.RED, Sampler(Constant()), 10)
+        scope.ambientOccluder(Sampler(Constant()), 10)
         scope.world.ambientLight shouldNotBe old
     }
 })

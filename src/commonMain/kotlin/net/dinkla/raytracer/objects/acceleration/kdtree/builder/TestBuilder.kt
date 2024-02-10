@@ -52,7 +52,7 @@ class TestBuilder : TreeBuilder {
         class Split(var parent: Triple?) {
 
             var axis: Axis? = null
-            var split: Double = 0.toDouble()
+            var split: Double = 0.0
             var left: Triple = Triple()
             var right: Triple = Triple()
 
@@ -73,15 +73,11 @@ class TestBuilder : TreeBuilder {
 
             fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
-                return (
-                    constF.toDouble() +
-                        left.volume / vol * left.objects!!.size +
-                        right.volume / vol * right.objects!!.size
-                    )
+                return (constF + left.volume / vol * left.objects!!.size + right.volume / vol * right.objects!!.size)
             }
 
             companion object {
-                const val constF = 0.333334f
+                const val constF = 0.333334
 
                 fun max(): Split {
                     val s = Split(null)
@@ -93,14 +89,12 @@ class TestBuilder : TreeBuilder {
 
         fun x(axis: Axis, num: Int): Split? {
             var min: Split? = null
-            val width = root.bbox.q.ith(axis) - root.bbox.p.ith(axis)
-            // divide interval in num parts
+            val width = root.bbox.q.ith(axis) - root.bbox.p.ith(axis) // divide interval in num parts
             val step = width / (num + 1)
             for (i in 1 until num) {
                 val split = root.bbox.p.ith(axis) + i * step
                 val s = calcSplit(axis, split, root)
                 if (s.isOk && (null == min || s.sah < min.sah)) {
-                    //                    Logger.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
                     min = s
                 }
             }
@@ -113,7 +107,9 @@ class TestBuilder : TreeBuilder {
                 val s = Split(parent)
                 s.axis = axis
                 s.split = split
-                ListUtilities.splitByAxis(parent.objects!!, split, axis, s.left.objects!!.toMutableList(), s.right.objects!!.toMutableList())
+                ListUtilities.splitByAxis(
+                    parent.objects!!, split, axis, s.left.objects!!.toMutableList(), s.right.objects!!.toMutableList()
+                )
                 s.update()
                 return s
             }
@@ -158,7 +154,10 @@ class TestBuilder : TreeBuilder {
             split.left.objects!!
             split.right.objects!!
 
-            Logger.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)
+            Logger.info(
+                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size
+                        + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth
+            )
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
             node = InnerNode(left, right, voxel, split.split, split.axis!!)
@@ -174,10 +173,6 @@ class TestBuilder : TreeBuilder {
             } else {
                 false
             }
-        }
-
-        private fun weight(a: Int, b: Int, c: Int): Int {
-            return abs(a - c / 2) + abs(b - c / 2)
         }
     }
 }

@@ -25,12 +25,10 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
             get() = (-lightNormal!!) dot (wi!!)
     }
 
-    fun L(world: IWorld, sr: IShade, sample: Sample): Color {
-        return if (sample.nDotD > 0) {
-            sr.material?.getLe(sr) ?: world.backgroundColor
-        } else {
-            Color.BLACK
-        }
+    fun l(world: IWorld, sr: IShade, sample: Sample): Color = if (sample.nDotD > 0) {
+        sr.material?.getLe(sr) ?: world.backgroundColor
+    } else {
+        Color.BLACK
     }
 
     fun inShadow(world: IWorld, ray: Ray, sr: IShade, sample: Sample): Boolean {

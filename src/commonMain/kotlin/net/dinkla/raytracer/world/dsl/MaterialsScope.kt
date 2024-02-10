@@ -24,6 +24,7 @@ class MaterialsScope {
         mutableMaterials[id] = Matte(cd, ka, kd)
     }
 
+    @SuppressWarnings("LongParameterList")
     fun phong(
         id: String,
         cd: Color = Color.WHITE,
@@ -40,6 +41,7 @@ class MaterialsScope {
         }
     }
 
+    @SuppressWarnings("LongParameterList")
     fun reflective(
         id: String,
         cd: Color = Color.WHITE,
@@ -68,6 +70,7 @@ class MaterialsScope {
         mutableMaterials[id] = Emissive(ce, le)
     }
 
+    @SuppressWarnings("LongParameterList")
     fun transparent(
         id: String,
         cd: Color = Color.WHITE,

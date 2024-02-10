@@ -114,7 +114,6 @@ class Test2Builder : TreeBuilder {
                 if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
                     val s = calcSplit(axis, split, root)
                     if (s.isOk && (null == min || s.sah < min.sah)) {
-                        // Logger.info("Split: axis=" + axis + ", split=" + split + ", sah=" + s.sah + ", left=" + s.left.objects.size() + ", right=" + s.right.objects.size() + ", min=" + (null == min ? -1 : min.sah) );
                         min = s
                     }
                 }
@@ -128,7 +127,13 @@ class Test2Builder : TreeBuilder {
                 val s = Split(parent)
                 s.axis = axis
                 s.split = split
-                ListUtilities.splitByAxis(parent.objects!!, split, axis, s.left.objects!!.toMutableList(), s.right.objects!!.toMutableList())
+                ListUtilities.splitByAxis(
+                    parent.objects!!,
+                    split,
+                    axis,
+                    s.left.objects!!.toMutableList(),
+                    s.right.objects!!.toMutableList()
+                )
 
                 s.left.bbox = parent.bbox!!.splitLeft(axis, split)
                 s.right.bbox = parent.bbox!!.splitRight(axis, split)
@@ -183,7 +188,10 @@ class Test2Builder : TreeBuilder {
         } else {
             split.left.objects!!
             split.right.objects!!
-            Logger.info("Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth)
+            Logger.info(
+                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size
+                        + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth
+            )
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
             node = InnerNode(left, right, voxel!!, split.split, split.axis!!)

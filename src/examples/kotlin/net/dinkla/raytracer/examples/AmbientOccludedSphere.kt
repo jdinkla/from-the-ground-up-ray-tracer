@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.samplers.Constant
@@ -31,9 +30,7 @@ object AmbientOccludedSphere : WorldDefinition {
         camera(d = 1000.0, eye = p(0.0, 1.0, 7.0), lookAt = p(0.0, 0.75, 0.0))
 
         ambientOccluder(
-            minAmount = Color.WHITE,
-            sampler = sampler,
-            numSamples = numberOfAmbientSamples
+            sampler = sampler, numSamples = numberOfAmbientSamples
         )
 
         lights {

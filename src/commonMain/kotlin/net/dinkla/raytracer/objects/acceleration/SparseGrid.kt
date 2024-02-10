@@ -263,15 +263,14 @@ class SparseGrid : Grid() {
         // traverse the grid
         while (true) {
             val idx = ix + nx * iy + nx * ny * iz
-            val `object` = cellsX[idx]
-            // GeometricObject geometricObject = cells[ix + nx * iy + nx * ny * iz];
+            val theObject = cellsX[idx]
             val sr2 = Hit(sr.t)
             if (txNext < tyNext && txNext < tzNext) {
-                if (null != `object` && `object`.hit(ray, sr2) && sr2.t < txNext) {
+                if (null != theObject && theObject.hit(ray, sr2) && sr2.t < txNext) {
                     sr.t = sr2.t
                     sr.normal = sr2.normal
-                    if (`object` !is Compound) {
-                        sr.geometricObject = `object`
+                    if (theObject !is Compound) {
+                        sr.geometricObject = theObject
                     } else {
                         sr.geometricObject = sr2.geometricObject
                     }
@@ -286,11 +285,11 @@ class SparseGrid : Grid() {
                 }
             } else {
                 if (tyNext < tzNext) {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tyNext) {
+                    if (null != theObject && theObject.hit(ray, sr2) && sr2.t < tyNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
-                        if (`object` !is Compound) {
-                            sr.geometricObject = `object`
+                        if (theObject !is Compound) {
+                            sr.geometricObject = theObject
                         } else {
                             sr.geometricObject = sr2.geometricObject
                         }
@@ -304,11 +303,11 @@ class SparseGrid : Grid() {
                         return false
                     }
                 } else {
-                    if (null != `object` && `object`.hit(ray, sr2) && sr2.t < tzNext) {
+                    if (null != theObject && theObject.hit(ray, sr2) && sr2.t < tzNext) {
                         sr.t = sr2.t
                         sr.normal = sr2.normal
-                        if (`object` !is Compound) {
-                            sr.geometricObject = `object`
+                        if (theObject !is Compound) {
+                            sr.geometricObject = theObject
                         } else {
                             sr.geometricObject = sr2.geometricObject
                         }

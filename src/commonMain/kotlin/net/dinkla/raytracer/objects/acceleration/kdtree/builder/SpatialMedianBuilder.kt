@@ -43,8 +43,7 @@ class SpatialMedianBuilder : TreeBuilder {
         val objectsL = ArrayList<IGeometricObject>()
         val objectsR = ArrayList<IGeometricObject>()
 
-        if (depth % 3 == 0) {
-            // x
+        if (depth % 3 == 0) { // x
             split = mid.x
 
             val q1 = Point3D(mid.x, voxel.q.y, voxel.q.z)
@@ -62,8 +61,7 @@ class SpatialMedianBuilder : TreeBuilder {
                     objectsR.add(geometricObject)
                 }
             }
-        } else if (depth % 3 == 1) {
-            // y
+        } else if (depth % 3 == 1) { // y
             split = mid.y
 
             val q1 = Point3D(voxel.q.x, mid.y, voxel.q.z)
@@ -81,8 +79,7 @@ class SpatialMedianBuilder : TreeBuilder {
                     objectsR.add(geometricObject)
                 }
             }
-        } else if (depth % 3 == 2) {
-            // z
+        } else if (depth % 3 == 2) { // z
             split = mid.z
 
             val q1 = Point3D(voxel.q.x, voxel.q.y, mid.z)
@@ -102,7 +99,10 @@ class SpatialMedianBuilder : TreeBuilder {
             }
         }
 
-        Logger.info("Splitting " + objects.size + " objects into " + objectsL.size + " and " + objectsR.size + " objects at " + split + " with depth " + depth)
+        Logger.info(
+            "Splitting " + objects.size + " objects into " + objectsL.size + " and "
+                    + objectsR.size + " objects at " + split + " with depth " + depth
+        )
         val left = build(objectsL, voxelL, depth + 1)
         val right = build(objectsR, voxelR, depth + 1)
         return InnerNode(left, right, voxel, split!!, Axis.fromInt(depth))

@@ -15,6 +15,7 @@ class Transparent : Phong {
     private var reflectiveBRDF = PerfectSpecular()
     private var specularBTDF = PerfectTransmitter()
 
+    @SuppressWarnings("LongParameterList")
     constructor(
         color: Color = Color.WHITE,
         ka: Double = 0.25,

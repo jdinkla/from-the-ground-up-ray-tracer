@@ -205,12 +205,14 @@ class ObjectMedian2Builder : TreeBuilder {
                 i++
             }
             if (!par.isFound) {
-                Logger.info("Not splitting " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+                Logger.info("Not splitting " + objects.size + " objects into " + par.objectsL.size + " and "
+                        + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
                 node = Leaf(objects)
             }
         }
         if (null == node) {
-            Logger.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+            Logger.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size
+                    + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
             val left = build(par.objectsL, par.voxelL, depth + 1)
             val right = build(par.objectsR, par.voxelR, depth + 1)
             node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth))

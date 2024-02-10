@@ -21,6 +21,7 @@ class DiskLight(
     val pdf = 1.0 / (PI * radius * radius)
 
     override fun pdf(sr: IShade): Double = pdf
+    override fun getNormal(p: Point3D): Normal = normal
 
     override fun sample(): Point3D {
         val sp = sampler.sampleUnitDisk()

@@ -139,7 +139,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     }
 
     private fun render(file: File) {
-        Logger.info("render ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
+        log(file, "render")
         val context = Context(tracers[selectedTracer].create, createRenderer(renderers[selectedRenderer]), resolution)
         worldDef(file.name)?.let {
             launch {
@@ -162,7 +162,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     }
 
     private fun png(file: File) {
-        Logger.info("png ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}")
+        log(file, "png")
         val context = Context(tracers[selectedTracer].create, createRenderer(renderers[selectedRenderer]), resolution)
         worldDef(file.name)?.let {
             launch {
@@ -179,6 +179,12 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
 
     private fun dialog(message: String?, title: String, type: Int) =
         JOptionPane.showMessageDialog(frame, message, title, type)
+
+    private fun log(file: File, name: String) {
+        Logger.info(
+            "$name ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}"
+        )
+    }
 }
 
 fun main() {

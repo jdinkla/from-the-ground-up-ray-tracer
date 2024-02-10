@@ -76,25 +76,23 @@ open class Phong(
         val wo = -sr.ray.direction
         val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
-        for (light1 in world.lights) {
-            if (light1 is AreaLight) {
-                val ls = light1.getSamples(sr)
-                for (sample in ls) {
-                    val nDotWi = sample.wi!! dot sr.normal
-                    if (nDotWi > 0) {
-                        var inShadow = false
-                        if (light1.shadows) {
-                            val shadowRay = Ray(sr.hitPoint, sample.wi!!)
-                            inShadow = light1.inShadow(world, shadowRay, sr, sample)
-                        }
-                        if (!inShadow) {
-                            val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
-                            val fs = specularBRDF.f(sr, wo, sample.wi!!)
-                            val l = light1.L(world, sr, sample)
-                            val f1 = light1.G(sr, sample) / light1.pdf(sr)
-                            val T = (fd + fs) * l * nDotWi * f1
-                            S + T
-                        }
+        for (light in world.lights.filterIsInstance<AreaLight>()) {
+            val ls = light.getSamples(sr)
+            for (sample in ls) {
+                val nDotWi = sample.wi!! dot sr.normal
+                if (nDotWi > 0) {
+                    var inShadow = false
+                    if (light.shadows) {
+                        val shadowRay = Ray(sr.hitPoint, sample.wi!!)
+                        inShadow = light.inShadow(world, shadowRay, sr, sample)
+                    }
+                    if (!inShadow) {
+                        val fd = diffuseBRDF.f(sr, wo, sample.wi!!)
+                        val fs = specularBRDF.f(sr, wo, sample.wi!!)
+                        val l = light.l(world, sr, sample)
+                        val f1 = light.G(sr, sample) / light.pdf(sr)
+                        val T = (fd + fs) * l * nDotWi * f1
+                        S + T
                     }
                 }
             }

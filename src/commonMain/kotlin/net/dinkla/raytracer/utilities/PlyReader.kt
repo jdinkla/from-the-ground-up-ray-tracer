@@ -72,58 +72,57 @@ class PlyReader(
         }
     }
 
-    private fun handleBody(line: String) {
-        when {
-            numVerticesLeft > 0 -> {
-                val cs = line.split(" ")
-                if (cs.size < 3) {
-                    throw RuntimeException("Not enough elements in line $numLine")
-                }
-                val x = cs[0].toDouble()
-                val y = cs[1].toDouble()
-                val z = cs[2].toDouble()
-                val p = Point3D(x, y, z)
-                mesh.vertices.add(p)
-                numVerticesLeft--
-                if (numLine % logInterval == 0) {
-                    Logger.debug("PLY: $numVerticesLeft vertices to read")
-                }
-            }
+    private fun handleBody(line: String) = when {
+        numVerticesLeft > 0 -> handleVerticesLeft(line)
+        numFacesLeft > 0 -> handleFacesLeft(line)
+        isWhiteSpace(line) -> {
+        }
+        else -> {
+            throw RuntimeException("Unknown file format in line $numLine: `$line`")
+        }
+    }
 
-            numFacesLeft > 0 -> {
-                val cs = line.split(" ")
-                val size = cs[0].toInt()
-                if (cs.size < size + 1) {
-                    throw RuntimeException("Not enough elements in line $numLine")
-                }
-                val i0 = cs[1].toInt()
-                val i1 = cs[2].toInt()
-                val i2 = cs[3].toInt()
-                val triangle: MeshTriangle
-                if (isSmooth) {
-                    triangle = SmoothMeshTriangle(mesh, i0, i1, i2)
-                    add(i0, countFaces)
-                    add(i1, countFaces)
-                    add(i2, countFaces)
-                } else {
-                    triangle = FlatMeshTriangle(mesh, i0, i1, i2)
-                }
-                triangle.computeNormal(reverseNormal)
-                triangle.material = this.material
-                compound.add(triangle)
-                numFacesLeft--
-                countFaces++
-                if (numLine % logInterval == 0) {
-                    Logger.debug("PLY: $numFacesLeft faces to read")
-                }
-            }
+    private fun handleFacesLeft(line: String) {
+        val cs = line.split(" ")
+        val size = cs[0].toInt()
+        if (cs.size < size + 1) {
+            throw RuntimeException("Not enough elements in line $numLine")
+        }
+        val i0 = cs[1].toInt()
+        val i1 = cs[2].toInt()
+        val i2 = cs[3].toInt()
+        val triangle: MeshTriangle
+        if (isSmooth) {
+            triangle = SmoothMeshTriangle(mesh, i0, i1, i2)
+            add(i0, countFaces)
+            add(i1, countFaces)
+            add(i2, countFaces)
+        } else {
+            triangle = FlatMeshTriangle(mesh, i0, i1, i2)
+        }
+        triangle.computeNormal(reverseNormal)
+        triangle.material = this.material
+        compound.add(triangle)
+        numFacesLeft--
+        countFaces++
+        if (numLine % logInterval == 0) {
+            Logger.debug("PLY: $numFacesLeft faces to read")
+        }
+    }
 
-            isWhiteSpace(line) -> {
-            }
-
-            else -> {
-                throw RuntimeException("Unknown file format in line $numLine: `$line`")
-            }
+    private fun handleVerticesLeft(line: String) {
+        val cs = line.split(" ")
+        if (cs.size < 3) {
+            throw RuntimeException("Not enough elements in line $numLine")
+        }
+        val x = cs[0].toDouble()
+        val y = cs[1].toDouble()
+        val z = cs[2].toDouble()
+        val p = Point3D(x, y, z)
+        mesh.vertices.add(p)
+        numVerticesLeft--
+        if (numLine % logInterval == 0) {
+            Logger.debug("PLY: $numVerticesLeft vertices to read")
         }
     }
 

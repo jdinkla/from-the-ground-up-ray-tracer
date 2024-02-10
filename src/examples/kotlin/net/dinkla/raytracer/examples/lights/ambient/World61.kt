@@ -23,7 +23,7 @@ object World61 : WorldDefinition {
 
         camera(d = 1000.0, eye = p(0.0, 1.0, 5.0), lookAt = p(0.0, 1.0, 0.0))
 
-        ambientOccluder(sampler = sampler1, numSamples = NUM_AMBIENT_SAMPLES, minAmount = Color.WHITE)
+        ambientOccluder(sampler = sampler1, numSamples = NUM_AMBIENT_SAMPLES)
 
         lights {
             pointLight(location = p(0.0, 100.0, 100.0), ls = 1.0, color = Color.WHITE)

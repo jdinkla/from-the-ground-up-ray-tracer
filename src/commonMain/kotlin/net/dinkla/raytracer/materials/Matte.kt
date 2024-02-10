@@ -74,7 +74,7 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
                         }
                         if (!inShadow) {
                             val f = diffuseBRDF.f(sr, wo, sample.wi!!)
-                            val l = light.L(world, sr, sample)
+                            val l = light.l(world, sr, sample)
                             val f1 = light.G(sr, sample) / light.pdf(sr)
                             val T = (f * l) * nDotWi * f1
                             S + T

@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.examples
 
-import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.samplers.MultiJittered
@@ -24,7 +23,7 @@ object Bunny : WorldDefinition {
 
         camera(d = 2000.0, eye = p(0, 1, 10), lookAt = p(0.0, 1.0, 0.0))
 
-        ambientOccluder(minAmount = Color.WHITE, sampler = sampler, numSamples = 1)
+        ambientOccluder(sampler = sampler, numSamples = 1)
 
         lights {
             pointLight(location = p(0, 5, 5), ls = 1.0)

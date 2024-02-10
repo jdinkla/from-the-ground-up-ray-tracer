@@ -2,19 +2,16 @@ package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
-import net.dinkla.raytracer.world.IWorld
 
 open class Compound : GeometricObject() {
 
@@ -70,12 +67,9 @@ open class Compound : GeometricObject() {
         return hit
     }
 
-    fun hitObjects(world: IWorld, ray: Ray): Shade {
+    fun hitObjects(): Shade {
         Counter.count("Compound.hitObjects")
-        val tmin = WrappedDouble.createMax()
-        val sr = Shade()
-        val b = hit(ray, sr)
-        return sr
+        return Shade()
     }
 
     override fun shadowHit(ray: Ray): Shadow {
@@ -91,7 +85,7 @@ open class Compound : GeometricObject() {
         return Shadow.None
     }
 
-    fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
+    fun inShadow(ray: Ray, d: Double): Boolean {
         Counter.count("Compound.inShadow")
         val t = ShadowHit(d)
         for (geoObj in objects) {
