@@ -31,9 +31,9 @@ object World33 : WorldDefinition {
             plane(material= "grey", point= p(0, -1, 0), normal= n(0, 1, 0))
             plane(material= "sky", point= p(0, 99999, 0), normal= n(0, -1, 0))
 
-            sphere(material= "rr", center= p(1, 0, 1), radius= 0.9);
-            sphere(material= "gr", center= p(3, 0, 1), radius= 0.9);
-            sphere(material= "br", center= p(5, 0, 1), radius= 0.9);
+            sphere(material= "rr", center= p(1, 0, 1), radius= 0.9)
+            sphere(material= "gr", center= p(3, 0, 1), radius= 0.9)
+            sphere(material= "br", center= p(5, 0, 1), radius= 0.9)
         }
     }
 }

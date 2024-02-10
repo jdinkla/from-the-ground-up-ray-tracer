@@ -17,17 +17,13 @@ interface IGeometricObject {
 
     fun hit(ray: Ray, sr: IHit): Boolean
 
-    fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
-        val t = shadowHit(ray)
-        return when (t) {
-            is Shadow.Hit -> {
-                tmin.t = t.t
-                true
-            }
-
-            Shadow.None -> {
-                false
-            }
+    fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean = when (val t = shadowHit(ray)) {
+        is Shadow.Hit -> {
+            tmin.t = t.t
+            true
+        }
+        Shadow.None -> {
+            false
         }
     }
 

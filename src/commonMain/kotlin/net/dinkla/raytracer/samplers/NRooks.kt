@@ -6,7 +6,7 @@ import net.dinkla.raytracer.utilities.Random
 object NRooks : IGenerator {
 
     override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
-        val samples = buildList<Point2D>() {
+        val samples = buildList<Point2D> {
             for (p in 0 until numSets) {
                 for (j in 0 until numSamples) {
                     val x = (j + Random.double()) / numSamples

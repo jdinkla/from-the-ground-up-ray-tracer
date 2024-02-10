@@ -16,9 +16,7 @@ class ViewPlane : IColorCorrector {
     private var showOutOfGamutForDebugging: Boolean = false
 
     var maximalRecursionDepth: Int = 5
-        private set(value) {
-            field = value
-        }
+        private set
 
     override fun correct(color: Color): Color {
         val newColor = if (showOutOfGamutForDebugging) {

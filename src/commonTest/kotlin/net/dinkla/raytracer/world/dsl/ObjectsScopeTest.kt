@@ -266,7 +266,7 @@ internal class ObjectsScopeTest : StringSpec({
         scope.objects.size shouldBe 0
 
         // when
-        scope.grid() {
+        scope.grid {
             sphere(material = someMaterialId, center = somePoint, radius = someRadius)
         }
 
@@ -286,7 +286,7 @@ internal class ObjectsScopeTest : StringSpec({
         scope.objects.size shouldBe 0
 
         // when
-        scope.kdtree() {
+        scope.kdtree {
             sphere(material = someMaterialId, center = somePoint, radius = someRadius)
         }
 

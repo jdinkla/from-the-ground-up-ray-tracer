@@ -11,7 +11,7 @@ import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.pow
 
-class SparseGrid() : Grid() {
+class SparseGrid : Grid() {
 
     // protected GeometricObject[] cells;
     private var cellsX: MutableMap<Int, IGeometricObject> = mutableMapOf()

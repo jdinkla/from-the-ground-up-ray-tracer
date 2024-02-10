@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.math
 
-enum class Face constructor(val normal: Normal) {
+enum class Face(val normal: Normal) {
     LEFT(Normal.LEFT),
     RIGHT(Normal.RIGHT),
     FRONT(Normal.BACKWARD),

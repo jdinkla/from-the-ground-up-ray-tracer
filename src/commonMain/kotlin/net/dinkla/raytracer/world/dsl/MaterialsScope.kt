@@ -8,7 +8,7 @@ import net.dinkla.raytracer.materials.Phong
 import net.dinkla.raytracer.materials.Reflective
 import net.dinkla.raytracer.materials.Transparent
 
-class MaterialsScope() {
+class MaterialsScope {
 
     private val mutableMaterials: MutableMap<String, IMaterial> = mutableMapOf()
 

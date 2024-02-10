@@ -9,7 +9,7 @@ import net.dinkla.raytracer.lights.PointLight
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 
-class LightsScope() {
+class LightsScope {
 
     private val mutableLights: MutableList<Light> = mutableListOf()
 
