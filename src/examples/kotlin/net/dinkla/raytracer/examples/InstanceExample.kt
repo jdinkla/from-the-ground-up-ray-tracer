@@ -7,9 +7,9 @@ import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World26 : WorldDefinition {
+object InstanceExample : WorldDefinition {
 
-    override val id: String = "World26.kt"
+    override val id: String = "InstanceExample.kt"
 
     override fun world() = Builder.build {
         camera(d = 2000.0, eye = p(0, 1, -10), lookAt = p(0, 1, 0))

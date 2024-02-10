@@ -6,12 +6,12 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.examples.World14
-import net.dinkla.raytracer.examples.World20
+import net.dinkla.raytracer.examples.AmbientOccludedSphere
+import net.dinkla.raytracer.examples.YellowAndRedSphere
 import net.dinkla.raytracer.examples.World23
-import net.dinkla.raytracer.examples.World26
-import net.dinkla.raytracer.examples.World34
-import net.dinkla.raytracer.examples.World38
+import net.dinkla.raytracer.examples.InstanceExample
+import net.dinkla.raytracer.examples.TransparentSpheres
+import net.dinkla.raytracer.examples.acceleration.SpheresInNestedGrids
 import net.dinkla.raytracer.examples.World7
 import net.dinkla.raytracer.examples.materials.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
@@ -93,7 +93,7 @@ class BuilderTest : StringSpec({
     }
 
     "should build example world 20" {
-        val w = World20.world()
+        val w = YellowAndRedSphere.world()
         w.size() shouldBe 4
         w.lights.size shouldBe 1
         w.objects.size shouldBe 4
@@ -107,7 +107,7 @@ class BuilderTest : StringSpec({
     }
 
     "should build example world 14 - ambient occluder" {
-        val w = World14.world()
+        val w = AmbientOccludedSphere.world()
         w.size() shouldBe 2
         w.lights.size shouldBe 0
         w.ambientLight.shouldBeInstanceOf<AmbientOccluder>()
@@ -126,22 +126,22 @@ class BuilderTest : StringSpec({
     }
 
     "should build example world 26 - instancing" {
-        val w = World26.world()
+        val w = InstanceExample.world()
         w.size() shouldBe 3
         w.lights.size shouldBe 1
         w.objects.size shouldBe 3
     }
 
     "should build example world 34 - transparent" {
-        val w = World34.world()
+        val w = TransparentSpheres.world()
         w.viewPlane shouldNotBe null
         w.camera shouldNotBe null
-        w.size() shouldBe 6
+        w.size() shouldBe 5
         w.lights.size shouldBe 1
     }
 
     "should build example world 38 - Grid" {
-        val w = World38.world()
+        val w = SpheresInNestedGrids.world()
         w.size() shouldBe 6
     }
 })

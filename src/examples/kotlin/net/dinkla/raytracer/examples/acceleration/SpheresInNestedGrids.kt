@@ -1,12 +1,12 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.acceleration
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World38 : WorldDefinition {
+object SpheresInNestedGrids : WorldDefinition {
 
-    override val id: String = "World38.kt"
+    override val id: String = "SpheresInNestedGrids.kt"
 
     override fun world() = Builder.build {
         camera(d = 500.0, eye = p(0, 5, 10), lookAt = p(0, 1, 0))

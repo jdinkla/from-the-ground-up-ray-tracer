@@ -6,9 +6,9 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.world.Builder.build
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World20 : WorldDefinition {
+object YellowAndRedSphere : WorldDefinition {
 
-    override val id: String = "World20.kt"
+    override val id: String = "YellowAndRedSphere.kt"
 
     override fun world() = build {
         camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))
