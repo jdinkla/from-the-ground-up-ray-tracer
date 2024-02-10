@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.reflective
+package net.dinkla.raytracer.examples.materials.reflective
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal

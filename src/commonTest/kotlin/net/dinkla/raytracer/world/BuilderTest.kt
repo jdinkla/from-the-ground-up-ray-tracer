@@ -13,7 +13,7 @@ import net.dinkla.raytracer.examples.World26
 import net.dinkla.raytracer.examples.World34
 import net.dinkla.raytracer.examples.World38
 import net.dinkla.raytracer.examples.World7
-import net.dinkla.raytracer.examples.reflective.World17
+import net.dinkla.raytracer.examples.materials.reflective.World17
 import net.dinkla.raytracer.lights.AmbientOccluder
 import net.dinkla.raytracer.lights.PointLight
 import net.dinkla.raytracer.materials.Matte
