@@ -30,7 +30,7 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
         return wi
     }
 
-    override fun L(world: IWorld, sr: IShade): Color {
+    override fun l(world: IWorld, sr: IShade): Color {
         return material!!.getLe(sr)
     }
 }

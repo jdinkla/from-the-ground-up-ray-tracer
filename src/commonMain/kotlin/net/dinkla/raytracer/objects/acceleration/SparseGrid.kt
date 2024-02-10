@@ -90,19 +90,6 @@ class SparseGrid : Grid() {
                             c.add(`object`)
                             cellsX[index] = c
                         }
-                        /*
-                        if (null == cells[index]) {
-                            cells[index] = geometricObject;
-                        } else if (cells[index] instanceof Compound) {
-                            Compound c = (Compound) cells[index];
-                            c.add(geometricObject);
-                        } else {
-                            Compound c = new Compound();
-                            c.add(cells[index]);
-                            c.add(geometricObject);
-                            cells[index] = c;
-                        }
-*/
                         counts[index]++
                     }
                 }
@@ -240,7 +227,7 @@ class SparseGrid : Grid() {
             ixStop = -1
         }
         if (dx == 0.0) {
-            txNext = MathUtils.K_HUGEVALUE
+            txNext = MathUtils.K_HUGE_VALUE
             ixStep = -1
             ixStop = -1
         }
@@ -254,7 +241,7 @@ class SparseGrid : Grid() {
             iyStop = -1
         }
         if (dy == 0.0) {
-            tyNext = MathUtils.K_HUGEVALUE
+            tyNext = MathUtils.K_HUGE_VALUE
             iyStep = -1
             iyStop = -1
         }
@@ -268,7 +255,7 @@ class SparseGrid : Grid() {
             izStop = -1
         }
         if (dz == 0.0) {
-            tzNext = MathUtils.K_HUGEVALUE
+            tzNext = MathUtils.K_HUGE_VALUE
             izStep = -1
             izStop = -1
         }

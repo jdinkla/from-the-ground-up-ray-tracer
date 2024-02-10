@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.ambient
+package net.dinkla.raytracer.examples.lights.ambient
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Axis

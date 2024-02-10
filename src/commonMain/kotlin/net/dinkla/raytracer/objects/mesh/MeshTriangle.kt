@@ -9,28 +9,12 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.GeometricObject
 
 open class MeshTriangle : GeometricObject {
-
-    /*
-    double interpolateU(final double beta, final double gamma) {
-        return ((1 - beta - gamma) * mesh.us.get(index0)
-                + beta * mesh.us.get(index1)
-                + gamma * mesh.us.get(index2));
-    }
-
-    double interpolateV(final double beta, final double gamma) {
-        return ((1 - beta - gamma) * mesh.vs.get(index0)
-                + beta * mesh.vs.get(index1)
-                + gamma * mesh.vs.get(index2));
-    }
-    */
-
     var mesh: Mesh
     internal var index0: Int = 0
     internal var index1: Int = 0
     internal var index2: Int = 0
     var normal: Normal? = null
         internal set
-    // double area;
 
     override var boundingBox: BBox
         get() = calcBBox()
@@ -44,7 +28,6 @@ open class MeshTriangle : GeometricObject {
         index1 = 0
         index2 = 0
         normal = null
-        // area = 0;
     }
 
     constructor(mesh: Mesh, i0: Int, i1: Int, i2: Int) {

@@ -21,15 +21,11 @@ class Test2Builder : TreeBuilder {
     }
 
     class Partitioner(objects: List<IGeometricObject>, voxel: BBox) {
-
-        internal var root: Triple
+        private var root: Triple
 
         var candidatesX: MutableSet<Double>
         var candidatesY: MutableSet<Double>
         var candidatesZ: Set<Double>
-
-        val isFound: Boolean
-            get() = true
 
         init {
             root = Triple()

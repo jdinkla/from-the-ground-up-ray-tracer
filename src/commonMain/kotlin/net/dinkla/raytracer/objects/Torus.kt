@@ -127,16 +127,4 @@ data class Torus(val a: Double, val b: Double) : GeometricObject() {
         val z = 4.0 * p.z * diff
         return Normal(x, y, z).normalize()
     }
-
-    /*
-    private Normal computeNormal(Point3D p) {
-        final double paramSquared = a * a + b * b;
-        final double sumSquared = p.x * p.x + p.y * p.y + p.z * p.z;
-        final double x = 4.0 * p.x * (sumSquared - paramSquared);
-        final double y = 4.0 * p.y * (sumSquared - paramSquared + 2.0 * a * a);
-        final double z = 4.0 * p.z * (sumSquared - paramSquared);
-        final Normal normal = new Normal(x, y, z).normalize();
-        return normal;
-    }
-*/
 }

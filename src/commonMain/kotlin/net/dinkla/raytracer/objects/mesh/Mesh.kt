@@ -46,15 +46,5 @@ class Mesh {
 
             normals.add(index, normal)
         }
-
-        // erase the vertex_faces arrays because we have now finished with them
-        /*
-        for (int index = 0; index < vertices.size(); index++)
-            for (int j = 0; j < vertexFaces.get(index).size(); j++)
-                mesh_ptr->vertex_faces[index].erase (mesh_ptr->vertex_faces[index].begin(), mesh_ptr->vertex_faces[index].end());
-
-        mesh_ptr->vertex_faces.erase (mesh_ptr->vertex_faces.begin(), mesh_ptr->vertex_faces.end());
-        cout << "finished constructing normals" << endl;
-    */
     }
 }

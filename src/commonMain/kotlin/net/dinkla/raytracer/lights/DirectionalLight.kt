@@ -18,7 +18,7 @@ class DirectionalLight(override val shadows: Boolean = true) : Light {
         negatedDirection = -Vector3D.DOWN
     }
 
-    override fun L(world: IWorld, sr: IShade): Color = color * ls
+    override fun l(world: IWorld, sr: IShade): Color = color * ls
 
     override fun getDirection(sr: IShade): Vector3D = negatedDirection
 

@@ -53,7 +53,6 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
             val cosPsi = cos(psi)
             val sinAlpha = y / r
             val cosAlpha = x / r
-            // rd.direction = uvw.u.minus(sinPsi * cosAlpha).plus(uvw.v.minus(sinPsi * sinAlpha)).minus(uvw.w.minus(cosPsi));
             return RayDirection(uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi), rSquared)
         } else {
             return RayDirection(Vector3D.ZERO)

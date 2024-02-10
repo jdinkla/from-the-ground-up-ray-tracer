@@ -49,7 +49,7 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
                 }
                 if (!inShadow) {
                     val f = diffuseBRDF.f(sr, wo, wi)
-                    val l = light.L(world, sr)
+                    val l = light.l(world, sr)
                     L += (f * l) * nDotWi
                 }
             }
@@ -88,7 +88,7 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
 
     protected fun getAmbientColor(world: IWorld, sr: IShade, wo: Vector3D): Color {
         val c1 = ambientBRDF.rho(sr, wo)
-        val c2 = world.ambientLight.L(world, sr)
+        val c2 = world.ambientLight.l(world, sr)
         return c1 * c2
     }
 

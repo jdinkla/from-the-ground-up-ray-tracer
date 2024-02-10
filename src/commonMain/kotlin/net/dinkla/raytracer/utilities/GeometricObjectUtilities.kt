@@ -6,45 +6,6 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.IGeometricObject
 
 object GeometricObjectUtilities {
-
-    fun minCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
-        var minX = Double.POSITIVE_INFINITY
-        var minY = Double.POSITIVE_INFINITY
-        var minZ = Double.POSITIVE_INFINITY
-        for (geometricObject in objects) {
-            val bbox = geometricObject.boundingBox
-            if (bbox.p.x < minX) {
-                minX = bbox.p.x
-            }
-            if (bbox.p.y < minY) {
-                minY = bbox.p.y
-            }
-            if (bbox.p.z < minZ) {
-                minZ = bbox.p.z
-            }
-        }
-        return Point3D(minX - MathUtils.K_EPSILON, minY - MathUtils.K_EPSILON, minZ - MathUtils.K_EPSILON)
-    }
-
-    fun maxCoordinates(objects: ArrayList<IGeometricObject>): Point3D {
-        var maxX = Double.NEGATIVE_INFINITY
-        var maxY = Double.NEGATIVE_INFINITY
-        var maxZ = Double.NEGATIVE_INFINITY
-        for (geometricObject in objects) {
-            val bbox = geometricObject.boundingBox
-            if (bbox.q.x > maxX) {
-                maxX = bbox.q.x
-            }
-            if (bbox.q.y > maxY) {
-                maxY = bbox.q.y
-            }
-            if (bbox.q.z > maxZ) {
-                maxZ = bbox.q.z
-            }
-        }
-        return Point3D(maxX + MathUtils.K_EPSILON, maxY + MathUtils.K_EPSILON, maxZ + MathUtils.K_EPSILON)
-    }
-
     fun minMaxCoordinates(objects: ArrayList<IGeometricObject>): Pair<Point3D, Point3D> {
         var minX = Double.POSITIVE_INFINITY
         var minY = Double.POSITIVE_INFINITY

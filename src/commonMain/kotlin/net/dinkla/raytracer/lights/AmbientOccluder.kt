@@ -9,15 +9,12 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.IWorld
 
 class AmbientOccluder(
-    val minAmount: Color,
-    val sampler: Sampler,
-    val numSamples: Int,
-    override val shadows: Boolean = true
+    val sampler: Sampler, val numSamples: Int, override val shadows: Boolean = true
 ) : Ambient() {
 
-    override fun L(world: IWorld, sr: IShade): Color {
+    override fun l(world: IWorld, sr: IShade): Color {
         val w = sr.normal.toVector3D()
-        val v = w cross (Vector3D.JITTER).normalize() // jitter up vector in case normal is vertical
+        val v = w cross (Vector3D.JITTER).normalize()
         val u = v cross w
 
         var numHits = 0.0

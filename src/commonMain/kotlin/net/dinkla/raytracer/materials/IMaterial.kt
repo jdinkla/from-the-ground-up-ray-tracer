@@ -5,12 +5,9 @@ import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.world.IWorld
 
 interface IMaterial {
-
     fun shade(world: IWorld, sr: IShade): Color
 
     fun areaLightShade(world: IWorld, sr: IShade): Color
 
     fun getLe(sr: IShade): Color
-
-    // abstract public RGBColor pathShade(Shade sr);
 }

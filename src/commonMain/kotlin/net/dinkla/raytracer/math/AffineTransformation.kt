@@ -54,7 +54,7 @@ class AffineTransformation : Transformation {
         }
     }
 
-    fun rotateX(phi: Double) {
+    private fun rotateX(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 
@@ -73,7 +73,7 @@ class AffineTransformation : Transformation {
         forwardMatrix = rotationMatrix * forwardMatrix
     }
 
-    fun rotateY(phi: Double) {
+    private fun rotateY(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 
@@ -92,7 +92,7 @@ class AffineTransformation : Transformation {
         forwardMatrix = rotationMatrix * forwardMatrix
     }
 
-    fun rotateZ(phi: Double) {
+    private fun rotateZ(phi: Double) {
         val cosPhi = cos(phi * PI_ON_180)
         val sinPhi = sin(phi * PI_ON_180)
 

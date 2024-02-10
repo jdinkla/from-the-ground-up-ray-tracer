@@ -8,7 +8,6 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracer
 
 class SampledSingleRayRenderer(var lens: ILens, var tracer: Tracer) : ISingleRayRenderer {
-    // Used for anti-aliasing
     var sampler: Sampler
     var numSamples: Int = 0
 

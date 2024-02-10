@@ -72,7 +72,7 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 
-    override fun L(world: IWorld, sr: IShade): Color {
+    override fun l(world: IWorld, sr: IShade): Color {
         throw RuntimeException("AreaLight needs AreaLighting Tracer")
     }
 

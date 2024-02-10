@@ -10,39 +10,24 @@ import net.dinkla.raytracer.samplers.Sampler
 
 class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
 
-    var sampler: Sampler? = null // unit disk
+    var sampler: Sampler? = null
 
-    var lensRadius: Double = 1.0
     var f: Double = 1.0
     var d: Double = 1.0
 
     override fun getRaySingle(r: Int, c: Int): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height)
-        return getRay(x, y)
+        return getRay()
     }
 
     override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width + sp.x)
-        val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height + sp.y)
-        return getRay(x, y)
+        return getRay()
     }
 
-    private fun getRay(x: Double, y: Double): Ray {
-        val pp = Point2D(x, y)
-        val dp = sampler!!.sampleUnitDisk()
-        val lp = Point2D(dp.x * lensRadius, dp.y * lensRadius)
-        //        Point3D origin = eye.plus(u.minus(lp.x)).plus(v.minus(lp.y));
-        // val o = eye!!.plus(uvw!!.pp(lp.x, lp.y, 0.0))
-        return Ray(eye, getRayDirection(pp, lp))
+    private fun getRay(): Ray {
+        return Ray(eye, getRayDirection())
     }
 
-    private fun getRayDirection(pixel: Point2D, lens: Point2D): Vector3D {
-        // val p = Point2D(pixel.x * f / d, pixel.y * f / d)
-        //        final Vector3D v1 = u.minus(p.x - lens.x);
-        //        final Vector3D v2 = v.minus(p.y - lens.y);
-        //        final Vector3D v3 = w.minus(f);
-        // final Vector3D dir = v1.plus(v2).minus(v3).normalize();
+    private fun getRayDirection(): Vector3D {
         return uvw.pm(1.0, 1.0, 1.0).normalize()
     }
 }

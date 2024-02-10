@@ -64,7 +64,7 @@ open class Phong(
                 if (!inShadow) {
                     val fd = diffuseBRDF.f(sr, wo, wi)
                     val fs = specularBRDF.f(sr, wo, wi)
-                    val l = light.L(world, sr)
+                    val l = light.l(world, sr)
                     L += (fd + fs) * l * nDotWi
                 }
             }

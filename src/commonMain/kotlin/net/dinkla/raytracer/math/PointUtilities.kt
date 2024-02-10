@@ -3,9 +3,9 @@ package net.dinkla.raytracer.math
 object PointUtilities {
 
     fun minimum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
-        var x0 = MathUtils.K_HUGEVALUE
-        var y0 = MathUtils.K_HUGEVALUE
-        var z0 = MathUtils.K_HUGEVALUE
+        var x0 = MathUtils.K_HUGE_VALUE
+        var y0 = MathUtils.K_HUGE_VALUE
+        var z0 = MathUtils.K_HUGE_VALUE
 
         for (j in 0 until n) {
             if (v[j].x < x0) {
@@ -22,9 +22,9 @@ object PointUtilities {
     }
 
     fun maximum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
-        var x1 = -MathUtils.K_HUGEVALUE
-        var y1 = -MathUtils.K_HUGEVALUE
-        var z1 = -MathUtils.K_HUGEVALUE
+        var x1 = -MathUtils.K_HUGE_VALUE
+        var y1 = -MathUtils.K_HUGE_VALUE
+        var z1 = -MathUtils.K_HUGE_VALUE
 
         for (j in 0 until n) {
             if (v[j].x > x1) {
@@ -39,41 +39,5 @@ object PointUtilities {
         }
 
         return Triple(x1, y1, z1)
-    }
-
-    fun minPoints(points: ArrayList<Point3D>): Point3D {
-        var x = Double.POSITIVE_INFINITY
-        var y = Double.POSITIVE_INFINITY
-        var z = Double.POSITIVE_INFINITY
-        for (p in points) {
-            if (p.x < x) {
-                x = p.x
-            }
-            if (p.y < y) {
-                y = p.y
-            }
-            if (p.z < z) {
-                z = p.z
-            }
-        }
-        return Point3D(x, y, z)
-    }
-
-    fun maxPoints(points: ArrayList<Point3D>): Point3D {
-        var x = Double.NEGATIVE_INFINITY
-        var y = Double.NEGATIVE_INFINITY
-        var z = Double.NEGATIVE_INFINITY
-        for (p in points) {
-            if (p.x > x) {
-                x = p.x
-            }
-            if (p.y > y) {
-                y = p.y
-            }
-            if (p.z > z) {
-                z = p.z
-            }
-        }
-        return Point3D(x, y, z)
     }
 }

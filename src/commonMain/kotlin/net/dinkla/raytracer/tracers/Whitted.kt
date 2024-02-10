@@ -18,34 +18,25 @@ class Whitted(var world: IWorld) : Tracer {
 
     override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
         Counter.count("Whitted.trace3")
-//        var color = build.backgroundColor
         val color: Color
         if (world.shouldStopRecursion(depth)) {
-            color = Color.BLACK
-        } else {
-            val sr = Shade()
-            val hit = world.hit(ray, sr)
-            if (hit) {
-                sr.depth = depth
-                sr.ray = ray
-                tmin.value = sr.t
-                if (null == sr.material) {
-                    Logger.error("Material is NULL for ray $ray and sr $sr")
-                    color = Color.RED
-                } else {
-                    color = sr.material?.shade(world, sr) ?: world.backgroundColor
-                }
-            } else {
-                // No hit -> Background
-                tmin.value = MathUtils.K_HUGEVALUE
-                color = world.backgroundColor
-            }
+            return Color.BLACK
         }
-        /*
-        double ff =  Math.sqrt(tmin.getValue() * f);
-        color =  color.plus(fc.minus(ff));
-        */
+        val sr = Shade()
+        val hit = world.hit(ray, sr)
+        if (hit) {
+            sr.depth = depth
+            sr.ray = ray
+            tmin.value = sr.t
+            if (null == sr.material) {
+                Logger.error("Material is NULL for ray $ray and sr $sr")
+                return Color.RED
+            }
+            color = sr.material?.shade(world, sr) ?: world.backgroundColor
+            return color
+        }
+        tmin.value = MathUtils.K_HUGE_VALUE
+        color = world.backgroundColor
         return color
-//        return (if (color == null) build.backgroundColor else color)
     }
 }

@@ -71,7 +71,7 @@ class WorldScope {
     }
 
     fun ambientOccluder(minAmount: Color, sampler: Sampler, numSamples: Int) {
-        ambientLight = AmbientOccluder(minAmount, sampler, numSamples)
+        ambientLight = AmbientOccluder(sampler, numSamples)
     }
 
     fun lights(builder: LightsScope.() -> Unit) {

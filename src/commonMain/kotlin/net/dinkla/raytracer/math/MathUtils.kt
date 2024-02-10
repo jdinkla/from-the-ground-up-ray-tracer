@@ -4,9 +4,8 @@ object MathUtils {
 
     const val PI = 3.141592653589793
     const val INV_PI = 1.0 / PI
-    const val INV_TWO_PI = 1.0 / (2.0 * PI)
     const val PI_ON_180 = PI / 180
-    const val K_HUGEVALUE = 1.0E10
+    const val K_HUGE_VALUE = 1.0E10
     const val K_EPSILON = 0.01
 
     fun clamp(x: Double, low: Double, high: Double): Double = if (x < low) low else if (x > high) high else x

@@ -62,9 +62,7 @@ open class Grid : CompoundWithMesh() {
 
         val counts = IntArray(numCells)
 
-        // initialize
         for (i in 0 until numCells) {
-            // cells[i] = null;
             counts[i] = 0
         }
 
@@ -91,28 +89,30 @@ open class Grid : CompoundWithMesh() {
                 for (iy in iymin..iymax) {
                     for (ix in ixmin..ixmax) {
                         val index = iz * nx * ny + iy * nx + ix
-                        if (null == cells[index]) {
-                            cells[index] = `object`
-                        } else if (cells[index] is Grid) {
-                            val c = cells[index] as Grid
-                            c.add(`object`)
-                        } else if (cells[index] is Compound) {
-                            val c = cells[index] as Compound
-                            if (c.size() > factorSize && depth < maxDepth) {
-                                val g = Grid()
-                                g.add(c.objects)
-                                g.add(`object`)
-                                g.depth = depth + 1
-
-                                cells[index] = g
-                            } else {
+                        when {
+                            cells[index] is Grid -> {
+                                val c = cells[index] as Grid
                                 c.add(`object`)
                             }
-                        } else {
-                            val c = Compound()
-                            c.add(cells[index])
-                            c.add(`object`)
-                            cells[index] = c
+                            cells[index] is Compound -> {
+                                val c = cells[index] as Compound
+                                if (c.size() > factorSize && depth < maxDepth) {
+                                    val g = Grid()
+                                    g.add(c.objects)
+                                    g.add(`object`)
+                                    g.depth = depth + 1
+
+                                    cells[index] = g
+                                } else {
+                                    c.add(`object`)
+                                }
+                            }
+                            else -> {
+                                val c = Compound()
+                                c.add(cells[index])
+                                c.add(`object`)
+                                cells[index] = c
+                            }
                         }
                         counts[index]++
                     }
@@ -288,7 +288,7 @@ open class Grid : CompoundWithMesh() {
             ixStop = -1
         }
         if (dx == 0.0) {
-            txNext = MathUtils.K_HUGEVALUE
+            txNext = MathUtils.K_HUGE_VALUE
             ixStep = -1
             ixStop = -1
         }
@@ -302,7 +302,7 @@ open class Grid : CompoundWithMesh() {
             iyStop = -1
         }
         if (dy == 0.0) {
-            tyNext = MathUtils.K_HUGEVALUE
+            tyNext = MathUtils.K_HUGE_VALUE
             iyStep = -1
             iyStop = -1
         }
@@ -316,7 +316,7 @@ open class Grid : CompoundWithMesh() {
             izStop = -1
         }
         if (dz == 0.0) {
-            tzNext = MathUtils.K_HUGEVALUE
+            tzNext = MathUtils.K_HUGE_VALUE
             izStep = -1
             izStop = -1
         }

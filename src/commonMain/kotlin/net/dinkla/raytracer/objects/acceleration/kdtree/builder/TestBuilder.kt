@@ -26,9 +26,6 @@ class TestBuilder : TreeBuilder {
 
         internal var root: Triple
 
-        val isFound: Boolean
-            get() = true
-
         init {
             root = Triple()
             root.objects = objects

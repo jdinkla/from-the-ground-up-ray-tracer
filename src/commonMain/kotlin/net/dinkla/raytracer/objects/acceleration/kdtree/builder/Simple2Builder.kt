@@ -22,13 +22,6 @@ class Simple2Builder : TreeBuilder {
         return build(tree.objects, tree.boundingBox, 0)
     }
 
-    /**
-     *
-     * @param objects
-     * @param voxel
-     * @param depth
-     * @return
-     */
     fun build(objects: List<IGeometricObject>, voxel: BBox, depth: Int): Node {
         Counter.count("KDtree.build")
 
