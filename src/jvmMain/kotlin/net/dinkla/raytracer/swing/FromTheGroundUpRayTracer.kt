@@ -24,6 +24,7 @@ import javax.swing.JComboBox
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.JPanel
+import javax.swing.JScrollPane
 import javax.swing.JSplitPane
 import javax.swing.JTextArea
 import javax.swing.JTree
@@ -40,9 +41,9 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     private val textArea = JTextArea()
     private var selected: String? = null
 
-    private val tracers = Tracers.values()
+    private val tracers = Tracers.entries.toTypedArray()
     private val tracerNames = tracers.map { it.name }.toTypedArray()
-    private val renderers = Renderer.values()
+    private val renderers = Renderer.entries.toTypedArray()
     private val rendererNames = renderers.map { it.name }.toTypedArray()
 
     private var selectedTracer = 0
@@ -61,29 +62,10 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         }
     }
 
-    private fun leftSide(): JTree {
-        val root = createTreeFromDirectory(examplesDirectory)
-        val tree = JTree(root)
-        tree.border = EmptyBorder(10, 10, 10, 10)
-        tree.addTreeSelectionListener(treeSelectionListener(tree))
-        return tree
-    }
-
-    private fun createTreeFromDirectory(directoryName: String): DefaultMutableTreeNode {
-        val root = DefaultMutableTreeNode(directoryName)
-        val directory = File(directoryName)
-        directory.walk().sorted().forEach { file ->
-            if (file.isFile) {
-                val fileName =
-                    fileNameWithoutDirectory(
-                        file.absoluteFile.toString(),
-                        directory.absolutePath.toString(),
-                        File.separator
-                    )
-                root.add(DefaultMutableTreeNode(fileName))
-            }
-        }
-        return root
+    private fun leftSide(): JScrollPane {
+        val left = LeftSide()
+        left.tree.addTreeSelectionListener(treeSelectionListener(left.tree))
+        return left.component
     }
 
     private fun treeSelectionListener(tree: JTree) = { e: TreeSelectionEvent ->
@@ -112,6 +94,7 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
                 selectedRenderer = selectedIndex
             }
         }
+        rendererComboBox.selectedIndex = 2
         val selections = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             border = EmptyBorder(10, 10, 10, 10)
