@@ -6,8 +6,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
+import java.util.Objects
 import kotlin.math.abs
 
 class Transparent : Phong {
@@ -84,11 +84,11 @@ class Transparent : Phong {
 
     override fun equals(other: Any?): Boolean = this.equals<Transparent>(other) { a, b ->
         a.diffuseBRDF == b.diffuseBRDF && a.ambientBRDF == b.ambientBRDF && a.specularBTDF == b.specularBTDF &&
-            a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
+                a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
     }
 
     override fun hashCode(): Int =
-        hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
+        Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
 
     override fun toString() = "Transparent(${super.toString()}, $reflectiveBRDF, $specularBTDF)"
 }

@@ -8,8 +8,8 @@ import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
+import java.util.Objects
 
 open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
 
@@ -100,7 +100,7 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
     }
 
-    override fun hashCode(): Int = hash(ambientBRDF, diffuseBRDF)
+    override fun hashCode(): Int = Objects.hash(ambientBRDF, diffuseBRDF)
 
     override fun toString(): String = "Matte($ambientBRDF,$diffuseBRDF)"
 }

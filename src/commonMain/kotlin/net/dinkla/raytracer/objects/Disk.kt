@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 
 open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : GeometricObject() {
 
@@ -37,9 +37,9 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
     override fun shadowHit(ray: Ray): Shadow {
         val t = ((center - ray.origin) dot normal) / (ray.direction dot normal)
         return when {
-            t <= MathUtils.K_EPSILON -> Shadow.None
+            t <= MathUtils.K_EPSILON                            -> Shadow.None
             center.sqrDistance(ray.linear(t)) < radius * radius -> Shadow.Hit(t)
-            else -> Shadow.None
+            else                                                -> Shadow.None
         }
     }
 
@@ -47,7 +47,7 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
         a.center == b.center && a.radius == b.radius && a.normal == b.normal
     }
 
-    override fun hashCode(): Int = hash(center, radius, normal)
+    override fun hashCode(): Int = Objects.hash(center, radius, normal)
 
     override fun toString(): String = "Disk($center, $radius, $normal)"
 }

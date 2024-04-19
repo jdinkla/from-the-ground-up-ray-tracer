@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.OpenCylinder
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 
 class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compound() {
 
@@ -36,7 +36,7 @@ class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compou
         a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
     }
 
-    override fun hashCode(): Int = this.hash(y0, y1, radius)
+    override fun hashCode(): Int = Objects.hash(y0, y1, radius)
 
     override fun toString(): String = "SolidCylinder($y0, $y1, $radius)"
 }

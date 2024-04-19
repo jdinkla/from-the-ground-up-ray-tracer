@@ -10,7 +10,7 @@ import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 
 class BeveledBox(
     val p0: Point3D,
@@ -221,7 +221,7 @@ class BeveledBox(
         a.p0 == b.p0 && a.p1 == b.p1 && a.rb == b.rb && a.isWiredFrame == b.isWiredFrame
     }
 
-    override fun hashCode(): Int = hash(p0, p1, rb, isWiredFrame)
+    override fun hashCode(): Int = Objects.hash(p0, p1, rb, isWiredFrame)
 
     override fun toString(): String = "BeveledBox($p0, $p1, $rb, $isWiredFrame)"
 }

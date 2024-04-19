@@ -9,7 +9,7 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 import kotlin.math.sqrt
 
 class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
@@ -78,7 +78,7 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         a.center == b.center && a.radius == b.radius && a.material == b.material
     }
 
-    override fun hashCode(): Int = this.hash(center, radius)
+    override fun hashCode(): Int = Objects.hash(center, radius)
 
     override fun toString(): String = "Sphere($center, $radius)"
 }

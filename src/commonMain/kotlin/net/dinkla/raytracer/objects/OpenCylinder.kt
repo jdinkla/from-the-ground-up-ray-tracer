@@ -8,7 +8,7 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -122,7 +122,7 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
     }
 
-    override fun hashCode(): Int = this.hash(y0, y1, radius)
+    override fun hashCode(): Int = Objects.hash(y0, y1, radius)
 
     override fun toString(): String = "OpenCylinder($y0, $y1, $radius)"
 }

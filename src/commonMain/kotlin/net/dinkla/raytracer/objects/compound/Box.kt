@@ -5,7 +5,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 
 class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : Compound() {
 
@@ -35,7 +35,7 @@ class Box(val p0: Point3D, val a: Vector3D, val b: Vector3D, val c: Vector3D) : 
         a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.c == b.c
     }
 
-    override fun hashCode(): Int = this.hash(p0, a, b, c)
+    override fun hashCode(): Int = Objects.hash(p0, a, b, c)
 
     override fun toString(): String = "AlignedBox($p0,$a,$b,$c)"
 }

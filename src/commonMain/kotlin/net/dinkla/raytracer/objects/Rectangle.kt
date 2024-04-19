@@ -9,7 +9,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
+import java.util.Objects
 import kotlin.Double.Companion.NEGATIVE_INFINITY
 import kotlin.Double.Companion.POSITIVE_INFINITY
 
@@ -146,7 +146,7 @@ open class Rectangle : GeometricObject {
         a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.normal == b.normal
     }
 
-    override fun hashCode(): Int = hash(p0, a, b, normal)
+    override fun hashCode(): Int = Objects.hash(p0, a, b, normal)
 
     override fun toString(): String = "Rectangle($p0, $a, $b, $normal)"
 }

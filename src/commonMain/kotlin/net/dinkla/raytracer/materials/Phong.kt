@@ -7,8 +7,8 @@ import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
-import net.dinkla.raytracer.utilities.hash
 import net.dinkla.raytracer.world.IWorld
+import java.util.Objects
 
 open class Phong(
     color: Color = Color.WHITE,
@@ -106,7 +106,7 @@ open class Phong(
         a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF
     }
 
-    override fun hashCode(): Int = hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
+    override fun hashCode(): Int = Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
 
     override fun toString() = "Phong(${super.toString()}, $specularBRDF)"
 }
