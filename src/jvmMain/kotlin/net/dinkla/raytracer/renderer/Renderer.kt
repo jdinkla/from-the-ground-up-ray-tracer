@@ -7,5 +7,6 @@ enum class Renderer(val creator: RendererCreator) {
     FORK_JOIN(::ForkJoinRenderer),
     PARALLEL(::ParallelRenderer),
     NAIVE_COROUTINE(::NaiveCoroutineRenderer),
-    COROUTINE(::CoroutineBlockRenderer)
+    COROUTINE(::CoroutineBlockRenderer),
+    VIRTUAL(::VirtualThreadBlockRenderer)
 }
