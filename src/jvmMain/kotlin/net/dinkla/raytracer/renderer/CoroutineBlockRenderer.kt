@@ -11,24 +11,25 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 
+const val NUMBER_OF_BLOCKS = 32
+
 class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) :
     IRenderer {
 
-    private var sizeGrid: Int = 32
+    private var film: IFilm? = null
 
     override fun render(film: IFilm) {
         Logger.info("render starts")
         this.film = film
         runBlocking(Dispatchers.Default) {
             Logger.info("invoke master")
-            master(sizeGrid, film.resolution)
+            master(NUMBER_OF_BLOCKS, film.resolution)
             Logger.info("runBlocking stops")
         }
         Logger.info("render stops")
         this.film = null
     }
 
-    private var film: IFilm? = null
 
     private suspend fun master(numBlocks: Int, resolution: Resolution) = coroutineScope {
         val blockHeight: Int = resolution.height / numBlocks
@@ -39,13 +40,12 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
         Logger.info("Master.compute starts for $numBlocks * $numBlocks blocks")
         for (j in 0 until numBlocks) {
             for (i in 0 until numBlocks) {
-                val idx = j * numBlocks + i
                 val x = i * blockWidth
                 val y = j * blockHeight
                 val job = launch(Dispatchers.Default) {
                     work(x, x + blockWidth, y, y + blockHeight)
                 }
-                actions[idx] = job
+                actions[j * numBlocks + i] = job
             }
         }
         for (i in 0 until blocks) {
@@ -55,18 +55,12 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
     }
 
     private suspend fun work(xStart: Int, xEnd: Int, yStart: Int, yEnd: Int) {
-        var count = 0
-        var r = yStart
-        while (r < yEnd) {
-            var c = xStart
-            while (c < xEnd) {
-                val color = corrector.correct(render.render(r, c)).clamp()
-                film?.setPixel(c, r, color)
-                c += 1
-                yield()
+        for (y in yStart until yEnd) {
+            for (x in xStart until xEnd) {
+                val color = corrector.correct(render.render(y, x)).clamp()
+                film?.setPixel(x, y, color)
             }
-            count++
-            r += 1
+            yield()
         }
     }
 }
