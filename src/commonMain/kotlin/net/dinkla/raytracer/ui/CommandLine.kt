@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
 import net.dinkla.raytracer.renderer.Renderer
-import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
@@ -33,7 +32,7 @@ abstract class CommandLine(
         Logger.info("Using tracer $usedTracer")
         Logger.info("Using resolution $usedResolution")
 
-        val context = Context(usedTracer.create, createRenderer(usedRenderer), usedResolution)
+        val context = Context(usedTracer.create, usedRenderer.creator, usedResolution)
         render(context)
     }
 
