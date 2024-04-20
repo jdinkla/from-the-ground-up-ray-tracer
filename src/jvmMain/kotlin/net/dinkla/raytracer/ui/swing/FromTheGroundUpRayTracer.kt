@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.swing
+package net.dinkla.raytracer.ui.swing
 
 import korlibs.time.DateTime
 import kotlinx.coroutines.CoroutineScope

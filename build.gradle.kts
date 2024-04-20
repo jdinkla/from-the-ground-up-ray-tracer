@@ -43,7 +43,7 @@ task<JavaExec>("commandline") {
 }
 
 task<JavaExec>("swing") {
-    mainClass.set("net.dinkla.raytracer.swing.FromTheGroundUpRayTracerKt")
+    mainClass.set("net.dinkla.raytracer.ui.swing.FromTheGroundUpRayTracerKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
 

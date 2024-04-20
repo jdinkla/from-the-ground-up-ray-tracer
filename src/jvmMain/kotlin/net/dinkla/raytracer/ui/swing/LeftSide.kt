@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.swing
+package net.dinkla.raytracer.ui.swing
 
 import net.dinkla.raytracer.utilities.fileNameWithoutDirectory
 import java.awt.Component
