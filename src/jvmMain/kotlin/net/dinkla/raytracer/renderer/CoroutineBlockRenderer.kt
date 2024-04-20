@@ -3,6 +3,7 @@ package net.dinkla.raytracer.renderer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
@@ -11,7 +12,7 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 
-const val NUMBER_OF_BLOCKS = 32
+private const val NUMBER_OF_BLOCKS = 32
 
 class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) :
     IRenderer {
@@ -34,23 +35,21 @@ class CoroutineBlockRenderer(private val render: ISingleRayRenderer, private val
     private suspend fun master(numBlocks: Int, resolution: Resolution) = coroutineScope {
         val blockHeight: Int = resolution.height / numBlocks
         val blockWidth: Int = resolution.width / numBlocks
-        val blocks: Int = numBlocks * numBlocks
-        val actions: Array<Job?> = arrayOfNulls(blocks)
 
         Logger.info("Master.compute starts for $numBlocks * $numBlocks blocks")
-        for (j in 0 until numBlocks) {
-            for (i in 0 until numBlocks) {
-                val x = i * blockWidth
-                val y = j * blockHeight
-                val job = launch(Dispatchers.Default) {
-                    work(x, x + blockWidth, y, y + blockHeight)
+        val jobs = buildList() {
+            for (j in 0 until numBlocks) {
+                for (i in 0 until numBlocks) {
+                    val x = i * blockWidth
+                    val y = j * blockHeight
+                    val job = launch(Dispatchers.Default) {
+                        work(x, x + blockWidth, y, y + blockHeight)
+                    }
+                    add(job)
                 }
-                actions[j * numBlocks + i] = job
             }
         }
-        for (i in 0 until blocks) {
-            actions[i]?.join()
-        }
+        jobs.joinAll()
         Logger.info("Master.compute ends")
     }
 
