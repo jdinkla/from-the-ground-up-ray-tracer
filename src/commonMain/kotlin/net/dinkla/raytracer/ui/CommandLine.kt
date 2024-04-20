@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.utilities
+package net.dinkla.raytracer.ui
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
@@ -7,6 +7,8 @@ import com.github.ajalt.clikt.parameters.types.choice
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.renderer.createRenderer
 import net.dinkla.raytracer.tracers.Tracers
+import net.dinkla.raytracer.utilities.Logger
+import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Context
 
 @Suppress("SpreadOperator")
