@@ -14,11 +14,11 @@ class NaiveCoroutineRenderer(
     override fun render(film: IFilm) {
         Logger.info("render starts")
         runBlocking {
-            for (r in 0 until film.resolution.height) {
-                for (c in 0 until film.resolution.width) {
+            for (y in 0 until film.resolution.height) {
+                for (x in 0 until film.resolution.width) {
                     launch(Dispatchers.Default) {
-                        val color = corrector.correct(render.render(r, c)).clamp()
-                        film.setPixel(c, r, color)
+                        val color = corrector.correct(render.render(y, x)).clamp()
+                        film.setPixel(x, y, color)
                     }
                 }
             }
