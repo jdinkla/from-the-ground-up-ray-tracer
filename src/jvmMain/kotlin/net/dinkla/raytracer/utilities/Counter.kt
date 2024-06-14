@@ -11,7 +11,7 @@ object Counter {
 
     fun count(key: String) {
         if (!PAUSE) {
-            val id = Thread.currentThread().id
+            val id = Thread.currentThread().threadId()
             var map: TreeMap<String, Int>? = instances[id]
             if (null == map) {
                 map = TreeMap()
