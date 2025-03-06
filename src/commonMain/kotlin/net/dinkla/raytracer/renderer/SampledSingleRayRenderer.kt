@@ -7,7 +7,10 @@ import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.tracers.Tracer
 
-class SampledSingleRayRenderer(private var lens: ILens, var tracer: Tracer) : ISingleRayRenderer {
+class SampledSingleRayRenderer(
+    private var lens: ILens,
+    var tracer: Tracer,
+) : ISingleRayRenderer {
     var sampler: Sampler
     var numSamples: Int = 0
 
@@ -16,7 +19,10 @@ class SampledSingleRayRenderer(private var lens: ILens, var tracer: Tracer) : IS
         this.sampler = Sampler(MultiJittered, 2500, 10)
     }
 
-    override fun render(r: Int, c: Int): Color {
+    override fun render(
+        r: Int,
+        c: Int,
+    ): Color {
         val color = ColorAccumulator()
         for (j in 0 until numSamples) {
             val sp = sampler.sampleUnitSquare()

@@ -12,9 +12,8 @@ import kotlin.math.sqrt
 class Sampler(
     sampler: IGenerator = Jittered,
     private var numSamples: Int = 100,
-    private var numSets: Int = 10
+    private var numSets: Int = 10,
 ) {
-
     private var shuffledIndices = ArrayList<Int>()
     private var samples = ArrayList<Point2D>()
     private var diskSamples = ArrayList<Point2D>()
@@ -97,12 +96,13 @@ class Sampler(
                     phi = 4 + sp.y / sp.x
                 } else { // sector 4
                     r = -sp.y
-                    phi = if (sp.y != 0.0) {
-                        // avoid division by zero at origin
-                        6 - sp.x / sp.y
-                    } else {
-                        0.0
-                    }
+                    phi =
+                        if (sp.y != 0.0) {
+                            // avoid division by zero at origin
+                            6 - sp.x / sp.y
+                        } else {
+                            0.0
+                        }
                 }
             }
             phi *= PI / 4.0
@@ -142,8 +142,11 @@ class Sampler(
     }
 
     companion object {
-
-        fun shuffleXCoordinates(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
+        fun shuffleXCoordinates(
+            numSamples: Int,
+            numSets: Int,
+            samples: MutableList<Point2D>,
+        ) {
             for (p in 0 until numSets) {
                 for (i in 0 until numSamples - 1) {
                     val target = Random.int(numSamples) + p * numSamples
@@ -155,7 +158,11 @@ class Sampler(
             }
         }
 
-        fun shuffleYCoordinates(numSamples: Int, numSets: Int, samples: MutableList<Point2D>) {
+        fun shuffleYCoordinates(
+            numSamples: Int,
+            numSets: Int,
+            samples: MutableList<Point2D>,
+        ) {
             for (p in 0 until numSets) {
                 for (i in 0 until numSamples - 1) {
                     val target = Random.int(numSamples) + p * numSamples

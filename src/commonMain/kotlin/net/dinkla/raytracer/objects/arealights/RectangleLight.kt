@@ -14,9 +14,9 @@ class RectangleLight(
     p0: Point3D,
     a: Vector3D,
     b: Vector3D,
-    normal: Normal
-) : Rectangle(p0, a, b, normal), ILightSource {
-
+    normal: Normal,
+) : Rectangle(p0, a, b, normal),
+    ILightSource {
     constructor(sampler: Sampler, p0: Point3D, a: Vector3D, b: Vector3D) :
         this(sampler, p0, a, b, Normal.create((a cross b).normalize()))
 

@@ -10,9 +10,8 @@ import java.util.Objects
 class Reflective(
     color: Color = Color.WHITE,
     ka: Double = 0.25,
-    kd: Double = 0.75
+    kd: Double = 0.75,
 ) : Phong(color, ka, kd) {
-
     private val reflectiveBRDF = PerfectSpecular()
 
     var kr: Double
@@ -27,7 +26,10 @@ class Reflective(
             reflectiveBRDF.cr = v
         }
 
-    override fun shade(world: IWorld, sr: IShade): Color {
+    override fun shade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val L = super.shade(world, sr)
         val wo = -sr.ray.direction
         val sample = reflectiveBRDF.sampleF(sr, wo)

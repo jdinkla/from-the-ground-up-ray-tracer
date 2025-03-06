@@ -12,9 +12,9 @@ import net.dinkla.raytracer.math.Transformation
 
 class Instance(
     private val geometricObject: GeometricObject,
-    val trans: Transformation = AffineTransformation()
-) : GeometricObject(), Transformation by trans {
-
+    val trans: Transformation = AffineTransformation(),
+) : GeometricObject(),
+    Transformation by trans {
     override var boundingBox: BBox
         get() {
             val objectBbox = geometricObject.boundingBox
@@ -66,7 +66,10 @@ class Instance(
             super.boundingBox = value
         }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val invRay = ray(ray)
         if (geometricObject.hit(invRay, sr)) {
             val tmp = trans.invMatrix * sr.normal

@@ -10,8 +10,10 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.IWorld
 
 @Suppress("TooManyFunctions")
-class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
-
+class AreaLight(
+    override val shadows: Boolean = true,
+) : Light,
+    ILightSource {
     var source: ILightSource? = null
     var material: IMaterial? = null
     var numSamples: Int = 4
@@ -25,26 +27,37 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
             get() = (-lightNormal!!) dot (wi!!)
     }
 
-    fun l(world: IWorld, sr: IShade, sample: Sample): Color = if (sample.nDotD > 0) {
-        sr.material?.getLe(sr) ?: world.backgroundColor
-    } else {
-        Color.BLACK
-    }
+    fun l(
+        world: IWorld,
+        sr: IShade,
+        sample: Sample,
+    ): Color =
+        if (sample.nDotD > 0) {
+            sr.material?.getLe(sr) ?: world.backgroundColor
+        } else {
+            Color.BLACK
+        }
 
-    fun inShadow(world: IWorld, ray: Ray, sr: IShade, sample: Sample): Boolean {
+    fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+        sample: Sample,
+    ): Boolean {
         val d = sample.samplePoint!!.minus(ray.origin).dot(ray.direction)
         return world.inShadow(ray, sr, d)
     }
 
-    fun G(sr: IShade, sample: Sample): Double {
+    fun G(
+        sr: IShade,
+        sample: Sample,
+    ): Double {
         val nDotD = sample.nDotD
         val d2 = sample.samplePoint!!.sqrDistance(sr.hitPoint)
         return nDotD / d2
     }
 
-    override fun pdf(sr: IShade): Double {
-        return source!!.pdf(sr)
-    }
+    override fun pdf(sr: IShade): Double = source!!.pdf(sr)
 
     private fun getSample(sr: IShade): Sample {
         val sample = Sample()
@@ -62,25 +75,22 @@ class AreaLight(override val shadows: Boolean = true) : Light, ILightSource {
         return result
     }
 
-    override fun sample(): Point3D {
-        throw RuntimeException("AreaLight needs AreaLighting Tracer")
-    }
+    override fun sample(): Point3D = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
-    override fun getNormal(p: Point3D): Normal {
-        throw RuntimeException("AreaLight needs AreaLighting Tracer")
-    }
+    override fun getNormal(p: Point3D): Normal = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
-    override fun l(world: IWorld, sr: IShade): Color {
-        throw RuntimeException("AreaLight needs AreaLighting Tracer")
-    }
+    override fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
-    override fun getDirection(sr: IShade): Vector3D {
-        throw RuntimeException("AreaLight needs AreaLighting Tracer")
-    }
+    override fun getDirection(sr: IShade): Vector3D = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean {
-        throw RuntimeException("AreaLight needs AreaLighting Tracer")
-    }
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
     override fun getLightMaterial(): IMaterial = material!!
 }

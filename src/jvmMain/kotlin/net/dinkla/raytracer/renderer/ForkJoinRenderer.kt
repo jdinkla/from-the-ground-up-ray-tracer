@@ -9,8 +9,10 @@ import java.util.concurrent.RecursiveAction
 
 private const val NUMBER_OF_BLOCKS = 8
 
-class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
-
+class ForkJoinRenderer(
+    private val render: ISingleRayRenderer,
+    private val corrector: IColorCorrector,
+) : IRenderer {
     private var film: IFilm? = null
 
     override fun render(film: IFilm) {
@@ -21,17 +23,23 @@ class ForkJoinRenderer(private val render: ISingleRayRenderer, private val corre
         this.film = null
     }
 
-    internal inner class Master(private val numBlocks: Int, val resolution: Resolution) : RecursiveAction() {
+    internal inner class Master(
+        private val numBlocks: Int,
+        val resolution: Resolution,
+    ) : RecursiveAction() {
         override fun compute() {
             Logger.info("Master.compute starts for $numBlocks * $numBlocks blocks")
-            Block.partitionIntoBlocks(numBlocks, resolution)
+            Block
+                .partitionIntoBlocks(numBlocks, resolution)
                 .map { Worker(it).fork() }
                 .map { it.join() }
             Logger.info("Master.compute ends")
         }
     }
 
-    internal inner class Worker(private val block: Block) : RecursiveAction() {
+    internal inner class Worker(
+        private val block: Block,
+    ) : RecursiveAction() {
         override fun compute() {
             for (y in block.yStart until block.yEnd) {
                 for (x in block.xStart until block.xEnd) {

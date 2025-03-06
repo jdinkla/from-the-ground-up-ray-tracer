@@ -12,12 +12,18 @@ import net.dinkla.raytracer.utilities.Resolution
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Spherical(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
-
+class Spherical(
+    viewPlane: ViewPlane,
+    eye: Point3D,
+    uvw: Basis,
+) : AbstractLens(viewPlane, eye, uvw) {
     private var maxLambda: Double = 180.0
     private var maxPsi: Double = 180.0
 
-    override fun getRaySingle(r: Int, c: Int): Ray {
+    override fun getRaySingle(
+        r: Int,
+        c: Int,
+    ): Ray {
         val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width)
         val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height)
         val pp = Point2D(x, y)
@@ -25,7 +31,11 @@ class Spherical(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(v
         return Ray(eye, direction)
     }
 
-    override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
+    override fun getRaySampled(
+        r: Int,
+        c: Int,
+        sp: Point2D,
+    ): Ray {
         val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width + sp.x)
         val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height + sp.y)
         val pp = Point2D(x, y)
@@ -33,7 +43,11 @@ class Spherical(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(v
         return Ray(eye, direction)
     }
 
-    private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): Vector3D {
+    private fun getRayDirection(
+        pp: Point2D,
+        resolution: Resolution,
+        s: Double,
+    ): Vector3D {
         val x = 2.0 / (s * resolution.width) * pp.x
         val y = 2.0 / (s * resolution.height) * pp.y
 

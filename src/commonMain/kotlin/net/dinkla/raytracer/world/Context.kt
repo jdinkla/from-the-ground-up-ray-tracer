@@ -10,7 +10,11 @@ import net.dinkla.raytracer.utilities.Resolution
 typealias TracerCreator = (IWorld) -> Tracer
 typealias RendererCreator = (ISingleRayRenderer, IColorCorrector) -> IRenderer
 
-class Context(val tracer: TracerCreator, val renderer: RendererCreator, val resolution: Resolution) {
+class Context(
+    val tracer: TracerCreator,
+    val renderer: RendererCreator,
+    val resolution: Resolution,
+) {
     fun adapt(world: World) {
         val theRealTracer = tracer(world)
         world.tracer = theRealTracer

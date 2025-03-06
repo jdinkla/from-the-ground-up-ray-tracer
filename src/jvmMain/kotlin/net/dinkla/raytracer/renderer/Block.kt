@@ -2,9 +2,17 @@ package net.dinkla.raytracer.renderer
 
 import net.dinkla.raytracer.utilities.Resolution
 
-class Block(val xStart: Int, val xEnd: Int, val yStart: Int, val yEnd: Int) {
+class Block(
+    val xStart: Int,
+    val xEnd: Int,
+    val yStart: Int,
+    val yEnd: Int,
+) {
     companion object {
-        fun partitionIntoBlocks(numBlocks: Int, resolution: Resolution): List<Block> {
+        fun partitionIntoBlocks(
+            numBlocks: Int,
+            resolution: Resolution,
+        ): List<Block> {
             val blockHeight: Int = resolution.height / numBlocks
             val blockWidth: Int = resolution.width / numBlocks
             return buildList {

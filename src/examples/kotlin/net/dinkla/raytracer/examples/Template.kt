@@ -6,6 +6,8 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 object Template : WorldDefinition {
     override val id: String = "Template.kt"
-    override fun world(): World = Builder.build {
-    }
+
+    override fun world(): World =
+        Builder.build {
+        }
 }

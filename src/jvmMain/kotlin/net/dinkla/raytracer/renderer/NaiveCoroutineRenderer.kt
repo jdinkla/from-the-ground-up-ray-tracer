@@ -9,7 +9,7 @@ import net.dinkla.raytracer.utilities.Logger
 
 class NaiveCoroutineRenderer(
     private val render: ISingleRayRenderer,
-    private val corrector: IColorCorrector
+    private val corrector: IColorCorrector,
 ) : IRenderer {
     override fun render(film: IFilm) {
         Logger.info("render starts")

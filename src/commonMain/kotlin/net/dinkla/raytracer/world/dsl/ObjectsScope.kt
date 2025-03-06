@@ -27,8 +27,10 @@ import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.utilities.Ply
 
 @Suppress("TooManyFunctions")
-class ObjectsScope(internal val materials: Map<String, IMaterial>, private val compound: Compound) {
-
+class ObjectsScope(
+    internal val materials: Map<String, IMaterial>,
+    private val compound: Compound,
+) {
     private val mutableObjects: MutableList<GeometricObject> = mutableListOf()
 
     val objects: List<GeometricObject>
@@ -48,7 +50,7 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
     fun alignedBox(
         material: String,
         p: Point3D = Point3D.ORIGIN,
-        q: Point3D = Point3D.ORIGIN
+        q: Point3D = Point3D.ORIGIN,
     ) = AlignedBox(p, q).add(material)
 
     fun beveledBox(
@@ -56,7 +58,7 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         p0: Point3D = Point3D.ORIGIN,
         p1: Point3D = Point3D.ORIGIN,
         rb: Double = 0.0,
-        isWiredFrame: Boolean = false
+        isWiredFrame: Boolean = false,
     ) = BeveledBox(p0, p1, rb, isWiredFrame).add(material)
 
     fun box(
@@ -64,14 +66,14 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         p0: Point3D = Point3D.ORIGIN,
         a: Vector3D = Vector3D.RIGHT,
         b: Vector3D = Vector3D.UP,
-        c: Vector3D = Vector3D.FORWARD
+        c: Vector3D = Vector3D.FORWARD,
     ) = Box(p0, a, b, c).add(material)
 
     fun disk(
         material: String,
         center: Point3D = Point3D.ORIGIN,
         radius: Double = 0.0,
-        normal: Normal = Normal.UP
+        normal: Normal = Normal.UP,
     ) = Disk(center, radius, normal).add(material)
 
     fun grid(block: ObjectsScope.() -> Unit) {
@@ -84,7 +86,7 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
     fun instance(
         material: String,
         of: GeometricObject,
-        block: InstanceScope.() -> Unit
+        block: InstanceScope.() -> Unit,
     ) {
         val instance = Instance(of)
         instance.apply {
@@ -94,7 +96,10 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         instance.add()
     }
 
-    fun kdtree(builder: TreeBuilder = SpatialMedianBuilder(), block: ObjectsScope.() -> Unit) {
+    fun kdtree(
+        builder: TreeBuilder = SpatialMedianBuilder(),
+        block: ObjectsScope.() -> Unit,
+    ) {
         val compound = KDTree(builder)
         val scope = ObjectsScope(materials, compound)
         scope.block()
@@ -105,13 +110,13 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         material: String,
         y0: Double = 0.0,
         y1: Double = 1.0,
-        radius: Double = 0.0
+        radius: Double = 0.0,
     ) = OpenCylinder(y0, y1, radius).add(material)
 
     fun plane(
         material: String,
         point: Point3D = Point3D.ORIGIN,
-        normal: Normal = Normal.UP
+        normal: Normal = Normal.UP,
     ) = Plane(point, normal).add(material)
 
     fun ply(
@@ -119,16 +124,17 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         fileName: String,
         isSmooth: Boolean = false,
         reverseNormal: Boolean = false,
-        type: Acceleration = Acceleration.GRID
+        type: Acceleration = Acceleration.GRID,
     ) {
         val m = materials[material]!!
-        val ply = Ply.fromFile(
-            fileName = fileName,
-            reverseNormal = reverseNormal,
-            material = m,
-            isSmooth = isSmooth,
-            type = type
-        )
+        val ply =
+            Ply.fromFile(
+                fileName = fileName,
+                reverseNormal = reverseNormal,
+                material = m,
+                isSmooth = isSmooth,
+                type = type,
+            )
         ply.compound.add()
     }
 
@@ -136,29 +142,44 @@ class ObjectsScope(internal val materials: Map<String, IMaterial>, private val c
         material: String,
         p0: Point3D = Point3D.ORIGIN,
         a: Vector3D = Vector3D.RIGHT,
-        b: Vector3D = Vector3D.UP
+        b: Vector3D = Vector3D.UP,
     ) = Rectangle(p0, a, b).add(material)
 
-    fun solidCylinder(material: String, y0: Double = 0.0, y1: Double = 1.0, radius: Double = 0.0) =
-        SolidCylinder(y0, y1, radius).add(material)
+    fun solidCylinder(
+        material: String,
+        y0: Double = 0.0,
+        y1: Double = 1.0,
+        radius: Double = 0.0,
+    ) = SolidCylinder(y0, y1, radius).add(material)
 
     fun sphere(
         material: String,
         center: Point3D = Point3D.ORIGIN,
-        radius: Double = 0.0
+        radius: Double = 0.0,
     ) = Sphere(center, radius).add(material)
 
     fun torus(
         material: String,
         a: Double = 1.0,
-        b: Double = 1.0
+        b: Double = 1.0,
     ) = Torus(a, b).add(material)
 
-    fun triangle(material: String, a: Point3D, b: Point3D, c: Point3D, smooth: Boolean = false) = if (smooth) {
+    fun triangle(
+        material: String,
+        a: Point3D,
+        b: Point3D,
+        c: Point3D,
+        smooth: Boolean = false,
+    ) = if (smooth) {
         SmoothTriangle(a, b, c).add(material)
     } else {
         Triangle(a, b, c).add(material)
     }
 
-    fun smoothTriangle(material: String, a: Point3D, b: Point3D, c: Point3D) = SmoothTriangle(a, b, c).add(material)
+    fun smoothTriangle(
+        material: String,
+        a: Point3D,
+        b: Point3D,
+        c: Point3D,
+    ) = SmoothTriangle(a, b, c).add(material)
 }

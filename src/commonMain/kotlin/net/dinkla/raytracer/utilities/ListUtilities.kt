@@ -5,13 +5,12 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.objects.IGeometricObject
 
 object ListUtilities {
-
     fun splitByAxis(
         objects: List<IGeometricObject>,
         split: Double,
         axis: Axis,
         objectsL: MutableList<IGeometricObject>,
-        objectsR: MutableList<IGeometricObject>
+        objectsR: MutableList<IGeometricObject>,
     ) {
         objectsL.clear()
         objectsR.clear()
@@ -26,7 +25,11 @@ object ListUtilities {
         }
     }
 
-    private fun compare(p: IGeometricObject, q: IGeometricObject, axis: Axis): Int {
+    private fun compare(
+        p: IGeometricObject,
+        q: IGeometricObject,
+        axis: Axis,
+    ): Int {
         val medianOfP = p.boundingBox.median(axis)
         val medianOfQ = q.boundingBox.median(axis)
         return medianOfP.compareTo(medianOfQ)
@@ -38,6 +41,8 @@ object ListUtilities {
         return p + 0.5 * width
     }
 
-    fun sortByAxis(objects: List<IGeometricObject>, axis: Axis) =
-        objects.sortedWith { p, q -> compare(p, q, axis) }
+    fun sortByAxis(
+        objects: List<IGeometricObject>,
+        axis: Axis,
+    ) = objects.sortedWith { p, q -> compare(p, q, axis) }
 }

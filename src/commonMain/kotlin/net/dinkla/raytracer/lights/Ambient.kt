@@ -10,12 +10,18 @@ import net.dinkla.raytracer.world.IWorld
 open class Ambient(
     var ls: Double = 1.0,
     var color: Color = Color.WHITE,
-    override val shadows: Boolean = true
+    override val shadows: Boolean = true,
 ) : Light {
-
-    override fun l(world: IWorld, sr: IShade): Color = color * ls
+    override fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color = color * ls
 
     override fun getDirection(sr: IShade) = Vector3D.ZERO
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean = false
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean = false
 }

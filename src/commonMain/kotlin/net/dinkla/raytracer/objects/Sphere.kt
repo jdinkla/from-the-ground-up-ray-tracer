@@ -12,8 +12,10 @@ import net.dinkla.raytracer.utilities.equals
 import java.util.Objects
 import kotlin.math.sqrt
 
-class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : GeometricObject() {
-
+class Sphere(
+    val center: Point3D = Point3D.ORIGIN,
+    val radius: Double = 0.0,
+) : GeometricObject() {
     init {
         boundingBox = BBox(center - radius, center + radius)
     }
@@ -22,7 +24,10 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         this.material = material
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val temp = ray.origin - center
         val a = ray.direction dot ray.direction
         val b = (temp * 2.0) dot ray.direction
@@ -74,9 +79,10 @@ class Sphere(val center: Point3D = Point3D.ORIGIN, val radius: Double = 0.0) : G
         return Shadow.None
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<Sphere>(other) { a, b ->
-        a.center == b.center && a.radius == b.radius && a.material == b.material
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Sphere>(other) { a, b ->
+            a.center == b.center && a.radius == b.radius && a.material == b.material
+        }
 
     override fun hashCode(): Int = Objects.hash(center, radius)
 

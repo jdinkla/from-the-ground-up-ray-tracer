@@ -5,5 +5,10 @@ import net.dinkla.raytracer.utilities.Resolution
 
 interface IFilm {
     val resolution: Resolution
-    fun setPixel(x: Int, y: Int, color: Color)
+
+    fun setPixel(
+        x: Int,
+        y: Int,
+        color: Color,
+    )
 }

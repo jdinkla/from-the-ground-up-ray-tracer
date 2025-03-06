@@ -7,9 +7,10 @@ import net.dinkla.raytracer.utilities.Resolution
 
 private const val NUMBER_OF_BLOCKS = 32
 
-class VirtualThreadBlockRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) :
-    IRenderer {
-
+class VirtualThreadBlockRenderer(
+    private val render: ISingleRayRenderer,
+    private val corrector: IColorCorrector,
+) : IRenderer {
     private var film: IFilm? = null
 
     override fun render(film: IFilm) {
@@ -21,14 +22,19 @@ class VirtualThreadBlockRenderer(private val render: ISingleRayRenderer, private
         this.film = null
     }
 
-    private fun master(numBlocks: Int, resolution: Resolution) {
+    private fun master(
+        numBlocks: Int,
+        resolution: Resolution,
+    ) {
         val factory = Thread.ofVirtual().factory()
         Logger.info("Master.compute starts for $numBlocks * $numBlocks blocks")
-        Block.partitionIntoBlocks(numBlocks, resolution).map {
-            val virtualThread = factory.newThread { work(it) }
-            virtualThread.start()
-            virtualThread
-        }.map { it.join() }
+        Block
+            .partitionIntoBlocks(numBlocks, resolution)
+            .map {
+                val virtualThread = factory.newThread { work(it) }
+                virtualThread.start()
+                virtualThread
+            }.map { it.join() }
         Logger.info("Master.compute ends")
     }
 

@@ -5,8 +5,9 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 
-class Shade : Hit(), IShade {
-
+class Shade :
+    Hit(),
+    IShade {
     init {
         geometricObject = null
     }
@@ -26,7 +27,5 @@ class Shade : Hit(), IShade {
     override val material: IMaterial?
         get() = geometricObject?.material
 
-    override fun toString(): String {
-        return "Shade($ray, $depth, $material)"
-    }
+    override fun toString(): String = "Shade($ray, $depth, $material)"
 }

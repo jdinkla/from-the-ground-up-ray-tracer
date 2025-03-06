@@ -15,9 +15,8 @@ abstract class CommandLine(
     worlds: Collection<String>,
     val tracers: Collection<Tracers>,
     private val renderers: Collection<Renderer>,
-    private val resolutions: Collection<Resolution.Predefined>
+    private val resolutions: Collection<Resolution.Predefined>,
 ) : CliktCommand() {
-
     val world by option(help = "world definition id").choice(*worlds.toTypedArray()).default("World20.kt")
     val tracer by option(help = "tracer").choice(*tracers.map { it.name }.toTypedArray()).default("WHITTED")
     val renderer by option(help = "renderers").choice(*renderers.map { it.name }.toTypedArray()).default("SEQUENTIAL")
@@ -39,6 +38,8 @@ abstract class CommandLine(
     abstract fun render(context: Context)
 
     private fun determineRenderer(): Renderer = renderers.first { it.name == renderer }
+
     private fun determineTracer(): Tracers = tracers.first { it.name == tracer }
+
     private fun determineResolution(): Resolution = resolutions.first { it.id == resolution }.create()
 }

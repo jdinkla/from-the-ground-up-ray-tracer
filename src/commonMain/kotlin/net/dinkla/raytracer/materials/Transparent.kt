@@ -11,7 +11,6 @@ import java.util.Objects
 import kotlin.math.abs
 
 class Transparent : Phong {
-
     private var reflectiveBRDF = PerfectSpecular()
     private var specularBTDF = PerfectTransmitter()
 
@@ -26,7 +25,7 @@ class Transparent : Phong {
         kt: Double = 0.0,
         ior: Double = 0.0,
         kr: Double = 0.0,
-        cr: Color = Color.WHITE
+        cr: Color = Color.WHITE,
     ) : super(color, ka, kd, exp, ks, cs) {
         this.kt = kt
         this.ior = ior
@@ -58,7 +57,10 @@ class Transparent : Phong {
             reflectiveBRDF.cr = v
         }
 
-    override fun shade(world: IWorld, sr: IShade): Color {
+    override fun shade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         var l = super.shade(world, sr)
         val wo = sr.ray.direction.times(-1.0)
         val brdf = reflectiveBRDF.sampleF(sr, wo)
@@ -82,13 +84,16 @@ class Transparent : Phong {
         return l
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<Transparent>(other) { a, b ->
-        a.diffuseBRDF == b.diffuseBRDF && a.ambientBRDF == b.ambientBRDF && a.specularBTDF == b.specularBTDF &&
-                a.reflectiveBRDF == b.reflectiveBRDF && a.specularBRDF == b.specularBRDF
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Transparent>(other) { a, b ->
+            a.diffuseBRDF == b.diffuseBRDF &&
+                a.ambientBRDF == b.ambientBRDF &&
+                a.specularBTDF == b.specularBTDF &&
+                a.reflectiveBRDF == b.reflectiveBRDF &&
+                a.specularBRDF == b.specularBRDF
+        }
 
-    override fun hashCode(): Int =
-        Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
+    override fun hashCode(): Int = Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
 
     override fun toString() = "Transparent(${super.toString()}, $reflectiveBRDF, $specularBTDF)"
 }

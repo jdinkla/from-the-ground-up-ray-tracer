@@ -8,26 +8,28 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 
-class ThinLens(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
-
+class ThinLens(
+    viewPlane: ViewPlane,
+    eye: Point3D,
+    uvw: Basis,
+) : AbstractLens(viewPlane, eye, uvw) {
     var sampler: Sampler? = null
 
     var f: Double = 1.0
     var d: Double = 1.0
 
-    override fun getRaySingle(r: Int, c: Int): Ray {
-        return getRay()
-    }
+    override fun getRaySingle(
+        r: Int,
+        c: Int,
+    ): Ray = getRay()
 
-    override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray {
-        return getRay()
-    }
+    override fun getRaySampled(
+        r: Int,
+        c: Int,
+        sp: Point2D,
+    ): Ray = getRay()
 
-    private fun getRay(): Ray {
-        return Ray(eye, getRayDirection())
-    }
+    private fun getRay(): Ray = Ray(eye, getRayDirection())
 
-    private fun getRayDirection(): Vector3D {
-        return uvw.pm(1.0, 1.0, 1.0).normalize()
-    }
+    private fun getRayDirection(): Vector3D = uvw.pm(1.0, 1.0, 1.0).normalize()
 }

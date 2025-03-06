@@ -3,8 +3,9 @@ package net.dinkla.raytracer.hits
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.objects.IGeometricObject
 
-open class Hit : ShadowHit, IHit {
-
+open class Hit :
+    ShadowHit,
+    IHit {
     override var normal: Normal = Normal.ZERO
     override var geometricObject: IGeometricObject? = null
 

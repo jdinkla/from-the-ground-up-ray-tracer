@@ -12,15 +12,18 @@ import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
 
 class Test2Builder : TreeBuilder {
-
     override var maxDepth = 15
     private var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): Node {
-        return build(tree.objects, tree.boundingBox, 0)
-    }
+    override fun build(
+        tree: KDTree,
+        voxel: BBox,
+    ): Node = build(tree.objects, tree.boundingBox, 0)
 
-    class Partitioner(objects: List<IGeometricObject>, voxel: BBox) {
+    class Partitioner(
+        objects: List<IGeometricObject>,
+        voxel: BBox,
+    ) {
         private var root: Triple
 
         var candidatesX: MutableSet<Double>
@@ -50,7 +53,6 @@ class Test2Builder : TreeBuilder {
         }
 
         class Triple {
-
             var bbox: BBox? = null
             internal var objects: List<IGeometricObject>? = null
             internal var volume: Double = 0.toDouble()
@@ -65,8 +67,9 @@ class Test2Builder : TreeBuilder {
             }
         }
 
-        class Split(private var parent: Triple?) {
-
+        class Split(
+            private var parent: Triple?,
+        ) {
             var axis: Axis? = null
             var split: Double = 0.toDouble()
             var left: Triple = Triple()
@@ -108,7 +111,10 @@ class Test2Builder : TreeBuilder {
             }
         }
 
-        fun x(axis: Axis, cs: Set<Double>): Split? {
+        fun x(
+            axis: Axis,
+            cs: Set<Double>,
+        ): Split? {
             var min: Split? = null
             for (split in cs) {
                 if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
@@ -122,8 +128,11 @@ class Test2Builder : TreeBuilder {
         }
 
         companion object {
-
-            fun calcSplit(axis: Axis, split: Double, parent: Triple): Split {
+            fun calcSplit(
+                axis: Axis,
+                split: Double,
+                parent: Triple,
+            ): Split {
                 val s = Split(parent)
                 s.axis = axis
                 s.split = split
@@ -132,7 +141,7 @@ class Test2Builder : TreeBuilder {
                     split,
                     axis,
                     s.left.objects!!.toMutableList(),
-                    s.right.objects!!.toMutableList()
+                    s.right.objects!!.toMutableList(),
                 )
 
                 s.left.bbox = parent.bbox!!.splitLeft(axis, split)
@@ -143,7 +152,11 @@ class Test2Builder : TreeBuilder {
         }
     }
 
-    fun build(objects: List<IGeometricObject>?, voxel: BBox?, depth: Int): Node {
+    fun build(
+        objects: List<IGeometricObject>?,
+        voxel: BBox?,
+        depth: Int,
+    ): Node {
         Counter.count("KDtree.build")
 
         val node: Node?
@@ -156,29 +169,31 @@ class Test2Builder : TreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val par = Partitioner(
-            objects,
-            voxel
-                ?: BBox()
-        )
+        val par =
+            Partitioner(
+                objects,
+                voxel
+                    ?: BBox(),
+            )
 
         val sX = par.x(Axis.X, par.candidatesX)
         val sY = par.x(Axis.Y, par.candidatesY)
         val sZ = par.x(Axis.Z, par.candidatesZ)
 
-        val split: Partitioner.Split? = if (isLess(sX, sY)) {
-            if (isLess(sX, sZ)) {
-                sX
+        val split: Partitioner.Split? =
+            if (isLess(sX, sY)) {
+                if (isLess(sX, sZ)) {
+                    sX
+                } else {
+                    sZ
+                }
             } else {
-                sZ
+                if (isLess(sY, sZ)) {
+                    sY
+                } else {
+                    sZ
+                }
             }
-        } else {
-            if (isLess(sY, sZ)) {
-                sY
-            } else {
-                sZ
-            }
-        }
 
         if (null == split) {
             Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
@@ -187,8 +202,8 @@ class Test2Builder : TreeBuilder {
             split.left.objects!!
             split.right.objects!!
             Logger.info(
-                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size
-                        + " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth
+                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size +
+                    " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth,
             )
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
@@ -199,14 +214,16 @@ class Test2Builder : TreeBuilder {
     }
 
     companion object {
-        fun isLess(x: Partitioner.Split?, y: Partitioner.Split?): Boolean {
-            return if (x != null && y != null) {
+        fun isLess(
+            x: Partitioner.Split?,
+            y: Partitioner.Split?,
+        ): Boolean =
+            if (x != null && y != null) {
                 x.sah < y.sah
             } else if (x != null && y == null) {
                 true
             } else {
                 false
             }
-        }
     }
 }

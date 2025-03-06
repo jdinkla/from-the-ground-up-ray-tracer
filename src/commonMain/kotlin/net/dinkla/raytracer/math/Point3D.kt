@@ -1,7 +1,10 @@
 package net.dinkla.raytracer.math
 
-data class Point3D(val x: Double, val y: Double, val z: Double) {
-
+data class Point3D(
+    val x: Double,
+    val y: Double,
+    val z: Double,
+) {
     operator fun unaryMinus() = Vector3D(-x, -y, -z)
 
     operator fun plus(v: Vector3D) = Point3D(x + v.x, y + v.y, z + v.z)
@@ -21,11 +24,12 @@ data class Point3D(val x: Double, val y: Double, val z: Double) {
         return dx * dx + dy * dy + dz * dz
     }
 
-    fun ith(axis: Axis) = when (axis) {
-        Axis.X -> x
-        Axis.Y -> y
-        Axis.Z -> z
-    }
+    fun ith(axis: Axis) =
+        when (axis) {
+            Axis.X -> x
+            Axis.Y -> y
+            Axis.Z -> z
+        }
 
     override fun toString(): String = "($x,$y,$z)"
 

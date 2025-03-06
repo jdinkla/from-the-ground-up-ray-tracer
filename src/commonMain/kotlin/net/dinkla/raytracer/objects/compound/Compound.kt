@@ -14,7 +14,6 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 
 open class Compound : GeometricObject() {
-
     init {
         boundingBox = BBox()
     }
@@ -41,7 +40,10 @@ open class Compound : GeometricObject() {
             }
         }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         if (!boundingBox.hit(ray)) {
             Counter.count("Compound.hit.bbox")
             return false
@@ -85,7 +87,10 @@ open class Compound : GeometricObject() {
         return Shadow.None
     }
 
-    fun inShadow(ray: Ray, d: Double): Boolean {
+    fun inShadow(
+        ray: Ray,
+        d: Double,
+    ): Boolean {
         Counter.count("Compound.inShadow")
         val t = ShadowHit(d)
         for (geoObj in objects) {
@@ -127,11 +132,12 @@ open class Compound : GeometricObject() {
         } else {
             var size = 0
             for (geoObj in objects) {
-                size += if (geoObj is Compound) {
-                    geoObj.size()
-                } else {
-                    1
-                }
+                size +=
+                    if (geoObj is Compound) {
+                        geoObj.size()
+                    } else {
+                        1
+                    }
             }
             return size
         }

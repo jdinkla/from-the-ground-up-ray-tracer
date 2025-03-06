@@ -8,15 +8,21 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 
-data class Triangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
-
+data class Triangle(
+    val v0: Point3D,
+    val v1: Point3D,
+    val v2: Point3D,
+) : GeometricObject() {
     val normal: Normal = Normal.create(v0, v1, v2)
 
     init {
         boundingBox = BBox.create(v0, v1, v2)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val a = v0.x - v1.x
         val b = v0.x - v2.x
         val c = ray.direction.x

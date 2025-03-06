@@ -10,8 +10,11 @@ import net.dinkla.raytracer.objects.OpenCylinder
 import net.dinkla.raytracer.utilities.equals
 import java.util.Objects
 
-class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compound() {
-
+class SolidCylinder(
+    val y0: Double,
+    val y1: Double,
+    val radius: Double,
+) : Compound() {
     init {
         val bottom = Disk(Point3D(0.0, y0, 0.0), radius, Normal(0.0, -1.0, 0.0))
         val top = Disk(Point3D(0.0, y1, 0.0), radius, Normal(0.0, 1.0, 0.0))
@@ -24,17 +27,20 @@ class SolidCylinder(val y0: Double, val y1: Double, val radius: Double) : Compou
         boundingBox = BBox(Point3D(-radius, y0, -radius), Point3D(radius, y1, radius))
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
-        return if (boundingBox.hit(ray)) {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean =
+        if (boundingBox.hit(ray)) {
             super.hit(ray, sr)
         } else {
             false
         }
-    }
 
-    override fun equals(other: Any?): Boolean = this.equals<SolidCylinder>(other) { a, b ->
-        a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<SolidCylinder>(other) { a, b ->
+            a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
+        }
 
     override fun hashCode(): Int = Objects.hash(y0, y1, radius)
 

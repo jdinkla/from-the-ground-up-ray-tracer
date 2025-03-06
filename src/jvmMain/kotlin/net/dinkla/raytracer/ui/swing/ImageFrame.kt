@@ -5,8 +5,10 @@ import java.awt.event.WindowEvent
 import javax.swing.JFrame
 import kotlin.system.exitProcess
 
-class ImageFrame private constructor(film: SwingFilm, private val isMainFrame: Boolean) : JFrame() {
-
+class ImageFrame private constructor(
+    film: SwingFilm,
+    private val isMainFrame: Boolean,
+) : JFrame() {
     private val canvas = ImageCanvas(film.image)
 
     constructor(film: SwingFilm) : this(film, false) {
@@ -21,12 +23,13 @@ class ImageFrame private constructor(film: SwingFilm, private val isMainFrame: B
         canvas.repaint()
     }
 
-    private val windowAdapter = object : WindowAdapter() {
-        override fun windowClosing(ev: WindowEvent?) {
-            dispose()
-            if (isMainFrame) {
-                exitProcess(0)
+    private val windowAdapter =
+        object : WindowAdapter() {
+            override fun windowClosing(ev: WindowEvent?) {
+                dispose()
+                if (isMainFrame) {
+                    exitProcess(0)
+                }
             }
         }
-    }
 }

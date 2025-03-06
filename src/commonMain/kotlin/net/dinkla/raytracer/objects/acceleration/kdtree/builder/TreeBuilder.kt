@@ -5,8 +5,10 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 
 interface TreeBuilder {
-
     var maxDepth: Int
 
-    fun build(tree: KDTree, voxel: BBox): Node
+    fun build(
+        tree: KDTree,
+        voxel: BBox,
+    ): Node
 }

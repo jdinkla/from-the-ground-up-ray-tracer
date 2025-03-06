@@ -14,7 +14,6 @@ import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
 object AmbientOccludedSphere : WorldDefinition {
-
     override val id: String = "AmbientOccludedSphere.kt"
 
     private const val numberOfSamples = 512
@@ -22,28 +21,31 @@ object AmbientOccludedSphere : WorldDefinition {
     private const val numberOfSets = 10
 
     val s = listOf(PureRandom, Hammersley, Jittered, Regular, Constant(), MultiJittered)
-    val sampler = Sampler(s[0], numberOfSamples, numberOfSets).apply {
-        mapSamplesToHemiSphere(3.0)
-    }
-
-    override fun world(): World = Builder.build {
-        camera(d = 1000.0, eye = p(0.0, 1.0, 7.0), lookAt = p(0.0, 0.75, 0.0))
-
-        ambientOccluder(
-            sampler = sampler, numSamples = numberOfAmbientSamples
-        )
-
-        lights {
+    val sampler =
+        Sampler(s[0], numberOfSamples, numberOfSets).apply {
+            mapSamplesToHemiSphere(3.0)
         }
 
-        materials {
-            matte(id = "m1", cd = c(1.0, 1.0, 0.0), ka = 0.75, kd = 0.0)
-            matte(id = "m2", cd = c(1.0), ka = 0.75, kd = 0.0)
-        }
+    override fun world(): World =
+        Builder.build {
+            camera(d = 1000.0, eye = p(0.0, 1.0, 7.0), lookAt = p(0.0, 0.75, 0.0))
 
-        objects {
-            sphere(material = "m1", center = p(0.0, 1.0, 0.0), radius = 1.0)
-            plane(material = "m2", point = Point3D.ORIGIN, normal = Normal.UP)
+            ambientOccluder(
+                sampler = sampler,
+                numSamples = numberOfAmbientSamples,
+            )
+
+            lights {
+            }
+
+            materials {
+                matte(id = "m1", cd = c(1.0, 1.0, 0.0), ka = 0.75, kd = 0.0)
+                matte(id = "m2", cd = c(1.0), ka = 0.75, kd = 0.0)
+            }
+
+            objects {
+                sphere(material = "m1", center = p(0.0, 1.0, 0.0), radius = 1.0)
+                plane(material = "m2", point = Point3D.ORIGIN, normal = Normal.UP)
+            }
         }
-    }
 }

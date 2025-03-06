@@ -5,10 +5,12 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 
 interface Node {
-
     val boundingBox: BBox
 
-    fun hit(ray: Ray, sr: Hit): Boolean
+    fun hit(
+        ray: Ray,
+        sr: Hit,
+    ): Boolean
 
     fun size(): Int
 

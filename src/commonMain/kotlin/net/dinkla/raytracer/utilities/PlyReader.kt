@@ -12,7 +12,7 @@ class PlyReader(
     val material: IMaterial,
     val reverseNormal: Boolean = false,
     val isSmooth: Boolean = false,
-    val compound: CompoundWithMesh
+    val compound: CompoundWithMesh,
 ) {
     private val mesh = compound.mesh
     private var isInHeader = true
@@ -72,15 +72,16 @@ class PlyReader(
         }
     }
 
-    private fun handleBody(line: String) = when {
-        numVerticesLeft > 0 -> handleVerticesLeft(line)
-        numFacesLeft > 0 -> handleFacesLeft(line)
-        isWhiteSpace(line) -> {
+    private fun handleBody(line: String) =
+        when {
+            numVerticesLeft > 0 -> handleVerticesLeft(line)
+            numFacesLeft > 0 -> handleFacesLeft(line)
+            isWhiteSpace(line) -> {
+            }
+            else -> {
+                throw RuntimeException("Unknown file format in line $numLine: `$line`")
+            }
         }
-        else -> {
-            throw RuntimeException("Unknown file format in line $numLine: `$line`")
-        }
-    }
 
     private fun handleFacesLeft(line: String) {
         val cs = line.split(" ")
@@ -126,7 +127,10 @@ class PlyReader(
         }
     }
 
-    private fun add(i: Int, countFaces: Int) {
+    private fun add(
+        i: Int,
+        countFaces: Int,
+    ) {
         if (null == mesh.vertexFaces[i]) {
             mesh.vertexFaces[i] = ArrayList()
         }

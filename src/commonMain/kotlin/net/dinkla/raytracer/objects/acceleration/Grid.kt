@@ -16,7 +16,6 @@ import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.pow
 
 open class Grid : CompoundWithMesh() {
-
     private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
     protected var nx: Int = 0
@@ -135,7 +134,10 @@ open class Grid : CompoundWithMesh() {
         }
     }
 
-    protected fun statistics(numCells: Int, counts: IntArray) {
+    protected fun statistics(
+        numCells: Int,
+        counts: IntArray,
+    ) {
         val hist = Histogram()
 
         var numInCells = 0
@@ -150,7 +152,7 @@ open class Grid : CompoundWithMesh() {
             "multiplier=" + multiplier +
                 ", numObjects=" + objects.size +
                 ", numCells=" + numCells +
-                ", numObjects in cells=" + numInCells
+                ", numObjects in cells=" + numInCells,
         )
 
         for (key in hist.keys()) {
@@ -159,7 +161,10 @@ open class Grid : CompoundWithMesh() {
         }
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         // if (depth > 0) return false;
         if (!boundingBox.hit(ray)) {
             Counter.count("Grid.hit.bbox")
@@ -220,21 +225,23 @@ open class Grid : CompoundWithMesh() {
         var t0: Double
         var t1: Double
 
-        t0 = if (txMin > tyMin) {
-            txMin
-        } else {
-            tyMin
-        }
+        t0 =
+            if (txMin > tyMin) {
+                txMin
+            } else {
+                tyMin
+            }
 
         if (tzMin > t0) {
             t0 = tzMin
         }
 
-        t1 = if (txMax < tyMax) {
-            txMax
-        } else {
-            tyMax
-        }
+        t1 =
+            if (txMax < tyMax) {
+                txMax
+            } else {
+                tyMax
+            }
 
         if (tzMax < t1) {
             t1 = tzMax
@@ -387,7 +394,10 @@ open class Grid : CompoundWithMesh() {
         }
     }
 
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(
+        ray: Ray,
+        tmin: ShadowHit,
+    ): Boolean {
         Counter.count("Grid.shadowHit")
         val h = Hit(tmin.t)
         val b = hit(ray, h)

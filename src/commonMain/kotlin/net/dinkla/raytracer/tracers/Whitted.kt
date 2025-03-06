@@ -9,14 +9,22 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.world.IWorld
 
-class Whitted(var world: IWorld) : Tracer {
-
-    override fun trace(ray: Ray, depth: Int): Color {
+class Whitted(
+    var world: IWorld,
+) : Tracer {
+    override fun trace(
+        ray: Ray,
+        depth: Int,
+    ): Color {
         Counter.count("Whitted.trace2")
         return trace(ray, WrappedDouble.createMax(), depth)
     }
 
-    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
+    override fun trace(
+        ray: Ray,
+        tmin: WrappedDouble,
+        depth: Int,
+    ): Color {
         Counter.count("Whitted.trace3")
         val color: Color
         if (world.shouldStopRecursion(depth)) {

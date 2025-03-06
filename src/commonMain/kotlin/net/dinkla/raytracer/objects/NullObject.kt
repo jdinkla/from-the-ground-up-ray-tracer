@@ -6,14 +6,14 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 
 class NullObject : GeometricObject() {
-
     init {
         boundingBox = BBox()
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
-        return false
-    }
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean = false
 
     override fun shadowHit(ray: Ray): Shadow = Shadow.None
 }

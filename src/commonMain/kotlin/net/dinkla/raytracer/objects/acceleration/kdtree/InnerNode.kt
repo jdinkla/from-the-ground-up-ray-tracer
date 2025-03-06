@@ -11,16 +11,22 @@ class InnerNode(
     val right: Node,
     override val boundingBox: BBox,
     val split: Double,
-    private val axis: Axis
+    private val axis: Axis,
 ) : Node {
-
     enum class Side {
-        Left, Right
+        Left,
+        Right,
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean = hitRec(ray, sr)
+    override fun hit(
+        ray: Ray,
+        sr: Hit,
+    ): Boolean = hitRec(ray, sr)
 
-    private fun hitRec(ray: Ray, sr: Hit): Boolean {
+    private fun hitRec(
+        ray: Ray,
+        sr: Hit,
+    ): Boolean {
         val hit = boundingBox.hitX(ray)
         if (!hit.isHit) {
             return false
@@ -257,26 +263,26 @@ class InnerNode(
 
     override fun size(): Int = left.size() + right.size()
 
-    override fun toString(): String =
-        ("Node ${size()} [ ${left.size()}, ${right.size()}] $boundingBox $split\n($left)\n($right)")
+    override fun toString(): String = ("Node ${size()} [ ${left.size()}, ${right.size()}] $boundingBox $split\n($left)\n($right)")
 
-    override fun printBBoxes(incr: Int): String = buildString {
-        for (i in 0 until incr) {
+    override fun printBBoxes(incr: Int): String =
+        buildString {
+            for (i in 0 until incr) {
+                append(" ")
+            }
+            append(size())
             append(" ")
+            append(axis)
+            append(" ")
+            append(split)
+            append(" ")
+            append(boundingBox.p)
+            append(" ")
+            append(boundingBox.q)
+            append("\n")
+            append(left.printBBoxes(incr + 2))
+            append(right.printBBoxes(incr + 2))
         }
-        append(size())
-        append(" ")
-        append(axis)
-        append(" ")
-        append(split)
-        append(" ")
-        append(boundingBox.p)
-        append(" ")
-        append(boundingBox.q)
-        append("\n")
-        append(left.printBBoxes(incr + 2))
-        append(right.printBBoxes(incr + 2))
-    }
 
     companion object {
         var hits = Histogram()

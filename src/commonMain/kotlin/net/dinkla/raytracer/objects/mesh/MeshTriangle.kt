@@ -37,9 +37,10 @@ open class MeshTriangle : GeometricObject {
         this.index2 = i2
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
-        return false
-    }
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean = false
 
     override fun shadowHit(ray: Ray): Shadow {
         val p0 = mesh.vertices[index0]

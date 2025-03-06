@@ -11,10 +11,18 @@ data class PointLight(
     val location: Point3D = Point3D.ORIGIN,
     val ls: Double = 1.0,
     val color: Color = Color.WHITE,
-    override val shadows: Boolean = true
+    override val shadows: Boolean = true,
 ) : Light {
-    override fun l(world: IWorld, sr: IShade): Color = color * ls
+    override fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color = color * ls
+
     override fun getDirection(sr: IShade): Vector3D = Vector3D(location - Vector3D(sr.hitPoint)).normalize()
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean =
-        world.inShadow(ray, sr, (location - ray.origin).length)
+
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean = world.inShadow(ray, sr, (location - ray.origin).length)
 }

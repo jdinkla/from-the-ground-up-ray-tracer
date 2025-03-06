@@ -4,7 +4,6 @@ import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
 
 object Counter {
-
     // For each thread-id there is a map
     private var instances = ConcurrentHashMap<Long, TreeMap<String, Int>>()
     private var PAUSE = false

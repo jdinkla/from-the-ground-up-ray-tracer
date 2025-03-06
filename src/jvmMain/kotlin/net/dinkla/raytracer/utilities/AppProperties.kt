@@ -6,7 +6,6 @@ import java.io.InputStreamReader
 import java.util.*
 
 object AppProperties {
-
     private var properties: Properties = Properties()
 
     init {

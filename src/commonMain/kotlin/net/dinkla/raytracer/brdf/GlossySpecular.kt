@@ -12,10 +12,13 @@ data class GlossySpecular(
     var ks: Double = 0.25,
     var cs: Color = Color.WHITE,
     var exp: Double = 5.0,
-    val sampler: Sampler = Sampler()
+    val sampler: Sampler = Sampler(),
 ) : BRDF {
-
-    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
+    override fun f(
+        sr: IShade,
+        wo: Vector3D,
+        wi: Vector3D,
+    ): Color {
         val nDotWi = wi dot sr.normal
         val r = (wi * (-1.0)) + (sr.normal.toVector3D() * (2 * nDotWi))
         val rDotWo = r dot wo
@@ -26,7 +29,10 @@ data class GlossySpecular(
         }
     }
 
-    override fun sampleF(sr: IShade, wo: Vector3D): Sample {
+    override fun sampleF(
+        sr: IShade,
+        wo: Vector3D,
+    ): Sample {
         val nDotWo = sr.normal dot wo
         val r = -wo + (sr.normal * (2 * nDotWo))
         val u = (Vector3D(0.00424, 1.0, 0.00764) cross r).normalize()
@@ -41,9 +47,10 @@ data class GlossySpecular(
         return Sample(wi = wi, pdf = phongLobe * nDotWi, color = cs * (ks * phongLobe))
     }
 
-    override fun rho(sr: IShade, wo: Vector3D): Color {
-        throw RuntimeException("GlossySpecular.rho")
-    }
+    override fun rho(
+        sr: IShade,
+        wo: Vector3D,
+    ): Color = throw RuntimeException("GlossySpecular.rho")
 
     override fun equals(other: Any?): Boolean {
         if (other != null && other is GlossySpecular) {

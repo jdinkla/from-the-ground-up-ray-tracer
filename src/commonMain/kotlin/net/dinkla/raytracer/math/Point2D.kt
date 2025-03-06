@@ -2,8 +2,10 @@ package net.dinkla.raytracer.math
 
 import kotlin.math.sqrt
 
-data class Point2D(val x: Double, val y: Double) {
-
+data class Point2D(
+    val x: Double,
+    val y: Double,
+) {
     operator fun unaryMinus() = Vector2D(-x, -y)
 
     operator fun plus(v: Vector2D) = Point2D(x + v.x, y + v.y)

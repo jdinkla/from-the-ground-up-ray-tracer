@@ -8,13 +8,18 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 
-data class Plane(val point: Point3D = Point3D.ORIGIN, val normal: Normal = Normal.UP) : GeometricObject() {
-
+data class Plane(
+    val point: Point3D = Point3D.ORIGIN,
+    val normal: Normal = Normal.UP,
+) : GeometricObject() {
     init {
         boundingBox = BBox(Point3D.MIN, Point3D.MAX)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val t = ((point - ray.origin) dot normal) / (ray.direction dot normal)
         return if (t > MathUtils.K_EPSILON) {
             sr.t = t

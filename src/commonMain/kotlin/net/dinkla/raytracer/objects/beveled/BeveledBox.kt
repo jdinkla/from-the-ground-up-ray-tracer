@@ -16,7 +16,7 @@ class BeveledBox(
     val p0: Point3D,
     val p1: Point3D,
     private val rb: Double,
-    private val isWiredFrame: Boolean = false
+    private val isWiredFrame: Boolean = false,
 ) : Compound() {
     init {
 
@@ -162,64 +162,71 @@ class BeveledBox(
         // the faces
         if (!isWiredFrame) {
             // bottom face: -ve y
-            val bottomFace = Rectangle(
-                Point3D(p0.x + rb, p0.y, p0.z + rb),
-                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                Normal.DOWN
-            )
+            val bottomFace =
+                Rectangle(
+                    Point3D(p0.x + rb, p0.y, p0.z + rb),
+                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                    Normal.DOWN,
+                )
             objects.add(bottomFace)
 
             // bottom face: +ve y
-            val topFace = Rectangle(
-                Point3D(p0.x + rb, p1.y, p0.z + rb),
-                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                Normal.UP
-            )
+            val topFace =
+                Rectangle(
+                    Point3D(p0.x + rb, p1.y, p0.z + rb),
+                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                    Normal.UP,
+                )
             objects.add(topFace)
 
             // back face: -ve z
-            val backFace = Rectangle(
-                Point3D(p0.x + rb, p0.y + rb, p0.z),
-                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                Normal.BACKWARD
-            )
+            val backFace =
+                Rectangle(
+                    Point3D(p0.x + rb, p0.y + rb, p0.z),
+                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                    Normal.BACKWARD,
+                )
             objects.add(backFace)
 
             // front face: +ve z
-            val frontFace = Rectangle(
-                Point3D(p0.x + rb, p0.y + rb, p1.z),
-                Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
-                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                Normal.FORWARD
-            )
+            val frontFace =
+                Rectangle(
+                    Point3D(p0.x + rb, p0.y + rb, p1.z),
+                    Vector3D(p1.x - rb - (p0.x + rb), 0.0, 0.0),
+                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                    Normal.FORWARD,
+                )
             objects.add(frontFace)
 
             // left face: -ve x
-            val leftFace = Rectangle(
-                Point3D(p0.x, p0.y + rb, p0.z + rb),
-                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                Normal.LEFT
-            )
+            val leftFace =
+                Rectangle(
+                    Point3D(p0.x, p0.y + rb, p0.z + rb),
+                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                    Normal.LEFT,
+                )
             objects.add(leftFace)
 
             // right face: +ve x
-            val rightFace = Rectangle(
-                Point3D(p1.x, p0.y + rb, p0.z + rb),
-                Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
-                Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
-                Normal.RIGHT
-            )
+            val rightFace =
+                Rectangle(
+                    Point3D(p1.x, p0.y + rb, p0.z + rb),
+                    Vector3D(0.0, 0.0, p1.z - rb - (p0.z + rb)),
+                    Vector3D(0.0, p1.y - rb - (p0.y + rb), 0.0),
+                    Normal.RIGHT,
+                )
             objects.add(rightFace)
         }
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<BeveledBox>(other) { a, b ->
-        a.p0 == b.p0 && a.p1 == b.p1 && a.rb == b.rb && a.isWiredFrame == b.isWiredFrame
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<BeveledBox>(other) { a, b ->
+            a.p0 == b.p0 && a.p1 == b.p1 && a.rb == b.rb && a.isWiredFrame == b.isWiredFrame
+        }
 
     override fun hashCode(): Int = Objects.hash(p0, p1, rb, isWiredFrame)
 

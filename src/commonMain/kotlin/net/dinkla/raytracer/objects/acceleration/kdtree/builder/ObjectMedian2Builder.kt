@@ -15,16 +15,17 @@ import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
 class ObjectMedian2Builder : TreeBuilder {
-
     override var maxDepth = 15
     private var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): Node {
-        return build(tree.objects, tree.boundingBox, 0)
-    }
+    override fun build(
+        tree: KDTree,
+        voxel: BBox,
+    ): Node = build(tree.objects, tree.boundingBox, 0)
 
-    class Partitioner(internal var objects: List<IGeometricObject>) {
-
+    class Partitioner(
+        internal var objects: List<IGeometricObject>,
+    ) {
         internal var objectsL: ArrayList<IGeometricObject>
         internal var objectsR: ArrayList<IGeometricObject>
 
@@ -102,22 +103,23 @@ class ObjectMedian2Builder : TreeBuilder {
             Logger.info(
                 "weightX=" + weightX + " (" + objectsLx.size + ", " + objectsRx.size +
                     "), weightY=" + weightY + " (" + objectsLy.size + ", " + objectsRy.size +
-                    "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")"
+                    "), weightZ=" + weightZ + " (" + objectsLz.size + ", " + objectsRz.size + ")",
             )
 
-            axis = if (weightX < weightY) {
-                if (weightX < weightZ) {
-                    Axis.X
+            axis =
+                if (weightX < weightY) {
+                    if (weightX < weightZ) {
+                        Axis.X
+                    } else {
+                        Axis.Z
+                    }
                 } else {
-                    Axis.Z
+                    if (weightY < weightZ) {
+                        Axis.Y
+                    } else {
+                        Axis.Z
+                    }
                 }
-            } else {
-                if (weightY < weightZ) {
-                    Axis.Y
-                } else {
-                    Axis.Z
-                }
-            }
         }
 
         fun select() {
@@ -176,7 +178,11 @@ class ObjectMedian2Builder : TreeBuilder {
         }
     }
 
-    fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
+    fun build(
+        objects: List<IGeometricObject>,
+        voxel: BBox?,
+        depth: Int,
+    ): Node {
         Counter.count("KDtree.build")
 
         var node: Node? = null
@@ -205,14 +211,18 @@ class ObjectMedian2Builder : TreeBuilder {
                 i++
             }
             if (!par.isFound) {
-                Logger.info("Not splitting " + objects.size + " objects into " + par.objectsL.size + " and "
-                        + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+                Logger.info(
+                    "Not splitting " + objects.size + " objects into " + par.objectsL.size + " and " +
+                        par.objectsR.size + " objects at " + par.split + " with depth " + depth,
+                )
                 node = Leaf(objects)
             }
         }
         if (null == node) {
-            Logger.info("Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size
-                    + " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth)
+            Logger.info(
+                "Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size +
+                    " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth,
+            )
             val left = build(par.objectsL, par.voxelL, depth + 1)
             val right = build(par.objectsR, par.voxelR, depth + 1)
             node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth))
@@ -222,8 +232,10 @@ class ObjectMedian2Builder : TreeBuilder {
     }
 
     companion object {
-        private fun weight(a: Int, b: Int, c: Int): Int {
-            return abs(a - c / 2) + abs(b - c / 2)
-        }
+        private fun weight(
+            a: Int,
+            b: Int,
+            c: Int,
+        ): Int = abs(a - c / 2) + abs(b - c / 2)
     }
 }

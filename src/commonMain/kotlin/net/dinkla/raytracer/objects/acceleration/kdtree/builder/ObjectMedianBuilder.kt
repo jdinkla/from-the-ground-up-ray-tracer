@@ -13,15 +13,19 @@ import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.utilities.Logger
 
 class ObjectMedianBuilder : TreeBuilder {
-
     override var maxDepth = 15
     private var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): Node {
-        return build(tree.objects, tree.boundingBox, 0)
-    }
+    override fun build(
+        tree: KDTree,
+        voxel: BBox,
+    ): Node = build(tree.objects, tree.boundingBox, 0)
 
-    fun build(origObjects: List<IGeometricObject>, voxel: BBox, depth: Int): Node {
+    fun build(
+        origObjects: List<IGeometricObject>,
+        voxel: BBox,
+        depth: Int,
+    ): Node {
         var objects = origObjects
         Counter.count("KDtree.build")
 
@@ -41,19 +45,20 @@ class ObjectMedianBuilder : TreeBuilder {
         val width = voxel.q.minus(voxel.p)
 
         // Find the axis width the largest difference
-        val axis: Axis = if (width.x > width.y) {
-            if (width.x > width.z) {
-                Axis.X
+        val axis: Axis =
+            if (width.x > width.y) {
+                if (width.x > width.z) {
+                    Axis.X
+                } else {
+                    Axis.Z
+                }
             } else {
-                Axis.Z
+                if (width.y > width.z) {
+                    Axis.Y
+                } else {
+                    Axis.Z
+                }
             }
-        } else {
-            if (width.y > width.z) {
-                Axis.Y
-            } else {
-                Axis.Z
-            }
-        }
 
         // Sort the objects by the current axis
         // final Axis axis = Axis.fromInt(depth % 3);
@@ -130,14 +135,14 @@ class ObjectMedianBuilder : TreeBuilder {
 
         if (objects.size == objectsL.size || objects.size == objectsR.size) {
             Logger.info(
-                "Not splitting " + objects.size + " objects into " + objectsL.size + " and "
-                        + objectsR.size + " objects at " + split + " with depth " + depth
+                "Not splitting " + objects.size + " objects into " + objectsL.size + " and " +
+                    objectsR.size + " objects at " + split + " with depth " + depth,
             )
             node = Leaf(objects)
         } else {
             Logger.info(
-                "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and "
-                        + objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width
+                "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " +
+                    objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width,
             )
             val left = build(objectsL, voxelL ?: BBox(), depth + 1)
             val right = build(objectsR, voxelR ?: BBox(), depth + 1)

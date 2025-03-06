@@ -6,18 +6,19 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.samplers.Constant
 import net.dinkla.raytracer.samplers.Sampler
 
-class WorldScopeTest : StringSpec({
-    "ambientLight" {
-        val scope = WorldScope()
-        val old = scope.world.ambientLight
-        scope.ambientLight(Color.RED, 0.5)
-        scope.world.ambientLight shouldNotBe old
-    }
+class WorldScopeTest :
+    StringSpec({
+        "ambientLight" {
+            val scope = WorldScope()
+            val old = scope.world.ambientLight
+            scope.ambientLight(Color.RED, 0.5)
+            scope.world.ambientLight shouldNotBe old
+        }
 
-    "ambientOccluder" {
-        val scope = WorldScope()
-        val old = scope.world.ambientLight
-        scope.ambientOccluder(Sampler(Constant()), 10)
-        scope.world.ambientLight shouldNotBe old
-    }
-})
+        "ambientOccluder" {
+            val scope = WorldScope()
+            val old = scope.world.ambientLight
+            scope.ambientOccluder(Sampler(Constant()), 10)
+            scope.world.ambientLight shouldNotBe old
+        }
+    })

@@ -6,8 +6,9 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 
-class Leaf(objects: List<IGeometricObject>) : Node {
-
+class Leaf(
+    objects: List<IGeometricObject>,
+) : Node {
     private val compound: Compound = Compound()
 
     override val boundingBox: BBox
@@ -22,16 +23,20 @@ class Leaf(objects: List<IGeometricObject>) : Node {
         compound.initialize()
     }
 
-    override fun hit(ray: Ray, sr: Hit): Boolean = compound.hit(ray, sr)
+    override fun hit(
+        ray: Ray,
+        sr: Hit,
+    ): Boolean = compound.hit(ray, sr)
 
     override fun size(): Int = compound.size()
 
-    override fun printBBoxes(incr: Int): String = buildString {
-        for (i in 0 until incr) {
-            append(" ")
+    override fun printBBoxes(incr: Int): String =
+        buildString {
+            for (i in 0 until incr) {
+                append(" ")
+            }
+            append("-")
         }
-        append("-")
-    }
 
     override fun toString(): String = "Leaf(${size()}, $boundingBox"
 }

@@ -14,7 +14,6 @@ import kotlin.Double.Companion.NEGATIVE_INFINITY
 import kotlin.Double.Companion.POSITIVE_INFINITY
 
 open class Rectangle : GeometricObject {
-
     val p0: Point3D
     val a: Vector3D
     val b: Vector3D
@@ -24,11 +23,12 @@ open class Rectangle : GeometricObject {
         this.p0 = p0
         this.a = a
         this.b = b
-        val v = if (inverted) {
-            b cross a
-        } else {
-            a cross b
-        }
+        val v =
+            if (inverted) {
+                b cross a
+            } else {
+                a cross b
+            }
         normal = Normal.create(v.normalize())
         boundingBox = calcBoundingBox()
     }
@@ -41,7 +41,10 @@ open class Rectangle : GeometricObject {
         boundingBox = calcBoundingBox()
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val nom = (p0 - ray.origin) dot normal
         val denom = ray.direction dot normal
         val t = nom / denom
@@ -142,9 +145,10 @@ open class Rectangle : GeometricObject {
         return BBox(Point3D(x0, y0, z0), Point3D(x1, y1, z1))
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<Rectangle>(other) { a, b ->
-        a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.normal == b.normal
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Rectangle>(other) { a, b ->
+            a.p0 == b.p0 && a.a == b.a && a.b == b.b && a.normal == b.normal
+        }
 
     override fun hashCode(): Int = Objects.hash(p0, a, b, normal)
 

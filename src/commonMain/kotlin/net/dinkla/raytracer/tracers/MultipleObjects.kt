@@ -6,9 +6,13 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.IWorld
 
-class MultipleObjects(var world: IWorld) : Tracer {
-
-    override fun trace(ray: Ray, depth: Int): Color {
+class MultipleObjects(
+    var world: IWorld,
+) : Tracer {
+    override fun trace(
+        ray: Ray,
+        depth: Int,
+    ): Color {
         val sr = Shade()
         return if (world.hit(ray, sr)) {
             sr.ray = ray
@@ -18,7 +22,9 @@ class MultipleObjects(var world: IWorld) : Tracer {
         }
     }
 
-    override fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color {
-        throw UnsupportedOperationException("MultipleObjects.trace")
-    }
+    override fun trace(
+        ray: Ray,
+        tmin: WrappedDouble,
+        depth: Int,
+    ): Color = throw UnsupportedOperationException("MultipleObjects.trace")
 }

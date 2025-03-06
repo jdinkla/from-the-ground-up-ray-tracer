@@ -10,12 +10,18 @@ inline fun loop(f: (Int, Int) -> Unit) {
 
 @SuppressWarnings("TooManyFunctions")
 class Matrix private constructor() {
-
     private var m: DoubleArray = DoubleArray(n * n)
 
-    operator fun get(i: Int, j: Int) = m[index(i, j)]
+    operator fun get(
+        i: Int,
+        j: Int,
+    ) = m[index(i, j)]
 
-    operator fun set(i: Int, j: Int, value: Double) {
+    operator fun set(
+        i: Int,
+        j: Int,
+        value: Double,
+    ) {
         m[index(i, j)] = value
     }
 
@@ -93,36 +99,47 @@ class Matrix private constructor() {
 
     override fun hashCode(): Int = m.hashCode()
 
-    override fun toString() = buildString {
-        fun line(i: Int) = "${m[i, 0]}, ${m[i, 1]}, ${m[i, 2]}, ${m[i, 3]}   "
-        append(line(0))
-        append(line(1))
-        append(line(2))
-        append(line(3))
-    }
+    override fun toString() =
+        buildString {
+            fun line(i: Int) = "${m[i, 0]}, ${m[i, 1]}, ${m[i, 2]}, ${m[i, 3]}   "
+            append(line(0))
+            append(line(1))
+            append(line(2))
+            append(line(3))
+        }
 
     companion object {
-
         const val n = 4
 
         fun identity(): Matrix = Matrix().apply { setIdentity() }
 
         fun zero(): Matrix = Matrix()
 
-        fun index(i: Int, j: Int) = n * i + j
+        fun index(
+            i: Int,
+            j: Int,
+        ) = n * i + j
 
-        operator fun DoubleArray.get(i: Int, j: Int): Double = this[index(i, j)]
+        operator fun DoubleArray.get(
+            i: Int,
+            j: Int,
+        ): Double = this[index(i, j)]
 
-        operator fun DoubleArray.set(i: Int, j: Int, value: Double) {
+        operator fun DoubleArray.set(
+            i: Int,
+            j: Int,
+            value: Double,
+        ) {
             this[index(i, j)] = value
         }
 
-        fun indices() = ArrayList<Pair<Int, Int>>().apply {
-            for (j in 0 until n) {
-                for (i in 0 until n) {
-                    add(Pair(i, j))
+        fun indices() =
+            ArrayList<Pair<Int, Int>>().apply {
+                for (j in 0 until n) {
+                    for (i in 0 until n) {
+                        add(Pair(i, j))
+                    }
                 }
             }
-        }
     }
 }

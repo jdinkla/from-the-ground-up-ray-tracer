@@ -9,11 +9,11 @@ import javax.swing.border.EmptyBorder
 import javax.swing.tree.DefaultMutableTreeNode
 
 class LeftSide : Component() {
-
     private val root = createTreeFromDirectory(examplesDirectory)
-    val tree = JTree(root).apply {
-        border = EmptyBorder(10, 10, 10, 10)
-    }
+    val tree =
+        JTree(root).apply {
+            border = EmptyBorder(10, 10, 10, 10)
+        }
     val component = JScrollPane(tree)
 
     private fun createTreeFromDirectory(directoryName: String): DefaultMutableTreeNode {
@@ -21,9 +21,12 @@ class LeftSide : Component() {
         val directory = File(directoryName)
         directory.walk().sorted().forEach { file ->
             if (file.isFile) {
-                val fileName = fileNameWithoutDirectory(
-                    file.absoluteFile.toString(), directory.absolutePath.toString(), File.separator
-                )
+                val fileName =
+                    fileNameWithoutDirectory(
+                        file.absoluteFile.toString(),
+                        directory.absolutePath.toString(),
+                        File.separator,
+                    )
                 root.add(DefaultMutableTreeNode(fileName))
             }
         }

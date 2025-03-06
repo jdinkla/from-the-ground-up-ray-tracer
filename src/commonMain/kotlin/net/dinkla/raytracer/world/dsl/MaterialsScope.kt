@@ -9,7 +9,6 @@ import net.dinkla.raytracer.materials.Reflective
 import net.dinkla.raytracer.materials.Transparent
 
 class MaterialsScope {
-
     private val mutableMaterials: MutableMap<String, IMaterial> = mutableMapOf()
 
     val materials: Map<String, IMaterial>
@@ -19,7 +18,7 @@ class MaterialsScope {
         id: String,
         cd: Color = Color.WHITE,
         ka: Double = 0.25,
-        kd: Double = 0.75
+        kd: Double = 0.75,
     ) {
         mutableMaterials[id] = Matte(cd, ka, kd)
     }
@@ -32,13 +31,14 @@ class MaterialsScope {
         kd: Double = 0.75,
         exp: Double = 5.0,
         ks: Double = 0.25,
-        cs: Color = Color.WHITE
+        cs: Color = Color.WHITE,
     ) {
-        mutableMaterials[id] = Phong(cd, ka, kd).apply {
-            this.exp = exp
-            this.ks = ks
-            this.cs = cs
-        }
+        mutableMaterials[id] =
+            Phong(cd, ka, kd).apply {
+                this.exp = exp
+                this.ks = ks
+                this.cs = cs
+            }
     }
 
     @SuppressWarnings("LongParameterList")
@@ -51,21 +51,22 @@ class MaterialsScope {
         ks: Double = 0.25,
         cs: Color = Color.WHITE,
         cr: Color = Color.WHITE,
-        kr: Double = 1.0
+        kr: Double = 1.0,
     ) {
-        mutableMaterials[id] = Reflective(cd, ka, kd).apply {
-            this.exp = exp
-            this.ks = ks
-            this.cs = cs
-            this.cr = cr
-            this.kr = kr
-        }
+        mutableMaterials[id] =
+            Reflective(cd, ka, kd).apply {
+                this.exp = exp
+                this.ks = ks
+                this.cs = cs
+                this.cr = cr
+                this.kr = kr
+            }
     }
 
     fun emissive(
         id: String,
         ce: Color = Color.WHITE,
-        le: Double = 0.25
+        le: Double = 0.25,
     ) {
         mutableMaterials[id] = Emissive(ce, le)
     }
@@ -82,20 +83,21 @@ class MaterialsScope {
         kt: Double = 0.25,
         ior: Double = 0.25,
         kr: Double = 0.25,
-        cr: Color = Color.WHITE
+        cr: Color = Color.WHITE,
     ) {
-        val transparent = Transparent().apply {
-            this.cd = cd
-            this.ka = ka
-            this.kd = kd
-            this.exp = exp
-            this.ks = ks
-            this.cs = cs
-            this.kt = kt
-            this.ior = ior
-            this.cr = cr
-            this.kr = kr
-        }
+        val transparent =
+            Transparent().apply {
+                this.cd = cd
+                this.ka = ka
+                this.kd = kd
+                this.exp = exp
+                this.ks = ks
+                this.cs = cs
+                this.kt = kt
+                this.ior = ior
+                this.cr = cr
+                this.kr = kr
+            }
         mutableMaterials[id] = transparent
     }
 }

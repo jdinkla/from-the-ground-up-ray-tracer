@@ -13,8 +13,11 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
-class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : GeometricObject() {
-
+class OpenCylinder(
+    y0: Double,
+    y1: Double,
+    private var radius: Double,
+) : GeometricObject() {
     private var y0: Double = min(y0, y1)
     internal var y1: Double = max(y0, y1)
     private var invRadius: Double = 1.0 / radius
@@ -23,7 +26,10 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         boundingBox = calcBoundingBox()
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val ox = ray.origin.x
         val oy = ray.origin.y
         val oz = ray.origin.z
@@ -102,7 +108,11 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         return Shadow.None
     }
 
-    private fun isHit(t: Double, oy: Double, dy: Double): Boolean {
+    private fun isHit(
+        t: Double,
+        oy: Double,
+        dy: Double,
+    ): Boolean {
         if (t > MathUtils.K_EPSILON) {
             val yHit = oy + t * dy
             if (yHit > y0 && yHit < y1) {
@@ -118,9 +128,10 @@ class OpenCylinder(y0: Double, y1: Double, private var radius: Double) : Geometr
         return BBox(p, q)
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<OpenCylinder>(other) { a, b ->
-        a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<OpenCylinder>(other) { a, b ->
+            a.y0 == b.y0 && a.y1 == b.y1 && a.radius == b.radius
+        }
 
     override fun hashCode(): Int = Objects.hash(y0, y1, radius)
 

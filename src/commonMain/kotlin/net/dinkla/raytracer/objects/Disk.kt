@@ -10,13 +10,19 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
 import java.util.Objects
 
-open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : GeometricObject() {
-
+open class Disk(
+    val center: Point3D,
+    val radius: Double,
+    val normal: Normal,
+) : GeometricObject() {
     init {
         boundingBox = BBox(center - radius, center + radius)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val nom = (center - ray.origin) dot normal
         val denom = ray.direction dot normal
         val t = nom / denom
@@ -37,15 +43,16 @@ open class Disk(val center: Point3D, val radius: Double, val normal: Normal) : G
     override fun shadowHit(ray: Ray): Shadow {
         val t = ((center - ray.origin) dot normal) / (ray.direction dot normal)
         return when {
-            t <= MathUtils.K_EPSILON                            -> Shadow.None
+            t <= MathUtils.K_EPSILON -> Shadow.None
             center.sqrDistance(ray.linear(t)) < radius * radius -> Shadow.Hit(t)
-            else                                                -> Shadow.None
+            else -> Shadow.None
         }
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<Disk>(other) { a, b ->
-        a.center == b.center && a.radius == b.radius && a.normal == b.normal
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Disk>(other) { a, b ->
+            a.center == b.center && a.radius == b.radius && a.normal == b.normal
+        }
 
     override fun hashCode(): Int = Objects.hash(center, radius, normal)
 

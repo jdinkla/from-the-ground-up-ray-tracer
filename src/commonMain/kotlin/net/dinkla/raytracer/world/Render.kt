@@ -9,7 +9,11 @@ import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Timer
 
 object Render {
-    suspend fun render(fileNameIn: String, fileNameOut: String, context: Context) {
+    suspend fun render(
+        fileNameIn: String,
+        fileNameOut: String,
+        context: Context,
+    ) {
         Logger.info("Rendering $fileNameIn to $fileNameOut")
         val worldDefinition = worldDef(fileNameIn)
         if (null == worldDefinition) {
@@ -20,7 +24,10 @@ object Render {
         }
     }
 
-    fun render(worldDefinition: WorldDefinition, context: Context): Pair<Film, World> {
+    fun render(
+        worldDefinition: WorldDefinition,
+        context: Context,
+    ): Pair<Film, World> {
         val world = worldDefinition.world()
         context.adapt(world)
         world.initialize()
@@ -29,7 +36,10 @@ object Render {
         return Pair(film, world)
     }
 
-    fun render(film: IFilm, renderer: IRenderer) {
+    fun render(
+        film: IFilm,
+        renderer: IRenderer,
+    ) {
         val timer = Timer()
         timer.start()
         renderer.render(film)

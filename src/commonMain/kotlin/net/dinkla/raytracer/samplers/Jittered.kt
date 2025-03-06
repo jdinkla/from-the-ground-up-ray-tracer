@@ -5,7 +5,10 @@ import net.dinkla.raytracer.samplers.IGenerator.Companion.sqrt
 import net.dinkla.raytracer.utilities.Random
 
 object Jittered : IGenerator {
-    override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
+    override fun generateSamples(
+        numSamples: Int,
+        numSets: Int,
+    ): List<Point2D> {
         val n = sqrt(numSamples)
         return buildList {
             for (p in 0 until numSets) {

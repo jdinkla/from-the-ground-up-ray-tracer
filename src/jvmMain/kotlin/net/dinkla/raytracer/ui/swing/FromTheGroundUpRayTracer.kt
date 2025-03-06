@@ -5,11 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dinkla.raytracer.examples.worldDef
-import net.dinkla.raytracer.utilities.outputPngFileName
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
+import net.dinkla.raytracer.utilities.outputPngFileName
 import net.dinkla.raytracer.utilities.save
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
@@ -33,8 +33,9 @@ import kotlin.coroutines.CoroutineContext
 
 var resolution: Resolution = Resolution(width, height)
 
-class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
-
+class FromTheGroundUpRayTracer :
+    ActionListener,
+    CoroutineScope {
     private val frame: JFrame = JFrame()
     private val textArea = JTextArea()
     private var selected: String? = null
@@ -66,13 +67,14 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         return left.component
     }
 
-    private fun treeSelectionListener(tree: JTree) = { e: TreeSelectionEvent ->
-        val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
-        if (node != null) {
-            selected = node.userObject.toString()
-            textArea.text = File("$examplesDirectory/$selected").readText()
+    private fun treeSelectionListener(tree: JTree) =
+        { e: TreeSelectionEvent ->
+            val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
+            if (node != null) {
+                selected = node.userObject.toString()
+                textArea.text = File("$examplesDirectory/$selected").readText()
+            }
         }
-    }
 
     private fun rightSide(): JPanel {
         val buttons = createButtons()
@@ -82,23 +84,26 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
             rows = 20
             border = EmptyBorder(10, 10, 10, 10)
         }
-        val tracerComboBox = JComboBox(tracerNames).apply {
-            addActionListener { _: ActionEvent ->
-                selectedTracer = selectedIndex
+        val tracerComboBox =
+            JComboBox(tracerNames).apply {
+                addActionListener { _: ActionEvent ->
+                    selectedTracer = selectedIndex
+                }
             }
-        }
-        val rendererComboBox = JComboBox(rendererNames).apply {
-            addActionListener { _: ActionEvent ->
-                selectedRenderer = selectedIndex
+        val rendererComboBox =
+            JComboBox(rendererNames).apply {
+                addActionListener { _: ActionEvent ->
+                    selectedRenderer = selectedIndex
+                }
             }
-        }
         rendererComboBox.selectedIndex = 2
-        val selections = JPanel().apply {
-            layout = BoxLayout(this, BoxLayout.X_AXIS)
-            border = EmptyBorder(10, 10, 10, 10)
-            add(tracerComboBox)
-            add(rendererComboBox)
-        }
+        val selections =
+            JPanel().apply {
+                layout = BoxLayout(this, BoxLayout.X_AXIS)
+                border = EmptyBorder(10, 10, 10, 10)
+                add(tracerComboBox)
+                add(rendererComboBox)
+            }
         return JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
             add(selections)
@@ -108,24 +113,27 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
     }
 
     private fun createButtons(): JPanel {
-        val renderButton = JButton().apply {
-            text = "Render"
-            addActionListener { _: ActionEvent ->
-                selected?.let { render(File(it)) }
+        val renderButton =
+            JButton().apply {
+                text = "Render"
+                addActionListener { _: ActionEvent ->
+                    selected?.let { render(File(it)) }
+                }
             }
-        }
-        val pngButton = JButton().apply {
-            text = "PNG"
-            addActionListener { _: ActionEvent ->
-                selected?.let { png(File(it)) }
+        val pngButton =
+            JButton().apply {
+                text = "PNG"
+                addActionListener { _: ActionEvent ->
+                    selected?.let { png(File(it)) }
+                }
             }
-        }
-        val buttons = JPanel().apply {
-            layout = BoxLayout(this, BoxLayout.X_AXIS)
-            border = EmptyBorder(10, 10, 10, 10)
-            add(renderButton)
-            add(pngButton)
-        }
+        val buttons =
+            JPanel().apply {
+                layout = BoxLayout(this, BoxLayout.X_AXIS)
+                border = EmptyBorder(10, 10, 10, 10)
+                add(renderButton)
+                add(pngButton)
+            }
         return buttons
     }
 
@@ -176,12 +184,18 @@ class FromTheGroundUpRayTracer : ActionListener, CoroutineScope {
         }
     }
 
-    private fun dialog(message: String?, title: String, type: Int) =
-        JOptionPane.showMessageDialog(frame, message, title, type)
+    private fun dialog(
+        message: String?,
+        title: String,
+        type: Int,
+    ) = JOptionPane.showMessageDialog(frame, message, title, type)
 
-    private fun log(file: File, name: String) {
+    private fun log(
+        file: File,
+        name: String,
+    ) {
         Logger.info(
-            "$name ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}"
+            "$name ${file.name} with tracer ${tracers[selectedTracer]} and renderer ${renderers[selectedRenderer]}",
         )
     }
 }

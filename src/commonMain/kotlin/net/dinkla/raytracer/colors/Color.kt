@@ -3,8 +3,11 @@ package net.dinkla.raytracer.colors
 import net.dinkla.raytracer.math.MathUtils.max
 import kotlin.math.pow
 
-data class Color(val red: Double, val green: Double, val blue: Double) {
-
+data class Color(
+    val red: Double,
+    val green: Double,
+    val blue: Double,
+) {
     constructor(v: Double) : this(v, v, v)
 
     operator fun plus(v: Color) = Color(red + v.red, green + v.green, blue + v.blue)
@@ -29,10 +32,11 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         return (255 shl 24) or (b shl 16) or (g shl 8) or r
     }
 
-    fun clamp(): Color = when {
-        red > 1.0 || green > 1.0 || blue > 1.0 || red < 0.0 || green < 0.0 || blue < 0.0 -> RED
-        else -> this
-    }
+    fun clamp(): Color =
+        when {
+            red > 1.0 || green > 1.0 || blue > 1.0 || red < 0.0 || green < 0.0 || blue < 0.0 -> RED
+            else -> this
+        }
 
     fun maxToOne(): Color {
         val maxValue = max(red, green, blue)
@@ -72,8 +76,11 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
             return Color(rf, gf, bf)
         }
 
-        fun fromRGB(red: Int, green: Int, blue: Int) =
-            Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+        fun fromRGB(
+            red: Int,
+            green: Int,
+            blue: Int,
+        ) = Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
     }
 }
 

@@ -1,8 +1,10 @@
 package net.dinkla.raytracer.math
 
 object PointUtilities {
-
-    fun minimum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
+    fun minimum(
+        v: Array<Point3D>,
+        n: Int,
+    ): Triple<Double, Double, Double> {
         var x0 = MathUtils.K_HUGE_VALUE
         var y0 = MathUtils.K_HUGE_VALUE
         var z0 = MathUtils.K_HUGE_VALUE
@@ -21,7 +23,10 @@ object PointUtilities {
         return Triple(x0, y0, z0)
     }
 
-    fun maximum(v: Array<Point3D>, n: Int): Triple<Double, Double, Double> {
+    fun maximum(
+        v: Array<Point3D>,
+        n: Int,
+    ): Triple<Double, Double, Double> {
         var x1 = -MathUtils.K_HUGE_VALUE
         var y1 = -MathUtils.K_HUGE_VALUE
         var z1 = -MathUtils.K_HUGE_VALUE

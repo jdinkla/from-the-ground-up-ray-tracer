@@ -5,9 +5,16 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Ray
 
-class SmoothMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(mesh, i0, i1, i2) {
-
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+class SmoothMeshTriangle(
+    mesh: Mesh,
+    i0: Int,
+    i1: Int,
+    i2: Int,
+) : MeshTriangle(mesh, i0, i1, i2) {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val v0 = mesh.vertices[index0]
         val v1 = mesh.vertices[index1]
         val v2 = mesh.vertices[index2]
@@ -66,7 +73,10 @@ class SmoothMeshTriangle(mesh: Mesh, i0: Int, i1: Int, i2: Int) : MeshTriangle(m
         return true
     }
 
-    private fun interpolateNormal(beta: Double, gamma: Double): Normal {
+    private fun interpolateNormal(
+        beta: Double,
+        gamma: Double,
+    ): Normal {
         val v1 = mesh.normals[index0].times(1.0 - beta - gamma)
         val v2 = mesh.normals[index1].times(beta)
         val v3 = mesh.normals[index2].times(gamma)

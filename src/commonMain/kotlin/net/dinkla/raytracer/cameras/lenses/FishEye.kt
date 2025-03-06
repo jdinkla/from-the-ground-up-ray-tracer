@@ -12,13 +12,23 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(viewPlane, eye, uvw) {
-
+class FishEye(
+    viewPlane: ViewPlane,
+    eye: Point3D,
+    uvw: Basis,
+) : AbstractLens(viewPlane, eye, uvw) {
     private val maxPsi: Double = 1.0
 
-    inner class RayDirection(val direction: Vector3D, val rSquared: Double = 0.0)
+    inner class RayDirection(
+        val direction: Vector3D,
+        val rSquared: Double = 0.0,
+    )
 
-    override fun getRaySampled(r: Int, c: Int, sp: Point2D): Ray? {
+    override fun getRaySampled(
+        r: Int,
+        c: Int,
+        sp: Point2D,
+    ): Ray? {
         var ray: Ray? = null
         val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width + sp.x)
         val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height + sp.y)
@@ -30,7 +40,10 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
         return ray
     }
 
-    override fun getRaySingle(r: Int, c: Int): Ray? {
+    override fun getRaySingle(
+        r: Int,
+        c: Int,
+    ): Ray? {
         var ray: Ray? = null
         val x = viewPlane.sizeOfPixel * (c - OFFSET * viewPlane.resolution.width)
         val y = viewPlane.sizeOfPixel * (r - OFFSET * viewPlane.resolution.height)
@@ -42,7 +55,11 @@ class FishEye(viewPlane: ViewPlane, eye: Point3D, uvw: Basis) : AbstractLens(vie
         return ray
     }
 
-    private fun getRayDirection(pp: Point2D, resolution: Resolution, s: Double): RayDirection {
+    private fun getRayDirection(
+        pp: Point2D,
+        resolution: Resolution,
+        s: Double,
+    ): RayDirection {
         val x = 2.0 / (s * resolution.width) * pp.x
         val y = 2.0 / (s * resolution.height) * pp.y
         val rSquared = x * x + y * y

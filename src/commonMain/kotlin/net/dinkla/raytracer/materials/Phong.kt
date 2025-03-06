@@ -13,9 +13,8 @@ import java.util.Objects
 open class Phong(
     color: Color = Color.WHITE,
     ka: Double = 0.25,
-    kd: Double = 0.75
+    kd: Double = 0.75,
 ) : Matte(color, ka, kd) {
-
     protected val specularBRDF = GlossySpecular()
 
     constructor(
@@ -24,7 +23,7 @@ open class Phong(
         kd: Double = 0.75,
         exp: Double = 5.0,
         ks: Double = 0.25,
-        cs: Color = Color.WHITE
+        cs: Color = Color.WHITE,
     ) : this(color, ka, kd) {
         this.exp = exp
         this.ks = ks
@@ -49,7 +48,10 @@ open class Phong(
             specularBRDF.exp = v
         }
 
-    override fun shade(world: IWorld, sr: IShade): Color {
+    override fun shade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -72,7 +74,10 @@ open class Phong(
         return L
     }
 
-    override fun areaLightShade(world: IWorld, sr: IShade): Color {
+    override fun areaLightShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val wo = -sr.ray.direction
         val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -102,9 +107,10 @@ open class Phong(
 
     override fun getLe(sr: IShade): Color = specularBRDF.cs * (specularBRDF.ks)
 
-    override fun equals(other: Any?): Boolean = this.equals<Phong>(other) { a, b ->
-        a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Phong>(other) { a, b ->
+            a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF && a.specularBRDF == b.specularBRDF
+        }
 
     override fun hashCode(): Int = Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF)
 

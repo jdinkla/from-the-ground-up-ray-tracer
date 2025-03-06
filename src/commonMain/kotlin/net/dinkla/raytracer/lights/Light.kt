@@ -8,7 +8,17 @@ import net.dinkla.raytracer.world.IWorld
 
 interface Light {
     val shadows: Boolean
-    fun l(world: IWorld, sr: IShade): Color
+
+    fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color
+
     fun getDirection(sr: IShade): Vector3D
-    fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean
+
+    fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean
 }

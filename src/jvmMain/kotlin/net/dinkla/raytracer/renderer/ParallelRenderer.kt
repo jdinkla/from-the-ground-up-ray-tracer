@@ -5,7 +5,10 @@ import net.dinkla.raytracer.films.IFilm
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 
-class ParallelRenderer(private val render: ISingleRayRenderer, private val corrector: IColorCorrector) : IRenderer {
+class ParallelRenderer(
+    private val render: ISingleRayRenderer,
+    private val corrector: IColorCorrector,
+) : IRenderer {
     private var parallel = false
     private var numThreads: Int = 0
     private var worker: Array<Worker?>
@@ -52,9 +55,13 @@ class ParallelRenderer(private val render: ISingleRayRenderer, private val corre
     }
 
     private inner class Worker(
-        private val xStart: Int, private val xEnd: Int, private val yStart: Int, private val yEnd: Int
+        private val xStart: Int,
+        private val xEnd: Int,
+        private val yStart: Int,
+        private val yEnd: Int,
     ) : Runnable {
         var film: IFilm? = null
+
         override fun run() {
             var count = 0
             var r = yStart

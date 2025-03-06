@@ -14,8 +14,16 @@ interface IWorld {
     val ambientLight: Ambient
     var backgroundColor: Color
 
-    fun hit(ray: Ray, sr: IHit): Boolean
-    fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean
+    fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean
+
+    fun inShadow(
+        ray: Ray,
+        sr: IShade,
+        d: Double,
+    ): Boolean
 
     fun shouldStopRecursion(depth: Int): Boolean
 }

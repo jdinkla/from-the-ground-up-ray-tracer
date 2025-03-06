@@ -2,8 +2,11 @@ package net.dinkla.raytracer.math
 
 import kotlin.math.sqrt
 
-data class Normal(val x: Double, val y: Double, val z: Double) {
-
+data class Normal(
+    val x: Double,
+    val y: Double,
+    val z: Double,
+) {
     operator fun plus(normal: Normal) = Vector3D(x + normal.x, y + normal.y, z + normal.z)
 
     operator fun times(s: Double) = Vector3D(s * x, s * y, s * z)
@@ -29,7 +32,11 @@ data class Normal(val x: Double, val y: Double, val z: Double) {
             return Normal(n.x, n.y, n.z)
         }
 
-        fun create(p0: Point3D, p1: Point3D, p2: Point3D): Normal {
+        fun create(
+            p0: Point3D,
+            p1: Point3D,
+            p2: Point3D,
+        ): Normal {
             val n = ((p1 - p0) cross (p2 - p0)).normalize()
             return Normal(n.x, n.y, n.z)
         }

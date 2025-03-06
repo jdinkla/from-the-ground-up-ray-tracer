@@ -5,7 +5,6 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 
 class Mesh {
-
     var vertices: ArrayList<Point3D> = ArrayList()
 
     //    public List<Integer> indices;
@@ -38,11 +37,12 @@ class Mesh {
 
             // The following code attempts to avoid (nan, nan, nan) normalised normals when all components = 0
 
-            normal = if (normal.x == 0.0 && normal.y == 0.0 && normal.z == 0.0) {
-                Normal(normal.x, 1.0, normal.z)
-            } else {
-                normal.normalize()
-            }
+            normal =
+                if (normal.x == 0.0 && normal.y == 0.0 && normal.z == 0.0) {
+                    Normal(normal.x, 1.0, normal.z)
+                } else {
+                    normal.normalize()
+                }
 
             normals.add(index, normal)
         }

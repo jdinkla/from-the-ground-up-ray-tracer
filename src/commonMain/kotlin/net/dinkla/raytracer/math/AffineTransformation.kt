@@ -7,7 +7,6 @@ import kotlin.math.sin
 
 @Suppress("TooManyFunctions")
 class AffineTransformation : Transformation {
-
     override var forwardMatrix: Matrix = Matrix.identity()
     override var invMatrix: Matrix = Matrix.identity()
 
@@ -15,7 +14,11 @@ class AffineTransformation : Transformation {
         translate(v.x, v.y, v.z)
     }
 
-    private fun translate(x: Double, y: Double, z: Double) {
+    private fun translate(
+        x: Double,
+        y: Double,
+        z: Double,
+    ) {
         val invTranslationMatrix = Matrix.identity()
         invTranslationMatrix[0, 3] = -x
         invTranslationMatrix[1, 3] = -y
@@ -33,7 +36,11 @@ class AffineTransformation : Transformation {
         scale(v.x, v.y, v.z)
     }
 
-    private fun scale(x: Double, y: Double, z: Double) {
+    private fun scale(
+        x: Double,
+        y: Double,
+        z: Double,
+    ) {
         val invScalingMatrix = Matrix.identity()
         invScalingMatrix[0, 0] = 1.0 / x
         invScalingMatrix[1, 1] = 1.0 / y
@@ -47,7 +54,10 @@ class AffineTransformation : Transformation {
         forwardMatrix = scalingMatrix * forwardMatrix
     }
 
-    override fun rotate(axis: Axis, phi: Double) {
+    override fun rotate(
+        axis: Axis,
+        phi: Double,
+    ) {
         when (axis) {
             Axis.X -> rotateX(phi)
             Axis.Y -> rotateY(phi)
@@ -118,9 +128,10 @@ class AffineTransformation : Transformation {
         return Ray(origin, direction)
     }
 
-    override fun equals(other: Any?): Boolean = this.equals<AffineTransformation>(other) { a, b ->
-        a.forwardMatrix == b.forwardMatrix && a.invMatrix == b.invMatrix
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<AffineTransformation>(other) { a, b ->
+            a.forwardMatrix == b.forwardMatrix && a.invMatrix == b.invMatrix
+        }
 
     override fun hashCode(): Int = forwardMatrix.hashCode() + 7 * invMatrix.hashCode()
 

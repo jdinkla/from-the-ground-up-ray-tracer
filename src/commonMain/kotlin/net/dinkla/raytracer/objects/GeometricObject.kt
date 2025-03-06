@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 
 abstract class GeometricObject : IGeometricObject {
-
     override var isShadows = true
     override var material: IMaterial? = null
     var isInitialized: Boolean = false
@@ -17,5 +16,8 @@ abstract class GeometricObject : IGeometricObject {
 
     override lateinit var boundingBox: BBox
 
-    abstract override fun hit(ray: Ray, sr: IHit): Boolean
+    abstract override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean
 }

@@ -15,17 +15,24 @@ interface IGeometricObject {
 
     fun initialize()
 
-    fun hit(ray: Ray, sr: IHit): Boolean
+    fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean
 
-    fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean = when (val t = shadowHit(ray)) {
-        is Shadow.Hit -> {
-            tmin.t = t.t
-            true
+    fun shadowHit(
+        ray: Ray,
+        tmin: ShadowHit,
+    ): Boolean =
+        when (val t = shadowHit(ray)) {
+            is Shadow.Hit -> {
+                tmin.t = t.t
+                true
+            }
+            Shadow.None -> {
+                false
+            }
         }
-        Shadow.None -> {
-            false
-        }
-    }
 
     fun shadowHit(ray: Ray): Shadow {
         Logger.warn("Who is calling me?")

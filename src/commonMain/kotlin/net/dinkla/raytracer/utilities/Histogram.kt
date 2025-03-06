@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.utilities
 
 class Histogram {
-
     private var counts = mutableMapOf<Int, Int>()
 
     fun add(key: Int) {

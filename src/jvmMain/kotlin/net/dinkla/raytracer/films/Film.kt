@@ -11,8 +11,9 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 
-
-class Film(override val resolution: Resolution) : IFilm {
+class Film(
+    override val resolution: Resolution,
+) : IFilm {
     private val bitmap = Bitmap32(resolution.width, resolution.height)
 
     override fun setPixel(

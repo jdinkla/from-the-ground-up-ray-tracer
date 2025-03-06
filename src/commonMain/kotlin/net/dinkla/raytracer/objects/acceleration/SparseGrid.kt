@@ -12,7 +12,6 @@ import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.pow
 
 class SparseGrid : Grid() {
-
     // protected GeometricObject[] cells;
     private var cellsX: MutableMap<Int, IGeometricObject> = mutableMapOf()
 
@@ -80,14 +79,14 @@ class SparseGrid : Grid() {
                         val index = iz * nx * ny + iy * nx + ix
                         val go = cellsX[index]
                         when (go) {
-                            null        -> {
+                            null -> {
                                 cellsX[index] = `object`
                             }
                             is Compound -> {
                                 val c = go as Compound?
                                 c!!.add(`object`)
                             }
-                            else        -> {
+                            else -> {
                                 val c = Compound()
                                 c.add(go)
                                 c.add(`object`)
@@ -106,7 +105,10 @@ class SparseGrid : Grid() {
         statistics(numCells, counts)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         if (!boundingBox.hit(ray)) {
             return false
         }
@@ -164,21 +166,23 @@ class SparseGrid : Grid() {
         var t0: Double
         var t1: Double
 
-        t0 = if (txMin > tyMin) {
-            txMin
-        } else {
-            tyMin
-        }
+        t0 =
+            if (txMin > tyMin) {
+                txMin
+            } else {
+                tyMin
+            }
 
         if (tzMin > t0) {
             t0 = tzMin
         }
 
-        t1 = if (txMax < tyMax) {
-            txMax
-        } else {
-            tyMax
-        }
+        t1 =
+            if (txMax < tyMax) {
+                txMax
+            } else {
+                tyMax
+            }
 
         if (tzMax < t1) {
             t1 = tzMax
@@ -330,7 +334,10 @@ class SparseGrid : Grid() {
     }
 
     @Deprecated("sparseGrid shadowHit uses tmin as input?")
-    override fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    override fun shadowHit(
+        ray: Ray,
+        tmin: ShadowHit,
+    ): Boolean {
         val h = Hit(tmin.t)
         val b = hit(ray, h)
         tmin.t = h.t

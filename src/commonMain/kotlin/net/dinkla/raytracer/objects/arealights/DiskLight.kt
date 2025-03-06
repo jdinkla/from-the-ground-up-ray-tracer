@@ -15,12 +15,13 @@ class DiskLight(
     val sampler: Sampler,
     center: Point3D,
     radius: Double,
-    normal: Normal
-) : Disk(center, radius, normal), ILightSource {
-
+    normal: Normal,
+) : Disk(center, radius, normal),
+    ILightSource {
     val pdf = 1.0 / (PI * radius * radius)
 
     override fun pdf(sr: IShade): Double = pdf
+
     override fun getNormal(p: Point3D): Normal = normal
 
     override fun sample(): Point3D {

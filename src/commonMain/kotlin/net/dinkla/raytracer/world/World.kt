@@ -26,9 +26,8 @@ class World(
     override val lights: List<Light>,
     val materials: Map<String, IMaterial>,
     val objects: List<GeometricObject>,
-    val compound: Compound
+    val compound: Compound,
 ) : IWorld {
-
     override var backgroundColor: Color = Color.BLACK
     override var tracer: Tracer? = null
     var renderer: IRenderer? = null
@@ -39,25 +38,33 @@ class World(
         return compound.hitObjects()
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         Counter.count("World.hit2")
         return compound.hit(ray, sr)
     }
 
     @Deprecated("unused")
-    fun shadowHit(ray: Ray, tmin: ShadowHit): Boolean {
+    fun shadowHit(
+        ray: Ray,
+        tmin: ShadowHit,
+    ): Boolean {
         Counter.count("World.shadowHit")
         return compound.shadowHit(ray, tmin)
     }
 
-    override fun inShadow(ray: Ray, sr: IShade, d: Double): Boolean {
+    override fun inShadow(
+        ray: Ray,
+        sr: IShade,
+        d: Double,
+    ): Boolean {
         Counter.count("World.inShadow")
         return compound.inShadow(ray, d)
     }
 
-    override fun shouldStopRecursion(depth: Int): Boolean {
-        return depth > viewPlane.maximalRecursionDepth
-    }
+    override fun shouldStopRecursion(depth: Int): Boolean = depth > viewPlane.maximalRecursionDepth
 
     fun initialize() = compound.initialize()
 

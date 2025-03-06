@@ -5,6 +5,14 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.WrappedDouble
 
 interface Tracer {
-    fun trace(ray: Ray, depth: Int): Color
-    fun trace(ray: Ray, tmin: WrappedDouble, depth: Int): Color = trace(ray, depth)
+    fun trace(
+        ray: Ray,
+        depth: Int,
+    ): Color
+
+    fun trace(
+        ray: Ray,
+        tmin: WrappedDouble,
+        depth: Int,
+    ): Color = trace(ray, depth)
 }

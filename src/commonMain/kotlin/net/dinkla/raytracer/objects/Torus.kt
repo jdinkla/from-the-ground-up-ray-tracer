@@ -10,13 +10,18 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Polynomials
 import net.dinkla.raytracer.math.Ray
 
-data class Torus(val a: Double, val b: Double) : GeometricObject() {
-
+data class Torus(
+    val a: Double,
+    val b: Double,
+) : GeometricObject() {
     init {
         boundingBox = BBox(Point3D(-a - b, -b, -a - b), Point3D(a + b, b, a + b))
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         if (!boundingBox.hit(ray)) {
             return false
         }
@@ -66,7 +71,10 @@ data class Torus(val a: Double, val b: Double) : GeometricObject() {
         return true
     }
 
-    fun hitF(ray: Ray, sr: Hit): Boolean {
+    fun hitF(
+        ray: Ray,
+        sr: Hit,
+    ): Boolean {
         if (!boundingBox.hit(ray)) {
             return false
         }

@@ -8,8 +8,11 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 
-data class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : GeometricObject() {
-
+data class SmoothTriangle(
+    val v0: Point3D,
+    val v1: Point3D,
+    val v2: Point3D,
+) : GeometricObject() {
     var n0: Normal = Normal.UP
     var n1: Normal = Normal.UP
     var n2: Normal = Normal.UP
@@ -18,7 +21,10 @@ data class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : G
         boundingBox = BBox.create(v0, v1, v2)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val a = v0.x - v1.x
         val b = v0.x - v2.x
         val c = ray.direction.x
@@ -74,7 +80,10 @@ data class SmoothTriangle(val v0: Point3D, val v1: Point3D, val v2: Point3D) : G
         return true
     }
 
-    private fun interpolateNormal(beta: Double, gamma: Double): Normal {
+    private fun interpolateNormal(
+        beta: Double,
+        gamma: Double,
+    ): Normal {
         val v1 = n0.times(1.0 - beta - gamma)
         val v2 = n1.times(beta)
         val v3 = n2.times(gamma)

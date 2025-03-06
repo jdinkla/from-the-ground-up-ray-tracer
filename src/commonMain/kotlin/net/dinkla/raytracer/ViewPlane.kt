@@ -18,19 +18,21 @@ class ViewPlane : IColorCorrector {
         private set
 
     override fun correct(color: Color): Color {
-        val newColor = if (showOutOfGamutForDebugging) {
-            color.clamp()
-        } else {
-            color.maxToOne()
-        }
+        val newColor =
+            if (showOutOfGamutForDebugging) {
+                color.clamp()
+            } else {
+                color.maxToOne()
+            }
         if (gamma != 1.0) {
             return newColor.pow(1.0 / gamma)
         }
         return newColor
     }
 
-    override fun toString(): String {
-        return ("Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, "
-                + "gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maximalRecursionDepth")
-    }
+    override fun toString(): String =
+        (
+            "Viewplane: resolution=$resolution, sizeOfPixel=$sizeOfPixel, " +
+                "gamma=$gamma, showOutOfGamut=$showOutOfGamutForDebugging, maxDepth=$maximalRecursionDepth"
+        )
 }

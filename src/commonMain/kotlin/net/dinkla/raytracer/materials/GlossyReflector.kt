@@ -6,7 +6,6 @@ import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.world.IWorld
 
 class GlossyReflector : Phong() {
-
     private val glossySpecularBrdf = GlossySpecular()
 
     var kr: Double
@@ -21,7 +20,10 @@ class GlossyReflector : Phong() {
             glossySpecularBrdf.exp = v
         }
 
-    override fun areaLightShade(world: IWorld, sr: IShade): Color {
+    override fun areaLightShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val wo = -sr.ray.direction
         val result = glossySpecularBrdf.sampleF(sr, wo)
         val c = result.color

@@ -4,8 +4,10 @@ import net.dinkla.raytracer.math.Point2D
 import net.dinkla.raytracer.samplers.IGenerator.Companion.generate2D
 
 object Hammersley : IGenerator {
-
-    override fun generateSamples(numSamples: Int, numSets: Int): List<Point2D> {
+    override fun generateSamples(
+        numSamples: Int,
+        numSets: Int,
+    ): List<Point2D> {
         val numSamplesD = numSamples.toDouble()
         return generate2D(numSamples, numSets) { _, j ->
             Point2D(j.toDouble() / numSamplesD, phi(j))

@@ -8,8 +8,9 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.IWorld
 
-class EnvironmentLight(override val shadows: Boolean = true) : Light {
-
+class EnvironmentLight(
+    override val shadows: Boolean = true,
+) : Light {
     var sampler: Sampler? = null
     var material: IMaterial? = null
     private var u: Vector3D = Vector3D.ZERO
@@ -17,9 +18,11 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
     var w: Vector3D = Vector3D.ZERO
     var wi: Vector3D = Vector3D.ZERO
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean {
-        return world.inShadow(ray, sr, Double.MAX_VALUE)
-    }
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean = world.inShadow(ray, sr, Double.MAX_VALUE)
 
     override fun getDirection(sr: IShade): Vector3D {
         w = sr.normal.toVector3D()
@@ -30,7 +33,8 @@ class EnvironmentLight(override val shadows: Boolean = true) : Light {
         return wi
     }
 
-    override fun l(world: IWorld, sr: IShade): Color {
-        return material!!.getLe(sr)
-    }
+    override fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color = material!!.getLe(sr)
 }

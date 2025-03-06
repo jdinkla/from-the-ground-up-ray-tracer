@@ -9,10 +9,14 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.IWorld
 
 class AmbientOccluder(
-    val sampler: Sampler, val numSamples: Int, override val shadows: Boolean = true
+    val sampler: Sampler,
+    val numSamples: Int,
+    override val shadows: Boolean = true,
 ) : Ambient() {
-
-    override fun l(world: IWorld, sr: IShade): Color {
+    override fun l(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val w = sr.normal.toVector3D()
         val v = w cross (Vector3D.JITTER).normalize()
         val u = v cross w
@@ -38,6 +42,9 @@ class AmbientOccluder(
         return Basis(u, v, w) * p
     }
 
-    override fun inShadow(world: IWorld, ray: Ray, sr: IShade): Boolean =
-        world.inShadow(ray, sr, Double.MAX_VALUE)
+    override fun inShadow(
+        world: IWorld,
+        ray: Ray,
+        sr: IShade,
+    ): Boolean = world.inShadow(ray, sr, Double.MAX_VALUE)
 }

@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 
 interface ILightSource {
-
     fun sample(): Point3D
 
     fun pdf(sr: IShade): Double

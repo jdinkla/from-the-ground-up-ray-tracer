@@ -8,13 +8,18 @@ import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 
-data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
-
+data class AlignedBox(
+    val p: Point3D,
+    val q: Point3D,
+) : GeometricObject() {
     init {
         boundingBox = BBox(p, q)
     }
 
-    override fun hit(ray: Ray, sr: IHit): Boolean {
+    override fun hit(
+        ray: Ray,
+        sr: IHit,
+    ): Boolean {
         val (txMin, txMax, a) = minAndMax(ray.direction.x, ray.origin.x, p.x, q.x)
         val (tyMin, tyMax, b) = minAndMax(ray.direction.y, ray.origin.y, p.y, q.y)
         val (tzMin, tzMax, c) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
@@ -67,21 +72,23 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         val (tzMin, tzMax, _) = minAndMax(ray.direction.z, ray.origin.z, p.z, q.z)
 
         // find largest entering t value
-        var t0 = if (txMin > tyMin) {
-            txMin
-        } else {
-            tyMin
-        }
+        var t0 =
+            if (txMin > tyMin) {
+                txMin
+            } else {
+                tyMin
+            }
         if (tzMin > t0) {
             t0 = tzMin
         }
 
         // find smallest exiting t value
-        var t1 = if (txMax < tyMax) {
-            txMax
-        } else {
-            tyMax
-        }
+        var t1 =
+            if (txMax < tyMax) {
+                txMax
+            } else {
+                tyMax
+            }
         if (tzMax < t1) {
             t1 = tzMax
         }
@@ -96,7 +103,12 @@ data class AlignedBox(val p: Point3D, val q: Point3D) : GeometricObject() {
         return Shadow.None
     }
 
-    private fun minAndMax(direction: Double, origin: Double, p: Double, q: Double): Triple<Double, Double, Double> {
+    private fun minAndMax(
+        direction: Double,
+        origin: Double,
+        p: Double,
+        q: Double,
+    ): Triple<Double, Double, Double> {
         val tMin: Double
         val tMax: Double
         val a = 1.0 / direction

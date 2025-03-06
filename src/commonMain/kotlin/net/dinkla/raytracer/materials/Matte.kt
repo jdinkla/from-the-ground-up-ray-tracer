@@ -11,8 +11,11 @@ import net.dinkla.raytracer.utilities.equals
 import net.dinkla.raytracer.world.IWorld
 import java.util.Objects
 
-open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.75) : IMaterial {
-
+open class Matte(
+    color: Color = Color.WHITE,
+    ka: Double = 0.25,
+    kd: Double = 0.75,
+) : IMaterial {
     protected val ambientBRDF = Lambertian(ka, color)
     protected val diffuseBRDF = Lambertian(kd, color)
 
@@ -35,7 +38,10 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
             diffuseBRDF.cd = v
         }
 
-    override fun shade(world: IWorld, sr: IShade): Color {
+    override fun shade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val wo = -sr.ray.direction
         var L = getAmbientColor(world, sr, wo)
         for (light in world.lights) {
@@ -57,7 +63,10 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
         return L
     }
 
-    override fun areaLightShade(world: IWorld, sr: IShade): Color {
+    override fun areaLightShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
         val wo = -sr.ray.direction
         val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
@@ -86,19 +95,22 @@ open class Matte(color: Color = Color.WHITE, ka: Double = 0.25, kd: Double = 0.7
         return L + S.average
     }
 
-    protected fun getAmbientColor(world: IWorld, sr: IShade, wo: Vector3D): Color {
+    protected fun getAmbientColor(
+        world: IWorld,
+        sr: IShade,
+        wo: Vector3D,
+    ): Color {
         val c1 = ambientBRDF.rho(sr, wo)
         val c2 = world.ambientLight.l(world, sr)
         return c1 * c2
     }
 
-    override fun getLe(sr: IShade): Color {
-        return diffuseBRDF.rho(sr, Vector3D.UP)
-    }
+    override fun getLe(sr: IShade): Color = diffuseBRDF.rho(sr, Vector3D.UP)
 
-    override fun equals(other: Any?): Boolean = this.equals<Matte>(other) { a, b ->
-        a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
-    }
+    override fun equals(other: Any?): Boolean =
+        this.equals<Matte>(other) { a, b ->
+            a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
+        }
 
     override fun hashCode(): Int = Objects.hash(ambientBRDF, diffuseBRDF)
 

@@ -7,16 +7,25 @@ import net.dinkla.raytracer.math.Vector3D
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-data class PerfectTransmitter(var ior: Double = 1.0, var kt: Double = 1.0) : BTDF {
-    override fun f(sr: IShade, wo: Vector3D, wi: Vector3D): Color {
-        throw RuntimeException("PerfectTransmitter.f")
-    }
+data class PerfectTransmitter(
+    var ior: Double = 1.0,
+    var kt: Double = 1.0,
+) : BTDF {
+    override fun f(
+        sr: IShade,
+        wo: Vector3D,
+        wi: Vector3D,
+    ): Color = throw RuntimeException("PerfectTransmitter.f")
 
-    override fun rho(sr: IShade, wo: Vector3D): Color {
-        throw RuntimeException("PerfectTransmitter.rho")
-    }
+    override fun rho(
+        sr: IShade,
+        wo: Vector3D,
+    ): Color = throw RuntimeException("PerfectTransmitter.rho")
 
-    override fun sampleF(sr: IShade, wo: Vector3D): Sample {
+    override fun sampleF(
+        sr: IShade,
+        wo: Vector3D,
+    ): Sample {
         var n = sr.normal
         var cosThetaI = n dot wo
         var eta = ior

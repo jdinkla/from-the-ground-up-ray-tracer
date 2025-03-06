@@ -12,15 +12,19 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 
 class SpatialMedianBuilder : TreeBuilder {
-
     override var maxDepth = 15
     private var minChildren = 4
 
-    override fun build(tree: KDTree, voxel: BBox): Node {
-        return build(tree.objects, tree.boundingBox, 0)
-    }
+    override fun build(
+        tree: KDTree,
+        voxel: BBox,
+    ): Node = build(tree.objects, tree.boundingBox, 0)
 
-    fun build(objects: List<IGeometricObject>, voxel: BBox?, depth: Int): Node {
+    fun build(
+        objects: List<IGeometricObject>,
+        voxel: BBox?,
+        depth: Int,
+    ): Node {
         Counter.count("KDtree.build")
 
         var node: Node? = null // new Leaf(objects);
@@ -100,8 +104,8 @@ class SpatialMedianBuilder : TreeBuilder {
         }
 
         Logger.info(
-            "Splitting " + objects.size + " objects into " + objectsL.size + " and "
-                    + objectsR.size + " objects at " + split + " with depth " + depth
+            "Splitting " + objects.size + " objects into " + objectsL.size + " and " +
+                objectsR.size + " objects at " + split + " with depth " + depth,
         )
         val left = build(objectsL, voxelL, depth + 1)
         val right = build(objectsR, voxelR, depth + 1)

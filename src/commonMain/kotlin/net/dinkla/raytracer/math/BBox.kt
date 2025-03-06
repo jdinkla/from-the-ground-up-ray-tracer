@@ -3,8 +3,10 @@ package net.dinkla.raytracer.math
 import kotlin.math.max
 import kotlin.math.min
 
-data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN) {
-
+data class BBox(
+    val p: Point3D = Point3D.ORIGIN,
+    val q: Point3D = Point3D.ORIGIN,
+) {
     init {
         if (!(p.x <= q.x && p.y <= q.y && p.z <= q.z)) {
             throw AssertionError()
@@ -78,22 +80,24 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         var t1: Double
 
         // find largest entering t value
-        t0 = if (txMin > tyMin) {
-            txMin
-        } else {
-            tyMin
-        }
+        t0 =
+            if (txMin > tyMin) {
+                txMin
+            } else {
+                tyMin
+            }
 
         if (tzMin > t0) {
             t0 = tzMin
         }
 
         // find smallest exiting t value
-        t1 = if (txMax < tyMax) {
-            txMax
-        } else {
-            tyMax
-        }
+        t1 =
+            if (txMax < tyMax) {
+                txMax
+            } else {
+                tyMax
+            }
         if (tzMax < t1) {
             t1 = tzMax
         }
@@ -140,22 +144,24 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         var t1: Double
 
         // find largest entering t value
-        t0 = if (txMin > tyMin) {
-            txMin
-        } else {
-            tyMin
-        }
+        t0 =
+            if (txMin > tyMin) {
+                txMin
+            } else {
+                tyMin
+            }
 
         if (tzMin > t0) {
             t0 = tzMin
         }
 
         // find smallest exiting t value
-        t1 = if (txMax < tyMax) {
-            txMax
-        } else {
-            tyMax
-        }
+        t1 =
+            if (txMax < tyMax) {
+                txMax
+            } else {
+                tyMax
+            }
         if (tzMax < t1) {
             t1 = tzMax
         }
@@ -163,9 +169,13 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         return t0 < t1 && t1 > MathUtils.K_EPSILON
     }
 
-    private fun isContainedIn(bBox: BBox): Boolean = bBox.p.x <= p.x && q.x <= bBox.q.x &&
-        bBox.p.y <= p.y && q.y <= bBox.q.y &&
-        bBox.p.z <= p.z && q.z <= bBox.q.z
+    private fun isContainedIn(bBox: BBox): Boolean =
+        bBox.p.x <= p.x &&
+            q.x <= bBox.q.x &&
+            bBox.p.y <= p.y &&
+            q.y <= bBox.q.y &&
+            bBox.p.z <= p.z &&
+            q.z <= bBox.q.z
 
     fun clipTo(bBox: BBox): BBox {
         if (isContainedIn(bBox)) {
@@ -182,21 +192,32 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
         return BBox(Point3D(px, py, pz), Point3D(qx, qy, qz))
     }
 
-    fun splitLeft(axis: Axis, split: Double): BBox = when (axis) {
-        Axis.X -> BBox(p, Point3D(split, q.y, q.z))
-        Axis.Y -> BBox(p, Point3D(q.x, split, q.z))
-        Axis.Z -> BBox(p, Point3D(q.x, q.y, split))
-    }
+    fun splitLeft(
+        axis: Axis,
+        split: Double,
+    ): BBox =
+        when (axis) {
+            Axis.X -> BBox(p, Point3D(split, q.y, q.z))
+            Axis.Y -> BBox(p, Point3D(q.x, split, q.z))
+            Axis.Z -> BBox(p, Point3D(q.x, q.y, split))
+        }
 
-    fun splitRight(axis: Axis, split: Double): BBox = when (axis) {
-        Axis.X -> BBox(Point3D(split, p.y, p.z), q)
-        Axis.Y -> BBox(Point3D(p.x, split, p.z), q)
-        Axis.Z -> BBox(Point3D(p.x, p.y, split), q)
-    }
+    fun splitRight(
+        axis: Axis,
+        split: Double,
+    ): BBox =
+        when (axis) {
+            Axis.X -> BBox(Point3D(split, p.y, p.z), q)
+            Axis.Y -> BBox(Point3D(p.x, split, p.z), q)
+            Axis.Z -> BBox(Point3D(p.x, p.y, split), q)
+        }
 
     companion object {
-
-        fun create(v0: Point3D, v1: Point3D, v2: Point3D): BBox {
+        fun create(
+            v0: Point3D,
+            v1: Point3D,
+            v2: Point3D,
+        ): BBox {
             var x0 = Double.POSITIVE_INFINITY
             var x1 = Double.NEGATIVE_INFINITY
             if (v0.x < x0) {
@@ -259,7 +280,7 @@ data class BBox(val p: Point3D = Point3D.ORIGIN, val q: Point3D = Point3D.ORIGIN
             }
             return BBox(
                 Point3D(x0 - MathUtils.K_EPSILON, y0 - MathUtils.K_EPSILON, z0 - MathUtils.K_EPSILON),
-                Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON)
+                Point3D(x1 + MathUtils.K_EPSILON, y1 + MathUtils.K_EPSILON, z1 + MathUtils.K_EPSILON),
             )
         }
     }
