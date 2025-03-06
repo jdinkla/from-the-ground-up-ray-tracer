@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.0-Beta3"
+    kotlin("jvm") version "2.0.21"
     id("io.gitlab.arturbosch.detekt")
     idea
     application
@@ -10,7 +10,6 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(KotlinX.coroutines.core)
     implementation("ch.qos.logback:logback-classic:_")
-    implementation("com.soywiz.korlibs.korio:korio:_")
     implementation("com.soywiz.korlibs.korim:korim:_")
     implementation("com.github.ajalt.clikt:clikt:_")
     implementation("io.github.classgraph:classgraph:_")
