@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm")
     id("io.gitlab.arturbosch.detekt")
     idea
     application
@@ -35,13 +35,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
-task<JavaExec>("commandline") {
+tasks.register<JavaExec>("commandline") {
     mainClass.set("MainKt")
     classpath = sourceSets["main"].runtimeClasspath
     args = listOf("World10.kt", "build/World10.png")
 }
 
-task<JavaExec>("swing") {
+tasks.register<JavaExec>("swing") {
     mainClass.set("net.dinkla.raytracer.ui.swing.FromTheGroundUpRayTracerKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
