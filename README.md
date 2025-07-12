@@ -118,4 +118,4 @@ The project uses [refreshVersions](https://splitties.github.io/refreshVersions/)
 $ gradle refreshVersions
 ```
 
-(c) 2010 - 2024 Jörn Dinkla https://www.dinkla.net
+(c) 2010 - 2025 Jörn Dinkla https://www.dinkla.net
