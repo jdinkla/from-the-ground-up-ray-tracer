@@ -22,7 +22,7 @@ data class Torus(
         ray: Ray,
         sr: IHit,
     ): Boolean {
-        if (!boundingBox.hit(ray)) {
+        if (!boundingBox.isHit(ray)) {
             return false
         }
         val x1 = ray.origin.x
@@ -75,7 +75,7 @@ data class Torus(
         ray: Ray,
         sr: Hit,
     ): Boolean {
-        if (!boundingBox.hit(ray)) {
+        if (!boundingBox.isHit(ray)) {
             return false
         }
         val x1 = ray.origin.x

@@ -166,7 +166,7 @@ open class Grid : CompoundWithMesh() {
         sr: IHit,
     ): Boolean {
         // if (depth > 0) return false;
-        if (!boundingBox.hit(ray)) {
+        if (!boundingBox.isHit(ray)) {
             Counter.count("Grid.hit.bbox")
             return false
         }

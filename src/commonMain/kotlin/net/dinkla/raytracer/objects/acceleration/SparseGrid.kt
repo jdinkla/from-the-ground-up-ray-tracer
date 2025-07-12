@@ -109,7 +109,7 @@ class SparseGrid : Grid() {
         ray: Ray,
         sr: IHit,
     ): Boolean {
-        if (!boundingBox.hit(ray)) {
+        if (!boundingBox.isHit(ray)) {
             return false
         }
 

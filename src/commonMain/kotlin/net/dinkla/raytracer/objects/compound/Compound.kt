@@ -44,7 +44,7 @@ open class Compound : GeometricObject() {
         ray: Ray,
         sr: IHit,
     ): Boolean {
-        if (!boundingBox.hit(ray)) {
+        if (!boundingBox.isHit(ray)) {
             Counter.count("Compound.hit.bbox")
             return false
         }

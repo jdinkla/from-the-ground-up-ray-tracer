@@ -31,7 +31,7 @@ class SolidCylinder(
         ray: Ray,
         sr: IHit,
     ): Boolean =
-        if (boundingBox.hit(ray)) {
+        if (boundingBox.isHit(ray)) {
             super.hit(ray, sr)
         } else {
             false

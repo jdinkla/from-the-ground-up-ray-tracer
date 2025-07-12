@@ -27,7 +27,7 @@ class InnerNode(
         ray: Ray,
         sr: Hit,
     ): Boolean {
-        val hit = boundingBox.hitX(ray)
+        val hit = boundingBox.hit(ray)
         if (!hit.isHit) {
             return false
         }
