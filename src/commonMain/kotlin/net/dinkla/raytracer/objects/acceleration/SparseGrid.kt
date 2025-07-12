@@ -65,13 +65,13 @@ class SparseGrid : Grid() {
 
             val objBbox = `object`.boundingBox
 
-            val ixmin = MathUtils.clamp((objBbox.p.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
-            val iymin = MathUtils.clamp((objBbox.p.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
-            val izmin = MathUtils.clamp((objBbox.p.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
+            val ixmin = MathUtils.clamp((objBbox.p.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1.0)).toInt()
+            val iymin = MathUtils.clamp((objBbox.p.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1.0)).toInt()
+            val izmin = MathUtils.clamp((objBbox.p.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1.0)).toInt()
 
-            val ixmax = MathUtils.clamp((objBbox.q.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1).toDouble()).toInt()
-            val iymax = MathUtils.clamp((objBbox.q.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1).toDouble()).toInt()
-            val izmax = MathUtils.clamp((objBbox.q.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1).toDouble()).toInt()
+            val ixmax = MathUtils.clamp((objBbox.q.x - boundingBox.p.x) * nx / wx, 0.0, (nx - 1.0)).toInt()
+            val iymax = MathUtils.clamp((objBbox.q.y - boundingBox.p.y) * ny / wy, 0.0, (ny - 1.0)).toInt()
+            val izmax = MathUtils.clamp((objBbox.q.z - boundingBox.p.z) * nz / wz, 0.0, (nz - 1.0)).toInt()
 
             for (iz in izmin..izmax) {
                 for (iy in iymin..iymax) {
@@ -199,14 +199,14 @@ class SparseGrid : Grid() {
         var iz: Int
 
         if (boundingBox.isInside(ray.origin)) { // does the ray start inside the grid?
-            ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
-            iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
-            iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
+            ix = MathUtils.clamp((ox - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
+            iy = MathUtils.clamp((oy - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
+            iz = MathUtils.clamp((oz - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
         } else {
             val p = ray.linear(t0) // initial hit point with grid's bounding box
-            ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1).toDouble()).toInt()
-            iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1).toDouble()).toInt()
-            iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1).toDouble()).toInt()
+            ix = MathUtils.clamp((p.x - x0) * nx / (x1 - x0), 0.0, (nx - 1.0)).toInt()
+            iy = MathUtils.clamp((p.y - y0) * ny / (y1 - y0), 0.0, (ny - 1.0)).toInt()
+            iz = MathUtils.clamp((p.z - z0) * nz / (z1 - z0), 0.0, (nz - 1.0)).toInt()
         }
 
         // ray parameter increments per cell in the x, y, and z directions

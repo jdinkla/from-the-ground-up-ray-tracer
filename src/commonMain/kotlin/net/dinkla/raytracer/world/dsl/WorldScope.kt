@@ -56,12 +56,7 @@ class WorldScope {
         red: Int,
         green: Int,
         blue: Int,
-    ): Color {
-        require(red == 0 || red == 1)
-        require(green == 0 || green == 1)
-        require(blue == 0 || blue == 1)
-        return Color(red.toDouble(), green.toDouble(), blue.toDouble())
-    }
+    ): Color = Color(red / 255.0, green / 255.0, blue / 255.0)
 
     fun cInt(
         red: Int,

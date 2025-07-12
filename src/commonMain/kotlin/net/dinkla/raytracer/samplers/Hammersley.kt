@@ -8,9 +8,8 @@ object Hammersley : IGenerator {
         numSamples: Int,
         numSets: Int,
     ): List<Point2D> {
-        val numSamplesD = numSamples.toDouble()
         return generate2D(numSamples, numSets) { _, j ->
-            Point2D(j.toDouble() / numSamplesD, phi(j))
+            Point2D(j.toDouble() / numSamples.toDouble(), phi(j))
         }
     }
 

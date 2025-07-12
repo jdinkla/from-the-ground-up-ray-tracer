@@ -12,7 +12,7 @@ import net.dinkla.raytracer.colors.Color.Companion.fromString
 internal class ColorTest :
     StringSpec({
 
-        "plus()" {
+        "addition" {
             Color(0.1) + Color(0.1, 0.3, 0.4) shouldBe Color(0.2, 0.4, 0.5)
         }
 

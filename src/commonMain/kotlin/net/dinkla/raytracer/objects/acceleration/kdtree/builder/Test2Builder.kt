@@ -55,7 +55,7 @@ class Test2Builder : TreeBuilder {
         class Triple {
             var bbox: BBox? = null
             internal var objects: List<IGeometricObject>? = null
-            internal var volume: Double = 0.toDouble()
+            internal var volume: Double = 0.0
 
             init {
                 objects = ArrayList()
@@ -71,11 +71,11 @@ class Test2Builder : TreeBuilder {
             private var parent: Triple?,
         ) {
             var axis: Axis? = null
-            var split: Double = 0.toDouble()
+            var split: Double = 0.0
             var left: Triple = Triple()
             var right: Triple = Triple()
 
-            var sah: Double = 0.toDouble()
+            var sah: Double = 0.0
 
             val isOk: Boolean
                 get() {

@@ -80,7 +80,7 @@ data class Color(
             red: Int,
             green: Int,
             blue: Int,
-        ) = Color(red.toDouble() / 255.0, green.toDouble() / 255.0, blue.toDouble() / 255.0)
+        ) = Color(red / 255.0, green / 255.0, blue / 255.0)
     }
 }
 

@@ -9,7 +9,7 @@ import net.dinkla.raytracer.world.IWorld
 class DirectionalLight(
     override val shadows: Boolean = true,
 ) : Light {
-    var ls: Double = 0.toDouble()
+    var ls: Double = 0.0
     var color: Color
     private var negatedDirection: Vector3D
 
