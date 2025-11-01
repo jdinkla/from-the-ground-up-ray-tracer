@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("io.gitlab.arturbosch.detekt")
+    jacoco
     idea
     application
 }
@@ -33,6 +34,27 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "net/dinkla/raytracer/examples/**",
+                    "net/dinkla/raytracer/MainKt.class",
+                    "net/dinkla/raytracer/ui/swing/**",
+                )
+            }
+        })
+    )
 }
 
 tasks.register<JavaExec>("commandline") {
