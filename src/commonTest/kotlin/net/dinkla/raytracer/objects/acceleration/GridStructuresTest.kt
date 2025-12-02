@@ -15,6 +15,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.objects.IGeometricObject
+import net.dinkla.raytracer.objects.NullObject
 import net.dinkla.raytracer.objects.compound.Compound
 import java.lang.reflect.Field
 
@@ -99,6 +100,105 @@ class GridStructuresTest : StringSpec({
         sr.t shouldBe 0.25
     }
 
+    "grid initialization is a no-op when already initialized" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        grid.add(StubObject(bbox))
+        grid.initialize()
+
+        val first = grid.cellsField().get(grid) as Array<*>
+        grid.initialize()
+        val second = grid.cellsField().get(grid) as Array<*>
+
+        second shouldBe first
+    }
+
+    "grid initialize returns early when empty" {
+        val grid = TunableGrid()
+
+        grid.initialize()
+
+        val cells = grid.cellsField().get(grid) as Array<*>
+        cells.size shouldBe 0
+        grid.isInitialized shouldBe true
+        grid.boundingBox shouldBe BBox()
+    }
+
+    "grid leaves untouched cells as null objects" {
+        val grid = TunableGrid()
+        grid.add(StubObject(BBox(ORIGIN, Point3D(0.1, 0.1, 0.1))))
+        grid.add(StubObject(BBox(Point3D(0.9, 0.9, 0.9), Point3D(1.0, 1.0, 1.0))))
+
+        grid.initialize()
+
+        val cells = grid.cellsField().get(grid) as Array<*>
+        cells.any { it is NullObject } shouldBe true
+        cells.any { it is Compound } shouldBe true
+    }
+
+    "grid promotes crowded cell into nested grid" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 0.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+
+        withGridThresholds(factor = 0, depth = 1) {
+            grid.add(StubObject(bbox))
+            grid.add(StubObject(bbox))
+            grid.initialize()
+        }
+
+        val cells = grid.cellsField().get(grid) as Array<*>
+        cells.size shouldBe 1
+        val nested = cells.first()
+        (nested is Grid) shouldBe true
+
+        val depthField = Grid::class.java.getDeclaredField("depth").apply { isAccessible = true }
+        depthField.getInt(nested) shouldBe 1
+    }
+
+    "grid hit returns false when ray misses bounding box" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val target = StubObject(bbox)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(-1.0, 2.0, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+        val hit = grid.hit(ray, sr)
+
+        hit shouldBe false
+        sr.geometricObject shouldBe null
+    }
+
+    "grid hit traverses correctly for negative direction steps" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val target = StubObject(bbox, t = 0.4)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(2.0, 0.5, 0.5), Vector3D(-1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 0.4
+    }
+
+    "grid shadowHit delegates to hit and updates tmin" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val target = StubObject(bbox, t = 0.3)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val tmin = ShadowHit(Double.MAX_VALUE)
+
+        grid.shadowHit(ray, tmin) shouldBe true
+        tmin.t shouldBe 0.3
+    }
+
     "sparse grid inserts and traverses map-backed cells" {
         val sparse = SparseGrid().apply { multiplier = 1.0 }
         val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
@@ -116,3 +216,23 @@ class GridStructuresTest : StringSpec({
         sr.geometricObject shouldBe target
     }
 })
+
+private fun <T> withGridThresholds(
+    factor: Int,
+    depth: Int,
+    block: () -> T,
+): T {
+    val gridClass = Grid::class.java
+    val factorField = gridClass.getDeclaredField("factorSize").apply { isAccessible = true }
+    val maxDepthField = gridClass.getDeclaredField("maxDepth").apply { isAccessible = true }
+    val oldFactor = factorField.getInt(null)
+    val oldDepth = maxDepthField.getInt(null)
+    return try {
+        factorField.setInt(null, factor)
+        maxDepthField.setInt(null, depth)
+        block()
+    } finally {
+        factorField.setInt(null, oldFactor)
+        maxDepthField.setInt(null, oldDepth)
+    }
+}
