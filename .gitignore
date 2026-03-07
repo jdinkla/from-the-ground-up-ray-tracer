@@ -187,3 +187,4 @@ gradle-app.setting
 .claude/
 .logs/
 __pycache__/
+.beads/
