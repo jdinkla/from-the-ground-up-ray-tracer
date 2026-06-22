@@ -1,9 +1,11 @@
 ---
 id: TASK-23
 title: 'Fix solveQuartic: returns wrong roots (quadric-root clobbering)'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 10:04'
+updated_date: '2026-06-22 10:13'
 labels:
   - bug
   - math
@@ -36,3 +38,9 @@ Note: PolynomialsTest now contains a characterization test pinning the WRONG out
 - [ ] #3 The characterization test in PolynomialsTest pinning the wrong 1.2..-1.02 output is replaced with an assertion of the correct roots
 - [ ] #4 Torus ray-intersection behavior is unchanged or improved (TorusTest still green)
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Polynomials.solveQuartic else-branch: write the second quadric's roots at offset s[num] (not s[0]/s[1]), restoring the C++ 's + num' append semantics. 2. Replace the characterization test (pinned wrong roots) with correctness assertions: roots satisfy the polynomial; add a 4-distinct-root regression test. 3. just test green.
+<!-- SECTION:PLAN:END -->
