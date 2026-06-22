@@ -52,7 +52,6 @@
     <ID>MagicNumber:WorldScope.kt:WorldScope$5.0</ID>
     <ID>MagicNumber:WorldScope.kt:WorldScope$50.0</ID>
     <ID>NestedBlockDepth:Grid.kt:Grid$override fun initialize</ID>
-    <ID>NestedBlockDepth:Matte.kt:Matte$override fun areaLightShade: Color</ID>
     <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun initialize</ID>
     <ID>ReturnCount:FlatMeshTriangle.kt:FlatMeshTriangle$override fun hit: Boolean</ID>
     <ID>ReturnCount:Grid.kt:Grid$override fun hit: Boolean</ID>

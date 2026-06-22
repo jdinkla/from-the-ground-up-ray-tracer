@@ -12,6 +12,12 @@ infix fun Double.shouldBeApprox(expected: Double) {
     this shouldBeLessThanOrEqual expected + MathUtils.K_EPSILON
 }
 
+infix fun Color.shouldBeApprox(expected: Color) {
+    this.red shouldBeApprox expected.red
+    this.green shouldBeApprox expected.green
+    this.blue shouldBeApprox expected.blue
+}
+
 infix fun Point3D.shouldBeApprox(expected: Point3D) {
     this.x shouldBeApprox expected.x
     this.y shouldBeApprox expected.y

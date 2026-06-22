@@ -70,30 +70,44 @@ open class Matte(
         val wo = -sr.ray.direction
         val L = getAmbientColor(world, sr, wo)
         val S = ColorAccumulator()
-        for (light in world.lights) {
-            if (light is AreaLight) {
-                val ls = light.getSamples(sr)
-                for (sample in ls) {
-                    val wi = requireNotNull(sample.wi) { "Sample.wi not set; call getSamples first" }
-                    val nDotWi = wi dot sr.normal
-                    if (nDotWi > 0) {
-                        var inShadow = false
-                        if (light.shadows) {
-                            val shadowRay = Ray(sr.hitPoint, wi)
-                            inShadow = light.inShadow(world, shadowRay, sr, sample)
-                        }
-                        if (!inShadow) {
-                            val f = diffuseBRDF.f(sr, wo, wi)
-                            val l = light.l(world, sr, sample)
-                            val f1 = light.G(sr, sample) / light.pdf(sr)
-                            val T = (f * l) * nDotWi * f1
-                            S + T
-                        }
-                    }
-                }
+        for (light in world.lights.filterIsInstance<AreaLight>()) {
+            for (sample in light.getSamples(sr)) {
+                sampleContribution(world, sr, wo, light, sample)?.let { S + it }
             }
         }
         return L + S.average
+    }
+
+    /**
+     * The diffuse contribution of a single area-light sample, or `null` when the sample does not
+     * contribute (it faces away from the surface or is occluded).
+     */
+    private fun sampleContribution(
+        world: IWorld,
+        sr: IShade,
+        wo: Vector3D,
+        light: AreaLight,
+        sample: AreaLight.Sample,
+    ): Color? {
+        val wi = requireNotNull(sample.wi) { "Sample.wi not set; call getSamples first" }
+        val nDotWi = wi dot sr.normal
+        if (nDotWi <= 0 || isInShadow(world, sr, wi, light, sample)) return null
+        val f = diffuseBRDF.f(sr, wo, wi)
+        val l = light.l(world, sr, sample)
+        val f1 = light.G(sr, sample) / light.pdf(sr)
+        return (f * l) * nDotWi * f1
+    }
+
+    private fun isInShadow(
+        world: IWorld,
+        sr: IShade,
+        wi: Vector3D,
+        light: AreaLight,
+        sample: AreaLight.Sample,
+    ): Boolean {
+        if (!light.shadows) return false
+        val shadowRay = Ray(sr.hitPoint, wi)
+        return light.inShadow(world, shadowRay, sr, sample)
     }
 
     protected fun getAmbientColor(
