@@ -29,10 +29,6 @@ Discovered during TASK-26: Context.adapt() always builds SimpleSingleRayRenderer
 - [x] #4 Cover-first tests for the sampled-vs-single selection and the averaged output; full suite + detekt green
 <!-- AC:END -->
 
-
-
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -54,4 +50,14 @@ Fixed SampledSingleRayRenderer: removed hardcoded numSamples=1 and the Sampler(M
 LATENT BUG FOUND (root cause the dead renderer never worked): Sampler.sampleUnitSquare indexes assuming numSamples*numSets points, but the sqrt-based generators (MultiJittered/Jittered/Regular) only generate floor(sqrt(numSamples))^2*numSets points -> IndexOutOfBounds for any non-square numSamples; MultiJittered additionally throws whenever numSets>sqrt(numSamples) (its index math uses p*numSets instead of p*n*n). Proven by probe across generators x counts x sets. Only NRooks and PureRandom are index-safe for arbitrary numSamples. Chose NRooks (stratified n-rooks) as the renderer's default in-pixel sampler. Did NOT rewrite MultiJittered (out of scope); documented the constraint in the renderer KDoc.
 
 Tests: ContextTest (selection 1->Simple, default->Simple, >1->Sampled; wired numSamples drives exact trace count; single-sample traces once). SampledSingleRayRendererTest (constant tracer averages back to colour; exactly numSamples traces; per-sample-varying mean = ((N-1)/2)/100 pins the /N; rejects non-positive). Existing RendererTest unchanged.
+
+VERIFICATION (coverage-excluded render pipeline -> manual, all at 480p, PARALLEL renderer, WHITTED tracer):
+
+AC#2 Anti-aliasing: rendered AntiAliasingDemo.kt (samples(16)) vs AntiAliasingDemoSingleSample.kt (1 sample, identical geometry). At the sphere silhouette (row 56) the single-sample render jumps luminance 97->0 in one pixel (hard aliased step); the 16-sample render has an intermediate partial-coverage pixel (96->35->0) i.e. a smooth ramp. Soft-transition pixel count ~2x higher and soft/hard ratio 3.22 vs 1.55. Visual: jagged vs smooth sphere edge. AA confirmed working.
+
+AC#2 byte-identical numSamples=1: Context single-sample branch is the unchanged SimpleSingleRayRenderer(world.camera.lens, tracer) call; ViewPlane.numSamples is a new field defaulting to 1, so every existing scene (none call samples()) keeps numSamples==1 and takes the identical branch. git diff confirms SimpleSingleRayRenderer, all lenses, and all existing scenes are untouched. ContextTest pins: default/numSamples=1 -> SimpleSingleRayRenderer and traces the pixel exactly once.
+
+AC#3 Depth-of-field: rendered DepthOfFieldDemo.kt (thinLensCamera f=74, lensRadius=0.6, samples(64)) vs DepthOfFieldDemoSharp.kt (same scene, no samples -> single-ray, sharp). In the sampled render the green focal-plane box stays sharp while the near (red) and far (yellow) boxes are visibly blurred with soft spread edges; the sharp control has all three boxes crisp. soft/hard edge ratio 9.26 (DoF) vs 2.19 (sharp). This exercises ThinLens.getRaySampled aperture jitter end-to-end -> verifies TASK-26's DoF, which the single-ray path could never show.
+
+just test (./gradlew clean check, incl detekt): GREEN. New files detekt-clean, no baseline entries added (baseline unchanged in git).
 <!-- SECTION:NOTES:END -->
