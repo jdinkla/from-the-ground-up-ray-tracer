@@ -1,10 +1,11 @@
 ---
 id: TASK-18.3
 title: Noise and noise-based textures
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 09:42'
+updated_date: '2026-06-22 16:50'
 labels:
   - enhancement
   - book-parity
