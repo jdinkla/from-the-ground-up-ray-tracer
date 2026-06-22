@@ -15,6 +15,9 @@ dependencies {
     implementation(kotlin("scripting-jvm"))
     implementation(kotlin("scripting-jvm-host"))
     implementation(KotlinX.coroutines.core)
+    // Dispatchers.Swing for the desktop UI: keeps the CPU render off the Event Dispatch Thread
+    // while every Swing component touch hops back onto it (TASK-33).
+    implementation(KotlinX.coroutines.swing)
     implementation("ch.qos.logback:logback-classic:_")
     implementation("com.soywiz.korlibs.korim:korim:_")
     implementation("com.github.ajalt.clikt:clikt:_")
