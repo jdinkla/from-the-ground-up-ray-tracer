@@ -288,12 +288,10 @@ class KDTreeBuilderTest : StringSpec({
         val tree = builtTree(SpatialMedianBuilder())
 
         val occluded = net.dinkla.raytracer.hits.ShadowHit(Double.MAX_VALUE)
-        @Suppress("DEPRECATION")
         tree.shadowHit(rayAlongLine(), occluded).shouldBeTrue()
 
         val clear = net.dinkla.raytracer.hits.ShadowHit(Double.MAX_VALUE)
         val miss = Ray(Point3D(-10.0, 100.0, 0.0), Vector3D(1.0, 0.0, 0.0))
-        @Suppress("DEPRECATION")
         tree.shadowHit(miss, clear).shouldBeFalse()
     }
 })

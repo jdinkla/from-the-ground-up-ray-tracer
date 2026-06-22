@@ -2,7 +2,6 @@ package net.dinkla.raytracer.objects.compound
 
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
-import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.materials.IMaterial
@@ -64,11 +63,6 @@ open class Compound : GeometricObject() {
             }
         }
         return hit
-    }
-
-    fun hitObjects(): Shade {
-        Counter.count("Compound.hitObjects")
-        return Shade()
     }
 
     override fun shadowHit(ray: Ray): Shadow {

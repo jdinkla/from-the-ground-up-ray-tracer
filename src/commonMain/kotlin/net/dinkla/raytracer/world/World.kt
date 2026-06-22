@@ -5,8 +5,6 @@ import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.IShade
-import net.dinkla.raytracer.hits.Shade
-import net.dinkla.raytracer.hits.ShadowHit
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.materials.IMaterial
@@ -32,27 +30,12 @@ class World(
     override var tracer: Tracer? = null
     var renderer: IRenderer? = null
 
-    @Deprecated("unused")
-    fun hit(): Shade {
-        Counter.count("World.hit1")
-        return compound.hitObjects()
-    }
-
     override fun hit(
         ray: Ray,
         sr: IHit,
     ): Boolean {
         Counter.count("World.hit2")
         return compound.hit(ray, sr)
-    }
-
-    @Deprecated("unused")
-    fun shadowHit(
-        ray: Ray,
-        tmin: ShadowHit,
-    ): Boolean {
-        Counter.count("World.shadowHit")
-        return compound.shadowHit(ray, tmin)
     }
 
     override fun inShadow(

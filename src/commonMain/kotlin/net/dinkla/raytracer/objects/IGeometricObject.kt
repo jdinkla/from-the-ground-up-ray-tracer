@@ -94,9 +94,22 @@ interface IGeometricObject {
     fun childrenForRegrid(): List<IGeometricObject> = listOf(this)
 
     /**
-     * Shadow-ray test that writes the hit distance into [tmin] on success. The default delegates to
-     * the [Shadow]-returning [shadowHit] overload; concrete objects typically override this one with
-     * the cheaper "is anything in the way?" intersection. Returns true if the ray hits this object.
+     * Shadow-ray test along [ray]. Returns true if this object lies in the way.
+     *
+     * Contract of [tmin] (the `tmin.t` distance field):
+     *  - **Output:** on a hit, the distance to the found intersection is written into `tmin.t`.
+     *    The default implementation below and every primitive write it; callers rely on it.
+     *  - **Input:** `tmin.t` carries a cap distance (for shadow rays, the distance to the light).
+     *    The *primitives* do **not** consult it — they recompute the closest forward intersection
+     *    from scratch via the [Shadow]-returning [shadowHit] overload and write that distance back,
+     *    regardless of the cap. Enforcing the cap is the **caller's** job: the only production caller,
+     *    [Compound.inShadow], seeds `tmin.t` with the light distance `d` and, after this call,
+     *    accepts an occluder only when the written-back `tmin.t < d`. An acceleration structure
+     *    ([net.dinkla.raytracer.objects.acceleration.Grid]) seeds its internal traversal with the
+     *    incoming `tmin.t` but ultimately follows the same output contract.
+     *
+     * The default delegates to the [Shadow]-returning [shadowHit] overload; concrete objects
+     * typically override that cheaper "is anything in the way?" overload rather than this one.
      */
     fun shadowHit(
         ray: Ray,

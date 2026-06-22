@@ -52,10 +52,20 @@ class KDTree(
     }
 
     /**
-     * Shadow-ray test reusing [hit]. Deprecated because it reads [tmin] as input while also writing the
-     * resulting distance back into it, which is an irregular convention for a shadow test.
+     * Shadow-ray test reusing [hit], seeding the internal [Hit] with the incoming cap `tmin.t` and
+     * intending to write the found distance back into [tmin] — the contract documented on
+     * [net.dinkla.raytracer.objects.IGeometricObject.shadowHit].
+     *
+     * Known divergence from that contract (and from
+     * [net.dinkla.raytracer.objects.acceleration.Grid.shadowHit]): [hit] wraps the caller's record in a
+     * fresh `Hit(sr)` and never copies the inner result back, so the populated distance is discarded and
+     * the `tmin.t = h.t` write-back here merely re-stores the unchanged input. The boolean occlusion
+     * result is correct, but the output distance is **not** propagated. Because the only production
+     * caller ([net.dinkla.raytracer.objects.compound.Compound.inShadow]) accepts an occluder only when
+     * the written-back `tmin.t < d`, a KDTree-accelerated object does not register as a shadow caster
+     * through that path. Fixing this changes rendered output and is tracked separately, not resolved
+     * here; the KDTree's only scene (`World75`) is itself marked "Does not work".
      */
-    @Deprecated("KDTree shadowHit uses tmin as input?")
     override fun shadowHit(
         ray: Ray,
         tmin: ShadowHit,
