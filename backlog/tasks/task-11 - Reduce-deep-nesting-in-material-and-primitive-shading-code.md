@@ -1,9 +1,11 @@
 ---
 id: TASK-11
 title: Reduce deep nesting in material and primitive shading code
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 12:32'
 labels:
   - refactor
 dependencies: []
