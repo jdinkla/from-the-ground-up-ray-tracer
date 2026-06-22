@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 14:36'
+updated_date: '2026-06-22 14:37'
 labels:
   - enhancement
   - book-parity
@@ -30,8 +30,6 @@ Foundational texture layer plus image textures. Add a Texture abstraction (getCo
 - [x] #5 Unit tests cover Texture sampling and at least one Mapping in commonTest; image-file loading verified manually per the coverage-excluded-zones rule
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -47,3 +45,36 @@ Foundational texture layer plus image textures. Add a Texture abstraction (getCo
 10. Example scenes (src/examples): sphere+image texture, rectangle+image texture, environment map. Add a tiny bundled test image to resources if needed. Manually verify renders.
 11. just test green; detekt clean.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented texture & mapping infrastructure + image textures.
+
+ARCHITECTURE (types + locations):
+- commonMain textures/: Texture interface (getColor(IShade):Color); ConstantColor, Checker3D (procedural); Image (in-memory raster, row/col, edge-clamping getColor); ImageTexture (sampling math: mapping -> pixel lookup, with parametric u/v fallback). All sampling math is platform-independent.
+- jvmMain textures/ImageReader: ImageIO-backed file decode -> commonMain Image. Only I/O lives here; mirrors utilities/Png.kt.
+- commonMain mappings/: Mapping interface (getTexelCoordinates(localHitPoint,hres,vres):Texel(row,col)); SphericalMap (normalises hit point so any sphere radius works), RectangularMap (configurable axes/extents), LightProbe (regular + panoramic).
+- commonMain brdf/SvLambertian: spatially-varying Lambertian sampling a Texture for cd.
+- commonMain materials/: SvMatte (mirrors Matte, SvLambertian diffuse/ambient), SvPhong (extends SvMatte + constant GlossySpecular), SvEmissive (texture as radiance; doubles as environment-map material and EnvironmentLight material).
+
+ShadeRec change (additive, backward-compatible): added NON-ABSTRACT default members to IShade — localHitPoint (=hitPoint), u, v (=0.0). No abstract members added because a frozen test (MatteAreaLightShadeTest) implements IShade anonymously; defaults keep it and all existing impls compiling. Concrete Shade.localHitPoint became an override (value unchanged). Existing render path and materials behave identically.
+
+DSL: MaterialsScope gained svMatte/svPhong/svEmissive (take a Texture, follow existing idiom). LightsScope gained environmentLight(material, sampler, shadows) wiring EnvironmentLight.
+
+DESIGN CHOICES worth review:
+- Environment map (AC#4) uses the TEXTURED-OBJECT route (a large SvEmissive sphere) as the featured scene because it renders directly under any tracer and is fully verifiable; the EnvironmentLight DSL hook is also provided (needs AREA tracer + sampler). Documented in EnvironmentMapSphere.kt.
+- Mappings work on objects CENTERED AT THE ORIGIN. Threading local coords through Instance affine transforms (so a translated/scaled textured sphere maps correctly) is NOT done — Instance.hit does not set a local hit point. Out of scope for 18.1; example scenes use origin-centred unit/large spheres and an origin rectangle. Worth a follow-up task if transformed textured objects are needed.
+
+TESTED (commonTest, Kotest StringSpec, shouldBeApprox for colors):
+- ConstantColorTest, Checker3DTest (sampling), ImageTextureTest (mapping path + u/v fallback + edge clamp).
+- SphericalMapTest, RectangularMapTest, LightProbeTest (known directions -> hand-derived texels).
+- SvMatteShadeTest (SvMatte+ConstantColor == Matte; Checker3D varies by hit point), SvPhongShadeTest (SvPhong+ConstantColor == Phong).
+- MaterialsScopeTest extended for svMatte/svPhong/svEmissive.
+
+MANUALLY VERIFIED (coverage-excluded: examples + jvm ImageReader I/O) by rendering at 720p WHITTED/SEQUENTIAL:
+- TexturedSphere.kt: 4-quadrant grid texture wraps the sphere via SphericalMap, correct shading + floor shadow.
+- TexturedRectangle.kt: texture maps onto an xz rectangle via RectangularMap, grid lines visible.
+- EnvironmentMapSphere.kt: enclosing SvEmissive sphere fills the background as a spherical env map with a Phong ball in front.
+All three render correctly; ImageReader.fromFile('resources/texture-test.png') decodes fine. Added a small bundled 256x128 test image resources/texture-test.png (generated via ImageMagick).
+<!-- SECTION:NOTES:END -->
