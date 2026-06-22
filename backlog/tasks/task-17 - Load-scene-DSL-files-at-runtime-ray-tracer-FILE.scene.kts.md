@@ -1,11 +1,11 @@
 ---
 id: TASK-17
 title: Load scene DSL files at runtime (ray-tracer FILE.scene.kts)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:21'
-updated_date: '2026-06-22 16:42'
+updated_date: '2026-06-22 16:48'
 labels:
   - enhancement
 dependencies: []
@@ -52,3 +52,9 @@ Implemented: build.gradle.kts adds kotlin scripting-common/jvm/jvm-host (resolve
 
 VERIFIED. just test (= gradlew clean check, incl detekt) GREEN; gradlew build assembles. Manual CLI (coverage-excluded Main glue): (a) gradlew run --world=scenes/Sample.scene.kts --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p -> rendered a valid 1280x720 PNG (yellow matte sphere, red phong sphere w/ specular highlight, ground/ceiling planes, shadows) matching the YellowAndRedSphere built-in it mirrors (AC#1); (b) --world=DoesNotExist.kt -> fails fast via Clikt with 'Unknown world ... Pass a built-in scene id or the path of an existing *.scene.kts file' + scene list, no render (TASK-15 fail-fast preserved); (c) --world=YellowAndRedSphere.kt -> built-in still renders unchanged (AC#3). Fixed a Main-glue bug: outputPngFileName on a path value leaked dir separators into the PNG path; Main now bases the output name on File(world).name (built-in ids unchanged). Fat-jar/dist impact: scripting-jvm-host pulls kotlin-compiler-embeddable onto the runtime classpath, +~56MB to the distribution. First external-scene compile latency ~1.3s (script compile) on top of ~0.34s ray-tracing; built-in scenes unaffected (script host never invoked). README documents the feature + tradeoffs. New tests (11, all pass): FileWorldDefinitionTest(4), SceneResolverTest(4), CommandLineTest(3). Pre-existing warnings (PlyReader.kt, GridStructuresTest.kt unchecked casts) are unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added runtime loading of external *.scene.kts DSL files via an embedded Kotlin scripting host. A @KotlinScript SceneScript definition declares WorldScope as the script's implicit receiver (+ default imports for the common value types), so an external scene file's body is byte-for-byte identical to what goes inside Builder.build { } — no wrapper, no imports (AC#2; WorldScope/Builder unchanged). FileWorldDefinition(path) evaluates the file against a fresh WorldScope and returns scope.world; SceneResolver resolves an existing file path to a FileWorldDefinition and otherwise falls back to the unchanged classgraph worldMap. AC1-5 all met (reviewer independently rendered the sample scene → valid PNG, ran a built-in scene unchanged, an unknown id fails fast, and a deliberately-broken .scene.kts → clear SceneScriptException with file:line + compiler diagnostic, no bare stack trace). TASK-15/24 reconciliation: --world relaxed from Clikt .choice() to .default().validate{} accepting a known built-in id OR an existing file, via a pure unit-tested isAcceptableWorldArg(value, ids, fileExists) predicate; an unknown non-file id still fails fast with the scene list (guarantee preserved). Render.render(String,...) gained a resolveWorld param defaulting to ::requireWorldDef so all existing callers + built-in scenes are byte-identical (reviewer confirmed only Main uses that overload; Swing uses the WorldDefinition overload; requireWorldDef + RenderTest unchanged). Cover-first: FileWorldDefinitionTest (evaluates the sample, asserts real World contents — 2 Sphere + 2 Plane, materials m1/m2/m3, 1 PointLight, ambient; plus fresh-instance-per-call + broken-file exception), SceneResolverTest, CommandLineTest (predicate). CLI Main glue manually verified. build.gradle.kts adds kotlin scripting-common/scripting-jvm/scripting-jvm-host (Kotlin 2.3.0); ./gradlew build assembles. Measured impact: +~56MB distribution (kotlin-compiler-embeddable), ~1.3s first external-scene compile latency; built-in scenes incur ZERO added cost (script host never invoked). No compiled-script caching (noted future optimization per the task's accepted tradeoffs). Also fixed a Main output-filename bug (path separator leak for file-path worlds). Added scenes/Sample.scene.kts + README docs. detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 10a4fde.
+<!-- SECTION:FINAL_SUMMARY:END -->
