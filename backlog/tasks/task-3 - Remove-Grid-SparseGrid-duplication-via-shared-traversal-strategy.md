@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:10'
-updated_date: '2026-06-22 10:47'
+updated_date: '2026-06-22 10:53'
 labels:
   - refactor
   - acceleration
@@ -29,3 +29,9 @@ Grid.kt and SparseGrid.kt share nearly identical hit() and initialize() logic, s
 - [ ] #2 Dense vs sparse cell storage is the only divergent concern
 - [ ] #3 All acceleration-structure tests pass
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Confirm TASK-2's GridStructuresTest characterization tests pass against current code (cover-first). 2. Pull the duplicated initialize() body (sizing heuristic, insertion scaffold, statistics) up into Grid as a template method. 3. Express the dense-vs-sparse divergence as protected open hooks: prepareInitialization, allocateCells, insertIntoCell, initializeSubcells, cellAt, count. 4. SparseGrid overrides only those hooks (map storage, no super.initialize, no subgrid promotion, no counters). 5. Keep field names cells/cellsX/depth/factorSize/maxDepth (pinned by frozen reflection tests) and the detekt baseline ids for initialize/hit intact. 6. Run just test (clean check) green.
+<!-- SECTION:PLAN:END -->
