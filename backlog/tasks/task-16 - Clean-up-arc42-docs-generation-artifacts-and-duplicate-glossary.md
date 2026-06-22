@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 16:15'
+updated_date: '2026-06-22 16:16'
 labels:
   - docs
 dependencies: []
@@ -26,3 +26,9 @@ The arc42 chapters contain LLM-generation preamble lines (e.g. "Now I have compr
 - [ ] #1 No generation-preamble or duplicated-heading artifacts remain in the arc42 chapters
 - [ ] #2 A single glossary file remains (duplicate removed)
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Scan all arc42 chapters 01-12 for LLM generation preamble/postamble lines and remove them (plus orphaned blank lines). 2. De-duplicate the H1 in 11_risks_and_technical_debt.md. 3. Consolidate glossary: merge unique terms from 12_glossary.md into comprehensive 12-glossary.md, save as 12_glossary.md, delete 12-glossary.md. Update README.md/chapter links. 4. Fix stale scene ids in top-level README.md (World66.kt->World66b.kt, World42.kt->World74.kt). 5. Run just test; grep for dangling 12-glossary references.
+<!-- SECTION:PLAN:END -->
