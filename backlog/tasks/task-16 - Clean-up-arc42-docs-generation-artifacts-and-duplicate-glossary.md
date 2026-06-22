@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 16:18'
+updated_date: '2026-06-22 16:19'
 labels:
   - docs
 dependencies: []
@@ -24,8 +24,10 @@ The arc42 chapters contain LLM-generation preamble lines (e.g. "Now I have compr
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [ ] #1 No generation-preamble or duplicated-heading artifacts remain in the arc42 chapters
-- [ ] #2 A single glossary file remains (duplicate removed)
+- [x] #2 A single glossary file remains (duplicate removed)
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
