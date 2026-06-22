@@ -1,11 +1,11 @@
 ---
 id: TASK-19
 title: 'Realistic transparency: dielectrics and Fresnel'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 15:07'
+updated_date: '2026-06-22 15:11'
 labels:
   - enhancement
   - book-parity
@@ -46,3 +46,9 @@ Added FresnelReflector (brdf/), FresnelTransmitter (btdf/), Dielectric material 
 
 AC#1 verified manually (examples zone, coverage-excluded): rendered 'just gradlew run --args=--world=GlassSphere.kt --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p'. PNG shows (a) refraction: floor checker bent/inverted through the sphere; (b) TIR: bright reflective ring near the silhouette where grazing rays cannot exit; (c) Beer's-law attenuation: green/teal tint strongest through the longest interior path. Existing Transparent material untouched; World71b.kt re-rendered identically (regression check). 'just test' (./gradlew clean check: compile + all tests + detekt) PASS; only pre-existing unrelated warnings (PlyReader, GridStructuresTest unchecked casts). New scene: src/examples/.../examples/materials/dielectric/GlassSphere.kt.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added physically-based dielectric transparency (Suffern ch. 27-28) as purely additive code — only MaterialsScope.kt + its test among existing files were touched (both additive); Whitted.kt, Transparent.kt, PerfectTransmitter.kt, PerfectSpecular.kt and the hit records are byte-identical to HEAD (reviewer verified). New FresnelReflector (BRDF) and FresnelTransmitter (BTDF) compute the exact unpolarized Fresnel reflectance/transmittance and the Snell-law refraction direction from in/out IORs, with TIR when the radicand is negative. The new Dielectric material (extends Phong) drives the reflected+transmitted recursion itself — Fresnel-weighting each ray and applying Beer's-law colored attenuation (filter.pow(distance)) along the in-medium segment, with inside/outside filter color selected by the n·wi sign — so NO tracer change was needed (book design: the material spawns the rays within the tracer's recursion). AC1-4 all met. AC#3: dielectric(id, iorIn, iorOut, cfIn, cfOut, …Phong params) on MaterialsScope (string-id idiom), covered by MaterialsScopeTest. AC#4 / cover-first: FresnelReflectorTest + FresnelTransmitterTest pin independently hand-derived values — normal incidence eta=1.5→0.04 and eta=2.0→1/9 (=((eta-1)/(eta+1))²), near-grazing (89.99°)→~1.0, monotonic increase, and the TIR threshold (isTir false at 30° / true at 60°, straddling the ~41.8° glass→air critical angle, tied to kr=1.0) — reviewer re-derived all and confirmed; none tautological. GlassSphere example scene rendered and verified by both implementer and reviewer (refraction magnifying/inverting the floor, a bright TIR ring at the silhouette, teal Beer's-law tint through the longest path; 93KB 1280x720 PNG, 1716 colors, zero NaN/sentinel pixels). Existing transparent scene (World71b) re-rendered unchanged. detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 8738729. Minor NIT (non-blocking): DielectricShadeTest's below-critical-angle case asserts only channel>0.0 (the exact-value coverage comes from the TIR + Fresnel/transmitter direction tests).
+<!-- SECTION:FINAL_SUMMARY:END -->
