@@ -1,9 +1,11 @@
 ---
 id: TASK-9
 title: 'Extract long methods in KDTree builders, GridUtilities, Polynomials'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 12:03'
 labels:
   - refactor
 dependencies: []
