@@ -25,5 +25,20 @@ data class Resolution(
 
     companion object {
         val resolutions = Predefined.entries
+
+        /**
+         * Resolves a resolution id (e.g. `"1080p"`) to its [Resolution], failing fast with a clear,
+         * actionable message that names the bad value and lists the valid ids. Pure validation logic,
+         * unit-tested directly; the CLI's Clikt `choice` enforces the same rule at parse time, but
+         * non-CLI callers go through here.
+         */
+        fun fromId(id: String): Resolution {
+            val predefined =
+                resolutions.firstOrNull { it.id == id }
+                    ?: throw IllegalArgumentException(
+                        "Unknown resolution '$id'. Valid options: ${resolutions.joinToString(", ") { it.id }}.",
+                    )
+            return predefined.create()
+        }
     }
 }

@@ -62,7 +62,8 @@ private class StubObject(
 private class TunableGrid(
     factorSize: Int = 500,
     maxDepth: Int = 0,
-) : Grid(factorSize, maxDepth) {
+    maxNumCells: Int = Grid.DEFAULT_MAX_NUM_CELLS,
+) : Grid(factorSize, maxDepth, maxNumCells) {
     fun tune(
         multiplierValue: Double,
     ) {
@@ -421,5 +422,41 @@ class GridStructuresTest : StringSpec({
         val sr = Hit(Double.MAX_VALUE)
         sparse.hit(ray, sr) shouldBe true
         sr.geometricObject shouldBe target
+    }
+
+    "clampGridResolution leaves a resolution within the cap unchanged" {
+        val (cx, cy, cz) = Grid.clampGridResolution(10, 20, 30, cap = 1_000_000)
+
+        Triple(cx, cy, cz) shouldBe Triple(10, 20, 30)
+    }
+
+    "clampGridResolution scales an oversized resolution down so the product fits under the cap" {
+        val cap = 1_000
+
+        val (cx, cy, cz) = Grid.clampGridResolution(1_000, 1_000, 1_000, cap = cap)
+
+        (cx.toLong() * cy * cz <= cap) shouldBe true
+        (cx >= 1 && cy >= 1 && cz >= 1) shouldBe true
+    }
+
+    "clampGridResolution keeps every dimension at least 1 for an extreme product" {
+        val (cx, cy, cz) = Grid.clampGridResolution(100_000, 100_000, 100_000, cap = 8)
+
+        (cx >= 1 && cy >= 1 && cz >= 1) shouldBe true
+        (cx.toLong() * cy * cz <= 8) shouldBe true
+    }
+
+    "grid initialize clamps the allocated cell array to the configured cap" {
+        // A high multiplier over a wide, sparsely-populated box derives a large nx*ny*nz; with a low
+        // cap the clamp must engage so the allocated cells array never exceeds it.
+        val cap = 64
+        val grid = TunableGrid(maxNumCells = cap).apply { tune(multiplierValue = 50.0) }
+        grid.add(StubObject(BBox(ORIGIN, Point3D(10.0, 10.0, 10.0))))
+
+        grid.initialize()
+
+        val cells = grid.cellsField().get(grid) as Array<*>
+        (cells.size <= cap) shouldBe true
+        (cells.isNotEmpty()) shouldBe true
     }
 })

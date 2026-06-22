@@ -44,5 +44,5 @@ abstract class CommandLine(
 
     private fun determineTracer(): Tracers = tracers.first { it.name == tracer }
 
-    private fun determineResolution(): Resolution = resolutions.first { it.id == resolution }.create()
+    private fun determineResolution(): Resolution = Resolution.fromId(resolution)
 }

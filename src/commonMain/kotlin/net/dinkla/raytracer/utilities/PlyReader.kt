@@ -8,11 +8,23 @@ import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
 
+/**
+ * Raised when a PLY header declares more vertices or faces than the configured sanity bound allows.
+ * Declaring (e.g.) billions of vertices would otherwise drive the up-front `ensureCapacity`
+ * allocations and per-element reads into an [OutOfMemoryError]; this typed failure surfaces the
+ * problem with a clear message instead.
+ */
+class PlyLimitExceededException(
+    message: String,
+) : IllegalArgumentException(message)
+
 class PlyReader(
     val material: IMaterial,
     val reverseNormal: Boolean = false,
     val isSmooth: Boolean = false,
     val compound: CompoundWithMesh,
+    private val maxVertices: Int = DEFAULT_MAX_VERTICES,
+    private val maxFaces: Int = DEFAULT_MAX_FACES,
 ) {
     private val mesh = compound.mesh
     private var isInHeader = true
@@ -54,6 +66,7 @@ class PlyReader(
 
             isElementVertex(line) -> {
                 numVerticesLeft = parseNumVertices(line)
+                requireWithinLimit(numVerticesLeft, maxVertices, "vertices")
                 numVerticesOrig = numVerticesLeft
                 mesh.vertices.ensureCapacity(numVerticesLeft)
                 if (isSmooth) {
@@ -66,6 +79,7 @@ class PlyReader(
 
             isElementFace(line) -> {
                 numFacesLeft = parseNumFaces(line)
+                requireWithinLimit(numFacesLeft, maxFaces, "faces")
                 numFacesOrig = numFacesLeft
                 compound.objects.ensureCapacity(numFacesLeft)
             }
@@ -135,6 +149,30 @@ class PlyReader(
             mesh.vertexFaces[i] = ArrayList()
         }
         mesh.vertexFaces[i]?.add(countFaces)
+    }
+
+    private fun requireWithinLimit(
+        declared: Int,
+        limit: Int,
+        kind: String,
+    ) {
+        if (declared > limit) {
+            throw PlyLimitExceededException(
+                "PLY model declares $declared $kind in line $numLine, exceeds limit $limit",
+            )
+        }
+    }
+
+    companion object {
+        /**
+         * Sanity bound on the declared vertex count of a PLY header. Set well above the largest
+         * bundled/downloaded model (Isis ~47k vertices), so real models load unaffected; it only
+         * trips on a malformed or hostile header that would otherwise force a huge allocation.
+         */
+        const val DEFAULT_MAX_VERTICES: Int = 50_000_000
+
+        /** Sanity bound on the declared face count of a PLY header; see [DEFAULT_MAX_VERTICES]. */
+        const val DEFAULT_MAX_FACES: Int = 100_000_000
     }
 }
 

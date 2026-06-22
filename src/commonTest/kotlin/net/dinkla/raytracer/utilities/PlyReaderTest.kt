@@ -103,4 +103,52 @@ class PlyReaderTest :
             val ex = shouldThrow<IllegalArgumentException> { reader.read(lines) }
             ex.message shouldContain "Not enough elements"
         }
+
+        "rejects a header declaring more vertices than the configured limit" {
+            // given a reader with a low vertex bound and a header declaring more vertices than that
+            val reader = PlyReader(Matte(), compound = Acceleration.GRID.build(), maxVertices = 10)
+            val lines = listOf("ply", "element vertex 11", "end_header")
+
+            // when / then
+            val ex = shouldThrow<PlyLimitExceededException> { reader.read(lines) }
+            ex.message shouldContain "11 vertices"
+            ex.message shouldContain "exceeds limit 10"
+        }
+
+        "rejects a header declaring more faces than the configured limit" {
+            // given a reader with a low face bound and a header declaring more faces than that
+            val reader = PlyReader(Matte(), compound = Acceleration.GRID.build(), maxFaces = 5)
+            val lines = listOf("ply", "element vertex 1", "element face 6", "end_header")
+
+            // when / then
+            val ex = shouldThrow<PlyLimitExceededException> { reader.read(lines) }
+            ex.message shouldContain "6 faces"
+            ex.message shouldContain "exceeds limit 5"
+        }
+
+        "accepts a header at the configured limit" {
+            // given a reader whose bounds exactly equal the declared counts (boundary: not exceeded)
+            val reader =
+                PlyReader(Matte(), compound = Acceleration.GRID.build(), maxVertices = 4, maxFaces = 2)
+            val lines =
+                listOf(
+                    "ply",
+                    "element vertex 4",
+                    "element face 2",
+                    "end_header",
+                    "0 0 0",
+                    "1 0 0",
+                    "1 1 0",
+                    "0 1 0",
+                    "3 0 1 2",
+                    "3 0 2 3",
+                )
+
+            // when
+            val ply = reader.read(lines)
+
+            // then the counts at the limit load without error
+            ply.numVertices shouldBe 4
+            ply.numFaces shouldBe 2
+        }
     })

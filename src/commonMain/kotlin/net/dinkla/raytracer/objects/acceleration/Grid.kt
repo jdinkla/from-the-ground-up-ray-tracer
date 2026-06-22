@@ -13,6 +13,7 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Timer
+import kotlin.math.max
 import kotlin.math.pow
 
 /**
@@ -37,6 +38,7 @@ import kotlin.math.pow
 open class Grid(
     protected val factorSize: Int = DEFAULT_FACTOR_SIZE,
     protected val maxDepth: Int = DEFAULT_MAX_DEPTH,
+    private val maxNumCells: Int = DEFAULT_MAX_NUM_CELLS,
 ) : CompoundWithMesh() {
     private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
@@ -80,6 +82,8 @@ open class Grid(
         nx = (multiplier * wx / s + 1).toInt()
         ny = (multiplier * wy / s + 1).toInt()
         nz = (multiplier * wz / s + 1).toInt()
+
+        clampResolutionToCellCap()
 
         val numCells = nx * ny * nz
 
@@ -128,6 +132,27 @@ open class Grid(
     }
 
     /**
+     * Guards against a pathological cell count (a huge bounding box relative to the object count, or
+     * an extreme [multiplier]) driving the `Array(numCells)` allocation in [allocateCells] to exhaust
+     * the heap. If the derived `nx*ny*nz` exceeds [maxNumCells], the resolution is scaled down
+     * uniformly via [clampGridResolution] so the product fits under the cap, and a warning is logged.
+     * The grid still builds — only coarser. The cap is set far above any realistic scene, so normal
+     * renders are never clamped and their grid resolution is unchanged.
+     */
+    private fun clampResolutionToCellCap() {
+        val (cx, cy, cz) = clampGridResolution(nx, ny, nz, maxNumCells)
+        if (cx != nx || cy != ny || cz != nz) {
+            Logger.warn(
+                "Grid: cell count ${nx.toLong() * ny * nz} ($nx*$ny*$nz) exceeds cap $maxNumCells; " +
+                    "clamping resolution to $cx*$cy*$cz to avoid excessive allocation",
+            )
+            nx = cx
+            ny = cy
+            nz = cz
+        }
+    }
+
+    /**
      * Per-instance setup that precedes grid construction. The dense grid delegates to
      * [Compound.initialize] (recomputing the bounding box); [SparseGrid] only flags itself
      * initialised, deliberately keeping the bounding box it already had.
@@ -154,7 +179,7 @@ open class Grid(
         val current = cells[index]
         cells[index] =
             if (current.promotableToSubgrid() && current.objectCount() > factorSize && depth < maxDepth) {
-                val g = Grid(factorSize, maxDepth)
+                val g = Grid(factorSize, maxDepth, maxNumCells)
                 g.add(current.childrenForRegrid())
                 g.add(`object`)
                 g.depth = depth + 1
@@ -285,5 +310,38 @@ open class Grid(
 
         /** Default maximum nesting depth for sub-grid promotion (0 disables nesting). */
         private const val DEFAULT_MAX_DEPTH = 0
+
+        /**
+         * Default upper bound on the number of grid cells (`nx*ny*nz`). At ~64 million cells the
+         * backing `Array<IGeometricObject>` plus the parallel `IntArray` of counts cost on the order
+         * of half a gigabyte, which is the point past which a pathological scene risks an
+         * `OutOfMemoryError`. Real scenes derive cell counts orders of magnitude below this (the
+         * heuristic targets roughly a few cells per object), so the cap never engages for them.
+         */
+        const val DEFAULT_MAX_NUM_CELLS: Int = 64 * 1024 * 1024
+
+        /**
+         * Scales a grid resolution `nx*ny*nz` down uniformly so its product does not exceed [cap],
+         * leaving it untouched when already within bounds. Each dimension stays at least 1. Pure and
+         * side-effect free so the clamping rule can be unit-tested in isolation; [clampResolutionToCellCap]
+         * is the sole production caller. The product is computed in [Long] arithmetic to stay correct
+         * even when an [Int] `nx*ny*nz` would overflow.
+         */
+        internal fun clampGridResolution(
+            nx: Int,
+            ny: Int,
+            nz: Int,
+            cap: Int,
+        ): Triple<Int, Int, Int> {
+            val product = nx.toLong() * ny * nz
+            if (product <= cap) {
+                return Triple(nx, ny, nz)
+            }
+            val factor = (cap.toDouble() / product).pow(1.0 / 3)
+            val cx = max(1, (nx * factor).toInt())
+            val cy = max(1, (ny * factor).toInt())
+            val cz = max(1, (nz * factor).toInt())
+            return Triple(cx, cy, cz)
+        }
     }
 }
