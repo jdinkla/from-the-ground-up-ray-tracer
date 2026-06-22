@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:44'
+updated_date: '2026-06-22 17:52'
 labels:
   - enhancement
   - book-parity
@@ -22,9 +22,11 @@ The book's StereoCamera (parallel and transverse/anaglyph stereo, rendering left
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A stereo camera renders a left/right eye pair (side-by-side and/or anaglyph) for a scene
-- [ ] #2 Stereo camera is selectable from the Builder DSL
+- [x] #1 A stereo camera renders a left/right eye pair (side-by-side and/or anaglyph) for a scene
+- [x] #2 Stereo camera is selectable from the Builder DSL
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
