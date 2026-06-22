@@ -1,11 +1,11 @@
 ---
 id: TASK-7
 title: Add tests for renderer strategies and GridUtilities tessellation
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:39'
+updated_date: '2026-06-22 11:44'
 labels:
   - testing
   - concurrency
@@ -62,3 +62,9 @@ Coverage (jacoco, before -> after):
 
 Verified: just test (./gradlew clean check) BUILD SUCCESSFUL - all tests + detekt green. Pre-existing unchecked-cast warnings in PlyReader.kt and GridStructuresTest.kt are unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added tests for renderer strategies and GridUtilities tessellation (additive; no production change beyond a shared test matcher). AC#1: GridUtilitiesTest pins flat/smooth sphere tessellation structure across step pairs (3,3)(4,4)(5,3)(6,5) — triangle count 2*h*(v-1) exercising top/bottom pole caps + middle-ring loop, north/south pole vertices, all vertices on the unit sphere, smooth per-vertex radial normals (incl. pole=Normal.UP) vs flat single face normal; GridUtilities.kt now fully covered (1282->0 missed instr, 150/150 lines). AC#2: ForkJoin/Coroutine/NaiveCoroutine/VirtualThread each get a success test (block-aligned resolution fills every pixel) and a deterministic failure test. Implementer/reviewer confirmed a real renderer-family asymmetry on bad input: only ParallelRenderer throws (IllegalArgumentException); the block renderers silently write 0 pixels when resolution < block grid (Block.partitionIntoBlocks truncates blockHeight to 0), and NaiveCoroutine has no guard — the failure tests pin this genuine observable behaviour rather than asserting a false throw. No flaky thread-race tests (mid-render barrier catch blocks remain uncovered by design). AC#3: a 32x32 reference rendered through Sequential/ForkJoin/Parallel/NaiveCoroutine/Coroutine/VirtualThread is asserted pixel-exact equal (PositionalSingleRayRenderer gives a distinct color per coordinate so misplaced-pixel bugs are caught). Added Normal.shouldBeApprox to Fixture.kt. Reviewer independently re-ran jacoco (numbers verified) and traced production code to confirm the failure characterization is accurate. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 78397ac. FOLLOW-UP surfaced (latent bug): the block renderers (ForkJoin/Coroutine/VirtualThread) silently underfill — 0 pixels for sub-block-grid resolutions, and truncate remainder rows/cols for non-divisible resolutions — while only ParallelRenderer guards; a divisibility/min-resolution guard or remainder handling is worth a separate task.
+<!-- SECTION:FINAL_SUMMARY:END -->
