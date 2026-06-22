@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:21'
-updated_date: '2026-06-22 16:31'
+updated_date: '2026-06-22 16:34'
 labels:
   - enhancement
 dependencies: []
@@ -31,3 +31,16 @@ Tradeoffs to accept/note: fat jar grows ~tens of MB (embedded compiler); first-r
 - [ ] #4 Script compilation/evaluation errors are surfaced with the compiler diagnostics (file + message), not a silent failure or bare stack trace
 - [ ] #5 At least one sample .scene.kts file and a test covering load-from-file are added
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add Kotlin scripting-host deps (scripting-jvm-host, scripting-jvm, scripting-common) as implementation in build.gradle.kts; confirm resolve + build.
+2. jvmMain: SceneScript template (@KotlinScript, .scene.kts) with ScriptCompilationConfiguration: implicitReceivers(WorldScope), defaultImports(DSL types) so the body is the bare Builder.build{} DSL.
+3. jvmMain: FileWorldDefinition(path): WorldDefinition; id=file name; world() evals script vs fresh WorldScope (implicitReceivers(scope)), returns scope.world. Surface ResultWithDiagnostics failures via typed SceneScriptException (file + each diagnostic msg + line) (AC#4).
+4. Resolution seam: jvmMain SceneResolver.resolveWorld(id) -> existing file path => FileWorldDefinition else requireWorldDef(id, worldMap). Add resolver param to Render.render(String,...) defaulting to existing worldMap behavior; Main passes the file-first resolver. requireWorldDef stays pure (AC#3, preserves fail-fast).
+5. Reconcile TASK-15: relax CommandLine --world from .choice() to a plain option with a Clikt validate that accepts existing-file OR known worldMap id, else fails fast listing scenes. Update CommandLine/Main wiring + tests.
+6. Sample: add scenes/Sample.scene.kts (simple sphere/Whitted) for users; add test-resources copy for the jvmTest.
+7. jvmTest (Kotest StringSpec): FileWorldDefinition(path).world() => asserts World contents (camera/objects/materials); broken scene => SceneScriptException with file+message; SceneResolver: existing path => FileWorldDefinition, unknown non-file id => fails fast, known worldMap id => existing def.
+8. just test green + detekt clean (no baseline). Manual: gradlew run --world=<sample> renders PNG; unknown non-file id fails fast; worldMap id still renders. Measure fat-jar size delta + first-run latency.
+<!-- SECTION:PLAN:END -->
