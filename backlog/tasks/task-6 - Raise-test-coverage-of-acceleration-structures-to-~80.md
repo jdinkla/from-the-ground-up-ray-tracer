@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:22'
+updated_date: '2026-06-22 11:29'
 labels:
   - testing
   - acceleration
@@ -25,10 +25,12 @@ Acceleration structures are critical-path but largely untested (overall ~51% ins
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Grid and SparseGrid branch coverage materially improved with insertion, fast-path, failure, and traversal cases
-- [ ] #2 Each KDTree builder has tests exercising its split heuristic and tree construction
-- [ ] #3 Combined acceleration-structure coverage approaches 80%
+- [x] #1 Grid and SparseGrid branch coverage materially improved with insertion, fast-path, failure, and traversal cases
+- [x] #2 Each KDTree builder has tests exercising its split heuristic and tree construction
+- [x] #3 Combined acceleration-structure coverage approaches 80%
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
