@@ -1,11 +1,11 @@
 ---
 id: TASK-9
 title: 'Extract long methods in KDTree builders, GridUtilities, Polynomials'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 12:10'
+updated_date: '2026-06-22 12:14'
 labels:
   - refactor
 dependencies: []
@@ -60,3 +60,9 @@ Baseline burndown (detekt re-run green after each removal — only removed findi
 
 Verified: just test (./gradlew clean check) PASS. Did not touch dead-code TestBuilder/Test2Builder (TASK-4 latent bug left as-is).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Pure refactor extracting the over-60-line methods in Simple2Builder (build 129->~41), ObjectMedianBuilder (build 103->~43), GridUtilities (tessellateFlatSphere 84 + tessellateSmoothSphere 96 -> delegators with cap/ring helpers), and Polynomials (solveQuartic 74->~42) into well-named private helpers. No method in these files now exceeds the 60-line threshold (AC#1); behavior unchanged (AC#2). Cover-first was satisfied by prior tasks: KDTreeBuilderTest (TASK-6), GridUtilitiesTest (TASK-7), PolynomialsTest (TASK-5) — all three confirmed byte-identical to HEAD and passing unmodified after the refactor. Reviewer verified behavior preservation in detail: Simple2Builder's two latent quirks (split always = mid.z regardless of winning axis; node uses Axis.fromInt(depth) not the selected axis) were preserved VERBATIM, not silently fixed; ObjectMedianBuilder's dropped minAxis/maxAxis/fwidth locals were genuinely dead (assignment-only, pure RHS); GridUtilities triangle/vertex/normal ordering identical; Polynomials branches reproduced exactly. Continued the detekt burndown: removed 5 LongMethod + 2 CyclomaticComplexMethod entries (baseline 93->86), removals-only, detekt re-verified green. Verified via just test (clean check + detekt) BUILD SUCCESSFUL. Committed as ad30038. FOLLOW-UP candidate (latent, out of scope): Simple2Builder's split=mid.z / Axis.fromInt(depth) quirk appears to be a real bug (stores the z-coordinate and depth-derived axis rather than the cost-selected axis) — worth a separate behavior-fix task if Simple2Builder is ever used (default is SpatialMedianBuilder).
+<!-- SECTION:FINAL_SUMMARY:END -->
