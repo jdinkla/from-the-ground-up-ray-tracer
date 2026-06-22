@@ -4,6 +4,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.Fixture.Ex
+import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.materials.Dielectric
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.materials.Phong
@@ -185,5 +187,37 @@ class MaterialsScopeTest :
             material.ior shouldBe transparent.ior
             material.cr shouldBe transparent.cr
             material shouldBe transparent
+        }
+
+        "should handle dielectric with in/out IORs and filter colours" {
+            val scope = MaterialsScope()
+            val cfIn = Color(0.85, 0.95, 0.9)
+            val cfOut = Color.WHITE
+
+            scope.dielectric(
+                id = id,
+                iorIn = 1.5,
+                iorOut = 1.0,
+                cfIn = cfIn,
+                cfOut = cfOut,
+                cd = Ex.cd,
+                ka = Ex.ka,
+                kd = Ex.kd,
+                exp = Ex.exp,
+                ks = Ex.ks,
+                cs = Ex.cs,
+            )
+
+            scope.materials.size shouldBe 1
+            val material = scope.materials[id].shouldBeInstanceOf<Dielectric>()
+            material.iorIn shouldBe 1.5
+            material.iorOut shouldBe 1.0
+            material.cfIn shouldBe cfIn
+            material.cfOut shouldBe cfOut
+            material.ka shouldBe Ex.ka
+            material.kd shouldBe Ex.kd
+            material.exp shouldBe Ex.exp
+            material.ks shouldBe Ex.ks
+            material.cs shouldBe Ex.cs
         }
     })

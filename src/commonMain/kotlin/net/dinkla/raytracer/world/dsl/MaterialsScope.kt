@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.materials.Dielectric
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.materials.Matte
@@ -19,7 +20,9 @@ import net.dinkla.raytracer.textures.Texture
  *
  * Reflectance parameters follow Suffern's naming: `cd` diffuse colour, `ka` ambient coefficient,
  * `kd` diffuse coefficient, `ks`/`cs`/`exp` specular coefficient/colour/exponent, `kr`/`cr`
- * reflection coefficient/colour, `kt` transmission coefficient, `ior` index of refraction.
+ * reflection coefficient/colour, `kt` transmission coefficient, `ior` index of refraction. For the
+ * physically based [Dielectric], `iorIn`/`iorOut` are the inside/outside indices of refraction and
+ * `cfIn`/`cfOut` the inside/outside filter colours (Beer's-law attenuation).
  */
 class MaterialsScope {
     private val mutableMaterials: MutableMap<String, IMaterial> = mutableMapOf()
@@ -165,5 +168,37 @@ class MaterialsScope {
                 this.kr = kr
             }
         mutableMaterials[id] = transparent
+    }
+
+    /**
+     * Registers a physically based [Dielectric] (glass-like) material under [id]: Fresnel-weighted
+     * reflection/refraction with total internal reflection and Beer's-law colored attenuation.
+     * [iorIn]/[iorOut] are the inside/outside indices of refraction; [cfIn]/[cfOut] the inside/outside
+     * filter colours. The Phong parameters drive the surface highlight and direct illumination.
+     */
+    @SuppressWarnings("LongParameterList")
+    fun dielectric(
+        id: String,
+        iorIn: Double = 1.5,
+        iorOut: Double = 1.0,
+        cfIn: Color = Color.WHITE,
+        cfOut: Color = Color.WHITE,
+        cd: Color = Color.WHITE,
+        ka: Double = 0.25,
+        kd: Double = 0.75,
+        exp: Double = 2000.0,
+        ks: Double = 0.25,
+        cs: Color = Color.WHITE,
+    ) {
+        mutableMaterials[id] =
+            Dielectric(cd, ka, kd).apply {
+                this.exp = exp
+                this.ks = ks
+                this.cs = cs
+                this.iorIn = iorIn
+                this.iorOut = iorOut
+                this.cfIn = cfIn
+                this.cfOut = cfOut
+            }
     }
 }
