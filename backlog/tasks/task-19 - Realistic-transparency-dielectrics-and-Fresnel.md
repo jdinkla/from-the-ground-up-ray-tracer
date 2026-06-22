@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 15:04'
+updated_date: '2026-06-22 15:07'
 labels:
   - enhancement
   - book-parity
@@ -22,11 +22,13 @@ The repo has only simple/Whitted transparency (Transparent material + PerfectTra
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A Dielectric material renders a glass-like object with refraction, total internal reflection, and colored attenuation through the medium
-- [ ] #2 FresnelReflector (BRDF) and FresnelTransmitter (BTDF) compute reflectance/transmittance from indices of refraction
-- [ ] #3 Dielectric is declarable from the Builder DSL with in/out IORs and filter colors
-- [ ] #4 Unit tests cover Fresnel reflectance at normal and grazing incidence and the TIR threshold
+- [x] #1 A Dielectric material renders a glass-like object with refraction, total internal reflection, and colored attenuation through the medium
+- [x] #2 FresnelReflector (BRDF) and FresnelTransmitter (BTDF) compute reflectance/transmittance from indices of refraction
+- [x] #3 Dielectric is declarable from the Builder DSL with in/out IORs and filter colors
+- [x] #4 Unit tests cover Fresnel reflectance at normal and grazing incidence and the TIR threshold
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
