@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:13'
+updated_date: '2026-06-22 15:14'
 labels:
   - bug
   - cli
@@ -26,3 +26,9 @@ The CLI/Swing default --world value is World20.kt (see CommandLine/Render and CL
 - [ ] #2 The default scene id referenced in code matches an actually-discoverable WorldDefinition
 - [ ] #3 CLAUDE.md and CLI help text reflect the correct default scene id
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Confirm bug: default --world=World20.kt in CommandLine.kt is not among classgraph-discovered ids (no World20.kt object exists); no-arg run logs 'WorldDef World20.kt is not known' and writes no PNG. CONFIRMED. 2. Change Clikt default in CommandLine.kt from World20.kt to an existing simple Whitted scene: YellowAndRedSphere.kt (matte/phong spheres + plane + point light, no mesh/.ply, already manually verified rendering in TASK-8). 3. Update docs/help: CLAUDE.md --world default line + example command, README.md example command, and the Clikt option help text to reflect the new default. 4. Manual verify: ./gradlew run (no args) + ./gradlew run --args=--resolution=720p both write a valid PNG. 5. just test green.
+<!-- SECTION:PLAN:END -->
