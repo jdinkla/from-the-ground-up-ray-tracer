@@ -1,11 +1,11 @@
 ---
 id: TASK-12
 title: Make Grid mutable companion state immutable or injected
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 12:54'
+updated_date: '2026-06-22 12:57'
 labels:
   - concurrency
   - reliability
@@ -53,3 +53,9 @@ Test change (arrange-only): GridStructuresTest's TunableGrid now takes (factorSi
 
 Verified: ./gradlew test --tests GridStructuresTest green; 'just test' (clean check incl. detekt) BUILD SUCCESSFUL, no new detekt findings (only two pre-existing unchecked-cast warnings). grep confirms no remaining mutable global Grid tuning; parallel renderers (jvmMain/renderer) never referenced it and there is nothing mutable left to reach.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Removed Grid's racy mutable companion tuning state. factorSize and maxDepth are now immutable protected val constructor parameters (defaults 500/0); logInterval is an internal const val (still imported read-only by PlyReader). AC#1 met (tuning is immutable + per-instance, not mutable global state — the Grid companion now holds only const val members); AC#2 met (no mutable shared Grid config exists for parallel renderers to mutate; the jvmMain renderers never referenced these fields anyway). Behavior preserved exactly: the promotion check reads the instance's own factorSize/maxDepth, and the nested sub-grid is constructed as Grid(factorSize, maxDepth) (not bare Grid()) so multi-level nesting (maxDepth>1) inherits the parent's thresholds identically to the old global var; defaults 500/0 match the old globals so all construction sites (Acceleration GRID, ObjectsScope, SparseGrid : Grid()) are unchanged. The one permitted frozen-test change was arrange-only: deleted the withGridThresholds reflection-based global-mutation helper (itself the racy anti-pattern this task removes) and migrated the TunableGrid test subclass to inject per-instance — reviewer verified the injected values (factorSize=0,maxDepth=1) and (0,2) faithfully match the old withGridThresholds(0,1)/(0,2) calls and that EVERY assertion (cells.size, nested is Grid, depth shouldBe 1, nested.objects.size shouldBe 4, ray-hit sr.t shouldBe 0.15) is byte-identical. detekt-baseline unmodified. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as bcaab1c.
+<!-- SECTION:FINAL_SUMMARY:END -->
