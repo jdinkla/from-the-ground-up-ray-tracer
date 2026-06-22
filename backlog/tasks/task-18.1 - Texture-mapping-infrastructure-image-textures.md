@@ -1,11 +1,11 @@
 ---
 id: TASK-18.1
 title: Texture & mapping infrastructure + image textures
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 14:37'
+updated_date: '2026-06-22 14:44'
 labels:
   - enhancement
   - book-parity
@@ -78,3 +78,9 @@ MANUALLY VERIFIED (coverage-excluded: examples + jvm ImageReader I/O) by renderi
 - EnvironmentMapSphere.kt: enclosing SvEmissive sphere fills the background as a spherical env map with a Phong ball in front.
 All three render correctly; ImageReader.fromFile('resources/texture-test.png') decodes fine. Added a small bundled 256x128 test image resources/texture-test.png (generated via ImageMagick).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Built the book's foundational texture/mapping layer (textures/, mappings/ packages were empty). Texture interface getColor(IShade): Color with ConstantColor, Checker3D, ImageTexture (sampling math in commonMain over an in-memory Image; file decode in jvmMain ImageReader via ImageIO). Mapping interface with SphericalMap, RectangularMap, LightProbe (regular+panoramic). Spatially-varying materials SvMatte/SvPhong/SvEmissive built on a new SvLambertian BRDF — shading is byte-identical to Matte/Phong with the constant cd replaced by texture.getColor(sr) (reviewer confirmed SvMatte+ConstantColor == Matte). DSL: svMatte/svPhong/svEmissive on MaterialsScope (string-id idiom), environmentLight on LightsScope. The hit record (IShade/Shade) was extended STRICTLY ADDITIVELY (localHitPoint=hitPoint, u=0.0, v=0.0 defaults; one override keyword) — reviewer verified no existing object hit()/tracer/material changed, existing shading inert and unchanged, full pre-existing suite green. AC1-5 all met. Cover-first: commonTest covers ConstantColor/Checker3D/ImageTexture sampling + all three mappings with independently hand-derived expected values (not round-trips) + SvMatte/SvPhong shade tests + DSL test. Image-file loading and the 3 example scenes (TexturedSphere via SphericalMap, TexturedRectangle via RectangularMap, EnvironmentMapSphere via a large SvEmissive sphere) verified by rendering — reviewer independently re-rendered all three at 720p and confirmed valid non-trivial PNGs. Added resources/texture-test.png (493 bytes, 256x128). detekt clean, no baseline entries added. Verified via just test (398 tests + detekt) BUILD SUCCESSFUL. Committed as 4d9eb1e. Documented design choices / follow-ups: (1) env-map featured route is a textured SvEmissive sphere (renders under any tracer); EnvironmentLight DSL hook also wired (needs AREA tracer). (2) Mappings assume origin-centered objects — Instance affine local coords not threaded (Instance.hit sets no local hit point); reasonable follow-up if transformed textured objects are needed. (3) NIT from review: LightProbe regular mode uses acos(z) (forward=+z); exact book parity with a real mirror-ball photo would use acos(-z) — internally consistent, no AC broken, minor follow-up.
+<!-- SECTION:FINAL_SUMMARY:END -->
