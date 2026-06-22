@@ -1,9 +1,5 @@
 # 9. Architectural Decisions
 
-Now I have all the information I need. Let me generate the arc42 Chapter 9: Architectural Decisions document.
-
-# 9. Architectural Decisions
-
 This chapter documents the key architectural decisions made in the ray tracer project using the Architecture Decision Record (ADR) format. These decisions were inferred from the codebase implementation and project history.
 
 ---

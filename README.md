@@ -25,9 +25,9 @@ Run the different versions with
 $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew run --args="--world=AreaShadedSpheres.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
-$ ./gradlew run --args="--world=World66.kt --renderer=FORK_JOIN --resolution=720p"
-$ ./gradlew run --args="--world=World66.kt --renderer=PARALLEL --resolution=1080p"
-$ ./gradlew run --args="--world=World42.kt --renderer=COROUTINE --resolution=2160p"
+$ ./gradlew run --args="--world=World66b.kt --renderer=FORK_JOIN --resolution=720p"
+$ ./gradlew run --args="--world=World66b.kt --renderer=PARALLEL --resolution=1080p"
+$ ./gradlew run --args="--world=World74.kt --renderer=COROUTINE --resolution=2160p"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.webp)

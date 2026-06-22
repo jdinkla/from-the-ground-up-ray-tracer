@@ -1,9 +1,5 @@
 # 11. Risks and Technical Debt
 
-Now I have comprehensive information to generate the arc42 Chapter 11 document. Let me compile the findings into the structured documentation.
-
-# 11. Risks and Technical Debt
-
 This chapter documents technical risks and accumulated technical debt identified through static analysis, code review, and examination of the codebase structure.
 
 ## 11.1 Technical Risks

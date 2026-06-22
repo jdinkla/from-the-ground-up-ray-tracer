@@ -1,9 +1,5 @@
 # 1. Introduction and Goals
 
-Now I have enough information to write the arc42 Chapter 1 documentation.
-
-# 1. Introduction and Goals
-
 ## 1.1 Requirements Overview
 
 ### Purpose

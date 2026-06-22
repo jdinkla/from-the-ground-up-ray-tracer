@@ -1,9 +1,5 @@
 # 2. Architecture Constraints
 
-Now I have enough information to generate the arc42 Chapter 2: Architecture Constraints document.
-
-# 2. Architecture Constraints
-
 This chapter describes the constraints that influenced the architectural decisions for the ray tracer project. These constraints were derived from analyzing the project's configuration files, build scripts, and code structure.
 
 ## 2.1 Technical Constraints
