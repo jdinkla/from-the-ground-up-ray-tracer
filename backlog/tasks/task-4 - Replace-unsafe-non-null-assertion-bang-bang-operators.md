@@ -1,11 +1,11 @@
 ---
 id: TASK-4
 title: Replace unsafe non-null assertion (bang-bang) operators
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:06'
+updated_date: '2026-06-22 11:09'
 labels:
   - reliability
   - refactor
@@ -58,3 +58,9 @@ Cover-first: the only logic-restructuring touches (Mesh/MeshTriangle smooth-norm
 
 Verification: just test (./gradlew clean check) GREEN - compile + all tests + detekt. Two remaining warnings (PlyReader unchecked cast, a test unchecked cast) are pre-existing and unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Removed all 70 non-null assertion (!!) operators from production code (commonMain + jvmMain). Each was replaced with a behaviour-preserving alternative: requireNotNull(x) { descriptive message } where null is a genuine programming/config error (lights, materials, renderers, KDTree builders, scene-DSL material lookup — messages name the field/pixel/material id), or smart-cast/redundant-cast cleanup where the !! was provably unnecessary (Statistics, MeshTriangle). Throw-on-null semantics preserved everywhere; no null silently swallowed, no rendering path changed. The 4 remaining !! live only in examples/** (JaCoCo-excluded scene definitions, out of scope). Reviewer independently confirmed zero !! in production, verified the two logic-restructuring touches (Mesh/MeshTriangle smooth-normal path, ObjectsScope material lookup) preserve happy- and null-path behaviour and are covered by existing PlyReaderTest/ObjectsScopeTest. detekt-baseline untouched (no !!-related suppressions existed; detekt's UnsafeCallOnNullableType never fired because the :detekt task lacks a type-resolution classpath). Verified via just test (clean check: 308 tests + detekt) BUILD SUCCESSFUL. Committed as 943dcf8. Follow-up noted: TestBuilder/Test2Builder/ObjectMedian2Builder are dead code with a latent .toMutableList()-copy bug in calcSplit — candidate for a removal/cleanup task.
+<!-- SECTION:FINAL_SUMMARY:END -->
