@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 19:28'
+updated_date: '2026-06-22 19:33'
 labels:
   - bug
   - camera
@@ -22,9 +22,9 @@ ThinLens.getDirection ignores the pixel coordinates, the lens sample point, foca
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 ThinLens either produces depth-of-field rays per the book's model, or is clearly documented as a non-functional stub
-- [ ] #2 If implemented: a scene/test demonstrates focal-plane focus with blur outside the focal plane
-- [ ] #3 If documented as a stub: code KDoc and any user-facing help reflect that it does not blur
+- [x] #1 ThinLens either produces depth-of-field rays per the book's model, or is clearly documented as a non-functional stub
+- [x] #2 If implemented: a scene/test demonstrates focal-plane focus with blur outside the focal plane
+- [x] #3 If documented as a stub: code KDoc and any user-facing help reflect that it does not blur
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -37,3 +37,9 @@ ThinLens.getDirection ignores the pixel coordinates, the lens sample point, foca
 5. Optionally add an example scene using thinLensCamera (renders sharp via single-ray path; note that). Update World58 to actually use thinLensCamera with samp1 (it currently builds samp1 but never uses it).
 6. just test green; detekt-clean (named constants, no baseline). REPORT: SampledSingleRayRenderer is unwired in Context.adapt -> DoF/AA blur cannot render through current pipeline (separate follow-up).
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented the book's thin-lens DoF (Suffern ch.10) in ThinLens.kt. Added lensRadius field; sampler retyped to a new UnitDiskSampler fun-interface seam (Sampler now implements it; area lights/DiskLight unaffected). getRaySampled: view-plane point (px,py) as Pinhole, lens-disk sample scaled by lensRadius -> origin = eye + lx*u + ly*v, direction = pm(px*f/d - lx, py*f/d - ly, f).normalize() -> all aperture samples converge on the focal point at distance f. getRaySingle uses lens centre (sharp pinhole-equivalent). Rewrote KDoc (stub note removed). Added WorldScope.thinLensCamera(...) DSL (additive; default jittered disk sampler). Replaced the stub-characterizing ThinLensTest with DoF geometry tests (deterministic QueuedDiskSampler fake; hand-derived: pixel (0,4) on a 4x2 view plane, d=1,f=4,lensRadius=2 -> focal point (8,-4,-4); origins (1,0,0)/(0,1,0)/(-0.5,-0.5,0) all reach it; off-focal-plane depth -2f spreads). Added Vector3D shouldBeApprox matcher to Fixture.kt. Updated World58.kt to actually use thinLensCamera with its pre-built (but previously unused) samp1 disk sampler. AC#1+#2 met via implementation+unit test; AC#3 n/a (implemented, not stubbed).
+<!-- SECTION:NOTES:END -->
