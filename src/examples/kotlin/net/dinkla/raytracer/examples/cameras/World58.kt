@@ -20,10 +20,16 @@ object World58 : WorldDefinition {
     override fun world(): World =
         Builder.build {
             val b1 = AlignedBox(p = p(0, 0, 0), q = p(1, 2, 1))
-            camera(
+            // Thin-lens camera (Suffern ch. 10) focused on the middle box ~50 units away. Note: the
+            // current single-ray render path uses the lens centre, so this renders sharp (no visible
+            // blur) until the sampled-render path is wired up — see TASK-26.
+            thinLensCamera(
                 d = 1000.0,
+                f = 74.0,
+                lensRadius = 1.0,
                 eye = p(2, 1, 10),
                 lookAt = p(2, 1, 0),
+                sampler = samp1,
             )
 
             ambientLight(ls = 0.5)

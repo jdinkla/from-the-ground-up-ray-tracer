@@ -6,6 +6,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 
 infix fun Double.shouldBeApprox(expected: Double) {
     this shouldBeGreaterThanOrEqual expected - MathUtils.K_EPSILON
@@ -25,6 +26,12 @@ infix fun Point3D.shouldBeApprox(expected: Point3D) {
 }
 
 infix fun Normal.shouldBeApprox(expected: Normal) {
+    this.x shouldBeApprox expected.x
+    this.y shouldBeApprox expected.y
+    this.z shouldBeApprox expected.z
+}
+
+infix fun Vector3D.shouldBeApprox(expected: Vector3D) {
     this.x shouldBeApprox expected.x
     this.y shouldBeApprox expected.y
     this.z shouldBeApprox expected.z

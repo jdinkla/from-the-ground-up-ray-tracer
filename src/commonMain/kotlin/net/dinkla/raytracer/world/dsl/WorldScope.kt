@@ -6,6 +6,7 @@ import net.dinkla.raytracer.cameras.StereoCamera
 import net.dinkla.raytracer.cameras.StereoMode
 import net.dinkla.raytracer.cameras.StereoViewing
 import net.dinkla.raytracer.cameras.lenses.Pinhole
+import net.dinkla.raytracer.cameras.lenses.ThinLens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.Ambient
 import net.dinkla.raytracer.lights.AmbientOccluder
@@ -16,7 +17,9 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
+import net.dinkla.raytracer.samplers.UnitDiskSampler
 import net.dinkla.raytracer.world.Metadata
 import net.dinkla.raytracer.world.World
 
@@ -124,6 +127,36 @@ class WorldScope {
     }
 
     /**
+     * Sets the camera as a [ThinLens] depth-of-field lens (Suffern ch. 10) looking from [eye] towards
+     * [lookAt] with the given [up] vector. [d] is the view-plane distance (focal length); [f] is the
+     * focal-plane distance (scene geometry at distance [f] renders sharp); [lensRadius] is the aperture
+     * radius (`0.0` is a pinhole, larger values blur out-of-focus geometry more); [sampler] supplies the
+     * unit-disk points that jitter each ray's origin across the lens.
+     *
+     * Note: depth-of-field blur is only visible when many lens samples are averaged per pixel; the
+     * current single-ray render path uses the lens centre and therefore renders sharp (see TASK-26).
+     */
+    fun thinLensCamera(
+        d: Double = 1.0,
+        f: Double = 1.0,
+        lensRadius: Double = 1.0,
+        eye: Point3D = Point3D(5.0, 50.0, 50.0),
+        lookAt: Point3D = Point3D.ORIGIN,
+        up: Vector3D = Vector3D.UP,
+        sampler: UnitDiskSampler = defaultLensSampler(),
+    ) {
+        camera =
+            Camera({ eye, uvw ->
+                ThinLens(viewPlane, eye, uvw).apply {
+                    this.d = d
+                    this.f = f
+                    this.lensRadius = lensRadius
+                    this.sampler = sampler
+                }
+            }, eye, lookAt, up)
+    }
+
+    /**
      * Selects a stereo camera (Suffern ch. 9): the scene is rendered from two eye positions offset
      * by `±separation/2` along the camera's right axis and the two views are composited per [viewing]
      * (side-by-side or anaglyph). [mode] chooses parallel vs. transverse (toed-in) convergence and
@@ -193,5 +226,14 @@ class WorldScope {
         val scope = MetadataScope()
         scope.builder()
         metadata = scope.metadata
+    }
+
+    companion object {
+        private const val DEFAULT_LENS_SAMPLES = 2500
+        private const val DEFAULT_LENS_SETS = 10
+
+        /** A jittered [Sampler] mapped onto the unit disk, the default aperture sampler for [thinLensCamera]. */
+        private fun defaultLensSampler(): Sampler =
+            Sampler(MultiJittered, DEFAULT_LENS_SAMPLES, DEFAULT_LENS_SETS).also { it.mapSamplesToUnitDisk() }
     }
 }

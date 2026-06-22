@@ -13,7 +13,7 @@ class Sampler(
     sampler: IGenerator = Jittered,
     private var numSamples: Int = 100,
     private var numSets: Int = 10,
-) {
+) : UnitDiskSampler {
     private var shuffledIndices = ArrayList<Int>()
     private var samples = ArrayList<Point2D>()
     private var diskSamples = ArrayList<Point2D>()
@@ -54,7 +54,7 @@ class Sampler(
         return samples[index2]
     }
 
-    fun sampleUnitDisk(): Point2D {
+    override fun sampleUnitDisk(): Point2D {
         if (count % numSamples == 0) {
             jump = Random.int(numSets) * numSamples
         }
