@@ -1,11 +1,11 @@
 ---
 id: TASK-5
 title: Harden renderer threading error handling
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:13'
+updated_date: '2026-06-22 11:16'
 labels:
   - reliability
   - concurrency
@@ -59,3 +59,9 @@ Verification: ./gradlew test for PolynomialsTest+RendererTest green; full 'just 
 
 Not unit-tested (noted explicitly): the threading-failure paths (worker InterruptedException -> barrier.reset -> master BrokenBarrierException rethrow) are not deterministically triggerable without injecting an interrupt mid-render and racing the barrier; per specs/testing.md determinism rules I did not contort a flaky test for them. The deterministic, testable surfaces (resolution guard exception type/message, Polynomials guard exception type/message) are covered.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Hardened renderer threading error handling. ParallelRenderer no longer swallows threading failures via printStackTrace: main-thread InterruptedException restores the interrupt flag and rethrows wrapped in IllegalStateException (cause preserved, resolution context in message); main-thread BrokenBarrierException rethrows wrapped; worker InterruptedException restores the interrupt flag and resets the CyclicBarrier so the master is released (cannot deadlock) and reports the failure; worker BrokenBarrierException is logged via Logger.warn (master already reports). The generic RuntimeException became IllegalArgumentException naming the renderer/height/numThreads. Polynomials.kt's three bare AssertionError() guards became require(...) (IllegalArgumentException) with solver-name + expected-size messages; reviewer confirmed the require predicates are exact De Morgan inverses of the originals so happy-path behaviour is unchanged. Sibling renderers (ForkJoin, CoroutineBlock, NaiveCoroutine, VirtualThreadBlock) were inventoried — none share the swallow pattern, all already propagate. Cover-first: added 3 PolynomialsTest guard tests; tightened the RendererTest bad-resolution test to assert the new specific type+message (legitimate behaviour change). Non-deterministic threading-failure paths are not unit-tested per specs/testing.md determinism rules (cannot trigger a mid-render interrupt/barrier race deterministically); verified by reasoning + reviewer trace. Verified via just test (clean check + detekt) BUILD SUCCESSFUL. Committed as d2c76ca.
+<!-- SECTION:FINAL_SUMMARY:END -->
