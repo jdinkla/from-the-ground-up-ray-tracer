@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 14:25'
+updated_date: '2026-06-22 14:36'
 labels:
   - enhancement
   - book-parity
@@ -23,12 +23,14 @@ Foundational texture layer plus image textures. Add a Texture abstraction (getCo
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A Texture interface exists and is sampled during shading to produce a color
-- [ ] #2 SV_Matte and SV_Phong render with a Texture as diffuse color, declarable from the DSL
-- [ ] #3 ImageTexture loads an image file and maps it onto a sphere and a rectangle via Mapping classes
-- [ ] #4 A light-probe / spherical environment map can be applied (via EnvironmentLight or a textured object)
-- [ ] #5 Unit tests cover Texture sampling and at least one Mapping in commonTest; image-file loading verified manually per the coverage-excluded-zones rule
+- [x] #1 A Texture interface exists and is sampled during shading to produce a color
+- [x] #2 SV_Matte and SV_Phong render with a Texture as diffuse color, declarable from the DSL
+- [x] #3 ImageTexture loads an image file and maps it onto a sphere and a rectangle via Mapping classes
+- [x] #4 A light-probe / spherical environment map can be applied (via EnvironmentLight or a textured object)
+- [x] #5 Unit tests cover Texture sampling and at least one Mapping in commonTest; image-file loading verified manually per the coverage-excluded-zones rule
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
