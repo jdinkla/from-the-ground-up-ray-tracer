@@ -22,10 +22,10 @@ import net.dinkla.raytracer.shouldBeApprox
  *
  * Two notes on what these tests assert and why:
  *
- *  - `KDTree.hit` wraps the caller's record in a fresh `Hit(sr)` and never copies the result back,
- *    so only its **boolean** return is observable through that public entry point. To assert the
- *    resolved distance/normal/object we drive the built tree at the [Node] level
- *    (`tree.root!!.hit(...)`), where the populated `Hit` is visible.
+ *  - Many builder tests drive the built tree at the [Node] level (`tree.root!!.hit(...)`) to assert the
+ *    resolved distance/normal/object directly on the populated [Hit]. As of TASK-27 the [KDTree] wrapper
+ *    also propagates that record back through its public `hit`/`shadowHit` (it previously discarded the
+ *    inner result); the wrapper-level tests at the end of this file pin that corrected write-back.
  *
  *  - [TestBuilder] and [Test2Builder] are dead code carrying a latent bug (TASK-4): their
  *    `calcSplit` passes `.toMutableList()` *copies* into `splitByAxis`, so the real out-params stay
@@ -267,31 +267,59 @@ class KDTreeBuilderTest : StringSpec({
 
     // ---- KDTree wrapper public contract ----------------------------------------------------------
 
-    "KDTree.hit reports true for a ray that intersects the scene" {
+    "KDTree.hit propagates the closest-hit record back to the caller (TASK-27 write-back)" {
+        // Pre-TASK-27 KDTree.hit wrapped the caller's record in a fresh Hit(sr) and discarded the
+        // populated inner result, so only the boolean was observable here. It now copies t, normal
+        // and geometricObject back into sr — matching the node-level assertions above (x=0 sphere,
+        // front surface at x=-0.5, so t = 9.5 from origin x=-10; outward normal -x).
         val tree = builtTree(SpatialMedianBuilder())
 
         val sr = Hit(Double.MAX_VALUE)
         tree.hit(rayAlongLine(), sr).shouldBeTrue()
+
+        (sr.geometricObject as Sphere).center shouldBeApprox Point3D.ORIGIN
+        sr.t shouldBeApprox 9.5
+        sr.normal shouldBe Normal(-1.0, 0.0, 0.0)
     }
 
-    "KDTree.hit reports false for a ray that misses the scene entirely" {
+    "KDTree.hit reports false and leaves the record unchanged for a ray that misses the scene" {
         val tree = builtTree(SpatialMedianBuilder())
 
         val miss = Ray(Point3D(-10.0, 100.0, 0.0), Vector3D(1.0, 0.0, 0.0))
         val sr = Hit(Double.MAX_VALUE)
         tree.hit(miss, sr).shouldBeFalse()
+        sr.t shouldBeApprox Double.MAX_VALUE // untouched on a miss
     }
 
-    "KDTree.shadowHit reports an occluder along the ray and none for a clear ray" {
-        // KDTree.hit wraps Hit(sr) and discards the populated record, so shadowHit cannot propagate
-        // a distance back into tmin.t; only the boolean occlusion result is observable here.
+    "KDTree.shadowHit writes the occluder distance back into tmin (TASK-27 write-back)" {
+        // Pre-TASK-27 the discarded inner result meant tmin.t was re-stored as the unchanged input
+        // cap, so a KDTree object never registered as a shadow caster. It now writes back the actual
+        // occluder distance (9.5, the front surface of the x=0 sphere reached from x=-10).
         val tree = builtTree(SpatialMedianBuilder())
 
         val occluded = net.dinkla.raytracer.hits.ShadowHit(Double.MAX_VALUE)
         tree.shadowHit(rayAlongLine(), occluded).shouldBeTrue()
+        occluded.t shouldBeApprox 9.5
 
         val clear = net.dinkla.raytracer.hits.ShadowHit(Double.MAX_VALUE)
         val miss = Ray(Point3D(-10.0, 100.0, 0.0), Vector3D(1.0, 0.0, 0.0))
         tree.shadowHit(miss, clear).shouldBeFalse()
+        clear.t shouldBeApprox Double.MAX_VALUE // untouched when nothing occludes
+    }
+
+    "KDTree-accelerated object registers as a shadow caster within the light distance but not beyond it" {
+        // Compound.inShadow seeds tmin.t = d (light distance) and accepts an occluder only when the
+        // written-back tmin.t < d. The occluder (x=0 sphere) is at distance 9.5 along the ray.
+        val tree = builtTree(SpatialMedianBuilder())
+
+        // d = 20 > 9.5: the sphere lies between the surface and the light -> in shadow.
+        val within = net.dinkla.raytracer.hits.ShadowHit(20.0)
+        tree.shadowHit(rayAlongLine(), within).shouldBeTrue()
+        (within.t < 20.0).shouldBeTrue()
+
+        // d = 5 < 9.5: the light is in front of the sphere -> not occluded by it.
+        val beyond = net.dinkla.raytracer.hits.ShadowHit(5.0)
+        tree.shadowHit(rayAlongLine(), beyond)
+        (beyond.t < 5.0).shouldBeFalse()
     }
 })

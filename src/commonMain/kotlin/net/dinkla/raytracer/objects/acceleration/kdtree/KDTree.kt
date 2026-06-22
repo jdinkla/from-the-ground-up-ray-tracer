@@ -41,30 +41,42 @@ class KDTree(
         Statistics.print(this)
     }
 
-    /** Intersects [ray] with the tree by descending the [root] node hierarchy. Requires [initialize] first. */
+    /**
+     * Intersects [ray] with the tree by descending the [root] node hierarchy. Requires [initialize] first.
+     *
+     * The [Node] hierarchy (`Leaf`/`InnerNode`) operates on a concrete [Hit], so the traversal runs on a
+     * local copy [h] seeded from [sr] (this carries the incoming `sr.t` cap — large for a primary ray,
+     * the light distance for a shadow ray — into the node's closest-hit search). On a hit the resolved
+     * distance, normal and struck object are copied back into the caller's [sr] through the [IHit] var
+     * setters, honouring the [net.dinkla.raytracer.objects.IGeometricObject.hit] contract; on a miss
+     * [sr] is left unchanged.
+     */
     override fun hit(
         ray: Ray,
         sr: IHit,
     ): Boolean {
         Counter.count("KDTree.hit")
         val node = requireNotNull(root) { "KDTree.root not built; call initialize() before hit()" }
-        return node.hit(ray, Hit(sr))
+        val h = Hit(sr)
+        val b = node.hit(ray, h)
+        if (b) {
+            sr.t = h.t
+            sr.normal = h.normal
+            sr.geometricObject = h.geometricObject
+        }
+        return b
     }
 
     /**
-     * Shadow-ray test reusing [hit], seeding the internal [Hit] with the incoming cap `tmin.t` and
-     * intending to write the found distance back into [tmin] — the contract documented on
-     * [net.dinkla.raytracer.objects.IGeometricObject.shadowHit].
+     * Shadow-ray test reusing [hit]: seeds the internal [Hit] with the incoming cap `tmin.t` (the light
+     * distance), runs the tree traversal and writes the found intersection distance back into [tmin] —
+     * the contract documented on [net.dinkla.raytracer.objects.IGeometricObject.shadowHit] and shared
+     * with [net.dinkla.raytracer.objects.acceleration.Grid.shadowHit].
      *
-     * Known divergence from that contract (and from
-     * [net.dinkla.raytracer.objects.acceleration.Grid.shadowHit]): [hit] wraps the caller's record in a
-     * fresh `Hit(sr)` and never copies the inner result back, so the populated distance is discarded and
-     * the `tmin.t = h.t` write-back here merely re-stores the unchanged input. The boolean occlusion
-     * result is correct, but the output distance is **not** propagated. Because the only production
-     * caller ([net.dinkla.raytracer.objects.compound.Compound.inShadow]) accepts an occluder only when
-     * the written-back `tmin.t < d`, a KDTree-accelerated object does not register as a shadow caster
-     * through that path. Fixing this changes rendered output and is tracked separately, not resolved
-     * here; the KDTree's only scene (`World75`) is itself marked "Does not work".
+     * Because [hit] now copies its inner result back, the written-back `tmin.t` carries the actual
+     * occluder distance, so the only production caller
+     * ([net.dinkla.raytracer.objects.compound.Compound.inShadow]) — which accepts an occluder only when
+     * `tmin.t < d` — correctly registers a KDTree-accelerated object as a shadow caster.
      */
     override fun shadowHit(
         ray: Ray,

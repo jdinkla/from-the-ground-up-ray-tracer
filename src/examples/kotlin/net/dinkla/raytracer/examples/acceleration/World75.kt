@@ -15,7 +15,7 @@ object World75 : WorldDefinition {
     override fun world(): World =
         Builder.build {
             metadata {
-                description = "Does not work"
+                description = "A 3x3x3 lattice of phong spheres in a KDTree (Simple2Builder), lit by three point lights"
             }
 
             camera(d = 1000.0, eye = p(0, 0, 5), lookAt = p(0, 0, 0))
