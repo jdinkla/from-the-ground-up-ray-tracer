@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 20:16'
+updated_date: '2026-06-22 20:20'
 labels:
   - enhancement
   - book-parity
@@ -28,8 +28,6 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 - [x] #2 Each is declarable from the Builder DSL (ObjectsScope) and has cover-first hit/shadowHit unit tests
 - [x] #3 Existing primitives unchanged; detekt clean with no new baseline entries
 <!-- AC:END -->
-
-
 
 ## Implementation Plan
 
@@ -67,4 +65,6 @@ PART A diagnosis (probe, then removed): solveQuartic returns PHANTOM real roots 
 PART A FIX DONE. Torus.kt + PartTorus.kt now polish each quartic root with up to 6 Newton iterations and reject any whose hit point fails the torus implicit equation (|residual| >= 1e-4) before selecting the nearest forward root. Cover-first regressions added to TorusTest (phantom axis ray MISSES; genuine near-axis pierce hits at t=2.9 with +y normal; outside-radius miss) and PartTorusTest (phantom miss + hit + shadowHit). All pre-existing TorusTest/PartTorusTest assertions PASS UNCHANGED — none pinned a phantom value (they tested well-conditioned rays), so no old->new assertion edits were needed. Torus.hit/hitF and PartTorus.hit/shadowHit all route through one nearestValidRoot helper.
 
 PART B DONE. Added BeveledCylinder (objects/beveled): OpenCylinder body (y0+rb..y1-rb) + 2 Disk caps (radius-rb) + Torus(radius-rb, rb) rims translated via Instance to y0+rb / y1-rb. Added BeveledWedge (objects/beveled): 2 PartCylinder walls + 2 PartAnnulus caps (narrowed by rb) + 4 PartTorus arc rims (outer/inner x top/bottom, translated via Instance) + 2 flat Rectangle radial sides; only the curved arc edges are beveled (radial edges kept square — documented). Added supporting PartAnnulus (objects/) = Annulus restricted to a phi wedge via PartAngles, with its own DSL method + test. DSL: beveledCylinder/beveledWedge/partAnnulus on ObjectsScope following the beveledBox idiom; round-trip equals tests in ObjectsScopeTest. Cover-first hit/shadowHit/bbox tests for all three (body/cap/rim/radial-side hit, miss outside wedge, bbox-contains). Geometry values derived by probe then hand-checked. The torus phantom fix (PART A) was the prerequisite: the rim apex rays (x at sweep radius) now hit cleanly with no phantom specks.
+
+VERIFICATION: full 'just test' (clean check + all tests + detekt + jacoco) BUILD SUCCESSFUL. detekt clean, detekt-baseline.xml UNMODIFIED (no new entries). Only pre-existing warnings remain (PlyReader unchecked cast, GridStructuresTest unchecked casts) — unrelated. Manual end-to-end check of the Torus behavior change: rendered GreenTorus.kt (coverage-excluded example) at 720p — torus renders as a clean ring with an empty central hole and no phantom specks (the bug's symptom). REFACTOR NOTE: the Newton-polish helper was extracted to Polynomials.polishRoot (shared by Torus + PartTorus) with its own cover-first PolynomialsTest cases, to stay DRY and detekt-clean (avoids duplicated magic-number index access). No existing Torus/PartTorus assertion was changed — none had pinned a phantom value. NEW supporting primitive: PartAnnulus (objects/) added for the wedge caps, with DSL method partAnnulus + PartAnnulusTest. All 3 prior primitives (ConcaveSphere, ConcavePartSphere, ThickRing, Bowl) untouched and still pass.
 <!-- SECTION:NOTES:END -->
