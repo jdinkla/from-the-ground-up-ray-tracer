@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 15:32'
+updated_date: '2026-06-22 15:35'
 labels:
   - cleanup
 dependencies: []
@@ -36,3 +36,9 @@ Remove dead code marked unused (World.kt:35,49) and resolve the open questions f
 4. Assess the genuine KDTree<->Grid inconsistency: KDTree shadowHit write-back is broken (objects in a KDTree do not cast shadows / do not render via Compound). Prior tasks (TASK-4/6) deliberately froze this discard behavior; only scene World75 uses kdtree and is labeled 'Does not work'. Fixing changes rendered output -> consequential -> NEEDS-DECISION rather than silent fix.
 5. Run just test green; keep detekt clean (removing @Deprecated may clear warnings).
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Part A done: confirmed via grep (prod commonMain/jvmMain, examples, commonTest/jvmTest) that World.hit() (no-arg, calling compound.hitObjects()) and World.shadowHit(ray,tmin) had ZERO callers (only self-references in their own bodies). Removed both + their Counter.count lines + now-unused imports (Shade, ShadowHit) in World.kt. Their sole transitive callee Compound.hitObjects() (returned an empty Shade(), only ever called by the removed World.hit()) became dead too -> removed it and the now-unused Shade import in Compound.kt. No test referenced any of the removed methods. Shade class itself stays (widely used by tracers/tests).
+<!-- SECTION:NOTES:END -->
