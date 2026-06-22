@@ -199,6 +199,88 @@ class GridStructuresTest : StringSpec({
         tmin.t shouldBe 0.3
     }
 
+    "grid hit picks initial cell from origin when ray starts inside the grid" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val target = StubObject(bbox, t = 0.1)
+        grid.add(target)
+        grid.initialize()
+
+        // origin (0.5,0.5,0.5) is strictly inside the unit grid -> isInside branch
+        val ray = Ray(Point3D(0.5, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 0.1
+        sr.normal shouldBe Normal.UP
+    }
+
+    "grid hit reports the inner object, not the compound, for a crowded cell" {
+        val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val closer = StubObject(bbox, t = 0.2)
+        val farther = StubObject(bbox, t = 0.6)
+        grid.add(closer)
+        grid.add(farther)
+        grid.initialize()
+
+        // both objects share the single cell -> stored as a Compound; the
+        // reported geometricObject must come from the inner hit, not the Compound
+        val cells = grid.cellsField().get(grid) as Array<*>
+        cells.any { it is Compound } shouldBe true
+
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe closer
+        sr.t shouldBe 0.2
+    }
+
+    "sparse grid hit skips empty cells and reports the object in a later cell" {
+        val sparse = SparseGrid().apply { multiplier = 4.0 }
+        // single object occupying only the far end of a wide box so leading cells stay empty
+        val target = StubObject(BBox(Point3D(0.9, 0.0, 0.0), Point3D(1.0, 1.0, 1.0)), t = 1.95)
+        sparse.add(target)
+        sparse.initialize()
+
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        sparse.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 1.95
+    }
+
+    "sparse grid hit returns false when ray misses bounding box" {
+        val sparse = SparseGrid().apply { multiplier = 1.0 }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        sparse.add(StubObject(bbox))
+        sparse.initialize()
+
+        val ray = Ray(Point3D(-1.0, 2.0, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        sparse.hit(ray, sr) shouldBe false
+        sr.geometricObject shouldBe null
+    }
+
+    "sparse grid hit traverses correctly for negative direction steps" {
+        val sparse = SparseGrid().apply { multiplier = 1.0 }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val target = StubObject(bbox, t = 0.4)
+        sparse.add(target)
+        sparse.initialize()
+
+        val ray = Ray(Point3D(2.0, 0.5, 0.5), Vector3D(-1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        sparse.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 0.4
+    }
+
     "sparse grid inserts and traverses map-backed cells" {
         val sparse = SparseGrid().apply { multiplier = 1.0 }
         val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))

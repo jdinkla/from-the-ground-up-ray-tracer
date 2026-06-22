@@ -2,21 +2,17 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>CyclomaticComplexMethod:Grid.kt:Grid$override fun hit: Boolean</ID>
     <ID>CyclomaticComplexMethod:Grid.kt:Grid$override fun initialize</ID>
     <ID>CyclomaticComplexMethod:ObjectMedianBuilder.kt:ObjectMedianBuilder$fun build: Node</ID>
     <ID>CyclomaticComplexMethod:Simple2Builder.kt:Simple2Builder$fun build: Node</ID>
-    <ID>CyclomaticComplexMethod:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
     <ID>CyclomaticComplexMethod:SpatialMedianBuilder.kt:SpatialMedianBuilder$fun build: Node</ID>
     <ID>FunctionNaming:AreaLight.kt:AreaLight$fun G: Double</ID>
-    <ID>LongMethod:Grid.kt:Grid$override fun hit: Boolean</ID>
     <ID>LongMethod:Grid.kt:Grid$override fun initialize</ID>
     <ID>LongMethod:GridUtilities.kt:GridUtilities$fun tessellateFlatSphere</ID>
     <ID>LongMethod:GridUtilities.kt:GridUtilities$fun tessellateSmoothSphere</ID>
     <ID>LongMethod:ObjectMedianBuilder.kt:ObjectMedianBuilder$fun build: Node</ID>
     <ID>LongMethod:Polynomials.kt:Polynomials$fun solveQuartic: Int</ID>
     <ID>LongMethod:Simple2Builder.kt:Simple2Builder$fun build: Node</ID>
-    <ID>LongMethod:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
     <ID>LongMethod:SparseGrid.kt:SparseGrid$override fun initialize</ID>
     <ID>LongMethod:SpatialMedianBuilder.kt:SpatialMedianBuilder$fun build: Node</ID>
     <ID>MagicNumber:AffineTransformation.kt:AffineTransformation$3</ID>
@@ -71,10 +67,8 @@
     <ID>MagicNumber:WorldScope.kt:WorldScope$50.0</ID>
     <ID>MaxLineLength:InnerNode.kt:InnerNode$override fun toString: String</ID>
     <ID>MaxLineLength:Transparent.kt:Transparent$override fun hashCode: Int</ID>
-    <ID>NestedBlockDepth:Grid.kt:Grid$override fun hit: Boolean</ID>
     <ID>NestedBlockDepth:Grid.kt:Grid$override fun initialize</ID>
     <ID>NestedBlockDepth:Matte.kt:Matte$override fun areaLightShade: Color</ID>
-    <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
     <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun initialize</ID>
     <ID>PrintStackTrace:AppProperties.kt:AppProperties$e</ID>
     <ID>PrintStackTrace:ParallelRenderer.kt:ParallelRenderer$e</ID>
