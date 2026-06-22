@@ -14,13 +14,8 @@ import net.dinkla.raytracer.math.Vector3D
 internal class BrdfUnsupportedOperationTest :
     StringSpec({
 
-        "Lambertian.sampleF is not supported" {
-            val ex =
-                shouldThrow<UnsupportedOperationException> {
-                    Lambertian().sampleF(Shade(), Vector3D.ZERO)
-                }
-            ex.message shouldContain "Lambertian"
-        }
+        // Lambertian.sampleF used to throw here; TASK-20 implements it as cosine-weighted hemisphere
+        // sampling (see LambertianSampleFTest). The unsupported-operation pin was therefore retired.
 
         "GlossySpecular.rho is not supported" {
             val ex =

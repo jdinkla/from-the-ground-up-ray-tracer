@@ -110,6 +110,30 @@ open class Matte(
         return light.inShadow(world, shadowRay, sr, sample)
     }
 
+    /**
+     * The diffuse path-tracing shade (Suffern ch. 26): importance-sample an indirect direction with
+     * the cosine-weighted diffuse BRDF, trace the reflected ray one level deeper through the world's
+     * tracer, and weight the incoming radiance by `f * (n . wi) / pdf`. With cosine-weighted sampling
+     * the geometry term `(n . wi)` and the pdf `(n . wi) / PI` largely cancel, leaving the indirect
+     * diffuse estimate that produces colour bleeding and soft indirect light.
+     */
+    override fun pathShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
+        val wo = -sr.ray.direction
+        val sample = diffuseBRDF.sampleF(sr, wo)
+        val nDotWi = sr.normal dot sample.wi
+        val tracer = world.tracer
+        return if (nDotWi <= 0.0 || sample.pdf <= 0.0 || tracer == null) {
+            Color.BLACK
+        } else {
+            val reflectedRay = Ray(sr.hitPoint, sample.wi)
+            val incoming = tracer.trace(reflectedRay, sr.depth + 1)
+            (sample.color * incoming) * (nDotWi / sample.pdf)
+        }
+    }
+
     protected fun getAmbientColor(
         world: IWorld,
         sr: IShade,

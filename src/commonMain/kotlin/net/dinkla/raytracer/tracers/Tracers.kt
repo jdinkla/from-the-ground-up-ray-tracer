@@ -8,4 +8,5 @@ enum class Tracers(
     WHITTED({ w -> Whitted(w) }),
     AREA({ w -> AreaLighting(w) }),
     MULTIPLE_OBJECTS({ w -> MultipleObjects(w) }),
+    PATH_TRACE({ w -> PathTrace(w) }),
 }
