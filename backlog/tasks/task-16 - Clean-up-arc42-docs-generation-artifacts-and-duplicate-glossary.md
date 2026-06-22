@@ -1,9 +1,11 @@
 ---
 id: TASK-16
 title: Clean up arc42 docs (generation artifacts and duplicate glossary)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:12'
+updated_date: '2026-06-22 16:15'
 labels:
   - docs
 dependencies: []
