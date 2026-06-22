@@ -1,11 +1,11 @@
 ---
 id: TASK-18.2
 title: Procedural textures
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 14:51'
+updated_date: '2026-06-22 14:55'
 labels:
   - enhancement
   - book-parity
@@ -77,3 +77,9 @@ Manual verification (./gradlew run --tracer=WHITTED --renderer=SEQUENTIAL --reso
 
 just test (= ./gradlew clean check) BUILD SUCCESSFUL, detekt clean (no new baseline entries). Pre-existing unrelated compiler 'Unchecked cast' warnings remain in PlyReader.kt and GridStructuresTest.kt. No existing files modified.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented four non-noise procedural textures on the 18.1 Texture abstraction (additive only — no existing files modified): PlaneChecker (2D xz checker with grout), SphereChecker (2D lat/long checker with grout, computing its own (u,v) using the same convention as SphericalMap — reviewer confirmed byte-identical), Ramp (value-driven linear colour gradient), and Wireframe (cell-boundary proximity → wire vs fill). Reused 18.1's Checker3D unchanged for AC#1. AC1-4 all met. AC#3 needed no DSL change — MaterialsScope.svMatte/svPhong/svEmissive already take the Texture interface, so the new textures are declarable as-is; the example scenes declare all four via svMatte. Cover-first: 26 commonTest unit tests (PlaneChecker 7, Ramp 7, SphereChecker 6, Wireframe 6) feeding known coordinates and asserting independently hand-derived expected colours (boundary-straddling cells, grout, gradient endpoints/midpoint/clamp) — reviewer re-derived the SphereChecker +x→WHITE and Ramp 0.25→(0.35,0.3,0.7) cases and confirmed; uses the TestShade fake + localHitPoint (objects don't set u/v) and Color shouldBeApprox for float-arithmetic cases. Three example scenes (ProceduralCheckers, SphereCheckerScene, RampAndWireframe) rendered and manually verified by both implementer and reviewer (correct checker alternation, grout lines, gradients, wire grid). Noise correctly kept out of scope (TASK-18.3). detekt clean, no baseline entries. Verified via just test (incl. detekt) BUILD SUCCESSFUL. Committed as 8d7ad38. Minor NITs (non-blocking): Ramp.getColor wraps to [0,1) while colorAt clamps to [0,1] (clamp branch unreachable from getColor); SphereChecker.lineWidth is in cells while PlaneChecker/Wireframe widths are in world units — both candidates for a future consistency pass.
+<!-- SECTION:FINAL_SUMMARY:END -->
