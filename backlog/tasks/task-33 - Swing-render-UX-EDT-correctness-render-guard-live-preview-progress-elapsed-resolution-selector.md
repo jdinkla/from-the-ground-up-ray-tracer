@@ -33,8 +33,6 @@ The Swing desktop app touches Swing components off the Event Dispatch Thread dur
 - [x] #7 detekt and the full build stay green; behavior of the rendering core is unchanged
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -45,6 +43,21 @@ The Swing desktop app touches Swing components off the Event Dispatch Thread dur
 5. main(): wrap construction in SwingUtilities.invokeLater (EDT).
 6. Verify: ./gradlew detekt + build green; launch ./gradlew swing and render a scene to confirm live preview, status, button-guard.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented (files: ui/swing/FromTheGroundUpRayTracer.kt, SwingFilm.kt, ImageCanvas.kt; build.gradle.kts).
+
+- EDT correctness: CPU render runs on Dispatchers.Default (the class CoroutineScope); every Swing touch hops to Dispatchers.Swing via withContext (added kotlinx-coroutines-swing dep). main() now wraps construction in SwingUtilities.invokeLater. ImageCanvas converted from heavyweight AWT Canvas to a double-buffered JPanel for flicker-free live repaints.
+- Render guard: Render/PNG buttons stored as fields, disabled in setBusy(true) and re-enabled in a finally on the EDT (success and failure); a 'rendering' flag is a second guard. No concurrent renders.
+- Empty-selection feedback: withSelectedScene shows 'Select a scene first' + beep instead of a silent no-op; unknown scene id shows 'Unknown scene: <name>'.
+- Live preview: SwingFilm now counts written pixels (AtomicLong, thread-safe across the parallel workers) and exposes totalPixels. A javax.swing.Timer (150ms) repaints the preview window and drives a DETERMINATE progress bar (renderedPixels/totalPixels) while the render fills the BufferedImage in place.
+- Status bar: progress bar + status label at frame SOUTH; ticks elapsed seconds + percent while rendering, shows 'Rendered <scene> in <ms> ms' on completion. PNG export path uses an indeterminate bar (its Film isn't pixel-counted).
+- Resolution selector: third combo populated from Resolution.Predefined (480p-4320p), defaults to the configured resolution (1080p); replaces the old global 'resolution' var. Tracer/renderer combos also labelled and the default renderer is selected by Renderer.PARALLEL.ordinal instead of magic index 2 (this overlaps TASK-35 AC#4 labelling/enum-default, done early since I was rewriting the panel).
+
+Verification: ./gradlew build green (test + detekt clean); ./gradlew swing launches and reaches the GUI event loop with no startup/EDT exception (confirms Dispatchers.Swing on classpath + EDT construction OK). NOT yet visually confirmed by a human click: live preview filling in, progress ticking, button-guard during a real render — that interactive observation is the open DoD item.
+<!-- SECTION:NOTES:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
