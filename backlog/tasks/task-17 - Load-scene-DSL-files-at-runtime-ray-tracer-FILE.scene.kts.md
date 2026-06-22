@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:21'
-updated_date: '2026-06-22 16:38'
+updated_date: '2026-06-22 16:42'
 labels:
   - enhancement
 dependencies: []
@@ -25,12 +25,14 @@ Tradeoffs to accept/note: fat jar grows ~tens of MB (embedded compiler); first-r
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 ray-tracer can render a scene from an external file written in the existing Kotlin DSL, passed as a file path, without recompiling the jar
-- [ ] #2 External scene files reuse the existing WorldScope DSL surface unchanged; no changes required to Builder/WorldScope to support the common cases
-- [ ] #3 When the --world argument is an existing filesystem path it loads via the script host; otherwise it falls back to the classgraph worldMap (existing behavior unmodified)
-- [ ] #4 Script compilation/evaluation errors are surfaced with the compiler diagnostics (file + message), not a silent failure or bare stack trace
-- [ ] #5 At least one sample .scene.kts file and a test covering load-from-file are added
+- [x] #1 ray-tracer can render a scene from an external file written in the existing Kotlin DSL, passed as a file path, without recompiling the jar
+- [x] #2 External scene files reuse the existing WorldScope DSL surface unchanged; no changes required to Builder/WorldScope to support the common cases
+- [x] #3 When the --world argument is an existing filesystem path it loads via the script host; otherwise it falls back to the classgraph worldMap (existing behavior unmodified)
+- [x] #4 Script compilation/evaluation errors are surfaced with the compiler diagnostics (file + message), not a silent failure or bare stack trace
+- [x] #5 At least one sample .scene.kts file and a test covering load-from-file are added
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
