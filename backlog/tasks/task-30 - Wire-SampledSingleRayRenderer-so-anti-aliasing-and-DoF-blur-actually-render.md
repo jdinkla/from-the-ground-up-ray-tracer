@@ -1,9 +1,11 @@
 ---
 id: TASK-30
 title: Wire SampledSingleRayRenderer so anti-aliasing and DoF blur actually render
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 19:39'
+updated_date: '2026-06-22 21:11'
 labels:
   - bug
   - renderer
