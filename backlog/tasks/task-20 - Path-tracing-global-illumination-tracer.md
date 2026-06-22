@@ -1,11 +1,11 @@
 ---
 id: TASK-20
 title: Path tracing / global illumination tracer
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:17'
+updated_date: '2026-06-22 17:23'
 labels:
   - enhancement
   - book-parity
@@ -69,3 +69,9 @@ VERIFICATION
 - just test (= ./gradlew clean check, incl. detekt): GREEN. New code detekt-clean (fixed two ReturnCount violations; named consts used). Only pre-existing unchecked-cast warnings in PlyReader.kt / GridStructuresTest.kt remain.
 - Manual GI render (examples are coverage-excluded): ./gradlew run --args="--world=CornellBox.kt --tracer=PATH_TRACE --renderer=FORK_JOIN --resolution=720p" -> ~35-44s. Observed unmistakable global illumination: green color bleeding from the left wall and red from the right wall onto the white floor and the box faces; the emissive ceiling panel lit; soft indirect lighting filling the box; soft contact shadows under the two boxes; characteristic Monte-Carlo grain. AC#1 satisfied.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented the PathTrace Monte Carlo global-illumination tracer (Suffern ch. 26). Completed the previously-STUBBED (throwing) Lambertian.sampleF as cosine-weighted hemisphere sampling: builds an orthonormal basis from the normal, maps a cos-density hemisphere sample, returns wi (n·wi=cosθ>=0), f=cd*kd/PI, and pdf=cosθ/PI (reviewer verified the math, no GI bias). Added an ADDITIVE IMaterial.pathShade (default Color.BLACK) overridden in Matte (indirect diffuse bounce estimator f*trace(reflected,depth+1)*(n·wi)/pdf, guarding n·wi<=0/pdf<=0/null tracer) and Emissive (front-face Le so emissive surfaces act as lights). Registered PATH_TRACE in the Tracers enum — auto-exposed via the Clikt --tracer choice (built from Tracers.entries; render logs 'Using tracer PATH_TRACE'). PathTrace averages N independent paths per pixel at depth 0 (default 100) — a documented adaptation since the pipeline wires SimpleSingleRayRenderer (1 primary ray/pixel, no AA); the averaging is fully internal to PathTrace, leaving other tracers/pipeline untouched. AC1-4 all met. AC#1: reviewer independently rendered CornellBox.kt at 480p (16.3s, 937KB PNG) confirming unmistakable GI — green bleeding from the left wall + red from the right onto the white floor/boxes, lit emissive ceiling panel, soft indirect fill, soft contact shadows, Monte-Carlo grain. Cover-first: LambertianSampleFTest (hemisphere membership incl. tilted normal, exact pdf=cosθ/PI, constant BRDF color, deterministic statistical E[cosθ]≈2/3 with documented tolerance — NOT a flaky Monte-Carlo test), MattePathShadeTest, EmissivePathShadeTest, PathTraceTest (estimator, emissive front-face contract, tracer plumbing, depth termination — all hand-written fakes, no mocks). pathShade additive: existing materials get the BLACK default, all direct-lighting tracers (Whitted/AreaLighting/etc.) never call it — all pre-existing tests pass unchanged. The ONE retired frozen pin (BrdfUnsupportedOperationTest's Lambertian.sampleF 'not supported' assertion) is exactly what AC#3 implements — task-mandated behavior change, not a dodge; the other 3 BRDF/BTDF unsupported pins + MatteTest equality are intact (sampler kept out of Lambertian data-class identity to preserve equality). detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 95cce75. Optional follow-up (NIT): PathTrace numSamples (100) is hardcoded — a future --samples CLI knob would ease quality/speed iteration. GlobalTrace variant not added (out of scope; PathTrace satisfies all ACs).
+<!-- SECTION:FINAL_SUMMARY:END -->
