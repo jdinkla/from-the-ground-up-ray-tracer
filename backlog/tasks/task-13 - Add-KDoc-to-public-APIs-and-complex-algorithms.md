@@ -1,9 +1,11 @@
 ---
 id: TASK-13
 title: Add KDoc to public APIs and complex algorithms
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:12'
+updated_date: '2026-06-22 12:59'
 labels:
   - docs
 dependencies: []
