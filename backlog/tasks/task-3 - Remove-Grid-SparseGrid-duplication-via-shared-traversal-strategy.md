@@ -25,10 +25,12 @@ Grid.kt and SparseGrid.kt share nearly identical hit() and initialize() logic, s
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Shared traversal/initialization logic lives in one place reused by both Grid and SparseGrid
-- [ ] #2 Dense vs sparse cell storage is the only divergent concern
-- [ ] #3 All acceleration-structure tests pass
+- [x] #1 Shared traversal/initialization logic lives in one place reused by both Grid and SparseGrid
+- [x] #2 Dense vs sparse cell storage is the only divergent concern
+- [x] #3 All acceleration-structure tests pass
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
