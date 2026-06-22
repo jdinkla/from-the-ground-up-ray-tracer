@@ -30,10 +30,14 @@ KDTree.hit wraps the caller's hit record in a fresh Hit(sr) copy and discards th
 - [x] #4 The TASK-4/6 KDTreeBuilderTest characterization assertions that pinned the discard behavior are updated to assert the corrected write-back behavior; full suite + detekt green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 1. Fix KDTree.hit: keep Hit(sr) seed (carries the t cap into node traversal), then on success write h.t/normal/geometricObject back into the caller's sr via the IHit var setters (no cast needed). 2. Verify KDTree.shadowHit now propagates: existing 'val h = Hit(tmin.t); hit(ray,h); tmin.t = h.t' works once hit() writes back; rewrite the stale 'Known divergence' KDoc on KDTree.shadowHit and update IGeometricObject.shadowHit KDoc to drop the KDTree-divergence wording. 3. Update TASK-4/6 KDTreeBuilderTest: change the KDTree-wrapper-level assertions that pinned discard to assert write-back (KDTree.hit propagates t/object/normal; KDTree.shadowHit writes back distance). Node-level and TestBuilder TASK-4 pins stay (unrelated to this fix). 4. Add new KDTree-level tests: kdtree.hit writes closest sr.t/object/normal; kdtree.shadowHit writes back distance so inShadow-style d-check identifies occluder within d and rejects beyond d. 5. AC#3: render World75 (fix its 'Does not work' state) and confirm objects+shadows; coverage-excluded -> manual verify. 6. just test green incl detekt.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Fix landed: KDTree.hit now seeds a local Hit(sr) (carries the t cap into node traversal) and on success writes h.t/h.normal/h.geometricObject back into the caller's sr via the IHit var setters (no cast needed). shadowHit's existing tmin.t=h.t now propagates the real occluder distance. Rewrote the stale 'Known divergence' KDoc on KDTree.shadowHit; IGeometricObject.shadowHit KDoc never named KDTree (it references Grid generically) so left as-is. Updated KDTreeBuilderTest wrapper-level tests to assert write-back + inShadow d-check; node-level and TASK-4 TestBuilder pins unchanged. KDTreeBuilderTest green.
+<!-- SECTION:NOTES:END -->
