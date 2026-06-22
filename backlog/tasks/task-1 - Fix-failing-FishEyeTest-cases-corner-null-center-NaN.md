@@ -4,8 +4,10 @@ title: Fix failing FishEyeTest cases (corner null + center NaN)
 status: To Do
 assignee: []
 created_date: '2026-06-22 09:05'
+updated_date: '2026-06-22 09:12'
 labels: []
 dependencies: []
+priority: high
 ordinal: 1000
 ---
 
