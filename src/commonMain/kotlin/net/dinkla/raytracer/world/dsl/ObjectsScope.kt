@@ -1,14 +1,20 @@
 package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.AlignedBox
+import net.dinkla.raytracer.objects.Annulus
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.Instance
+import net.dinkla.raytracer.objects.OpenCone
 import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.objects.PartCylinder
+import net.dinkla.raytracer.objects.PartSphere
+import net.dinkla.raytracer.objects.PartTorus
 import net.dinkla.raytracer.objects.Plane
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.objects.SmoothTriangle
@@ -23,6 +29,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.utilities.Ply
 
@@ -88,6 +95,67 @@ class ObjectsScope(
         radius: Double = 0.0,
         normal: Normal = Normal.UP,
     ) = Disk(center, radius, normal).add(material)
+
+    /**
+     * Adds a flat ring (annulus) centred at [center] facing [normal], spanning radii
+     * [innerRadius]..[outerRadius] (the hole has radius [innerRadius]).
+     */
+    fun annulus(
+        material: String,
+        center: Point3D = Point3D.ORIGIN,
+        innerRadius: Double = 0.0,
+        outerRadius: Double = 1.0,
+        normal: Normal = Normal.UP,
+    ) = Annulus(center, innerRadius, outerRadius, normal).add(material)
+
+    /**
+     * Adds an open cone (lateral surface only) with base radius [radius] at `y = 0` and apex at
+     * `(0, height, 0)`.
+     */
+    fun openCone(
+        material: String,
+        height: Double = 1.0,
+        radius: Double = 1.0,
+    ) = OpenCone(height, radius).add(material)
+
+    /**
+     * Adds a part-cylinder: an open cylinder of [radius] spanning y-range [y0]..[y1] restricted to
+     * the azimuth wedge [phiMin]..[phiMax] (radians).
+     */
+    fun partCylinder(
+        material: String,
+        y0: Double = 0.0,
+        y1: Double = 1.0,
+        radius: Double = 1.0,
+        phiMin: Double = 0.0,
+        phiMax: Double = 2.0 * MathUtils.PI,
+    ) = PartCylinder(y0, y1, radius, phiMin, phiMax).add(material)
+
+    /**
+     * Adds a part-sphere of [radius] centred at [center] restricted to the azimuth wedge
+     * [phiMin]..[phiMax] and the polar band [thetaMin]..[thetaMax] (all radians).
+     */
+    fun partSphere(
+        material: String,
+        center: Point3D = Point3D.ORIGIN,
+        radius: Double = 1.0,
+        phiMin: Double = 0.0,
+        phiMax: Double = 2.0 * MathUtils.PI,
+        thetaMin: Double = 0.0,
+        thetaMax: Double = MathUtils.PI,
+    ) = PartSphere(center, radius, phiMin, phiMax, thetaMin, thetaMax).add(material)
+
+    /**
+     * Adds a part-torus with sweep radius [a] and tube radius [b] restricted to the azimuth wedge
+     * [phiMin]..[phiMax] (radians).
+     */
+    fun partTorus(
+        material: String,
+        a: Double = 1.0,
+        b: Double = 1.0,
+        phiMin: Double = 0.0,
+        phiMax: Double = 2.0 * MathUtils.PI,
+    ) = PartTorus(a, b, phiMin, phiMax).add(material)
 
     /**
      * Collects the objects declared in [block] into a uniform [Grid] acceleration structure, which is
@@ -178,6 +246,16 @@ class ObjectsScope(
         a: Vector3D = Vector3D.RIGHT,
         b: Vector3D = Vector3D.UP,
     ) = Rectangle(p0, a, b).add(material)
+
+    /**
+     * Adds a closed (solid) cone with base radius [radius] at `y = 0`, apex at `(0, height, 0)`,
+     * capped by a base disk.
+     */
+    fun solidCone(
+        material: String,
+        height: Double = 1.0,
+        radius: Double = 1.0,
+    ) = SolidCone(height, radius).add(material)
 
     /** Adds a closed (capped) cylinder of the given [radius] spanning the y-range [y0]..[y1]. */
     fun solidCylinder(

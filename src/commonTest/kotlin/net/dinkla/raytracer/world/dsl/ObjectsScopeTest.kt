@@ -10,9 +10,14 @@ import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.AlignedBox
+import net.dinkla.raytracer.objects.Annulus
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.Instance
+import net.dinkla.raytracer.objects.OpenCone
 import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.objects.PartCylinder
+import net.dinkla.raytracer.objects.PartSphere
+import net.dinkla.raytracer.objects.PartTorus
 import net.dinkla.raytracer.objects.Plane
 import net.dinkla.raytracer.objects.Rectangle
 import net.dinkla.raytracer.objects.SmoothTriangle
@@ -24,6 +29,7 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 
@@ -196,6 +202,129 @@ internal class ObjectsScopeTest :
             scope.objects.size shouldBe 1
             scope.objects[0].shouldBeInstanceOf<SolidCylinder>()
             scope.objects[0] as SolidCylinder shouldBe expected
+        }
+
+        "should handle annulus" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                Annulus(somePoint, 1.0, someRadius, someNormal).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.annulus(
+                material = someMaterialId,
+                center = somePoint,
+                innerRadius = 1.0,
+                outerRadius = someRadius,
+                normal = someNormal,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<Annulus>()
+            scope.objects[0] as Annulus shouldBe expected
+        }
+
+        "should handle openCone" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                OpenCone(y1, someRadius).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.openCone(material = someMaterialId, height = y1, radius = someRadius)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<OpenCone>()
+            scope.objects[0] as OpenCone shouldBe expected
+        }
+
+        "should handle solidCone" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                SolidCone(y1, someRadius).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.solidCone(material = someMaterialId, height = y1, radius = someRadius)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<SolidCone>()
+            scope.objects[0] as SolidCone shouldBe expected
+        }
+
+        "should handle partSphere" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                PartSphere(somePoint, someRadius, 0.1, 1.2, 0.3, 1.4).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.partSphere(
+                material = someMaterialId,
+                center = somePoint,
+                radius = someRadius,
+                phiMin = 0.1,
+                phiMax = 1.2,
+                thetaMin = 0.3,
+                thetaMax = 1.4,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<PartSphere>()
+            scope.objects[0] as PartSphere shouldBe expected
+        }
+
+        "should handle partCylinder" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                PartCylinder(y0, y1, someRadius, 0.1, 1.2).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.partCylinder(
+                material = someMaterialId,
+                y0 = y0,
+                y1 = y1,
+                radius = someRadius,
+                phiMin = 0.1,
+                phiMax = 1.2,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<PartCylinder>()
+            scope.objects[0] as PartCylinder shouldBe expected
+        }
+
+        "should handle partTorus" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                PartTorus(y0, y1, 0.1, 1.2).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.partTorus(material = someMaterialId, a = y0, b = y1, phiMin = 0.1, phiMax = 1.2)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<PartTorus>()
+            scope.objects[0] as PartTorus shouldBe expected
         }
 
         "should handle box" {
