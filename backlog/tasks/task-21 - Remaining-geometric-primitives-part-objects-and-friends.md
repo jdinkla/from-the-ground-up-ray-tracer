@@ -1,9 +1,11 @@
 ---
 id: TASK-21
 title: Remaining geometric primitives (part objects and friends)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:41'
+updated_date: '2026-06-22 17:25'
 labels:
   - enhancement
   - book-parity
