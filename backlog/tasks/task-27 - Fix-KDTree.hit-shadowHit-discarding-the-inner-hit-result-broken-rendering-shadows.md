@@ -30,8 +30,6 @@ KDTree.hit wraps the caller's hit record in a fresh Hit(sr) copy and discards th
 - [x] #4 The TASK-4/6 KDTreeBuilderTest characterization assertions that pinned the discard behavior are updated to assert the corrected write-back behavior; full suite + detekt green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -42,4 +40,6 @@ KDTree.hit wraps the caller's hit record in a fresh Hit(sr) copy and discards th
 
 <!-- SECTION:NOTES:BEGIN -->
 Fix landed: KDTree.hit now seeds a local Hit(sr) (carries the t cap into node traversal) and on success writes h.t/h.normal/h.geometricObject back into the caller's sr via the IHit var setters (no cast needed). shadowHit's existing tmin.t=h.t now propagates the real occluder distance. Rewrote the stale 'Known divergence' KDoc on KDTree.shadowHit; IGeometricObject.shadowHit KDoc never named KDTree (it references Grid generically) so left as-is. Updated KDTreeBuilderTest wrapper-level tests to assert write-back + inShadow d-check; node-level and TASK-4 TestBuilder pins unchanged. KDTreeBuilderTest green.
+
+AC#3 render-verified (examples are coverage-excluded -> manual verify). Command: ./gradlew run --args="--world=World75.kt --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p". Output ../20260622155521_World75.png: the 3x3x3 phong-sphere lattice renders correctly with specular highlights, correct front-to-back occlusion, and inter-sphere shadows. Counters confirm shadow rays now traverse the KDTree (KDTree.shadowHit=276966 == Compound.inShadow=276966). Updated World75 description from 'Does not work' to an accurate one.
 <!-- SECTION:NOTES:END -->
