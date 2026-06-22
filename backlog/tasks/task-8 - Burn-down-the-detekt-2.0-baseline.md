@@ -1,9 +1,11 @@
 ---
 id: TASK-8
 title: Burn down the detekt 2.0 baseline
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 11:46'
 labels:
   - quality
   - tooling
