@@ -1,11 +1,11 @@
 ---
 id: TASK-30
 title: Wire SampledSingleRayRenderer so anti-aliasing and DoF blur actually render
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 19:39'
-updated_date: '2026-06-22 21:24'
+updated_date: '2026-06-22 21:31'
 labels:
   - bug
   - renderer
@@ -61,3 +61,9 @@ AC#3 Depth-of-field: rendered DepthOfFieldDemo.kt (thinLensCamera f=74, lensRadi
 
 just test (./gradlew clean check, incl detekt): GREEN. New files detekt-clean, no baseline entries added (baseline unchanged in git).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Wired the previously-dead SampledSingleRayRenderer into the pipeline as an OPT-IN, additive feature so anti-aliasing and thin-lens depth-of-field actually render. Added ViewPlane.numSamples (default 1) + a samples(n) DSL setter on WorldScope; Context.adapt now builds SampledSingleRayRenderer (driven by the view-plane sample count + an NRooks in-pixel sampler) when numSamples > 1, and the unchanged SimpleSingleRayRenderer(world.camera.lens, tracer) otherwise. Fixed SampledSingleRayRenderer's hardcoded numSamples=1 (now constructor-driven). AC1-4 all met. AC#2 byte-identical: numSamples defaults to 1, the single-sample branch is the unchanged Simple call, and no existing scene calls samples() — reviewer confirmed via diff that SimpleSingleRayRenderer/all lenses/all existing scenes are untouched (only ViewPlane/Context/SampledSingleRayRenderer/WorldScope changed) and the full suite passes unchanged. AC#1 selection pinned by ContextTest (both branches by instance type + a CountingTracer proving exactly numSamples rays cast). AC#4 averaging pinned by SampledSingleRayRendererTest (constant->exact color, exactly N traces, per-sample-varying mean pins the /N, rejects numSamples<=0; deterministic CountingLens fake). AC#2/#3 VISIBLE effects verified by both implementer and reviewer via rendered demos: AntiAliasingDemo (16 spp) vs single-sample twin — visibly smoother sphere silhouette (75,962B vs 65,730B PNG); DepthOfFieldDemo (thinLens f=74, lensRadius 0.6, 64 spp) vs sharp control — focal-plane green box sharp while near/far boxes show bokeh blur (172,044B vs 6,809B), verifying TASK-26's DoF end-to-end (which previously could not render blur). detekt clean, no baseline entries. Verified via just test (incl. ContextTest 5/5, SampledSingleRayRendererTest 4/4, detekt) BUILD SUCCESSFUL. Committed as 2b60a61. THIRD latent bug discovered + filed (TASK-31, Medium): Sampler.sampleUnitSquare throws IndexOutOfBounds for non-square sample counts with the sqrt-based generators (MultiJittered/Jittered/Regular), and MultiJittered also when numSets > sqrt(numSamples) — reviewer independently confirmed via probe; sidestepped here with NRooks (index-safe), root-cause fix tracked in TASK-31.
+<!-- SECTION:FINAL_SUMMARY:END -->
