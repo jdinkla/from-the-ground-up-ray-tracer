@@ -3,9 +3,11 @@ id: TASK-27
 title: >-
   Fix KDTree.hit/shadowHit discarding the inner hit result (broken rendering +
   shadows)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 15:49'
+updated_date: '2026-06-22 15:52'
 labels:
   - bug
   - acceleration
