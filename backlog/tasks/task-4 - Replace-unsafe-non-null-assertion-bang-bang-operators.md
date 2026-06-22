@@ -1,9 +1,11 @@
 ---
 id: TASK-4
 title: Replace unsafe non-null assertion (bang-bang) operators
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 10:57'
 labels:
   - reliability
   - refactor
