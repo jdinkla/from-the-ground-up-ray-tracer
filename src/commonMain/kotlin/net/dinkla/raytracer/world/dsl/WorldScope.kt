@@ -178,6 +178,17 @@ class WorldScope {
         stereoCamera = StereoCamera(eye, lookAt, up, separation, mode, viewing, d)
     }
 
+    /**
+     * Sets the per-pixel sample count for anti-aliasing. The default of `1` casts a single ray
+     * through each pixel centre (no anti-aliasing — every existing scene's historical behaviour);
+     * values `> 1` cast that many jittered samples per pixel and average them, smoothing edges and —
+     * with a [thinLensCamera] — making depth-of-field blur visible. [n] must be positive.
+     */
+    fun samples(n: Int) {
+        require(n > 0) { "samples must be positive, was $n" }
+        viewPlane.numSamples = n
+    }
+
     /** Sets a uniform [Ambient] ambient light of the given [color] scaled by intensity [ls]. */
     fun ambientLight(
         color: Color = Color.WHITE,
