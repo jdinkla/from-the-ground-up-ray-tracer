@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 15:49'
-updated_date: '2026-06-22 15:52'
+updated_date: '2026-06-22 15:53'
 labels:
   - bug
   - acceleration
@@ -29,3 +29,9 @@ KDTree.hit wraps the caller's hit record in a fresh Hit(sr) copy and discards th
 - [ ] #3 A KDTree-accelerated scene (fix or replace World75) renders correctly and casts correct shadows, verified by rendering
 - [ ] #4 The TASK-4/6 KDTreeBuilderTest characterization assertions that pinned the discard behavior are updated to assert the corrected write-back behavior; full suite + detekt green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Fix KDTree.hit: keep Hit(sr) seed (carries the t cap into node traversal), then on success write h.t/normal/geometricObject back into the caller's sr via the IHit var setters (no cast needed). 2. Verify KDTree.shadowHit now propagates: existing 'val h = Hit(tmin.t); hit(ray,h); tmin.t = h.t' works once hit() writes back; rewrite the stale 'Known divergence' KDoc on KDTree.shadowHit and update IGeometricObject.shadowHit KDoc to drop the KDTree-divergence wording. 3. Update TASK-4/6 KDTreeBuilderTest: change the KDTree-wrapper-level assertions that pinned discard to assert write-back (KDTree.hit propagates t/object/normal; KDTree.shadowHit writes back distance). Node-level and TestBuilder TASK-4 pins stay (unrelated to this fix). 4. Add new KDTree-level tests: kdtree.hit writes closest sr.t/object/normal; kdtree.shadowHit writes back distance so inShadow-style d-check identifies occluder within d and rejects beyond d. 5. AC#3: render World75 (fix its 'Does not work' state) and confirm objects+shadows; coverage-excluded -> manual verify. 6. just test green incl detekt.
+<!-- SECTION:PLAN:END -->
