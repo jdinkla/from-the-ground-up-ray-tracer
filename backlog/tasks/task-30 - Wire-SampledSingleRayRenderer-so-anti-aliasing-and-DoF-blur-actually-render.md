@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 19:39'
-updated_date: '2026-06-22 21:12'
+updated_date: '2026-06-22 21:18'
 labels:
   - bug
   - renderer
@@ -39,3 +39,15 @@ Discovered during TASK-26: Context.adapt() always builds SimpleSingleRayRenderer
 5. just test green (incl detekt, no baseline entries).
 6. Manual: AA demo scene (hard sphere edge, numSamples=16) + DoF demo (thinLensCamera high samples) -> render, observe smooth edges + blur. Confirm numSamples=1 render byte-identical.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented: ViewPlane.numSamples (var, default 1) + samples(n) DSL setter on WorldScope. Context.adapt now selects SampledSingleRayRenderer when viewPlane.numSamples>1, else SimpleSingleRayRenderer (single-sample branch unchanged -> byte-identical default scenes).
+
+Fixed SampledSingleRayRenderer: removed hardcoded numSamples=1 and the Sampler(MultiJittered,2500,10); now takes numSamples + index-safe in-pixel Sampler(NRooks) via constructor and casts exactly numSamples jittered rays/pixel, averaging via ColorAccumulator.
+
+LATENT BUG FOUND (root cause the dead renderer never worked): Sampler.sampleUnitSquare indexes assuming numSamples*numSets points, but the sqrt-based generators (MultiJittered/Jittered/Regular) only generate floor(sqrt(numSamples))^2*numSets points -> IndexOutOfBounds for any non-square numSamples; MultiJittered additionally throws whenever numSets>sqrt(numSamples) (its index math uses p*numSets instead of p*n*n). Proven by probe across generators x counts x sets. Only NRooks and PureRandom are index-safe for arbitrary numSamples. Chose NRooks (stratified n-rooks) as the renderer's default in-pixel sampler. Did NOT rewrite MultiJittered (out of scope); documented the constraint in the renderer KDoc.
+
+Tests: ContextTest (selection 1->Simple, default->Simple, >1->Sampled; wired numSamples drives exact trace count; single-sample traces once). SampledSingleRayRendererTest (constant tracer averages back to colour; exactly numSamples traces; per-sample-varying mean = ((N-1)/2)/100 pins the /N; rejects non-positive). Existing RendererTest unchanged.
+<!-- SECTION:NOTES:END -->
