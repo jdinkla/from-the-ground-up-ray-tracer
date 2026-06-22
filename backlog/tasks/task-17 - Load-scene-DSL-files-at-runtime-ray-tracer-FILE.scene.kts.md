@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:21'
-updated_date: '2026-06-22 16:34'
+updated_date: '2026-06-22 16:38'
 labels:
   - enhancement
 dependencies: []
@@ -44,3 +44,9 @@ Tradeoffs to accept/note: fat jar grows ~tens of MB (embedded compiler); first-r
 7. jvmTest (Kotest StringSpec): FileWorldDefinition(path).world() => asserts World contents (camera/objects/materials); broken scene => SceneScriptException with file+message; SceneResolver: existing path => FileWorldDefinition, unknown non-file id => fails fast, known worldMap id => existing def.
 8. just test green + detekt clean (no baseline). Manual: gradlew run --world=<sample> renders PNG; unknown non-file id fails fast; worldMap id still renders. Measure fat-jar size delta + first-run latency.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented: build.gradle.kts adds kotlin scripting-common/jvm/jvm-host (resolve to 2.3.0). SceneScript (@KotlinScript .scene.kts) with implicitReceivers(WorldScope) + defaultImports(Color/Point3D/Normal/Vector3D) + dependenciesFromCurrentContext(wholeClasspath). FileWorldDefinition(path) evals via BasicJvmScriptingHost against a fresh WorldScope, returns scope.world; failures -> typed SceneScriptException(file, diagnostics) with file+severity+line+message. SceneResolver.resolveWorld(id): existing file -> FileWorldDefinition else requireWorldDef(id, worldMap). Render.render(String,...) gained resolveWorld param (default ::requireWorldDef = unchanged worldMap behavior); Main passes SceneResolver. CommandLine --world relaxed from .choice() to a default+validate that accepts known id OR existing file, else fails fast listing scenes; pure predicate isAcceptableWorldArg(value, ids, fileExists). Sample at scenes/Sample.scene.kts. Tests pass: FileWorldDefinitionTest (load-from-file world contents + fresh-each-call + broken-file SceneScriptException), SceneResolverTest (file->FileWorldDefinition, known id->existing def, unknown non-file->fail-fast), CommandLineTest (isAcceptableWorldArg). AC#1-5 met. Next: full just test + detekt + manual CLI render.
+<!-- SECTION:NOTES:END -->
