@@ -1,11 +1,11 @@
 ---
 id: TASK-13
 title: Add KDoc to public APIs and complex algorithms
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 13:09'
+updated_date: '2026-06-22 13:13'
 labels:
   - docs
 dependencies: []
@@ -57,3 +57,9 @@ Complex algorithms (AC#2):
 
 Verified: 'just test' (= ./gradlew clean check, includes detekt) BUILD SUCCESSFUL. Kept all KDoc lines <=120 (detekt MaxLineLength applies to comments). Pre-existing Unchecked-cast warnings in PlyReader.kt and GridStructuresTest.kt are unrelated (those files not touched).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added KDoc across the public APIs and complex algorithms (comments-only; 394 insertions, 0 code changes — reviewer mechanically confirmed every added line is a comment). AC#1: public interfaces (IGeometricObject, ILens, Tracer, WorldDefinition) and all six DSL scopes (WorldScope/LightsScope/MaterialsScope/ObjectsScope/InstanceScope/MetadataScope) with their entry-point blocks (camera, ambientLight, lights, materials, objects, metadata, declarers, grid/kdtree/instance/ply nesting) carry KDoc. AC#2: Polynomials solvers, the acceleration structures (Grid 3D-DDA/Amanatides-Woo via GridTraversal, KDTree + Node/InnerNode/Leaf + all builders), and the lens math (AbstractLens/Pinhole/ThinLens/FishEye/Spherical) documented. KDoc describes CURRENT post-refactor behavior accurately (this session refactored Grid/SparseGrid/Polynomials/IGeometricObject) — existing TASK-10 hook KDoc left intact, no duplication/contradiction. Notably documented two latent quirks faithfully: ThinLens is a STUB (ignores pixel coords/sample/f/d/sampler, returns a fixed pm(1,1,1) ray — does NOT implement depth-of-field) and Simple2Builder's split=mid.z (stored/logged split is always the z-midpoint while the partition uses the winning axis). Reviewer spot-checked accuracy against Basis.pm sign convention and the refactored code — all passed; the one NIT (a sign error in the FishEye class KDoc, +cos(psi)*w) was corrected to -cos(psi)*w before commit. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 8cb4171.
+<!-- SECTION:FINAL_SUMMARY:END -->
