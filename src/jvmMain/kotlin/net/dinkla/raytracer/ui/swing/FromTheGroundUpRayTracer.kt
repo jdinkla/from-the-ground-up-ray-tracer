@@ -141,10 +141,14 @@ class FromTheGroundUpRayTracer :
         when (e.actionCommand) {
             "About" -> about(frame)
             "Quit" -> quit(frame)
-            else -> throw RuntimeException("Unknown Command")
+            else -> throw IllegalStateException("Unknown action command: ${e.actionCommand}")
         }
     }
 
+    // Broad catch is intentional at this Swing action boundary: a scene render can fail in many
+    // unrelated ways (IO, arithmetic, scene-config), and an uncaught exception inside the coroutine
+    // would crash silently. We surface every failure to the user via a dialog and the log.
+    @Suppress("TooGenericExceptionCaught")
     private fun render(file: File) {
         log(file, "render")
         val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].creator, resolution)
@@ -170,6 +174,9 @@ class FromTheGroundUpRayTracer :
         }
     }
 
+    // Broad catch is intentional at this Swing action boundary (see render); we log and surface the
+    // failure to the user instead of letting it escape the coroutine unhandled.
+    @Suppress("TooGenericExceptionCaught")
     private fun png(file: File) {
         log(file, "png")
         val context = Context(tracers[selectedTracer].create, renderers[selectedRenderer].creator, resolution)
@@ -180,6 +187,7 @@ class FromTheGroundUpRayTracer :
                     film.save("../" + outputPngFileName(file.name))
                     dialog(pngMessage, pngTitle, JOptionPane.INFORMATION_MESSAGE)
                 } catch (e: Exception) {
+                    Logger.error(e.stackTraceToString())
                     dialog(e.message, "Exception occurred", JOptionPane.ERROR_MESSAGE)
                 }
             }

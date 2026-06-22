@@ -93,7 +93,8 @@ class Transparent : Phong {
                 a.specularBRDF == b.specularBRDF
         }
 
-    override fun hashCode(): Int = Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
+    override fun hashCode(): Int =
+        Objects.hash(super.diffuseBRDF, super.ambientBRDF, specularBRDF, reflectiveBRDF, specularBTDF)
 
     override fun toString() = "Transparent(${super.toString()}, $reflectiveBRDF, $specularBTDF)"
 }

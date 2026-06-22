@@ -9,7 +9,7 @@ class RayCast(
     var world: IWorld,
 ) : Tracer {
     init {
-        throw RuntimeException("DO NOT USE")
+        throw UnsupportedOperationException("RayCast tracer is deprecated and must not be used")
     }
 
     override fun trace(

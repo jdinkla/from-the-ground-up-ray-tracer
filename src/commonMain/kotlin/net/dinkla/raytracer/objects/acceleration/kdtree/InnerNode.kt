@@ -263,7 +263,8 @@ class InnerNode(
 
     override fun size(): Int = left.size() + right.size()
 
-    override fun toString(): String = ("Node ${size()} [ ${left.size()}, ${right.size()}] $boundingBox $split\n($left)\n($right)")
+    override fun toString(): String =
+        "Node ${size()} [ ${left.size()}, ${right.size()}] $boundingBox $split\n($left)\n($right)"
 
     override fun printBBoxes(incr: Int): String =
         buildString {

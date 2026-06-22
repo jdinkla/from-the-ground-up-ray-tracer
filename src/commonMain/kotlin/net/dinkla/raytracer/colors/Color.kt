@@ -19,17 +19,17 @@ data class Color(
     fun pow(s: Double) = Color(red.pow(s), green.pow(s), blue.pow(s))
 
     fun toInt(): Int {
-        val r = (red * 255).toInt()
-        val g = (green * 255).toInt()
-        val b = (blue * 255).toInt()
-        return (r shl 16) or (g shl 8) or b
+        val r = (red * MAX_CHANNEL).toInt()
+        val g = (green * MAX_CHANNEL).toInt()
+        val b = (blue * MAX_CHANNEL).toInt()
+        return (r shl SHIFT_BYTE_2) or (g shl SHIFT_BYTE_1) or b
     }
 
     fun toRgba(): Int {
-        val r = (red * 255).toInt()
-        val g = (green * 255).toInt()
-        val b = (blue * 255).toInt()
-        return (255 shl 24) or (b shl 16) or (g shl 8) or r
+        val r = (red * MAX_CHANNEL).toInt()
+        val g = (green * MAX_CHANNEL).toInt()
+        val b = (blue * MAX_CHANNEL).toInt()
+        return (MAX_CHANNEL shl SHIFT_BYTE_3) or (b shl SHIFT_BYTE_2) or (g shl SHIFT_BYTE_1) or r
     }
 
     fun clamp(): Color =
@@ -50,6 +50,17 @@ data class Color(
     override fun toString(): String = "Color($red,$green,$blue)"
 
     companion object {
+        /** Maximum value of an 8-bit colour channel (0..255). */
+        private const val MAX_CHANNEL = 255
+
+        /** [MAX_CHANNEL] as a Double, used to map a normalized channel (0.0..1.0) to/from 0..255. */
+        private const val MAX_CHANNEL_DOUBLE = 255.0
+
+        // Bit positions of the four packed colour bytes in a 32-bit integer.
+        private const val SHIFT_BYTE_1 = 8
+        private const val SHIFT_BYTE_2 = 16
+        private const val SHIFT_BYTE_3 = 24
+
         val BLACK = Color(0.0, 0.0, 0.0)
         val RED = Color(1.0, 0.0, 0.0)
         val GREEN = Color(0.0, 1.0, 0.0)
@@ -58,9 +69,9 @@ data class Color(
         val YELLOW = Color(1.0, 1.0, 0.0)
 
         fun fromInt(rgb: Int): Color {
-            val r: Double = (rgb and 0x00ff0000 shr 16) / 255.0
-            val g: Double = (rgb and 0x0000ff00 shr 8) / 255.0
-            val b: Double = (rgb and 0x000000ff) / 255.0
+            val r: Double = (rgb and 0x00ff0000 shr SHIFT_BYTE_2) / MAX_CHANNEL_DOUBLE
+            val g: Double = (rgb and 0x0000ff00 shr SHIFT_BYTE_1) / MAX_CHANNEL_DOUBLE
+            val b: Double = (rgb and 0x000000ff) / MAX_CHANNEL_DOUBLE
             return Color(r, g, b)
         }
 
@@ -68,7 +79,7 @@ data class Color(
             fun convert(s: Int): Double {
                 val hex = rgb.substring(s, s + 2)
                 val dec = hex.toLong(radix = 16)
-                return dec / 255.0
+                return dec / MAX_CHANNEL_DOUBLE
             }
             val rf = convert(0)
             val gf = convert(2)
@@ -80,7 +91,7 @@ data class Color(
             red: Int,
             green: Int,
             blue: Int,
-        ) = Color(red / 255.0, green / 255.0, blue / 255.0)
+        ) = Color(red / MAX_CHANNEL_DOUBLE, green / MAX_CHANNEL_DOUBLE, blue / MAX_CHANNEL_DOUBLE)
     }
 }
 

@@ -19,11 +19,6 @@
     <ID>MagicNumber:Axis.kt:Axis.Companion$3</ID>
     <ID>MagicNumber:BeveledBox.kt:BeveledBox$90.0</ID>
     <ID>MagicNumber:Camera.kt:Camera$10.0</ID>
-    <ID>MagicNumber:Color.kt:Color$16</ID>
-    <ID>MagicNumber:Color.kt:Color$24</ID>
-    <ID>MagicNumber:Color.kt:Color$255</ID>
-    <ID>MagicNumber:Color.kt:Color$8</ID>
-    <ID>MagicNumber:Color.kt:Color.Companion$255.0</ID>
     <ID>MagicNumber:EnvironmentLight.kt:EnvironmentLight$0.0034</ID>
     <ID>MagicNumber:EnvironmentLight.kt:EnvironmentLight$0.0071</ID>
     <ID>MagicNumber:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$10</ID>
@@ -51,8 +46,6 @@
     <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_4320$4320</ID>
     <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_480$480</ID>
     <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_720$720</ID>
-    <ID>MagicNumber:SampledSingleRayRenderer.kt:SampledSingleRayRenderer$10</ID>
-    <ID>MagicNumber:SampledSingleRayRenderer.kt:SampledSingleRayRenderer$2500</ID>
     <ID>MagicNumber:Sampler.kt:Sampler$4</ID>
     <ID>MagicNumber:Sampler.kt:Sampler$4.0</ID>
     <ID>MagicNumber:Sampler.kt:Sampler$6</ID>
@@ -65,15 +58,9 @@
     <ID>MagicNumber:WorldScope.kt:WorldScope$255.0</ID>
     <ID>MagicNumber:WorldScope.kt:WorldScope$5.0</ID>
     <ID>MagicNumber:WorldScope.kt:WorldScope$50.0</ID>
-    <ID>MaxLineLength:InnerNode.kt:InnerNode$override fun toString: String</ID>
-    <ID>MaxLineLength:Transparent.kt:Transparent$override fun hashCode: Int</ID>
     <ID>NestedBlockDepth:Grid.kt:Grid$override fun initialize</ID>
     <ID>NestedBlockDepth:Matte.kt:Matte$override fun areaLightShade: Color</ID>
     <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun initialize</ID>
-    <ID>PrintStackTrace:AppProperties.kt:AppProperties$e</ID>
-    <ID>PrintStackTrace:ParallelRenderer.kt:ParallelRenderer$e</ID>
-    <ID>PrintStackTrace:ParallelRenderer.kt:ParallelRenderer.Worker$e</ID>
-    <ID>PrintStackTrace:Png.kt:e</ID>
     <ID>ReturnCount:FlatMeshTriangle.kt:FlatMeshTriangle$override fun hit: Boolean</ID>
     <ID>ReturnCount:Grid.kt:Grid$override fun hit: Boolean</ID>
     <ID>ReturnCount:InnerNode.kt:InnerNode$private fun hitRec: Boolean</ID>
@@ -93,19 +80,6 @@
     <ID>ReturnCount:Triangle.kt:Triangle$override fun hit: Boolean</ID>
     <ID>ReturnCount:Triangle.kt:Triangle$override fun shadowHit: Shadow</ID>
     <ID>ReturnCount:Whitted.kt:Whitted$override fun trace: Color</ID>
-    <ID>TooGenericExceptionCaught:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$e: Exception</ID>
-    <ID>TooGenericExceptionThrown:AreaLight.kt:AreaLight$throw RuntimeException("AreaLight needs AreaLighting Tracer")</ID>
-    <ID>TooGenericExceptionThrown:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$throw RuntimeException("Unknown Command")</ID>
-    <ID>TooGenericExceptionThrown:GlossySpecular.kt:GlossySpecular$throw RuntimeException("GlossySpecular.rho")</ID>
-    <ID>TooGenericExceptionThrown:Lambertian.kt:Lambertian$throw RuntimeException("Lambertian.sampleF")</ID>
-    <ID>TooGenericExceptionThrown:ParallelRenderer.kt:ParallelRenderer$throw RuntimeException("viewPlane.vres % numThreads != 0")</ID>
-    <ID>TooGenericExceptionThrown:PerfectSpecular.kt:PerfectSpecular$throw RuntimeException("PerfectSpecular.f")</ID>
-    <ID>TooGenericExceptionThrown:PerfectSpecular.kt:PerfectSpecular$throw RuntimeException("PerfectSpecular.rho")</ID>
-    <ID>TooGenericExceptionThrown:PerfectTransmitter.kt:PerfectTransmitter$throw RuntimeException("PerfectTransmitter.f")</ID>
-    <ID>TooGenericExceptionThrown:PerfectTransmitter.kt:PerfectTransmitter$throw RuntimeException("PerfectTransmitter.rho")</ID>
-    <ID>TooGenericExceptionThrown:PlyReader.kt:PlyReader$throw RuntimeException("Not enough elements in line $numLine")</ID>
-    <ID>TooGenericExceptionThrown:PlyReader.kt:PlyReader$throw RuntimeException("Unknown file format in line $numLine: `$line`")</ID>
-    <ID>TooGenericExceptionThrown:RayCast.kt:RayCast$throw RuntimeException("DO NOT USE")</ID>
     <ID>VariableNaming:Matte.kt:Matte$val L = getAmbientColor(world, sr, wo)</ID>
     <ID>VariableNaming:Matte.kt:Matte$val S = ColorAccumulator()</ID>
     <ID>VariableNaming:Matte.kt:Matte$val T = (f * l) * nDotWi * f1</ID>

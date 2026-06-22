@@ -79,7 +79,7 @@ class PlyReader(
             isWhiteSpace(line) -> {
             }
             else -> {
-                throw RuntimeException("Unknown file format in line $numLine: `$line`")
+                throw IllegalArgumentException("Unknown file format in line $numLine: `$line`")
             }
         }
 
@@ -87,7 +87,7 @@ class PlyReader(
         val cs = line.split(" ")
         val size = cs[0].toInt()
         if (cs.size < size + 1) {
-            throw RuntimeException("Not enough elements in line $numLine")
+            throw IllegalArgumentException("Not enough elements in line $numLine")
         }
         val i0 = cs[1].toInt()
         val i1 = cs[2].toInt()
@@ -114,7 +114,7 @@ class PlyReader(
     private fun handleVerticesLeft(line: String) {
         val cs = line.split(" ")
         if (cs.size < 3) {
-            throw RuntimeException("Not enough elements in line $numLine")
+            throw IllegalArgumentException("Not enough elements in line $numLine")
         }
         val x = cs[0].toDouble()
         val y = cs[1].toDouble()

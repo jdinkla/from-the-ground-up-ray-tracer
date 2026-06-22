@@ -16,7 +16,7 @@ class SampledSingleRayRenderer(
 
     init {
         this.numSamples = 1
-        this.sampler = Sampler(MultiJittered, 2500, 10)
+        this.sampler = Sampler(MultiJittered, numSamples = 2500, numSets = 10)
     }
 
     override fun render(

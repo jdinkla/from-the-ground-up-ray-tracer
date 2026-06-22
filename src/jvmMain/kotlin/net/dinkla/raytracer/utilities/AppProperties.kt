@@ -12,7 +12,7 @@ object AppProperties {
         try {
             properties.load(InputStreamReader(FileInputStream("raytracer.properties"), "ISO-8859-1"))
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.error("Failed to load raytracer.properties: ${e.stackTraceToString()}")
         }
     }
 

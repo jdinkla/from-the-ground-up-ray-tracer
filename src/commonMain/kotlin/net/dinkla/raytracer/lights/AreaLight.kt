@@ -86,23 +86,27 @@ class AreaLight(
         return result
     }
 
-    override fun sample(): Point3D = throw RuntimeException("AreaLight needs AreaLighting Tracer")
+    override fun sample(): Point3D = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
 
-    override fun getNormal(p: Point3D): Normal = throw RuntimeException("AreaLight needs AreaLighting Tracer")
+    override fun getNormal(p: Point3D): Normal = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
 
     override fun l(
         world: IWorld,
         sr: IShade,
-    ): Color = throw RuntimeException("AreaLight needs AreaLighting Tracer")
+    ): Color = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
 
-    override fun getDirection(sr: IShade): Vector3D = throw RuntimeException("AreaLight needs AreaLighting Tracer")
+    override fun getDirection(sr: IShade): Vector3D = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
 
     override fun inShadow(
         world: IWorld,
         ray: Ray,
         sr: IShade,
-    ): Boolean = throw RuntimeException("AreaLight needs AreaLighting Tracer")
+    ): Boolean = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
 
     override fun getLightMaterial(): IMaterial =
         requireNotNull(material) { "AreaLight.material not set; assign a material before rendering" }
+
+    private companion object {
+        const val NEEDS_AREA_LIGHTING = "AreaLight needs AreaLighting Tracer"
+    }
 }

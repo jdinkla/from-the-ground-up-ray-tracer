@@ -10,6 +10,6 @@ fun RenderedImage.save(fileName: String) {
     try {
         ImageIO.write(this, "png", file)
     } catch (e: IOException) {
-        e.printStackTrace()
+        Logger.error("Failed to write PNG to $fileName: ${e.stackTraceToString()}")
     }
 }

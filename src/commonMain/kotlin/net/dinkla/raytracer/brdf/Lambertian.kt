@@ -25,7 +25,7 @@ data class Lambertian(
     override fun sampleF(
         sr: IShade,
         wo: Vector3D,
-    ): Sample = throw RuntimeException("Lambertian.sampleF")
+    ): Sample = throw UnsupportedOperationException("Lambertian does not support sampleF")
 
     override fun rho(
         sr: IShade,

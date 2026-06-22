@@ -1,9 +1,12 @@
 package net.dinkla.raytracer.utilities
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.materials.Matte
+import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.mesh.FlatMeshTriangle
 import net.dinkla.raytracer.objects.mesh.SmoothMeshTriangle
 
@@ -79,5 +82,25 @@ class PlyReaderTest :
             grid.objects[1].shouldBeInstanceOf<SmoothMeshTriangle>()
             grid.objects[0].material shouldBe material
             grid.objects[1].material shouldBe material
+        }
+
+        "rejects an unknown body line with IllegalArgumentException" {
+            // given a reader past the header (no vertices/faces declared) with a junk body line
+            val reader = PlyReader(Matte(), compound = Acceleration.GRID.build())
+            val lines = listOf("end_header", "garbage line that is not whitespace")
+
+            // when / then
+            val ex = shouldThrow<IllegalArgumentException> { reader.read(lines) }
+            ex.message shouldContain "Unknown file format"
+        }
+
+        "rejects a face line with too few elements with IllegalArgumentException" {
+            // given a reader expecting one face but given a face line that is too short
+            val reader = PlyReader(Matte(), compound = Acceleration.GRID.build())
+            val lines = listOf("element face 1", "end_header", "3 0 1")
+
+            // when / then
+            val ex = shouldThrow<IllegalArgumentException> { reader.read(lines) }
+            ex.message shouldContain "Not enough elements"
         }
     })

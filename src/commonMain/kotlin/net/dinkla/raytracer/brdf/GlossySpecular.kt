@@ -50,7 +50,7 @@ data class GlossySpecular(
     override fun rho(
         sr: IShade,
         wo: Vector3D,
-    ): Color = throw RuntimeException("GlossySpecular.rho")
+    ): Color = throw UnsupportedOperationException("GlossySpecular does not support rho")
 
     override fun equals(other: Any?): Boolean {
         if (other != null && other is GlossySpecular) {

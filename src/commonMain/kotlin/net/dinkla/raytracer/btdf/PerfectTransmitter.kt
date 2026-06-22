@@ -15,12 +15,12 @@ data class PerfectTransmitter(
         sr: IShade,
         wo: Vector3D,
         wi: Vector3D,
-    ): Color = throw RuntimeException("PerfectTransmitter.f")
+    ): Color = throw UnsupportedOperationException("PerfectTransmitter does not support f")
 
     override fun rho(
         sr: IShade,
         wo: Vector3D,
-    ): Color = throw RuntimeException("PerfectTransmitter.rho")
+    ): Color = throw UnsupportedOperationException("PerfectTransmitter does not support rho")
 
     override fun sampleF(
         sr: IShade,

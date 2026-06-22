@@ -14,7 +14,7 @@ data class PerfectSpecular(
         sr: IShade,
         wo: Vector3D,
         wi: Vector3D,
-    ): Color = throw RuntimeException("PerfectSpecular.f")
+    ): Color = throw UnsupportedOperationException("PerfectSpecular does not support f")
 
     override fun sampleF(
         sr: IShade,
@@ -30,5 +30,5 @@ data class PerfectSpecular(
     override fun rho(
         sr: IShade,
         wo: Vector3D,
-    ): Color = throw RuntimeException("PerfectSpecular.rho")
+    ): Color = throw UnsupportedOperationException("PerfectSpecular does not support rho")
 }
