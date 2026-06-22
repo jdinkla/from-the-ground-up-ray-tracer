@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:20'
+updated_date: '2026-06-22 15:22'
 labels:
   - bug
   - concurrency
@@ -25,11 +25,13 @@ ForkJoinRenderer, CoroutineBlockRenderer, and VirtualThreadBlockRenderer partiti
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Block renderers fill every pixel for resolutions smaller than the block grid, or throw a clear typed exception consistent with ParallelRenderer
-- [ ] #2 Non-divisible resolutions render the remainder rows/columns with no silently dropped pixels
-- [ ] #3 Tests cover sub-block-grid and non-divisible resolutions for each block renderer; the cross-renderer output-equivalence test still passes
-- [ ] #4 Update the TASK-7 RendererTest cases that currently pin the buggy underfill behavior to assert the corrected behavior
+- [x] #1 Block renderers fill every pixel for resolutions smaller than the block grid, or throw a clear typed exception consistent with ParallelRenderer
+- [x] #2 Non-divisible resolutions render the remainder rows/columns with no silently dropped pixels
+- [x] #3 Tests cover sub-block-grid and non-divisible resolutions for each block renderer; the cross-renderer output-equivalence test still passes
+- [x] #4 Update the TASK-7 RendererTest cases that currently pin the buggy underfill behavior to assert the corrected behavior
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
