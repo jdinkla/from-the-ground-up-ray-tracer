@@ -29,6 +29,22 @@ data class GlossySpecular(
         }
     }
 
+    /**
+     * Initialises the hemisphere [sampler] for [sampleF], mapping its unit-square points onto a
+     * cosine-power lobe of exponent [exp]. Must be called before [sampleF] (which reads
+     * `sampler.sampleHemisphere()`); a freshly constructed [Sampler] has no hemisphere points yet, so
+     * calling [sampleF] without this first throws. Call again after changing [exp] to re-shape the lobe.
+     */
+    fun setupSampler() {
+        sampler.mapSamplesToHemiSphere(exp)
+    }
+
+    /**
+     * Importance-samples a reflected direction within the Phong lobe around the mirror direction.
+     * Requires [setupSampler] to have run (see its note). The returned [Sample.pdf] and [Sample.color]
+     * are such that the glossy-reflection estimate `color * incoming * (n . wi) / pdf` reduces to
+     * `cs * ks * incoming` — the lobe term and pdf cancel.
+     */
     override fun sampleF(
         sr: IShade,
         wo: Vector3D,

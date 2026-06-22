@@ -7,6 +7,7 @@ import net.dinkla.raytracer.Fixture.Ex
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.materials.Dielectric
 import net.dinkla.raytracer.materials.Emissive
+import net.dinkla.raytracer.materials.GlossyReflector
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.materials.Phong
 import net.dinkla.raytracer.materials.Reflective
@@ -89,6 +90,43 @@ class MaterialsScopeTest :
             material.kd shouldBe reflective.kd
             material.exp shouldBe reflective.exp
             material shouldBe reflective
+        }
+
+        "should handle glossyReflector" {
+            // given
+            val scope = MaterialsScope()
+            val glossy =
+                GlossyReflector(Ex.cd, Ex.ka, Ex.kd).apply {
+                    ks = Ex.ks
+                    cs = Ex.cs
+                    cr = Ex.cr
+                    kr = Ex.kr
+                    exp = Ex.exp
+                }
+
+            // when
+            scope.glossyReflector(
+                id = id,
+                cd = Ex.cd,
+                ka = Ex.ka,
+                kd = Ex.kd,
+                exp = Ex.exp,
+                ks = Ex.ks,
+                cs = Ex.cs,
+                cr = Ex.cr,
+                kr = Ex.kr,
+            )
+
+            // then
+            scope.materials.size shouldBe 1
+            scope.materials.containsKey(id) shouldBe true
+            val material = scope.materials[id] as GlossyReflector
+            material.kr shouldBe glossy.kr
+            material.cr shouldBe glossy.cr
+            material.ka shouldBe glossy.ka
+            material.kd shouldBe glossy.kd
+            material.exp shouldBe glossy.exp
+            material shouldBe glossy
         }
 
         "should handle svMatte declared with a texture" {

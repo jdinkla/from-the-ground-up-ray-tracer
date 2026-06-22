@@ -3,6 +3,7 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.materials.Dielectric
 import net.dinkla.raytracer.materials.Emissive
+import net.dinkla.raytracer.materials.GlossyReflector
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.materials.Phong
@@ -115,6 +116,35 @@ class MaterialsScope {
                 this.cs = cs
                 this.cr = cr
                 this.kr = kr
+            }
+    }
+
+    /**
+     * Registers a [GlossyReflector] (Suffern ch. 25) under [id]: a Phong surface that reflects its
+     * surroundings through a glossy (blurred) lobe instead of a perfect mirror. [exp] sets the
+     * glossiness (high = sharp/near-mirror, low = satin) and the Phong highlight; [ks]/[cs] are the
+     * highlight coefficient/colour; [kr]/[cr] scale and tint the reflection. Scenes using it should
+     * enable multi-sampling (`samples(n)`) to average out the glossy noise.
+     */
+    @SuppressWarnings("LongParameterList")
+    fun glossyReflector(
+        id: String,
+        cd: Color = Color.WHITE,
+        ka: Double = 0.25,
+        kd: Double = 0.75,
+        exp: Double = 5.0,
+        ks: Double = 0.25,
+        cs: Color = Color.WHITE,
+        cr: Color = Color.WHITE,
+        kr: Double = 1.0,
+    ) {
+        mutableMaterials[id] =
+            GlossyReflector(cd, ka, kd).apply {
+                this.ks = ks
+                this.cs = cs
+                this.cr = cr
+                this.kr = kr
+                this.exp = exp
             }
     }
 
