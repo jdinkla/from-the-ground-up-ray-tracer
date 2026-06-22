@@ -1,11 +1,11 @@
 ---
 id: TASK-11
 title: Reduce deep nesting in material and primitive shading code
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 12:43'
+updated_date: '2026-06-22 12:48'
 labels:
   - refactor
 dependencies: []
@@ -50,3 +50,9 @@ BASELINE: removed only the obsolete 'NestedBlockDepth:Matte.kt:Matte$override fu
 
 VERIFIED: just test (= ./gradlew clean check, includes detekt + all tests) is GREEN. Only warnings are pre-existing unchecked-cast warnings in PlyReader/GridStructuresTest, unrelated to this change.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Reduced deep nesting in shading code. Investigation found that only Matte.areaLightShade (depth 5) actually exceeded detekt's NestedBlockDepth>4 threshold in current code — the task's other callouts are stale: Phong.areaLightShade and OpenCylinder.hit are already at depth <=4 (reviewer independently confirmed via a baseline-removed detekt run reporting 0 NestedBlockDepth findings). Flattened Matte.areaLightShade to depth 3 using filterIsInstance<AreaLight>() plus two extracted private helpers (sampleContribution, isInShadow) with an early-return guard. AC#1 met (no block exceeds depth 4 in the affected methods); AC#2 met (behavior unchanged). Pure refactor: filterIsInstance exactly reproduces the original 'if (light is AreaLight)' guard (non-AreaLights did nothing before, dropped now — no behavior lost); the merged nDotWi<=0 || isInShadow guard preserves short-circuit order (isInShadow only evaluated when nDotWi>0, and returns false without building a shadow ray when !light.shadows); per-sample accumulation structure identical. Cover-first: 4 new MatteAreaLightShadeTest characterization tests (in-shadow vs lit, nDotWi sign, multi-sample) verified by the reviewer to PASS against the ORIGINAL unrefactored Matte (reverted prod, kept test) — genuine characterization. Added a Color shouldBeApprox matcher to Fixture.kt. Removed only the Matte NestedBlockDepth baseline entry. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 7af0820. Follow-up (confirmed stale by reviewer): the Grid.initialize / SparseGrid.initialize NestedBlockDepth baseline entries are now also dead (eliminated by TASK-3) and can be removed in a small cleanup.
+<!-- SECTION:FINAL_SUMMARY:END -->
