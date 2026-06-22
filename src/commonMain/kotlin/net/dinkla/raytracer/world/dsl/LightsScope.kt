@@ -3,11 +3,14 @@ package net.dinkla.raytracer.world.dsl
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.AreaLight
 import net.dinkla.raytracer.lights.DirectionalLight
+import net.dinkla.raytracer.lights.EnvironmentLight
 import net.dinkla.raytracer.lights.ILightSource
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.lights.PointLight
+import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.samplers.Sampler
 
 /**
  * DSL receiver for the `lights { ... }` block. Each call appends one light to the scene; the
@@ -40,6 +43,23 @@ class LightsScope {
                 this.ls = ls
                 this.setDirection(direction)
                 this.color = color
+            }
+    }
+
+    /**
+     * Adds an [EnvironmentLight] whose incident radiance comes from [material] (typically an
+     * [net.dinkla.raytracer.materials.SvEmissive] backed by an image texture, i.e. a spherical
+     * environment map). Hemisphere directions are drawn from [sampler].
+     */
+    fun environmentLight(
+        material: IMaterial,
+        sampler: Sampler = Sampler(),
+        shadows: Boolean = true,
+    ) {
+        mutableLights +=
+            EnvironmentLight(shadows).apply {
+                this.material = material
+                this.sampler = sampler
             }
     }
 

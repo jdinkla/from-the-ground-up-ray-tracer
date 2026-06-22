@@ -2,12 +2,17 @@ package net.dinkla.raytracer.world.dsl
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.Fixture.Ex
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.materials.Phong
 import net.dinkla.raytracer.materials.Reflective
+import net.dinkla.raytracer.materials.SvEmissive
+import net.dinkla.raytracer.materials.SvMatte
+import net.dinkla.raytracer.materials.SvPhong
 import net.dinkla.raytracer.materials.Transparent
+import net.dinkla.raytracer.textures.ConstantColor
 
 class MaterialsScopeTest :
     StringSpec({
@@ -82,6 +87,43 @@ class MaterialsScopeTest :
             material.kd shouldBe reflective.kd
             material.exp shouldBe reflective.exp
             material shouldBe reflective
+        }
+
+        "should handle svMatte declared with a texture" {
+            val scope = MaterialsScope()
+            val texture = ConstantColor(Ex.cd)
+
+            scope.svMatte(id = id, texture = texture, ka = Ex.ka, kd = Ex.kd)
+
+            scope.materials.size shouldBe 1
+            val material = scope.materials[id].shouldBeInstanceOf<SvMatte>()
+            material.texture shouldBe texture
+            material.ka shouldBe Ex.ka
+            material.kd shouldBe Ex.kd
+        }
+
+        "should handle svPhong declared with a texture" {
+            val scope = MaterialsScope()
+            val texture = ConstantColor(Ex.cd)
+
+            scope.svPhong(id = id, texture = texture, ka = Ex.ka, kd = Ex.kd, exp = Ex.exp, ks = Ex.ks, cs = Ex.cs)
+
+            val material = scope.materials[id].shouldBeInstanceOf<SvPhong>()
+            material.texture shouldBe texture
+            material.exp shouldBe Ex.exp
+            material.ks shouldBe Ex.ks
+            material.cs shouldBe Ex.cs
+        }
+
+        "should handle svEmissive declared with a texture" {
+            val scope = MaterialsScope()
+            val texture = ConstantColor(Ex.cd)
+
+            scope.svEmissive(id = id, texture = texture, ls = 1.0)
+
+            val material = scope.materials[id].shouldBeInstanceOf<SvEmissive>()
+            material.texture shouldBe texture
+            material.ls shouldBe 1.0
         }
 
         "should handle emissive" {

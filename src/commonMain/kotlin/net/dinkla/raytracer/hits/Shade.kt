@@ -21,7 +21,7 @@ class Shade :
     override val hitPoint: Point3D
         get() = ray.linear(t)
 
-    val localHitPoint: Point3D
+    override val localHitPoint: Point3D
         get() = ray.linear(t)
 
     override val material: IMaterial?

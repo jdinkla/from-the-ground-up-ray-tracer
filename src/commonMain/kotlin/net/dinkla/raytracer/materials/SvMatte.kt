@@ -1,0 +1,137 @@
+package net.dinkla.raytracer.materials
+
+import net.dinkla.raytracer.brdf.SvLambertian
+import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.colors.ColorAccumulator
+import net.dinkla.raytracer.hits.IShade
+import net.dinkla.raytracer.lights.AreaLight
+import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.math.Vector3D
+import net.dinkla.raytracer.textures.Texture
+import net.dinkla.raytracer.utilities.equals
+import net.dinkla.raytracer.world.IWorld
+import java.util.Objects
+
+/**
+ * A spatially-varying [Matte]: identical to [Matte] except its diffuse (and ambient) colour is read
+ * from a [Texture] at the hit point instead of being a constant. The shading logic mirrors [Matte]
+ * exactly; only the BRDF differs ([SvLambertian] instead of `Lambertian`).
+ *
+ * Mirrors Suffern's `SV_Matte` (Ray Tracing from the Ground Up, ch. 29).
+ */
+open class SvMatte(
+    texture: Texture,
+    ka: Double = 0.25,
+    kd: Double = 0.75,
+) : IMaterial {
+    protected val ambientBRDF = SvLambertian(kd = ka, cd = texture)
+    protected val diffuseBRDF = SvLambertian(kd = kd, cd = texture)
+
+    var ka: Double
+        get() = ambientBRDF.kd
+        set(v) {
+            ambientBRDF.kd = v
+        }
+
+    var kd: Double
+        get() = diffuseBRDF.kd
+        set(v) {
+            diffuseBRDF.kd = v
+        }
+
+    var texture: Texture
+        get() = diffuseBRDF.cd
+        set(v) {
+            ambientBRDF.cd = v
+            diffuseBRDF.cd = v
+        }
+
+    override fun shade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
+        val wo = -sr.ray.direction
+        var radiance = getAmbientColor(world, sr, wo)
+        for (light in world.lights) {
+            val wi = light.getDirection(sr)
+            val nDotWi = wi dot sr.normal
+            if (nDotWi > 0) {
+                var inShadow = false
+                if (light.shadows) {
+                    val shadowRay = Ray(sr.hitPoint, wi)
+                    inShadow = light.inShadow(world, shadowRay, sr)
+                }
+                if (!inShadow) {
+                    val f = diffuseBRDF.f(sr, wo, wi)
+                    val l = light.l(world, sr)
+                    radiance += (f * l) * nDotWi
+                }
+            }
+        }
+        return radiance
+    }
+
+    override fun areaLightShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
+        val wo = -sr.ray.direction
+        val radiance = getAmbientColor(world, sr, wo)
+        val accumulator = ColorAccumulator()
+        for (light in world.lights.filterIsInstance<AreaLight>()) {
+            for (sample in light.getSamples(sr)) {
+                sampleContribution(world, sr, wo, light, sample)?.let { accumulator + it }
+            }
+        }
+        return radiance + accumulator.average
+    }
+
+    private fun sampleContribution(
+        world: IWorld,
+        sr: IShade,
+        wo: Vector3D,
+        light: AreaLight,
+        sample: AreaLight.Sample,
+    ): Color? {
+        val wi = requireNotNull(sample.wi) { "Sample.wi not set; call getSamples first" }
+        val nDotWi = wi dot sr.normal
+        if (nDotWi <= 0 || isInShadow(world, sr, wi, light, sample)) return null
+        val f = diffuseBRDF.f(sr, wo, wi)
+        val l = light.l(world, sr, sample)
+        val f1 = light.G(sr, sample) / light.pdf(sr)
+        return (f * l) * nDotWi * f1
+    }
+
+    private fun isInShadow(
+        world: IWorld,
+        sr: IShade,
+        wi: Vector3D,
+        light: AreaLight,
+        sample: AreaLight.Sample,
+    ): Boolean {
+        if (!light.shadows) return false
+        val shadowRay = Ray(sr.hitPoint, wi)
+        return light.inShadow(world, shadowRay, sr, sample)
+    }
+
+    protected fun getAmbientColor(
+        world: IWorld,
+        sr: IShade,
+        wo: Vector3D,
+    ): Color {
+        val c1 = ambientBRDF.rho(sr, wo)
+        val c2 = world.ambientLight.l(world, sr)
+        return c1 * c2
+    }
+
+    override fun getLe(sr: IShade): Color = diffuseBRDF.rho(sr, Vector3D.UP)
+
+    override fun equals(other: Any?): Boolean =
+        this.equals<SvMatte>(other) { a, b ->
+            a.ambientBRDF == b.ambientBRDF && a.diffuseBRDF == b.diffuseBRDF
+        }
+
+    override fun hashCode(): Int = Objects.hash(ambientBRDF, diffuseBRDF)
+
+    override fun toString(): String = "SvMatte($ambientBRDF,$diffuseBRDF)"
+}
