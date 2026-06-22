@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration
 
 import net.dinkla.raytracer.objects.IGeometricObject
-import net.dinkla.raytracer.objects.compound.Compound
 
 /**
  * A [Grid] whose cells are stored sparsely in a map keyed by linear cell index, so empty cells
@@ -33,20 +32,13 @@ class SparseGrid : Grid() {
         index: Int,
         `object`: IGeometricObject,
     ) {
-        when (val go = cellsX[index]) {
-            null -> {
-                cellsX[index] = `object`
+        val go = cellsX[index]
+        cellsX[index] =
+            if (go == null) {
+                `object`
+            } else {
+                go.combineInCell(`object`)
             }
-            is Compound -> {
-                go.add(`object`)
-            }
-            else -> {
-                val c = Compound()
-                c.add(go)
-                c.add(`object`)
-                cellsX[index] = c
-            }
-        }
     }
 
     override fun initializeSubcells() {

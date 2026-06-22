@@ -13,6 +13,7 @@ import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 
+@Suppress("TooManyFunctions")
 open class Compound : GeometricObject() {
     init {
         boundingBox = BBox()
@@ -59,11 +60,7 @@ open class Compound : GeometricObject() {
                 hit = true
                 sr.t = sr2.t
                 sr.normal = sr2.normal
-                if (geoObj !is Compound) {
-                    sr.geometricObject = geoObj
-                } else {
-                    sr.geometricObject = sr2.geometricObject
-                }
+                sr.geometricObject = geoObj.getResultObject(sr2)
             }
         }
         return hit
@@ -126,22 +123,29 @@ open class Compound : GeometricObject() {
         calcBoundingBox()
     }
 
-    fun size(): Int {
+    fun size(): Int = objectCount()
+
+    override fun objectCount(): Int {
         if (isUnit) {
             return 1
-        } else {
-            var size = 0
-            for (geoObj in objects) {
-                size +=
-                    if (geoObj is Compound) {
-                        geoObj.size()
-                    } else {
-                        1
-                    }
-            }
-            return size
         }
+        var size = 0
+        for (geoObj in objects) {
+            size += geoObj.objectCount()
+        }
+        return size
     }
+
+    override fun getResultObject(sr: IHit): IGeometricObject? = sr.geometricObject
+
+    override fun combineInCell(newObject: IGeometricObject): IGeometricObject {
+        add(newObject)
+        return this
+    }
+
+    override fun promotableToSubgrid(): Boolean = true
+
+    override fun childrenForRegrid(): List<IGeometricObject> = objects
 
     private fun calcBoundingBox() {
         boundingBox = BBox()

@@ -6,7 +6,6 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.MathUtils
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.IGeometricObject
-import net.dinkla.raytracer.objects.compound.Compound
 
 /**
  * Shared, behaviour-preserving traversal logic for the uniform [Grid] and the map-backed
@@ -173,7 +172,7 @@ internal object GridTraversal {
     ) {
         sr.t = sr2.t
         sr.normal = sr2.normal
-        sr.geometricObject = if (theObject !is Compound) theObject else sr2.geometricObject
+        sr.geometricObject = theObject.getResultObject(sr2)
     }
 
     /** Which axis the ray crosses first out of the current cell. */

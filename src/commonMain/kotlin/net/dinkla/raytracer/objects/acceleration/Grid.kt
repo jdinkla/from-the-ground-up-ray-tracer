@@ -28,6 +28,7 @@ import kotlin.math.pow
  * promotes crowded cells into nested grids; [SparseGrid] replaces the array with a map and drops
  * the promotion. No other behaviour differs.
  */
+@Suppress("TooManyFunctions")
 open class Grid : CompoundWithMesh() {
     private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
@@ -136,32 +137,25 @@ open class Grid : CompoundWithMesh() {
         index: Int,
         `object`: IGeometricObject,
     ) {
-        when {
-            cells[index] is Grid -> {
-                val c = cells[index] as Grid
-                c.add(`object`)
+        val current = cells[index]
+        cells[index] =
+            if (current.promotableToSubgrid() && current.objectCount() > factorSize && depth < maxDepth) {
+                val g = Grid()
+                g.add(current.childrenForRegrid())
+                g.add(`object`)
+                g.depth = depth + 1
+                g
+            } else {
+                current.combineInCell(`object`)
             }
-            cells[index] is Compound -> {
-                val c = cells[index] as Compound
-                if (c.size() > factorSize && depth < maxDepth) {
-                    val g = Grid()
-                    g.add(c.objects)
-                    g.add(`object`)
-                    g.depth = depth + 1
-
-                    cells[index] = g
-                } else {
-                    c.add(`object`)
-                }
-            }
-            else -> {
-                val c = Compound()
-                c.add(cells[index])
-                c.add(`object`)
-                cells[index] = c
-            }
-        }
     }
+
+    /**
+     * A nested grid is itself a [Compound] but must never be re-promoted: once a cell holds a sub-grid
+     * it absorbs further objects directly (the original `cells[index] is Grid` branch). Overriding back
+     * to `false` keeps a crowded sub-grid out of the promotion path.
+     */
+    override fun promotableToSubgrid(): Boolean = false
 
     /** Recursively initialises any nested grids produced during insertion (dense grid only). */
     protected open fun initializeSubcells() {
