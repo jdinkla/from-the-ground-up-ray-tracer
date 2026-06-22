@@ -1,9 +1,11 @@
 ---
 id: TASK-3
 title: Remove Grid/SparseGrid duplication via shared traversal strategy
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:10'
+updated_date: '2026-06-22 10:47'
 labels:
   - refactor
   - acceleration
