@@ -98,8 +98,6 @@ implementations that differ only in *how pixel work is parallelized* — `Sequen
 - Tests use **Kotest** `StringSpec` (`"description" { ... }`); shared helpers/fixtures in
   `src/commonTest/.../Fixture.kt` (e.g. the `shouldBeApprox` infix matchers for float
   comparisons against `MathUtils.K_EPSILON`).
-- JaCoCo coverage **excludes** `examples/**`, `MainKt`, and the Swing UI — don't expect or
-  add unit tests for scene definitions or the GUI.
 - Some mesh examples need `.ply` files; a few are bundled in `resources/`, others must be
   downloaded (see `README.md`).
 
