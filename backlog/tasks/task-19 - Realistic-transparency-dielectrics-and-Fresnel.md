@@ -1,9 +1,11 @@
 ---
 id: TASK-19
 title: 'Realistic transparency: dielectrics and Fresnel'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:41'
+updated_date: '2026-06-22 14:56'
 labels:
   - enhancement
   - book-parity
