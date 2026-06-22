@@ -29,3 +29,17 @@ Lattice noise and the noise-driven textures from the book (noise/ is currently e
 - [ ] #3 Noise textures are declarable from the Builder DSL
 - [ ] #4 Unit tests cover noise determinism/range and the fBm/turbulence helpers
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Study 18.1/18.2 texture layer + detekt MagicNumber config (ignorePropertyDeclaration/ignoreConstantDeclaration on -> table consts/local vars are clean). DONE.
+2. noise/LatticeNoise.kt (abstract, commonMain): fixed Perlin 256-entry permutation table (PERMUTATION_SIZE=256); DETERMINISTIC value table (seeded LCG, values in [-1,1]) and gradient table (seeded LCG -> unit vectors). Abstract valueNoise(p)/vectorNoise(p) (interpolation in subclass) wrapping the lattice index helper INDEX(ix,iy,iz). Concrete fbm/turbulence/fractalSum on top, with configurable numOctaves/lacunarity/gain. No unseeded Random.
+3. noise/LinearNoise.kt: trilinear interpolation of the 8 corner lattice values/gradients.
+4. noise/CubicNoise.kt: tricubic (Hermite/4-point) interpolation.
+5. textures/FBmTexture, TurbulenceTexture, WrappedFBmTexture, RampFBmTexture (reuse 18.2 Ramp via colorAt), Wood. Each samples noise at sr.localHitPoint, lerps min/max colour (or ramp). data classes, Texture impls, pure colourAt seam where useful.
+6. AC#3: confirm svMatte/svPhong/svEmissive already take Texture -> no DSL change; declare textures in example scenes.
+7. commonTest noise tests: determinism (same point -> identical value, both LinearNoise & CubicNoise), range (value noise in [-1,1] over many sampled points), fbm bounds & turbulence>=0 over many points, more octaves add detail. Texture tests: FBm/Turbulence/RampFBm/Wood colour within min..max, determinism via testShade. Derive expectations from math.
+8. examples/textures/noise/: marble (RampFBm) sphere + turbulence + wood scene(s) via svMatte. Render WHITTED/SEQUENTIAL/720p, verify visually.
+9. just test green incl detekt; keep noise detekt-clean via consts/locals; report.
+<!-- SECTION:PLAN:END -->
