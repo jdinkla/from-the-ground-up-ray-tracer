@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:56'
+updated_date: '2026-06-22 11:58'
 labels:
   - quality
   - tooling
@@ -25,9 +25,11 @@ The detekt 2.0 upgrade parked existing findings in detekt-baseline.xml (125 entr
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 detekt-baseline.xml entry count reduced (target: trending to zero)
-- [ ] #2 No new findings are added to the baseline; new issues are fixed at source
+- [x] #1 detekt-baseline.xml entry count reduced (target: trending to zero)
+- [x] #2 No new findings are added to the baseline; new issues are fixed at source
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
