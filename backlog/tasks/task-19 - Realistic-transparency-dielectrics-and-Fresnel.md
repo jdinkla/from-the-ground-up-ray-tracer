@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 14:58'
+updated_date: '2026-06-22 15:04'
 labels:
   - enhancement
   - book-parity
@@ -38,3 +38,9 @@ The repo has only simple/Whitted transparency (Transparent material + PerfectTra
 5. Example scene under examples/materials/dielectric: glass Dielectric sphere over checkered/colored ground; render WHITTED/SEQUENTIAL 720p and verify refraction/TIR/attenuation visible (coverage-excluded -> manual verify).
 6. just test green; keep new code detekt-clean via named consts/@Suppress. Verify Transparent + existing scenes unchanged.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Added FresnelReflector (brdf/), FresnelTransmitter (btdf/), Dielectric material (materials/) extending Phong, and dielectric() in MaterialsScope DSL (iorIn/iorOut + cfIn/cfOut + Phong params). Dielectric.shade adds Fresnel-weighted reflected+transmitted recursion + Beer's-law attenuation (cf.pow(distance), distance from tracer's WrappedDouble tmin out-param) on top of Phong direct lighting; TIR branch reflects only. NO changes to Whitted tracer or any existing material. Unit tests green: FresnelReflectorTest (normal incidence eta=1.5->0.04, eta=2.0->1/9, grazing->~1, monotonic, TIR->1.0 via guard), FresnelTransmitterTest (TIR threshold below/above critical 41.8deg, refraction bends toward normal entering denser medium, TIR coincides with kr=1), DielectricShadeTest (TIR reflected-only attenuated by cfIn^dist; below-critical blends both), MaterialsScope dielectric, unsupported-op tests for both new BRDF/BTDF.
+<!-- SECTION:NOTES:END -->
