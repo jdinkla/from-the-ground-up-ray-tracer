@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:14'
+updated_date: '2026-06-22 15:15'
 labels:
   - bug
   - cli
@@ -22,10 +22,12 @@ The CLI/Swing default --world value is World20.kt (see CommandLine/Render and CL
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Running the render with no --world argument resolves to an existing, auto-discovered scene and renders successfully
-- [ ] #2 The default scene id referenced in code matches an actually-discoverable WorldDefinition
-- [ ] #3 CLAUDE.md and CLI help text reflect the correct default scene id
+- [x] #1 Running the render with no --world argument resolves to an existing, auto-discovered scene and renders successfully
+- [x] #2 The default scene id referenced in code matches an actually-discoverable WorldDefinition
+- [x] #3 CLAUDE.md and CLI help text reflect the correct default scene id
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
