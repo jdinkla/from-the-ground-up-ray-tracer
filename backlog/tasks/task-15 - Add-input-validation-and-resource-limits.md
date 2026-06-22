@@ -1,11 +1,11 @@
 ---
 id: TASK-15
 title: Add input validation and resource limits
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 16:10'
+updated_date: '2026-06-22 16:14'
 labels:
   - reliability
 dependencies: []
@@ -47,3 +47,9 @@ Tested vs reasoned: UNIT-TESTED — clampGridResolution (within-cap unchanged / 
 
 Manual CLI verification (coverage-excluded zone): bad resolution -> 'Error: invalid value for --resolution: invalid choice: 999p. (choose from 480p, 720p, 1080p, 1440p, 2160p, 4320p)' nonzero exit; missing world -> 'Error: invalid value for --world: invalid choice: NoSuchScene.kt. (choose from ...)' nonzero exit; valid run (--world=YellowAndRedSphere.kt --resolution=480p) rendered and saved a timestamped PNG normally. Frozen GridStructuresTest passes unchanged. Full 'just test' (clean check + tests + detekt) green.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added fail-fast input validation and configurable resource limits with no change to any valid-input/normal-scene behavior. AC#1: the CLI bad-resolution/unknown-world cases already failed fast via Clikt .choice(); factored the validation into pure, unit-tested core helpers (Resolution.fromId — names the bad value + lists valid ids; requireWorldDef) and changed Render.render(String,...) to fail fast with a clear actionable message on an unknown world id instead of the previous silent warn-and-write-nothing (closing the TASK-24 warn-on-null gap). Reviewer confirmed the only caller of the String overload is Main.render with a Clikt-validated id, and the Swing UI uses the WorldDefinition/film overloads + guards with worldDef(...)?.let, so the fail-fast change is safe. AC#2: Grid gains DEFAULT_MAX_NUM_CELLS (~64M = 67,108,864) + a maxNumCells ctor param; an over-cap nx*ny*nz is uniformly downscaled via the pure clampGridResolution (warns, never throws/OOMs), using left-to-right Long product math to avoid Int overflow — returns the input untouched below the cap, so normal scenes' nx/ny/nz and allocated arrays are byte-identical (reviewer verified; frozen GridStructuresTest assertions unchanged, TunableGrid's new maxNumCells param defaults to the cap). PlyReader gains DEFAULT_MAX_VERTICES (50M)/DEFAULT_MAX_FACES (100M) + ctor params, throwing a typed PlyLimitExceededException BEFORE the allocation on an oversized header — far above the real models (Isis ~47K/94K, Bunny4K ~1.9K/3.9K) so real loads are unaffected. Cover-first: unit-tested the clamp logic (product<=cap for over-cap, identity below), cap-on-initialize, PLY over-vertex/over-face/at-boundary (tiny fabricated headers + low test limits, no real model load / no real OOM), Resolution.fromId, and requireWorldDef (known→value, unknown→clear message); the actual OOM-avoidance is verified by reasoning (caps bound worst-case allocation), not a flaky memory test. Limits are named const vals (no MagicNumber suppressions). Production confined to Grid.kt, PlyReader.kt, Resolution.kt, Render.kt, CommandLine.kt. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL; CLI manually verified (bad --resolution and missing --world fail fast with clear messages + nonzero exit; valid run renders normally). Committed as 3690261.
+<!-- SECTION:FINAL_SUMMARY:END -->
