@@ -5,8 +5,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A ray tracer in Kotlin, a port of the C++ code from Kevin Suffern's *Ray Tracing from
-the Ground Up*, refactored toward an object-functional style. JVM-only, JDK 21. The old
-Java/Groovy version lives on the `groovy-java` branch.
+the Ground Up* (A K Peters, 2007), refactored toward an object-functional style. JVM-only, JDK 21.
+
+**Lineage.** Suffern's C++ → a **Java** port (extended with concurrency/parallelism — the source
+of the several parallel renderers) → a **Kotlin** port done in **2018–2020**, which is this
+codebase. The old Java/Groovy version lives on the `groovy-java` branch. The **kd-tree**
+acceleration structure is **not from the book**: it originates in Jörn's diploma thesis (originally
+Haskell) and was ported in. The book's own acceleration structure is the uniform/regular grid.
+
+## Project goals
+
+1. **Stay modern Kotlin.** Keep the code idiomatic and current as Kotlin and the JDK evolve.
+2. **Reach the book's feature set.** Extend the ray tracer where it still lags Suffern's *Ray
+   Tracing from the Ground Up* — e.g. **textures are not yet implemented**. Work that fills a
+   book-coverage gap is in-scope by default.
 
 ## Commands
 
