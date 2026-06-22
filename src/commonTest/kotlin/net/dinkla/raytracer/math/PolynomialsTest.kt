@@ -1,7 +1,9 @@
 package net.dinkla.raytracer.math
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.shouldBeApprox
 
 class PolynomialsTest :
@@ -102,6 +104,35 @@ class PolynomialsTest :
             for (i in 0 until num) {
                 evalPoly(coeffs, sol4[i]) shouldBeApprox 0.0
             }
+        }
+
+        // Pins the wrong-sized-input contract (TASK-5): illegal array sizes must fail with a
+        // specific, descriptive IllegalArgumentException rather than a bare AssertionError.
+        "solveQuadric rejects wrongly sized arrays with a descriptive IllegalArgumentException" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveQuadric(doubleArrayOf(1.0, 2.0), doubleArrayOf(0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveQuadric"
+        }
+
+        "solveCubic rejects wrongly sized arrays with a descriptive IllegalArgumentException" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveCubic(doubleArrayOf(1.0, 2.0, 3.0), doubleArrayOf(0.0, 0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveCubic"
+        }
+
+        "solveQuartic rejects wrongly sized arrays with a descriptive IllegalArgumentException" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveQuartic(doubleArrayOf(1.0, 2.0, 3.0, 4.0), doubleArrayOf(0.0, 0.0, 0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveQuartic"
         }
     })
 

@@ -3,6 +3,7 @@ package net.dinkla.raytracer.renderer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
@@ -46,12 +47,16 @@ class RendererTest : StringSpec({
         film.writes.size shouldBe film.resolution.width * film.resolution.height
     }
 
-    "parallel renderer fails on incompatible resolution" {
+    "parallel renderer fails on incompatible resolution with a contextual IllegalArgumentException" {
         val film = RecordingFilm(Resolution(width = 3, height = 5))
         val renderer = ParallelRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
 
-        shouldThrow<RuntimeException> {
-            renderer.render(film)
-        }
+        val ex =
+            shouldThrow<IllegalArgumentException> {
+                renderer.render(film)
+            }
+
+        ex.message shouldContain "ParallelRenderer"
+        ex.message shouldContain "height"
     }
 })

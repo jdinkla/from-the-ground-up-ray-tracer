@@ -2,6 +2,7 @@ package net.dinkla.raytracer.renderer
 
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 
@@ -31,9 +32,22 @@ class ParallelRenderer(
         try {
             barrier?.await()
         } catch (e: InterruptedException) {
-            e.printStackTrace()
+            // Restore the interrupt flag (we are consuming the exception) and surface the
+            // failure instead of returning a half-rendered film.
+            Thread.currentThread().interrupt()
+            throw IllegalStateException(
+                "ParallelRenderer was interrupted while awaiting worker completion " +
+                    "for resolution ${film.resolution}",
+                e,
+            )
         } catch (e: BrokenBarrierException) {
-            e.printStackTrace()
+            // A worker broke the barrier (interrupt/failure) before all parties arrived; the
+            // render is incomplete, so propagate rather than swallow.
+            throw IllegalStateException(
+                "ParallelRenderer aborted: a worker failed before completing the render " +
+                    "for resolution ${film.resolution}",
+                e,
+            )
         }
     }
 
@@ -50,7 +64,11 @@ class ParallelRenderer(
                 worker[4 * i + 3] = Worker(3 * res.width / 4, 4 * res.width / 4, i * yStep, (i + 1) * yStep)
             }
         } else {
-            throw RuntimeException("viewPlane.vres % numThreads != 0")
+            throw IllegalArgumentException(
+                "ParallelRenderer requires the image height to be divisible by " +
+                    "numThreads/4 (=$vertFactor): height ${res.height} is not, with " +
+                    "numThreads=$numThreads",
+            )
         }
     }
 
@@ -78,9 +96,15 @@ class ParallelRenderer(
             try {
                 barrier?.await()
             } catch (e: InterruptedException) {
-                e.printStackTrace()
+                // Restore the interrupt flag and break the barrier so the master thread is
+                // released with a BrokenBarrierException instead of blocking forever.
+                Thread.currentThread().interrupt()
+                barrier?.reset()
             } catch (e: BrokenBarrierException) {
-                e.printStackTrace()
+                // Another party already broke the barrier; the render is being aborted. The
+                // master observes the same broken barrier and reports the failure, so this
+                // worker simply stops rather than swallowing the failure silently.
+                Logger.warn("ParallelRenderer worker stopping: render barrier was broken ($e)")
             }
         }
     }

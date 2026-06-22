@@ -17,8 +17,9 @@ object Polynomials {
         c: DoubleArray,
         s: DoubleArray,
     ): Int {
-        if (c.size != 4 || s.size != 3) {
-            throw AssertionError()
+        require(c.size == 4 && s.size == 3) {
+            "solveCubic expects coefficients of size 4 and solutions of size 3, " +
+                "but got c.size=${c.size}, s.size=${s.size}"
         }
 
         val num: Int
@@ -77,8 +78,9 @@ object Polynomials {
         c: DoubleArray,
         s: DoubleArray,
     ): Int {
-        if (c.size != 3 || s.size != 2) {
-            throw AssertionError()
+        require(c.size == 3 && s.size == 2) {
+            "solveQuadric expects coefficients of size 3 and solutions of size 2, " +
+                "but got c.size=${c.size}, s.size=${s.size}"
         }
 
         // normal form: x^2 + px + q = 0
@@ -109,8 +111,9 @@ object Polynomials {
         c: DoubleArray,
         s: DoubleArray,
     ): Int {
-        if (c.size != 5 || s.size != 4) {
-            throw AssertionError()
+        require(c.size == 5 && s.size == 4) {
+            "solveQuartic expects coefficients of size 5 and solutions of size 4, " +
+                "but got c.size=${c.size}, s.size=${s.size}"
         }
 
         val coeffs4 = DoubleArray(4)
