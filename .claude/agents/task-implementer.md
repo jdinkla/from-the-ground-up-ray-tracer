@@ -1,7 +1,7 @@
 ---
 name: task-implementer
 description: Implements a single Backlog task end-to-end in the ray-tracer repo. Given one TASK-ID, it reads the task, plans, writes code and tests following the project's cover-first and testing conventions, runs the full check, records progress in Backlog, and returns a structured DONE/BLOCKED/NEEDS-DECISION report to the manager. Invoked by the /work-board manager loop; not usually called directly.
-tools: Bash, Read, Write, Edit, Glob, Grep
+tools: Bash, Read, Write, Edit, Glob, Grep, LSP
 model: opus
 color: green
 ---

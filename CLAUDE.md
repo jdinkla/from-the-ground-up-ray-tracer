@@ -92,6 +92,9 @@ implementations that differ only in *how pixel work is parallelized* — `Sequen
 
 ## Conventions
 
+- **Use the Kotlin LSP for fast code lookups.** Prefer it for navigating symbols, finding
+  definitions/references, and type info over text search (grep) — it understands the code and
+  is faster and more accurate.
 - **Testing style & methodology: `specs/testing.md` is the source of truth — read it before
   writing or reviewing tests.** It is mandatory for all contributors (human and agent) and
   codifies the rules summarised below.

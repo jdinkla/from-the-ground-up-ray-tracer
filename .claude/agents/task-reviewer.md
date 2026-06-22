@@ -1,7 +1,7 @@
 ---
 name: task-reviewer
 description: Reviews the uncommitted work an implementer produced for one Backlog task in the ray-tracer repo. Read-only — it never edits code. It checks the diff against the task's acceptance criteria and the project's conventions (cover-first, specs/testing.md, detekt-clean, build green), independently re-runs the full check, and returns a PASS/FAIL verdict with specific, actionable findings. Invoked by the /work-board manager loop after the implementer reports DONE.
-tools: Bash, Read, Glob, Grep
+tools: Bash, Read, Glob, Grep, LSP
 model: opus
 color: yellow
 ---
