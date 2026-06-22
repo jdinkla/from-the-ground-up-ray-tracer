@@ -1,9 +1,11 @@
 ---
 id: TASK-14
 title: Remove deprecated/unused code and clarify shadowHit semantics
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:12'
+updated_date: '2026-06-22 15:28'
 labels:
   - cleanup
 dependencies: []
