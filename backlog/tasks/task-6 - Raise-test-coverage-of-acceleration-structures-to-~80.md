@@ -1,9 +1,11 @@
 ---
 id: TASK-6
 title: Raise test coverage of acceleration structures to ~80%
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 11:17'
 labels:
   - testing
   - acceleration
