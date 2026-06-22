@@ -1,11 +1,11 @@
 ---
 id: TASK-6
 title: Raise test coverage of acceleration structures to ~80%
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:30'
+updated_date: '2026-06-22 11:34'
 labels:
   - testing
   - acceleration
@@ -62,3 +62,9 @@ Not reached / why: Grid/GridTraversal slab 't0>t1' reject branch (Grid.kt ~227) 
 
 Verification: just test (./gradlew clean check incl. detekt) BUILD SUCCESSFUL. Two unchecked-cast compiler warnings in GridStructuresTest reuse the pre-existing reflection idiom already in that file; not detekt failures.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Raised acceleration-structure test coverage via additive tests only (no production change). Extended GridStructuresTest.kt to close remaining Grid/SparseGrid/GridTraversal branches (nested-grid re-insertion via cells[index] is Grid, sparse second/third-occupant Compound insertion, +y/-z multi-cell DDA stepping, empty-leading-cell skip, toString) and added KDTreeBuilderTest.kt exercising every TreeBuilder's split heuristic + tree construction with node-level geometric hit assertions. SpatialMedian/ObjectMedian/Simple2/ObjectMedian2 tested as working builders; the dead TestBuilder/Test2Builder are pinned as degenerate (size()==0, hits nothing) — characterizing the TASK-4 latent .toMutableList()-copy bug, not fixing it. Reviewer independently re-ran jacoco: combined acceleration coverage 28.4% -> 80.7% instruction / 16.7% -> 66.2% branch / 30.2% -> 88.0% line (AC#3 met). Geometric results asserted at Node level because KDTree.hit only returns a boolean publicly (wraps Hit(sr), never copies back). The Grid slab t0>t1 reject branch is genuinely unreachable (boundingBox.isHit applies a stricter interval first) — documented, not forced. Determinism/testing.md compliant (shouldBeApprox for computed doubles, stub fakes, no RNG/time). Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as db7cd50. Correction to TASK-4 note: only TestBuilder/Test2Builder carry the .toMutableList() bug; ObjectMedian2Builder does NOT (it passes out-lists directly and builds a working tree).
+<!-- SECTION:FINAL_SUMMARY:END -->
