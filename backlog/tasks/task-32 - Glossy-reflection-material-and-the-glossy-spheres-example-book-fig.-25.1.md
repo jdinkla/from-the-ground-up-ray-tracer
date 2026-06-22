@@ -1,9 +1,10 @@
 ---
 id: TASK-32
 title: Glossy reflection material and the glossy spheres example (book fig. 25.1)
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-06-22 21:34'
+updated_date: '2026-06-22 21:37'
 labels: []
 dependencies: []
 ordinal: 35000
