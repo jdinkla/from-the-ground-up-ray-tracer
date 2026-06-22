@@ -1,9 +1,11 @@
 ---
 id: TASK-26
 title: Implement ThinLens depth-of-field (or document it as an intentional stub)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 14:20'
+updated_date: '2026-06-22 19:28'
 labels:
   - bug
   - camera
