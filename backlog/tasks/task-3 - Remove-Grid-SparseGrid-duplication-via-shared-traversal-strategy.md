@@ -1,11 +1,11 @@
 ---
 id: TASK-3
 title: Remove Grid/SparseGrid duplication via shared traversal strategy
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:10'
-updated_date: '2026-06-22 10:53'
+updated_date: '2026-06-22 10:56'
 labels:
   - refactor
   - acceleration
@@ -56,3 +56,9 @@ Note: the dense-vs-sparse cell storage could not be fully extracted into a stand
 
 Verified: ./gradlew test --tests GridStructuresTest green; full 'just test' (clean check = compile + all tests + detekt) green. Files: src/commonMain/.../acceleration/Grid.kt, src/commonMain/.../acceleration/SparseGrid.kt. No examples/CLI/Swing code touched.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Removed the remaining Grid/SparseGrid duplication (building on TASK-2's GridTraversal extraction). Grid.initialize()/hit()/shadowHit() are now template methods holding all shared logic — the cube-root resolution heuristic, clamped cell-index ranges, the triple-nested insertion loop, per-cell counters/statistics, and the GridTraversal 3D-DDA. SparseGrid overrides only six storage-driven hooks (prepareInitialization, allocateCells, insertIntoCell, initializeSubcells, cellAt, count) and inherits everything else, so dense-vs-sparse cell storage (array vs map) is the only divergent concern. The redundant @Deprecated SparseGrid.shadowHit override was dropped (now inherited, identical behavior). Behaviour preserved and pinned by TASK-2's frozen characterization tests (GridStructuresTest, unmodified, reflected field names preserved); reviewer independently confirmed each hook is behaviour-preserving hook-by-hook. Verified via just test (clean check: compile + tests + detekt + jacoco) BUILD SUCCESSFUL; detekt-baseline untouched. Committed as f00e748.
+<!-- SECTION:FINAL_SUMMARY:END -->
