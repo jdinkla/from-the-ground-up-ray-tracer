@@ -1,9 +1,11 @@
 ---
 id: TASK-5
 title: Harden renderer threading error handling
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:11'
+updated_date: '2026-06-22 11:10'
 labels:
   - reliability
   - concurrency
