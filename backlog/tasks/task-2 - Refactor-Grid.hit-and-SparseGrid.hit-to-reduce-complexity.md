@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:10'
-updated_date: '2026-06-22 10:36'
+updated_date: '2026-06-22 10:41'
 labels:
   - refactor
   - acceleration
@@ -25,10 +25,12 @@ The hit() methods in Grid.kt (CC=33, ~197 lines) and SparseGrid.kt (CC=36, ~193 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Grid.hit() and SparseGrid.hit() each below cyclomatic complexity 15
-- [ ] #2 No method exceeds the 60-line threshold in these files
-- [ ] #3 Existing rendering behavior unchanged (golden-image / existing tests still pass)
+- [x] #1 Grid.hit() and SparseGrid.hit() each below cyclomatic complexity 15
+- [x] #2 No method exceeds the 60-line threshold in these files
+- [x] #3 Existing rendering behavior unchanged (golden-image / existing tests still pass)
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
