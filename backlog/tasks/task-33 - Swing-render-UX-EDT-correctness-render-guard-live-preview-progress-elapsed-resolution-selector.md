@@ -3,9 +3,11 @@ id: TASK-33
 title: >-
   Swing render UX: EDT-correctness, render guard, live preview,
   progress/elapsed, resolution selector
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 21:58'
+updated_date: '2026-06-22 21:59'
 labels:
   - swing
   - ui
@@ -30,6 +32,17 @@ The Swing desktop app touches Swing components off the Event Dispatch Thread dur
 - [ ] #6 Resolution is selectable in the GUI from the predefined presets (480p-4320p), defaulting to the currently configured resolution
 - [ ] #7 detekt and the full build stay green; behavior of the rendering core is unchanged
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add kotlinx-coroutines-swing dependency for clean Dispatchers.Swing EDT dispatch.
+2. SwingFilm: expose a thread-safe pixel-write counter (volatile/AtomicLong) so the UI can show progress; keep core IFilm contract unchanged.
+3. ImageFrame/ImageCanvas: support live repaint while pixels stream in.
+4. FromTheGroundUpRayTracer: run CPU render on Dispatchers.Default, hop to Dispatchers.Swing (withContext) for every Swing touch; guard Render/PNG buttons (disable during render, re-enable in finally); show visible feedback on empty selection; add a status bar (busy progress bar + elapsed time + completion summary) driven by a javax.swing.Timer that repaints the preview live; add a resolution selector combo populated from Resolution.Predefined defaulting to current config.
+5. main(): wrap construction in SwingUtilities.invokeLater (EDT).
+6. Verify: ./gradlew detekt + build green; launch ./gradlew swing and render a scene to confirm live preview, status, button-guard.
+<!-- SECTION:PLAN:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
