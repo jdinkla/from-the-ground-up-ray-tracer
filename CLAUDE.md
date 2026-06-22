@@ -36,10 +36,10 @@ Running a render:
 
 ```bash
 ./gradlew swing          # interactive Swing GUI (pick a scene, render it)
-./gradlew run --args="--world=World20.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
+./gradlew run --args="--world=AreaShadedSpheres.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
 ```
 
-CLI options (Clikt): `--world` (a scene id, default `World20.kt`), `--tracer`
+CLI options (Clikt): `--world` (a scene id, default `YellowAndRedSphere.kt`), `--tracer`
 (`WHITTED`/`AREA`/`MULTIPLE_OBJECTS`), `--renderer`
 (`SEQUENTIAL`/`FORK_JOIN`/`PARALLEL`/`NAIVE_COROUTINE`/`COROUTINE`/`VIRTUAL`),
 `--resolution` (`720p`/`1080p`/`2160p`/…).
