@@ -12,7 +12,7 @@ class SimpleSingleRayRenderer(
         r: Int,
         c: Int,
     ): Color {
-        val ray = lens.getRaySingle(r, c)
-        return tracer.trace(ray!!, 0)
+        val ray = requireNotNull(lens.getRaySingle(r, c)) { "Lens returned no ray for pixel ($r, $c)" }
+        return tracer.trace(ray, 0)
     }
 }

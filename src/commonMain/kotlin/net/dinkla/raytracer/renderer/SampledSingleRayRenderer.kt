@@ -26,8 +26,8 @@ class SampledSingleRayRenderer(
         val color = ColorAccumulator()
         for (j in 0 until numSamples) {
             val sp = sampler.sampleUnitSquare()
-            val ray = lens.getRaySampled(r, c, sp)
-            color.plus(tracer.trace(ray!!, 0))
+            val ray = requireNotNull(lens.getRaySampled(r, c, sp)) { "Lens returned no ray for pixel ($r, $c)" }
+            color.plus(tracer.trace(ray, 0))
         }
         return color.average
     }

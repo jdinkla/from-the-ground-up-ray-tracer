@@ -39,7 +39,8 @@ class SpatialMedianBuilder : TreeBuilder {
 
         Counter.count("KDtree.build.node")
 
-        val half = voxel!!.q.minus(voxel.p).times(0.5)
+        requireNotNull(voxel) { "voxel must be non-null for an inner node at depth $depth" }
+        val half = voxel.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
 
         var split: Double? = null
@@ -107,8 +108,9 @@ class SpatialMedianBuilder : TreeBuilder {
             "Splitting " + objects.size + " objects into " + objectsL.size + " and " +
                 objectsR.size + " objects at " + split + " with depth " + depth,
         )
+        val splitValue = requireNotNull(split) { "split must be computed for an inner node at depth $depth" }
         val left = build(objectsL, voxelL, depth + 1)
         val right = build(objectsR, voxelR, depth + 1)
-        return InnerNode(left, right, voxel, split!!, Axis.fromInt(depth))
+        return InnerNode(left, right, voxel, splitValue, Axis.fromInt(depth))
     }
 }

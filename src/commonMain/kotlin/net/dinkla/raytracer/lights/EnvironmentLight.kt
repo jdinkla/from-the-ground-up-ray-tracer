@@ -28,7 +28,9 @@ class EnvironmentLight(
         w = sr.normal.toVector3D()
         v = Vector3D(0.0034, 1.0, 0.0071).cross(w)
         u = v cross w
-        val sp = sampler!!.sampleHemisphere()
+        val sp =
+            requireNotNull(sampler) { "EnvironmentLight.sampler not set; assign a sampler before rendering" }
+                .sampleHemisphere()
         wi = (u * sp.x) + (v * sp.y) + (w * sp.z)
         return wi
     }
@@ -36,5 +38,7 @@ class EnvironmentLight(
     override fun l(
         world: IWorld,
         sr: IShade,
-    ): Color = material!!.getLe(sr)
+    ): Color =
+        requireNotNull(material) { "EnvironmentLight.material not set; assign a material before rendering" }
+            .getLe(sr)
 }

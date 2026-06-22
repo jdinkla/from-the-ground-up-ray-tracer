@@ -74,15 +74,16 @@ open class Matte(
             if (light is AreaLight) {
                 val ls = light.getSamples(sr)
                 for (sample in ls) {
-                    val nDotWi = sample.wi!! dot sr.normal
+                    val wi = requireNotNull(sample.wi) { "Sample.wi not set; call getSamples first" }
+                    val nDotWi = wi dot sr.normal
                     if (nDotWi > 0) {
                         var inShadow = false
                         if (light.shadows) {
-                            val shadowRay = Ray(sr.hitPoint, sample.wi!!)
+                            val shadowRay = Ray(sr.hitPoint, wi)
                             inShadow = light.inShadow(world, shadowRay, sr, sample)
                         }
                         if (!inShadow) {
-                            val f = diffuseBRDF.f(sr, wo, sample.wi!!)
+                            val f = diffuseBRDF.f(sr, wo, wi)
                             val l = light.l(world, sr, sample)
                             val f1 = light.G(sr, sample) / light.pdf(sr)
                             val T = (f * l) * nDotWi * f1

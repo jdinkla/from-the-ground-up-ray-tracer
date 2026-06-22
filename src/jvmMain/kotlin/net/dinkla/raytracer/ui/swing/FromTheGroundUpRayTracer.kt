@@ -156,7 +156,9 @@ class FromTheGroundUpRayTracer :
                     world.initialize()
                     val film = SwingFilm(world.viewPlane.resolution)
                     val frame = ImageFrame(film)
-                    Render.render(film, world.renderer!!)
+                    val renderer =
+                        requireNotNull(world.renderer) { "World.renderer not set; context.adapt(world) must run first" }
+                    Render.render(film, renderer)
                     frame.repaint()
                     film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
                 } catch (e: Exception) {

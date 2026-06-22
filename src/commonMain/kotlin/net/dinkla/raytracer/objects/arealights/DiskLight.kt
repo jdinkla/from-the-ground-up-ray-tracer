@@ -30,5 +30,6 @@ class DiskLight(
         return center + Vector3D(v.x, v.y, 0.0)
     }
 
-    override fun getLightMaterial(): IMaterial = material!!
+    override fun getLightMaterial(): IMaterial =
+        requireNotNull(material) { "DiskLight.material not set; assign a material before rendering" }
 }

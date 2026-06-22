@@ -32,7 +32,9 @@ object Render {
         context.adapt(world)
         world.initialize()
         val film = Film(context.resolution)
-        render(film, world.renderer!!)
+        val renderer =
+            requireNotNull(world.renderer) { "World.renderer not set; context.adapt(world) must run first" }
+        render(film, renderer)
         return Pair(film, world)
     }
 

@@ -28,7 +28,8 @@ class Mesh {
             //                normal = new Normal(normal.plus(objects.get(vertexFaces.get(index).get(j)).getNormal()));
             //            }
 
-            for (i in vertexFaces[index]!!) {
+            val faces = requireNotNull(vertexFaces[index]) { "vertexFaces[$index] not initialized" }
+            for (i in faces) {
                 val n = objects[i].normal
                 if (null != n) {
                     normal = Normal.create(normal.plus(n))

@@ -126,7 +126,7 @@ class ObjectsScope(
         reverseNormal: Boolean = false,
         type: Acceleration = Acceleration.GRID,
     ) {
-        val m = materials[material]!!
+        val m = requireNotNull(materials[material]) { "Material '$material' not found in materials map" }
         val ply =
             Ply.fromFile(
                 fileName = fileName,

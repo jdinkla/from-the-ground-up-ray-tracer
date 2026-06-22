@@ -28,18 +28,16 @@ class Statistics {
             depth: Int,
         ) {
             if (node is Leaf) {
-                val n = node as Leaf?
                 s.numLeafs++
                 s.depthsLeafs.add(depth)
-                val sz = n!!.size()
+                val sz = node.size()
                 s.numChildrenInLeafs.add(sz)
                 s.numObjectsInLeafs += sz
             } else if (node is InnerNode) {
-                val n = node as InnerNode?
                 s.numInner++
                 s.depthsNodes.add(depth)
-                cs(n!!.left, s, depth + 1)
-                cs(n.right, s, depth + 1)
+                cs(node.left, s, depth + 1)
+                cs(node.right, s, depth + 1)
             }
         }
 

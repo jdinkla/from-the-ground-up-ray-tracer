@@ -44,7 +44,8 @@ class TestBuilder : TreeBuilder {
             }
 
             fun update() {
-                bbox = GeometricObjectUtilities.create(objects!!)
+                val objs = requireNotNull(objects) { "Triple.objects not set before update()" }
+                bbox = GeometricObjectUtilities.create(objs)
                 volume = bbox.volume
             }
         }
@@ -61,8 +62,9 @@ class TestBuilder : TreeBuilder {
 
             val isOk: Boolean
                 get() {
-                    val b1 = parent?.objects!!.size <= left.objects!!.size
-                    val b2 = parent?.objects!!.size <= right.objects!!.size
+                    val parentSize = requireNotNull(parent?.objects) { "Split.parent (or its objects) not set" }.size
+                    val b1 = parentSize <= requireNotNull(left.objects) { "Split.left.objects not set" }.size
+                    val b2 = parentSize <= requireNotNull(right.objects) { "Split.right.objects not set" }.size
                     return !(b1 || b2)
                 }
 
@@ -74,7 +76,9 @@ class TestBuilder : TreeBuilder {
 
             private fun calcSah(): Double {
                 val vol = parent?.volume ?: 0.0
-                return (constF + left.volume / vol * left.objects!!.size + right.volume / vol * right.objects!!.size)
+                val leftSize = requireNotNull(left.objects) { "Split.left.objects not set" }.size
+                val rightSize = requireNotNull(right.objects) { "Split.right.objects not set" }.size
+                return (constF + left.volume / vol * leftSize + right.volume / vol * rightSize)
             }
 
             companion object {
@@ -115,11 +119,11 @@ class TestBuilder : TreeBuilder {
                 s.axis = axis
                 s.split = split
                 ListUtilities.splitByAxis(
-                    parent.objects!!,
+                    requireNotNull(parent.objects) { "Triple.objects not set in calcSplit" },
                     split,
                     axis,
-                    s.left.objects!!.toMutableList(),
-                    s.right.objects!!.toMutableList(),
+                    requireNotNull(s.left.objects) { "Split.left.objects not set in calcSplit" }.toMutableList(),
+                    requireNotNull(s.right.objects) { "Split.right.objects not set in calcSplit" }.toMutableList(),
                 )
                 s.update()
                 return s
@@ -134,7 +138,8 @@ class TestBuilder : TreeBuilder {
     ): Node {
         Counter.count("KDtree.build")
         val node: Node?
-        if (objects!!.size < minChildren || depth >= maxDepth) {
+        requireNotNull(objects) { "objects must be non-null in build()" }
+        if (objects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
             node = Leaf(objects)
             return node
@@ -167,16 +172,17 @@ class TestBuilder : TreeBuilder {
             Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
         } else {
-            split.left.objects!!
-            split.right.objects!!
+            val leftObjects = requireNotNull(split.left.objects) { "Split.left.objects not set" }
+            val rightObjects = requireNotNull(split.right.objects) { "Split.right.objects not set" }
 
             Logger.info(
-                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size +
-                    " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth,
+                "Splitting " + split.axis + " " + objects.size + " objects into " + leftObjects.size +
+                    " and " + rightObjects.size + " objects at " + split.split + " with depth " + depth,
             )
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
-            node = InnerNode(left, right, voxel, split.split, split.axis!!)
+            val axis = requireNotNull(split.axis) { "Split.axis not set" }
+            node = InnerNode(left, right, voxel, split.split, axis)
         }
 
         return node

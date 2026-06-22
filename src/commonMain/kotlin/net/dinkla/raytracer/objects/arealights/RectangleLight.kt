@@ -31,5 +31,6 @@ class RectangleLight(
         return (p0 + a * sp.x) + b * sp.y
     }
 
-    override fun getLightMaterial(): IMaterial = material!!
+    override fun getLightMaterial(): IMaterial =
+        requireNotNull(material) { "RectangleLight.material not set; assign a material before rendering" }
 }

@@ -24,7 +24,11 @@ class AreaLight(
         var wi: Vector3D? = null
 
         val nDotD: Double
-            get() = (-lightNormal!!) dot (wi!!)
+            get() {
+                val normal = requireNotNull(lightNormal) { "Sample.lightNormal not set; call getSample first" }
+                val direction = requireNotNull(wi) { "Sample.wi not set; call getSample first" }
+                return (-normal) dot direction
+            }
     }
 
     fun l(
@@ -44,7 +48,8 @@ class AreaLight(
         sr: IShade,
         sample: Sample,
     ): Boolean {
-        val d = sample.samplePoint!!.minus(ray.origin).dot(ray.direction)
+        val samplePoint = requireNotNull(sample.samplePoint) { "Sample.samplePoint not set; call getSample first" }
+        val d = samplePoint.minus(ray.origin).dot(ray.direction)
         return world.inShadow(ray, sr, d)
     }
 
@@ -53,17 +58,23 @@ class AreaLight(
         sample: Sample,
     ): Double {
         val nDotD = sample.nDotD
-        val d2 = sample.samplePoint!!.sqrDistance(sr.hitPoint)
+        val samplePoint = requireNotNull(sample.samplePoint) { "Sample.samplePoint not set; call getSample first" }
+        val d2 = samplePoint.sqrDistance(sr.hitPoint)
         return nDotD / d2
     }
 
-    override fun pdf(sr: IShade): Double = source!!.pdf(sr)
+    override fun pdf(sr: IShade): Double = requiredSource().pdf(sr)
+
+    private fun requiredSource(): ILightSource =
+        requireNotNull(source) { "AreaLight.source not set; assign a light source before rendering" }
 
     private fun getSample(sr: IShade): Sample {
+        val src = requiredSource()
         val sample = Sample()
-        sample.samplePoint = source!!.sample()
-        sample.lightNormal = source!!.getNormal(sample.samplePoint!!)
-        sample.wi = sample.samplePoint!!.minus(sr.hitPoint).normalize()
+        val samplePoint = src.sample()
+        sample.samplePoint = samplePoint
+        sample.lightNormal = src.getNormal(samplePoint)
+        sample.wi = samplePoint.minus(sr.hitPoint).normalize()
         return sample
     }
 
@@ -92,5 +103,6 @@ class AreaLight(
         sr: IShade,
     ): Boolean = throw RuntimeException("AreaLight needs AreaLighting Tracer")
 
-    override fun getLightMaterial(): IMaterial = material!!
+    override fun getLightMaterial(): IMaterial =
+        requireNotNull(material) { "AreaLight.material not set; assign a material before rendering" }
 }

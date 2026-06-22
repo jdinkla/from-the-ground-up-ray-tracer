@@ -24,7 +24,6 @@ class KDTree(
         //        builder.setMaxDepth(n);
         root = builder.build(this, boundingBox)
         Statistics.print(this)
-        // Logger.info(root!!.printBBoxes(0))
     }
 
     override fun hit(
@@ -32,7 +31,8 @@ class KDTree(
         sr: IHit,
     ): Boolean {
         Counter.count("KDTree.hit")
-        return root!!.hit(ray, Hit(sr))
+        val node = requireNotNull(root) { "KDTree.root not built; call initialize() before hit()" }
+        return node.hit(ray, Hit(sr))
     }
 
     @Deprecated("KDTree shadowHit uses tmin as input?")

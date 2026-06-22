@@ -63,7 +63,7 @@ class Test2Builder : TreeBuilder {
 
             fun update() {
                 // bbox = BBox.create(objects);
-                volume = bbox!!.volume
+                volume = requireNotNull(bbox) { "Triple.bbox not set before update()" }.volume
             }
         }
 
@@ -77,10 +77,14 @@ class Test2Builder : TreeBuilder {
 
             var sah: Double = 0.0
 
+            private fun parentObjects(): List<IGeometricObject> =
+                requireNotNull(parent?.objects) { "Split.parent (or its objects) not set" }
+
             val isOk: Boolean
                 get() {
-                    val b1 = parent?.objects!!.size <= left.objects!!.size
-                    val b2 = parent?.objects!!.size <= right.objects!!.size
+                    val parentSize = parentObjects().size
+                    val b1 = parentSize <= requireNotNull(left.objects) { "Split.left.objects not set" }.size
+                    val b2 = parentSize <= requireNotNull(right.objects) { "Split.right.objects not set" }.size
                     return !(b1 || b2)
                 }
 
@@ -94,10 +98,10 @@ class Test2Builder : TreeBuilder {
                 val vol = parent?.volume ?: 0.0
                 val fL = left.volume / vol
                 val fR = right.volume / vol
-                val sL = left.objects!!.size.toDouble()
-                val sR = right.objects!!.size.toDouble()
+                val sL = requireNotNull(left.objects) { "Split.left.objects not set" }.size.toDouble()
+                val sR = requireNotNull(right.objects) { "Split.right.objects not set" }.size.toDouble()
                 //                return (constF + fL * sL + fR * sR);
-                return (constF + fL * sL + fR * sR) * (5 * (sL + sR) / parent?.objects!!.size)
+                return (constF + fL * sL + fR * sR) * (5 * (sL + sR) / parentObjects().size)
             }
 
             companion object {
@@ -116,8 +120,9 @@ class Test2Builder : TreeBuilder {
             cs: Set<Double>,
         ): Split? {
             var min: Split? = null
+            val rootBBox = requireNotNull(root.bbox) { "Partitioner.root.bbox not set" }
             for (split in cs) {
-                if (root.bbox!!.p.ith(axis) <= split && split <= root.bbox!!.q.ith(axis)) {
+                if (rootBBox.p.ith(axis) <= split && split <= rootBBox.q.ith(axis)) {
                     val s = calcSplit(axis, split, root)
                     if (s.isOk && (null == min || s.sah < min.sah)) {
                         min = s
@@ -136,16 +141,17 @@ class Test2Builder : TreeBuilder {
                 val s = Split(parent)
                 s.axis = axis
                 s.split = split
+                val parentBBox = requireNotNull(parent.bbox) { "Triple.bbox not set in calcSplit" }
                 ListUtilities.splitByAxis(
-                    parent.objects!!,
+                    requireNotNull(parent.objects) { "Triple.objects not set in calcSplit" },
                     split,
                     axis,
-                    s.left.objects!!.toMutableList(),
-                    s.right.objects!!.toMutableList(),
+                    requireNotNull(s.left.objects) { "Split.left.objects not set in calcSplit" }.toMutableList(),
+                    requireNotNull(s.right.objects) { "Split.right.objects not set in calcSplit" }.toMutableList(),
                 )
 
-                s.left.bbox = parent.bbox!!.splitLeft(axis, split)
-                s.right.bbox = parent.bbox!!.splitRight(axis, split)
+                s.left.bbox = parentBBox.splitLeft(axis, split)
+                s.right.bbox = parentBBox.splitRight(axis, split)
                 s.update()
                 return s
             }
@@ -161,7 +167,8 @@ class Test2Builder : TreeBuilder {
 
         val node: Node?
 
-        if (objects!!.size < minChildren || depth >= maxDepth) {
+        requireNotNull(objects) { "objects must be non-null in build()" }
+        if (objects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
             node = Leaf(objects)
             return node
@@ -199,15 +206,17 @@ class Test2Builder : TreeBuilder {
             Logger.info("Not splitting " + objects.size + " objects with depth " + depth)
             node = Leaf(objects)
         } else {
-            split.left.objects!!
-            split.right.objects!!
+            val leftObjects = requireNotNull(split.left.objects) { "Split.left.objects not set" }
+            val rightObjects = requireNotNull(split.right.objects) { "Split.right.objects not set" }
             Logger.info(
-                "Splitting " + split.axis + " " + objects.size + " objects into " + split.left.objects!!.size +
-                    " and " + split.right.objects!!.size + " objects at " + split.split + " with depth " + depth,
+                "Splitting " + split.axis + " " + objects.size + " objects into " + leftObjects.size +
+                    " and " + rightObjects.size + " objects at " + split.split + " with depth " + depth,
             )
             val left = build(split.left.objects, split.left.bbox, depth + 1)
             val right = build(split.right.objects, split.right.bbox, depth + 1)
-            node = InnerNode(left, right, voxel!!, split.split, split.axis!!)
+            val voxelBBox = requireNotNull(voxel) { "voxel must be non-null for an inner node at depth $depth" }
+            val axis = requireNotNull(split.axis) { "Split.axis not set" }
+            node = InnerNode(left, right, voxelBBox, split.split, axis)
         }
 
         return node

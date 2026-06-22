@@ -126,11 +126,12 @@ class ObjectMedian2Builder : TreeBuilder {
             when {
                 axis === Axis.X -> {
                     // x
+                    val splitXValue = requireNotNull(splitX) { "splitX not computed; call split() before select()" }
                     val bL = GeometricObjectUtilities.create(objectsLx)
                     val bR = GeometricObjectUtilities.create(objectsRx)
 
-                    val q1x = Point3D(splitX!!, bL.q.y, bL.q.z)
-                    val p2x = Point3D(splitX!!, bR.p.y, bR.p.z)
+                    val q1x = Point3D(splitXValue, bL.q.y, bL.q.z)
+                    val p2x = Point3D(splitXValue, bR.p.y, bR.p.z)
 
                     voxelL = BBox(bL.p, q1x)
                     voxelR = BBox(p2x, bR.q)
@@ -143,11 +144,12 @@ class ObjectMedian2Builder : TreeBuilder {
 
                 axis === Axis.Y -> {
                     // y
+                    val splitYValue = requireNotNull(splitY) { "splitY not computed; call split() before select()" }
                     val bL = GeometricObjectUtilities.create(objectsLy)
                     val bR = GeometricObjectUtilities.create(objectsRy)
 
-                    val q1 = Point3D(bL.q.x, splitY!!, bL.q.z)
-                    val p2 = Point3D(bR.p.x, splitY!!, bR.p.z)
+                    val q1 = Point3D(bL.q.x, splitYValue, bL.q.z)
+                    val p2 = Point3D(bR.p.x, splitYValue, bR.p.z)
 
                     voxelL = BBox(bL.p, q1)
                     voxelR = BBox(p2, bR.q)
@@ -160,11 +162,12 @@ class ObjectMedian2Builder : TreeBuilder {
 
                 axis === Axis.Z -> {
                     // z
+                    val splitZValue = requireNotNull(splitZ) { "splitZ not computed; call split() before select()" }
                     val bL = GeometricObjectUtilities.create(objectsLz)
                     val bR = GeometricObjectUtilities.create(objectsRz)
 
-                    val q1 = Point3D(bL.q.x, bL.q.y, splitZ!!)
-                    val p2 = Point3D(bR.p.x, bR.p.y, splitZ!!)
+                    val q1 = Point3D(bL.q.x, bL.q.y, splitZValue)
+                    val p2 = Point3D(bR.p.x, bR.p.y, splitZValue)
 
                     voxelL = BBox(bL.p, q1)
                     voxelR = BBox(p2, bR.q)
@@ -223,9 +226,11 @@ class ObjectMedian2Builder : TreeBuilder {
                 "Splitting " + par.axis + " " + objects.size + " objects into " + par.objectsL.size +
                     " and " + par.objectsR.size + " objects at " + par.split + " with depth " + depth,
             )
+            val voxelBBox = requireNotNull(voxel) { "voxel must be non-null for an inner node at depth $depth" }
+            val splitValue = requireNotNull(par.split) { "split must be computed for an inner node at depth $depth" }
             val left = build(par.objectsL, par.voxelL, depth + 1)
             val right = build(par.objectsR, par.voxelR, depth + 1)
-            node = InnerNode(left, right, voxel!!, par.split!!, Axis.fromInt(depth))
+            node = InnerNode(left, right, voxelBBox, splitValue, Axis.fromInt(depth))
         }
 
         return node
