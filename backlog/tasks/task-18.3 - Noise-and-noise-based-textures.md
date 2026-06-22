@@ -1,11 +1,11 @@
 ---
 id: TASK-18.3
 title: Noise and noise-based textures
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 16:58'
+updated_date: '2026-06-22 17:03'
 labels:
   - enhancement
   - book-parity
@@ -72,3 +72,9 @@ Both scenes auto-registered via classgraph (rendered by id without any registrat
 
 just test (= ./gradlew clean check) BUILD SUCCESSFUL incl detekt (clean; moved Wood default colours to companion vals to satisfy MagicNumber on default-parameter literals; no baseline entries). Pre-existing unrelated Unchecked-cast warnings remain in PlyReader.kt/GridStructuresTest.kt.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented the book's lattice-noise system and noise-driven textures (additive only — 14 new files, zero tracked-file modifications). New noise/ package: LatticeNoise (abstract base, value + gradient noise, fractalSum/fbm, turbulence) with LinearNoise (trilinear) and CubicNoise (tricubic four-knot spline) interpolation variants. Determinism (AC#4 headline) guaranteed by a self-contained seeded LCG (SeededRandom, Numerical-Recipes constants) + a fixed 256-entry Perlin permutation table — NO kotlin.random.Random/Math.random()/time anywhere, so renders are reproducible (reviewer verified). Five noise textures sample noise at sr.localHitPoint: FBmTexture, TurbulenceTexture, WrappedFBmTexture, RampFBmTexture (marble — ramp indexed by (1+sin)/2 of an fbm-warped value, reusing 18.2's Ramp), Wood. AC1-4 all met. AC#3 needed no DSL change (svMatte/svPhong/svEmissive already accept Texture; scenes declare via svMatte). Cover-first: SeededRandomTest (same-seed reproducibility, ranges, unit-vector length), LatticeNoiseTest (determinism, [-1,1] range, lattice-point=corner, single-octave fbm=valueNoise, single-octave turbulence=|valueNoise|, turbulence in [0,1] across octave counts, gradient convex-bound), NoiseTexturesTest (hand-derived colorFor + getColor determinism) — reviewer confirmed hand-derived, not round-trips; CubicNoise.valueNoise clamps the overshoot-prone scalar while vectorNoise is intentionally unclamped (gradient bound asserted only on the provably-bounded LinearNoise). Reviewer independently verified every texture's blend factor stays in [0,1] so output colors are valid. Example scenes MarbleScene + NoiseTexturesScene rendered + visually verified by both implementer and reviewer (cream/dark-blue folded marble veins; distinct fBm/turbulence/wood spheres; 123KB/151KB PNGs, no NaN/crash). detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as b2115f0. Completes the TASK-18 texture umbrella (18.1+18.2+18.3 all Done). Minor NIT (non-blocking): one tautological assertion line (abs(...)>=0.0) in LatticeNoiseTest — harmless, surrounding asserts are meaningful.
+<!-- SECTION:FINAL_SUMMARY:END -->
