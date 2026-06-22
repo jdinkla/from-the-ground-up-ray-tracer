@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:08'
+updated_date: '2026-06-22 17:17'
 labels:
   - enhancement
   - book-parity
@@ -22,10 +22,10 @@ No global-illumination tracer exists (tracers are Whitted, AreaLighting, Multipl
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A PathTrace tracer produces a converging GI image (color bleeding, soft indirect light) on a Cornell-box-style scene
-- [ ] #2 PathTrace is selectable via --tracer and exposed in the Tracers enum
-- [ ] #3 Cosine-weighted hemisphere sample_f is implemented for the diffuse BRDF
-- [ ] #4 Unit tests cover BRDF sampling pdf/distribution where practical; final image verified manually
+- [x] #1 A PathTrace tracer produces a converging GI image (color bleeding, soft indirect light) on a Cornell-box-style scene
+- [x] #2 PathTrace is selectable via --tracer and exposed in the Tracers enum
+- [x] #3 Cosine-weighted hemisphere sample_f is implemented for the diffuse BRDF
+- [x] #4 Unit tests cover BRDF sampling pdf/distribution where practical; final image verified manually
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -39,3 +39,33 @@ No global-illumination tracer exists (tracers are Whitted, AreaLighting, Multipl
 6. Tests (commonTest): LambertianSampleFTest - wi in hemisphere (n.wi>=0), pdf = cos(theta)*INV_PI consistent, color = f; statistical avg of n.wi over deterministic sampler ~ cos-weighted expectation (2/3). MattePathShadeTest + EmissivePathShadeTest for pathShade contract.
 7. just test green incl detekt; manual GI render of Cornell box, report color bleeding observed.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented PathTrace global-illumination tracer (Suffern ch. 26).
+
+APPROACH / DESIGN
+- Lambertian.sampleF: was a stub throwing UnsupportedOperationException. Completed it as cosine-weighted hemisphere sampling: builds an orthonormal basis (u,v,w=normal) and maps a cosine-weighted hemisphere sample (Sampler.mapSamplesToHemiSphere(1.0), exp=1 => cos density). Returns wi, color=f (=cd*kd/PI), pdf=(n.wi)/PI. Sampler is a per-instance non-constructor property so it stays OUT of the data-class equals/hashCode (Matte equality + MatteTest depend on Lambertian equality by reflectance only).
+- IMaterial.pathShade(world, sr): added ADDITIVELY with a default returning Color.BLACK, so all other materials and the direct-lighting tracers (Whitted/AreaLighting/...) are unaffected.
+- Matte.pathShade: sampleF on the diffuse BRDF, spawn reflected ray from hitPoint, return f * tracer.trace(reflected, depth+1) * (n.wi)/pdf. With cosine weighting (n.wi)/pdf=PI, so per-bounce throughput = cd*kd * incoming.
+- Emissive.pathShade: returns le on the front (emitting) face (-(normal).ray.dir>0), else BLACK — same front-face test as areaLightShade.
+- PathTrace tracer: returns BLACK past world.shouldStopRecursion(depth); on hit sets sr.depth/sr.ray and returns sr.material.pathShade(world, sr); on miss returns backgroundColor. Mirrors Whitted/AreaLighting depth+hit handling.
+
+KEY DESIGN CHOICE (documented): the render pipeline wires SimpleSingleRayRenderer = ONE primary ray/pixel, no anti-aliasing. So PathTrace does its own per-pixel Monte-Carlo averaging at the PRIMARY level: trace(ray, depth=0) averages numSamples (default 100) independent paths; deeper levels trace a single bounce. This keeps convergence sampling inside the tracer and leaves the pipeline untouched. GlobalTrace variant NOT added (out of scope; PathTrace satisfies all ACs).
+
+REGISTRATION (AC#2): added PATH_TRACE({ w -> PathTrace(w) }) to the Tracers enum. CommandLine builds --tracer .choice() from Tracers.entries (Main passes Tracers.entries), so it is automatically offered. Verified end-to-end: render logged 'Using tracer PATH_TRACE'.
+
+SCENE: src/examples/.../examples/globalillumination/CornellBox.kt (id 'CornellBox.kt'), auto-registers via classgraph. [0,555]^3 box, red left / green right walls, white floor/ceiling/back, emissive ceiling panel (only light), tall+short white matte boxes. ka=0 on all matte (ambient irrelevant to path tracing).
+
+TESTS (AC#4):
+- LambertianSampleFTest: wi in hemisphere (n.wi>=0) incl. a tilted normal; color==f; pdf==(n.wi)/PI exactly (by construction, sample is unit so n.wi==sp.z==cos theta); statistical mean of n.wi over 20000 deterministic-population draws ~ 2/3 (cosine-weighted expectation), tolerance 0.05 with documented reason, non-flaky (fixed 1000-direction population, only draw order randomised).
+- MattePathShadeTest: result==cd*kd*incoming (direction-independent invariant); recurses at depth+1; BLACK when no tracer.
+- EmissivePathShadeTest: emits le on front face, BLACK from behind.
+- PathTraceTest: BLACK past recursion bound; background on miss; pathShade on deeper bounce; depth-0 averaging.
+- Retired the now-false 'Lambertian.sampleF is not supported' pin in BrdfUnsupportedOperationTest (the stub it pinned is exactly what AC#3 replaces; a task-mandated behavior change, noted in-file). Other unsupported-op pins unchanged. MatteTest equality unchanged and still green.
+
+VERIFICATION
+- just test (= ./gradlew clean check, incl. detekt): GREEN. New code detekt-clean (fixed two ReturnCount violations; named consts used). Only pre-existing unchecked-cast warnings in PlyReader.kt / GridStructuresTest.kt remain.
+- Manual GI render (examples are coverage-excluded): ./gradlew run --args="--world=CornellBox.kt --tracer=PATH_TRACE --renderer=FORK_JOIN --resolution=720p" -> ~35-44s. Observed unmistakable global illumination: green color bleeding from the left wall and red from the right wall onto the white floor and the box faces; the emissive ceiling panel lit; soft indirect lighting filling the box; soft contact shadows under the two boxes; characteristic Monte-Carlo grain. AC#1 satisfied.
+<!-- SECTION:NOTES:END -->
