@@ -155,6 +155,132 @@ class GridStructuresTest : StringSpec({
         depthField.getInt(nested) shouldBe 1
     }
 
+    "grid adds a third object into an already-promoted nested grid cell" {
+        // First object wraps the cell in a Compound; the second promotes it to a nested Grid;
+        // the third must take the `cells[index] is Grid` insertion branch and be added to it.
+        val grid = TunableGrid().apply { tune(multiplierValue = 0.0) }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+
+        withGridThresholds(factor = 0, depth = 2) {
+            grid.add(StubObject(bbox))
+            grid.add(StubObject(bbox))
+            grid.add(StubObject(bbox, t = 0.15))
+            grid.initialize()
+        }
+
+        val cells = grid.cellsField().get(grid) as Array<*>
+        cells.size shouldBe 1
+        val nested = cells.first()
+        (nested is Grid) shouldBe true
+        // The promoted grid holds the original cell's NullObject placeholder plus all three
+        // StubObjects (the dense grid wraps the first occupant alongside the empty-cell marker).
+        (nested as Grid).objects.size shouldBe 4
+
+        // and the populated nested grid still resolves a ray to its closest occupant
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+        grid.hit(ray, sr) shouldBe true
+        sr.t shouldBe 0.15
+    }
+
+    "grid hit steps across multiple cells along the y axis (positive y direction)" {
+        // A spacer at low y stretches the grid across many y-cells; the target sits at high y, so a
+        // +y ray must step up (nextAxis=Y, stepOut=Y) past the non-matching cells to reach it.
+        val grid = TunableGrid().apply { tune(multiplierValue = 6.0) }
+        val spacer = StubObject(BBox(Point3D(0.0, 0.0, 0.0), Point3D(1.0, 0.1, 1.0)), shouldHit = false)
+        val target = StubObject(BBox(Point3D(0.0, 1.9, 0.0), Point3D(1.0, 2.0, 1.0)), t = 2.95)
+        grid.add(spacer)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(0.5, -1.0, 0.5), Vector3D(0.0, 1.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 2.95
+    }
+
+    "grid hit steps across multiple cells along the z axis (negative z direction)" {
+        // A spacer at high z stretches the grid across many z-cells; the target sits at low z so a
+        // -z ray must step down (nextAxis=Z, negative axisStep / stepOut-Z) to reach it. The spacer
+        // never hits, so the empty/non-matching cells in between are skipped during the walk.
+        val grid = TunableGrid().apply { tune(multiplierValue = 6.0) }
+        val spacer = StubObject(BBox(Point3D(0.0, 0.0, 1.9), Point3D(1.0, 1.0, 2.0)), shouldHit = false)
+        val target = StubObject(BBox(Point3D(0.0, 0.0, 0.0), Point3D(1.0, 1.0, 0.1)), t = 1.95)
+        grid.add(spacer)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(0.5, 0.5, 3.0), Vector3D(0.0, 0.0, -1.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 1.95
+    }
+
+    "grid hit ignores an empty leading cell and keeps stepping" {
+        // A ray entering through an empty cell must take the null-cell branch in the traversal
+        // (acceptsHit returns false for a null cell) before reaching the occupied cell.
+        val grid = TunableGrid().apply { tune(multiplierValue = 6.0) }
+        val target = StubObject(BBox(Point3D(0.9, 0.0, 0.0), Point3D(1.0, 1.0, 1.0)), t = 1.95)
+        grid.add(target)
+        grid.initialize()
+
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+    }
+
+    "grid toString reports the object count" {
+        val grid = TunableGrid()
+        grid.add(StubObject(BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))))
+        grid.add(StubObject(BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))))
+
+        grid.toString() shouldBe "Grid(#objs=2)"
+    }
+
+    "sparse grid wraps a second occupant of a cell in a compound" {
+        // Two objects sharing one cell: the first is stored bare, the second takes the
+        // `else` branch that creates a Compound, then a third takes the `is Compound` branch.
+        val sparse = SparseGrid().apply { multiplier = 1.0 }
+        val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
+        val closer = StubObject(bbox, t = 0.2)
+        sparse.add(StubObject(bbox, t = 0.6))
+        sparse.add(closer)
+        sparse.add(StubObject(bbox, t = 0.9))
+        sparse.initialize()
+
+        val field = SparseGrid::class.java.getDeclaredField("cellsX").apply { isAccessible = true }
+        val cells = field.get(sparse) as Map<Int, Any>
+        cells.values.any { it is Compound } shouldBe true
+
+        val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+        sparse.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe closer
+        sr.t shouldBe 0.2
+    }
+
+    "sparse grid steps across multiple cells along the y axis" {
+        val sparse = SparseGrid().apply { multiplier = 6.0 }
+        val spacer = StubObject(BBox(Point3D(0.0, 0.0, 0.0), Point3D(1.0, 0.1, 1.0)), shouldHit = false)
+        val target = StubObject(BBox(Point3D(0.0, 1.9, 0.0), Point3D(1.0, 2.0, 1.0)), t = 2.95)
+        sparse.add(spacer)
+        sparse.add(target)
+        sparse.initialize()
+
+        val ray = Ray(Point3D(0.5, -1.0, 0.5), Vector3D(0.0, 1.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        sparse.hit(ray, sr) shouldBe true
+        sr.geometricObject shouldBe target
+        sr.t shouldBe 2.95
+    }
+
     "grid hit returns false when ray misses bounding box" {
         val grid = TunableGrid().apply { tune(multiplierValue = 1.0) }
         val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
