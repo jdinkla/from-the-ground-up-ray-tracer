@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 12:23'
+updated_date: '2026-06-22 12:27'
 labels:
   - refactor
   - design
@@ -24,9 +24,11 @@ Grid.kt (341,360,378), SparseGrid.kt (139,158,177) and Compound.kt (62,65) repea
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A polymorphic method on IGeometricObject replaces the repeated is-Compound checks
-- [ ] #2 No is-Compound type checks remain in Grid, SparseGrid, or Compound traversal
+- [x] #1 A polymorphic method on IGeometricObject replaces the repeated is-Compound checks
+- [x] #2 No is-Compound type checks remain in Grid, SparseGrid, or Compound traversal
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
