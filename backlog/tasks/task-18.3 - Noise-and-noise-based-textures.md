@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 16:54'
+updated_date: '2026-06-22 16:57'
 labels:
   - enhancement
   - book-parity
@@ -24,11 +24,13 @@ Lattice noise and the noise-driven textures from the book (noise/ is currently e
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A LatticeNoise implementation provides value/gradient noise plus fBm and turbulence
-- [ ] #2 fBm, turbulence, and a marble-style (ramp-fbm) texture render via an SV material
-- [ ] #3 Noise textures are declarable from the Builder DSL
-- [ ] #4 Unit tests cover noise determinism/range and the fBm/turbulence helpers
+- [x] #1 A LatticeNoise implementation provides value/gradient noise plus fBm and turbulence
+- [x] #2 fBm, turbulence, and a marble-style (ramp-fbm) texture render via an SV material
+- [x] #3 Noise textures are declarable from the Builder DSL
+- [x] #4 Unit tests cover noise determinism/range and the fBm/turbulence helpers
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
