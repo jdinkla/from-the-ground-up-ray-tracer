@@ -51,8 +51,6 @@
     <ID>MagicNumber:WorldScope.kt:WorldScope$255.0</ID>
     <ID>MagicNumber:WorldScope.kt:WorldScope$5.0</ID>
     <ID>MagicNumber:WorldScope.kt:WorldScope$50.0</ID>
-    <ID>NestedBlockDepth:Grid.kt:Grid$override fun initialize</ID>
-    <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun initialize</ID>
     <ID>ReturnCount:FlatMeshTriangle.kt:FlatMeshTriangle$override fun hit: Boolean</ID>
     <ID>ReturnCount:Grid.kt:Grid$override fun hit: Boolean</ID>
     <ID>ReturnCount:InnerNode.kt:InnerNode$private fun hitRec: Boolean</ID>
