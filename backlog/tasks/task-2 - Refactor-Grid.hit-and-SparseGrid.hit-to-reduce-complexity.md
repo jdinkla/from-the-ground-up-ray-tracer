@@ -1,9 +1,11 @@
 ---
 id: TASK-2
 title: Refactor Grid.hit() and SparseGrid.hit() to reduce complexity
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:10'
+updated_date: '2026-06-22 10:35'
 labels:
   - refactor
   - acceleration
