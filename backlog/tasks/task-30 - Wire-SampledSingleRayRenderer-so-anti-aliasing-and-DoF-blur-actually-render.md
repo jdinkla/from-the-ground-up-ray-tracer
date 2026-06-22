@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 19:39'
-updated_date: '2026-06-22 21:18'
+updated_date: '2026-06-22 21:24'
 labels:
   - bug
   - renderer
@@ -24,10 +24,12 @@ Discovered during TASK-26: Context.adapt() always builds SimpleSingleRayRenderer
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [x] #1 Context (or equivalent) selects SampledSingleRayRenderer when the view plane sample count > 1, and SimpleSingleRayRenderer when it is 1
-- [ ] #2 Multi-sample anti-aliasing visibly works (smooth edges) and a numSamples=1 scene renders byte-identically to before
-- [ ] #3 Thin-lens depth-of-field blur is visible in a rendered thinLensCamera scene at high sample counts (verifying TASK-26's DoF end-to-end)
-- [ ] #4 Cover-first tests for the sampled-vs-single selection and the averaged output; full suite + detekt green
+- [x] #2 Multi-sample anti-aliasing visibly works (smooth edges) and a numSamples=1 scene renders byte-identically to before
+- [x] #3 Thin-lens depth-of-field blur is visible in a rendered thinLensCamera scene at high sample counts (verifying TASK-26's DoF end-to-end)
+- [x] #4 Cover-first tests for the sampled-vs-single selection and the averaged output; full suite + detekt green
 <!-- AC:END -->
+
+
 
 
 
