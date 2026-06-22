@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 19:41'
+updated_date: '2026-06-22 19:42'
 labels:
   - enhancement
   - book-parity
@@ -28,3 +28,17 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 - [ ] #2 Each is declarable from the Builder DSL (ObjectsScope) and has cover-first hit/shadowHit unit tests
 - [ ] #3 Existing primitives unchanged; detekt clean with no new baseline entries
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Study analogs (Sphere/Disk/Annulus/OpenCylinder/Torus/PartSphere/SolidCone/BeveledBox + Compound + ObjectsScope + tests) [done].
+2. ConcaveSphere (commonMain/objects): copy Sphere quadratic; normal points INWARD n=(center-p)/radius (negate outward). hit/shadowHit/bbox + equals/hashCode.
+3. ThickRing (compound): outer OpenCylinder + inner OpenCylinder + top Annulus + bottom Annulus; bbox outer radius x [y0,y1]. Suffern ThickRing.
+4. Bowl (compound): outer PartSphere lower hemisphere + inner PartSphere (inward via... reuse PartSphere outward; rim Annulus). Suffern Bowl = thick hemispherical shell between inner+outer sphere. Keep book-aligned; document.
+5. BeveledCylinder (beveled/): shortened OpenCylinder body + 2 shrunk cap Disks + Torus rim at top & bottom via Instance translate. Suffern BeveledCylinder.
+6. BeveledWedge (beveled/): part-cylinder slice + radial side rectangles + top/bottom part-annuli + bevel torus/sphere pieces. Suffern BeveledWedge. ATTEMPT; defer cleanly if geometry intractable (report).
+7. DSL ObjectsScope: add concaveSphere/thickRing/bowl/beveledCylinder(/beveledWedge) following idiom (+ imports).
+8. Tests (commonTest): per primitive hit(t+normal incl INWARD for ConcaveSphere), miss, hollow/sub-surface, bbox; derived values. DSL round-trip cases in ObjectsScopeTest.
+9. just test green incl detekt; keep hit() under thresholds; no baseline entries. Report deferred primitive if any.
+<!-- SECTION:PLAN:END -->
