@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 16:04'
+updated_date: '2026-06-22 16:10'
 labels:
   - reliability
 dependencies: []
@@ -23,9 +23,11 @@ CLI arguments are parsed without bounds checking and large PLY models (Bunny4K.p
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Invalid CLI inputs (bad resolution, missing world) fail fast with a clear message
-- [ ] #2 Grid allocation and large-model loading have configurable limits and degrade gracefully instead of OOM
+- [x] #1 Invalid CLI inputs (bad resolution, missing world) fail fast with a clear message
+- [x] #2 Grid allocation and large-model loading have configurable limits and degrade gracefully instead of OOM
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
