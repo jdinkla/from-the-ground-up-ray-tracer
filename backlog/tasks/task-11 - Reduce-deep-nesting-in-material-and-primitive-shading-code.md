@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 12:41'
+updated_date: '2026-06-22 12:43'
 labels:
   - refactor
 dependencies: []
@@ -23,9 +23,11 @@ Eight blocks exceed the nesting depth threshold of 4, notably Matte.kt areaLight
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 No block exceeds nesting depth 4 in the affected methods
-- [ ] #2 Shading/intersection behavior unchanged; tests pass
+- [x] #1 No block exceeds nesting depth 4 in the affected methods
+- [x] #2 Shading/intersection behavior unchanged; tests pass
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
