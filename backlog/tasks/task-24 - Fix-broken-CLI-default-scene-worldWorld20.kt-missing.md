@@ -1,11 +1,11 @@
 ---
 id: TASK-24
 title: Fix broken CLI default scene (--world=World20.kt missing)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:15'
+updated_date: '2026-06-22 15:19'
 labels:
   - bug
   - cli
@@ -52,3 +52,9 @@ just test (clean check + all tests + detekt + jacoco): BUILD SUCCESSFUL (green).
 
 Out of scope / follow-up: README.md also lists two other now-stale scene ids in example commands — World66.kt (only World66b.kt exists) and World42.kt (absent). Left as-is per scope discipline; flagged for the manager to route as a separate doc-cleanup task.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Fixed the broken CLI default scene. The Clikt --world default in CommandLine.kt was World20.kt, which no auto-discovered WorldDefinition provides, so a no-argument render logged 'WorldDef World20.kt is not known' and silently wrote no PNG (Render only warns on a null worldDef; build still reported SUCCESS). Changed the default to the existing simple Whitted scene YellowAndRedSphere.kt; updated the option help string and the default reference in CLAUDE.md, plus the stale World20.kt/World20AreaDisk.kt AREA example commands in CLAUDE.md and README.md to a real area-light scene (AreaShadedSpheres.kt). AC1-3 all met. CLI/Main is a coverage-excluded zone, so verified manually (not by unit test): reviewer independently confirmed World20 is absent from src/examples (grep exit 1), YellowAndRedSphere.kt is a real discoverable id, and ran ./gradlew run --args='--resolution=720p' -> 'Rendering YellowAndRedSphere.kt', valid 1280x720 PNG, no warning; also rendered the AREA example (AreaShadedSpheres.kt, --tracer=AREA --renderer=FORK_JOIN) -> valid PNG. Minimal/in-scope (default value + help + docs only; no CLI or scene-loading refactor). Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 4740c5d. Follow-up flagged by implementer+reviewer (out of scope here): README.md still lists two stale scene ids in non-default example commands — World66.kt (only World66b.kt exists) and World42.kt (absent) — candidate small doc-cleanup, fits TASK-16's docs-cleanup theme.
+<!-- SECTION:FINAL_SUMMARY:END -->
