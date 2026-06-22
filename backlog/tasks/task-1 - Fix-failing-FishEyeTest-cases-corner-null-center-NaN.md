@@ -1,10 +1,11 @@
 ---
 id: TASK-1
 title: Fix failing FishEyeTest cases (corner null + center NaN)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:05'
-updated_date: '2026-06-22 09:12'
+updated_date: '2026-06-22 10:13'
 labels: []
 dependencies: []
 priority: high
@@ -24,3 +25,9 @@ Four FishEyeTest cases fail on both JDK 21 (CI, run 27940637964) and JDK 25, so 
 - [ ] #3 getRaySampled with a zero sample matches getRaySingle at the center
 - [ ] #4 All FishEyeTest cases pass and 'just test' (gradle clean check) is green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. FishEye.getRayDirection: propagate rSquared in the out-of-circle else branch so the caller's 'rSquared <= 1' null-guard correctly rejects corners. 2. Guard the center case (r==0) so sinAlpha/cosAlpha don't divide by zero; center yields a finite, normalized forward direction (-w). 3. All FishEyeTest cases pass; just test green.
+<!-- SECTION:PLAN:END -->
