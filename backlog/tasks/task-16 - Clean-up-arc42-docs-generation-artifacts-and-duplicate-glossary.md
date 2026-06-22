@@ -1,11 +1,11 @@
 ---
 id: TASK-16
 title: Clean up arc42 docs (generation artifacts and duplicate glossary)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 16:19'
+updated_date: '2026-06-22 16:29'
 labels:
   - docs
 dependencies: []
@@ -40,3 +40,9 @@ Removed generation-preamble + duplicate-H1 artifacts from chapters 01, 02, 09, 1
 
 AC#2 met: single 12_glossary.md remains, duplicate deleted, no term lost (byte-identical diff verified), no dangling 12-glossary refs. AC#1 PARTIALLY met: artifacts removed from the 4 confirmed chapters (01,02,09,11) incl. ch.11 duplicate H1; the 7 summary-only chapters (03-08,10) still hold preamble lines pending the NEEDS-DECISION above -- left AC#1 unchecked. just test = BUILD SUCCESSFUL (detekt green; 2 pre-existing unchecked-cast warnings unrelated to docs). Diff is docs-only (README.md + docs/arc42/*).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Cleaned up the arc42 docs (docs-only, no code/behavior change). AC#2 FULLY MET: consolidated the two glossary files into a single canonical 12_glossary.md (verified byte-identical to the old comprehensive 12-glossary.md — zero terms lost; the old 12_glossary.md was itself a generation-postamble stub with no real terms) and deleted the duplicate 12-glossary.md; no dangling 12-glossary references remain. AC#1 met for all chapters that had genuine content: removed the LLM generation-preamble lines AND duplicated H1 headings from chapters 01, 02, 09, 11 (verified surgical — only artifact lines removed, real content intact). Also fixed 3 stale scene ids in the top-level README example commands (World66.kt->World66b.kt x2, World42.kt->World74.kt — all verified discoverable). NEEDS-DECISION raised and resolved by the user (chose 'Leave stubs as-is + follow-up'): while scanning all 12 chapters the implementer discovered that chapters 03,04,05,06,07,08,10 are ENTIRELY generation-postamble — an 'I have generated... here is what it covers' summary under the H1 with NO genuine arc42 body (several even cite a stale /Volumes/JD/... absolute path for 'the real document' that was never written). So for those 7, artifact-removal would leave nothing — they need content AUTHORED, a different/larger effort. Per the user's decision these 7 were left untouched and tracked in the new follow-up TASK-28 (write real content for the 7 empty arc42 stub chapters), which completes AC#1's intent for them. Verified glossary content preservation + docs-only diff scope directly; just test BUILD SUCCESSFUL. Committed as 1d1ebd3.
+<!-- SECTION:FINAL_SUMMARY:END -->
