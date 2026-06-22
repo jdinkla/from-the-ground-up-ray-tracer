@@ -28,6 +28,12 @@ object Render {
         val world = worldDefinition.world()
         context.adapt(world)
         world.initialize()
+        if (world.stereoCamera != null) {
+            // Stereo scenes render two eye views and composite them; the output dimensions differ
+            // (double width for side-by-side). All other (non-stereo) scenes use the single-camera
+            // path below, unchanged.
+            return Pair(StereoRender.render(world, context), world)
+        }
         val film = Film(context.resolution)
         val renderer =
             requireNotNull(world.renderer) { "World.renderer not set; context.adapt(world) must run first" }

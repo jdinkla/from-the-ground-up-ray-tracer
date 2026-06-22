@@ -2,6 +2,7 @@ package net.dinkla.raytracer.world
 
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
+import net.dinkla.raytracer.cameras.StereoCamera
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.IShade
@@ -25,6 +26,12 @@ class World(
     val materials: Map<String, IMaterial>,
     val objects: List<GeometricObject>,
     val compound: Compound,
+    /**
+     * An optional stereo camera. When non-`null`, the render glue ([Render]) renders two eye views
+     * and composites them; when `null` (the default for every existing scene) the normal
+     * single-[camera] pipeline is used unchanged.
+     */
+    val stereoCamera: StereoCamera? = null,
 ) : IWorld {
     override var backgroundColor: Color = Color.BLACK
     override var tracer: Tracer? = null

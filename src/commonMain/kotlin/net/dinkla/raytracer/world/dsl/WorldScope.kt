@@ -2,6 +2,9 @@ package net.dinkla.raytracer.world.dsl
 
 import net.dinkla.raytracer.ViewPlane
 import net.dinkla.raytracer.cameras.Camera
+import net.dinkla.raytracer.cameras.StereoCamera
+import net.dinkla.raytracer.cameras.StereoMode
+import net.dinkla.raytracer.cameras.StereoViewing
 import net.dinkla.raytracer.cameras.lenses.Pinhole
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.Ambient
@@ -37,10 +40,11 @@ class WorldScope {
     private var materials: Map<String, IMaterial> = mapOf()
     private var objects: List<GeometricObject> = listOf()
     private val compound: Compound = Compound()
+    private var stereoCamera: StereoCamera? = null
 
     /** The assembled [World] from everything declared so far in the DSL body. */
     val world: World
-        get() = World(metadata, camera, viewPlane, ambientLight, lights, materials, objects, compound)
+        get() = World(metadata, camera, viewPlane, ambientLight, lights, materials, objects, compound, stereoCamera)
 
     /** Shorthand for a [Point3D] from integer coordinates. */
     fun p(
@@ -117,6 +121,28 @@ class WorldScope {
                 p.d = d
                 p
             }, eye, lookAt, up)
+    }
+
+    /**
+     * Selects a stereo camera (Suffern ch. 9): the scene is rendered from two eye positions offset
+     * by `±separation/2` along the camera's right axis and the two views are composited per [viewing]
+     * (side-by-side or anaglyph). [mode] chooses parallel vs. transverse (toed-in) convergence and
+     * [d] is the view-plane distance (focal length).
+     *
+     * A base [Pinhole] [camera] is also set so the assembled world stays valid for any code that
+     * reads [World.camera]; the actual stereo render reads [World.stereoCamera].
+     */
+    fun stereoCamera(
+        eye: Point3D,
+        lookAt: Point3D,
+        up: Vector3D = Vector3D.UP,
+        separation: Double,
+        mode: StereoMode = StereoMode.PARALLEL,
+        viewing: StereoViewing = StereoViewing.SIDE_BY_SIDE,
+        d: Double = 1.0,
+    ) {
+        camera(d = d, eye = eye, lookAt = lookAt, up = up)
+        stereoCamera = StereoCamera(eye, lookAt, up, separation, mode, viewing, d)
     }
 
     /** Sets a uniform [Ambient] ambient light of the given [color] scaled by intensity [ls]. */
