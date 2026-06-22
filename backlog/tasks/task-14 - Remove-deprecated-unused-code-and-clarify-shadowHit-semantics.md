@@ -1,11 +1,11 @@
 ---
 id: TASK-14
 title: Remove deprecated/unused code and clarify shadowHit semantics
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 15:35'
+updated_date: '2026-06-22 15:50'
 labels:
   - cleanup
 dependencies: []
@@ -26,8 +26,6 @@ Remove dead code marked unused (World.kt:35,49) and resolve the open questions f
 - [x] #1 Deprecated/unused methods removed or justified
 - [ ] #2 shadowHit parameter semantics documented and consistent across implementations
 <!-- AC:END -->
-
-
 
 ## Implementation Plan
 
@@ -50,3 +48,9 @@ Part C decision: justify-and-keep all KDTree builders. Simple2Builder is LIVE (u
 
 GENUINE INCONSISTENCY found (NEEDS-DECISION for manager): KDTree.shadowHit's write-back is broken because KDTree.hit (KDTree.kt:51) wraps the caller's record in a fresh Hit(sr) and discards the populated inner result. Consequence: a KDTree-accelerated object returns the correct boolean from shadowHit but does NOT propagate the hit distance, so Compound.inShadow (which accepts only when tmin.t<d) never registers it as a shadow caster -> KDTree objects do not cast shadows. The same discard also breaks KDTree primary-ray rendering via Compound.hit (sr2.t stays at input -> sr2.t<sr.t false -> hit rejected). Grid does NOT have this bug (its traversal mutates sr in place; GridStructuresTest pins tmin.t==0.3). This is the documented-vs-consistent gap in AC#2. I did NOT fix it: (1) the fix touches KDTree.hit and changes rendered output (broken->working) for KDTree scenes - consequential, not a doc pass; (2) prior TASK-4/TASK-6 frozen tests explicitly preserve this discard behavior and state it 'must not be fixed' under those tasks; (3) the only KDTree scene (World75) is itself labeled 'Does not work'. Recommendation: route the KDTree.hit/shadowHit write-back fix as its own behavior-change task (cover-first with a frozen test, then update the TASK-4/6 characterization tests' notes), separate from this cleanup.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Removed deprecated/unused code and documented the shadowHit contract (behavior-neutral cleanup + docs pass). AC#1 MET: removed the two confirmed-uncalled @Deprecated World methods (hit(): Shade, shadowHit(ray, tmin)) plus their orphaned callee Compound.hitObjects() and dead imports — reviewer independently grep-confirmed zero callers across commonMain/jvmMain/examples/commonTest/jvmTest (incl. Counter-name strings); the live World.hit(ray, sr) overload is retained. Justified-and-kept the KDTree builders rather than removing them — finding: Simple2Builder is actually live via World75 (correcting the earlier 'only SpatialMedianBuilder is wired' premise). AC#2 documented (consistency for KDTree split out, see below): documented the shadowHit tmin contract as KDoc on IGeometricObject — tmin.t is an output (found distance written back on success) plus a soft input cap enforced solely by Compound.inShadow (seeds tmin.t=lightDistance, accepts an occluder only when written-back tmin.t<lightDistance); primitives + Grid + Compound all honor this. Replaced KDTree's stale @Deprecated('uses tmin as input?') with accurate KDoc. NEEDS-DECISION raised and resolved by the user (Option A): the 'consistent across implementations' half of AC#2 cannot be honestly met without fixing a genuine KDTree bug — KDTree.hit wraps the record in a fresh Hit(sr) copy and discards the populated inner result, so KDTree returns correct booleans but never propagates hit distance/object, breaking KDTree shadows (Compound.inShadow's tmin.t<d is d<d=false) and primary-ray rendering (World75 is labelled 'Does not work'). Corroborated by the TASK-6 reviewer's independent observation. Per user decision this rendering-behavior fix was split into the new HIGH-priority TASK-27 (cover-first, updates the TASK-4/6 frozen tests that deliberately pinned the discard behavior) rather than bundled into this cleanup task. No shadowHit/KDTree.hit LOGIC changed here (reviewer confirmed byte-identical); TASK-4/6 frozen test assertions unchanged (only a redundant @Suppress(DEPRECATION) removed). Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 54edb32.
+<!-- SECTION:FINAL_SUMMARY:END -->
