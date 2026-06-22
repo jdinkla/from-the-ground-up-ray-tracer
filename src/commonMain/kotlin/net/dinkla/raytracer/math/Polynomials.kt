@@ -186,10 +186,13 @@ object Polynomials {
             coeffs3[1] = if (q < 0) v else -v
             coeffs3[2] = 1.0
 
-            val ss3 = doubleArrayOf(s[0 + num], s[1 + num])
-            num += solveQuadric(coeffs3, ss3)
-            s[0] = ss3[0]
-            s[1] = ss3[1]
+            // Append the second quadric's roots at offset `num` (the C++ original passed
+            // `s + num`); writing back to s[0]/s[1] clobbered the first quadric's roots.
+            val ss3 = doubleArrayOf(s[num], s[num + 1])
+            val num2 = solveQuadric(coeffs3, ss3)
+            s[num] = ss3[0]
+            s[num + 1] = ss3[1]
+            num += num2
         }
 
         // resubstitute

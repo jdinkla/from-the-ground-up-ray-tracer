@@ -68,11 +68,14 @@ class FishEye(
             val psi = r * maxPsi * MathUtils.PI_ON_180
             val sinPsi = sin(psi)
             val cosPsi = cos(psi)
-            val sinAlpha = y / r
-            val cosAlpha = x / r
+            // At the exact center r == 0, so x/r and y/r would be NaN. There psi == 0 too, so
+            // the in-plane components vanish and the direction is the pure forward axis (-w).
+            val sinAlpha = if (r == 0.0) 0.0 else y / r
+            val cosAlpha = if (r == 0.0) 0.0 else x / r
             return RayDirection(uvw.pm(sinPsi * cosAlpha, sinPsi * sinAlpha, cosPsi), rSquared)
         } else {
-            return RayDirection(Vector3D.ZERO)
+            // Keep rSquared so the caller's `rSquared <= 1` guard rejects out-of-circle pixels.
+            return RayDirection(Vector3D.ZERO, rSquared)
         }
     }
 }

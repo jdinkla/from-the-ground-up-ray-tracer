@@ -92,6 +92,9 @@ implementations that differ only in *how pixel work is parallelized* — `Sequen
 
 ## Conventions
 
+- **Testing style & methodology: `specs/testing.md` is the source of truth — read it before
+  writing or reviewing tests.** It is mandatory for all contributors (human and agent) and
+  codifies the rules summarised below.
 - Tests use **Kotest** `StringSpec` (`"description" { ... }`); shared helpers/fixtures in
   `src/commonTest/.../Fixture.kt` (e.g. the `shouldBeApprox` infix matchers for float
   comparisons against `MathUtils.K_EPSILON`).
