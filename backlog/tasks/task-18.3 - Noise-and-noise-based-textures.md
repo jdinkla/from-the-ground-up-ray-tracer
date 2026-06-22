@@ -4,11 +4,12 @@ title: Noise and noise-based textures
 status: To Do
 assignee: []
 created_date: '2026-06-22 09:41'
+updated_date: '2026-06-22 09:42'
 labels:
   - enhancement
   - book-parity
 dependencies:
-  - TASK-18
+  - TASK-18.1
 parent_task_id: TASK-18
 priority: low
 ordinal: 21000
