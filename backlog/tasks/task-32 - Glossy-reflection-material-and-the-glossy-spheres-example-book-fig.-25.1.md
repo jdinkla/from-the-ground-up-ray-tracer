@@ -1,10 +1,10 @@
 ---
 id: TASK-32
 title: Glossy reflection material and the glossy spheres example (book fig. 25.1)
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-06-22 21:34'
-updated_date: '2026-06-22 21:37'
+updated_date: '2026-06-22 21:43'
 labels: []
 dependencies: []
 ordinal: 35000
@@ -18,9 +18,33 @@ GlossyReflector (Suffern ch. 25) exists but is dead, non-functional code: it onl
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 GlossyReflector.shade and areaLightShade add an importance-sampled glossy-reflected ray on top of the Phong direct term, weighted by cr*kr (lobe and pdf cancel)
-- [ ] #2 GlossySpecular's hemisphere sampler is initialised (mapSamplesToHemiSphere(exp)) so sampleF no longer throws; re-init when exp changes
-- [ ] #3 A glossyReflector(id, cd, ka, kd, exp, ks, cs, cr, kr) function is available in the materials DSL
-- [ ] #4 A new auto-discovered example scene renders three glossy spheres (blue/red/silver) with blurred reflections, verified by a multi-sample render
-- [ ] #5 commonMain changes covered by frozen unit tests (GlossyReflector shade + MaterialsScope glossyReflector); ./gradlew build (compile + test + detekt) is green
+- [x] #1 GlossyReflector.shade and areaLightShade add an importance-sampled glossy-reflected ray on top of the Phong direct term, weighted by cr*kr (lobe and pdf cancel)
+- [x] #2 GlossySpecular's hemisphere sampler is initialised (mapSamplesToHemiSphere(exp)) so sampleF no longer throws; re-init when exp changes
+- [x] #3 A glossyReflector(id, cd, ka, kd, exp, ks, cs, cr, kr) function is available in the materials DSL
+- [x] #4 A new auto-discovered example scene renders three glossy spheres (blue/red/silver) with blurred reflections, verified by a multi-sample render
+- [x] #5 commonMain changes covered by frozen unit tests (GlossyReflector shade + MaterialsScope glossyReflector); ./gradlew build (compile + test + detekt) is green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implementation:
+- GlossySpecular.setupSampler() maps the hemisphere sampler with the current exp (fixes the latent IndexOutOfBounds in sampleF; documented as a precondition).
+- GlossyReflector rewritten: constructor (color,ka,kd) like Reflective; init + exp-setter call setupSampler so the sampler tracks exp; exp also drives the Phong highlight (super.exp); shade() and areaLightShade() now add glossyReflection() = importance-sampled reflected ray traced via world.tracer, weighted color*(n.wi)/pdf which reduces to cr*kr*incoming; guards nDotWi<=0 / pdf<=0 / no tracer -> BLACK; added equals/hashCode covering glossySpecularBrdf.
+- MaterialsScope.glossyReflector(id,cd,ka,kd,exp,ks,cs,cr,kr) added (mirrors reflective()).
+- Scene examples/materials/reflective/GlossySpheres.kt (auto-discovered, id GlossySpheres.kt): blue+red satin spheres (exp 70) and a polished champagne sphere (exp 900) on a bright floor, samples(64).
+
+Tests (cover-first, commonMain):
+- GlossyReflectorShadeTest: glossy contribution == cr*kr*traced with black direct term (deterministic despite random sampling because lobe & pdf cancel); no-tracer -> BLACK. Also guards the sampleF regression.
+- MaterialsScopeTest: 'should handle glossyReflector' asserts props + equals.
+
+Verification:
+- ./gradlew build green (compile + all tests + detekt + jacoco).
+- Rendered at 720p (WHITTED/FORK_JOIN, 5.7s) -> faithful reproduction of fig 25.1.
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Completed the previously dead GlossyReflector so it produces real glossy (blurred) reflections, exposed it as glossyReflector() in the materials DSL, and added the auto-discovered GlossySpheres scene reproducing book fig. 25.1. Covered the commonMain changes with frozen unit tests and verified the render visually; full build green.
+<!-- SECTION:FINAL_SUMMARY:END -->
