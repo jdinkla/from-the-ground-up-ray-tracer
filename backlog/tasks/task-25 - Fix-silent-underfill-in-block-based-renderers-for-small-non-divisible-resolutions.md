@@ -3,9 +3,11 @@ id: TASK-25
 title: >-
   Fix silent underfill in block-based renderers for small/non-divisible
   resolutions
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 14:20'
+updated_date: '2026-06-22 15:20'
 labels:
   - bug
   - concurrency
