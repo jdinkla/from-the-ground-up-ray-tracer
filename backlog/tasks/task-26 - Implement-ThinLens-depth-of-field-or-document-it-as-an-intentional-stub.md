@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 19:33'
+updated_date: '2026-06-22 19:34'
 labels:
   - bug
   - camera
@@ -42,4 +42,6 @@ ThinLens.getDirection ignores the pixel coordinates, the lens sample point, foca
 
 <!-- SECTION:NOTES:BEGIN -->
 Implemented the book's thin-lens DoF (Suffern ch.10) in ThinLens.kt. Added lensRadius field; sampler retyped to a new UnitDiskSampler fun-interface seam (Sampler now implements it; area lights/DiskLight unaffected). getRaySampled: view-plane point (px,py) as Pinhole, lens-disk sample scaled by lensRadius -> origin = eye + lx*u + ly*v, direction = pm(px*f/d - lx, py*f/d - ly, f).normalize() -> all aperture samples converge on the focal point at distance f. getRaySingle uses lens centre (sharp pinhole-equivalent). Rewrote KDoc (stub note removed). Added WorldScope.thinLensCamera(...) DSL (additive; default jittered disk sampler). Replaced the stub-characterizing ThinLensTest with DoF geometry tests (deterministic QueuedDiskSampler fake; hand-derived: pixel (0,4) on a 4x2 view plane, d=1,f=4,lensRadius=2 -> focal point (8,-4,-4); origins (1,0,0)/(0,1,0)/(-0.5,-0.5,0) all reach it; off-focal-plane depth -2f spreads). Added Vector3D shouldBeApprox matcher to Fixture.kt. Updated World58.kt to actually use thinLensCamera with its pre-built (but previously unused) samp1 disk sampler. AC#1+#2 met via implementation+unit test; AC#3 n/a (implemented, not stubbed).
+
+Verified: just test (./gradlew clean check) green — detekt clean, all tests pass. Manual verification of coverage-excluded example: rendered World58.kt at 480p via ./gradlew run --args='--world=World58.kt --resolution=480p' -> valid 853x480 PNG, renders sharp (single-ray centre path), no error. FINDING for separate follow-up: SampledSingleRayRenderer is never wired into the render pipeline — Context.adapt() always constructs SimpleSingleRayRenderer (1 ray/pixel via getRaySingle), and SampledSingleRayRenderer has zero references outside its own file. So multi-sample anti-aliasing AND thin-lens DoF *visible blur* cannot render through the current pipeline; the DoF model is proven correct by the unit test instead (AC#2 'scene/test'). Wiring the sampled path is a larger, separate gap — not in this task's scope.
 <!-- SECTION:NOTES:END -->
