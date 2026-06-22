@@ -3,11 +3,11 @@ id: TASK-25
 title: >-
   Fix silent underfill in block-based renderers for small/non-divisible
   resolutions
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:23'
+updated_date: '2026-06-22 15:26'
 labels:
   - bug
   - concurrency
@@ -59,3 +59,9 @@ Equivalence: existing 32x32 cross-renderer test renamed and unchanged in substan
 
 Verified: ./gradlew test for RendererTest (15) + BlockTest (8) green; full 'just test' (clean check + detekt) BUILD SUCCESSFUL. Two compiler warnings (PlyReader.kt, GridStructuresTest.kt) are pre-existing and unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Fixed silent underfill in the block-based renderers. Block.partitionIntoBlocks split each dimension by integer division (dimension/numBlocks), which truncated to zero-size blocks when the resolution was smaller than the block grid (ForkJoin blocks=8, Coroutine/VirtualThread blocks=32 → 0 pixels rendered) and dropped the remainder rows/columns for non-divisible resolutions. Rewrote it to split each dimension into min(numBlocks, dimension) contiguous segments whose lengths differ by at most 1 (remainder distributed to the first dim%segments segments), so the blocks tile [0,width)x[0,height) EXACTLY — no gaps, no overlaps, no zero-size blocks — for any resolution and numBlocks. Block renderers now fill every pixel (matching SequentialRenderer) at small and non-divisible resolutions. AC1-4 all met (chose the correctness path over throwing, as preferred). Only Block.kt changed in production — no change to per-pixel rendering, orchestration, ParallelRenderer, Sequential, or NaiveCoroutine. Cover-first: per AC#4 the three TASK-7 RendererTest assertions that PINNED the bug (writes==0 for sub-block-grid films) were flipped to assert full coverage (pixels.keys == fullCoverage AND writes == w*h) — a legitimate behaviour-fix test update, not weakening; the naive-coroutine contrast test was reworded (same assertion); the 32x32 5-way equivalence test kept unchanged (renamed). Added per-renderer sub-grid + non-divisible coverage tests, a non-divisible (10x7) cross-renderer positional equivalence test (ParallelRenderer excluded — it guards height%(numThreads/4)), and a new BlockTest.kt (8 cases) whose shouldTileExactly asserts both full coverage and exact-once writes. Reviewer independently re-derived the tiling (10/3→4,3,3; 5/8→5 size-1; width=0→no blocks) and confirmed exact tiling + that no test was weakened. Verified via just test (RendererTest 15/15, BlockTest 8/8, clean check + detekt) BUILD SUCCESSFUL. Committed as f939920.
+<!-- SECTION:FINAL_SUMMARY:END -->
