@@ -7,11 +7,13 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.AlignedBox
 import net.dinkla.raytracer.objects.Annulus
+import net.dinkla.raytracer.objects.ConcaveSphere
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.GeometricObject
 import net.dinkla.raytracer.objects.Instance
 import net.dinkla.raytracer.objects.OpenCone
 import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.objects.PartAnnulus
 import net.dinkla.raytracer.objects.PartCylinder
 import net.dinkla.raytracer.objects.PartSphere
 import net.dinkla.raytracer.objects.PartTorus
@@ -27,10 +29,14 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
 import net.dinkla.raytracer.objects.beveled.BeveledBox
+import net.dinkla.raytracer.objects.beveled.BeveledCylinder
+import net.dinkla.raytracer.objects.beveled.BeveledWedge
+import net.dinkla.raytracer.objects.compound.Bowl
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
+import net.dinkla.raytracer.objects.compound.ThickRing
 import net.dinkla.raytracer.utilities.Ply
 
 /**
@@ -79,6 +85,54 @@ class ObjectsScope(
         isWiredFrame: Boolean = false,
     ) = BeveledBox(p0, p1, rb, isWiredFrame).add(material)
 
+    /**
+     * Adds a solid cylinder of [radius] spanning the y-range [y0]..[y1] whose top and bottom edges are
+     * rounded by a bevel of radius [rb] (torus rims).
+     */
+    fun beveledCylinder(
+        material: String,
+        y0: Double = 0.0,
+        y1: Double = 1.0,
+        radius: Double = 1.0,
+        rb: Double = 0.1,
+    ) = BeveledCylinder(y0, y1, radius, rb).add(material)
+
+    /**
+     * Adds a beveled wedge: an angular sector ([phiMin]..[phiMax] radians) of a thick tube spanning
+     * radii [innerRadius]..[outerRadius] and the y-range [y0]..[y1], with its curved top/bottom edges
+     * rounded by a bevel of radius [rb].
+     */
+    fun beveledWedge(
+        material: String,
+        y0: Double = 0.0,
+        y1: Double = 1.0,
+        innerRadius: Double = 0.5,
+        outerRadius: Double = 1.0,
+        phiMin: Double = 0.0,
+        phiMax: Double = MathUtils.PI / 2.0,
+        rb: Double = 0.1,
+    ) = BeveledWedge(y0, y1, innerRadius, outerRadius, phiMin, phiMax, rb).add(material)
+
+    /**
+     * Adds a bowl: a thick hemispherical shell (opening upward) between an inner sphere of
+     * [innerRadius] and an outer sphere of [outerRadius].
+     */
+    fun bowl(
+        material: String,
+        innerRadius: Double = 0.9,
+        outerRadius: Double = 1.0,
+    ) = Bowl(innerRadius, outerRadius).add(material)
+
+    /**
+     * Adds a concave sphere of [radius] centred at [center] — a sphere whose normal points inward,
+     * used for environment/skylight domes that enclose the scene.
+     */
+    fun concaveSphere(
+        material: String,
+        center: Point3D = Point3D.ORIGIN,
+        radius: Double = 1.0,
+    ) = ConcaveSphere(center, radius).add(material)
+
     /** Adds a parallelepiped box at [p0] spanned by edge vectors [a], [b], [c]. */
     fun box(
         material: String,
@@ -107,6 +161,20 @@ class ObjectsScope(
         outerRadius: Double = 1.0,
         normal: Normal = Normal.UP,
     ) = Annulus(center, innerRadius, outerRadius, normal).add(material)
+
+    /**
+     * Adds a part-annulus: a flat ring centred at [center] facing [normal], spanning radii
+     * [innerRadius]..[outerRadius], restricted to the azimuth wedge [phiMin]..[phiMax] (radians).
+     */
+    fun partAnnulus(
+        material: String,
+        center: Point3D = Point3D.ORIGIN,
+        innerRadius: Double = 0.0,
+        outerRadius: Double = 1.0,
+        normal: Normal = Normal.UP,
+        phiMin: Double = 0.0,
+        phiMax: Double = 2.0 * MathUtils.PI,
+    ) = PartAnnulus(center, innerRadius, outerRadius, normal, phiMin, phiMax).add(material)
 
     /**
      * Adds an open cone (lateral surface only) with base radius [radius] at `y = 0` and apex at
@@ -271,6 +339,18 @@ class ObjectsScope(
         center: Point3D = Point3D.ORIGIN,
         radius: Double = 0.0,
     ) = Sphere(center, radius).add(material)
+
+    /**
+     * Adds a thick ring (a capped tube): the solid region between two coaxial cylinders of radii
+     * [innerRadius]..[outerRadius] spanning the y-range [y0]..[y1].
+     */
+    fun thickRing(
+        material: String,
+        y0: Double = 0.0,
+        y1: Double = 1.0,
+        innerRadius: Double = 0.5,
+        outerRadius: Double = 1.0,
+    ) = ThickRing(y0, y1, innerRadius, outerRadius).add(material)
 
     /** Adds a torus with sweep radius [a] and tube radius [b], centred at the origin in the xz-plane. */
     fun torus(

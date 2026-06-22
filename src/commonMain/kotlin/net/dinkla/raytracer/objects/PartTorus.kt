@@ -10,6 +10,7 @@ import net.dinkla.raytracer.math.Polynomials
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.equals
 import java.util.Objects
+import kotlin.math.abs
 
 /**
  * A [Torus] (sweep radius [a], tube radius [b], centred at the origin in the xz-plane) restricted to
@@ -54,22 +55,41 @@ class PartTorus(
         )
     }
 
-    /** True when [t] is a forward intersection whose hit point lies in the kept azimuth wedge. */
+    /**
+     * The torus implicit-equation residual at [p]; zero exactly on the surface. Used to reject the
+     * spurious roots [Polynomials.solveQuartic] can return for ill-conditioned (near-axis) rays.
+     */
+    private fun surfaceResidual(p: Point3D): Double {
+        val s = p.x * p.x + p.y * p.y + p.z * p.z + a * a - b * b
+        return s * s - FOUR * a * a * (p.x * p.x + p.z * p.z)
+    }
+
+    /**
+     * True when [t] is a forward intersection whose (polished) hit point actually lies on the torus
+     * surface and inside the kept azimuth wedge. See TASK-29.
+     */
     private fun isValid(
         t: Double,
         ray: Ray,
-    ): Boolean = t > MathUtils.K_EPSILON && isInWedge(ray.linear(t))
+    ): Boolean {
+        if (t <= MathUtils.K_EPSILON) {
+            return false
+        }
+        val p = ray.linear(t)
+        return abs(surfaceResidual(p)) < SURFACE_TOLERANCE && isInWedge(p)
+    }
 
-    /** Nearest positive root whose hit point lies in the wedge, or `null` if none. */
+    /** Nearest valid root (on the surface and inside the wedge), or `null` if none. */
     private fun nearestValidRoot(ray: Ray): Double? {
         if (!boundingBox.isHit(ray)) {
             return null
         }
+        val coeffs = quarticCoeffs(ray)
         val roots = DoubleArray(MAX_ROOTS)
-        val numRealRoots = Polynomials.solveQuartic(quarticCoeffs(ray), roots)
+        val numRealRoots = Polynomials.solveQuartic(coeffs, roots)
         var best: Double? = null
         for (j in 0 until numRealRoots) {
-            val t = roots[j]
+            val t = Polynomials.polishRoot(coeffs, roots[j])
             if (isValid(t, ray) && (best == null || t < best)) {
                 best = t
             }
@@ -116,5 +136,6 @@ class PartTorus(
         const val TWO = 2.0
         const val FOUR = 4.0
         const val MAX_ROOTS = 4
+        const val SURFACE_TOLERANCE = 1.0E-4
     }
 }

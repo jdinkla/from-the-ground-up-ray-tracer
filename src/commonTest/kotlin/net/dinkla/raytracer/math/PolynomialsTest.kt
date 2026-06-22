@@ -134,6 +134,24 @@ class PolynomialsTest :
 
             ex.message shouldContain "solveQuartic"
         }
+
+        "polishRoot refines an approximate root toward an exact root of the polynomial" {
+            // (x - 2)(x - 5) = x^2 - 7x + 10, ascending coeffs [10, -7, 1]. Start near 2.
+            val coeffs = doubleArrayOf(10.0, -7.0, 1.0)
+
+            val refined = Polynomials.polishRoot(coeffs, 2.1)
+
+            refined shouldBeApprox 2.0
+            evalPoly(coeffs, refined) shouldBeApprox 0.0
+        }
+
+        "polishRoot leaves a non-root unchanged when the local derivative vanishes" {
+            // For a constant polynomial p(x) = 1 (coeffs [1]) the derivative is 0 everywhere, so the
+            // iteration must bail out and return the seed rather than dividing by zero.
+            val refined = Polynomials.polishRoot(doubleArrayOf(1.0), 3.0)
+
+            refined shouldBe 3.0
+        }
     })
 
 // Horner evaluation: sum of coeffs[i] * x^i, with coeffs[i] the coefficient of x^i.

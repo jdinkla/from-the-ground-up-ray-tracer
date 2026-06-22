@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.math
 
+import kotlin.math.abs
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.pow
@@ -261,6 +262,60 @@ object Polynomials {
         num += num2
         return num
     }
+
+    /**
+     * Refines a single root [t0] of the polynomial with ascending-degree coefficients [c] using up to
+     * [steps] Newton–Raphson iterations (Horner-evaluated). It improves the closed-form solvers'
+     * accuracy for ill-conditioned inputs: a genuine root converges to machine precision, while a
+     * spurious root the solver may have fabricated does not move onto the curve, so callers can reject
+     * it with a residual test. The iteration stops early if the derivative is near zero. See TASK-29.
+     */
+    fun polishRoot(
+        c: DoubleArray,
+        t0: Double,
+        steps: Int = NEWTON_STEPS,
+    ): Double {
+        var t = t0
+        repeat(steps) {
+            val value = horner(c, t)
+            val derivative = hornerDerivative(c, t)
+            if (abs(derivative) < MIN_DERIVATIVE) {
+                return t
+            }
+            t -= value / derivative
+        }
+        return t
+    }
+
+    /** Horner evaluation of the polynomial with ascending-degree coefficients [c] at [t]. */
+    private fun horner(
+        c: DoubleArray,
+        t: Double,
+    ): Double {
+        var acc = 0.0
+        for (i in c.indices.reversed()) {
+            acc = acc * t + c[i]
+        }
+        return acc
+    }
+
+    /** Horner evaluation of the polynomial's derivative (coefficients [c], ascending degree) at [t]. */
+    private fun hornerDerivative(
+        c: DoubleArray,
+        t: Double,
+    ): Double {
+        var acc = 0.0
+        for (i in c.indices.reversed()) {
+            if (i == 0) {
+                break
+            }
+            acc = acc * t + i * c[i]
+        }
+        return acc
+    }
+
+    private const val NEWTON_STEPS = 6
+    private const val MIN_DERIVATIVE = 1.0E-12
 
     /** Returns sqrt(x) for positive x, and 0.0 when x is zero or negative (matching the solver's clamping). */
     private fun nonNegativeSqrt(x: Double): Double =

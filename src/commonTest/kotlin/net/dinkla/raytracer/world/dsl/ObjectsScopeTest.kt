@@ -11,10 +11,12 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.AlignedBox
 import net.dinkla.raytracer.objects.Annulus
+import net.dinkla.raytracer.objects.ConcaveSphere
 import net.dinkla.raytracer.objects.Disk
 import net.dinkla.raytracer.objects.Instance
 import net.dinkla.raytracer.objects.OpenCone
 import net.dinkla.raytracer.objects.OpenCylinder
+import net.dinkla.raytracer.objects.PartAnnulus
 import net.dinkla.raytracer.objects.PartCylinder
 import net.dinkla.raytracer.objects.PartSphere
 import net.dinkla.raytracer.objects.PartTorus
@@ -27,10 +29,14 @@ import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.objects.acceleration.Grid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.beveled.BeveledBox
+import net.dinkla.raytracer.objects.beveled.BeveledCylinder
+import net.dinkla.raytracer.objects.beveled.BeveledWedge
+import net.dinkla.raytracer.objects.compound.Bowl
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
+import net.dinkla.raytracer.objects.compound.ThickRing
 import net.dinkla.raytracer.objects.mesh.MeshTriangle
 
 internal class ObjectsScopeTest :
@@ -327,6 +333,63 @@ internal class ObjectsScopeTest :
             scope.objects[0] as PartTorus shouldBe expected
         }
 
+        "should handle concaveSphere" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                ConcaveSphere(somePoint, someRadius).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.concaveSphere(material = someMaterialId, center = somePoint, radius = someRadius)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<ConcaveSphere>()
+            scope.objects[0] as ConcaveSphere shouldBe expected
+        }
+
+        "should handle thickRing" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                ThickRing(y0, y1, 1.0, someRadius).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.thickRing(
+                material = someMaterialId,
+                y0 = y0,
+                y1 = y1,
+                innerRadius = 1.0,
+                outerRadius = someRadius,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<ThickRing>()
+            scope.objects[0] as ThickRing shouldBe expected
+        }
+
+        "should handle bowl" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                Bowl(1.0, someRadius).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.bowl(material = someMaterialId, innerRadius = 1.0, outerRadius = someRadius)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<Bowl>()
+            scope.objects[0] as Bowl shouldBe expected
+        }
+
         "should handle box" {
             // given
             val scope = ObjectsScope(materials, Compound())
@@ -376,6 +439,74 @@ internal class ObjectsScopeTest :
             scope.objects.size shouldBe 1
             scope.objects[0].shouldBeInstanceOf<BeveledBox>()
             scope.objects[0] as BeveledBox shouldBe expected
+        }
+
+        "should handle beveledCylinder" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                BeveledCylinder(y0, y1, someRadius, someDouble).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.beveledCylinder(material = someMaterialId, y0 = y0, y1 = y1, radius = someRadius, rb = someDouble)
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<BeveledCylinder>()
+            scope.objects[0] as BeveledCylinder shouldBe expected
+        }
+
+        "should handle beveledWedge" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                BeveledWedge(y0, y1, 1.0, someRadius, 0.1, 1.2, someDouble).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.beveledWedge(
+                material = someMaterialId,
+                y0 = y0,
+                y1 = y1,
+                innerRadius = 1.0,
+                outerRadius = someRadius,
+                phiMin = 0.1,
+                phiMax = 1.2,
+                rb = someDouble,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<BeveledWedge>()
+            scope.objects[0] as BeveledWedge shouldBe expected
+        }
+
+        "should handle partAnnulus" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            val expected =
+                PartAnnulus(somePoint, 1.0, someRadius, someNormal, 0.1, 1.2).apply {
+                    material = someMaterial
+                }
+
+            // when
+            scope.partAnnulus(
+                material = someMaterialId,
+                center = somePoint,
+                innerRadius = 1.0,
+                outerRadius = someRadius,
+                normal = someNormal,
+                phiMin = 0.1,
+                phiMax = 1.2,
+            )
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<PartAnnulus>()
+            scope.objects[0] as PartAnnulus shouldBe expected
         }
 
         "should handle instance" {

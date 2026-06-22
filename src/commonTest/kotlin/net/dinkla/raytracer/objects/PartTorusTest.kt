@@ -49,6 +49,26 @@ class PartTorusTest : StringSpec({
         shadow.t shouldBeApprox 1.5
     }
 
+    "part torus does not report a phantom hit for a near-axis ray through the central hole" {
+        // Regression for the shared quartic phantom-root bug (TASK-29): a thin part-torus probed by a
+        // vertical ray down the central axis must MISS — the solver's spurious roots are surface-rejected.
+        val thin = PartTorus(a = 0.9, b = 0.1, phiMin = 0.0, phiMax = PI)
+        val ray = Ray(Point3D(0.0, 3.0, 0.0), Vector3D(0.0, -1.0, 0.0))
+
+        thin.hit(ray, Hit(Double.MAX_VALUE)) shouldBe false
+        thin.shadowHit(ray) shouldBe Shadow.None
+    }
+
+    "part torus hits a near-axis vertical ray that genuinely pierces the tube in the kept wedge" {
+        // x = 0.9 (tube centre), phi = atan2(0.9, 0) = PI/2, kept; the ray crosses the tube top at y = 0.1.
+        val thin = PartTorus(a = 0.9, b = 0.1, phiMin = 0.0, phiMax = PI)
+        val ray = Ray(Point3D(0.9, 3.0, 0.0), Vector3D(0.0, -1.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        thin.hit(ray, sr) shouldBe true
+        sr.t shouldBeApprox 2.9
+    }
+
     "part torus bounding box contains the full torus" {
         val bbox = torus.boundingBox
 
