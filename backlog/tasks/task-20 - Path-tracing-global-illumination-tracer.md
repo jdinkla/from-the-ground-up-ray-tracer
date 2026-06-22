@@ -1,9 +1,11 @@
 ---
 id: TASK-20
 title: Path tracing / global illumination tracer
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:41'
+updated_date: '2026-06-22 17:05'
 labels:
   - enhancement
   - book-parity
