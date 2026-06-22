@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:10'
+updated_date: '2026-06-22 11:11'
 labels:
   - reliability
   - concurrency
@@ -28,3 +28,13 @@ ParallelRenderer.kt catches InterruptedException and BrokenBarrierException but 
 - [ ] #2 Render failures surface a clear, contextual error (no bare printStackTrace)
 - [ ] #3 Generic RuntimeException/AssertionError replaced with specific typed exceptions carrying messages
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first: confirm RendererTest pins ParallelRenderer behavior (fills pixels; bad resolution throws). Tighten the bad-resolution test to assert the new specific exception type + message. Confirm PolynomialsTest pins happy-path; add tests that illegal array sizes throw the new specific exception (IllegalArgumentException with descriptive message) for solveQuadric/solveCubic/solveQuartic.
+2. ParallelRenderer: replace generic RuntimeException("viewPlane.vres % numThreads != 0") with IllegalArgumentException carrying contextual message (resolution, numThreads). Replace the two printStackTrace swallows on the main-thread barrier.await with: restore interrupt flag on InterruptedException and rethrow wrapped in IllegalStateException (RenderException) preserving cause; wrap BrokenBarrierException likewise. In Worker.run, restore interrupt flag and propagate by breaking the barrier so the master await sees BrokenBarrierException instead of hanging silently.
+3. Polynomials: replace the three bare AssertionError() with IllegalArgumentException carrying which solver + expected array sizes.
+4. Inventory siblings (ForkJoin/Coroutine/VirtualThread): confirmed they propagate exceptions (no swallow). No change needed; note in report.
+5. Run ./gradlew test for the two affected classes, then full 'just test'.
+<!-- SECTION:PLAN:END -->
