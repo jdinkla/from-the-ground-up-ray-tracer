@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("io.gitlab.arturbosch.detekt")
+    id("dev.detekt")
     jacoco
     idea
     application
@@ -24,7 +24,7 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
     sourceSets["main"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["main"].kotlin.srcDir("src/jvmMain/kotlin")
     sourceSets["main"].kotlin.srcDir("src/examples/kotlin")

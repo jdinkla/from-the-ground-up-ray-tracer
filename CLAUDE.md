@@ -1,3 +1,92 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this is
+
+A ray tracer in Kotlin, a port of the C++ code from Kevin Suffern's *Ray Tracing from
+the Ground Up*, refactored toward an object-functional style. JVM-only, JDK 21. The old
+Java/Groovy version lives on the `groovy-java` branch.
+
+## Commands
+
+```bash
+./gradlew build          # compile + test + detekt (the full check)
+just test                # = ./gradlew clean check
+./gradlew test           # unit tests only (Kotest on the JUnit 5 platform)
+./gradlew test --tests "net.dinkla.raytracer.materials.MatteTest"   # a single test class
+./gradlew detekt         # static analysis (config: detekt-config.yml)
+./gradlew jacocoTestReport   # coverage (runs after test; HTML in build/reports/jacoco)
+./gradlew refreshVersions    # bump dependency versions (see versions.properties)
+```
+
+Running a render:
+
+```bash
+./gradlew swing          # interactive Swing GUI (pick a scene, render it)
+./gradlew run --args="--world=World20.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
+```
+
+CLI options (Clikt): `--world` (a scene id, default `World20.kt`), `--tracer`
+(`WHITTED`/`AREA`/`MULTIPLE_OBJECTS`), `--renderer`
+(`SEQUENTIAL`/`FORK_JOIN`/`PARALLEL`/`NAIVE_COROUTINE`/`COROUTINE`/`VIRTUAL`),
+`--resolution` (`720p`/`1080p`/`2160p`/…).
+
+## Source layout — note
+
+The `src` tree uses Kotlin-Multiplatform-style source sets — `commonMain`, `jvmMain`,
+`commonTest`, `jvmTest`, plus a separate `examples` set — but this is a **JVM-only project**
+(`kotlin("jvm")`). Those directories are a vestige of an abandoned multiplatform experiment
+and are wired up manually in `build.gradle.kts` (`sourceSets[...].kotlin.srcDir(...)`). Treat
+`commonMain` as the platform-independent rendering core and `jvmMain` as JVM-specific I/O,
+the Swing UI, and the parallel renderers. (`gemini.md` calls it a "multi-platform project" —
+that description is now outdated.)
+
+## Architecture
+
+**Render pipeline.** `Main` / `CommandLine` parse the CLI into a
+`Context(tracerCreator, rendererCreator, resolution)`. `Render.render` then: looks up a
+`WorldDefinition` by id → calls `world()` to build the `World` → `context.adapt(world)` wires
+the chosen tracer, a `SimpleSingleRayRenderer` (camera lens + tracer), and the `ViewPlane`
+color corrector into the world → `world.initialize()` → `renderer.render(film)` → `film.save(png)`.
+
+**Scenes are auto-discovered, not registered.** Each scene is a Kotlin `object` implementing
+`WorldDefinition` (`id` + `world(): World`) under `src/examples/.../examples`. At startup
+`Worlds.kt` uses **classgraph** to scan that package and build `worldMap` keyed by each
+object's `id` (conventionally the file name, e.g. `"World48.kt"`). **To add a scene, just
+create the object** — it registers itself; no list to edit.
+
+**Scene DSL.** Scenes are written with `Builder.build { ... }`. The receiver scopes live in
+`world/dsl/` (`WorldScope`, `LightsScope`, `MaterialsScope`, `ObjectsScope`, `InstanceScope`,
+`MetadataScope`) and expose blocks like `camera(...)`, `ambientLight(...)`, `lights { }`,
+`materials { }`, `objects { }`. Materials are declared with a string `id` and referenced by
+that id from objects. See `README.md` for a full example.
+
+**Core domain (`commonMain`).**
+- `world/` — `World`/`IWorld` (camera, view plane, lights, materials map, objects, compound),
+  `Context`, `Render`, the DSL.
+- `tracers/` — strategies for the colour of a ray (`Whitted`, `AreaLighting`,
+  `MultipleObjects`, …); the `Tracers` enum maps CLI names to constructors.
+- `objects/` — geometric primitives (`Sphere`, `Plane`, `Triangle`, `Torus`, `Disk`,
+  `OpenCylinder`, `Instance`, …) plus `acceleration/` (uniform grid, kd-tree), `mesh/`,
+  `compound/`, `beveled/`, `arealights/`.
+- `materials/`, `brdf/` (reflectance), `btdf/` (transmittance), `lights/`, `cameras/` (+ `lenses/`),
+  `samplers/` (anti-aliasing), `colors/`, `math/`, `hits/`, `films/`.
+
+**Parallel renderers (`jvmMain/renderer`).** The `Renderer` enum maps CLI names to
+implementations that differ only in *how pixel work is parallelized* — `SequentialRenderer`,
+`ForkJoinRenderer`, `ParallelRenderer`, coroutine variants, and `VirtualThreadBlockRenderer`
+(block-based). They all drive the same single-ray renderer.
+
+## Conventions
+
+- Tests use **Kotest** `StringSpec` (`"description" { ... }`); shared helpers/fixtures in
+  `src/commonTest/.../Fixture.kt` (e.g. the `shouldBeApprox` infix matchers for float
+  comparisons against `MathUtils.K_EPSILON`).
+- JaCoCo coverage **excludes** `examples/**`, `MainKt`, and the Swing UI — don't expect or
+  add unit tests for scene definitions or the GUI.
+- Some mesh examples need `.ply` files; a few are bundled in `resources/`, others must be
+  downloaded (see `README.md`).
 
 <!-- BACKLOG.MD GUIDELINES START -->
 <CRITICAL_INSTRUCTION>

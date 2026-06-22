@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:Grid.kt:Grid$override fun hit: Boolean</ID>
+    <ID>CyclomaticComplexMethod:Grid.kt:Grid$override fun initialize</ID>
+    <ID>CyclomaticComplexMethod:ObjectMedianBuilder.kt:ObjectMedianBuilder$fun build: Node</ID>
+    <ID>CyclomaticComplexMethod:Simple2Builder.kt:Simple2Builder$fun build: Node</ID>
+    <ID>CyclomaticComplexMethod:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
+    <ID>CyclomaticComplexMethod:SpatialMedianBuilder.kt:SpatialMedianBuilder$fun build: Node</ID>
+    <ID>FunctionNaming:AreaLight.kt:AreaLight$fun G: Double</ID>
+    <ID>LongMethod:Grid.kt:Grid$override fun hit: Boolean</ID>
+    <ID>LongMethod:Grid.kt:Grid$override fun initialize</ID>
+    <ID>LongMethod:GridUtilities.kt:GridUtilities$fun tessellateFlatSphere</ID>
+    <ID>LongMethod:GridUtilities.kt:GridUtilities$fun tessellateSmoothSphere</ID>
+    <ID>LongMethod:ObjectMedianBuilder.kt:ObjectMedianBuilder$fun build: Node</ID>
+    <ID>LongMethod:Polynomials.kt:Polynomials$fun solveQuartic: Int</ID>
+    <ID>LongMethod:Simple2Builder.kt:Simple2Builder$fun build: Node</ID>
+    <ID>LongMethod:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
+    <ID>LongMethod:SparseGrid.kt:SparseGrid$override fun initialize</ID>
+    <ID>LongMethod:SpatialMedianBuilder.kt:SpatialMedianBuilder$fun build: Node</ID>
+    <ID>MagicNumber:AffineTransformation.kt:AffineTransformation$3</ID>
+    <ID>MagicNumber:Axis.kt:Axis.Companion$3</ID>
+    <ID>MagicNumber:BeveledBox.kt:BeveledBox$90.0</ID>
+    <ID>MagicNumber:Camera.kt:Camera$10.0</ID>
+    <ID>MagicNumber:Color.kt:Color$16</ID>
+    <ID>MagicNumber:Color.kt:Color$24</ID>
+    <ID>MagicNumber:Color.kt:Color$255</ID>
+    <ID>MagicNumber:Color.kt:Color$8</ID>
+    <ID>MagicNumber:Color.kt:Color.Companion$255.0</ID>
+    <ID>MagicNumber:EnvironmentLight.kt:EnvironmentLight$0.0034</ID>
+    <ID>MagicNumber:EnvironmentLight.kt:EnvironmentLight$0.0071</ID>
+    <ID>MagicNumber:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$10</ID>
+    <ID>MagicNumber:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$20</ID>
+    <ID>MagicNumber:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$80</ID>
+    <ID>MagicNumber:Grid.kt:Grid$100.0</ID>
+    <ID>MagicNumber:Hammersley.kt:Hammersley$0.5</ID>
+    <ID>MagicNumber:ImageFrame.kt:ImageFrame$22</ID>
+    <ID>MagicNumber:ListUtilities.kt:ListUtilities$0.5</ID>
+    <ID>MagicNumber:Matrix.kt:Matrix$3</ID>
+    <ID>MagicNumber:ParallelRenderer.kt:ParallelRenderer$16</ID>
+    <ID>MagicNumber:ParallelRenderer.kt:ParallelRenderer$3</ID>
+    <ID>MagicNumber:ParallelRenderer.kt:ParallelRenderer$4</ID>
+    <ID>MagicNumber:PlyReader.kt:PlyReader$3</ID>
+    <ID>MagicNumber:Polynomials.kt:Polynomials$3</ID>
+    <ID>MagicNumber:Polynomials.kt:Polynomials$3.0</ID>
+    <ID>MagicNumber:Polynomials.kt:Polynomials$4</ID>
+    <ID>MagicNumber:Polynomials.kt:Polynomials$5</ID>
+    <ID>MagicNumber:Polynomials.kt:Polynomials$8</ID>
+    <ID>MagicNumber:Regular.kt:Regular$0.5</ID>
+    <ID>MagicNumber:Render.kt:Render$30</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_1080$1080</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_1440$1440</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_2160$2160</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_4320$4320</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_480$480</ID>
+    <ID>MagicNumber:Resolution.kt:Resolution.Predefined.RESOLUTION_720$720</ID>
+    <ID>MagicNumber:SampledSingleRayRenderer.kt:SampledSingleRayRenderer$10</ID>
+    <ID>MagicNumber:SampledSingleRayRenderer.kt:SampledSingleRayRenderer$2500</ID>
+    <ID>MagicNumber:Sampler.kt:Sampler$4</ID>
+    <ID>MagicNumber:Sampler.kt:Sampler$4.0</ID>
+    <ID>MagicNumber:Sampler.kt:Sampler$6</ID>
+    <ID>MagicNumber:Simple2Builder.kt:Simple2Builder$1.5</ID>
+    <ID>MagicNumber:SpatialMedianBuilder.kt:SpatialMedianBuilder$3</ID>
+    <ID>MagicNumber:Test2Builder.kt:Test2Builder.Partitioner.Split$5</ID>
+    <ID>MagicNumber:Torus.kt:Torus$3</ID>
+    <ID>MagicNumber:Torus.kt:Torus$4</ID>
+    <ID>MagicNumber:Torus.kt:Torus$4.0</ID>
+    <ID>MagicNumber:WorldScope.kt:WorldScope$255.0</ID>
+    <ID>MagicNumber:WorldScope.kt:WorldScope$5.0</ID>
+    <ID>MagicNumber:WorldScope.kt:WorldScope$50.0</ID>
+    <ID>MaxLineLength:InnerNode.kt:InnerNode$override fun toString: String</ID>
+    <ID>MaxLineLength:Transparent.kt:Transparent$override fun hashCode: Int</ID>
+    <ID>NestedBlockDepth:Grid.kt:Grid$override fun hit: Boolean</ID>
+    <ID>NestedBlockDepth:Grid.kt:Grid$override fun initialize</ID>
+    <ID>NestedBlockDepth:Matte.kt:Matte$override fun areaLightShade: Color</ID>
+    <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
+    <ID>NestedBlockDepth:SparseGrid.kt:SparseGrid$override fun initialize</ID>
+    <ID>PrintStackTrace:AppProperties.kt:AppProperties$e</ID>
+    <ID>PrintStackTrace:ParallelRenderer.kt:ParallelRenderer$e</ID>
+    <ID>PrintStackTrace:ParallelRenderer.kt:ParallelRenderer.Worker$e</ID>
+    <ID>PrintStackTrace:Png.kt:e</ID>
+    <ID>ReturnCount:FlatMeshTriangle.kt:FlatMeshTriangle$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Grid.kt:Grid$override fun hit: Boolean</ID>
+    <ID>ReturnCount:InnerNode.kt:InnerNode$private fun hitRec: Boolean</ID>
+    <ID>ReturnCount:MeshTriangle.kt:MeshTriangle$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:OpenCylinder.kt:OpenCylinder$override fun hit: Boolean</ID>
+    <ID>ReturnCount:OpenCylinder.kt:OpenCylinder$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:Rectangle.kt:Rectangle$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Rectangle.kt:Rectangle$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:SmoothMeshTriangle.kt:SmoothMeshTriangle$override fun hit: Boolean</ID>
+    <ID>ReturnCount:SmoothTriangle.kt:SmoothTriangle$override fun hit: Boolean</ID>
+    <ID>ReturnCount:SmoothTriangle.kt:SmoothTriangle$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:SparseGrid.kt:SparseGrid$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Sphere.kt:Sphere$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Sphere.kt:Sphere$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:Torus.kt:Torus$fun hitF: Boolean</ID>
+    <ID>ReturnCount:Torus.kt:Torus$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Triangle.kt:Triangle$override fun hit: Boolean</ID>
+    <ID>ReturnCount:Triangle.kt:Triangle$override fun shadowHit: Shadow</ID>
+    <ID>ReturnCount:Whitted.kt:Whitted$override fun trace: Color</ID>
+    <ID>TooGenericExceptionCaught:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$e: Exception</ID>
+    <ID>TooGenericExceptionThrown:AreaLight.kt:AreaLight$throw RuntimeException("AreaLight needs AreaLighting Tracer")</ID>
+    <ID>TooGenericExceptionThrown:FromTheGroundUpRayTracer.kt:FromTheGroundUpRayTracer$throw RuntimeException("Unknown Command")</ID>
+    <ID>TooGenericExceptionThrown:GlossySpecular.kt:GlossySpecular$throw RuntimeException("GlossySpecular.rho")</ID>
+    <ID>TooGenericExceptionThrown:Lambertian.kt:Lambertian$throw RuntimeException("Lambertian.sampleF")</ID>
+    <ID>TooGenericExceptionThrown:ParallelRenderer.kt:ParallelRenderer$throw RuntimeException("viewPlane.vres % numThreads != 0")</ID>
+    <ID>TooGenericExceptionThrown:PerfectSpecular.kt:PerfectSpecular$throw RuntimeException("PerfectSpecular.f")</ID>
+    <ID>TooGenericExceptionThrown:PerfectSpecular.kt:PerfectSpecular$throw RuntimeException("PerfectSpecular.rho")</ID>
+    <ID>TooGenericExceptionThrown:PerfectTransmitter.kt:PerfectTransmitter$throw RuntimeException("PerfectTransmitter.f")</ID>
+    <ID>TooGenericExceptionThrown:PerfectTransmitter.kt:PerfectTransmitter$throw RuntimeException("PerfectTransmitter.rho")</ID>
+    <ID>TooGenericExceptionThrown:PlyReader.kt:PlyReader$throw RuntimeException("Not enough elements in line $numLine")</ID>
+    <ID>TooGenericExceptionThrown:PlyReader.kt:PlyReader$throw RuntimeException("Unknown file format in line $numLine: `$line`")</ID>
+    <ID>TooGenericExceptionThrown:RayCast.kt:RayCast$throw RuntimeException("DO NOT USE")</ID>
+    <ID>VariableNaming:Matte.kt:Matte$val L = getAmbientColor(world, sr, wo)</ID>
+    <ID>VariableNaming:Matte.kt:Matte$val S = ColorAccumulator()</ID>
+    <ID>VariableNaming:Matte.kt:Matte$val T = (f * l) * nDotWi * f1</ID>
+    <ID>VariableNaming:Matte.kt:Matte$var L = getAmbientColor(world, sr, wo)</ID>
+    <ID>VariableNaming:Phong.kt:Phong$val L = getAmbientColor(world, sr, wo)</ID>
+    <ID>VariableNaming:Phong.kt:Phong$val S = ColorAccumulator()</ID>
+    <ID>VariableNaming:Phong.kt:Phong$val T = (fd + fs) * l * nDotWi * f1</ID>
+    <ID>VariableNaming:Phong.kt:Phong$var L = getAmbientColor(world, sr, wo)</ID>
+    <ID>VariableNaming:RandomTest.kt:RandomTest$val NUM = 1000</ID>
+    <ID>VariableNaming:Reflective.kt:Reflective$val L = super.shade(world, sr)</ID>
+    <ID>VariableNaming:Sampler.kt:Sampler$val cos_phi = cos(2.0 * PI * sample.x)</ID>
+    <ID>VariableNaming:Sampler.kt:Sampler$val cos_theta = (1.0 - sample.y).pow(1.0 / (exp + 1.0))</ID>
+    <ID>VariableNaming:Sampler.kt:Sampler$val sin_phi = sin(2.0 * PI * sample.x)</ID>
+    <ID>VariableNaming:Sampler.kt:Sampler$val sin_theta = sqrt(1.0 - cos_theta * cos_theta)</ID>
+    <ID>VariableNaming:SamplerTest.kt:SamplerTest$val NUM = 1000</ID>
+  </CurrentIssues>
+</SmellBaseline>
