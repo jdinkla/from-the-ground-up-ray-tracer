@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 19:55'
+updated_date: '2026-06-22 20:08'
 labels:
   - enhancement
   - book-parity
@@ -32,15 +32,11 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. Study analogs (Sphere/Disk/Annulus/OpenCylinder/Torus/PartSphere/SolidCone/BeveledBox + Compound + ObjectsScope + tests) [done].
-2. ConcaveSphere (commonMain/objects): copy Sphere quadratic; normal points INWARD n=(center-p)/radius (negate outward). hit/shadowHit/bbox + equals/hashCode.
-3. ThickRing (compound): outer OpenCylinder + inner OpenCylinder + top Annulus + bottom Annulus; bbox outer radius x [y0,y1]. Suffern ThickRing.
-4. Bowl (compound): outer PartSphere lower hemisphere + inner PartSphere (inward via... reuse PartSphere outward; rim Annulus). Suffern Bowl = thick hemispherical shell between inner+outer sphere. Keep book-aligned; document.
-5. BeveledCylinder (beveled/): shortened OpenCylinder body + 2 shrunk cap Disks + Torus rim at top & bottom via Instance translate. Suffern BeveledCylinder.
-6. BeveledWedge (beveled/): part-cylinder slice + radial side rectangles + top/bottom part-annuli + bevel torus/sphere pieces. Suffern BeveledWedge. ATTEMPT; defer cleanly if geometry intractable (report).
-7. DSL ObjectsScope: add concaveSphere/thickRing/bowl/beveledCylinder(/beveledWedge) following idiom (+ imports).
-8. Tests (commonTest): per primitive hit(t+normal incl INWARD for ConcaveSphere), miss, hollow/sub-surface, bbox; derived values. DSL round-trip cases in ObjectsScopeTest.
-9. just test green incl detekt; keep hit() under thresholds; no baseline entries. Report deferred primitive if any.
+1. [DONE prior pass] ConcaveSphere, ConcavePartSphere, ThickRing, Bowl + DSL + tests — KEEP.
+2. PART A — FIX TORUS PHANTOM ROOTS (cover-first behavior change). Root cause: solveQuartic returns spurious real roots under poor conditioning for near-axis rays (nonNegativeSqrt clamps neg discriminants, fabricating roots). Probe confirmed Torus(0.9,0.1) downward axis ray => roots with implicit/quartic residual 2.56 (not on surface). Fix: validate+polish each candidate root — Newton-polish against the quartic, then reject roots whose hit point fails the torus implicit equation (surface residual > tol). Genuine roots polish to ~1e-14; phantoms stay at ~0.7. Apply to Torus.hit/hitF AND PartTorus (same defect). Cover-first: failing test pinning correct behavior (axis ray misses, piercing ray hits at correct t), confirm fail on buggy code, then fix. Re-run TorusTest + PartTorusTest; update any assertion that pinned a phantom value (call out old->new).
+3. PART B — BeveledCylinder (compound): shortened OpenCylinder body (y0+rb..y1-rb, radius) + 2 shrunk Disk caps (radius-rb at y0/y1) + Torus(radius-rb, rb) rim translated via Instance to y=y0+rb and y=y1-rb. bbox radius x [y0,y1]. DSL beveledCylinder + cover-first tests (body/cap/rim hit, miss, bbox).
+4. PART B — BeveledWedge (compound): PartCylinder outer wall over [phiMin,phiMax] + 2 part-annulus caps + 2 Rectangle radial sides + PartTorus rim bevels at top/bottom. DSL beveledWedge + cover-first tests.
+5. just test green incl detekt; no baseline entries; keep hit() helpers under thresholds.
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
