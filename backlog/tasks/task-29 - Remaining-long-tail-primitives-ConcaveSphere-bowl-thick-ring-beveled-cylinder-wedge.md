@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 20:15'
+updated_date: '2026-06-22 20:16'
 labels:
   - enhancement
   - book-parity
@@ -24,10 +24,12 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 ConcaveSphere, bowl/thick-ring, beveled cylinder, and beveled wedge are implemented with correct hit/shadowHit and bounding box
+- [x] #1 ConcaveSphere, bowl/thick-ring, beveled cylinder, and beveled wedge are implemented with correct hit/shadowHit and bounding box
 - [x] #2 Each is declarable from the Builder DSL (ObjectsScope) and has cover-first hit/shadowHit unit tests
 - [x] #3 Existing primitives unchanged; detekt clean with no new baseline entries
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
