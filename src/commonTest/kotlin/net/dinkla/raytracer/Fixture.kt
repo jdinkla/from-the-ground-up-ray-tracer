@@ -4,6 +4,7 @@ import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.MathUtils
+import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 
 infix fun Double.shouldBeApprox(expected: Double) {
@@ -12,6 +13,12 @@ infix fun Double.shouldBeApprox(expected: Double) {
 }
 
 infix fun Point3D.shouldBeApprox(expected: Point3D) {
+    this.x shouldBeApprox expected.x
+    this.y shouldBeApprox expected.y
+    this.z shouldBeApprox expected.z
+}
+
+infix fun Normal.shouldBeApprox(expected: Normal) {
     this.x shouldBeApprox expected.x
     this.y shouldBeApprox expected.y
     this.z shouldBeApprox expected.z
