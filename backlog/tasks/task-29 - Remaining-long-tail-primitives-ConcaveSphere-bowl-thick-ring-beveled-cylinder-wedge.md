@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 19:42'
+updated_date: '2026-06-22 19:54'
 labels:
   - enhancement
   - book-parity
@@ -42,3 +42,9 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 8. Tests (commonTest): per primitive hit(t+normal incl INWARD for ConcaveSphere), miss, hollow/sub-surface, bbox; derived values. DSL round-trip cases in ObjectsScopeTest.
 9. just test green incl detekt; keep hit() under thresholds; no baseline entries. Report deferred primitive if any.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+DEFERRAL DECISION (BeveledCylinder + BeveledWedge): the book's beveled cylinder/wedge round their rims with tori. This port's existing Torus.hit (Polynomials.solveQuartic) returns SPURIOUS phantom roots for near-vertical rays: a bare Torus(0.9,0.1) queried with a downward ray from y=3 reports hits at y~0.89/0.66/0.03 even though the tube only spans y in [-0.1,0.1]. This is a pre-existing Torus numerical defect (TASK-23 fixed one solveQuartic bug but not this conditioning), confirmed by direct probe of the untranslated primitive. A torus-based BeveledCylinder/BeveledWedge therefore produces wrong intersections (visible phantom specks under overhead/top-down rays) — exactly the 'wrong intersection' the task says to avoid. Per scope discipline (no fixing existing Torus; additive only) I DEFERRED both beveled primitives rather than ship known-wrong geometry. Delivered the 3 robust, torus-free primitives instead: ConcaveSphere, ThickRing, Bowl (+ supporting ConcavePartSphere used by Bowl). Recommend a follow-up task: fix Torus/solveQuartic conditioning for axis-parallel rays first, THEN add BeveledCylinder (shortened OpenCylinder + 2 shrunk Disk caps + Torus rim at each end via Instance) and BeveledWedge (PartCylinder walls + PartAnnulus caps + Rectangle radial sides + PartTorus rim bevels) — the constructions were drafted and validated structurally; only the torus solver blocks them.
+<!-- SECTION:NOTES:END -->
