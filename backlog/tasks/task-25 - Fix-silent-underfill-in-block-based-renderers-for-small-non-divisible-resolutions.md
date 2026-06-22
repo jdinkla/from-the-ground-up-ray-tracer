@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 15:22'
+updated_date: '2026-06-22 15:23'
 labels:
   - bug
   - concurrency
@@ -31,8 +31,6 @@ ForkJoinRenderer, CoroutineBlockRenderer, and VirtualThreadBlockRenderer partiti
 - [x] #4 Update the TASK-7 RendererTest cases that currently pin the buggy underfill behavior to assert the corrected behavior
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -42,3 +40,22 @@ ForkJoinRenderer, CoroutineBlockRenderer, and VirtualThreadBlockRenderer partiti
 4. Strengthen the output-equivalence test to also assert equivalence at a non-divisible resolution (e.g. 10x7).
 5. Run ./gradlew test for renderer/Block tests, then full 'just test' (incl detekt) green.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Fix: rewrote Block.partitionIntoBlocks (jvmMain/renderer/Block.kt) to tile [0,width)x[0,height) exactly for any resolution/numBlocks. Each dimension is split via a private splitDimension() into min(numBlocks,dimension) contiguous segments whose lengths differ by at most 1 (base = dim/segments, the first dim%segments segments get +1, distributing the remainder instead of dropping it). Capping the segment count at the dimension removes the zero-size blocks that integer truncation produced when dim<numBlocks. Blocks are the cross product of the x/y segment bounds. Empty list only for zero-area films; require(numBlocks>0). No change to ForkJoin/Coroutine/VirtualThread orchestration, per-pixel rendering, ParallelRenderer, Sequential, or NaiveCoroutine.
+
+AC#4 — RendererTest assertion changes (old -> new):
+- 'fork-join renderer silently under-renders ...' (4x4) writes==0  ->  'fills every pixel of a film smaller than its block grid': pixels.keys==fullCoverage AND writes==w*h.
+- 'coroutine block renderer silently under-renders ...' (8x8) writes==0  ->  'fills every pixel ...': full coverage.
+- 'virtual thread renderer silently under-renders ...' (8x8) writes==0  ->  'fills every pixel ...': full coverage.
+- 'naive coroutine renderer fully renders a film that the block renderers leave empty' reworded to 'fully renders an 8x8 film' (same assertion writes==w*h; old premise — block renderers leave 8x8 empty — is no longer true).
+These pinned a bug; behavior intentionally changed from silent under-fill to full fill.
+
+New tests (AC#3): per renderer, added a non-divisible coverage test (ForkJoin 10x7; Coroutine/VirtualThread 50x33) asserting full coverage + exact write count; the former 'under-render' cases now serve as the sub-block-grid coverage tests. Added BlockTest.kt (8 cases): exact tiling for divisible (8x8/4), sub-grid (5x3/8, 1x1/8, 1x40/32), non-divisible (10x7/3), block sizes differ by <=1, zero-area -> no blocks, numBlocks<=0 rejected.
+
+Equivalence: existing 32x32 cross-renderer test renamed and unchanged in substance (still passes). Added 'block renderers agree with the sequential reference for a non-divisible film' at 10x7 comparing ForkJoin/NaiveCoroutine/Coroutine/VirtualThread to SequentialRenderer pixel-for-pixel via PositionalSingleRayRenderer (ParallelRenderer excluded — it guards 10x7 by design).
+
+Verified: ./gradlew test for RendererTest (15) + BlockTest (8) green; full 'just test' (clean check + detekt) BUILD SUCCESSFUL. Two compiler warnings (PlyReader.kt, GridStructuresTest.kt) are pre-existing and unrelated.
+<!-- SECTION:NOTES:END -->
