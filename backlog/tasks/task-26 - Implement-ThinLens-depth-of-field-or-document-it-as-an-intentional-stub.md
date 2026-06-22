@@ -1,11 +1,11 @@
 ---
 id: TASK-26
 title: Implement ThinLens depth-of-field (or document it as an intentional stub)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 14:20'
-updated_date: '2026-06-22 19:34'
+updated_date: '2026-06-22 19:39'
 labels:
   - bug
   - camera
@@ -45,3 +45,9 @@ Implemented the book's thin-lens DoF (Suffern ch.10) in ThinLens.kt. Added lensR
 
 Verified: just test (./gradlew clean check) green — detekt clean, all tests pass. Manual verification of coverage-excluded example: rendered World58.kt at 480p via ./gradlew run --args='--world=World58.kt --resolution=480p' -> valid 853x480 PNG, renders sharp (single-ray centre path), no error. FINDING for separate follow-up: SampledSingleRayRenderer is never wired into the render pipeline — Context.adapt() always constructs SimpleSingleRayRenderer (1 ray/pixel via getRaySingle), and SampledSingleRayRenderer has zero references outside its own file. So multi-sample anti-aliasing AND thin-lens DoF *visible blur* cannot render through the current pipeline; the DoF model is proven correct by the unit test instead (AC#2 'scene/test'). Wiring the sampled path is a larger, separate gap — not in this task's scope.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented Suffern ch.10 thin-lens depth of field, replacing the no-op ThinLens stub. Added a lensRadius field and a UnitDiskSampler seam (Sampler now implements it; sampleUnitDisk body unchanged). getRaySampled places the ray origin on the lens disk (eye + lx*u + ly*v, a unit-disk sample scaled by lensRadius) and aims at the focal point (px*f/d, py*f/d) at distance f — direction pm(focalX-lx, focalY-ly, f).normalize() — so lens samples for an in-focus pixel converge (sharp at f) and spread for off-focal-plane points (blur); getRaySingle uses the lens centre (lx=ly=0), which normalizes to the identical sharp Pinhole ray (correct 1-sample/no-blur fallback). AC#1 met (DoF rays per the book; KDoc rewritten, stub note removed). AC#2 met via unit test: ThinLensTest uses a deterministic QueuedDiskSampler fake (no RNG) and proves genuine focal CONVERGENCE (three spread-aperture rays for an in-focus pixel all reach the same focal point at the focal plane — reviewer hand-verified: samples (1,0),(0,1),(-0.5,-0.5) with d=1,f=4 all hit (8,-4,-4)) AND off-plane spread (rays coincide at z=-f but differ at z=-2f), with hand-derived values. Added a thinLensCamera(...) DSL block (selectable) + WorldScopeTest cases + a Vector3D shouldBeApprox Fixture matcher; rewired the World58 example to use it (renders sharp via the single-ray centre path — reviewer re-rendered, valid PNG). The old stub-characterizing ThinLensTest assertions (which pinned the broken fixed (u+v-w) pixel-independent ray) were replaced — task-mandated behavior change of a known-broken stub, not a refactor dodge. Additive: Pinhole/Camera/Context/AbstractLens/ILens unchanged; existing tests pass. detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 68193b4. IMPORTANT FINDING (filed separately): SampledSingleRayRenderer is unwired — Context.adapt always builds SimpleSingleRayRenderer (1 ray/pixel via getRaySingle), so multi-sample anti-aliasing AND thin-lens DoF VISIBLE BLUR cannot render through the current pipeline (the DoF model is proven by the unit test per AC#2's scene/test allowance).
+<!-- SECTION:FINAL_SUMMARY:END -->
