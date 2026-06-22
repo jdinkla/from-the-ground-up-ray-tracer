@@ -1,11 +1,11 @@
 ---
 id: TASK-2
 title: Refactor Grid.hit() and SparseGrid.hit() to reduce complexity
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:10'
-updated_date: '2026-06-22 10:41'
+updated_date: '2026-06-22 10:47'
 labels:
   - refactor
   - acceleration
@@ -49,3 +49,9 @@ Files changed: Grid.kt (hit() now ~26 lines), SparseGrid.kt (hit() now ~24 lines
 
 Verified: just test (./gradlew clean check) green - compile + all tests + detekt. detekt no longer flags Grid.hit/SparseGrid.hit for complexity or length (baseline entries removed), objectively confirming AC1 (CC<15) and AC2 (<=60 lines). Behaviour unchanged: all existing + new tests pass; tie-breaking axis order, hit-acceptance (sr2.t < exitT), and Compound dispatch preserved exactly.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Extracted the shared 3D-DDA grid traversal from the near-identical ~190-line Grid.hit() and SparseGrid.hit() into a new behaviour-preserving internal GridTraversal object; each hit() now reads as bbox-reject -> slab setup -> initial walk -> delegate, differing only in the cell-lookup lambda and Counter hook. Both methods dropped from CC 33/36 (~197/193 lines) to ~3 / ~20-26 lines. AC1/AC2 verified objectively by removing the obsolete CyclomaticComplexMethod/LongMethod/NestedBlockDepth baseline entries and confirming detekt stays green; AC3 verified by 6 cover-first characterization tests that pass identically against pre- and post-refactor code (reviewer independently confirmed they pass against the unrefactored tree). Verified via just test (clean check: compile + tests + detekt + jacoco) BUILD SUCCESSFUL. Committed as 684329f.
+<!-- SECTION:FINAL_SUMMARY:END -->
