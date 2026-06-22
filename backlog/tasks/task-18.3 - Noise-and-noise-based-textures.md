@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 16:57'
+updated_date: '2026-06-22 16:58'
 labels:
   - enhancement
   - book-parity
@@ -30,8 +30,6 @@ Lattice noise and the noise-driven textures from the book (noise/ is currently e
 - [x] #4 Unit tests cover noise determinism/range and the fBm/turbulence helpers
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -50,4 +48,27 @@ Lattice noise and the noise-driven textures from the book (noise/ is currently e
 
 <!-- SECTION:NOTES:BEGIN -->
 Added noise/ package (commonMain): SeededRandom (deterministic LCG, no kotlin.random), LatticeNoise (abstract; fixed 256-entry Perlin permutation table; deterministic value table [-1,1] and unit-vector gradient table from seed 253; index() lattice hash; fractalSum/fbm, turbulence, configurable octaves/lacunarity/gain), LinearNoise (trilinear), CubicNoise (tricubic four-knot spline). Added textures (commonMain): FBmTexture, TurbulenceTexture, WrappedFBmTexture, RampFBmTexture (marble, reuses 18.2 Ramp.colorAt), Wood (concentric rings + turbulence warp). Each samples sr.localHitPoint; each has a pure colorFor/colorAt seam. All compile.
+
+VERIFICATION & HANDOFF.
+
+AC#3 (DSL): confirmed NO DSL change needed. MaterialsScope.svMatte/svPhong/svEmissive already take the Texture interface, and all five noise textures (FBmTexture, TurbulenceTexture, WrappedFBmTexture, RampFBmTexture, Wood) implement Texture, so they are declarable from the Builder DSL as-is. Example scenes declare them via svMatte. Additive only: no existing textures/materials/Texture/DSL modified.
+
+DESIGN CHOICES:
+- Permutation table: the classic fixed 256-entry Perlin table (a constant in LatticeNoise.PERMUTATION), so the lattice hash is identical across runs/platforms.
+- Value+gradient tables: built once from a fixed seed (DEFAULT_SEED=253) via SeededRandom, a self-contained Numerical-Recipes LCG -- NOT kotlin.random.Random -- so renders are reproducible. valueTable in [-1,1]; gradientTable unit vectors (rejection-sampled then normalised).
+- CubicNoise scalar field is clamped to [-1,1] (cubic spline can overshoot); vector field is not clamped, so the gradient-component-in-[-1,1] test is asserted only on LinearNoise (trilinear = convex combination, provably bounded).
+- fractalSum/turbulence normalise by the running max-amplitude sum, so output range is octave-count-independent: fbm in [-1,1], turbulence in [0,1]. fbm() is an alias for fractalSum().
+- RampFBmTexture reuses 18.2 Ramp.colorAt, indexing it by (1+sin(axis*freq + amp*fbm))/2 (marble).
+
+UNIT TESTS (commonTest, derived from the math, not round-tripped):
+- LatticeNoiseTest: determinism (same point/instance/seed -> identical, exact shouldBe), value-noise range [-1,1] over 7 sample points (linear+cubic), lattice-point=corner-value (and two lattice points differ -> field varies), single-octave fbm == valueNoise, single-octave turbulence == |valueNoise|, fbm in [-1,1] and turbulence in [0,1]/>=0 over octave counts {1,2,4,8}, more-octaves-add-detail, linear gradient components in [-1,1] (convex combination), gradient determinism.
+- SeededRandomTest: same-seed reproducibility (unit + vector sequences), ranges [0,1)/[-1,1), nextUnitVector unit-length.
+- NoiseTexturesTest: pure colorFor/colorAt seams with hand-derived expectations (fbm 0->mid, +/-1->max/min, windowed; turbulence 0/0.5/1; wrapped 0.25->0.5, 0.6->0.2; marble sin index; wood ring edge=light / centre=dark) + getColor determinism via testShade.
+
+MANUAL VERIFICATION (examples are coverage-excluded):
+- ./gradlew run --world=MarbleScene.kt --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p -> cream sphere with irregular dark-blue marble veins that bend/fold; correct.
+- ./gradlew run --world=NoiseTexturesScene.kt ... -> three spheres: cloud-like blue fBm | billowy white/purple turbulence | brown warped concentric wood rings; all distinct and correct.
+Both scenes auto-registered via classgraph (rendered by id without any registration edit).
+
+just test (= ./gradlew clean check) BUILD SUCCESSFUL incl detekt (clean; moved Wood default colours to companion vals to satisfy MagicNumber on default-parameter literals; no baseline entries). Pre-existing unrelated Unchecked-cast warnings remain in PlyReader.kt/GridStructuresTest.kt.
 <!-- SECTION:NOTES:END -->
