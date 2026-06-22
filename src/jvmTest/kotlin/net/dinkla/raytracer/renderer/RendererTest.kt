@@ -101,16 +101,29 @@ class RendererTest : StringSpec({
         film.pixels.keys shouldBe fullCoverage(film)
     }
 
-    "fork-join renderer silently under-renders a film smaller than its block grid" {
-        // 4x4 is smaller than the 8x8 block grid, so integer block sizes round down to zero and
-        // no pixel is written. This is the renderer's deterministic degradation (it has no guard
-        // that throws), so the test pins the observable shortfall rather than a typed exception.
+    "fork-join renderer fills every pixel of a film smaller than its block grid" {
+        // 4x4 is smaller than the 8x8 block grid. Before TASK-25 the integer block size rounded
+        // down to zero and nothing was written; the partition fix now caps the block count at the
+        // dimension so every pixel is covered exactly once.
         val film = RecordingFilm(Resolution(width = 4, height = 4))
         val renderer = ForkJoinRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
 
         renderer.render(film)
 
-        film.writes.size shouldBe 0
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
+    }
+
+    "fork-join renderer fills every pixel of a non-divisible film" {
+        // 10x7 divides unevenly into the 8x8 grid; the remainder rows/columns must be rendered,
+        // not dropped, and no pixel written twice.
+        val film = RecordingFilm(Resolution(width = 10, height = 7))
+        val renderer = ForkJoinRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
+
+        renderer.render(film)
+
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
     }
 
     // ---------------------------------------------------------------------------------------
@@ -126,13 +139,25 @@ class RendererTest : StringSpec({
         film.pixels.keys shouldBe fullCoverage(film)
     }
 
-    "coroutine block renderer silently under-renders a film smaller than its block grid" {
+    "coroutine block renderer fills every pixel of a film smaller than its block grid" {
+        // 8x8 is smaller than the 32x32 block grid; before TASK-25 it wrote zero pixels.
         val film = RecordingFilm(Resolution(width = 8, height = 8))
         val renderer = CoroutineBlockRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
 
         renderer.render(film)
 
-        film.writes.size shouldBe 0
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
+    }
+
+    "coroutine block renderer fills every pixel of a non-divisible film" {
+        val film = RecordingFilm(Resolution(width = 50, height = 33))
+        val renderer = CoroutineBlockRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
+
+        renderer.render(film)
+
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
     }
 
     // ---------------------------------------------------------------------------------------
@@ -148,9 +173,10 @@ class RendererTest : StringSpec({
         film.pixels.keys shouldBe fullCoverage(film)
     }
 
-    "naive coroutine renderer fully renders a film that the block renderers leave empty" {
-        // The naive renderer has no block grid, so unlike the block renderers it renders an 8x8
-        // film completely. This is the behavioural counterpart to the block renderers' shortfall.
+    "naive coroutine renderer fully renders an 8x8 film" {
+        // The naive renderer has no block grid and always renders the whole film. Since TASK-25
+        // the block renderers also cover an 8x8 film completely, so this is now a plain coverage
+        // check rather than a contrast against the block renderers' former shortfall.
         val film = RecordingFilm(Resolution(width = 8, height = 8))
         val renderer = NaiveCoroutineRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
 
@@ -172,20 +198,32 @@ class RendererTest : StringSpec({
         film.pixels.keys shouldBe fullCoverage(film)
     }
 
-    "virtual thread renderer silently under-renders a film smaller than its block grid" {
+    "virtual thread renderer fills every pixel of a film smaller than its block grid" {
+        // 8x8 is smaller than the 32x32 block grid; before TASK-25 it wrote zero pixels.
         val film = RecordingFilm(Resolution(width = 8, height = 8))
         val renderer = VirtualThreadBlockRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
 
         renderer.render(film)
 
-        film.writes.size shouldBe 0
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
+    }
+
+    "virtual thread renderer fills every pixel of a non-divisible film" {
+        val film = RecordingFilm(Resolution(width = 50, height = 33))
+        val renderer = VirtualThreadBlockRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
+
+        renderer.render(film)
+
+        film.pixels.keys shouldBe fullCoverage(film)
+        film.writes.size shouldBe film.resolution.width * film.resolution.height
     }
 
     // ---------------------------------------------------------------------------------------
     // AC#3 — every renderer strategy produces the same image for a reference scene
     // ---------------------------------------------------------------------------------------
 
-    "all renderer strategies produce identical pixels for a reference film" {
+    "all renderer strategies produce identical pixels for a block-aligned reference film" {
         // 32x32 is divisible by every renderer's block grid (1, 8, 32, 4-quarters), so each one
         // covers the whole film and the comparison is over a complete image.
         val resolution = Resolution(width = 32, height = 32)
@@ -208,6 +246,38 @@ class RendererTest : StringSpec({
             )
 
         // Sanity: the reference itself must be a complete image, else equivalence is vacuous.
+        reference.size shouldBe resolution.width * resolution.height
+
+        for (strategy in strategies) {
+            renderWith(strategy) shouldBe reference
+        }
+    }
+
+    "block renderers agree with the sequential reference for a non-divisible film" {
+        // 10x7 divides evenly into no renderer's block grid (8 or 32) and is smaller than the
+        // coroutine/virtual-thread 32x32 grid. After TASK-25 each block renderer must still
+        // reproduce the sequential image pixel-for-pixel, proving the partition fix covers the
+        // remainder rows/columns at the right coordinates (not merely the right pixel count).
+        val resolution = Resolution(width = 10, height = 7)
+
+        fun renderWith(renderer: IRenderer): Map<Pair<Int, Int>, Color> {
+            val film = RecordingFilm(resolution)
+            renderer.render(film)
+            return film.pixels.toMap()
+        }
+
+        val reference = renderWith(SequentialRenderer(PositionalSingleRayRenderer, IdentityCorrector))
+
+        val strategies: List<IRenderer> =
+            listOf(
+                ForkJoinRenderer(PositionalSingleRayRenderer, IdentityCorrector),
+                NaiveCoroutineRenderer(PositionalSingleRayRenderer, IdentityCorrector),
+                CoroutineBlockRenderer(PositionalSingleRayRenderer, IdentityCorrector),
+                VirtualThreadBlockRenderer(PositionalSingleRayRenderer, IdentityCorrector),
+            )
+
+        // The reference must be a complete image, else equivalence is vacuous. ParallelRenderer is
+        // intentionally excluded: it guards 10x7 (height not divisible by numThreads/4) by design.
         reference.size shouldBe resolution.width * resolution.height
 
         for (strategy in strategies) {
