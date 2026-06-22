@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:48'
+updated_date: '2026-06-22 11:53'
 labels:
   - quality
   - tooling
@@ -39,4 +39,6 @@ The detekt 2.0 upgrade parked existing findings in detekt-baseline.xml (125 entr
 
 <!-- SECTION:NOTES:BEGIN -->
 STEP 1 (stale entries): Removed 3 now-stale entries that TASK-5 already fixed at source in ParallelRenderer.kt (PrintStackTrace x2 -> Logger.warn; TooGenericExceptionThrown -> IllegalArgumentException). detekt stays green. Polynomials.kt has no exception entries in current baseline (TASK-5 already removed). Baseline 119 -> 116.
+
+STEP 2 (fix at source): TooGenericExceptionThrown (12) + TooGenericExceptionCaught (1) -> typed exceptions: BRDF/BTDF/AreaLight/RayCast unsupported-op markers -> UnsupportedOperationException; PlyReader parse errors -> IllegalArgumentException; Swing 'Unknown Command' -> IllegalStateException; Swing UI broad catch kept (behavior-preserving at event-loop boundary) with @Suppress(TooGenericExceptionCaught) + rationale, and png() now logs via Logger.error too. PrintStackTrace (2 remaining after stale removal): AppProperties.kt + Png.kt -> Logger.error with context. MaxLineLength (2): InnerNode.toString + Transparent.hashCode reformatted. Introduced-then-fixed 2 new MaxLineLength in AreaLight (longer exception name) by extracting NEEDS_AREA_LIGHTING const. Cover-first: added characterization tests pinning new throw types (BrdfUnsupportedOperationTest, PerfectTransmitterUnsupportedOperationTest, RayCastTest, AreaLightUnsupportedOperationTest, PlyReader malformed-input cases). Baseline 116 -> 100.
 <!-- SECTION:NOTES:END -->
