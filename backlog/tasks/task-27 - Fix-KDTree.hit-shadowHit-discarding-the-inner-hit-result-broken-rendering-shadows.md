@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 15:49'
-updated_date: '2026-06-22 15:54'
+updated_date: '2026-06-22 15:55'
 labels:
   - bug
   - acceleration
@@ -26,9 +26,11 @@ KDTree.hit wraps the caller's hit record in a fresh Hit(sr) copy and discards th
 <!-- AC:BEGIN -->
 - [x] #1 KDTree.hit propagates the actual hit distance and geometric object back to the caller's hit record (no discarded inner result)
 - [x] #2 KDTree.shadowHit writes tmin.t back per the documented IGeometricObject contract, so KDTree-accelerated objects register as shadow casters via Compound.inShadow
-- [ ] #3 A KDTree-accelerated scene (fix or replace World75) renders correctly and casts correct shadows, verified by rendering
+- [x] #3 A KDTree-accelerated scene (fix or replace World75) renders correctly and casts correct shadows, verified by rendering
 - [x] #4 The TASK-4/6 KDTreeBuilderTest characterization assertions that pinned the discard behavior are updated to assert the corrected write-back behavior; full suite + detekt green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
