@@ -1,9 +1,11 @@
 ---
 id: TASK-15
 title: Add input validation and resource limits
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:12'
+updated_date: '2026-06-22 16:02'
 labels:
   - reliability
 dependencies: []
