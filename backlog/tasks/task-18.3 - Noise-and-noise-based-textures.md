@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 16:50'
+updated_date: '2026-06-22 16:54'
 labels:
   - enhancement
   - book-parity
@@ -43,3 +43,9 @@ Lattice noise and the noise-driven textures from the book (noise/ is currently e
 8. examples/textures/noise/: marble (RampFBm) sphere + turbulence + wood scene(s) via svMatte. Render WHITTED/SEQUENTIAL/720p, verify visually.
 9. just test green incl detekt; keep noise detekt-clean via consts/locals; report.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Added noise/ package (commonMain): SeededRandom (deterministic LCG, no kotlin.random), LatticeNoise (abstract; fixed 256-entry Perlin permutation table; deterministic value table [-1,1] and unit-vector gradient table from seed 253; index() lattice hash; fractalSum/fbm, turbulence, configurable octaves/lacunarity/gain), LinearNoise (trilinear), CubicNoise (tricubic four-knot spline). Added textures (commonMain): FBmTexture, TurbulenceTexture, WrappedFBmTexture, RampFBmTexture (marble, reuses 18.2 Ramp.colorAt), Wood (concentric rings + turbulence warp). Each samples sr.localHitPoint; each has a pure colorFor/colorAt seam. All compile.
+<!-- SECTION:NOTES:END -->
