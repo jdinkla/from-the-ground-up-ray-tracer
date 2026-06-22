@@ -32,8 +32,6 @@ Tradeoffs to accept/note: fat jar grows ~tens of MB (embedded compiler); first-r
 - [x] #5 At least one sample .scene.kts file and a test covering load-from-file are added
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -51,4 +49,6 @@ Tradeoffs to accept/note: fat jar grows ~tens of MB (embedded compiler); first-r
 
 <!-- SECTION:NOTES:BEGIN -->
 Implemented: build.gradle.kts adds kotlin scripting-common/jvm/jvm-host (resolve to 2.3.0). SceneScript (@KotlinScript .scene.kts) with implicitReceivers(WorldScope) + defaultImports(Color/Point3D/Normal/Vector3D) + dependenciesFromCurrentContext(wholeClasspath). FileWorldDefinition(path) evals via BasicJvmScriptingHost against a fresh WorldScope, returns scope.world; failures -> typed SceneScriptException(file, diagnostics) with file+severity+line+message. SceneResolver.resolveWorld(id): existing file -> FileWorldDefinition else requireWorldDef(id, worldMap). Render.render(String,...) gained resolveWorld param (default ::requireWorldDef = unchanged worldMap behavior); Main passes SceneResolver. CommandLine --world relaxed from .choice() to a default+validate that accepts known id OR existing file, else fails fast listing scenes; pure predicate isAcceptableWorldArg(value, ids, fileExists). Sample at scenes/Sample.scene.kts. Tests pass: FileWorldDefinitionTest (load-from-file world contents + fresh-each-call + broken-file SceneScriptException), SceneResolverTest (file->FileWorldDefinition, known id->existing def, unknown non-file->fail-fast), CommandLineTest (isAcceptableWorldArg). AC#1-5 met. Next: full just test + detekt + manual CLI render.
+
+VERIFIED. just test (= gradlew clean check, incl detekt) GREEN; gradlew build assembles. Manual CLI (coverage-excluded Main glue): (a) gradlew run --world=scenes/Sample.scene.kts --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p -> rendered a valid 1280x720 PNG (yellow matte sphere, red phong sphere w/ specular highlight, ground/ceiling planes, shadows) matching the YellowAndRedSphere built-in it mirrors (AC#1); (b) --world=DoesNotExist.kt -> fails fast via Clikt with 'Unknown world ... Pass a built-in scene id or the path of an existing *.scene.kts file' + scene list, no render (TASK-15 fail-fast preserved); (c) --world=YellowAndRedSphere.kt -> built-in still renders unchanged (AC#3). Fixed a Main-glue bug: outputPngFileName on a path value leaked dir separators into the PNG path; Main now bases the output name on File(world).name (built-in ids unchanged). Fat-jar/dist impact: scripting-jvm-host pulls kotlin-compiler-embeddable onto the runtime classpath, +~56MB to the distribution. First external-scene compile latency ~1.3s (script compile) on top of ~0.34s ray-tracing; built-in scenes unaffected (script host never invoked). README documents the feature + tradeoffs. New tests (11, all pass): FileWorldDefinitionTest(4), SceneResolverTest(4), CommandLineTest(3). Pre-existing warnings (PlyReader.kt, GridStructuresTest.kt unchecked casts) are unrelated.
 <!-- SECTION:NOTES:END -->
