@@ -88,6 +88,28 @@ implementations that differ only in *how pixel work is parallelized* — `Sequen
 - Some mesh examples need `.ply` files; a few are bundled in `resources/`, others must be
   downloaded (see `README.md`).
 
+## Ways of working
+
+**Refactoring is guarded by a test that does not change.** Before refactoring any code, that
+code must be covered by a unit test.
+
+1. **Cover first.** If no test exercises the code you intend to refactor, write one *before*
+   touching the production code, and confirm it passes against the current (unrefactored)
+   behavior. This is a characterization test: it pins the existing behavior.
+2. **Refactor.** Change the implementation only — behavior must stay the same.
+3. **Green and frozen.** After the refactoring the test must pass, and it **must not be
+   modified** to make it pass. If you find you need to change the test, the change is no longer
+   a pure refactor (behavior changed) — stop and treat it as a behavior change, not a refactor.
+
+**Exception — the coverage-excluded zones.** The "cover first" rule does **not** apply to the
+code JaCoCo excludes: `examples/**` (scene definitions), `MainKt` / the CLI entry point, and the
+Swing UI (`ui/swing/**`). These are not unit-tested by design (see Conventions). When a refactor
+lands there, **verify it manually instead** — render a scene (`just run …` / `just swing`) or
+exercise the CLI and confirm the output is unchanged — and say so. Don't add a unit test purely
+to satisfy the rule in these areas. If a refactor straddles the boundary (e.g. wiring file-based
+scene loading through `Main`/CLI per TASK-17), cover the part that lives in the testable core
+(`commonMain`/`jvmMain` logic) with a frozen test, and manually verify the excluded glue.
+
 <!-- BACKLOG.MD GUIDELINES START -->
 <CRITICAL_INSTRUCTION>
 
