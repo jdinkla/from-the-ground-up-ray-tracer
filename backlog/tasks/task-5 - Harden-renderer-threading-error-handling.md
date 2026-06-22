@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:11'
+updated_date: '2026-06-22 11:13'
 labels:
   - reliability
   - concurrency
@@ -24,10 +24,12 @@ ParallelRenderer.kt catches InterruptedException and BrokenBarrierException but 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Threading exceptions are propagated or recovered, never silently swallowed
-- [ ] #2 Render failures surface a clear, contextual error (no bare printStackTrace)
-- [ ] #3 Generic RuntimeException/AssertionError replaced with specific typed exceptions carrying messages
+- [x] #1 Threading exceptions are propagated or recovered, never silently swallowed
+- [x] #2 Render failures surface a clear, contextual error (no bare printStackTrace)
+- [x] #3 Generic RuntimeException/AssertionError replaced with specific typed exceptions carrying messages
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
