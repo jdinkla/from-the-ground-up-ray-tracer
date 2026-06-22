@@ -13,9 +13,10 @@ object Render {
         fileNameIn: String,
         fileNameOut: String,
         context: Context,
+        resolveWorld: (String) -> WorldDefinition = ::requireWorldDef,
     ) {
         Logger.info("Rendering $fileNameIn to $fileNameOut")
-        val worldDefinition = requireWorldDef(fileNameIn)
+        val worldDefinition = resolveWorld(fileNameIn)
         val (film, _) = render(worldDefinition, context)
         film.save(fileNameOut)
     }

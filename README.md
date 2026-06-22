@@ -90,6 +90,26 @@ Here is another example:
 
 ![Rendered image](https://jdinkla.github.io/images/rendered/VariousObjectsWithReflections.webp)
 
+### External scene files (`*.scene.kts`)
+
+Scenes are normally Kotlin `object`s compiled into the jar and auto-discovered at startup. You can
+also render a scene authored in the **same DSL from an external file at runtime**, without
+rebuilding, by passing a file path to `--world`:
+
+```bash
+$ ./gradlew run --args="--world=scenes/Sample.scene.kts --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p"
+```
+
+The body of a `*.scene.kts` file is exactly what goes inside `Builder.build { ... }` — the bare
+`WorldScope` DSL — with **no wrapper and no imports** (`WorldScope` is the script's implicit receiver
+and `Color`/`Point3D`/`Normal`/`Vector3D` are imported by default). See [`scenes/Sample.scene.kts`](scenes/Sample.scene.kts).
+
+When `--world` is the path of an existing file it is loaded via the embedded Kotlin scripting host;
+otherwise it falls back to the built-in scene ids. An unknown value that is neither a known scene id
+nor an existing file fails fast and lists the available scenes. Notes: the embedded compiler adds
+~55&nbsp;MB to the distribution and the first external scene incurs a ~1–2&nbsp;s compile latency
+(built-in scenes are unaffected); external files run arbitrary Kotlin, so only render files you trust.
+
 ## Requirements
 
 The Swing user interface runs with all Java versions.

@@ -9,6 +9,11 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
+    // Embedded Kotlin scripting host: lets the ray tracer compile & evaluate external
+    // `.scene.kts` DSL files at runtime (TASK-17). JVM-only, so it lives in jvmMain.
+    implementation(kotlin("scripting-common"))
+    implementation(kotlin("scripting-jvm"))
+    implementation(kotlin("scripting-jvm-host"))
     implementation(KotlinX.coroutines.core)
     implementation("ch.qos.logback:logback-classic:_")
     implementation("com.soywiz.korlibs.korim:korim:_")
