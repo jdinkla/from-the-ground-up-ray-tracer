@@ -59,7 +59,10 @@ private class StubObject(
         }
 }
 
-private class TunableGrid : Grid() {
+private class TunableGrid(
+    factorSize: Int = 500,
+    maxDepth: Int = 0,
+) : Grid(factorSize, maxDepth) {
     fun tune(
         multiplierValue: Double,
     ) {
@@ -137,14 +140,12 @@ class GridStructuresTest : StringSpec({
     }
 
     "grid promotes crowded cell into nested grid" {
-        val grid = TunableGrid().apply { tune(multiplierValue = 0.0) }
+        val grid = TunableGrid(factorSize = 0, maxDepth = 1).apply { tune(multiplierValue = 0.0) }
         val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
 
-        withGridThresholds(factor = 0, depth = 1) {
-            grid.add(StubObject(bbox))
-            grid.add(StubObject(bbox))
-            grid.initialize()
-        }
+        grid.add(StubObject(bbox))
+        grid.add(StubObject(bbox))
+        grid.initialize()
 
         val cells = grid.cellsField().get(grid) as Array<*>
         cells.size shouldBe 1
@@ -158,15 +159,13 @@ class GridStructuresTest : StringSpec({
     "grid adds a third object into an already-promoted nested grid cell" {
         // First object wraps the cell in a Compound; the second promotes it to a nested Grid;
         // the third must take the `cells[index] is Grid` insertion branch and be added to it.
-        val grid = TunableGrid().apply { tune(multiplierValue = 0.0) }
+        val grid = TunableGrid(factorSize = 0, maxDepth = 2).apply { tune(multiplierValue = 0.0) }
         val bbox = BBox(ORIGIN, Point3D(1.0, 1.0, 1.0))
 
-        withGridThresholds(factor = 0, depth = 2) {
-            grid.add(StubObject(bbox))
-            grid.add(StubObject(bbox))
-            grid.add(StubObject(bbox, t = 0.15))
-            grid.initialize()
-        }
+        grid.add(StubObject(bbox))
+        grid.add(StubObject(bbox))
+        grid.add(StubObject(bbox, t = 0.15))
+        grid.initialize()
 
         val cells = grid.cellsField().get(grid) as Array<*>
         cells.size shouldBe 1
@@ -424,23 +423,3 @@ class GridStructuresTest : StringSpec({
         sr.geometricObject shouldBe target
     }
 })
-
-private fun <T> withGridThresholds(
-    factor: Int,
-    depth: Int,
-    block: () -> T,
-): T {
-    val gridClass = Grid::class.java
-    val factorField = gridClass.getDeclaredField("factorSize").apply { isAccessible = true }
-    val maxDepthField = gridClass.getDeclaredField("maxDepth").apply { isAccessible = true }
-    val oldFactor = factorField.getInt(null)
-    val oldDepth = maxDepthField.getInt(null)
-    return try {
-        factorField.setInt(null, factor)
-        maxDepthField.setInt(null, depth)
-        block()
-    } finally {
-        factorField.setInt(null, oldFactor)
-        maxDepthField.setInt(null, oldDepth)
-    }
-}

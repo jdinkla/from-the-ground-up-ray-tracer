@@ -27,9 +27,17 @@ import kotlin.math.pow
  * The dense default stores one cell per array slot ([NullObject] for empty cells) and additionally
  * promotes crowded cells into nested grids; [SparseGrid] replaces the array with a map and drops
  * the promotion. No other behaviour differs.
+ *
+ * The promotion tuning ([factorSize], [maxDepth]) is supplied per instance as constructor
+ * parameters rather than shared mutable global state, so concurrent renders cannot interfere with
+ * one another's configuration. Nested sub-grids inherit the parent's tuning so multi-level nesting
+ * behaves identically regardless of grid depth.
  */
 @Suppress("TooManyFunctions")
-open class Grid : CompoundWithMesh() {
+open class Grid(
+    protected val factorSize: Int = DEFAULT_FACTOR_SIZE,
+    protected val maxDepth: Int = DEFAULT_MAX_DEPTH,
+) : CompoundWithMesh() {
     private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
     protected var nx: Int = 0
@@ -140,7 +148,7 @@ open class Grid : CompoundWithMesh() {
         val current = cells[index]
         cells[index] =
             if (current.promotableToSubgrid() && current.objectCount() > factorSize && depth < maxDepth) {
-                val g = Grid()
+                val g = Grid(factorSize, maxDepth)
                 g.add(current.childrenForRegrid())
                 g.add(`object`)
                 g.depth = depth + 1
@@ -257,8 +265,12 @@ open class Grid : CompoundWithMesh() {
     override fun toString(): String = "Grid(#objs=${objects.size})"
 
     companion object {
-        internal var logInterval = 1000
-        protected var factorSize = 500
-        protected var maxDepth = 0
+        internal const val logInterval = 1000
+
+        /** Default object-count threshold above which a crowded cell is promoted to a sub-grid. */
+        private const val DEFAULT_FACTOR_SIZE = 500
+
+        /** Default maximum nesting depth for sub-grid promotion (0 disables nesting). */
+        private const val DEFAULT_MAX_DEPTH = 0
     }
 }
