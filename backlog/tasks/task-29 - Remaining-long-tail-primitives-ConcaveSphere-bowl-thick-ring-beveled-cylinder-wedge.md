@@ -3,9 +3,11 @@ id: TASK-29
 title: >-
   Remaining long-tail primitives (ConcaveSphere, bowl/thick-ring, beveled
   cylinder/wedge)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 17:40'
+updated_date: '2026-06-22 19:41'
 labels:
   - enhancement
   - book-parity
