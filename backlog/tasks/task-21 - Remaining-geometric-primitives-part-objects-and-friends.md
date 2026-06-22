@@ -1,11 +1,11 @@
 ---
 id: TASK-21
 title: Remaining geometric primitives (part objects and friends)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:35'
+updated_date: '2026-06-22 17:40'
 labels:
   - enhancement
   - book-parity
@@ -64,3 +64,9 @@ VERIFICATION: just test (./gradlew clean check incl detekt) GREEN. New code dete
 
 DEFERRED (out of scope per task): optional long-tail primitives mentioned in the description but NOT in the ACs - ConcaveSphere, bowl/thick-ring, beveled cylinder, beveled wedge. Recommend a follow-up task. No example scene added (nice-to-have, not AC-required; unit tests are the primary verification).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added the 6 AC-required book primitives additively (Suffern ch.19), no existing primitive modified: Annulus (flat ring — ray/plane t then innerR²<=|p-c|²<=outerR²), PartSphere (sphere quadratic + per-root phi∈[phiMin,phiMax] and theta∈[thetaMin,thetaMax] rejection), PartCylinder (cylinder quadratic + phi wedge + strict y-extent), PartTorus (reuses Polynomials.solveQuartic + bbox cull, nearest in-wedge root, Torus gradient normal), OpenCone (quadratic A=dx²+dz²-k·dy² with k=(r/h)², y∈[0,h] clamp, gradient normal with inside-flip), and SolidCone (Compound of OpenCone + base Disk facing -y, bbox-gated). A shared PartAngles helper computes phi=atan2(x,z) wrapped to [0,2π] and theta=acos(y/r) and does the in-range check. AC1-3 all met. AC#3: 6 new ObjectsScope DSL methods (annulus/partSphere/partCylinder/partTorus/openCone/solidCone) following the existing idiom, round-tripped in ObjectsScopeTest. Cover-first: 31 new primitive tests + 6 DSL cases — each primitive has hit (known t + normal), miss, bbox, and for the PART objects an ANGULAR-REJECTION test (a ray that WOULD hit the full sphere/cylinder/torus is correctly rejected outside the wedge/extent) — reviewer independently hand-verified the geometry math for every primitive AND traced each rejection test to confirm the limits are genuinely enforced. Each primitive writes t/normal/geometricObject + returns true on hit and shadowHit returns Shadow.Hit(t)/Shadow.None per the IGeometricObject contract (TASK-14/27). detekt clean, no baseline entries (hit() methods kept under thresholds). Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 9d5175e. Deferred the optional long-tail (ConcaveSphere, bowl/thick-ring, beveled cylinder/wedge — not in the ACs) to follow-up TASK-29. Review NIT (noted in TASK-29): PartAngles wedge is inclusive and doesn't handle a wrap-around wedge (phiMin>phiMax across the 0/2π seam) — matches Suffern's non-wrapping convention; extend if wrap-around part objects are added.
+<!-- SECTION:FINAL_SUMMARY:END -->
