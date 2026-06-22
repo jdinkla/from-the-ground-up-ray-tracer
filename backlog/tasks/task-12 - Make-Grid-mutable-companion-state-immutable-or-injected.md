@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:12'
-updated_date: '2026-06-22 12:53'
+updated_date: '2026-06-22 12:54'
 labels:
   - concurrency
   - reliability
@@ -24,8 +24,8 @@ Grid.kt (companion ~410-414) exposes mutable companion-object properties (logInt
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Grid tuning parameters are immutable or passed per-instance, not mutable global state
-- [ ] #2 Parallel renderers cannot mutate shared Grid configuration
+- [x] #1 Grid tuning parameters are immutable or passed per-instance, not mutable global state
+- [x] #2 Parallel renderers cannot mutate shared Grid configuration
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -39,3 +39,17 @@ Grid.kt (companion ~410-414) exposes mutable companion-object properties (logInt
 6. Migrate GridStructuresTest withGridThresholds: delete global-mutation reflection helper; construct grid under test via TunableGrid(factorSize, maxDepth) constructor passthrough. Assertions stay byte-identical.
 7. Run just test (incl. detekt), confirm green; grep-confirm no mutable global tuning state remains.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Approach: converted Grid's mutable companion vars factorSize/maxDepth into immutable per-instance constructor params 'open class Grid(protected val factorSize: Int = 500, protected val maxDepth: Int = 0)'. Defaults preserved via private const DEFAULT_FACTOR_SIZE=500 / DEFAULT_MAX_DEPTH=0. logInterval made an immutable shared constant (internal const val logInterval = 1000) in the companion, so PlyReader's 'import ...Grid.Companion.logInterval' resolves unchanged. No mutable global tuning state remains on Grid (companion now holds only const vals).
+
+Sub-grid threading: promotion in insertIntoCell now builds the nested grid as Grid(factorSize, maxDepth) instead of Grid(), so each level inherits the parent's tuning and multi-level nesting (maxDepth>1) behaves exactly as the old shared-global code did. depth is still set post-construction as before.
+
+SparseGrid: unchanged 'class SparseGrid : Grid()' — the all-default constructor keeps the no-arg super call valid; SparseGrid never promotes (promotableToSubgrid=false), so tuning is irrelevant to it and behaviour is identical. Production construction sites Acceleration.GRID ({ Grid() }) and ObjectsScope.kt (val compound = Grid()) compile and behave unchanged (default tuning).
+
+Test change (arrange-only): GridStructuresTest's TunableGrid now takes (factorSize, maxDepth) and passes them to Grid(...). The two promotion tests construct TunableGrid(factorSize=0, maxDepth=1) and TunableGrid(factorSize=0, maxDepth=2) instead of wrapping init in the global-mutation helper. Deleted the now-defunct withGridThresholds reflection helper (the static fields it mutated no longer exist). All assertions are byte-identical (cells.size, nested is Grid, depth==1, nested.objects.size==4, ray-hit t==0.15, etc.) — only the injection mechanism changed. The unrelated cells/cellsX reflection was left as-is.
+
+Verified: ./gradlew test --tests GridStructuresTest green; 'just test' (clean check incl. detekt) BUILD SUCCESSFUL, no new detekt findings (only two pre-existing unchecked-cast warnings). grep confirms no remaining mutable global Grid tuning; parallel renderers (jvmMain/renderer) never referenced it and there is nothing mutable left to reach.
+<!-- SECTION:NOTES:END -->
