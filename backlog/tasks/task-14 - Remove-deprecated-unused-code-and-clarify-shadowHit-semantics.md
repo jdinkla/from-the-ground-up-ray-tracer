@@ -23,9 +23,11 @@ Remove dead code marked unused (World.kt:35,49) and resolve the open questions f
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Deprecated/unused methods removed or justified
+- [x] #1 Deprecated/unused methods removed or justified
 - [ ] #2 shadowHit parameter semantics documented and consistent across implementations
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
