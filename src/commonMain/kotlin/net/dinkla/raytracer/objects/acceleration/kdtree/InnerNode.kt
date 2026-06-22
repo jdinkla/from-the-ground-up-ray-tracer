@@ -6,6 +6,10 @@ import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.utilities.Histogram
 
+/**
+ * An interior [Node] of a [KDTree]: the [boundingBox] is split at coordinate [split] along [axis]
+ * into the [left] (lower) and [right] (upper) child subtrees.
+ */
 class InnerNode(
     val left: Node,
     val right: Node,
@@ -23,6 +27,11 @@ class InnerNode(
         sr: Hit,
     ): Boolean = hitRec(ray, sr)
 
+    /**
+     * Recursive ray traversal: after a bounding-box test, the children are visited in front-to-back
+     * order determined by which side of the [split] plane the ray's origin lies on, so the first
+     * accepted hit is the nearest and the far child can be skipped.
+     */
     private fun hitRec(
         ray: Ray,
         sr: Hit,

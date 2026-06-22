@@ -9,13 +9,36 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Logger
 
+/**
+ * The common contract for everything that can be placed in a scene and intersected by a ray —
+ * primitives ([net.dinkla.raytracer.objects.Sphere], [net.dinkla.raytracer.objects.Plane], …),
+ * compounds, instances and the acceleration structures that wrap them.
+ *
+ * Besides the core [hit]/[shadowHit] tests it carries the small set of polymorphic hooks the
+ * acceleration structures rely on instead of `is Compound`/`is Grid` type checks — see
+ * [getResultObject], [combineInCell], [objectCount], [promotableToSubgrid] and [childrenForRegrid].
+ */
 interface IGeometricObject {
+    /** Whether this object casts shadows (i.e. participates in shadow-ray tests). */
     var isShadows: Boolean
+
+    /** The axis-aligned bounding box used by the acceleration structures to place and cull this object. */
     var boundingBox: BBox
+
+    /** The surface material used to shade a hit, or `null` until one is assigned. */
     var material: IMaterial?
 
+    /**
+     * Prepares the object for rendering after the scene is assembled — e.g. computing the bounding
+     * box or building a nested acceleration structure. Called once before the first [hit].
+     */
     fun initialize()
 
+    /**
+     * Intersects [ray] with this object. On the closest accepted hit it records the distance,
+     * surface normal and struck object into [sr] and returns true; otherwise returns false and
+     * leaves [sr] unchanged.
+     */
     fun hit(
         ray: Ray,
         sr: IHit,
@@ -70,6 +93,11 @@ interface IGeometricObject {
      */
     fun childrenForRegrid(): List<IGeometricObject> = listOf(this)
 
+    /**
+     * Shadow-ray test that writes the hit distance into [tmin] on success. The default delegates to
+     * the [Shadow]-returning [shadowHit] overload; concrete objects typically override this one with
+     * the cheaper "is anything in the way?" intersection. Returns true if the ray hits this object.
+     */
     fun shadowHit(
         ray: Ray,
         tmin: ShadowHit,
@@ -84,6 +112,11 @@ interface IGeometricObject {
             }
         }
 
+    /**
+     * Shadow-ray test returning a [Shadow] result ([Shadow.Hit] with the distance, or [Shadow.None]).
+     * The default bridges to the [ShadowHit]-based overload; the warning flags the unexpected fallback
+     * path, since objects are expected to implement that overload directly.
+     */
     fun shadowHit(ray: Ray): Shadow {
         Logger.warn("Who is calling me?")
         val t = ShadowHit()

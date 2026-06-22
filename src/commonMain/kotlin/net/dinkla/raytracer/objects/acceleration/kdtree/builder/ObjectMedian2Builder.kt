@@ -14,6 +14,12 @@ import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
+/**
+ * An object-median [TreeBuilder] that, unlike [ObjectMedianBuilder], evaluates the median split on
+ * **all three axes** (via the [Partitioner]) and picks the axis whose split is best balanced. If the
+ * median split fails to separate the objects it retries at several other percentile indices before
+ * falling back to a leaf.
+ */
 class ObjectMedian2Builder : TreeBuilder {
     override var maxDepth = 15
     private var minChildren = 4
@@ -23,6 +29,10 @@ class ObjectMedian2Builder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /**
+     * Per-node helper that splits the objects at a given median index on each axis ([split]) and then
+     * commits to the best axis ([select]), exposing the chosen partition, voxels and split value.
+     */
     class Partitioner(
         internal var objects: List<IGeometricObject>,
     ) {
@@ -72,6 +82,10 @@ class ObjectMedian2Builder : TreeBuilder {
             objectsRz = ArrayList()
         }
 
+        /**
+         * Partitions the objects at the object at [medianIndex] on each of x, y and z, then sets [axis]
+         * to whichever yields the most balanced left/right sizes (per [weight]). Call [select] afterward.
+         */
         fun split(medianIndex: Int) {
             // --------------- X ---------------
             axis = Axis.X
@@ -122,6 +136,7 @@ class ObjectMedian2Builder : TreeBuilder {
                 }
         }
 
+        /** Commits to the [axis] chosen by [split], exposing its object lists, child voxels and split value. */
         fun select() {
             when {
                 axis === Axis.X -> {
@@ -181,6 +196,7 @@ class ObjectMedian2Builder : TreeBuilder {
         }
     }
 
+    /** Recursively builds the subtree for [objects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         objects: List<IGeometricObject>,
         voxel: BBox?,

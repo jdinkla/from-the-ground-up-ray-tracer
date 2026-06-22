@@ -12,6 +12,15 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
+/**
+ * The fisheye camera from Suffern ch. 11. The view plane is normalized to the unit square and only
+ * pixels inside the unit image circle (`r² <= 1`) map to a ray; pixels outside it map to no ray
+ * (the lens returns `null`), producing the characteristic circular image.
+ *
+ * For an in-circle pixel the radius `r` is turned into a polar angle `psi = r * maxPsi` (the field of
+ * view) and an azimuth `alpha`, and the ray direction is `sin(psi)cos(alpha)*u + sin(psi)sin(alpha)*v
+ * - cos(psi)*w` in camera space (`-w` is the forward axis under `Basis.pm`).
+ */
 class FishEye(
     viewPlane: ViewPlane,
     eye: Point3D,
@@ -19,6 +28,7 @@ class FishEye(
 ) : AbstractLens(viewPlane, eye, uvw) {
     private val maxPsi: Double = 1.0
 
+    /** A computed ray [direction] together with the squared image radius [rSquared] used to gate it. */
     inner class RayDirection(
         val direction: Vector3D,
         val rSquared: Double = 0.0,
@@ -55,6 +65,12 @@ class FishEye(
         return ray
     }
 
+    /**
+     * Maps a view-plane point [pp] (with [resolution] and pixel size [s]) to a [RayDirection]. The
+     * point is normalized to `[-1, 1]²`; when its radius `r² <= 1` it is mapped through the fisheye
+     * projection, otherwise [Vector3D.ZERO] is returned with `rSquared` preserved so the caller's
+     * `rSquared <= 1` guard rejects the pixel.
+     */
     private fun getRayDirection(
         pp: Point2D,
         resolution: Resolution,

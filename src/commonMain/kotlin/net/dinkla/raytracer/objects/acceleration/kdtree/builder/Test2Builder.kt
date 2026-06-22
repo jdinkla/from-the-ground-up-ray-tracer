@@ -11,6 +11,12 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
 
+/**
+ * A cost-driven [TreeBuilder] like [TestBuilder], but instead of a few evenly spaced probes it uses
+ * the **object bounding-box faces clipped to the voxel** as split candidates (the standard
+ * surface-area-heuristic candidate set). Each candidate is scored by a volume-weighted cost that also
+ * penalises object duplication, and the cheapest across all axes wins; otherwise the node is a leaf.
+ */
 class Test2Builder : TreeBuilder {
     override var maxDepth = 15
     private var minChildren = 4
@@ -20,6 +26,7 @@ class Test2Builder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /** Per-node helper that gathers per-axis candidate planes and reports the cheapest split as a [Split]. */
     class Partitioner(
         objects: List<IGeometricObject>,
         voxel: BBox,
@@ -158,6 +165,7 @@ class Test2Builder : TreeBuilder {
         }
     }
 
+    /** Recursively builds the subtree for [objects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         objects: List<IGeometricObject>?,
         voxel: BBox?,

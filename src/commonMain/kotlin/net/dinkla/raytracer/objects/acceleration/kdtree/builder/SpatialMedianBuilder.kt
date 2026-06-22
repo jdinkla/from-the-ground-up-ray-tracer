@@ -11,6 +11,12 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 
+/**
+ * The default [TreeBuilder]: splits each voxel at its **spatial median** — the geometric midpoint of
+ * the current axis — cycling axes by depth (x, y, z, x, …). An object goes left when its lower bound
+ * is `<= split` and right when its upper bound is `>= split`, so objects straddling the plane are
+ * duplicated into both children. Recursion stops at [maxDepth] or fewer than `minChildren` objects.
+ */
 class SpatialMedianBuilder : TreeBuilder {
     override var maxDepth = 15
     private var minChildren = 4
@@ -20,6 +26,7 @@ class SpatialMedianBuilder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /** Recursively builds the subtree for [objects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         objects: List<IGeometricObject>,
         voxel: BBox?,

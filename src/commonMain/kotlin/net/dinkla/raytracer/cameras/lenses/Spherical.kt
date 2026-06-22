@@ -12,6 +12,12 @@ import net.dinkla.raytracer.utilities.Resolution
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * The spherical-panoramic camera from Suffern ch. 11. The view plane is normalized to `[-1, 1]²` and
+ * mapped onto a sphere: the horizontal coordinate becomes the azimuth `lambda` (up to [maxLambda]
+ * degrees) and the vertical becomes the polar angle `psi` (up to [maxPsi] degrees), so the full plane
+ * can cover a 360°×180° panorama. Unlike [FishEye] every pixel maps to a valid ray.
+ */
 class Spherical(
     viewPlane: ViewPlane,
     eye: Point3D,
@@ -43,6 +49,11 @@ class Spherical(
         return Ray(eye, direction)
     }
 
+    /**
+     * Maps a view-plane point [pp] (with [resolution] and pixel size [s]) to a world-space direction:
+     * the normalized coordinates drive azimuth `lambda` and polar `psi`, which are converted to
+     * spherical angles `phi`/`theta` and finally to a unit direction via the camera basis.
+     */
     private fun getRayDirection(
         pp: Point2D,
         resolution: Resolution,

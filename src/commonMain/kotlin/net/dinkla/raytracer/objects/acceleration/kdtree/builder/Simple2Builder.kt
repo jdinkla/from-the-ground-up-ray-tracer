@@ -12,6 +12,16 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
+/**
+ * A [TreeBuilder] that scores the spatial-median split on **all three axes** and keeps the cheapest by
+ * a heuristic [cost] (imbalance + straddle + duplication penalties). If the best split would duplicate
+ * too many objects (`L + R > 1.5·n`) it gives up and makes a leaf instead.
+ *
+ * Quirk preserved from the original: while the *partition* uses the winning axis, the [InnerNode]'s
+ * stored split value and the log message always use `mid.z` (the z midpoint), because the original
+ * code reused one `split` variable across the x/y/z scan and the z scan ran last. The traversal axis
+ * still comes from `Axis.fromInt(depth)`, so this is a cosmetic/recorded value, not the partition.
+ */
 class Simple2Builder : TreeBuilder {
     override var maxDepth = 10
 
@@ -22,6 +32,7 @@ class Simple2Builder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /** Recursively builds the subtree for [objects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         objects: List<IGeometricObject>,
         voxel: BBox,

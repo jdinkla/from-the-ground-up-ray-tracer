@@ -52,6 +52,12 @@ open class Grid(
         boundingBox = BBox()
     }
 
+    /**
+     * Builds the grid: derives the cell resolution `nx*ny*nz` from the scene's bounding box and object
+     * count (a standard density heuristic, scaled by [multiplier]), allocates the cells, and inserts
+     * every object into each cell its bounding box overlaps. Idempotent — re-running on an already
+     * initialised grid is a no-op.
+     */
     override fun initialize() {
         if (isInitialized) {
             return
@@ -214,6 +220,12 @@ open class Grid(
         }
     }
 
+    /**
+     * Intersects [ray] with the grid using a 3D-DDA traversal (the Amanatides–Woo grid walk): after a
+     * bounding-box and slab test it steps cell by cell along the ray via [GridTraversal], testing only
+     * the objects in each visited cell and stopping at the first hit closer than the cell exit. The
+     * cell-storage details are deferred to the [cellAt] hook so [SparseGrid] can reuse this unchanged.
+     */
     override fun hit(
         ray: Ray,
         sr: IHit,
@@ -251,6 +263,7 @@ open class Grid(
         Counter.count(event)
     }
 
+    /** Shadow-ray test: runs the same grid traversal as [hit] and reports whether anything was struck. */
     override fun shadowHit(
         ray: Ray,
         tmin: ShadowHit,

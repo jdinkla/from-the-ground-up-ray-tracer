@@ -17,6 +17,15 @@ import net.dinkla.raytracer.samplers.Sampler
 import net.dinkla.raytracer.world.Metadata
 import net.dinkla.raytracer.world.World
 
+/**
+ * The top-level receiver of the scene DSL: `Builder.build { ... }` runs its body against a
+ * `WorldScope`, which accumulates the camera, view plane, ambient light, lights, materials and
+ * objects and exposes them as a finished [World] through [world].
+ *
+ * Besides the structural blocks ([camera], [ambientLight], [lights], [materials], [objects],
+ * [metadata]) it offers terse constructor shorthands — `p`/`v`/`n` for points/vectors/normals and
+ * `c`/`cInt` for colours — so scenes read compactly. See `README.md` for a full example.
+ */
 @Suppress("TooManyFunctions")
 class WorldScope {
     private var metadata: Metadata = Metadata("someId")
@@ -29,9 +38,11 @@ class WorldScope {
     private var objects: List<GeometricObject> = listOf()
     private val compound: Compound = Compound()
 
+    /** The assembled [World] from everything declared so far in the DSL body. */
     val world: World
         get() = World(metadata, camera, viewPlane, ambientLight, lights, materials, objects, compound)
 
+    /** Shorthand for a [Point3D] from integer coordinates. */
     fun p(
         x: Int,
         y: Int,
@@ -90,6 +101,10 @@ class WorldScope {
         z: Double,
     ) = Vector3D(x, y, z)
 
+    /**
+     * Sets the camera as a [Pinhole] lens looking from [eye] towards [lookAt] with the given [up]
+     * vector. [d] is the view-plane distance (focal length); larger [d] narrows the field of view.
+     */
     fun camera(
         d: Double = 1.0,
         eye: Point3D = Point3D(5.0, 50.0, 50.0),
@@ -104,6 +119,7 @@ class WorldScope {
             }, eye, lookAt, up)
     }
 
+    /** Sets a uniform [Ambient] ambient light of the given [color] scaled by intensity [ls]. */
     fun ambientLight(
         color: Color = Color.WHITE,
         ls: Double = 1.0,
@@ -111,6 +127,10 @@ class WorldScope {
         ambientLight = Ambient(ls, color)
     }
 
+    /**
+     * Replaces the ambient term with an [AmbientOccluder] that softens ambient light by [sampler]ing
+     * occlusion with [numSamples] rays per shading point.
+     */
     fun ambientOccluder(
         sampler: Sampler,
         numSamples: Int,
@@ -118,24 +138,31 @@ class WorldScope {
         ambientLight = AmbientOccluder(sampler, numSamples)
     }
 
+    /** Declares the scene's lights; [builder] runs against a fresh [LightsScope]. */
     fun lights(builder: LightsScope.() -> Unit) {
         val scope = LightsScope()
         scope.builder()
         lights = scope.lights
     }
 
+    /** Declares the named materials; [builder] runs against a fresh [MaterialsScope]. */
     fun materials(builder: MaterialsScope.() -> Unit) {
         val scope = MaterialsScope()
         scope.builder()
         materials = scope.materials
     }
 
+    /**
+     * Declares the scene geometry; [builder] runs against an [ObjectsScope] that resolves material
+     * ids against the materials declared above and adds objects into the world's root [compound].
+     */
     fun objects(builder: ObjectsScope.() -> Unit) {
         val scope = ObjectsScope(materials, compound)
         scope.builder()
         objects = scope.objects
     }
 
+    /** Declares the scene's [Metadata] (id, title, description); [builder] runs against a [MetadataScope]. */
     fun metadata(builder: MetadataScope.() -> Unit) {
         val scope = MetadataScope()
         scope.builder()

@@ -13,6 +13,12 @@ import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.utilities.Logger
 
+/**
+ * A [TreeBuilder] that splits along the **widest axis** of the voxel at the **object median**: it
+ * sorts the objects by their upper bound on that axis and splits at the median object's lower bound,
+ * which adapts the split to where the geometry actually lies rather than to the geometric midpoint.
+ * If the split fails to separate the objects (all land on one side) the node becomes a leaf.
+ */
 class ObjectMedianBuilder : TreeBuilder {
     override var maxDepth = 15
     private var minChildren = 4
@@ -22,6 +28,7 @@ class ObjectMedianBuilder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /** Recursively builds the subtree for [origObjects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         origObjects: List<IGeometricObject>,
         voxel: BBox,

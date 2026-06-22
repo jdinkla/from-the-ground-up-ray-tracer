@@ -5,7 +5,19 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+/**
+ * Closed-form real-root solvers for quadratic, cubic and quartic polynomials. They use the classic
+ * algebraic methods — reduction to normal form, the depressed cubic via Cardano's formula (with the
+ * *casus irreducibilis* trigonometric branch), and the quartic via its resolvent cubic — as used to
+ * intersect rays with the [net.dinkla.raytracer.objects.Torus] and similar implicit surfaces.
+ *
+ * Each solver takes the coefficients in **ascending degree** (`c[0]` is the constant term, `c[n]` the
+ * leading term), writes the distinct real roots into [s] (order unspecified), and returns how many it
+ * found. The output array must be large enough for the worst case (2 / 3 / 4 roots respectively);
+ * extra slots are left untouched.
+ */
 object Polynomials {
+    /** Real cube root, defined for negative arguments (Kotlin's `pow(1/3)` would return NaN there). */
     private fun cbrt(d: Double) =
         if (d < 0.0) {
             -(-d).pow(1.0 / 3.0)
@@ -13,6 +25,13 @@ object Polynomials {
             d.pow(1.0 / 3.0)
         }
 
+    /**
+     * Solves `c[3]·x³ + c[2]·x² + c[1]·x + c[0] = 0` for its real roots. Reduces to the depressed
+     * cubic `y³ + py + q = 0` and applies Cardano's formula, switching to the trigonometric
+     * (*casus irreducibilis*) branch when there are three distinct real roots. Returns 1, 2 or 3.
+     *
+     * @param c coefficients of size 4 (ascending degree); @param s receives the roots (size 3).
+     */
     fun solveCubic(
         c: DoubleArray,
         s: DoubleArray,
@@ -74,6 +93,12 @@ object Polynomials {
         return num
     }
 
+    /**
+     * Solves `c[2]·x² + c[1]·x + c[0] = 0` for its real roots via the normal form `x² + px + q = 0`
+     * and the discriminant `D = p² - q`. Returns 0 (no real root), 1 (double root) or 2.
+     *
+     * @param c coefficients of size 3 (ascending degree); @param s receives the roots (size 2).
+     */
     fun solveQuadric(
         c: DoubleArray,
         s: DoubleArray,
@@ -107,6 +132,14 @@ object Polynomials {
         }
     }
 
+    /**
+     * Solves `c[4]·x⁴ + c[3]·x³ + c[2]·x² + c[1]·x + c[0] = 0` for its real roots. Reduces to the
+     * depressed quartic `y⁴ + py² + qy + r = 0`, then either drops to a cubic when there is no
+     * absolute term ([solveQuarticNoAbsoluteTerm]) or factors it through the resolvent cubic into two
+     * quadrics ([solveQuarticResolvent]). Returns 0..4.
+     *
+     * @param c coefficients of size 5 (ascending degree); @param s receives the roots (size 4).
+     */
     fun solveQuartic(
         c: DoubleArray,
         s: DoubleArray,

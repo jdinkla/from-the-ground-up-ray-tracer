@@ -8,12 +8,23 @@ import net.dinkla.raytracer.materials.Phong
 import net.dinkla.raytracer.materials.Reflective
 import net.dinkla.raytracer.materials.Transparent
 
+/**
+ * DSL receiver for the `materials { ... }` block. Each call registers a material under a string
+ * [id]; objects in the `objects { ... }` block reference materials by that same id. The accumulated
+ * map is read back through [materials].
+ *
+ * Reflectance parameters follow Suffern's naming: `cd` diffuse colour, `ka` ambient coefficient,
+ * `kd` diffuse coefficient, `ks`/`cs`/`exp` specular coefficient/colour/exponent, `kr`/`cr`
+ * reflection coefficient/colour, `kt` transmission coefficient, `ior` index of refraction.
+ */
 class MaterialsScope {
     private val mutableMaterials: MutableMap<String, IMaterial> = mutableMapOf()
 
+    /** The materials declared so far, keyed by id, as an immutable snapshot. */
     val materials: Map<String, IMaterial>
         get() = mutableMaterials.toMap()
 
+    /** Registers a [Matte] (purely diffuse Lambertian) material under [id]. */
     fun matte(
         id: String,
         cd: Color = Color.WHITE,
@@ -23,6 +34,7 @@ class MaterialsScope {
         mutableMaterials[id] = Matte(cd, ka, kd)
     }
 
+    /** Registers a [Phong] (diffuse + specular highlight) material under [id]. */
     @SuppressWarnings("LongParameterList")
     fun phong(
         id: String,
@@ -41,6 +53,7 @@ class MaterialsScope {
             }
     }
 
+    /** Registers a [Reflective] (Phong plus mirror reflection via [cr]/[kr]) material under [id]. */
     @SuppressWarnings("LongParameterList")
     fun reflective(
         id: String,
@@ -63,6 +76,7 @@ class MaterialsScope {
             }
     }
 
+    /** Registers an [Emissive] (self-luminous) material of colour [ce] and radiance [le], used for area lights. */
     fun emissive(
         id: String,
         ce: Color = Color.WHITE,
@@ -71,6 +85,7 @@ class MaterialsScope {
         mutableMaterials[id] = Emissive(ce, le)
     }
 
+    /** Registers a [Transparent] (reflective + refractive via [kt]/[ior]) material under [id]. */
     @SuppressWarnings("LongParameterList")
     fun transparent(
         id: String,

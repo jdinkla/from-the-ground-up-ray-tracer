@@ -6,6 +6,10 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.compound.Compound
 
+/**
+ * A leaf [Node] of a [KDTree]: holds the [objects] that fall inside its region in a plain [Compound]
+ * and intersects a ray by brute force against all of them.
+ */
 class Leaf(
     objects: List<IGeometricObject>,
 ) : Node {

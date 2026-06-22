@@ -12,6 +12,12 @@ import net.dinkla.raytracer.utilities.GeometricObjectUtilities
 import net.dinkla.raytracer.utilities.ListUtilities
 import net.dinkla.raytracer.utilities.Logger
 
+/**
+ * A cost-driven [TreeBuilder] using a surface-area-heuristic-style score: for each axis it probes a
+ * few evenly spaced candidate planes (`x(axis, 3)`), evaluates each with a volume-weighted cost
+ * ([Partitioner.Split.sah], roughly `const + volₗ/vol·|L| + volᵣ/vol·|R|`), and keeps the
+ * cheapest split across all axes. When no candidate improves on a leaf, the node becomes a leaf.
+ */
 class TestBuilder : TreeBuilder {
     override var maxDepth = 30
     private var minChildren = 4
@@ -21,6 +27,7 @@ class TestBuilder : TreeBuilder {
         voxel: BBox,
     ): Node = build(tree.objects, tree.boundingBox, 0)
 
+    /** Per-node helper that evaluates candidate split planes per axis and reports the cheapest as a [Split]. */
     class Partitioner(
         objects: ArrayList<IGeometricObject>,
         voxel: BBox,
@@ -131,6 +138,7 @@ class TestBuilder : TreeBuilder {
         }
     }
 
+    /** Recursively builds the subtree for [objects] within [voxel] at the given [depth]; see the class doc. */
     fun build(
         objects: ArrayList<IGeometricObject>?,
         voxel: BBox,
