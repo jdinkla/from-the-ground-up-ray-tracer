@@ -3,11 +3,11 @@ id: TASK-29
 title: >-
   Remaining long-tail primitives (ConcaveSphere, bowl/thick-ring, beveled
   cylinder/wedge)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 20:20'
+updated_date: '2026-06-22 20:26'
 labels:
   - enhancement
   - book-parity
@@ -68,3 +68,9 @@ PART B DONE. Added BeveledCylinder (objects/beveled): OpenCylinder body (y0+rb..
 
 VERIFICATION: full 'just test' (clean check + all tests + detekt + jacoco) BUILD SUCCESSFUL. detekt clean, detekt-baseline.xml UNMODIFIED (no new entries). Only pre-existing warnings remain (PlyReader unchecked cast, GridStructuresTest unchecked casts) — unrelated. Manual end-to-end check of the Torus behavior change: rendered GreenTorus.kt (coverage-excluded example) at 720p — torus renders as a clean ring with an empty central hole and no phantom specks (the bug's symptom). REFACTOR NOTE: the Newton-polish helper was extracted to Polynomials.polishRoot (shared by Torus + PartTorus) with its own cover-first PolynomialsTest cases, to stay DRY and detekt-clean (avoids duplicated magic-number index access). No existing Torus/PartTorus assertion was changed — none had pinned a phantom value. NEW supporting primitive: PartAnnulus (objects/) added for the wedge caps, with DSL method partAnnulus + PartAnnulusTest. All 3 prior primitives (ConcaveSphere, ConcavePartSphere, ThickRing, Bowl) untouched and still pass.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Delivered all 4 long-tail primitives AND fixed a HIGH-priority Torus bug discovered mid-task (user expanded the scope to include the fix). PART A — Torus phantom-intersection fix: root cause was Polynomials.solveQuartic fabricating spurious roots for ill-conditioned near-axis/vertical rays (its resolvent path's nonNegativeSqrt clamps negative discriminants to 0), which Torus.hit AND PartTorus accepted without validating against the surface. Fix: each candidate quartic root is now Newton-polished (new shared Polynomials.polishRoot — Horner-evaluated, 6-step cap, zero-derivative bail) and validated against the torus implicit equation (rejected if |residual| >= 1e-4); the nearest valid forward root past K_EPSILON is selected. solveQuartic ITSELF is unchanged, so other callers are unaffected. Reviewer INDEPENDENTLY confirmed cover-first: reverted Torus.kt/PartTorus.kt to HEAD (kept the new tests) and ran them — all 4 phantom/genuine-pierce regressions FAILED on the buggy code (they pin both phantom-rejection AND the correct t=2.9/normal — the buggy solver also returned a wrong t for the genuine ray), then passed after restore. No existing assertion changed (none had pinned a phantom value). GreenTorus rendered clean (no phantom specks). PART B — beveled primitives, now unblocked: BeveledCylinder (objects/beveled — shortened OpenCylinder body + 2 shrunk Disk caps + a Torus rim at each end via Instance) and BeveledWedge (PartCylinder walls + PartAnnulus caps + PartTorus arc rims + Rectangle radial sides; only curved edges beveled, documented), plus a supporting new PartAnnulus primitive (Annulus + phi wedge via PartAngles). Combined with the 3 prior-pass primitives (ConcaveSphere/ConcavePartSphere inward-normal dome, ThickRing capped tube, Bowl thick hemispherical shell). AC1-3 all met: 6 new ObjectsScope DSL methods (concaveSphere/thickRing/bowl/beveledCylinder/beveledWedge/partAnnulus) with round-trip tests; per-primitive cover-first hit/miss/shadowHit/bbox tests with hand-derived values on distinct sub-surfaces; additive except the sanctioned Torus fix (only Torus.kt/PartTorus.kt/Polynomials.kt modified among existing production). detekt clean, no baseline entries. Verified via just test (625 tests + detekt + jacoco) BUILD SUCCESSFUL. Committed as e8ccd2d. NIT (non-blocking): PartAnnulus radial-band test uses 3D sqrDistance, exact only for in-plane/axis-aligned-normal hits (its only current use in BeveledWedge) — worth a doc caveat if reused with tilted normals.
+<!-- SECTION:FINAL_SUMMARY:END -->
