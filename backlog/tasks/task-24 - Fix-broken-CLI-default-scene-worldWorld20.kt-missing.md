@@ -1,9 +1,11 @@
 ---
 id: TASK-24
 title: Fix broken CLI default scene (--world=World20.kt missing)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 14:20'
+updated_date: '2026-06-22 15:13'
 labels:
   - bug
   - cli
