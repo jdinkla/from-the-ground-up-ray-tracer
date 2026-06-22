@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 19:39'
-updated_date: '2026-06-22 21:11'
+updated_date: '2026-06-22 21:12'
 labels:
   - bug
   - renderer
@@ -28,3 +28,14 @@ Discovered during TASK-26: Context.adapt() always builds SimpleSingleRayRenderer
 - [ ] #3 Thin-lens depth-of-field blur is visible in a rendered thinLensCamera scene at high sample counts (verifying TASK-26's DoF end-to-end)
 - [ ] #4 Cover-first tests for the sampled-vs-single selection and the averaged output; full suite + detekt green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add ViewPlane.numSamples (var, default 1) + samples(n) DSL setter on WorldScope (sets viewPlane.numSamples). Default 1 keeps every scene byte-identical.
+2. Fix SampledSingleRayRenderer: take numSamples + in-pixel Sampler via constructor (remove hardcoded numSamples=1 and 2500-sample sampler latent bug). Loop numSamples times, jitter via sampleUnitSquare, getRaySampled, average via ColorAccumulator.
+3. Wire Context.adapt: numSamples>1 -> SampledSingleRayRenderer(lens, tracer, numSamples, in-pixel sampler); ==1 -> SimpleSingleRayRenderer exactly as today (byte-identical single-sample branch, the one wiring edit).
+4. Cover-first tests: ContextTest (selection: 1 -> Simple, N -> Sampled w/ right numSamples), SampledSingleRayRendererTest (averaging: constant-color tracer -> that color; per-sample-varying via deterministic fake lens+tracer -> correct mean). Keep existing RendererTest unchanged.
+5. just test green (incl detekt, no baseline entries).
+6. Manual: AA demo scene (hard sphere edge, numSamples=16) + DoF demo (thinLensCamera high samples) -> render, observe smooth edges + blur. Confirm numSamples=1 render byte-identical.
+<!-- SECTION:PLAN:END -->
