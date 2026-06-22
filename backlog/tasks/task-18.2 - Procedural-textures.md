@@ -1,10 +1,11 @@
 ---
 id: TASK-18.2
 title: Procedural textures
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 09:42'
+updated_date: '2026-06-22 14:45'
 labels:
   - enhancement
   - book-parity
