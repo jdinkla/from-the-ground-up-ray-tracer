@@ -30,3 +30,13 @@ ForkJoinRenderer, CoroutineBlockRenderer, and VirtualThreadBlockRenderer partiti
 - [ ] #3 Tests cover sub-block-grid and non-divisible resolutions for each block renderer; the cross-renderer output-equivalence test still passes
 - [ ] #4 Update the TASK-7 RendererTest cases that currently pin the buggy underfill behavior to assert the corrected behavior
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Rewrite Block.partitionIntoBlocks to tile [0,width)x[0,height) exactly for any resolution/numBlocks: split each dimension into min(numBlocks,dim) contiguous segments whose sizes differ by at most 1 (ceil-then-remainder distribution); cross-product the x and y segments. No zero-size blocks, no gaps/overlaps, no dropped remainder. Returns empty list only for zero-area films.
+2. Add BlockTest (jvmTest) asserting exact tiling for tricky sizes: width=5/blocks=8 (sub-grid), width=10/blocks=3 (non-divisible remainder), divisible case, and 1xN.
+3. Update RendererTest TASK-7 cases: replace the three 'silently under-renders ... shouldBe 0' assertions (ForkJoin 4x4, Coroutine 8x8, VirtualThread 8x8) with full-coverage assertions, and update/repurpose the NaiveCoroutine 'block renderers leave empty' contrast test. Add per-renderer sub-block-grid + non-divisible coverage tests (every pixel exactly once).
+4. Strengthen the output-equivalence test to also assert equivalence at a non-divisible resolution (e.g. 10x7).
+5. Run ./gradlew test for renderer/Block tests, then full 'just test' (incl detekt) green.
+<!-- SECTION:PLAN:END -->
