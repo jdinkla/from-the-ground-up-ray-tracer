@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:11'
-updated_date: '2026-06-22 11:34'
+updated_date: '2026-06-22 11:39'
 labels:
   - testing
   - concurrency
@@ -25,7 +25,7 @@ GridUtilities.kt is the single largest coverage gap (1282 missed instructions) -
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 GridUtilities tessellation covered for flat and smooth spheres across varying step counts (loops, pole triangles, normals)
-- [ ] #2 ForkJoin, Coroutine, NaiveCoroutine, and VirtualThread renderers have success and failure/barrier tests
-- [ ] #3 All renderer strategies produce equivalent output for a small reference scene
+- [x] #1 GridUtilities tessellation covered for flat and smooth spheres across varying step counts (loops, pole triangles, normals)
+- [x] #2 ForkJoin, Coroutine, NaiveCoroutine, and VirtualThread renderers have success and failure/barrier tests
+- [x] #3 All renderer strategies produce equivalent output for a small reference scene
 <!-- AC:END -->
