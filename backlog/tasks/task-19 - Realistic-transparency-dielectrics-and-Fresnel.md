@@ -28,8 +28,6 @@ The repo has only simple/Whitted transparency (Transparent material + PerfectTra
 - [x] #4 Unit tests cover Fresnel reflectance at normal and grazing incidence and the TIR threshold
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -45,4 +43,6 @@ The repo has only simple/Whitted transparency (Transparent material + PerfectTra
 
 <!-- SECTION:NOTES:BEGIN -->
 Added FresnelReflector (brdf/), FresnelTransmitter (btdf/), Dielectric material (materials/) extending Phong, and dielectric() in MaterialsScope DSL (iorIn/iorOut + cfIn/cfOut + Phong params). Dielectric.shade adds Fresnel-weighted reflected+transmitted recursion + Beer's-law attenuation (cf.pow(distance), distance from tracer's WrappedDouble tmin out-param) on top of Phong direct lighting; TIR branch reflects only. NO changes to Whitted tracer or any existing material. Unit tests green: FresnelReflectorTest (normal incidence eta=1.5->0.04, eta=2.0->1/9, grazing->~1, monotonic, TIR->1.0 via guard), FresnelTransmitterTest (TIR threshold below/above critical 41.8deg, refraction bends toward normal entering denser medium, TIR coincides with kr=1), DielectricShadeTest (TIR reflected-only attenuated by cfIn^dist; below-critical blends both), MaterialsScope dielectric, unsupported-op tests for both new BRDF/BTDF.
+
+AC#1 verified manually (examples zone, coverage-excluded): rendered 'just gradlew run --args=--world=GlassSphere.kt --tracer=WHITTED --renderer=SEQUENTIAL --resolution=720p'. PNG shows (a) refraction: floor checker bent/inverted through the sphere; (b) TIR: bright reflective ring near the silhouette where grazing rays cannot exit; (c) Beer's-law attenuation: green/teal tint strongest through the longest interior path. Existing Transparent material untouched; World71b.kt re-rendered identically (regression check). 'just test' (./gradlew clean check: compile + all tests + detekt) PASS; only pre-existing unrelated warnings (PlyReader, GridStructuresTest unchecked casts). New scene: src/examples/.../examples/materials/dielectric/GlassSphere.kt.
 <!-- SECTION:NOTES:END -->
