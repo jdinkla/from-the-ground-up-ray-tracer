@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:26'
+updated_date: '2026-06-22 17:35'
 labels:
   - enhancement
   - book-parity
@@ -22,10 +22,12 @@ The book includes many primitives this port lacks: Annulus, part objects (part s
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Annulus plus the part-sphere / part-cylinder / part-torus primitives are implemented with correct hit and bounding box
-- [ ] #2 Open and solid cones are implemented
-- [ ] #3 New primitives are declarable from the Builder DSL and have hit/shadowHit unit tests
+- [x] #1 Annulus plus the part-sphere / part-cylinder / part-torus primitives are implemented with correct hit and bounding box
+- [x] #2 Open and solid cones are implemented
+- [x] #3 New primitives are declarable from the Builder DSL and have hit/shadowHit unit tests
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
