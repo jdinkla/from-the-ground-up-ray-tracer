@@ -1,11 +1,11 @@
 ---
 id: TASK-22
 title: Stereo camera
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 09:41'
-updated_date: '2026-06-22 17:52'
+updated_date: '2026-06-22 17:56'
 labels:
   - enhancement
   - book-parity
@@ -67,3 +67,9 @@ Manually verified (render glue, coverage-excluded):
 
 Full check: ./gradlew clean check green (tests + detekt + jacoco). No new detekt-baseline entries. Pre-existing unchecked-cast warnings in PlyReader.kt/GridStructuresTest.kt are unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added Suffern's stereo camera as an additive orchestration over the existing single-ray lens pipeline. StereoCamera (pure geometry holder) derives a left + right Pinhole Camera whose eyes are offset by ∓u·(separation/2) along the camera's right (u) axis; PARALLEL mode keeps the two view directions parallel (shifted origin, same direction), TRANSVERSE toes both eyes in onto the shared lookAt. StereoCompositor merges the two eye images: SIDE_BY_SIDE (double-width — left in cols [0,w), right in [w,2w)) or ANAGLYPH (single width — red from the left eye, green/blue from the right). StereoRender does the two-pass render, reusing the real SimpleSingleRayRenderer(camera.lens, tracer) per eye via the context's RendererCreator (no per-eye reimplementation). AC1-2 both met. AC#2: a new WorldScope.stereoCamera(...) DSL block (following the camera(...) idiom) sets World.stereoCamera (nullable, default null) AND a base Pinhole camera so World.camera stays valid (Context.adapt reads world.camera.lens unconditionally — reviewer flagged this as a real correctness detail the implementer got right). Render.render branches to StereoRender only when world.stereoCamera != null; the non-stereo single-camera path is byte-identical (Context.adapt/SimpleSingleRayRenderer/ILens/Camera/camera() DSL all UNMODIFIED — reviewer confirmed via diff + existing BuilderTest/CameraTest/WorldScopeTest passing unchanged). Cover-first: StereoCameraTest (hand-derived left/right eye offsets + parallel vs transverse directions), StereoCompositorTest (side-by-side placement with exactly 2·w·h writes; anaglyph per-channel mapping with exactly w·h writes), ColorGridFilmTest; WorldScopeTest additive cases. AC#1 manually verified by both implementer and reviewer: ./gradlew run --world=StereoSpheres.kt --tracer=WHITTED --renderer=SEQUENTIAL --resolution=480p → two render passes, 1706×480 PNG (=2×853, side-by-side double-width) with visible depth-dependent horizontal parallax; anaglyph mode produces 853×480 with red/cyan fringing. detekt clean, no baseline entries. Verified via just test (clean check + detekt + jacoco) BUILD SUCCESSFUL. Committed as 47fea9c.
+<!-- SECTION:FINAL_SUMMARY:END -->
