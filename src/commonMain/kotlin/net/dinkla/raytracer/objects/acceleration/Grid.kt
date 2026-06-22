@@ -15,6 +15,19 @@ import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.pow
 
+/**
+ * A uniform (regular) grid acceleration structure.
+ *
+ * `Grid` owns the logic shared with [SparseGrid]: the grid-resolution heuristic, the object
+ * insertion scaffold (clamped cell-index ranges, the triple-nested cell loop, the per-cell
+ * counts/statistics) and the 3D-DDA traversal driving [hit]. Subclasses specialise **only the
+ * cell storage** and the per-cell insertion/lookup that follows from it, via the small set of
+ * `protected open` hooks below.
+ *
+ * The dense default stores one cell per array slot ([NullObject] for empty cells) and additionally
+ * promotes crowded cells into nested grids; [SparseGrid] replaces the array with a map and drops
+ * the promotion. No other behaviour differs.
+ */
 open class Grid : CompoundWithMesh() {
     private var cells: Array<IGeometricObject> = Array(0) { _ -> NullObject() }
 
@@ -34,7 +47,7 @@ open class Grid : CompoundWithMesh() {
         if (isInitialized) {
             return
         }
-        super.initialize()
+        prepareInitialization()
 
         if (objects.size == 0) {
             return
@@ -57,13 +70,9 @@ open class Grid : CompoundWithMesh() {
 
         Logger.info("Grid: numCells=$numCells = $nx*$ny*$nz")
 
-        cells = Array(numCells) { _ -> NullObject() }
+        allocateCells(numCells)
 
         val counts = IntArray(numCells)
-
-        for (i in 0 until numCells) {
-            counts[i] = 0
-        }
 
         var objectsToGo = objects.size
 
@@ -88,31 +97,7 @@ open class Grid : CompoundWithMesh() {
                 for (iy in iymin..iymax) {
                     for (ix in ixmin..ixmax) {
                         val index = iz * nx * ny + iy * nx + ix
-                        when {
-                            cells[index] is Grid -> {
-                                val c = cells[index] as Grid
-                                c.add(`object`)
-                            }
-                            cells[index] is Compound -> {
-                                val c = cells[index] as Compound
-                                if (c.size() > factorSize && depth < maxDepth) {
-                                    val g = Grid()
-                                    g.add(c.objects)
-                                    g.add(`object`)
-                                    g.depth = depth + 1
-
-                                    cells[index] = g
-                                } else {
-                                    c.add(`object`)
-                                }
-                            }
-                            else -> {
-                                val c = Compound()
-                                c.add(cells[index])
-                                c.add(`object`)
-                                cells[index] = c
-                            }
-                        }
+                        insertIntoCell(index, `object`)
                         counts[index]++
                     }
                 }
@@ -122,22 +107,88 @@ open class Grid : CompoundWithMesh() {
         timer.stop()
         Logger.info("Creating grid took " + timer.duration + " ms")
 
+        initializeSubcells()
+
+        statistics(numCells, counts)
+    }
+
+    /**
+     * Per-instance setup that precedes grid construction. The dense grid delegates to
+     * [Compound.initialize] (recomputing the bounding box); [SparseGrid] only flags itself
+     * initialised, deliberately keeping the bounding box it already had.
+     */
+    protected open fun prepareInitialization() {
+        super.initialize()
+    }
+
+    /** Allocates the backing cell storage for [numCells] cells. */
+    protected open fun allocateCells(numCells: Int) {
+        cells = Array(numCells) { _ -> NullObject() }
+    }
+
+    /**
+     * Inserts [object] into the cell at the linear [index]. The dense grid keeps a [NullObject]
+     * placeholder in empty cells, wraps the second occupant in a [Compound], and promotes a
+     * crowded [Compound] into a nested [Grid] once it exceeds [factorSize] (while under
+     * [maxDepth]); [SparseGrid] overrides this with a map-backed, promotion-free variant.
+     */
+    protected open fun insertIntoCell(
+        index: Int,
+        `object`: IGeometricObject,
+    ) {
+        when {
+            cells[index] is Grid -> {
+                val c = cells[index] as Grid
+                c.add(`object`)
+            }
+            cells[index] is Compound -> {
+                val c = cells[index] as Compound
+                if (c.size() > factorSize && depth < maxDepth) {
+                    val g = Grid()
+                    g.add(c.objects)
+                    g.add(`object`)
+                    g.depth = depth + 1
+
+                    cells[index] = g
+                } else {
+                    c.add(`object`)
+                }
+            }
+            else -> {
+                val c = Compound()
+                c.add(cells[index])
+                c.add(`object`)
+                cells[index] = c
+            }
+        }
+    }
+
+    /** Recursively initialises any nested grids produced during insertion (dense grid only). */
+    protected open fun initializeSubcells() {
+        val timer = Timer()
         timer.start()
         for (go in cells) {
             (go as? Grid)?.initialize()
         }
         timer.stop()
         Logger.info("Creating subgrids took " + timer.duration + " ms")
-
-        if (0 == depth) {
-            statistics(numCells, counts)
-        }
     }
 
+    /** Resolves a linear cell index to its occupant, or `null` for an empty cell. */
+    protected open fun cellAt(index: Int): IGeometricObject? = cells[index]
+
+    /**
+     * Emits histogram statistics for the freshly built grid, but only for the top-level grid:
+     * nested dense sub-grids (depth > 0) stay quiet. [SparseGrid] is never nested, so it always
+     * reports here without needing to override — matching its original unconditional behaviour.
+     */
     protected fun statistics(
         numCells: Int,
         counts: IntArray,
     ) {
+        if (0 != depth) {
+            return
+        }
         val hist = Histogram()
 
         var numInCells = 0
@@ -167,14 +218,14 @@ open class Grid : CompoundWithMesh() {
     ): Boolean {
         // if (depth > 0) return false;
         if (!boundingBox.isHit(ray)) {
-            Counter.count("Grid.hit.bbox")
+            count("Grid.hit.bbox")
             return false
         }
-        Counter.count("Grid.hit")
+        count("Grid.hit")
 
         val slab = GridTraversal.computeSlab(ray, boundingBox, nx, ny, nz)
         if (!slab.hits) {
-            Counter.count("Grid.hit.t0>t1")
+            count("Grid.hit.t0>t1")
             return false
         }
 
@@ -185,16 +236,24 @@ open class Grid : CompoundWithMesh() {
             walk = walk,
             nx = nx,
             ny = ny,
-            cellAt = { cells[it] },
-            onTraverse = { Counter.count("Grid.hit.traverse") },
+            cellAt = { cellAt(it) },
+            onTraverse = { count("Grid.hit.traverse") },
         )
+    }
+
+    /**
+     * Diagnostic [Counter] hook. The dense grid records each [event]; [SparseGrid] overrides this
+     * to a no-op, which is its only behavioural difference in [hit]/[shadowHit] beyond cell storage.
+     */
+    protected open fun count(event: String) {
+        Counter.count(event)
     }
 
     override fun shadowHit(
         ray: Ray,
         tmin: ShadowHit,
     ): Boolean {
-        Counter.count("Grid.shadowHit")
+        count("Grid.shadowHit")
         val h = Hit(tmin.t)
         val b = hit(ray, h)
         tmin.t = h.t
