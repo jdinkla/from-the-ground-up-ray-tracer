@@ -133,70 +133,12 @@ object Polynomials {
         val q = (1.0 / 8) * sq_A * A - (1.0 / 2) * A * B + C
         val r = (-3.0 / 256) * sq_A * sq_A + (1.0 / 16) * sq_A * B - (1.0 / 4) * A * C + D
 
-        if (MathUtils.isZero(r)) {
-            // no absolute term: y(y^3 + py + q) = 0
-            coeffs4[0] = q
-            coeffs4[1] = p
-            coeffs4[2] = 0.0
-            coeffs4[3] = 1.0
-            val ss = doubleArrayOf(s[0], s[1], s[2])
-            num = solveCubic(coeffs4, ss)
-            s[0] = ss[0]
-            s[1] = ss[1]
-            s[2] = ss[2]
-            s[num++] = 0.0
-        } else {
-            // solve the resolvent cubic ...
-            coeffs4[0] = (1.0 / 2) * r * p - (1.0 / 8) * q * q
-            coeffs4[1] = -r
-            coeffs4[2] = -1.0 / 2 * p
-            coeffs4[3] = 1.0
-
-            val ss = doubleArrayOf(s[0], s[1], s[2])
-            solveCubic(coeffs4, ss)
-            s[0] = ss[0]
-            s[1] = ss[1]
-            s[2] = ss[2]
-
-            // ... and take the one real solution ...
-            val z = s[0]
-
-            // ... to build two quadric equations
-            var u = z * z - r
-            u =
-                when {
-                    MathUtils.isZero(u) -> 0.0
-                    u > 0 -> sqrt(u)
-                    else -> 0.0
-                }
-            var v = 2 * z - p
-            v =
-                when {
-                    MathUtils.isZero(v) -> 0.0
-                    v > 0 -> sqrt(v)
-                    else -> 0.0
-                }
-            coeffs3[0] = z - u
-            coeffs3[1] = if (q < 0) -v else v
-            coeffs3[2] = 1.0
-
-            val ss2 = doubleArrayOf(s[0], s[1])
-            num = solveQuadric(coeffs3, ss2)
-            s[0] = ss2[0]
-            s[1] = ss2[1]
-
-            coeffs3[0] = z + u
-            coeffs3[1] = if (q < 0) v else -v
-            coeffs3[2] = 1.0
-
-            // Append the second quadric's roots at offset `num` (the C++ original passed
-            // `s + num`); writing back to s[0]/s[1] clobbered the first quadric's roots.
-            val ss3 = doubleArrayOf(s[num], s[num + 1])
-            val num2 = solveQuadric(coeffs3, ss3)
-            s[num] = ss3[0]
-            s[num + 1] = ss3[1]
-            num += num2
-        }
+        num =
+            if (MathUtils.isZero(r)) {
+                solveQuarticNoAbsoluteTerm(p, q, s, coeffs4)
+            } else {
+                solveQuarticResolvent(p, q, r, s, coeffs4, coeffs3)
+            }
 
         // resubstitute
         val sub = 1.0 / 4 * A
@@ -207,4 +149,91 @@ object Polynomials {
         }
         return num
     }
+
+    /**
+     * Solves the depressed quartic when it has no absolute term:
+     * y(y^3 + py + q) = 0, i.e. y = 0 plus the roots of the depressed cubic.
+     * Writes the roots into [s] and returns their count.
+     */
+    private fun solveQuarticNoAbsoluteTerm(
+        p: Double,
+        q: Double,
+        s: DoubleArray,
+        coeffs4: DoubleArray,
+    ): Int {
+        coeffs4[0] = q
+        coeffs4[1] = p
+        coeffs4[2] = 0.0
+        coeffs4[3] = 1.0
+        val ss = doubleArrayOf(s[0], s[1], s[2])
+        var num = solveCubic(coeffs4, ss)
+        s[0] = ss[0]
+        s[1] = ss[1]
+        s[2] = ss[2]
+        s[num++] = 0.0
+        return num
+    }
+
+    /**
+     * Solves the general depressed quartic via the resolvent cubic: takes one real root of the
+     * resolvent and factors the quartic into two quadrics whose roots are written into [s].
+     * Returns the total root count.
+     */
+    private fun solveQuarticResolvent(
+        p: Double,
+        q: Double,
+        r: Double,
+        s: DoubleArray,
+        coeffs4: DoubleArray,
+        coeffs3: DoubleArray,
+    ): Int {
+        // solve the resolvent cubic ...
+        coeffs4[0] = (1.0 / 2) * r * p - (1.0 / 8) * q * q
+        coeffs4[1] = -r
+        coeffs4[2] = -1.0 / 2 * p
+        coeffs4[3] = 1.0
+
+        val ss = doubleArrayOf(s[0], s[1], s[2])
+        solveCubic(coeffs4, ss)
+        s[0] = ss[0]
+        s[1] = ss[1]
+        s[2] = ss[2]
+
+        // ... and take the one real solution ...
+        val z = s[0]
+
+        // ... to build two quadric equations
+        val u = nonNegativeSqrt(z * z - r)
+        val v = nonNegativeSqrt(2 * z - p)
+
+        coeffs3[0] = z - u
+        coeffs3[1] = if (q < 0) -v else v
+        coeffs3[2] = 1.0
+
+        val ss2 = doubleArrayOf(s[0], s[1])
+        var num = solveQuadric(coeffs3, ss2)
+        s[0] = ss2[0]
+        s[1] = ss2[1]
+
+        coeffs3[0] = z + u
+        coeffs3[1] = if (q < 0) v else -v
+        coeffs3[2] = 1.0
+
+        // Append the second quadric's roots at offset `num` (the C++ original passed
+        // `s + num`); writing back to s[0]/s[1] clobbered the first quadric's roots.
+        val ss3 = doubleArrayOf(s[num], s[num + 1])
+        val num2 = solveQuadric(coeffs3, ss3)
+        s[num] = ss3[0]
+        s[num + 1] = ss3[1]
+        num += num2
+        return num
+    }
+
+    /** Returns sqrt(x) for positive x, and 0.0 when x is zero or negative (matching the solver's clamping). */
+    private fun nonNegativeSqrt(x: Double): Double =
+        when {
+            MathUtils.isZero(x) -> 0.0
+            x > 0 -> sqrt(x)
+            else -> 0.0
+        }
 }

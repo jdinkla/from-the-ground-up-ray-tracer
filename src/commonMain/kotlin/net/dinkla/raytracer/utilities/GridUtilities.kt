@@ -10,121 +10,87 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 object GridUtilities {
+    /**
+     * A vertex on the unit sphere at horizontal index [j] (of [horizontalSteps]) and vertical
+     * index [k] (of [verticalSteps]); the same parametrisation used by both tessellations.
+     */
+    private fun spherePoint(
+        j: Int,
+        k: Int,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ): Point3D =
+        Point3D(
+            sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
+            cos(PI * k / verticalSteps),
+            cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
+        )
+
     fun tessellateFlatSphere(
         list: MutableList<Triangle>,
         horizontalSteps: Int,
         verticalSteps: Int,
     ) {
-        // define the top triangles which all touch the north pole
-        var k = 1
+        tessellateFlatTopCap(list, horizontalSteps, verticalSteps)
+        tessellateFlatBottomCap(list, horizontalSteps, verticalSteps)
+        tessellateFlatMiddleRings(list, horizontalSteps, verticalSteps)
+    }
 
+    /** Top cap: triangles whose v0 is the north pole. */
+    private fun tessellateFlatTopCap(
+        list: MutableList<Triangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        val k = 1
         for (j in 0 until horizontalSteps) {
-            // define vertices
-            // top (north pole)
-            val v0 = Point3D(0.0, 1.0, 0.0)
-            // bottom left
-            val v1 =
-                Point3D(
-                    sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-            // bottom  right
-            val v2 =
-                Point3D(
-                    sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
-            val triangle_ptr = Triangle(v0, v1, v2)
-            list.add(triangle_ptr)
+            val v0 = Point3D(0.0, 1.0, 0.0) // top (north pole)
+            val v1 = spherePoint(j, k, horizontalSteps, verticalSteps) // bottom left
+            val v2 = spherePoint(j + 1, k, horizontalSteps, verticalSteps) // bottom right
+            list.add(Triangle(v0, v1, v2))
         }
+    }
 
-        // define the bottom triangles which all touch the south pole
-        k = verticalSteps - 1
+    /** Bottom cap: triangles whose v1 is the south pole. */
+    private fun tessellateFlatBottomCap(
+        list: MutableList<Triangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        val k = verticalSteps - 1
         for (j in 0 until horizontalSteps) {
-            // define vertices
-
-            val v0 =
-                Point3D(
-                    sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
+            val v0 = spherePoint(j, k, horizontalSteps, verticalSteps) // top left
             val v1 = Point3D(0.0, -1.0, 0.0) // bottom (south pole)
-
-            val v2 =
-                Point3D(
-                    sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // top right
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
-            val triangle_ptr = Triangle(v0, v1, v2)
-            list.add(triangle_ptr)
+            val v2 = spherePoint(j + 1, k, horizontalSteps, verticalSteps) // top right
+            list.add(Triangle(v0, v1, v2))
         }
+    }
 
-        //  define the other triangles
-        k = 1
+    /** Middle rings: each cell becomes two triangles. */
+    private fun tessellateFlatMiddleRings(
+        list: MutableList<Triangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        var k = 1
         while (k <= verticalSteps - 2) {
             for (j in 0 until horizontalSteps) {
-                // define the first triangle
-
-                // vertices
-                // bottom left, use k + 1, j
-                var v0 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-                // bottom  right, use k + 1, j + 1
-                var v1 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-                // top left, 	use k, j
-                var v2 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-
-                val triangle_ptr1 = Triangle(v0, v1, v2)
-                list.add(triangle_ptr1)
-
-                // define the second triangle
-
-                // vertices
-                // top right, use k, j + 1
-                v0 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-                // top left, 	use k, j
-                v1 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-                // bottom  right, use k + 1, j + 1
-                v2 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-
-                val triangle_ptr2 = Triangle(v0, v1, v2)
-                list.add(triangle_ptr2)
+                // first triangle: bottom left (k+1, j), bottom right (k+1, j+1), top left (k, j)
+                list.add(
+                    Triangle(
+                        spherePoint(j, k + 1, horizontalSteps, verticalSteps),
+                        spherePoint(j + 1, k + 1, horizontalSteps, verticalSteps),
+                        spherePoint(j, k, horizontalSteps, verticalSteps),
+                    ),
+                )
+                // second triangle: top right (k, j+1), top left (k, j), bottom right (k+1, j+1)
+                list.add(
+                    Triangle(
+                        spherePoint(j + 1, k, horizontalSteps, verticalSteps),
+                        spherePoint(j, k, horizontalSteps, verticalSteps),
+                        spherePoint(j + 1, k + 1, horizontalSteps, verticalSteps),
+                    ),
+                )
             }
             k++
         }
@@ -135,127 +101,81 @@ object GridUtilities {
         horizontalSteps: Int,
         verticalSteps: Int,
     ) {
-        // define the top triangles which all touch the north pole
-        var k = 1
+        tessellateSmoothTopCap(list, horizontalSteps, verticalSteps)
+        tessellateSmoothBottomCap(list, horizontalSteps, verticalSteps)
+        tessellateSmoothMiddleRings(list, horizontalSteps, verticalSteps)
+    }
 
+    /**
+     * A [SmoothTriangle] on the unit sphere whose per-vertex normals are the radial directions of
+     * its vertices (on a unit sphere centred at the origin the outward normal equals the position).
+     */
+    private fun smoothTriangle(
+        v0: Point3D,
+        v1: Point3D,
+        v2: Point3D,
+    ): SmoothTriangle =
+        SmoothTriangle(v0, v1, v2).apply {
+            n0 = Normal.create(Vector3D(v0))
+            n1 = Normal.create(Vector3D(v1))
+            n2 = Normal.create(Vector3D(v2))
+        }
+
+    /** Top cap: triangles whose v0 is the north pole. */
+    private fun tessellateSmoothTopCap(
+        list: MutableList<SmoothTriangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        val k = 1
         for (j in 0 until horizontalSteps) {
-            // define vertices
-
             val v0 = Point3D(0.0, 1.0, 0.0) // top (north pole)
-
-            val v1 =
-                Point3D(
-                    sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // bottom left
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
-            val v2 =
-                Point3D(
-                    sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps), // bottom  right
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
-            val triangle = SmoothTriangle(v0, v1, v2)
-            triangle.n0 = Normal.create(Vector3D(v0))
-            triangle.n1 = Normal.create(Vector3D(v1))
-            triangle.n2 = Normal.create(Vector3D(v2))
-            list.add(triangle)
+            val v1 = spherePoint(j, k, horizontalSteps, verticalSteps) // bottom left
+            val v2 = spherePoint(j + 1, k, horizontalSteps, verticalSteps) // bottom right
+            list.add(smoothTriangle(v0, v1, v2))
         }
+    }
 
-        // define the bottom triangles which all touch the south pole
-        k = verticalSteps - 1
+    /** Bottom cap: triangles whose v1 is the south pole. */
+    private fun tessellateSmoothBottomCap(
+        list: MutableList<SmoothTriangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        val k = verticalSteps - 1
         for (j in 0 until horizontalSteps) {
-            // define vertices
-
-            val v0 =
-                Point3D(
-                    sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps), // top left
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
+            val v0 = spherePoint(j, k, horizontalSteps, verticalSteps) // top left
             val v1 = Point3D(0.0, -1.0, 0.0) // bottom (south pole)
-            // top right
-            val v2 =
-                Point3D(
-                    sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                    cos(PI * k / verticalSteps),
-                    cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                )
-
-            val triangle = SmoothTriangle(v0, v1, v2)
-            triangle.n0 = Normal.create(Vector3D(v0))
-            triangle.n1 = Normal.create(Vector3D(v1))
-            triangle.n2 = Normal.create(Vector3D(v2))
-            list.add(triangle)
+            val v2 = spherePoint(j + 1, k, horizontalSteps, verticalSteps) // top right
+            list.add(smoothTriangle(v0, v1, v2))
         }
+    }
 
-        //  define the other triangles
-        k = 1
+    /** Middle rings: each cell becomes two triangles. */
+    private fun tessellateSmoothMiddleRings(
+        list: MutableList<SmoothTriangle>,
+        horizontalSteps: Int,
+        verticalSteps: Int,
+    ) {
+        var k = 1
         while (k <= verticalSteps - 2) {
             for (j in 0 until horizontalSteps) {
-                // define the first triangle
-                // vertices
-                // bottom left, use k + 1, j
-                var v0 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-                // bottom  right, use k + 1, j + 1
-                var v1 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-                // top left, 	use k, j
-                var v2 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-
-                val triangle = SmoothTriangle(v0, v1, v2)
-                triangle.n0 = Normal.create(Vector3D(v0))
-                triangle.n1 = Normal.create(Vector3D(v1))
-                triangle.n2 = Normal.create(Vector3D(v2))
-                list.add(triangle)
-
-                // define the second triangle
-
-                // vertices
-                // top right, use k, j + 1
-                v0 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-                // top left, 	use k, j
-                v1 =
-                    Point3D(
-                        sin(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                        cos(PI * k / verticalSteps),
-                        cos(2.0 * PI * j / horizontalSteps) * sin(PI * k / verticalSteps),
-                    )
-                // bottom  right, use k + 1, j + 1
-                v2 =
-                    Point3D(
-                        sin(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                        cos(PI * (k + 1) / verticalSteps),
-                        cos(2.0 * PI * (j + 1) / horizontalSteps) * sin(PI * (k + 1) / verticalSteps),
-                    )
-
-                val triangle2 = SmoothTriangle(v0, v1, v2)
-                triangle2.n0 = Normal.create(Vector3D(v0))
-                triangle2.n1 = Normal.create(Vector3D(v1))
-                triangle2.n2 = Normal.create(Vector3D(v2))
-                list.add(triangle2)
+                // first triangle: bottom left (k+1, j), bottom right (k+1, j+1), top left (k, j)
+                list.add(
+                    smoothTriangle(
+                        spherePoint(j, k + 1, horizontalSteps, verticalSteps),
+                        spherePoint(j + 1, k + 1, horizontalSteps, verticalSteps),
+                        spherePoint(j, k, horizontalSteps, verticalSteps),
+                    ),
+                )
+                // second triangle: top right (k, j+1), top left (k, j), bottom right (k+1, j+1)
+                list.add(
+                    smoothTriangle(
+                        spherePoint(j + 1, k, horizontalSteps, verticalSteps),
+                        spherePoint(j, k, horizontalSteps, verticalSteps),
+                        spherePoint(j + 1, k + 1, horizontalSteps, verticalSteps),
+                    ),
+                )
             }
             k++
         }

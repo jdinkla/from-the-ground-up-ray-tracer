@@ -3,6 +3,7 @@ package net.dinkla.raytracer.objects.acceleration.kdtree.builder
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.BBox
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.acceleration.kdtree.InnerNode
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
@@ -26,129 +27,101 @@ class ObjectMedianBuilder : TreeBuilder {
         voxel: BBox,
         depth: Int,
     ): Node {
-        var objects = origObjects
         Counter.count("KDtree.build")
 
-        val node: Node?
-        var voxelL: BBox? = null
-        var voxelR: BBox? = null
-
-        if (objects.size < minChildren || depth >= maxDepth) {
+        if (origObjects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
-            node = Leaf(objects)
-            return node
+            return Leaf(origObjects)
         }
 
         Counter.count("KDtree.build.node")
 
-        val split: Double?
         val width = voxel.q.minus(voxel.p)
-
-        // Find the axis width the largest difference
-        val axis: Axis =
-            if (width.x > width.y) {
-                if (width.x > width.z) {
-                    Axis.X
-                } else {
-                    Axis.Z
-                }
-            } else {
-                if (width.y > width.z) {
-                    Axis.Y
-                } else {
-                    Axis.Z
-                }
-            }
+        val axis = widestAxis(width)
 
         // Sort the objects by the current axis
         // final Axis axis = Axis.fromInt(depth % 3);
-        objects = objects.sortedWith(compareBy { it.boundingBox.q.ith(axis) })
+        val objects = origObjects.sortedWith(compareBy { it.boundingBox.q.ith(axis) })
 
-        val size = objects.size
-        val minAxis = objects[0].boundingBox.p.ith(axis)
-        val maxAxis = objects[objects.size - 1].boundingBox.p.ith(axis)
-        val fwidth = maxAxis - minAxis
+        val med = objects[objects.size / 2]
+        val split = med.boundingBox.p.ith(axis)
 
-        val med = objects[size / 2]
-        split = med.boundingBox.p.ith(axis)
+        val partition = partition(objects, axis, split)
+        val objectsL = partition.objectsL
+        val objectsR = partition.objectsR
 
-        val objectsL = ArrayList<IGeometricObject>()
-        val objectsR = ArrayList<IGeometricObject>()
-
-        if (axis === Axis.X) { // x
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
-                if (bbox.p.x <= split) {
-                    objectsL.add(`object`)
-                }
-                if (bbox.q.x >= split) {
-                    objectsR.add(`object`)
-                }
-            }
-
-            val bL = GeometricObjectUtilities.create(objectsL)
-            val bR = GeometricObjectUtilities.create(objectsR)
-
-            val q1 = Point3D(split, bL.q.y, bL.q.z)
-            val p2 = Point3D(split, bR.p.y, bR.p.z)
-
-            voxelL = BBox(bL.p, q1)
-            voxelR = BBox(p2, bR.q)
-        } else if (axis === Axis.Y) { // y
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
-                if (bbox.p.y <= split) {
-                    objectsL.add(`object`)
-                }
-                if (bbox.q.y >= split) {
-                    objectsR.add(`object`)
-                }
-            }
-            val bL = GeometricObjectUtilities.create(objectsL)
-            val bR = GeometricObjectUtilities.create(objectsR)
-
-            val q1 = Point3D(bL.q.x, split, bL.q.z)
-            val p2 = Point3D(bR.p.x, split, bR.p.z)
-
-            voxelL = BBox(bL.p, q1)
-            voxelR = BBox(p2, bR.q)
-        } else if (axis === Axis.Z) { // z
-            for (`object` in objects) {
-                val bbox = `object`.boundingBox
-                if (bbox.p.z <= split) {
-                    objectsL.add(`object`)
-                }
-                if (bbox.q.z >= split) {
-                    objectsR.add(`object`)
-                }
-            }
-
-            val bL = GeometricObjectUtilities.create(objectsL)
-            val bR = GeometricObjectUtilities.create(objectsR)
-
-            val q1 = Point3D(bL.q.x, bL.q.y, split)
-            val p2 = Point3D(bR.p.x, bR.p.y, split)
-
-            voxelL = BBox(bL.p, q1)
-            voxelR = BBox(p2, bR.q)
-        }
-
-        if (objects.size == objectsL.size || objects.size == objectsR.size) {
+        return if (objects.size == objectsL.size || objects.size == objectsR.size) {
             Logger.info(
                 "Not splitting " + objects.size + " objects into " + objectsL.size + " and " +
                     objectsR.size + " objects at " + split + " with depth " + depth,
             )
-            node = Leaf(objects)
+            Leaf(objects)
         } else {
             Logger.info(
                 "Splitting " + axis + " " + objects.size + " objects into " + objectsL.size + " and " +
                     objectsR.size + " objects at " + split + " with depth " + depth + " and width " + width,
             )
-            val left = build(objectsL, voxelL ?: BBox(), depth + 1)
-            val right = build(objectsR, voxelR ?: BBox(), depth + 1)
-            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth))
+            val left = build(objectsL, partition.voxelL, depth + 1)
+            val right = build(objectsR, partition.voxelR, depth + 1)
+            InnerNode(left, right, voxel, split, Axis.fromInt(depth))
+        }
+    }
+
+    /** The axis along which [width] is largest (ties resolve to Z, matching the original cascade). */
+    private fun widestAxis(width: Vector3D): Axis =
+        if (width.x > width.y) {
+            if (width.x > width.z) Axis.X else Axis.Z
+        } else {
+            if (width.y > width.z) Axis.Y else Axis.Z
         }
 
-        return node
+    /**
+     * Splits [objects] (sorted by [axis]) at [split]: an object goes left when its lower bound is
+     * <= split and right when its upper bound is >= split (so straddling objects land in both).
+     * The child voxels are the partitions' bounding boxes clamped to the split plane on [axis].
+     */
+    private fun partition(
+        objects: List<IGeometricObject>,
+        axis: Axis,
+        split: Double,
+    ): Partition {
+        val objectsL = ArrayList<IGeometricObject>()
+        val objectsR = ArrayList<IGeometricObject>()
+        for (`object` in objects) {
+            val bbox = `object`.boundingBox
+            if (bbox.p.ith(axis) <= split) {
+                objectsL.add(`object`)
+            }
+            if (bbox.q.ith(axis) >= split) {
+                objectsR.add(`object`)
+            }
+        }
+
+        val bL = GeometricObjectUtilities.create(objectsL)
+        val bR = GeometricObjectUtilities.create(objectsR)
+
+        val voxelL = BBox(bL.p, withComponent(bL.q, axis, split))
+        val voxelR = BBox(withComponent(bR.p, axis, split), bR.q)
+
+        return Partition(objectsL, objectsR, voxelL, voxelR)
     }
+
+    /** Copy of [point] with its [axis] component replaced by [value]. */
+    private fun withComponent(
+        point: Point3D,
+        axis: Axis,
+        value: Double,
+    ): Point3D =
+        when (axis) {
+            Axis.X -> Point3D(value, point.y, point.z)
+            Axis.Y -> Point3D(point.x, value, point.z)
+            Axis.Z -> Point3D(point.x, point.y, value)
+        }
+
+    private data class Partition(
+        val objectsL: List<IGeometricObject>,
+        val objectsR: List<IGeometricObject>,
+        val voxelL: BBox,
+        val voxelR: BBox,
+    )
 }

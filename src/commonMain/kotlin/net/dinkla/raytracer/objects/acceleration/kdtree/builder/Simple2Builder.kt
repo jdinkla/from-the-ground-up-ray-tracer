@@ -29,14 +29,9 @@ class Simple2Builder : TreeBuilder {
     ): Node {
         Counter.count("KDtree.build")
 
-        val node: Node?
-        val voxelL: BBox?
-        val voxelR: BBox?
-
         if (objects.size < minChildren || depth >= maxDepth) {
             Counter.count("KDtree.build.leaf")
-            node = Leaf(objects)
-            return node
+            return Leaf(objects)
         }
 
         Counter.count("KDtree.build.node")
@@ -44,142 +39,119 @@ class Simple2Builder : TreeBuilder {
         val half = voxel.q.minus(voxel.p).times(0.5)
         val mid = voxel.p.plus(half)
 
-        val objectsL: List<IGeometricObject>
-        val objectsR: List<IGeometricObject>
+        val candidateX = scanAxis(objects, voxel, Axis.X, mid.x)
+        val candidateY = scanAxis(objects, voxel, Axis.Y, mid.y)
+        val candidateZ = scanAxis(objects, voxel, Axis.Z, mid.z)
 
-        val voxelLx: BBox?
-        val voxelRx: BBox?
-
-        val voxelLy: BBox?
-        val voxelRy: BBox?
-
-        val voxelLz: BBox?
-        val voxelRz: BBox?
-
-        val objectsLx = ArrayList<IGeometricObject>()
-        val objectsRx = ArrayList<IGeometricObject>()
-        val objectsLy = ArrayList<IGeometricObject>()
-        val objectsRy = ArrayList<IGeometricObject>()
-        val objectsLz = ArrayList<IGeometricObject>()
-        val objectsRz = ArrayList<IGeometricObject>()
-
-        var split = mid.x
-
-        val q1 = Point3D(mid.x, voxel.q.y, voxel.q.z)
-        voxelLx = BBox(voxel.p, q1)
-
-        val p2 = Point3D(mid.x, voxel.p.y, voxel.p.z)
-        voxelRx = BBox(p2, voxel.q)
-
-        var bothX = 0
-        var bothY = 0
-        var bothZ = 0
-
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            var isBoth = false
-            if (bbox.p.x <= split) {
-                objectsLx.add(`object`)
-                isBoth = true
-            }
-            if (bbox.q.x >= split) {
-                objectsRx.add(`object`)
-                if (isBoth) {
-                    bothX++
-                }
-            }
-        }
-
-        split = mid.y
-
-        val q1y = Point3D(voxel.q.x, mid.y, voxel.q.z)
-        voxelLy = BBox(voxel.p, q1y)
-
-        val p2y = Point3D(voxel.p.x, mid.y, voxel.p.z)
-        voxelRy = BBox(p2y, voxel.q)
-
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            var isBoth = false
-            if (bbox.p.y <= split) {
-                objectsLy.add(`object`)
-                isBoth = true
-            }
-            if (bbox.q.y >= split) {
-                objectsRy.add(`object`)
-                if (isBoth) {
-                    bothY++
-                }
-            }
-        }
-
-        split = mid.z
-
-        val q1z = Point3D(voxel.q.x, voxel.q.y, mid.z)
-        voxelLz = BBox(voxel.p, q1z)
-
-        val p2z = Point3D(voxel.p.x, voxel.p.y, mid.z)
-        voxelRz = BBox(p2z, voxel.q)
-
-        for (`object` in objects) {
-            val bbox = `object`.boundingBox
-            var isBoth = false
-            if (bbox.p.z <= split) {
-                objectsLz.add(`object`)
-                isBoth = true
-            }
-            if (bbox.q.z >= split) {
-                objectsRz.add(`object`)
-                if (isBoth) {
-                    bothZ++
-                }
-            }
-        }
-
+        // The original scanned x, y, z in sequence reusing one `split` variable, so the value used
+        // for the node and the log is always the last axis scanned (z), regardless of which wins.
+        val split = mid.z
         val n = objects.size
 
-        val diffX = abs(objectsLx.size - objectsRx.size) + bothX * 3 + (objectsLx.size + objectsRx.size - n) * 5
-        val diffY = abs(objectsLy.size - objectsRy.size) + bothY * 3 + (objectsLy.size + objectsRy.size - n) * 5
-        val diffZ = abs(objectsLz.size - objectsRz.size) + bothZ * 3 + (objectsLz.size + objectsRz.size - n) * 5
+        val best = selectBestCandidate(candidateX, candidateY, candidateZ, n)
+        val objectsL = best.objectsL
+        val objectsR = best.objectsR
 
-        if (diffX < diffY) {
-            if (diffX < diffZ) {
-                objectsL = objectsLx
-                objectsR = objectsRx
-                voxelL = voxelLx
-                voxelR = voxelRx
-            } else {
-                objectsL = objectsLz
-                objectsR = objectsRz
-                voxelL = voxelLz
-                voxelR = voxelRz
-            }
-        } else {
-            if (diffY < diffZ) {
-                objectsL = objectsLy
-                objectsR = objectsRy
-                voxelL = voxelLy
-                voxelR = voxelRy
-            } else {
-                objectsL = objectsLz
-                objectsR = objectsRz
-                voxelL = voxelLz
-                voxelR = voxelRz
-            }
-        }
-
-        if (objectsL.size + objectsR.size > n * 1.5) {
-            node = Leaf(objects)
+        return if (objectsL.size + objectsR.size > n * 1.5) {
+            Leaf(objects)
         } else {
             Logger.info(
                 "Splitting " + objects.size + " objects into " + objectsL.size + " and " +
                     objectsR.size + " objects at " + split + " with depth " + depth,
             )
-            val left = build(objectsL, voxelL, depth + 1)
-            val right = build(objectsR, voxelR, depth + 1)
-            node = InnerNode(left, right, voxel, split, Axis.fromInt(depth))
+            val left = build(objectsL, best.voxelL, depth + 1)
+            val right = build(objectsR, best.voxelR, depth + 1)
+            InnerNode(left, right, voxel, split, Axis.fromInt(depth))
+        }
+    }
+
+    /**
+     * Scores the mid-plane split of [voxel] on [axis] at [split]: partitions [objects] into the
+     * left (lower bound <= split) and right (upper bound >= split) halves, counts how many straddle
+     * both, and builds the two child voxels clamped to the split plane.
+     */
+    private fun scanAxis(
+        objects: List<IGeometricObject>,
+        voxel: BBox,
+        axis: Axis,
+        split: Double,
+    ): Candidate {
+        val objectsL = ArrayList<IGeometricObject>()
+        val objectsR = ArrayList<IGeometricObject>()
+        var both = 0
+
+        for (`object` in objects) {
+            val bbox = `object`.boundingBox
+            var isBoth = false
+            if (bbox.p.ith(axis) <= split) {
+                objectsL.add(`object`)
+                isBoth = true
+            }
+            if (bbox.q.ith(axis) >= split) {
+                objectsR.add(`object`)
+                if (isBoth) {
+                    both++
+                }
+            }
         }
 
-        return node
+        val voxelL = BBox(voxel.p, withComponent(voxel.q, axis, split))
+        val voxelR = BBox(withComponent(voxel.p, axis, split), voxel.q)
+        return Candidate(objectsL, objectsR, both, voxelL, voxelR)
+    }
+
+    /** The split cost: balance penalty plus weighted straddle and duplication penalties (lower is better). */
+    private fun cost(
+        candidate: Candidate,
+        n: Int,
+    ): Int {
+        val balance = abs(candidate.objectsL.size - candidate.objectsR.size)
+        val straddlePenalty = candidate.both * STRADDLE_WEIGHT
+        val duplicationPenalty = (candidate.objectsL.size + candidate.objectsR.size - n) * DUPLICATION_WEIGHT
+        return balance + straddlePenalty + duplicationPenalty
+    }
+
+    /** Picks the candidate with the lowest [cost], resolving ties exactly as the original cascade did. */
+    private fun selectBestCandidate(
+        candidateX: Candidate,
+        candidateY: Candidate,
+        candidateZ: Candidate,
+        n: Int,
+    ): Candidate {
+        val diffX = cost(candidateX, n)
+        val diffY = cost(candidateY, n)
+        val diffZ = cost(candidateZ, n)
+
+        return if (diffX < diffY) {
+            if (diffX < diffZ) candidateX else candidateZ
+        } else {
+            if (diffY < diffZ) candidateY else candidateZ
+        }
+    }
+
+    /** Copy of [point] with its [axis] component replaced by [value]. */
+    private fun withComponent(
+        point: Point3D,
+        axis: Axis,
+        value: Double,
+    ): Point3D =
+        when (axis) {
+            Axis.X -> Point3D(value, point.y, point.z)
+            Axis.Y -> Point3D(point.x, value, point.z)
+            Axis.Z -> Point3D(point.x, point.y, value)
+        }
+
+    private data class Candidate(
+        val objectsL: List<IGeometricObject>,
+        val objectsR: List<IGeometricObject>,
+        val both: Int,
+        val voxelL: BBox,
+        val voxelR: BBox,
+    )
+
+    private companion object {
+        // Cost weights from the original inline heuristic (bothX * 3, duplication * 5).
+        private const val STRADDLE_WEIGHT = 3
+        private const val DUPLICATION_WEIGHT = 5
     }
 }
