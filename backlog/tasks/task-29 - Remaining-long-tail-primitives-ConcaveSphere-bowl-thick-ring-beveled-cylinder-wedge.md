@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 17:40'
-updated_date: '2026-06-22 20:08'
+updated_date: '2026-06-22 20:10'
 labels:
   - enhancement
   - book-parity
@@ -61,4 +61,6 @@ All derived values hand-computed from the geometry (not round-tripped). just tes
 AC STATUS: #2 and #3 met for delivered primitives. #1 PARTIAL: ConcaveSphere + ThickRing + Bowl correct; BeveledCylinder + BeveledWedge DEFERRED (blocked on existing Torus quartic phantom-root defect, see prior note) — left UNCHECKED honestly.
 
 PART A diagnosis (probe, then removed): solveQuartic returns PHANTOM real roots for near-axis/vertical rays on a thin torus. Confirmed on Torus(0.9,0.1) with a downward ray from y=3 on the central axis (x=0): solveQuartic yields 4 roots at t~2.1056/3.8944 (each duplicated) whose hit points have torus implicit-equation residual = 2.56 (far from 0) and whose quartic-eval at those t is also 2.56 — i.e. the solver returned values that are not even roots of the polynomial it was handed (the resolvent path's nonNegativeSqrt clamps negative discriminants to 0, fabricating roots). Genuine roots have residual ~2e-4 and Newton-polish to ~1e-14 ON the surface; phantoms Newton-polish but stay OFF the surface (~0.7). Fix = polish-then-surface-validate each candidate root.
+
+PART A FIX DONE. Torus.kt + PartTorus.kt now polish each quartic root with up to 6 Newton iterations and reject any whose hit point fails the torus implicit equation (|residual| >= 1e-4) before selecting the nearest forward root. Cover-first regressions added to TorusTest (phantom axis ray MISSES; genuine near-axis pierce hits at t=2.9 with +y normal; outside-radius miss) and PartTorusTest (phantom miss + hit + shadowHit). All pre-existing TorusTest/PartTorusTest assertions PASS UNCHANGED — none pinned a phantom value (they tested well-conditioned rays), so no old->new assertion edits were needed. Torus.hit/hitF and PartTorus.hit/shadowHit all route through one nearestValidRoot helper.
 <!-- SECTION:NOTES:END -->
