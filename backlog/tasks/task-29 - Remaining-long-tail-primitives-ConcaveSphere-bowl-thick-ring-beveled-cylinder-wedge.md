@@ -29,8 +29,6 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 - [x] #3 Existing primitives unchanged; detekt clean with no new baseline entries
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -49,4 +47,20 @@ Follow-up to TASK-21, which delivered the AC-required set (Annulus, PartSphere, 
 
 <!-- SECTION:NOTES:BEGIN -->
 DEFERRAL DECISION (BeveledCylinder + BeveledWedge): the book's beveled cylinder/wedge round their rims with tori. This port's existing Torus.hit (Polynomials.solveQuartic) returns SPURIOUS phantom roots for near-vertical rays: a bare Torus(0.9,0.1) queried with a downward ray from y=3 reports hits at y~0.89/0.66/0.03 even though the tube only spans y in [-0.1,0.1]. This is a pre-existing Torus numerical defect (TASK-23 fixed one solveQuartic bug but not this conditioning), confirmed by direct probe of the untranslated primitive. A torus-based BeveledCylinder/BeveledWedge therefore produces wrong intersections (visible phantom specks under overhead/top-down rays) — exactly the 'wrong intersection' the task says to avoid. Per scope discipline (no fixing existing Torus; additive only) I DEFERRED both beveled primitives rather than ship known-wrong geometry. Delivered the 3 robust, torus-free primitives instead: ConcaveSphere, ThickRing, Bowl (+ supporting ConcavePartSphere used by Bowl). Recommend a follow-up task: fix Torus/solveQuartic conditioning for axis-parallel rays first, THEN add BeveledCylinder (shortened OpenCylinder + 2 shrunk Disk caps + Torus rim at each end via Instance) and BeveledWedge (PartCylinder walls + PartAnnulus caps + Rectangle radial sides + PartTorus rim bevels) — the constructions were drafted and validated structurally; only the torus solver blocks them.
+
+IMPLEMENTED (additive only; no existing primitive modified):
+PRIMITIVES (commonMain):
+- objects/ConcaveSphere.kt: same quadratic as Sphere but the surface normal is negated to point INWARD (toward centre) for environment/skylight domes. hit/shadowHit/bbox + equals/hashCode/toString. roots()/accept() helpers keep hit() under detekt thresholds.
+- objects/ConcavePartSphere.kt: PartSphere with inward normal (concave counterpart); reuses PartAngles phi/theta wedge rejection. Used as the inner wall of Bowl.
+- objects/compound/ThickRing.kt (Compound): outer OpenCylinder + inner OpenCylinder + top Annulus + bottom Annulus; bbox outerRadius x [y0,y1]; bbox-gated super.hit like SolidCylinder. Suffern ThickRing.
+- objects/compound/Bowl.kt (Compound): thick hemispherical shell opening upward = outer PartSphere lower-hemisphere (convex) + inner ConcavePartSphere lower-hemisphere (concave) + rim Annulus at y=0. theta band [PI/2,PI]. bbox lower half only. Suffern Bowl.
+DSL (ObjectsScope.kt): concaveSphere(), thickRing(), bowl() following the existing idiom (params + material id + .add(material)).
+TESTS (cover-first, Kotest StringSpec, shouldBeApprox, Fixture):
+- ConcaveSphereTest: hit from outside (1,0,0) t=1 normal LEFT (INWARD, the key difference vs Sphere); hit from inside far wall t=1 normal LEFT; miss; shadowHit; bbox.
+- ConcavePartSphereTest: lower-hemisphere hit (0,-2,0) t=1.5 normal UP (inward); upper-hemisphere theta-rejection; miss; shadowHit; bbox.
+- ThickRingTest: OUTER wall (3,1,0)->-x t=1 normal RIGHT; INNER wall from hollow (0,1,0)->+x t=1 normal LEFT; top rim straight-down t=1 normal UP; axial drop through central hole MISSES; bbox. (distinguishes the three sub-surfaces).
+- BowlTest: OUTER wall from below t=1 normal DOWN; INNER concave wall t=0.5 normal UP; rim t=1 normal UP; wide miss; bbox lower-half.
+- ObjectsScopeTest: 3 new DSL round-trip cases (concaveSphere/thickRing/bowl) via equals.
+All derived values hand-computed from the geometry (not round-tripped). just test (clean check + detekt + jacoco) BUILD SUCCESSFUL; new code detekt-clean, no baseline entries. Pre-existing warnings (PlyReader cast, GridStructuresTest) unrelated.
+AC STATUS: #2 and #3 met for delivered primitives. #1 PARTIAL: ConcaveSphere + ThickRing + Bowl correct; BeveledCylinder + BeveledWedge DEFERRED (blocked on existing Torus quartic phantom-root defect, see prior note) — left UNCHECKED honestly.
 <!-- SECTION:NOTES:END -->
