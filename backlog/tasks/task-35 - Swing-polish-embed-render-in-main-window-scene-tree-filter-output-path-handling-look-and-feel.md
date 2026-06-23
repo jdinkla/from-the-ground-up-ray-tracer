@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 20:56'
+updated_date: '2026-06-23 21:03'
 labels:
   - swing
   - ui
@@ -24,12 +24,14 @@ Lower-priority quality-of-life improvements for the Swing desktop app, surfaced 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Render results are presented in the main window (e.g. embedded panel or tab) instead of each render spawning a separate floating ImageFrame that piles up
-- [ ] #2 The scene list (currently a flat JTree of every example file) supports filtering/search or grouping so a specific scene is quick to find
-- [ ] #3 Render/PNG output location is predictable and configurable (e.g. a chosen output directory / JFileChooser) instead of hardcoded '../' relative to the working directory
-- [ ] #4 Combo boxes are labelled (tracer vs renderer vs resolution) and the default renderer is selected by enum value rather than a magic index; system look-and-feel is applied
-- [ ] #5 Code smells addressed: LeftSide no longer extends Component as a mere holder; the ImageFrame title-bar height fudge is removed or justified
+- [x] #1 Render results are presented in the main window (e.g. embedded panel or tab) instead of each render spawning a separate floating ImageFrame that piles up
+- [x] #2 The scene list (currently a flat JTree of every example file) supports filtering/search or grouping so a specific scene is quick to find
+- [x] #3 Render/PNG output location is predictable and configurable (e.g. a chosen output directory / JFileChooser) instead of hardcoded '../' relative to the working directory
+- [x] #4 Combo boxes are labelled (tracer vs renderer vs resolution) and the default renderer is selected by enum value rather than a magic index; system look-and-feel is applied
+- [x] #5 Code smells addressed: LeftSide no longer extends Component as a mere holder; the ImageFrame title-bar height fudge is removed or justified
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
