@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 20:48'
+updated_date: '2026-06-23 20:54'
 labels:
   - swing
   - ui
@@ -28,8 +28,6 @@ IRenderer.render(film) is a blocking call and no renderer (ParallelRenderer raw 
 - [x] #3 The Swing app shows a Cancel button during a render that stops the in-flight render and restores the UI to idle (re-enables Render/PNG)
 - [x] #4 detekt and the full build stay green
 <!-- AC:END -->
-
-
 
 ## Implementation Plan
 
@@ -55,4 +53,6 @@ Files changed: commonMain/renderer/CancellationToken.kt (new), commonMain/render
 Swing wiring (AC#3): added a Cancel JButton (disabled when idle, enabled only for the interactive render — the PNG path has no mid-render stop so its button stays disabled). render() now creates an AtomicCancellationToken, stores it + the launch Job in fields, passes the token to Render.render, and shows 'Cancelled <scene>' when token.isCancelled. onCancel() flips the token (stops CPU work promptly) and cancels the job (unwinds the coroutine); the coroutine's finally (in NonCancellable+Swing) stops the preview Timer and calls setBusy(false), which re-enables Render/PNG, disables Cancel, and clears the token/job. Verified manually: ./gradlew swing launches, the JVM reaches the EDT and shows the frame with no exception (JaCoCo-excluded zone, not unit-tested by design).
 
 Full check: ./gradlew clean check (compile + all tests + detekt) BUILD SUCCESSFUL.
+
+Review nit addressed: added a 6th cover-first cancellation test 'naive coroutine renderer stops early when cancelled partway' through the existing cancellationStopsEarly helper, so all six user-selectable renderer strategies (SEQUENTIAL, FORK_JOIN, PARALLEL, NAIVE_COROUTINE, COROUTINE, VIRTUAL) now have a frozen cancellation test. Empirically confirmed cover-first: temporarily removed the per-row cancellation check from NaiveCoroutineRenderer and ran RendererTest — only the new test failed (1 of 21), the other 20 passed; restored the check and ./gradlew clean check is BUILD SUCCESSFUL again.
 <!-- SECTION:NOTES:END -->
