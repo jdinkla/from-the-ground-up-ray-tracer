@@ -3,10 +3,11 @@ id: TASK-35
 title: >-
   Swing polish: embed render in main window, scene-tree filter, output-path
   handling, look-and-feel
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-22 22:07'
+updated_date: '2026-06-23 20:55'
 labels:
   - swing
   - ui
