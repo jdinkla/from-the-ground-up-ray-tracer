@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:48'
-updated_date: '2026-06-23 21:50'
+updated_date: '2026-06-23 21:58'
 labels:
   - renderer
   - swing
@@ -44,3 +44,16 @@ Repro: in the Swing app, select an area-light scene (e.g. World23.kt) and render
 5. Swing: reportFailure walks cause chain to root cause for dialog/status message (handle null/blank top message); apply to png() path too (already uses reportFailure). JaCoCo-excluded -> manual verify.
 6. Verify: gradlew clean check green; CLI fail-fast with World23.kt + WHITTED + PARALLEL no longer hangs; gradlew swing launches cleanly.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Cover-first confirmed against UNFIXED code via a bounded standalone probe (4s watchdog) compiled with kotlin 2.3.0 compiler-embeddable: Parallel=HANG (deadlock on barrier), VirtualThread=RETURNED-NORMALLY (swallowed), ForkJoin/CoroutineBlock/NaiveCoroutine=THREW (already propagated). After fixes all five = THREW. Cancellation probe: Parallel/VirtualThread return normally with no spurious throw (stopped early). Root-cause message 'AreaLight needs AreaLighting Tracer' survives the IllegalStateException wrapper.
+
+Renderer core changes:
+- ParallelRenderer.kt: added AtomicReference<Throwable> workerFailure; Worker.run wraps pixel loop (renderRows) in try/catch(Throwable)->compareAndSet(null,e), try/FINALLY always reaches the barrier (awaitBarrier), so the master is released instead of deadlocking. Master rethrows the captured failure (wrapped in IllegalStateException with original cause) AFTER barrier.await() returns. Cancellation breaks the loop normally -> records nothing -> master returns without throwing. Removed dead 'count' var. Kept the existing barrier.reset() only for the worker's own interrupt path.
+- VirtualThreadBlockRenderer.kt: Thread.join() does NOT rethrow the thread-body exception, so it swallowed failures. Added AtomicReference<Throwable> captured per worker (compareAndSet first-wins); master() joins all then rethrows failure.get().
+- ForkJoin/CoroutineBlock/NaiveCoroutine: already propagate (RecursiveAction.join rethrow / structured concurrency) -> no code change; tests pin it.
+
+Tests (src/jvmTest/.../renderer/RendererTest.kt): added ThrowingSingleRayRenderer fake (throws after N shades, atomic counter); 5 'surfaces a worker render-time failure' shouldThrow tests (one per multi-threaded strategy), a 'preserves the original failure message' test (rootCauseMessageOf walks the chain), and a 'does not report a spurious failure when cancelled' test for Parallel.
+<!-- SECTION:NOTES:END -->
