@@ -10,6 +10,7 @@ import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.renderer.ISingleRayRenderer
 import net.dinkla.raytracer.renderer.SampledSingleRayRenderer
 import net.dinkla.raytracer.renderer.SimpleSingleRayRenderer
+import net.dinkla.raytracer.shouldBeApprox
 import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.utilities.Resolution
 
@@ -97,5 +98,24 @@ class ContextTest : StringSpec({
         single.render(r = 2, c = 2)
 
         tracer.traces shouldBe 1
+    }
+
+    "adapt preserves the scene's field of view across resolutions by rescaling the pixel size" {
+        // A scene's design framing is its view-plane extent (sizeOfPixel * height); the default is
+        // 1080p at sizeOfPixel 1.0. Overriding the resolution must keep that extent so only the
+        // sampling density changes, not the framing (TASK-36).
+        val world = Builder.build { camera() }
+        val designExtent = world.viewPlane.sizeOfPixel * world.viewPlane.resolution.height
+
+        val context =
+            Context(
+                tracer = { CountingTracer() },
+                renderer = { _, _ -> NoopRenderer() },
+                resolution = Resolution(720),
+            )
+        context.adapt(world)
+
+        world.viewPlane.resolution shouldBe Resolution(720)
+        (world.viewPlane.sizeOfPixel * world.viewPlane.resolution.height) shouldBeApprox designExtent
     }
 })

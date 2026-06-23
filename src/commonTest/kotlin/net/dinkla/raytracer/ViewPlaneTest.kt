@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.colors.Color
+import net.dinkla.raytracer.utilities.Resolution
 
 /**
  * Tests [ViewPlane]'s default colour-correction contract. With the out-of-gamut debug flag off and
@@ -41,5 +42,50 @@ internal class ViewPlaneTest :
             val vp = ViewPlane()
 
             vp.toString() shouldContain "maxDepth=5"
+        }
+
+        "applyResolution lowering the resolution scales the pixel size up, preserving the field of view" {
+            // Default view plane is 1080p at sizeOfPixel 1.0, so the world-space height extent is 1080.
+            val vp = ViewPlane()
+            val extentBefore = vp.sizeOfPixel * vp.resolution.height
+
+            vp.applyResolution(Resolution(720))
+
+            vp.resolution shouldBe Resolution(720)
+            vp.sizeOfPixel shouldBeApprox 1.5 // 1.0 * 1080/720 keeps sizeOfPixel*height constant
+            (vp.sizeOfPixel * vp.resolution.height) shouldBeApprox extentBefore
+        }
+
+        "applyResolution raising the resolution scales the pixel size down, preserving the field of view" {
+            val vp = ViewPlane()
+            val extentBefore = vp.sizeOfPixel * vp.resolution.height
+
+            vp.applyResolution(Resolution(2160))
+
+            vp.sizeOfPixel shouldBeApprox 0.5 // 1.0 * 1080/2160
+            (vp.sizeOfPixel * vp.resolution.height) shouldBeApprox extentBefore
+        }
+
+        "applyResolution to the reference 1080p resolution leaves the pixel size unchanged" {
+            // Guards AC#4: at the default reference resolution the rescale is a no-op, so 1080p
+            // renders stay byte-identical to before TASK-36.
+            val vp = ViewPlane()
+
+            vp.applyResolution(Resolution(1080))
+
+            vp.resolution shouldBe Resolution(1080)
+            vp.sizeOfPixel shouldBeApprox 1.0
+        }
+
+        "the view-plane extent (field of view) is the same at every predefined resolution" {
+            val referenceExtent = ViewPlane().let { it.sizeOfPixel * it.resolution.height } // 1080.0
+
+            Resolution.resolutions.forEach { predefined ->
+                val vp = ViewPlane()
+
+                vp.applyResolution(predefined.create())
+
+                (vp.sizeOfPixel * vp.resolution.height) shouldBeApprox referenceExtent
+            }
         }
     })

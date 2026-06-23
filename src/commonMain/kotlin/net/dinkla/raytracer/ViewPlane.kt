@@ -10,6 +10,22 @@ class ViewPlane : IColorCorrector {
     var sizeOfPixel: Double = 1.0
         private set
 
+    /**
+     * Switches the view plane to [newResolution] while preserving the visible world extent — the
+     * field of view. The view plane's world-space size is `sizeOfPixel * resolution`, so changing the
+     * pixel count alone would zoom the camera (lower resolutions zoom in, higher ones zoom out; see
+     * TASK-36). Rescaling [sizeOfPixel] inversely to the height change keeps `sizeOfPixel * height`
+     * invariant; since every resolution here shares the 16:9 aspect ratio, the width extent is
+     * preserved too. The render pipeline calls this from
+     * [net.dinkla.raytracer.world.Context.adapt] so a scene renders the same framing at any
+     * resolution, differing only in sampling density. (Assign [resolution] directly only to define a
+     * baseline — e.g. constructing a fixed-size view plane in a test — where no rescaling is wanted.)
+     */
+    fun applyResolution(newResolution: Resolution) {
+        sizeOfPixel *= resolution.height.toDouble() / newResolution.height
+        resolution = newResolution
+    }
+
     private var gamma: Double = 1.0
 
     private var showOutOfGamutForDebugging: Boolean = false

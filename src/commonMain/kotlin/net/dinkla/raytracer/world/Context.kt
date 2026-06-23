@@ -24,7 +24,9 @@ class Context(
         val corrector: IColorCorrector = world.viewPlane
         world.renderer = renderer(singleRayRenderer, corrector)
 
-        world.viewPlane.resolution = resolution
+        // Preserve the scene's field of view across resolutions: applyResolution rescales the pixel
+        // size so changing the resolution only changes sampling density, not the framing (TASK-36).
+        world.viewPlane.applyResolution(resolution)
     }
 
     /**
