@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.YellowAndRedSphere
 import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.renderer.CancellationToken
 import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.tracers.Tracers
@@ -43,7 +44,10 @@ class RenderStatsTest :
         "render(film, renderer) returns the elapsed duration and a snapshot of the counters" {
             val renderer =
                 object : IRenderer {
-                    override fun render(film: IFilm) {
+                    override fun render(
+                        film: IFilm,
+                        cancellation: CancellationToken,
+                    ) {
                         Counter.count("RenderTest.event")
                         Counter.count("RenderTest.event")
                     }
@@ -58,7 +62,10 @@ class RenderStatsTest :
         "render(film, renderer) resets the counters after snapshotting them" {
             val renderer =
                 object : IRenderer {
-                    override fun render(film: IFilm) {
+                    override fun render(
+                        film: IFilm,
+                        cancellation: CancellationToken,
+                    ) {
                         Counter.count("RenderTest.event")
                     }
                 }

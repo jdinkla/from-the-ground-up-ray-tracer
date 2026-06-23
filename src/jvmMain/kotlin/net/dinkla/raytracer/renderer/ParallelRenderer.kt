@@ -14,6 +14,7 @@ class ParallelRenderer(
     private var numThreads: Int = 0
     private var worker: Array<Worker?>
     private var barrier: CyclicBarrier?
+    private var cancellation: CancellationToken = NoCancellation
 
     init {
         numThreads = 16
@@ -21,7 +22,11 @@ class ParallelRenderer(
         barrier = null
     }
 
-    override fun render(film: IFilm) {
+    override fun render(
+        film: IFilm,
+        cancellation: CancellationToken,
+    ) {
+        this.cancellation = cancellation
         createWorkers(film)
         barrier = CyclicBarrier(numThreads + 1)
         parallel = numThreads > 1
@@ -84,6 +89,11 @@ class ParallelRenderer(
             var count = 0
             var r = yStart
             while (r < yEnd) {
+                // Poll once per row so a cancelled render stops this worker's CPU work promptly; the
+                // worker still reaches the barrier below so the master is released cleanly.
+                if (cancellation.isCancelled) {
+                    break
+                }
                 var c = xStart
                 while (c < xEnd) {
                     val color = corrector.correct(render.render(r, c)).clamp()

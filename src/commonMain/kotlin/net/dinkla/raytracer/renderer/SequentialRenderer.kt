@@ -9,9 +9,17 @@ class SequentialRenderer(
     private val render: ISingleRayRenderer,
     private val corrector: IColorCorrector,
 ) : IRenderer {
-    override fun render(film: IFilm) {
+    override fun render(
+        film: IFilm,
+        cancellation: CancellationToken,
+    ) {
         Logger.info("render starts")
         for (r in 0 until film.resolution.height) {
+            // Poll once per row (not per pixel): a cancelled render returns promptly without finishing.
+            if (cancellation.isCancelled) {
+                Logger.info("render cancelled")
+                return
+            }
             for (c in 0 until film.resolution.width) {
                 film.setPixel(c, r, render(r, c))
             }

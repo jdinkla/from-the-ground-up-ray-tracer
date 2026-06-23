@@ -3,7 +3,9 @@ package net.dinkla.raytracer.world
 import net.dinkla.raytracer.examples.worldMap
 import net.dinkla.raytracer.films.Film
 import net.dinkla.raytracer.films.IFilm
+import net.dinkla.raytracer.renderer.CancellationToken
 import net.dinkla.raytracer.renderer.IRenderer
+import net.dinkla.raytracer.renderer.NoCancellation
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
 import kotlin.time.Duration
@@ -52,8 +54,9 @@ object Render {
     fun render(
         film: IFilm,
         renderer: IRenderer,
+        cancellation: CancellationToken = NoCancellation,
     ): RenderStats {
-        val duration = measureTime { renderer.render(film) }
+        val duration = measureTime { renderer.render(film, cancellation) }
         return finishStats(duration)
     }
 

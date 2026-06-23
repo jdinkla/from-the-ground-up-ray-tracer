@@ -2,6 +2,7 @@ package net.dinkla.raytracer.renderer
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.cameras.IColorCorrector
@@ -9,6 +10,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Resolution
 import java.util.Collections
+import java.util.concurrent.atomic.AtomicInteger
 
 private class RecordingFilm(
     override val resolution: Resolution,
@@ -35,6 +37,35 @@ private class StubSingleRayRenderer(
         r: Int,
         c: Int,
     ): Color = color
+}
+
+/**
+ * A film that requests cancellation through [token] once [cancelAfter] pixels have been written, and
+ * keeps counting every subsequent write. A cancellation-aware renderer should stop polling its token
+ * shortly after that threshold, so the final count stays well below the full image — proving the
+ * renderer returned early rather than running to completion. The count uses an [AtomicInteger] because
+ * the parallel renderers call [setPixel] from many threads.
+ */
+private class CancellingFilm(
+    override val resolution: Resolution,
+    private val cancelAfter: Int,
+    private val token: AtomicCancellationToken,
+) : IFilm {
+    private val written = AtomicInteger(0)
+
+    val pixelsWritten: Int
+        get() = written.get()
+
+    override fun setPixel(
+        x: Int,
+        y: Int,
+        color: Color,
+    ) {
+        val count = written.incrementAndGet()
+        if (count >= cancelAfter) {
+            token.cancel()
+        }
+    }
 }
 
 // Returns a distinct colour per (row, column) so an equivalence test detects a renderer that
@@ -283,5 +314,66 @@ class RendererTest : StringSpec({
         for (strategy in strategies) {
             renderWith(strategy) shouldBe reference
         }
+    }
+
+    // ---------------------------------------------------------------------------------------
+    // AC#1/#2 — cooperative cancellation: a render cancelled partway returns early without
+    // writing every pixel. The film flips the token after `cancelAfter` writes; a renderer that
+    // ignored the token would run to completion and write all width*height pixels. We assert the
+    // final count is strictly below the full image, which fails if the renderer never checks.
+    // A large film keeps a meaningful gap between the cancel threshold and the total even for the
+    // block/thread renderers, where blocks already in flight when the token flips still finish.
+    // ---------------------------------------------------------------------------------------
+
+    // 256x256 = 65536 pixels; cancel after 64 so even the coarsest (per-block) checker stops far
+    // short of the full image. Chosen large enough that already-running blocks can't fill it.
+    val cancelResolution = Resolution(width = 256, height = 256)
+    val cancelAfter = 64
+    val totalPixels = cancelResolution.width * cancelResolution.height
+
+    fun cancellationStopsEarly(makeRenderer: (ISingleRayRenderer, IColorCorrector) -> IRenderer): Pair<Int, Int> {
+        val token = AtomicCancellationToken()
+        val film = CancellingFilm(cancelResolution, cancelAfter, token)
+        val renderer = makeRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
+
+        renderer.render(film, token)
+
+        return film.pixelsWritten to totalPixels
+    }
+
+    "sequential renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::SequentialRenderer)
+
+        written shouldBeLessThan total
+    }
+
+    "fork-join renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::ForkJoinRenderer)
+
+        written shouldBeLessThan total
+    }
+
+    "parallel renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::ParallelRenderer)
+
+        written shouldBeLessThan total
+    }
+
+    "coroutine block renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::CoroutineBlockRenderer)
+
+        written shouldBeLessThan total
+    }
+
+    "naive coroutine renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::NaiveCoroutineRenderer)
+
+        written shouldBeLessThan total
+    }
+
+    "virtual thread renderer stops early when cancelled partway" {
+        val (written, total) = cancellationStopsEarly(::VirtualThreadBlockRenderer)
+
+        written shouldBeLessThan total
     }
 })

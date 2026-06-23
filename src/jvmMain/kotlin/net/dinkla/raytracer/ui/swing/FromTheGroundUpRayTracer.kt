@@ -1,12 +1,16 @@
 package net.dinkla.raytracer.ui.swing
 
 import korlibs.time.DateTime
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
 import kotlinx.coroutines.withContext
 import net.dinkla.raytracer.examples.worldDef
+import net.dinkla.raytracer.renderer.AtomicCancellationToken
 import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.renderer.Renderer
 import net.dinkla.raytracer.tracers.Tracers
@@ -74,11 +78,20 @@ class FromTheGroundUpRayTracer :
 
     private val renderButton = JButton("Render")
     private val pngButton = JButton("PNG")
+    private val cancelButton = JButton("Cancel")
     private val progressBar = JProgressBar(0, PERCENT)
     private val statusLabel = JLabel("Ready")
 
     /** Guards against launching a second render while one is already in flight. */
     private var rendering = false
+
+    /**
+     * The in-flight render's cancellation token and coroutine job. Cancel flips the token (so the
+     * renderer's per-row/per-block poll stops CPU work promptly) and cancels the job (so the coroutine
+     * unwinds). Both are cleared when the render finishes or is cancelled.
+     */
+    private var renderToken: AtomicCancellationToken? = null
+    private var renderJob: Job? = null
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default
 
@@ -154,11 +167,14 @@ class FromTheGroundUpRayTracer :
     private fun buttons(): JPanel {
         renderButton.addActionListener { onRender() }
         pngButton.addActionListener { onPng() }
+        cancelButton.addActionListener { onCancel() }
+        cancelButton.isEnabled = false
         return JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             border = EmptyBorder(10, 10, 10, 10)
             add(renderButton)
             add(pngButton)
+            add(cancelButton)
         }
     }
 
@@ -215,24 +231,55 @@ class FromTheGroundUpRayTracer :
     private fun render(file: File) {
         val definition = worldDef(file.name) ?: return unknownScene(file)
         log(file, "render")
-        setBusy(true, "Rendering ${file.name}…")
-        launch {
-            try {
-                val state = startInteractiveRender(definition)
-                val stats = Render.render(state.film, state.renderer)
-                withContext(Dispatchers.Swing) {
-                    state.timer.stop()
-                    state.frame.repaint()
-                    progressBar.value = PERCENT
-                    setStatus("Rendered ${file.name} in ${stats.duration.inWholeMilliseconds} ms")
+        val token = AtomicCancellationToken()
+        renderToken = token
+        setBusy(true, "Rendering ${file.name}…", cancellable = true)
+        renderJob =
+            launch {
+                var timer: Timer? = null
+                try {
+                    val state = startInteractiveRender(definition)
+                    timer = state.timer
+                    // Passing the token lets Cancel stop the renderer's CPU work promptly mid-render.
+                    val stats = Render.render(state.film, state.renderer, token)
+                    if (token.isCancelled) {
+                        withContext(NonCancellable + Dispatchers.Swing) { setStatus("Cancelled ${file.name}") }
+                    } else {
+                        withContext(Dispatchers.Swing) {
+                            state.frame.repaint()
+                            progressBar.value = PERCENT
+                            setStatus("Rendered ${file.name} in ${stats.duration.inWholeMilliseconds} ms")
+                        }
+                        state.film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
+                    }
+                } catch (e: CancellationException) {
+                    // User cancelled the coroutine; not an error. Re-throw so the job ends cancelled.
+                    withContext(NonCancellable + Dispatchers.Swing) { setStatus("Cancelled ${file.name}") }
+                    throw e
+                } catch (e: Exception) {
+                    reportFailure(e)
+                } finally {
+                    // Runs even when cancelled: stop the preview timer and restore the idle UI.
+                    withContext(NonCancellable + Dispatchers.Swing) {
+                        timer?.stop()
+                        setBusy(false)
+                    }
                 }
-                state.film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
-            } catch (e: Exception) {
-                reportFailure(e)
-            } finally {
-                withContext(Dispatchers.Swing) { setBusy(false) }
             }
+    }
+
+    /**
+     * Cancels the in-flight render: flips the cancellation token so the renderer's per-row/per-block
+     * poll stops CPU work promptly, then cancels the coroutine job so it unwinds. The render coroutine's
+     * `finally` block restores the idle UI (re-enabling Render/PNG).
+     */
+    private fun onCancel() {
+        if (!rendering) {
+            return
         }
+        setStatus("Cancelling…")
+        renderToken?.cancel()
+        renderJob?.cancel()
     }
 
     /**
@@ -309,13 +356,20 @@ class FromTheGroundUpRayTracer :
     private fun setBusy(
         busy: Boolean,
         message: String? = null,
+        cancellable: Boolean = false,
     ) {
         rendering = busy
         renderButton.isEnabled = !busy
         pngButton.isEnabled = !busy
+        // Only the interactive render threads a cancellation token through the renderer, so Cancel is
+        // offered for that path only; the PNG path has no mid-render stop and leaves the button disabled.
+        cancelButton.isEnabled = busy && cancellable
         if (busy) {
             progressBar.value = 0
             message?.let { setStatus(it) }
+        } else {
+            renderToken = null
+            renderJob = null
         }
     }
 

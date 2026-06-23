@@ -6,6 +6,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.math.Ray
+import net.dinkla.raytracer.renderer.CancellationToken
 import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.renderer.ISingleRayRenderer
 import net.dinkla.raytracer.renderer.SampledSingleRayRenderer
@@ -30,7 +31,10 @@ private class CountingTracer : Tracer {
 
 // A no-op renderer; Context wraps the chosen single-ray renderer in one of these via the creator.
 private class NoopRenderer : IRenderer {
-    override fun render(film: IFilm) = Unit
+    override fun render(
+        film: IFilm,
+        cancellation: CancellationToken,
+    ) = Unit
 }
 
 // Builds a minimal pinhole world (optionally with anti-aliasing samples) and runs Context.adapt

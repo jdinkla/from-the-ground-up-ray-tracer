@@ -11,10 +11,18 @@ class NaiveCoroutineRenderer(
     private val render: ISingleRayRenderer,
     private val corrector: IColorCorrector,
 ) : IRenderer {
-    override fun render(film: IFilm) {
+    override fun render(
+        film: IFilm,
+        cancellation: CancellationToken,
+    ) {
         Logger.info("render starts")
         runBlocking {
             for (y in 0 until film.resolution.height) {
+                // Poll once per row before launching that row's per-pixel coroutines, so a cancelled
+                // render stops scheduling further work promptly.
+                if (cancellation.isCancelled) {
+                    break
+                }
                 for (x in 0 until film.resolution.width) {
                     launch(Dispatchers.Default) {
                         val color = corrector.correct(render.render(y, x)).clamp()
