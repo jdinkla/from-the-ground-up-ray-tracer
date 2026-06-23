@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-22 22:07'
+updated_date: '2026-06-23 21:10'
 labels:
   - swing
   - ui
@@ -57,6 +57,8 @@ Implemented (files: ui/swing/FromTheGroundUpRayTracer.kt, SwingFilm.kt, ImageCan
 - Resolution selector: third combo populated from Resolution.Predefined (480p-4320p), defaults to the configured resolution (1080p); replaces the old global 'resolution' var. Tracer/renderer combos also labelled and the default renderer is selected by Renderer.PARALLEL.ordinal instead of magic index 2 (this overlaps TASK-35 AC#4 labelling/enum-default, done early since I was rewriting the panel).
 
 Verification: ./gradlew build green (test + detekt clean); ./gradlew swing launches and reaches the GUI event loop with no startup/EDT exception (confirms Dispatchers.Swing on classpath + EDT construction OK). NOT yet visually confirmed by a human click: live preview filling in, progress ticking, button-guard during a real render — that interactive observation is the open DoD item.
+
+Cross-task update (manager): the Swing app this task introduced has since been extended by TASK-34 (Cancel button + cooperative cancellation) and TASK-35 (render preview now EMBEDDED in the main window instead of a floating ImageFrame, scene-tree search filter, configurable output dir via JFileChooser, system look-and-feel). All 7 ACs here remain met and the full ./gradlew clean check is green on HEAD. The only open item is DoD #1 — the interactive human-eyes GUI observation (live preview filling in, status/elapsed ticking, Render/PNG button-guard) — which cannot be performed headlessly/over a remote connection. It should be confirmed against the CURRENT embedded-canvas UI (a single GUI session can also confirm TASK-34's Cancel and TASK-35's filter/chooser/L&F). Left In Progress pending that confirmation.
 <!-- SECTION:NOTES:END -->
 
 ## Definition of Done
