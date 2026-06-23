@@ -23,19 +23,25 @@ class Sampler(
     private var count: Int = 0
     private var jump: Int = 0
 
+    // Effective points per set. The sqrt-based generators (MultiJittered/Jittered/Regular) emit
+    // floor(sqrt(numSamples))^2 points per set rather than the requested numSamples, so indexing by
+    // the requested count overran the array (TASK-31). Derive the stride from what the generator
+    // actually produced, which keeps NRooks/PureRandom (exactly numSamples per set) unchanged.
+    private val samplesPerSet: Int
+
     init {
-        setupShuffledIndices()
-        samples = ArrayList()
         samples = ArrayList(sampler.generateSamples(numSamples, numSets).toList())
+        samplesPerSet = if (numSets > 0) samples.size / numSets else samples.size
+        setupShuffledIndices()
     }
 
     private fun setupShuffledIndices() {
         shuffledIndices = ArrayList()
-        shuffledIndices.ensureCapacity(numSamples * numSets)
+        shuffledIndices.ensureCapacity(samplesPerSet * numSets)
 
         // Create temporary array
         val indices = ArrayList<Int>()
-        for (j in 0 until numSamples) {
+        for (j in 0 until samplesPerSet) {
             indices.add(j)
         }
 
@@ -46,33 +52,33 @@ class Sampler(
     }
 
     fun sampleUnitSquare(): Point2D {
-        if (count % numSamples == 0) {
-            jump = Random.int(numSets) * numSamples
+        if (count % samplesPerSet == 0) {
+            jump = Random.int(numSets) * samplesPerSet
         }
-        val index1 = jump + count++ % numSamples
+        val index1 = jump + count++ % samplesPerSet
         val index2 = jump + shuffledIndices[index1]
         return samples[index2]
     }
 
     override fun sampleUnitDisk(): Point2D {
-        if (count % numSamples == 0) {
-            jump = Random.int(numSets) * numSamples
+        if (count % samplesPerSet == 0) {
+            jump = Random.int(numSets) * samplesPerSet
         }
-        return diskSamples[jump + shuffledIndices[jump + count++ % numSamples]]
+        return diskSamples[jump + shuffledIndices[jump + count++ % samplesPerSet]]
     }
 
     fun sampleHemisphere(): Point3D {
-        if (count % numSamples == 0) {
-            jump = Random.int(numSets) * numSamples
+        if (count % samplesPerSet == 0) {
+            jump = Random.int(numSets) * samplesPerSet
         }
-        return hemisphereSamples[jump + shuffledIndices[jump + count++ % numSamples]]
+        return hemisphereSamples[jump + shuffledIndices[jump + count++ % samplesPerSet]]
     }
 
     fun sampleSphere(): Point3D {
-        if (count % numSamples == 0) {
-            jump = Random.int(numSets) * numSamples
+        if (count % samplesPerSet == 0) {
+            jump = Random.int(numSets) * samplesPerSet
         }
-        return sphereSamples[jump + shuffledIndices[jump + count++ % numSamples]]
+        return sphereSamples[jump + shuffledIndices[jump + count++ % samplesPerSet]]
     }
 
     fun mapSamplesToUnitDisk() {
@@ -111,7 +117,7 @@ class Sampler(
     }
 
     fun mapSamplesToHemiSphere(exp: Double) {
-        hemisphereSamples = ArrayList(numSamples * numSets)
+        hemisphereSamples = ArrayList(samples.size)
         for (sample in samples) {
             val cos_phi = cos(2.0 * PI * sample.x)
             val sin_phi = sin(2.0 * PI * sample.x)
@@ -129,8 +135,8 @@ class Sampler(
         var z: Double
         var r: Double
         var phi: Double
-        sphereSamples = ArrayList(numSamples * numSets)
-        for (j in 0 until numSamples * numSets) {
+        sphereSamples = ArrayList(samples.size)
+        for (j in samples.indices) {
             val p = samples[j]
             z = 1.0 - 2.0 * p.x
             r = sqrt(1.0 - z * z)
