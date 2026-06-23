@@ -25,6 +25,7 @@ import net.dinkla.raytracer.objects.Torus
 import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.objects.acceleration.Acceleration
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.acceleration.SparseGrid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.SpatialMedianBuilder
 import net.dinkla.raytracer.objects.acceleration.kdtree.builder.TreeBuilder
@@ -231,6 +232,18 @@ class ObjectsScope(
      */
     fun grid(block: ObjectsScope.() -> Unit) {
         val compound = Grid()
+        val scope = ObjectsScope(materials, compound)
+        scope.block()
+        compound.add()
+    }
+
+    /**
+     * Collects the objects declared in [block] into a [SparseGrid] acceleration structure — a [Grid]
+     * variant that stores only its non-empty cells in a map — then adds it to this scope as a single
+     * object.
+     */
+    fun sparseGrid(block: ObjectsScope.() -> Unit) {
+        val compound = SparseGrid()
         val scope = ObjectsScope(materials, compound)
         scope.block()
         compound.add()

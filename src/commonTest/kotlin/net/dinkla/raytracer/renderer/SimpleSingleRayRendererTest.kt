@@ -1,9 +1,7 @@
 package net.dinkla.raytracer.renderer
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.cameras.lenses.ILens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point2D
@@ -60,14 +58,13 @@ class SimpleSingleRayRendererTest : StringSpec({
         tracer.lastDepth shouldBe 0
     }
 
-    "throws a contextual error when the lens yields no ray for a pixel" {
-        val renderer = SimpleSingleRayRenderer(FixedLens(null), RecordingTracer(Color.WHITE))
+    "returns the background (black) and does not trace when the lens yields no ray for a pixel" {
+        val tracer = RecordingTracer(Color.WHITE)
+        val renderer = SimpleSingleRayRenderer(FixedLens(null), tracer)
 
-        val ex =
-            shouldThrow<IllegalArgumentException> {
-                renderer.render(r = 1, c = 2)
-            }
+        val color = renderer.render(r = 1, c = 2)
 
-        ex.message shouldContain "(1, 2)"
+        color shouldBe Color.BLACK
+        tracer.lastDepth shouldBe -1 // tracer was never invoked
     }
 })

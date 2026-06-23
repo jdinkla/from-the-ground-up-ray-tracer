@@ -9,7 +9,9 @@ import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.cameras.StereoMode
 import net.dinkla.raytracer.cameras.StereoViewing
+import net.dinkla.raytracer.cameras.lenses.FishEye
 import net.dinkla.raytracer.cameras.lenses.Pinhole
+import net.dinkla.raytracer.cameras.lenses.Spherical
 import net.dinkla.raytracer.cameras.lenses.ThinLens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
@@ -80,6 +82,33 @@ class WorldScopeTest :
             lens.f shouldBe 74.0
             lens.lensRadius shouldBe 1.5
             lens.sampler.shouldNotBeNull()
+        }
+
+        "fishEyeCamera selects a FishEye lens with the declared field of view" {
+            val scope = WorldScope()
+            val eye = Point3D(0.0, 6.0, 0.0)
+            val lookAt = Point3D(0.0, 6.0, -1.0)
+
+            scope.fishEyeCamera(maxPsi = 120.0, eye = eye, lookAt = lookAt)
+
+            scope.world.camera.eye shouldBe eye
+            scope.world.camera.lookAt shouldBe lookAt
+            val lens = scope.world.camera.lens.shouldBeInstanceOf<FishEye>()
+            lens.maxPsi shouldBe 120.0
+        }
+
+        "sphericalCamera selects a Spherical lens with the declared azimuth and polar half-angles" {
+            val scope = WorldScope()
+            val eye = Point3D(0.0, 6.0, 0.0)
+            val lookAt = Point3D(0.0, 6.0, -1.0)
+
+            scope.sphericalCamera(maxLambda = 180.0, maxPsi = 90.0, eye = eye, lookAt = lookAt)
+
+            scope.world.camera.eye shouldBe eye
+            scope.world.camera.lookAt shouldBe lookAt
+            val lens = scope.world.camera.lens.shouldBeInstanceOf<Spherical>()
+            lens.maxLambda shouldBe 180.0
+            lens.maxPsi shouldBe 90.0
         }
 
         "a fresh world has no stereo camera so the normal single-camera path is used" {

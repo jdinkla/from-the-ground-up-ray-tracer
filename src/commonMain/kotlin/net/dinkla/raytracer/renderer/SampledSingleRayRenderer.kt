@@ -42,7 +42,10 @@ class SampledSingleRayRenderer(
         val color = ColorAccumulator()
         for (j in 0 until numSamples) {
             val sp = sampler.sampleUnitSquare()
-            val ray = requireNotNull(lens.getRaySampled(r, c, sp)) { "Lens returned no ray for pixel ($r, $c)" }
+            // Skip samples that map to no valid ray (e.g. a FishEye sample outside the image circle):
+            // the in-circle samples still contribute and `average` divides by their count, antialiasing
+            // the image-circle edge. A pixel whose every sample is null averages to black (count == 0).
+            val ray = lens.getRaySampled(r, c, sp) ?: continue
             color.plus(tracer.trace(ray, 0))
         }
         return color.average

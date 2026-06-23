@@ -3,7 +3,6 @@ package net.dinkla.raytracer.renderer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.cameras.lenses.ILens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point2D
@@ -61,6 +60,27 @@ private object NullSampledLens : ILens {
     ): Ray? = null
 }
 
+// A lens that yields a ray for odd invocation indices and null for even ones, stamping the invocation
+// index into the ray-origin x (like CountingLens). It exercises the sampled renderer's skip-null path:
+// only the odd-index samples contribute and the mean divides by their count, not numSamples.
+private class PartialNullLens : ILens {
+    var calls: Int = 0
+
+    override fun getRaySingle(
+        r: Int,
+        c: Int,
+    ): Ray = error("single-ray path must not be used by the sampled renderer")
+
+    override fun getRaySampled(
+        r: Int,
+        c: Int,
+        sp: Point2D,
+    ): Ray? {
+        val index = calls++
+        return if (index % 2 == 0) null else Ray(Point3D(index.toDouble(), 0.0, 0.0), Vector3D(0.0, 0.0, -1.0))
+    }
+}
+
 // Returns a colour derived from the ray-origin index the CountingLens stamped in (red = index/100),
 // so each of the N samples contributes a distinct, deterministic value and the renderer's mean can be
 // checked against the closed-form average of 0..N-1.
@@ -109,14 +129,24 @@ class SampledSingleRayRendererTest : StringSpec({
         }
     }
 
-    "throws a contextual error when the lens yields no ray for a sampled pixel" {
-        val renderer = SampledSingleRayRenderer(NullSampledLens, ConstantTracer(Color.WHITE), numSamples = 4)
+    "returns black for a pixel whose every sample maps to no ray" {
+        val tracer = ConstantTracer(Color.WHITE)
+        val renderer = SampledSingleRayRenderer(NullSampledLens, tracer, numSamples = 4)
 
-        val ex =
-            shouldThrow<IllegalArgumentException> {
-                renderer.render(r = 2, c = 5)
-            }
+        val result = renderer.render(r = 2, c = 5)
 
-        ex.message shouldContain "(2, 5)"
+        result shouldBe Color.BLACK
+        tracer.traces shouldBe 0 // no sample produced a ray, so the tracer was never invoked
+    }
+
+    "averages only the samples that map to a ray, skipping the null ones" {
+        // PartialNullLens yields a ray for odd call indices (1, 3, …) and null for even ones; with
+        // numSamples = 4 the valid samples carry origin-x 1 and 3, which IndexedTracer maps to red
+        // 0.01 and 0.03. The mean divides by the 2 valid samples, not 4: (0.01 + 0.03) / 2 = 0.02.
+        val renderer = SampledSingleRayRenderer(PartialNullLens(), IndexedTracer, numSamples = 4)
+
+        val result = renderer.render(r = 0, c = 0)
+
+        result shouldBeApprox Color(0.02, 0.0, 0.0)
     }
 })

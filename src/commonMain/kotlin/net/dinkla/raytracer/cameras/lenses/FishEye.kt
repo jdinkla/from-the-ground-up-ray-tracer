@@ -26,7 +26,8 @@ class FishEye(
     eye: Point3D,
     uvw: Basis,
 ) : AbstractLens(viewPlane, eye, uvw) {
-    private val maxPsi: Double = 1.0
+    /** Field of view as a half-angle in **degrees** (`psi = r * maxPsi`); larger values widen the fisheye. */
+    var maxPsi: Double = 1.0
 
     /** A computed ray [direction] together with the squared image radius [rSquared] used to gate it. */
     inner class RayDirection(

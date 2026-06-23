@@ -5,7 +5,9 @@ import net.dinkla.raytracer.cameras.Camera
 import net.dinkla.raytracer.cameras.StereoCamera
 import net.dinkla.raytracer.cameras.StereoMode
 import net.dinkla.raytracer.cameras.StereoViewing
+import net.dinkla.raytracer.cameras.lenses.FishEye
 import net.dinkla.raytracer.cameras.lenses.Pinhole
+import net.dinkla.raytracer.cameras.lenses.Spherical
 import net.dinkla.raytracer.cameras.lenses.ThinLens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.lights.Ambient
@@ -152,6 +154,49 @@ class WorldScope {
                     this.f = f
                     this.lensRadius = lensRadius
                     this.sampler = sampler
+                }
+            }, eye, lookAt, up)
+    }
+
+    /**
+     * Sets the camera as a [FishEye] fisheye lens (Suffern ch. 11) looking from [eye] towards [lookAt]
+     * with the given [up] vector. [maxPsi] is the field of view as a half-angle in degrees; only pixels
+     * inside the unit image circle map to a ray, producing the characteristic circular image (the frame
+     * corners stay background). Unlike [camera] there is no view-plane distance — the fisheye normalises
+     * the view plane to the unit square.
+     */
+    fun fishEyeCamera(
+        maxPsi: Double = 180.0,
+        eye: Point3D = Point3D(5.0, 50.0, 50.0),
+        lookAt: Point3D = Point3D.ORIGIN,
+        up: Vector3D = Vector3D.UP,
+    ) {
+        camera =
+            Camera({ eye, uvw ->
+                FishEye(viewPlane, eye, uvw).apply {
+                    this.maxPsi = maxPsi
+                }
+            }, eye, lookAt, up)
+    }
+
+    /**
+     * Sets the camera as a [Spherical] panoramic lens (Suffern ch. 11) looking from [eye] towards
+     * [lookAt] with the given [up] vector. [maxLambda] (azimuth) and [maxPsi] (polar) are half-angles
+     * in degrees: the defaults `180`/`90` unroll a full 360°×180° panorama across the view plane. Every
+     * pixel maps to a valid ray (no circular vignette). There is no view-plane distance.
+     */
+    fun sphericalCamera(
+        maxLambda: Double = 180.0,
+        maxPsi: Double = 90.0,
+        eye: Point3D = Point3D(5.0, 50.0, 50.0),
+        lookAt: Point3D = Point3D.ORIGIN,
+        up: Vector3D = Vector3D.UP,
+    ) {
+        camera =
+            Camera({ eye, uvw ->
+                Spherical(viewPlane, eye, uvw).apply {
+                    this.maxLambda = maxLambda
+                    this.maxPsi = maxPsi
                 }
             }, eye, lookAt, up)
     }

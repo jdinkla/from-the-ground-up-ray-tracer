@@ -12,7 +12,9 @@ class SimpleSingleRayRenderer(
         r: Int,
         c: Int,
     ): Color {
-        val ray = requireNotNull(lens.getRaySingle(r, c)) { "Lens returned no ray for pixel ($r, $c)" }
+        // A null ray means the pixel maps to no valid ray (e.g. a FishEye pixel outside the image
+        // circle); per the ILens contract it is the background colour rather than an error.
+        val ray = lens.getRaySingle(r, c) ?: return Color.BLACK
         return tracer.trace(ray, 0)
     }
 }

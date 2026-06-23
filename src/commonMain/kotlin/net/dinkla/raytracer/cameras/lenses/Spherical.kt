@@ -23,8 +23,11 @@ class Spherical(
     eye: Point3D,
     uvw: Basis,
 ) : AbstractLens(viewPlane, eye, uvw) {
-    private var maxLambda: Double = 180.0
-    private var maxPsi: Double = 180.0
+    /** Maximum azimuth in **degrees**; the view plane's width spans `±maxLambda` (180 ⇒ a 360° panorama). */
+    var maxLambda: Double = 180.0
+
+    /** Maximum polar angle in **degrees**; the view plane's height spans `±maxPsi` (90 ⇒ a 180° vertical sweep). */
+    var maxPsi: Double = 180.0
 
     override fun getRaySingle(
         r: Int,

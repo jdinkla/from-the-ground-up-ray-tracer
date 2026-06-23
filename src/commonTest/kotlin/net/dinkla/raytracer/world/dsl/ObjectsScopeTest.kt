@@ -27,6 +27,7 @@ import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.Torus
 import net.dinkla.raytracer.objects.Triangle
 import net.dinkla.raytracer.objects.acceleration.Grid
+import net.dinkla.raytracer.objects.acceleration.SparseGrid
 import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.beveled.BeveledBox
 import net.dinkla.raytracer.objects.beveled.BeveledCylinder
@@ -548,6 +549,26 @@ internal class ObjectsScopeTest :
             scope.objects.size shouldBe 1
             scope.objects[0].shouldBeInstanceOf<Grid>()
             val grid = scope.objects[0] as Grid
+            grid.objects.size shouldBe 1
+            grid.objects[0].shouldBeInstanceOf<Sphere>()
+            val sphere = grid.objects[0] as Sphere
+            sphere shouldBe Sphere(somePoint, someRadius).apply { material = someMaterial }
+        }
+
+        "should handle sparseGrid" {
+            // given
+            val scope = ObjectsScope(materials, Compound())
+            scope.objects.size shouldBe 0
+
+            // when
+            scope.sparseGrid {
+                sphere(material = someMaterialId, center = somePoint, radius = someRadius)
+            }
+
+            // then
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<SparseGrid>()
+            val grid = scope.objects[0] as SparseGrid
             grid.objects.size shouldBe 1
             grid.objects[0].shouldBeInstanceOf<Sphere>()
             val sphere = grid.objects[0] as Sphere

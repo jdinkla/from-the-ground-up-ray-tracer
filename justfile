@@ -40,6 +40,11 @@ coverage:
     ./gradlew jacocoTestReport
 
 [group('dev')]
+[doc("Audit example scenes: class coverage, multiplicity, suspect renders (build/reports/scene-audit.md)")]
+audit:
+    ./gradlew audit
+
+[group('dev')]
 [doc("Remove build outputs")]
 clean:
     ./gradlew clean
