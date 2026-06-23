@@ -217,15 +217,14 @@ class FromTheGroundUpRayTracer :
         log(file, "render")
         setBusy(true, "Rendering ${file.name}…")
         launch {
-            val startNanos = System.nanoTime()
             try {
                 val state = startInteractiveRender(definition)
-                Render.render(state.film, state.renderer)
+                val stats = Render.render(state.film, state.renderer)
                 withContext(Dispatchers.Swing) {
                     state.timer.stop()
                     state.frame.repaint()
                     progressBar.value = PERCENT
-                    setStatus("Rendered ${file.name} in ${elapsedMillis(startNanos)} ms")
+                    setStatus("Rendered ${file.name} in ${stats.duration.inWholeMilliseconds} ms")
                 }
                 state.film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
             } catch (e: Exception) {
@@ -275,12 +274,11 @@ class FromTheGroundUpRayTracer :
         progressBar.isIndeterminate = true
         val context = newContext()
         launch {
-            val startNanos = System.nanoTime()
             try {
-                val (film, _) = Render.render(definition, context)
-                film.save("../" + outputPngFileName(file.name))
+                val result = Render.render(definition, context)
+                result.film.save("../" + outputPngFileName(file.name))
                 withContext(Dispatchers.Swing) {
-                    setStatus("Saved PNG for ${file.name} in ${elapsedMillis(startNanos)} ms")
+                    setStatus("Saved PNG for ${file.name} in ${result.stats.duration.inWholeMilliseconds} ms")
                     dialog(pngMessage, pngTitle, JOptionPane.INFORMATION_MESSAGE)
                 }
             } catch (e: Exception) {

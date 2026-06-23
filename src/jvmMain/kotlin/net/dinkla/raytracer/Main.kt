@@ -8,10 +8,13 @@ import net.dinkla.raytracer.utilities.Logger
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.utilities.Resolution.Companion.resolutions
 import net.dinkla.raytracer.utilities.outputPngFileName
+import net.dinkla.raytracer.utilities.printStats
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.Render
 import net.dinkla.raytracer.world.scripting.SceneResolver
 import java.io.File
+
+private const val COUNTER_COLUMN_WIDTH = 30
 
 class Main(
     worlds: Collection<String>,
@@ -25,9 +28,12 @@ class Main(
             // *.scene.kts file ("scenes/Sample.scene.kts"); base the output name on the bare file
             // name so a path does not leak directory separators into the PNG path.
             val outputBase = File(world).name
-            Render.render(world, "../${outputPngFileName(outputBase)}", context) { id ->
+            val stats = Render.render(world, "../${outputPngFileName(outputBase)}", context) { id ->
                 SceneResolver.resolveWorld(id)
             }
+            // Measurement is decoupled from presentation: Render returns the metric, the CLI logs it.
+            Logger.info("rendering took ${stats.duration.inWholeMilliseconds} ms")
+            printStats(stats.counts, COUNTER_COLUMN_WIDTH)
         }
     }
 }

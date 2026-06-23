@@ -22,6 +22,13 @@ object Counter {
 
     fun stats(columns: Int) = printStats(calculateStats(), columns)
 
+    /**
+     * Returns the accumulated per-event tallies (aggregated across threads) as a plain map, so callers
+     * can treat the counts as a metric — store them in [RenderStats][net.dinkla.raytracer.world.RenderStats],
+     * assert on them, or present them — rather than only printing via [stats].
+     */
+    fun snapshot(): Map<String, Int> = calculateStats()
+
     private fun calculateStats(): Map<String, Int> {
         val results = TreeMap<String, Int>()
         for (id in instances.keys) {

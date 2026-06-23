@@ -12,9 +12,10 @@ import net.dinkla.raytracer.objects.compound.Compound
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Histogram
 import net.dinkla.raytracer.utilities.Logger
-import net.dinkla.raytracer.utilities.Timer
 import kotlin.math.max
 import kotlin.math.pow
+import kotlin.time.TimeSource
+import kotlin.time.measureTime
 
 /**
  * A uniform (regular) grid acceleration structure.
@@ -70,8 +71,7 @@ open class Grid(
             return
         }
 
-        val timer = Timer()
-        timer.start()
+        val started = TimeSource.Monotonic.markNow()
         val bbox = boundingBox
 
         val wx = bbox.q.x - bbox.p.x
@@ -123,8 +123,7 @@ open class Grid(
             }
         }
 
-        timer.stop()
-        Logger.info("Creating grid took " + timer.duration + " ms")
+        Logger.info("Creating grid took ${started.elapsedNow()}")
 
         initializeSubcells()
 
@@ -198,13 +197,13 @@ open class Grid(
 
     /** Recursively initialises any nested grids produced during insertion (dense grid only). */
     protected open fun initializeSubcells() {
-        val timer = Timer()
-        timer.start()
-        for (go in cells) {
-            (go as? Grid)?.initialize()
-        }
-        timer.stop()
-        Logger.info("Creating subgrids took " + timer.duration + " ms")
+        val duration =
+            measureTime {
+                for (go in cells) {
+                    (go as? Grid)?.initialize()
+                }
+            }
+        Logger.info("Creating subgrids took $duration")
     }
 
     /** Resolves a linear cell index to its occupant, or `null` for an empty cell. */

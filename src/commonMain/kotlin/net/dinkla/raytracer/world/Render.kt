@@ -6,7 +6,9 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.renderer.IRenderer
 import net.dinkla.raytracer.utilities.Counter
 import net.dinkla.raytracer.utilities.Logger
-import net.dinkla.raytracer.utilities.Timer
+import kotlin.time.Duration
+import kotlin.time.measureTime
+import kotlin.time.measureTimedValue
 
 object Render {
     suspend fun render(
@@ -14,17 +16,18 @@ object Render {
         fileNameOut: String,
         context: Context,
         resolveWorld: (String) -> WorldDefinition = ::requireWorldDef,
-    ) {
+    ): RenderStats {
         Logger.info("Rendering $fileNameIn to $fileNameOut")
         val worldDefinition = resolveWorld(fileNameIn)
-        val (film, _) = render(worldDefinition, context)
-        film.save(fileNameOut)
+        val result = render(worldDefinition, context)
+        result.film.save(fileNameOut)
+        return result.stats
     }
 
     fun render(
         worldDefinition: WorldDefinition,
         context: Context,
-    ): Pair<Film, World> {
+    ): RenderResult {
         val world = worldDefinition.world()
         context.adapt(world)
         world.initialize()
@@ -32,29 +35,34 @@ object Render {
             // Stereo scenes render two eye views and composite them; the output dimensions differ
             // (double width for side-by-side). All other (non-stereo) scenes use the single-camera
             // path below, unchanged.
-            return Pair(StereoRender.render(world, context), world)
+            val (film, duration) = measureTimedValue { StereoRender.render(world, context) }
+            return RenderResult(film, world, finishStats(duration))
         }
         val film = Film(context.resolution)
         val renderer =
             requireNotNull(world.renderer) { "World.renderer not set; context.adapt(world) must run first" }
-        render(film, renderer)
-        return Pair(film, world)
+        return RenderResult(film, world, render(film, renderer))
     }
 
+    /**
+     * Renders [film] with [renderer] and returns the [RenderStats] for that render — a monotonic
+     * elapsed [Duration][kotlin.time.Duration] plus a snapshot of the [Counter] tallies. Measurement
+     * is decoupled from presentation: this returns the metric, it does not log it.
+     */
     fun render(
         film: IFilm,
         renderer: IRenderer,
-    ) {
-        val timer = Timer()
-        timer.start()
-        renderer.render(film)
-        timer.stop()
-        Logger.info("rendering took " + timer.duration + " ms")
+    ): RenderStats {
+        val duration = measureTime { renderer.render(film) }
+        return finishStats(duration)
+    }
 
-        Counter.stats(30)
-
-        Logger.info("took " + timer.duration + " [ms]")
+    /** Snapshots the accumulated [Counter] tallies into a [RenderStats] and resets the counter for the
+     *  next render — preserving the long-standing per-render reset semantics. */
+    private fun finishStats(duration: Duration): RenderStats {
+        val stats = RenderStats(duration, Counter.snapshot())
         Counter.reset()
+        return stats
     }
 
     private fun requireWorldDef(id: String): WorldDefinition = requireWorldDef(id, worldMap)
