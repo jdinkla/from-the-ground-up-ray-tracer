@@ -30,6 +30,7 @@ import java.io.File
 import javax.swing.BoxLayout
 import javax.swing.JButton
 import javax.swing.JComboBox
+import javax.swing.JFileChooser
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JOptionPane
@@ -38,9 +39,11 @@ import javax.swing.JProgressBar
 import javax.swing.JScrollPane
 import javax.swing.JSplitPane
 import javax.swing.JTextArea
+import javax.swing.JTextField
 import javax.swing.JTree
 import javax.swing.SwingUtilities
 import javax.swing.Timer
+import javax.swing.UIManager
 import javax.swing.border.EmptyBorder
 import javax.swing.event.TreeSelectionEvent
 import javax.swing.tree.DefaultMutableTreeNode
@@ -54,6 +57,12 @@ private const val PROGRESS_BAR_WIDTH = 220
 private const val PROGRESS_BAR_HEIGHT = 18
 private const val STATUS_PAD_V = 4
 private const val STATUS_PAD_H = 10
+private const val OUTPUT_FIELD_COLUMNS = 28
+private const val SPLIT_RESIZE_WEIGHT = 0.25
+private const val INITIAL_DIVIDER = 320
+
+/** Default directory for saved PNGs: a predictable `renders/` folder under the working directory. */
+private val defaultOutputDirectory: File = File(System.getProperty("user.dir"), "renders")
 
 // Many small methods are inherent to a Swing controller (one per widget/handler); splitting them
 // across types would hurt readability more than the count helps it.
@@ -82,6 +91,13 @@ class FromTheGroundUpRayTracer :
     private val progressBar = JProgressBar(0, PERCENT)
     private val statusLabel = JLabel("Ready")
 
+    /** Embedded live-preview canvas; reused across renders instead of spawning a floating window. */
+    private val previewCanvas = ImageCanvas()
+
+    /** User-configurable output directory; defaults to a predictable `renders/` folder. */
+    private var outputDirectory: File = defaultOutputDirectory
+    private val outputField = JTextField(outputDirectory.absolutePath, OUTPUT_FIELD_COLUMNS)
+
     /** Guards against launching a second render while one is already in flight. */
     private var rendering = false
 
@@ -101,17 +117,32 @@ class FromTheGroundUpRayTracer :
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             jMenuBar = createMenuBar(this@FromTheGroundUpRayTracer)
             setSize(appWidth, appHeight)
-            add(JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSide(), rightSide()), BorderLayout.CENTER)
+            val controlsAndPreview =
+                JSplitPane(JSplitPane.HORIZONTAL_SPLIT, rightSide(), previewPane()).apply {
+                    resizeWeight = SPLIT_RESIZE_WEIGHT
+                }
+            add(
+                JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSide(), controlsAndPreview).apply {
+                    dividerLocation = INITIAL_DIVIDER
+                },
+                BorderLayout.CENTER,
+            )
             add(statusBar(), BorderLayout.SOUTH)
             isVisible = true
         }
     }
 
-    private fun leftSide(): JScrollPane {
+    private fun leftSide(): JPanel {
         val left = LeftSide()
         left.tree.addTreeSelectionListener(treeSelectionListener(left.tree))
         return left.component
     }
+
+    /** Scrollable host for the embedded [previewCanvas] — the render appears here, in the main window. */
+    private fun previewPane(): JScrollPane =
+        JScrollPane(previewCanvas).apply {
+            border = EmptyBorder(10, 10, 10, 10)
+        }
 
     private fun treeSelectionListener(tree: JTree) =
         { _: TreeSelectionEvent ->
@@ -132,9 +163,51 @@ class FromTheGroundUpRayTracer :
         return JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
             add(selections())
+            add(outputSelector())
             add(buttons())
             add(textArea)
         }
+    }
+
+    /**
+     * Lets the user pick where PNGs are written. The path is editable directly and selectable via a
+     * [JFileChooser]; it defaults to a predictable `renders/` folder rather than the old hardcoded
+     * '../' relative path.
+     */
+    private fun outputSelector(): JPanel {
+        val chooseButton =
+            JButton("Choose…").apply {
+                addActionListener { chooseOutputDirectory() }
+            }
+        return JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            border = EmptyBorder(0, 10, 10, 10)
+            add(JLabel("Output: "))
+            add(outputField)
+            add(chooseButton)
+        }
+    }
+
+    private fun chooseOutputDirectory() {
+        val chooser =
+            JFileChooser(outputDirectory).apply {
+                fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+                dialogTitle = "Choose output directory"
+            }
+        if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+            outputDirectory = chooser.selectedFile
+            outputField.text = outputDirectory.absolutePath
+        }
+    }
+
+    /**
+     * Resolves the absolute path to write [fileName] into the user-chosen output directory, creating
+     * the directory if it does not yet exist. Reads the editable field so a hand-typed path is honoured.
+     */
+    private fun outputPath(fileName: String): String {
+        outputDirectory = File(outputField.text.trim().ifEmpty { defaultOutputDirectory.absolutePath })
+        outputDirectory.mkdirs()
+        return File(outputDirectory, fileName).absolutePath
     }
 
     private fun selections(): JPanel {
@@ -245,12 +318,14 @@ class FromTheGroundUpRayTracer :
                     if (token.isCancelled) {
                         withContext(NonCancellable + Dispatchers.Swing) { setStatus("Cancelled ${file.name}") }
                     } else {
-                        withContext(Dispatchers.Swing) {
-                            state.frame.repaint()
-                            progressBar.value = PERCENT
-                            setStatus("Rendered ${file.name} in ${stats.duration.inWholeMilliseconds} ms")
-                        }
-                        state.film.image.save("../" + outputPngFileName(file.name, DateTime.now()))
+                        val out =
+                            withContext(Dispatchers.Swing) {
+                                previewCanvas.repaint()
+                                progressBar.value = PERCENT
+                                setStatus("Rendered ${file.name} in ${stats.duration.inWholeMilliseconds} ms")
+                                outputPath(outputPngFileName(file.name, DateTime.now()))
+                            }
+                        state.film.image.save(out)
                     }
                 } catch (e: CancellationException) {
                     // User cancelled the coroutine; not an error. Re-throw so the job ends cancelled.
@@ -283,10 +358,11 @@ class FromTheGroundUpRayTracer :
     }
 
     /**
-     * Builds the world off the EDT, then — on the EDT — opens the preview window and starts a [Timer]
-     * that repaints it and updates the progress bar while the render fills the [SwingFilm] in place,
-     * giving a live "image appearing" preview. Carries the wired-up [IRenderer] back to the caller so
-     * the blocking render runs off the EDT.
+     * Builds the world off the EDT, then — on the EDT — installs the fresh film image into the
+     * embedded [previewCanvas] and starts a [Timer] that repaints it and updates the progress bar
+     * while the render fills the [SwingFilm] in place, giving a live "image appearing" preview in the
+     * main window. Carries the wired-up [IRenderer] back to the caller so the blocking render runs off
+     * the EDT.
      */
     private suspend fun startInteractiveRender(definition: WorldDefinition): InteractiveRender {
         val context = newContext()
@@ -297,17 +373,17 @@ class FromTheGroundUpRayTracer :
         val renderer =
             requireNotNull(world.renderer) { "World.renderer not set; context.adapt(world) must run first" }
         return withContext(Dispatchers.Swing) {
-            val imageFrame = ImageFrame(film)
+            previewCanvas.image = film.image
             val startNanos = System.nanoTime()
             val timer =
                 Timer(PREVIEW_INTERVAL_MS) {
-                    imageFrame.repaint()
+                    previewCanvas.repaint()
                     val percent = (film.renderedPixels * PERCENT / film.totalPixels).toInt()
                     progressBar.value = percent
                     setStatus("Rendering… $percent%  ${elapsedMillis(startNanos) / MILLIS_PER_SECOND}s")
                 }
             timer.start()
-            InteractiveRender(film, imageFrame, timer, renderer)
+            InteractiveRender(film, timer, renderer)
         }
     }
 
@@ -320,10 +396,11 @@ class FromTheGroundUpRayTracer :
         setBusy(true, "Rendering ${file.name} to PNG…")
         progressBar.isIndeterminate = true
         val context = newContext()
+        val out = outputPath(outputPngFileName(file.name))
         launch {
             try {
                 val result = Render.render(definition, context)
-                result.film.save("../" + outputPngFileName(file.name))
+                result.film.save(out)
                 withContext(Dispatchers.Swing) {
                     setStatus("Saved PNG for ${file.name} in ${result.stats.duration.inWholeMilliseconds} ms")
                     dialog(pngMessage, pngTitle, JOptionPane.INFORMATION_MESSAGE)
@@ -396,15 +473,20 @@ class FromTheGroundUpRayTracer :
     }
 }
 
-/** Everything an in-flight interactive render needs to drive and finish: the live [film]/[frame], the
- *  preview [timer], and the wired-up [renderer] that does the off-EDT work. */
+/** Everything an in-flight interactive render needs to drive and finish: the live [film] (its image
+ *  is shown in the embedded preview), the preview [timer], and the wired-up [renderer] that does the
+ *  off-EDT work. */
 private class InteractiveRender(
     val film: SwingFilm,
-    val frame: ImageFrame,
     val timer: Timer,
     val renderer: IRenderer,
 )
 
 fun main() {
-    SwingUtilities.invokeLater { FromTheGroundUpRayTracer() }
+    SwingUtilities.invokeLater {
+        // Apply the platform's native look-and-feel before any widget is created, so the whole UI
+        // adopts it. Falling back to the cross-platform default on the rare platform that rejects it.
+        runCatching { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()) }
+        FromTheGroundUpRayTracer()
+    }
 }
