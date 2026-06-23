@@ -23,11 +23,13 @@ IRenderer.render(film) is a blocking call and no renderer (ParallelRenderer raw 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 IRenderer (or a renderer-side mechanism) supports cooperative cancellation; an in-progress render stops promptly when cancelled and does not keep consuming CPU after cancellation
-- [ ] #2 Cancellation behavior is covered by tests for the renderer strategies, written cover-first and then frozen
-- [ ] #3 The Swing app shows a Cancel button during a render that stops the in-flight render and restores the UI to idle (re-enables Render/PNG)
-- [ ] #4 detekt and the full build stay green
+- [x] #1 IRenderer (or a renderer-side mechanism) supports cooperative cancellation; an in-progress render stops promptly when cancelled and does not keep consuming CPU after cancellation
+- [x] #2 Cancellation behavior is covered by tests for the renderer strategies, written cover-first and then frozen
+- [x] #3 The Swing app shows a Cancel button during a render that stops the in-flight render and restores the UI to idle (re-enables Render/PNG)
+- [x] #4 detekt and the full build stay green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
