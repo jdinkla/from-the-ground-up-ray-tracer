@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:31'
-updated_date: '2026-06-23 20:12'
+updated_date: '2026-06-23 20:15'
 labels:
   - bug
   - samplers
@@ -28,3 +28,9 @@ Discovered during TASK-30 (independently confirmed by review): Sampler.sampleUni
 - [ ] #2 MultiJittered/Jittered/Regular generate the number of points sampleUnitSquare expects (or sampleUnitSquare indexes by the actual count); MultiJittered per-set stride corrected
 - [ ] #3 Cover-first tests across generators x non-square counts x set counts; existing sampler-dependent behavior (AmbientOccluder, AreaLight, path tracing) unaffected; full suite + detekt green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Read Sampler + generators (MultiJittered/Jittered/Regular/NRooks/PureRandom) and Sampler indexing math. 2. Cover-first: add SamplerIndexingTest exercising sampleUnitSquare/Disk/Hemisphere/Sphere for all generators x non-square numSamples x numSets>sqrt(n); confirm it FAILS (IndexOutOfBounds) before fix. 3. Fix Sampler to derive per-set stride from the actual generated sample count (samples.size/numSets) instead of the requested numSamples, so it works for every generator. 4. Fix MultiJittered per-set stride bug (p*numSets -> p*n*n) and its exact allocation. 5. Run new test green, then full ./gradlew build (existing sampler-dependent tests + detekt).
+<!-- SECTION:PLAN:END -->
