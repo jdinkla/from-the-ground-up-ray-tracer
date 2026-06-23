@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 11:58'
-updated_date: '2026-06-23 12:01'
+updated_date: '2026-06-23 12:04'
 labels: []
 dependencies: []
 ordinal: 39000
@@ -23,13 +23,15 @@ Fix: when adapting resolution, rescale sizeOfPixel to preserve the scene's view-
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Rendering a scene at 480p, 720p, 1080p, 1440p, 2160p yields the same field of view (same visible world extent / framing); only sampling density differs
-- [ ] #2 ViewPlane exposes a way to set resolution that rescales sizeOfPixel so sizeOfPixel x height is preserved relative to the pre-override value
-- [ ] #3 Context.adapt uses that mechanism instead of assigning resolution directly (Context.kt:27)
-- [ ] #4 1080p renders are byte-identical to before the change (default reference resolution, ratio 1.0)
-- [ ] #5 A characterization/unit test pins the FOV-invariance: sizeOfPixel x height (view-plane extent) is constant across resolutions for a given scene
-- [ ] #6 Full check is green: ./gradlew build (compile + test + detekt)
+- [x] #1 Rendering a scene at 480p, 720p, 1080p, 1440p, 2160p yields the same field of view (same visible world extent / framing); only sampling density differs
+- [x] #2 ViewPlane exposes a way to set resolution that rescales sizeOfPixel so sizeOfPixel x height is preserved relative to the pre-override value
+- [x] #3 Context.adapt uses that mechanism instead of assigning resolution directly (Context.kt:27)
+- [x] #4 1080p renders are byte-identical to before the change (default reference resolution, ratio 1.0)
+- [x] #5 A characterization/unit test pins the FOV-invariance: sizeOfPixel x height (view-plane extent) is constant across resolutions for a given scene
+- [x] #6 Full check is green: ./gradlew build (compile + test + detekt)
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
