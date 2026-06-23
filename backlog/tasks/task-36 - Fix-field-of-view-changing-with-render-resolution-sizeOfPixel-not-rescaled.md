@@ -1,9 +1,11 @@
 ---
 id: TASK-36
 title: Fix field-of-view changing with render resolution (sizeOfPixel not rescaled)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 11:58'
+updated_date: '2026-06-23 12:01'
 labels: []
 dependencies: []
 ordinal: 39000
@@ -28,3 +30,14 @@ Fix: when adapting resolution, rescale sizeOfPixel to preserve the scene's view-
 - [ ] #5 A characterization/unit test pins the FOV-invariance: sizeOfPixel x height (view-plane extent) is constant across resolutions for a given scene
 - [ ] #6 Full check is green: ./gradlew build (compile + test + detekt)
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first/TDD (this is a behaviour fix, so tests assert the corrected behaviour):
+   - ViewPlaneTest: applyResolution scales sizeOfPixel inversely to the height change so sizeOfPixel*height (FOV) is invariant; lower res -> larger pixel (1080->720 => s=1.5), higher res -> smaller (1080->2160 => s=0.5); applying 1080 (reference) leaves s=1.0 (1080p byte-identical); a cross-resolution invariance test over all Predefined resolutions.
+   - ContextTest: adapt() preserves the scene's design extent (sizeOfPixel*height) while switching resolution.
+2. ViewPlane: add fun applyResolution(newResolution) that does sizeOfPixel *= resolution.height/newResolution.height then resolution = newResolution. Keep resolution setter public (ThinLensTest constructs a fixed-resolution view plane directly).
+3. Context.adapt (Context.kt:27): replace 'world.viewPlane.resolution = resolution' with 'world.viewPlane.applyResolution(resolution)'.
+4. Run ./gradlew build (test + detekt). Manually verify by re-rendering AmbientOccludedSphere at 480p/720p/1080p and confirming identical framing.
+<!-- SECTION:PLAN:END -->
