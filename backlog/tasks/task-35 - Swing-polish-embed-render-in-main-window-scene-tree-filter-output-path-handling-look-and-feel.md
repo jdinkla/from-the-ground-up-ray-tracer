@@ -3,11 +3,11 @@ id: TASK-35
 title: >-
   Swing polish: embed render in main window, scene-tree filter, output-path
   handling, look-and-feel
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 21:08'
+updated_date: '2026-06-23 21:09'
 labels:
   - swing
   - ui
@@ -63,3 +63,9 @@ Verification: 'just test' (= ./gradlew clean check: compile + all tests + detekt
 
 Post-review cleanup: removed the dead outputField.addActionListener (option a) — outputPath() always re-reads outputField.text directly, so the listener's write to outputDirectory was never observed. The outputDirectory field stays meaningful: it seeds the JFileChooser starting dir and is written by chooseOutputDirectory()/outputPath(); the editable field remains the single source of truth (hand-typed paths still honoured). Re-ran ./gradlew clean check: BUILD SUCCESSFUL (green); only the two pre-existing unrelated unchecked-cast warnings remain.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Swing polish (ui/swing only): render preview is now embedded in the main window (reusable ImageCanvas in a JScrollPane) instead of spawning a floating ImageFrame per render — ImageFrame.kt deleted, so its title-bar height fudge is moot. Added a Search field that filters the scene tree case-insensitively (DocumentListener). Output location is user-configurable via an editable field + JFileChooser (DIRECTORIES_ONLY), defaulting to renders/ under user.dir, used by both the interactive save and the PNG button (hardcoded '../' removed). System look-and-feel applied on the EDT in main() before building the UI. LeftSide no longer extends Component (plain holder). All TASK-33 (live preview, progress/status/elapsed, resolution combo) and TASK-34 (Cancel + token wiring) behavior preserved — verified by tracing the render flow to the embedded canvas. Verified ./gradlew clean check green (compile+test+detekt) and ./gradlew swing launches with no startup/EDT exception. Interactive visual confirmation (live preview fill, Cancel, filter, chooser, native L&F) is the open manual-verification item needing the user's eyes.
+<!-- SECTION:FINAL_SUMMARY:END -->
