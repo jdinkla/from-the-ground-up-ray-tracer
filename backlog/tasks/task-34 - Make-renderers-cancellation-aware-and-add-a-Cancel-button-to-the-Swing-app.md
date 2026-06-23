@@ -1,9 +1,11 @@
 ---
 id: TASK-34
 title: Make renderers cancellation-aware and add a Cancel button to the Swing app
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 21:58'
+updated_date: '2026-06-23 20:39'
 labels:
   - swing
   - ui
