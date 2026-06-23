@@ -76,15 +76,12 @@ class AffineTransformationTest :
             (AffineTransformation().equals("not a transformation")) shouldBe false
         }
 
-        "value-equal transformations are equal, and hashCode is deterministic per instance" {
+        "value-equal transformations are equal and share a hash code" {
             val a = AffineTransformation().apply { scale(Vector3D(2.0, 2.0, 2.0)) }
             val b = AffineTransformation().apply { scale(Vector3D(2.0, 2.0, 2.0)) }
 
             a shouldBe b
-            // NOTE: equal transformations do NOT share a hash code here — Matrix.hashCode delegates to
-            // DoubleArray.hashCode (identity-based), violating the equals/hashCode contract. We only pin
-            // that hashCode is deterministic per instance; "a.hashCode() == b.hashCode()" does not hold.
-            a.hashCode() shouldBe a.hashCode()
+            a.hashCode() shouldBe b.hashCode()
         }
 
         "toString names the type" {

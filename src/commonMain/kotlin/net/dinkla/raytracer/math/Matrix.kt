@@ -97,7 +97,9 @@ class Matrix private constructor() {
         }
     }
 
-    override fun hashCode(): Int = m.hashCode()
+    // Content-based to stay consistent with the value-based equals above: DoubleArray.hashCode is
+    // identity-based, which would give value-equal matrices different hash codes (contract violation).
+    override fun hashCode(): Int = m.contentHashCode()
 
     override fun toString() =
         buildString {

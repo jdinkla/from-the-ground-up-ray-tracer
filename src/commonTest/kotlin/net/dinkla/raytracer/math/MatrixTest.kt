@@ -114,8 +114,12 @@ class MatrixTest :
             (m2 * e) shouldBe m2
         }
 
-        "hashCode is consistent across calls on the same instance" {
-            m2.hashCode() shouldBe m2.hashCode()
+        "value-equal matrices share a hash code" {
+            val a = Matrix(listOf(2.0))
+            val b = Matrix(listOf(2.0))
+
+            a shouldBe b
+            a.hashCode() shouldBe b.hashCode()
         }
 
         "toString renders all four rows with the cell values" {
