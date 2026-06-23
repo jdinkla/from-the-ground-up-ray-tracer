@@ -1,7 +1,7 @@
 ---
 id: TASK-34
 title: Make renderers cancellation-aware and add a Cancel button to the Swing app
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
@@ -56,3 +56,9 @@ Full check: ./gradlew clean check (compile + all tests + detekt) BUILD SUCCESSFU
 
 Review nit addressed: added a 6th cover-first cancellation test 'naive coroutine renderer stops early when cancelled partway' through the existing cancellationStopsEarly helper, so all six user-selectable renderer strategies (SEQUENTIAL, FORK_JOIN, PARALLEL, NAIVE_COROUTINE, COROUTINE, VIRTUAL) now have a frozen cancellation test. Empirically confirmed cover-first: temporarily removed the per-row cancellation check from NaiveCoroutineRenderer and ran RendererTest — only the new test failed (1 of 21), the other 20 passed; restored the check and ./gradlew clean check is BUILD SUCCESSFUL again.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added cooperative cancellation to the renderer core via a new CancellationToken seam (interface + NoCancellation no-op constant + AtomicCancellationToken), threaded through IRenderer.render(film, cancellation = NoCancellation) as a default arg — non-breaking, no per-call allocation on the no-cancel path, so existing callers/tests/perf are unchanged. All six renderer strategies poll the token at coarse granularity (per row / per block, never per pixel) and return early. Cover-first: 6 frozen 'stops early when cancelled partway' tests (sequential, fork-join, parallel-threads, naive-coroutine, coroutine-block, virtual-threads) using a CancellingFilm fake, each independently verified to FAIL without its production check. Swing: a Cancel button (idle-disabled, enabled only during the interactive render) flips the token and cancels the coroutine job; a NonCancellable finally stops the preview timer and restores idle UI; CancellationException is caught before generic Exception so a user cancel is not shown as an error. Verified ./gradlew clean check green (compile+test+detekt), independently re-run and cover-first-confirmed by review.
+<!-- SECTION:FINAL_SUMMARY:END -->
