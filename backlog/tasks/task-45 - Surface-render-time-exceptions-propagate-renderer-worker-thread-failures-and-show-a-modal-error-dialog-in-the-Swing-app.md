@@ -3,9 +3,11 @@ id: TASK-45
 title: >-
   Surface render-time exceptions: propagate renderer worker-thread failures and
   show a modal error dialog in the Swing app
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 21:48'
+updated_date: '2026-06-23 21:48'
 labels:
   - renderer
   - swing
