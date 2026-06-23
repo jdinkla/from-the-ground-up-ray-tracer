@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 20:39'
+updated_date: '2026-06-23 20:41'
 labels:
   - swing
   - ui
@@ -28,3 +28,9 @@ IRenderer.render(film) is a blocking call and no renderer (ParallelRenderer raw 
 - [ ] #3 The Swing app shows a Cancel button during a render that stops the in-flight render and restores the UI to idle (re-enables Render/PNG)
 - [ ] #4 detekt and the full build stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add CancellationToken interface + NoCancellation no-op + AtomicCancellationToken (java.util.concurrent.atomic) in commonMain/renderer. 2. Change IRenderer.render(film) -> render(film, cancellation: CancellationToken = NoCancellation) so all existing callers/tests are unaffected (default arg). 3. Have each renderer check the token at coarse granularity and stop early: SequentialRenderer per-row; ForkJoin/Coroutine/VirtualThread per-block (and skip work in already-started blocks); ParallelRenderer per-row in Worker; NaiveCoroutine per-row of launches. 4. Cover-first: add cancellation tests in RendererTest (sequential, fork-join, parallel, a coroutine variant, virtual threads) that flip the token from an instrumented film after N pixels and assert the render returns early without writing all pixels. Confirm tests FAIL without the checks, then add checks -> green & freeze. 5. Wire Swing Cancel button: add a JButton('Cancel'), keep an AtomicCancellationToken + Job per render, on click set token + cancel job, restore idle UI. Pass token through Render.render(film, renderer, cancellation). 6. ./gradlew build green (detekt + tests).
+<!-- SECTION:PLAN:END -->
