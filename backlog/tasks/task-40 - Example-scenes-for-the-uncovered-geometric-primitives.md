@@ -1,7 +1,7 @@
 ---
 id: TASK-40
 title: Example scenes for the uncovered geometric primitives
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 19:15'
