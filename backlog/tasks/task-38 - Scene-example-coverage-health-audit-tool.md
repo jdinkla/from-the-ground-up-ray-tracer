@@ -58,3 +58,9 @@ Key decisions / discoveries:
 
 Manual verification (excluded glue): ran ./gradlew audit on all 71 scenes -> build/reports/scene-audit.md. Spot-checked: UNCOVERED lists 14 geometry/1 accel(SparseGrid)/1 material(SvPhong)/1 light(EnvironmentLight)/2 lenses(FishEye,Spherical)/2 textures; MULTIPLICITY shows Plane 61, Sphere 53, Matte 46, Ambient 68 etc.; SUSPECT (near-black) = MultipleObjects.kt (designed for its own tracer, zero-intensity light), Template.kt (empty objects{}), CornellBox.kt (needs path tracing) — all explained, mechanism correct; FAILED = World61.kt (missing Bunny4K.ply); SKIPPED = StereoSpheres.kt (stereo). 41 audit unit tests pass; ./gradlew build green (detekt clean); audit confirmed NOT run by build/test.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a 'scene audit' (./gradlew audit) that builds and low-res health-renders every auto-discovered example scene and writes build/reports/scene-audit.md with three sections: UNCOVERED (production classes with no example, grouped by user-facing category, denominator scanned via classgraph), MULTIPLICITY (scenes per used class), and SUSPECT/FAILED/SKIPPED (near-black renders vs build failures vs stereo skips). Pure core (ClassCatalog, SceneInspector, TextureCollector, BlackImageDetector, chooseTracer, AuditReport, SceneAuditor) is frozen-unit-tested (41 tests); only the AuditMain entry point is JaCoCo-excluded glue. Not wired into test/check. Verified end-to-end on all 71 scenes; ./gradlew build green incl. detekt.
+<!-- SECTION:FINAL_SUMMARY:END -->
