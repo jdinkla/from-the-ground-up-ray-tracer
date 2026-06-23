@@ -3,9 +3,11 @@ id: TASK-42
 title: >-
   Coverage for remaining uncovered classes: EnvironmentLight, SparseGrid,
   SvPhong, ConstantColor, WrappedFBmTexture
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 19:15'
+updated_date: '2026-06-23 19:47'
 labels:
   - examples
   - coverage
