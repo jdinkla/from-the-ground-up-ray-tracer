@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 21:10'
+updated_date: '2026-06-23 21:35'
 labels:
   - swing
   - ui
@@ -63,5 +63,5 @@ Cross-task update (manager): the Swing app this task introduced has since been e
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Manually verified by launching ./gradlew swing and rendering at least one scene: live preview, status/elapsed, and button-guard observed (Swing UI is JaCoCo-excluded and not unit-tested by design)
+- [x] #1 Manually verified by launching ./gradlew swing and rendering at least one scene: live preview, status/elapsed, and button-guard observed (Swing UI is JaCoCo-excluded and not unit-tested by design)
 <!-- DOD:END -->
