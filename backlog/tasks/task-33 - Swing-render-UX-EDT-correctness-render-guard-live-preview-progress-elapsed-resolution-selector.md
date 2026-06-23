@@ -3,7 +3,7 @@ id: TASK-33
 title: >-
   Swing render UX: EDT-correctness, render guard, live preview,
   progress/elapsed, resolution selector
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
@@ -59,7 +59,15 @@ Implemented (files: ui/swing/FromTheGroundUpRayTracer.kt, SwingFilm.kt, ImageCan
 Verification: ./gradlew build green (test + detekt clean); ./gradlew swing launches and reaches the GUI event loop with no startup/EDT exception (confirms Dispatchers.Swing on classpath + EDT construction OK). NOT yet visually confirmed by a human click: live preview filling in, progress ticking, button-guard during a real render — that interactive observation is the open DoD item.
 
 Cross-task update (manager): the Swing app this task introduced has since been extended by TASK-34 (Cancel button + cooperative cancellation) and TASK-35 (render preview now EMBEDDED in the main window instead of a floating ImageFrame, scene-tree search filter, configurable output dir via JFileChooser, system look-and-feel). All 7 ACs here remain met and the full ./gradlew clean check is green on HEAD. The only open item is DoD #1 — the interactive human-eyes GUI observation (live preview filling in, status/elapsed ticking, Render/PNG button-guard) — which cannot be performed headlessly/over a remote connection. It should be confirmed against the CURRENT embedded-canvas UI (a single GUI session can also confirm TASK-34's Cancel and TASK-35's filter/chooser/L&F). Left In Progress pending that confirmation.
+
+DoD #1 confirmed by the user: launched ./gradlew swing and verified interactively against the current embedded-canvas UI — live preview, status/elapsed, and button-guard observed (also covers TASK-34 Cancel and TASK-35 filter/output-dir/L&F). GUI is OK.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Made the Swing desktop app EDT-correct and responsive without touching the renderer core: CPU render runs off-EDT on Dispatchers.Default with every Swing touch hopped to Dispatchers.Swing; main() constructs on the EDT; Render/PNG buttons are guarded against concurrent renders; empty-selection gives visible feedback; live preview streams pixels via a SwingFilm AtomicLong counter + a 150ms javax.swing.Timer; a status bar shows a determinate progress bar, elapsed time, and a completion summary; resolution is selectable from the 480p-4320p presets. All 7 ACs met; full ./gradlew clean check green. DoD manual GUI verification confirmed OK by the user.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
