@@ -1,9 +1,11 @@
 ---
 id: TASK-39
 title: Record a scene's intended tracer in its Metadata
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 19:06'
+updated_date: '2026-06-23 20:22'
 labels:
   - examples
   - tooling
