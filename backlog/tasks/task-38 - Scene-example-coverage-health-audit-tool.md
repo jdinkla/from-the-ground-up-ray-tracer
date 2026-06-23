@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 18:29'
-updated_date: '2026-06-23 18:33'
+updated_date: '2026-06-23 19:01'
 labels:
   - tooling
   - examples
@@ -21,13 +21,15 @@ Add a standalone 'scene audit' that builds and (low-res) renders every auto-disc
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A Gradle task (e.g. ./gradlew audit) builds every scene from worlds() and emits a report to stdout and to a file under the repo (e.g. build/reports or docs).
-- [ ] #2 Report section UNCOVERED: lists concrete production classes used by zero scenes, grouped by category (geometry, materials, lights, cameras+lenses, tracers, textures, acceleration); the full denominator per category is built by scanning production packages with classgraph, so newly added classes appear automatically.
-- [ ] #3 Report section MULTIPLICITY: lists each used class with the count (and ideally ids) of scenes using it, making over-represented (e.g. Sphere) and single-example classes visible.
-- [ ] #4 Report section SUSPECT RENDERS: each scene is rendered at a low resolution into a ColorGridFilm and flagged when its near-black pixel fraction exceeds a documented threshold; scenes that fail to build or render (e.g. missing .ply, exceptions) are listed in a separate FAILED group, not conflated with black images.
-- [ ] #5 The pure core (object-graph walk -> used classes; coverage vs denominator; near-black fraction) is covered by frozen unit tests per the cover-first rule; the runnable/printing/Gradle glue is verified manually and that verification is reported.
-- [ ] #6 The audit does NOT run as part of ./gradlew test; the full check (./gradlew build incl. detekt) stays green.
+- [x] #1 A Gradle task (e.g. ./gradlew audit) builds every scene from worlds() and emits a report to stdout and to a file under the repo (e.g. build/reports or docs).
+- [x] #2 Report section UNCOVERED: lists concrete production classes used by zero scenes, grouped by category (geometry, materials, lights, cameras+lenses, tracers, textures, acceleration); the full denominator per category is built by scanning production packages with classgraph, so newly added classes appear automatically.
+- [x] #3 Report section MULTIPLICITY: lists each used class with the count (and ideally ids) of scenes using it, making over-represented (e.g. Sphere) and single-example classes visible.
+- [x] #4 Report section SUSPECT RENDERS: each scene is rendered at a low resolution into a ColorGridFilm and flagged when its near-black pixel fraction exceeds a documented threshold; scenes that fail to build or render (e.g. missing .ply, exceptions) are listed in a separate FAILED group, not conflated with black images.
+- [x] #5 The pure core (object-graph walk -> used classes; coverage vs denominator; near-black fraction) is covered by frozen unit tests per the cover-first rule; the runnable/printing/Gradle glue is verified manually and that verification is reported.
+- [x] #6 The audit does NOT run as part of ./gradlew test; the full check (./gradlew build incl. detekt) stays green.
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
