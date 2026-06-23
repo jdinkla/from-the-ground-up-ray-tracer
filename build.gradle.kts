@@ -59,6 +59,8 @@ tasks.jacocoTestReport {
                     "net/dinkla/raytracer/examples/**",
                     "net/dinkla/raytracer/MainKt.class",
                     "net/dinkla/raytracer/ui/swing/**",
+                    // Entry-point glue for the `audit` task; the rest of the audit package is tested.
+                    "net/dinkla/raytracer/audit/AuditMainKt.class",
                 )
             }
         })
@@ -74,6 +76,17 @@ tasks.register<JavaExec>("commandline") {
 tasks.register<JavaExec>("swing") {
     mainClass.set("net.dinkla.raytracer.ui.swing.FromTheGroundUpRayTracerKt")
     classpath = sourceSets["main"].runtimeClasspath
+}
+
+// Scene/example coverage & health audit (TASK-38). Builds and low-res renders every example scene
+// and reports uncovered classes, per-class multiplicity, and suspect (near-black) renders. Intentionally
+// NOT wired into `test`/`check` — it renders ~70 scenes and some need downloaded .ply meshes.
+tasks.register<JavaExec>("audit") {
+    group = "verification"
+    description = "Audits example scenes: class coverage, multiplicity, and suspect (near-black) renders."
+    mainClass.set("net.dinkla.raytracer.audit.AuditMainKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    maxHeapSize = "4g" // some scenes (e.g. ManySpheresOnAPlane: 10k spheres) are memory-heavy to build
 }
 
 application {
