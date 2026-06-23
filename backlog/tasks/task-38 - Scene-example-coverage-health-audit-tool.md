@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 18:29'
-updated_date: '2026-06-23 18:29'
+updated_date: '2026-06-23 18:33'
 labels:
   - tooling
   - examples
@@ -28,3 +28,17 @@ Add a standalone 'scene audit' that builds and (low-res) renders every auto-disc
 - [ ] #5 The pure core (object-graph walk -> used classes; coverage vs denominator; near-black fraction) is covered by frozen unit tests per the cover-first rule; the runnable/printing/Gradle glue is verified manually and that verification is reported.
 - [ ] #6 The audit does NOT run as part of ./gradlew test; the full check (./gradlew build incl. detekt) stays green.
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Pure, unit-tested core in jvmMain package net.dinkla.raytracer.audit:
+   - Category enum (GEOMETRY, ACCELERATION, MATERIALS, LIGHTS, CAMERAS, LENSES, TEXTURES) each with a base type + classgraph scan rule; build the per-category DENOMINATOR of concrete (non-abstract, non-example) production classes. GEOMETRY excludes the acceleration package and an infra blocklist (Compound, CompoundWithMesh, NullObject); ACCELERATION = objects.acceleration concrete classes. TRACERS are intentionally NOT a category: the tracer is a render-time choice, never authored in a scene, so per-scene tracer coverage is meaningless.
+   - SceneInspector.usedClasses(world): typed walk collecting runtime classes actually used: geometry tree (recurse Compound.objects; Instance child via reflection on the private field; Grid/KDTree expose authored children via Compound.objects BEFORE initialize, avoiding cell/NullObject noise), materials (world.materials values + each object.material), lights (world.lights + ambientLight), camera (+stereoCamera), lens (camera.lens), and a bounded reflective Texture collector starting from materials (depth/visited-capped, only follows net.dinkla.raytracer objects).
+   - BlackImageDetector.nearBlackFraction(film,res,epsilon).
+   - ReportModel + formatter: from per-scene usage build UNCOVERED (denominator - used, grouped by category), MULTIPLICITY (class -> scene ids), SUSPECT (>= threshold near-black) and FAILED (build/render threw) sections; render to markdown.
+2. Thin runner: SceneAuditor (testable; takes a list of WorldDefinition + an inspect/render strategy so aggregation is unit-tested with fakes) + AuditMain main() that wires real worlds(), renders each scene at a low resolution with numSamples forced to 1 and a heuristic tracer (AreaLighting when the scene has area lights / Emissive / AmbientOccluder, else Whitted) into a ColorGridFilm, catches per-scene exceptions into FAILED, skips stereo scenes from the black check with a note, prints report to stdout and writes build/reports/scene-audit.md.
+3. Gradle: register JavaExec task 'audit' -> AuditMainKt; add the audit runner entry point to the JaCoCo exclude list (like MainKt) so only the tested core counts. Do NOT wire audit into 'test'/'check'.
+4. Tests (frozen, written first): SceneInspector against a hand-built World (sphere+box+grid+instance+sv-textured material) asserting the per-category used sets; denominator filtering (abstract/example/blocklist excluded); BlackImageDetector on all-black / half-black / lit films; report aggregation over fake scenes (uncovered/multiplicity/suspect/failed).
+5. Manual verification (excluded glue): run ./gradlew audit, sanity-check the three sections against known scenes; confirm ./gradlew build (incl. detekt) stays green and 'test' does not run the audit.
+<!-- SECTION:PLAN:END -->
