@@ -1,9 +1,11 @@
 ---
 id: TASK-38
 title: Scene/example coverage & health audit tool
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 18:29'
+updated_date: '2026-06-23 18:29'
 labels:
   - tooling
   - examples
