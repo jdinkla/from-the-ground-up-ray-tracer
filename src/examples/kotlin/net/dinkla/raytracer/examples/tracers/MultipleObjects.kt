@@ -1,5 +1,6 @@
 package net.dinkla.raytracer.examples.tracers
 
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -11,6 +12,7 @@ object MultipleObjects : WorldDefinition {
         Builder.build {
             metadata {
                 description("Use MultipleObjects tracer")
+                preferredTracer(Tracers.MULTIPLE_OBJECTS)
             }
 
             camera(d = 750.0, eye = p(0, 0, 200), lookAt = p(50, 0, 0))

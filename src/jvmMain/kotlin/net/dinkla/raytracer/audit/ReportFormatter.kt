@@ -69,9 +69,10 @@ private fun StringBuilder.appendSuspects(model: ReportModel) {
     appendLine("## Suspect renders (near-black)")
     appendLine()
     appendLine(
-        "_Health-rendered with an auto-selected tracer (Whitted, or area lighting for " +
-            "area-light/emissive/ambient-occlusion scenes). A scene that needs a different tracer " +
-            "(e.g. path tracing) can appear here even though it is not broken._",
+        "_Health-rendered with the scene's declared preferred tracer when it has one (scene " +
+            "metadata), else an auto-selected tracer (Whitted, or area lighting for " +
+            "area-light/emissive/ambient-occlusion scenes). A scene that declares no tracer but " +
+            "needs a non-default one can still appear here even though it is not broken._",
     )
     appendLine()
     if (model.suspects.isEmpty()) {

@@ -2,6 +2,7 @@ package net.dinkla.raytracer.examples.globalillumination
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -34,6 +35,7 @@ object CornellBox : WorldDefinition {
             metadata {
                 title("Cornell Box")
                 description("Path-traced global illumination: colour bleeding and soft indirect light.")
+                preferredTracer(Tracers.PATH_TRACE)
             }
 
             // The eye looks down -z into the open front of the box.

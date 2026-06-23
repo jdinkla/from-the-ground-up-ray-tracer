@@ -5,8 +5,6 @@ import net.dinkla.raytracer.examples.worlds
 import net.dinkla.raytracer.films.ColorGridFilm
 import net.dinkla.raytracer.renderer.ISingleRayRenderer
 import net.dinkla.raytracer.renderer.SequentialRenderer
-import net.dinkla.raytracer.tracers.AreaLighting
-import net.dinkla.raytracer.tracers.Whitted
 import net.dinkla.raytracer.utilities.Resolution
 import net.dinkla.raytracer.world.Context
 import net.dinkla.raytracer.world.World
@@ -63,11 +61,8 @@ private fun resolutionLabel(): String = "${AUDIT_RESOLUTION.width}x${AUDIT_RESOL
 private fun renderStatus(world: World): RenderStatus {
     if (world.stereoCamera != null) return RenderStatus.Skipped("stereo camera")
     world.viewPlane.numSamples = 1
-    val tracerCreator =
-        when (chooseTracer(world)) {
-            AuditTracer.AREA -> { w: net.dinkla.raytracer.world.IWorld -> AreaLighting(w) }
-            AuditTracer.WHITTED -> { w: net.dinkla.raytracer.world.IWorld -> Whitted(w) }
-        }
+    // Render with the scene's declared tracer when it has one, else the audit's AREA/WHITTED heuristic.
+    val tracerCreator = auditTracer(world).create
     val rendererCreator = { single: ISingleRayRenderer, corrector: IColorCorrector ->
         SequentialRenderer(single, corrector)
     }

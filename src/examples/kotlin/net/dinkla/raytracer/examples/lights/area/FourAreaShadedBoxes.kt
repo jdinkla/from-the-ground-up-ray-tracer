@@ -5,6 +5,7 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.objects.arealights.RectangleLight
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
@@ -26,6 +27,7 @@ object FourAreaShadedBoxes : WorldDefinition {
             metadata {
                 title("Four boxes")
                 description("Use area tracer. Does not work.")
+                preferredTracer(Tracers.AREA)
             }
 
             val vecH = Vector3D.UP * 2.0

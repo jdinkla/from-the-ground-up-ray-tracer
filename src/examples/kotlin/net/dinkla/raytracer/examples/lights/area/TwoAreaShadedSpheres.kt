@@ -6,6 +6,7 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.arealights.DiskLight
 import net.dinkla.raytracer.samplers.PureRandom
 import net.dinkla.raytracer.samplers.Sampler
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
@@ -18,6 +19,7 @@ object TwoAreaShadedSpheres : WorldDefinition {
             metadata {
                 id(id)
                 description("Use area tracer")
+                preferredTracer(Tracers.AREA)
             }
 
             camera(d = 1500.0, eye = p(2.0, 0.5, 5.0), lookAt = p(1.5, 1.0, 0.0))
