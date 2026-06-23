@@ -34,8 +34,6 @@ Repro: in the Swing app, select an area-light scene (e.g. World23.kt) and render
 - [x] #6 detekt and the full ./gradlew clean check stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -58,4 +56,11 @@ Renderer core changes:
 - ForkJoin/CoroutineBlock/NaiveCoroutine: already propagate (RecursiveAction.join rethrow / structured concurrency) -> no code change; tests pin it.
 
 Tests (src/jvmTest/.../renderer/RendererTest.kt): added ThrowingSingleRayRenderer fake (throws after N shades, atomic counter); 5 'surfaces a worker render-time failure' shouldThrow tests (one per multi-threaded strategy), a 'preserves the original failure message' test (rootCauseMessageOf walks the chain), and a 'does not report a spurious failure when cancelled' test for Parallel.
+
+VERIFICATION:
+- ./gradlew clean check GREEN (compile + 28 RendererTest tests incl. 7 new, all suites, detekt). Two pre-existing 'Unchecked cast' warnings (PlyReader.kt, GridStructuresTest.kt) are unrelated to this change. No detekt suppressions added to dodge findings: ParallelRenderer.render's ThrowsCount was resolved by extracting awaitWorkers()/rethrowWorkerFailure() (genuine cohesion split), not @Suppress.
+- CLI fail-fast (was hanging before fix): ./gradlew run --args='--world=World23.kt --tracer=WHITTED --renderer=PARALLEL --resolution=480p' now terminates non-zero with: main thread 'IllegalStateException: ParallelRenderer aborted: a worker failed while rendering resolution Resolution(width=853, height=480)' Caused by 'UnsupportedOperationException: AreaLight needs AreaLighting Tracer' (full chain Whitted.trace->Phong.shade->AreaLight.getDirection visible). Exit value 1, no hang.
+- ./gradlew swing launches with no startup/EDT exception (ran ~18s, log clean, GUI up).
+
+SWING (JaCoCo-excluded, manual-verify only): reportFailure now computes rootCauseMessage(e) walking the cause chain to the deepest non-blank message, prefixed with the root exception simple class name (e.g. 'UnsupportedOperationException: AreaLight needs AreaLighting Tracer'), used for both the status bar and the modal JOptionPane.ERROR_MESSAGE dialog. Both render() and png() paths route failures through reportFailure and their finally blocks restore the idle UI (stop preview timer / clear indeterminate progress, setBusy(false) re-enables Render+PNG) and set a Failed status. The actual modal-dialog appearance during an interactive failing render needs a human at the display (residual manual check).
 <!-- SECTION:NOTES:END -->
