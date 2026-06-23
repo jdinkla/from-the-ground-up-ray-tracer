@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 20:55'
+updated_date: '2026-06-23 20:56'
 labels:
   - swing
   - ui
@@ -30,6 +30,17 @@ Lower-priority quality-of-life improvements for the Swing desktop app, surfaced 
 - [ ] #4 Combo boxes are labelled (tracer vs renderer vs resolution) and the default renderer is selected by enum value rather than a magic index; system look-and-feel is applied
 - [ ] #5 Code smells addressed: LeftSide no longer extends Component as a mere holder; the ImageFrame title-bar height fudge is removed or justified
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. AC#4: apply system L&F in main() on the EDT before building the UI (UIManager.setLookAndFeel).
+2. AC#1: embed the live-preview canvas in the main window. Replace floating ImageFrame with an embedded ImageCanvas held by the controller (in a scrollable preview pane in the center). startInteractiveRender repaints the embedded canvas; preserve SwingFilm pixel counter + Timer + progressBar + status/elapsed + Cancel flow unchanged. Remove ImageFrame.
+3. AC#2: add a search JTextField above the scene tree that filters the tree by substring (rebuild filtered tree model). Keep tree selection -> source load behavior.
+4. AC#3: make PNG output directory user-choosable via JFileChooser with a sensible default (user.dir 'output' subdir, created if missing), replacing hardcoded '../'. Apply to both interactive-render PNG save and the PNG button path.
+5. AC#5: LeftSide becomes a plain class exposing the JScrollPane (no longer extends Component); ImageFrame title-bar fudge moot because ImageFrame removed (note it).
+6. Verify: ./gradlew build green (detekt covers this code, define MagicNumber constants), launch ./gradlew swing headlessly checking for no startup/EDT exceptions; document preserved render-flow trace.
+<!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
