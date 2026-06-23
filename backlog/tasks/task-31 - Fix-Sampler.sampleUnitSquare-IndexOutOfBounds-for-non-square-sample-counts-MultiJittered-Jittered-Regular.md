@@ -3,11 +3,11 @@ id: TASK-31
 title: >-
   Fix Sampler.sampleUnitSquare IndexOutOfBounds for non-square sample counts
   (MultiJittered/Jittered/Regular)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:31'
-updated_date: '2026-06-23 20:18'
+updated_date: '2026-06-23 20:22'
 labels:
   - bug
   - samplers
@@ -49,3 +49,9 @@ Cover-first: added SamplerIndexingTest (commonTest) exercising sampleUnitSquare/
 
 Verification: ./gradlew build green; just test (clean check, incl. detekt) green. Sampler-dependent tests pass unchanged: AmbientOccluderTest, EnvironmentLightTest, RectangleLightTest, DiskLightTest, ThinLensTest, WorldScopeTest (default lens = MultiJittered 2500/10), GlossySpecularTest, AuditTracerTest. Manual render (coverage-excluded glue): just run --world=World58.kt (thin-lens DoF via MultiJittered 2500/10) renders a coherent image, not black/garbage.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Fixed Sampler index stride: sampleUnitSquare/Disk/Hemisphere/Sphere now derive samplesPerSet from the actual generated count (samples.size/numSets) instead of the requested numSamples, so the sqrt-based generators (MultiJittered/Jittered/Regular) that emit floor(sqrt(n))^2 points per set no longer throw IndexOutOfBounds for non-square n. Corrected MultiJittered per-set stride p*numSets -> p*n*n and removed an off-by-one origin slot. Cover-first SamplerIndexingTest (5 generators x 5 non-square configs x 4 sampling surfaces) confirmed failing 60/100 against old code, green after fix. Default lens config MultiJittered(2500,10) is unchanged (square, numSets<=sqrt). Verified with ./gradlew clean check (compile+test+detekt green), independently re-run by review.
+<!-- SECTION:FINAL_SUMMARY:END -->
