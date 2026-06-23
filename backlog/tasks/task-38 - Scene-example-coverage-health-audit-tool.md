@@ -29,8 +29,6 @@ Add a standalone 'scene audit' that builds and (low-res) renders every auto-disc
 - [x] #6 The audit does NOT run as part of ./gradlew test; the full check (./gradlew build incl. detekt) stays green.
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -44,3 +42,19 @@ Add a standalone 'scene audit' that builds and (low-res) renders every auto-disc
 4. Tests (frozen, written first): SceneInspector against a hand-built World (sphere+box+grid+instance+sv-textured material) asserting the per-category used sets; denominator filtering (abstract/example/blocklist excluded); BlackImageDetector on all-black / half-black / lit films; report aggregation over fake scenes (uncovered/multiplicity/suspect/failed).
 5. Manual verification (excluded glue): run ./gradlew audit, sanity-check the three sections against known scenes; confirm ./gradlew build (incl. detekt) stays green and 'test' does not run the audit.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented in new package jvmMain/net/dinkla/raytracer/audit:
+- ClassCatalog (classgraph denominator per Category), SceneInspector (typed geometry-tree walk + materials/lights/camera/lens + bounded reflective TextureCollector), BlackImageDetector (near-black fraction over a ColorGridFilm), chooseTracer heuristic, ReportModel/AuditReport + Markdown formatter, SceneAuditor orchestrator, and AuditMain (the only file excluded from JaCoCo, like MainKt). Gradle task 'audit' (group verification) wired; NOT added to test/check.
+
+Key decisions / discoveries:
+- Tracers are NOT a coverage category: a scene never declares a tracer (confirmed no example references one); it is a Context/CLI choice, so per-scene tracer coverage would only reflect the audit's own config.
+- Inspect runs on the authored, pre-initialize() tree (Compound.objects / Instance child via reflection / Grid+KDTree are Compounds), avoiding post-init cell + NullObject noise.
+- DiskLight/RectangleLight are GeometricObjects that live in AreaLight.source (world.lights), not the object tree; inspector now also walks area-light sources so they are credited (geometry coverage 15->17/31; removed two false 'uncovered').
+- TextureCollector restricted to materials/brdf/btdf/textures packages + element cap: an early version OOM'd recursing into samplers/sample-point lists of SpheresInABox's 15625 materials.
+- SceneAuditor catches Throwable (not just Exception): the biggest scenes raise OutOfMemoryError while building; isolating per scene turns that into a FAILED row instead of aborting. audit task heap raised to 4g.
+
+Manual verification (excluded glue): ran ./gradlew audit on all 71 scenes -> build/reports/scene-audit.md. Spot-checked: UNCOVERED lists 14 geometry/1 accel(SparseGrid)/1 material(SvPhong)/1 light(EnvironmentLight)/2 lenses(FishEye,Spherical)/2 textures; MULTIPLICITY shows Plane 61, Sphere 53, Matte 46, Ambient 68 etc.; SUSPECT (near-black) = MultipleObjects.kt (designed for its own tracer, zero-intensity light), Template.kt (empty objects{}), CornellBox.kt (needs path tracing) — all explained, mechanism correct; FAILED = World61.kt (missing Bunny4K.ply); SKIPPED = StereoSpheres.kt (stereo). 41 audit unit tests pass; ./gradlew build green (detekt clean); audit confirmed NOT run by build/test.
+<!-- SECTION:NOTES:END -->
