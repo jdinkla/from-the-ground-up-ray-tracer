@@ -31,8 +31,6 @@ Fix: when adapting resolution, rescale sizeOfPixel to preserve the scene's view-
 - [x] #6 Full check is green: ./gradlew build (compile + test + detekt)
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -43,3 +41,19 @@ Fix: when adapting resolution, rescale sizeOfPixel to preserve the scene's view-
 3. Context.adapt (Context.kt:27): replace 'world.viewPlane.resolution = resolution' with 'world.viewPlane.applyResolution(resolution)'.
 4. Run ./gradlew build (test + detekt). Manually verify by re-rendering AmbientOccludedSphere at 480p/720p/1080p and confirming identical framing.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented. ViewPlane.applyResolution(newResolution) rescales sizeOfPixel by (oldHeight/newHeight) before reassigning resolution, keeping the world-space extent sizeOfPixel*height (the field of view) invariant; 16:9 aspect means the width extent is preserved too. Context.adapt (Context.kt) now calls applyResolution instead of assigning resolution directly. Left ViewPlane.resolution's setter public on purpose: ThinLensTest builds a fixed 4x2 view plane at sizeOfPixel 1.0 by assigning resolution directly (a baseline-construction use that must NOT rescale).
+
+AC#4 note: at the default reference (1080p) the rescale is a mathematical no-op (ratio 1.0), so primary-ray generation is byte-identical to before. AmbientOccludedSphere adds run-to-run AO noise (random sampling), so its PNGs are never bit-identical regardless; the byte-identity guarantee is on ray generation, pinned by the unit test asserting sizeOfPixel stays 1.0 at 1080p.
+
+Tests: ViewPlaneTest gains 4 cases (lower/raise/reference + cross-resolution FOV invariance over all Predefined resolutions); ContextTest gains 1 case (adapt preserves design extent). Verification: ./gradlew build green (compile + all tests + detekt). Manual: rendered AmbientOccludedSphere at 480p and 1080p (FORK_JOIN) -> identical framing, only sampling density differs (vs. before, where 480p zoomed in).
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Fixed resolution changing the field of view. The view plane's world extent is sizeOfPixel*resolution, but sizeOfPixel was a frozen 1.0 while Context.adapt overrode the resolution, so lower resolutions zoomed in. Added ViewPlane.applyResolution() to rescale sizeOfPixel inversely to the height change (FOV-preserving) and routed Context.adapt through it. 1080p (the reference) is unchanged. Verified by unit tests (FOV-invariance across all resolutions) and by re-rendering AmbientOccludedSphere at 480p/1080p with identical framing; full build green.
+<!-- SECTION:FINAL_SUMMARY:END -->
