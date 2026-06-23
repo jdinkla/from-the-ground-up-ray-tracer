@@ -106,6 +106,31 @@ internal class GlossyReflectorShadeTest :
             color shouldBeApprox expected
         }
 
+        // areaLightShade = super.areaLightShade + glossyReflection. With no lights and zero ambient
+        // the area-light direct term is black, so the result is exactly the glossy reflection
+        // contribution cr*kr*traced -- the same value shade produces -- exercising areaLightShade.
+        "area light shade adds the same glossy reflection contribution above the (black) direct term" {
+            val traced = Color(0.5, 0.5, 0.5)
+            val cr = Color(0.2, 0.4, 0.9)
+            val kr = 0.6
+            val material =
+                GlossyReflector().apply {
+                    exp = 100.0
+                    this.kr = kr
+                    this.cr = cr
+                }
+
+            val color = material.areaLightShade(world(StubTracer(traced)), sr)
+
+            val expected =
+                Color(
+                    cr.red * kr * traced.red,
+                    cr.green * kr * traced.green,
+                    cr.blue * kr * traced.blue,
+                )
+            color shouldBeApprox expected
+        }
+
         "without a tracer there is no glossy reflection contribution" {
             val material =
                 GlossyReflector().apply {

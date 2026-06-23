@@ -3,6 +3,7 @@ package net.dinkla.raytracer.renderer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.cameras.lenses.ILens
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point2D
@@ -44,6 +45,20 @@ private class ConstantTracer(
         traces++
         return color
     }
+}
+
+// A lens whose sampled path yields no ray for any pixel, exercising the renderer's requireNotNull guard.
+private object NullSampledLens : ILens {
+    override fun getRaySingle(
+        r: Int,
+        c: Int,
+    ): Ray = error("single-ray path must not be used by the sampled renderer")
+
+    override fun getRaySampled(
+        r: Int,
+        c: Int,
+        sp: Point2D,
+    ): Ray? = null
 }
 
 // Returns a colour derived from the ray-origin index the CountingLens stamped in (red = index/100),
@@ -92,5 +107,16 @@ class SampledSingleRayRendererTest : StringSpec({
         shouldThrow<IllegalArgumentException> {
             SampledSingleRayRenderer(CountingLens(), ConstantTracer(Color.WHITE), numSamples = 0)
         }
+    }
+
+    "throws a contextual error when the lens yields no ray for a sampled pixel" {
+        val renderer = SampledSingleRayRenderer(NullSampledLens, ConstantTracer(Color.WHITE), numSamples = 4)
+
+        val ex =
+            shouldThrow<IllegalArgumentException> {
+                renderer.render(r = 2, c = 5)
+            }
+
+        ex.message shouldContain "(2, 5)"
     }
 })

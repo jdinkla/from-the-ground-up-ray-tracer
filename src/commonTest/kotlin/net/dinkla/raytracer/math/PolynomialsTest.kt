@@ -152,6 +152,103 @@ class PolynomialsTest :
 
             refined shouldBe 3.0
         }
+
+        // An empty coefficient array makes both Horner loops (value and derivative) skip their body
+        // entirely, so the polynomial and its derivative both evaluate to 0; the near-zero derivative
+        // then bails out and the seed is returned unchanged. Exercises the loop-never-entered branch.
+        "polishRoot returns the seed for an empty coefficient array" {
+            val refined = Polynomials.polishRoot(doubleArrayOf(), 5.0)
+
+            refined shouldBe 5.0
+        }
+
+        // The reject tests above fail on the *coefficient* size; these fail on the *solution* size,
+        // exercising the second operand of each `require(c.size == .. && s.size == ..)` guard.
+        "solveQuadric rejects a wrongly sized solution array" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveQuadric(doubleArrayOf(1.0, 2.0, 3.0), doubleArrayOf(0.0, 0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveQuadric"
+        }
+
+        "solveCubic rejects a wrongly sized solution array" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveCubic(doubleArrayOf(1.0, 2.0, 3.0, 4.0), doubleArrayOf(0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveCubic"
+        }
+
+        "solveQuartic rejects a wrongly sized solution array" {
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    Polynomials.solveQuartic(doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0), doubleArrayOf(0.0, 0.0))
+                }
+
+            ex.message shouldContain "solveQuartic"
+        }
+
+        // --- solveQuadric discriminant branches ---
+
+        // x^2 + 1 = 0 has no real root: discriminant D = p^2 - q = 0 - 1 < 0 (the `else` branch).
+        "solveQuadric reports no real root when the discriminant is negative" {
+            val num = Polynomials.solveQuadric(doubleArrayOf(1.0, 0.0, 1.0), doubleArrayOf(0.0, 0.0))
+
+            num shouldBe 0
+        }
+
+        // (x - 3)^2 = x^2 - 6x + 9 has the double root 3: D == 0 branch returns 1 root.
+        "solveQuadric reports the single double root when the discriminant is zero" {
+            val coeffs = doubleArrayOf(9.0, -6.0, 1.0)
+            val sol = doubleArrayOf(0.0, 0.0)
+
+            val num = Polynomials.solveQuadric(coeffs, sol)
+
+            num shouldBe 1
+            evalPoly(coeffs, sol[0]) shouldBeApprox 0.0
+        }
+
+        // --- solveCubic discriminant branches ---
+
+        // x^3 = 0 -> p = q = 0, D == 0 and q == 0: the single triple-root branch.
+        "solveCubic returns one root for a triple root at zero" {
+            val coeffs = doubleArrayOf(0.0, 0.0, 0.0, 1.0)
+            val sol = doubleArrayOf(0.0, 0.0, 0.0)
+
+            val num = Polynomials.solveCubic(coeffs, sol)
+
+            num shouldBe 1
+            evalPoly(coeffs, sol[0]) shouldBeApprox 0.0
+        }
+
+        // (x - 2)^2 (x + 4) = x^3 - 12x + 16 -> D == 0 but q != 0: one single + one double root.
+        "solveCubic returns two roots for a single-plus-double real root" {
+            val coeffs = doubleArrayOf(16.0, -12.0, 0.0, 1.0)
+            val sol = doubleArrayOf(0.0, 0.0, 0.0)
+
+            val num = Polynomials.solveCubic(coeffs, sol)
+
+            num shouldBe 2
+            for (i in 0 until num) {
+                evalPoly(coeffs, sol[i]) shouldBeApprox 0.0
+            }
+        }
+
+        // (x + 1)(x)(x - 1) = x^3 - x -> three distinct real roots: the casus irreducibilis branch.
+        "solveCubic returns three roots in the casus irreducibilis (three distinct real roots)" {
+            val coeffs = doubleArrayOf(0.0, -1.0, 0.0, 1.0)
+            val sol = doubleArrayOf(0.0, 0.0, 0.0)
+
+            val num = Polynomials.solveCubic(coeffs, sol)
+
+            num shouldBe 3
+            for (i in 0 until num) {
+                evalPoly(coeffs, sol[i]) shouldBeApprox 0.0
+            }
+        }
     })
 
 // Horner evaluation: sum of coeffs[i] * x^i, with coeffs[i] the coefficient of x^i.

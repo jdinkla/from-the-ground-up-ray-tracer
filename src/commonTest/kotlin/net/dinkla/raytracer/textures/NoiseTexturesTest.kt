@@ -2,6 +2,7 @@ package net.dinkla.raytracer.textures
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.noise.LinearNoise
@@ -43,6 +44,14 @@ class NoiseTexturesTest :
             tex.colorFor(1.0) shouldBeApprox Color.WHITE
         }
 
+        "fBm texture with a degenerate window (maxValue == minValue) collapses to minColor" {
+            // maxValue not > minValue -> the t = 0 branch -> always minColor regardless of input.
+            val tex = FBmTexture(noise, minColor = Color.RED, maxColor = Color.WHITE, minValue = 0.5, maxValue = 0.5)
+
+            tex.colorFor(0.0) shouldBeApprox Color.RED
+            tex.colorFor(1.0) shouldBeApprox Color.RED
+        }
+
         // --- TurbulenceTexture: turbulence in [0,1], windowed, lerped. ---
 
         "turbulence texture maps 0 to minColor and 1 to maxColor" {
@@ -56,6 +65,15 @@ class NoiseTexturesTest :
             val tex = TurbulenceTexture(noise, minColor = Color.BLACK, maxColor = Color.WHITE)
 
             tex.colorFor(0.5) shouldBeApprox Color(0.5, 0.5, 0.5)
+        }
+
+        "turbulence texture with a degenerate window (maxValue == minValue) collapses to minColor" {
+            // maxValue not > minValue -> the t = 0 branch -> always minColor regardless of input.
+            val tex =
+                TurbulenceTexture(noise, minColor = Color.RED, maxColor = Color.WHITE, minValue = 0.3, maxValue = 0.3)
+
+            tex.colorFor(0.0) shouldBeApprox Color.RED
+            tex.colorFor(1.0) shouldBeApprox Color.RED
         }
 
         // --- WrappedFBmTexture: expand by expansionNumber, keep fractional part. ---
@@ -95,6 +113,28 @@ class NoiseTexturesTest :
             tex.colorFor(0.0, 0.0) shouldBeApprox light
             // radius 0.5, turbulence 0 -> warped 0.5 -> ringPos 0.5 -> ring 1 -> dark.
             tex.colorFor(0.5, 0.0) shouldBeApprox dark
+        }
+
+        "marble reads the chosen axis of the hit point in getColor" {
+            // Exercises the X and Z branches of getColor's axis selector (the Y branch is the default
+            // covered elsewhere). With a flat noise field the only spatial input is the chosen axis, so
+            // moving along that axis must change the colour while moving off-axis must not.
+            val ramp = Ramp(color1 = Color.BLACK, color2 = Color.WHITE)
+            val marbleX = RampFBmTexture(noise, ramp = ramp, axis = Ramp.Axis.X, frequency = 3.0, amplitude = 0.0)
+            val marbleZ = RampFBmTexture(noise, ramp = ramp, axis = Ramp.Axis.Z, frequency = 3.0, amplitude = 0.0)
+
+            // amplitude 0 removes the noise warp, so the colour is purely a function of the axis value.
+            // X axis: y/z must not matter; different x must give a different colour.
+            marbleX.getColor(testShade(Point3D(0.4, 5.0, 9.0))) shouldBe
+                marbleX.getColor(testShade(Point3D(0.4, -1.0, 2.0)))
+            marbleX.getColor(testShade(Point3D(0.4, 0.0, 0.0))) shouldNotBe
+                marbleX.getColor(testShade(Point3D(0.9, 0.0, 0.0)))
+
+            // Z axis: symmetric check.
+            marbleZ.getColor(testShade(Point3D(9.0, 5.0, 0.4))) shouldBe
+                marbleZ.getColor(testShade(Point3D(2.0, -1.0, 0.4)))
+            marbleZ.getColor(testShade(Point3D(0.0, 0.0, 0.4))) shouldNotBe
+                marbleZ.getColor(testShade(Point3D(0.0, 0.0, 0.9)))
         }
 
         // --- Determinism through the full getColor path. ---

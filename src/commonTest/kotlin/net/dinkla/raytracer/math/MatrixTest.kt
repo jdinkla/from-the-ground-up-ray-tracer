@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 
+@Suppress("EqualsNullCall")
 class MatrixTest :
     StringSpec({
 
@@ -87,5 +88,40 @@ class MatrixTest :
             Matrix.indices().forEach {
                 m[it.first, it.second] shouldBe 0.0
             }
+        }
+
+        "equals is false against null" {
+            (m1.equals(null)) shouldBe false
+        }
+
+        "equals is false against a different type" {
+            (m1.equals("not a matrix")) shouldBe false
+        }
+
+        "equals is false when any cell differs" {
+            val a = Matrix.zero()
+            val b = Matrix.zero()
+            b[2, 3] = 1.0
+            (a == b) shouldBe false
+        }
+
+        "equals is true for two zero matrices" {
+            (Matrix.zero() == Matrix.zero()) shouldBe true
+        }
+
+        "identity is the multiplicative identity" {
+            val e = Matrix.identity()
+            (m2 * e) shouldBe m2
+        }
+
+        "hashCode is consistent across calls on the same instance" {
+            m2.hashCode() shouldBe m2.hashCode()
+        }
+
+        "toString renders all four rows with the cell values" {
+            val s = m1.toString()
+            // m1 = Matrix(listOf(1.0)) is filled entirely with 1.0; each of the four rows ends with the
+            // trailing three-space separator emitted by the formatter.
+            s shouldBe "1.0, 1.0, 1.0, 1.0   ".repeat(4)
         }
     })

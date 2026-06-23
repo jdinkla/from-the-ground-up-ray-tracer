@@ -2,6 +2,8 @@ package net.dinkla.raytracer.objects
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shadow
@@ -64,5 +66,35 @@ class PartCylinderTest : StringSpec({
         bbox.p.y shouldBe -1.0
         bbox.q.x shouldBeApprox 1.0
         bbox.q.y shouldBe 1.0
+    }
+
+    // From inside the cylinder the near root is behind the origin; the far root (t2) at (0, 0, 1)
+    // has phi = atan2(0, 1) = 0, inside the kept wedge.
+    "part cylinder hit from inside takes the far root inside the wedge" {
+        val ray = Ray(Point3D(0.0, 0.0, 0.0), Vector3D(0.0, 0.0, 1.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        cylinder.hit(ray, sr) shouldBe true
+        sr.t shouldBeApprox 1.0
+    }
+
+    "equal part cylinders are equal and share a hash code" {
+        val c1 = PartCylinder(-1.0, 1.0, 1.0, phiMin = 0.0, phiMax = PI)
+        val c2 = PartCylinder(-1.0, 1.0, 1.0, phiMin = 0.0, phiMax = PI)
+
+        c1 shouldBe c2
+        c1.hashCode() shouldBe c2.hashCode()
+    }
+
+    "part cylinders differing in a phi limit are not equal" {
+        cylinder shouldNotBe PartCylinder(-1.0, 1.0, 1.0, phiMin = 0.0, phiMax = PI / 2.0)
+    }
+
+    "a part cylinder is not equal to a non-part-cylinder value" {
+        cylinder.equals("x") shouldBe false
+    }
+
+    "toString names the class" {
+        cylinder.toString() shouldContain "PartCylinder"
     }
 })

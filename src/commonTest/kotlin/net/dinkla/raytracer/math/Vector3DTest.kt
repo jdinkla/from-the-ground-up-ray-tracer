@@ -54,6 +54,12 @@ internal class Vector3DTest :
             v1 dot Normal(d, e, f) shouldBe a * d + b * e + c * f
         }
 
+        // The Normal overload accepts a nullable; for null it falls back to the product x*y*z.
+        "dot product with a null normal returns the product of the components" {
+            val nullNormal: Normal? = null
+            (v1 dot nullNormal) shouldBe a * b * c
+        }
+
         "cross product" {
             val expected = Vector3D(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x)
             v1 cross v2 shouldBe expected

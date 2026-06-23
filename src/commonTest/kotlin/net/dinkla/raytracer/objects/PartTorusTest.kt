@@ -3,6 +3,8 @@ package net.dinkla.raytracer.objects
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shadow
@@ -74,5 +76,25 @@ class PartTorusTest : StringSpec({
 
         bbox.p shouldBe Point3D(-2.5, -0.5, -2.5)
         bbox.q shouldBe Point3D(2.5, 0.5, 2.5)
+    }
+
+    "equal part tori are equal and share a hash code" {
+        val t1 = PartTorus(a = 2.0, b = 0.5, phiMin = 0.0, phiMax = PI)
+        val t2 = PartTorus(a = 2.0, b = 0.5, phiMin = 0.0, phiMax = PI)
+
+        t1 shouldBe t2
+        t1.hashCode() shouldBe t2.hashCode()
+    }
+
+    "part tori differing in a phi limit are not equal" {
+        torus shouldNotBe PartTorus(a = 2.0, b = 0.5, phiMin = 0.0, phiMax = PI / 2.0)
+    }
+
+    "a part torus is not equal to a non-part-torus value" {
+        torus.equals("x") shouldBe false
+    }
+
+    "toString names the class" {
+        torus.toString() shouldContain "PartTorus"
     }
 })

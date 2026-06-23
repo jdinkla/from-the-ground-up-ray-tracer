@@ -5,6 +5,8 @@ import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shadow
@@ -15,6 +17,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.shouldBeApprox
 
+@Suppress("EqualsNullCall")
 class BeveledWedgeTest : StringSpec({
     // A wedge of a thick tube: y in [0, 2], inner radius 1, outer radius 2, azimuth phi in [0, PI/2]
     // (phi = atan2(x, z): phi = 0 is the +z face, phi = PI/2 is the +x face), edge bevel 0.2.
@@ -107,5 +110,36 @@ class BeveledWedgeTest : StringSpec({
         bbox.p.y shouldBeLessThanOrEqual 0.0
         bbox.q.x shouldBeGreaterThan 2.0 - 1e-9
         bbox.q.y shouldBeGreaterThan 2.0 - 1e-9
+    }
+
+    "beveled wedges with equal fields are equal and share a hashCode" {
+        val a = BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+        val b = BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+
+        a shouldBe b
+        a.hashCode() shouldBe b.hashCode()
+    }
+
+    "beveled wedges differing in one field are not equal" {
+        val base = BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+
+        base shouldNotBe BeveledWedge(0.5, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 3.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 2.0, 0.5, 2.0, 0.0, PI / 2.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 2.0, 1.0, 3.0, 0.0, PI / 2.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.1, PI / 2.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 3.0, 0.2)
+        base shouldNotBe BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.3)
+    }
+
+    "beveled wedge is not equal to null or to an unrelated type" {
+        val base = BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2)
+
+        base.equals(null) shouldBe false
+        base.equals("wedge") shouldBe false
+    }
+
+    "beveled wedge toString names the class" {
+        BeveledWedge(0.0, 2.0, 1.0, 2.0, 0.0, PI / 2.0, 0.2).toString() shouldContain "BeveledWedge"
     }
 })

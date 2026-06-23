@@ -69,4 +69,32 @@ class SeededRandomTest :
                 a.nextUnitVector() shouldBe b.nextUnitVector()
             }
         }
+
+        "the first draw from a fixed seed is the documented LCG value" {
+            // Pins the exact LCG output so a change to the multiplier/increment/shift constants — which
+            // would silently alter every render's noise — fails loudly. Derived by hand from the
+            // Numerical-Recipes constants: state0 = 0*1664525 + 1013904223 = 1013904223;
+            // (state0 ushr 8) = 3960563; 3960563 / 2^24 = 0.23606795072555542.
+            val first = SeededRandom(0).nextUnit()
+
+            first shouldBeApprox 0.23606795072555542
+        }
+
+        "nextSignedUnit is the unit draw stretched to [-1, 1)" {
+            // Same seed, same first draw: signed = unit*2 - 1. Pins the relationship between the two.
+            val unit = SeededRandom(0).nextUnit()
+            val signed = SeededRandom(0).nextSignedUnit()
+
+            signed shouldBeApprox (unit * 2.0 - 1.0)
+        }
+
+        "successive draws from one generator advance the sequence" {
+            // The state mutates between calls, so consecutive draws differ (the LCG does not stall).
+            val rng = SeededRandom(2024)
+
+            val a = rng.nextUnit()
+            val b = rng.nextUnit()
+
+            (a == b) shouldBe false
+        }
     })

@@ -44,4 +44,18 @@ class RampTest :
             // y = 0.75, frequency 2 -> coordinate 1.5 -> fractional 0.5 -> midpoint
             repeating.getColor(testShade(Point3D(0.0, 0.75, 0.0))) shouldBeApprox Color(0.5, 0.5, 0.5)
         }
+
+        "the X-axis ramp reads the x coordinate of the hit point" {
+            val rampX = Ramp(color1 = Color.BLACK, color2 = Color.WHITE, axis = Ramp.Axis.X)
+
+            // axis X: x = 0.5 -> scalar 0.5 -> midpoint; y and z are ignored.
+            rampX.getColor(testShade(Point3D(0.5, 9.0, 9.0))) shouldBeApprox Color(0.5, 0.5, 0.5)
+        }
+
+        "the Z-axis ramp reads the z coordinate of the hit point" {
+            val rampZ = Ramp(color1 = Color.BLACK, color2 = Color.WHITE, axis = Ramp.Axis.Z)
+
+            // axis Z: z = 0.5 -> scalar 0.5 -> midpoint; x and y are ignored.
+            rampZ.getColor(testShade(Point3D(9.0, 9.0, 0.5))) shouldBeApprox Color(0.5, 0.5, 0.5)
+        }
     })

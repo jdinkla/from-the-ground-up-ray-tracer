@@ -16,7 +16,9 @@ import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.materials.IMaterial
 import net.dinkla.raytracer.objects.IGeometricObject
 import net.dinkla.raytracer.objects.NullObject
+import net.dinkla.raytracer.objects.Sphere
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.shouldBeApprox
 import java.lang.reflect.Field
 
 private class StubObject(
@@ -458,5 +460,49 @@ class GridStructuresTest : StringSpec({
         val cells = grid.cellsField().get(grid) as Array<*>
         (cells.size <= cap) shouldBe true
         (cells.isNotEmpty()) shouldBe true
+    }
+
+    // ---- Public-contract tests over real Sphere objects (no stubs/reflection) --------------------
+
+    "grid over real spheres resolves a ray to the nearest sphere it strikes" {
+        val grid = Grid()
+        val near = Sphere(Point3D(0.0, 0.0, 0.0), 1.0)
+        val far = Sphere(Point3D(6.0, 0.0, 0.0), 1.0)
+        grid.add(near)
+        grid.add(far)
+        grid.initialize()
+
+        val ray = Ray(Point3D(-10.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe true
+        (sr.geometricObject as Sphere).center shouldBe near.center
+        sr.t shouldBeApprox 9.0 // front surface of the unit sphere at x=-1 from x=-10
+    }
+
+    "grid over real spheres reports a miss for a ray passing wide of every sphere" {
+        val grid = Grid()
+        grid.add(Sphere(Point3D(0.0, 0.0, 0.0), 1.0))
+        grid.add(Sphere(Point3D(6.0, 0.0, 0.0), 1.0))
+        grid.initialize()
+
+        val ray = Ray(Point3D(-10.0, 50.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        grid.hit(ray, sr) shouldBe false
+        sr.geometricObject shouldBe null
+    }
+
+    "grid over real spheres registers a shadow caster between the surface and the light" {
+        val grid = Grid()
+        grid.add(Sphere(Point3D(0.0, 0.0, 0.0), 1.0))
+        grid.initialize()
+
+        val ray = Ray(Point3D(-10.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+        // light distance 20 > occluder distance 9 -> in shadow; tmin.t is written back to 9
+        val tmin = ShadowHit(20.0)
+
+        grid.shadowHit(ray, tmin) shouldBe true
+        tmin.t shouldBeApprox 9.0
     }
 })

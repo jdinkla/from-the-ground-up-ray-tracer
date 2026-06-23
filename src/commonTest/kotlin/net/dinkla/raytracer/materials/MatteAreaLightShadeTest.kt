@@ -125,6 +125,24 @@ internal class MatteAreaLightShadeTest :
             result shouldBeApprox (Ex.cd * Ex.ka)
         }
 
+        // A non-shadowing area light short-circuits the shadow test (isInShadow's `!light.shadows`
+        // true branch), so every sample contributes exactly as in the happy path.
+        "area light shade skips the shadow test for a non-shadowing light" {
+            val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
+            val light = AreaLight(shadows = false).apply { source = fakeSource() }
+            val sr = fakeShade(matte)
+            // shadowed = true would normally darken; with shadows off it must be ignored.
+            val world = fakeWorld(listOf(light), shadowed = true)
+
+            val result = matte.areaLightShade(world, sr)
+
+            val ambient = Ex.cd * Ex.ka
+            val f = Ex.cd * (Ex.kd * INV_PI)
+            val le = Ex.cd * Ex.kd
+            val perSample = (f * le)
+            result shouldBeApprox (ambient + perSample)
+        }
+
         "area light shade drops samples whose direction faces away from the surface" {
             val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
             // Surface normal points down while the light is above => nDotWi < 0 for every sample.

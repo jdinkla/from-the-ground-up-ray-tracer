@@ -72,6 +72,43 @@ internal class ColorTest :
             c.clamp() shouldBe c
         }
 
+        // Each disjunct of the clamp() over-/under-range test must trip independently: a single
+        // channel out of [0, 1] is enough to clamp the colour to RED.
+        "clamp clamps when only the red channel exceeds one" {
+            Color(1.5, 0.2, 0.3).clamp() shouldBe RED
+        }
+
+        "clamp clamps when only the green channel exceeds one" {
+            Color(0.1, 1.5, 0.3).clamp() shouldBe RED
+        }
+
+        "clamp clamps when only the blue channel exceeds one" {
+            Color(0.1, 0.2, 1.5).clamp() shouldBe RED
+        }
+
+        "clamp clamps when only the red channel is negative" {
+            Color(-0.1, 0.2, 0.3).clamp() shouldBe RED
+        }
+
+        "clamp clamps when only the green channel is negative" {
+            Color(0.1, -0.2, 0.3).clamp() shouldBe RED
+        }
+
+        "clamp clamps when only the blue channel is negative" {
+            Color(0.1, 0.2, -0.3).clamp() shouldBe RED
+        }
+
+        "clamp leaves boundary values 0 and 1 unchanged" {
+            val c = Color(0.0, 1.0, 0.5)
+            c.clamp() shouldBe c
+        }
+
+        // maxToOne() leaves a colour already within range untouched (the `else` branch).
+        "maxToOne returns the input when the largest channel is at most one" {
+            val c = Color(0.5, 0.4, 1.0)
+            c.maxToOne() shouldBe c
+        }
+
         "maxToOne()" {
             Color(0.5, 0.5, 2.0).maxToOne() shouldBe Color(0.25, 0.25, 1.0)
             Color(0.5, 2.0, 0.5).maxToOne() shouldBe Color(0.25, 1.0, 0.25)

@@ -76,4 +76,26 @@ class FishEyeTest :
             raySampled.direction.y shouldBeApprox raySingle.direction.y
             raySampled.direction.z shouldBeApprox raySingle.direction.z
         }
+
+        // An off-centre pixel that is still inside the unit image circle exercises the `r != 0`
+        // projection branch (the azimuth uses x/r and y/r), which the at-centre cases skip.
+        "getRaySingle off-centre but inside the circle returns a normalized ray" {
+            val fishEye = FishEye(vp, eye, uvw)
+            val midR = vp.resolution.height / 2
+            // Shift the column well off centre but still inside the circle (radius well below 1).
+            val offC = vp.resolution.width / 2 + 100
+            val ray = fishEye.getRaySingle(midR, offC)
+            ray.shouldNotBeNull()
+            ray.origin shouldBe eye
+            ray.direction.length shouldBeApprox 1.0
+        }
+
+        "getRaySampled off-centre but inside the circle returns a normalized ray" {
+            val fishEye = FishEye(vp, eye, uvw)
+            val midR = vp.resolution.height / 2
+            val offC = vp.resolution.width / 2 + 100
+            val ray = fishEye.getRaySampled(midR, offC, Point2D(0.0, 0.0))
+            ray.shouldNotBeNull()
+            ray.direction.length shouldBeApprox 1.0
+        }
     })

@@ -4,6 +4,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shadow
@@ -13,6 +15,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.shouldBeApprox
 
+@Suppress("EqualsNullCall")
 class BeveledCylinderTest : StringSpec({
     // A solid cylinder, y in [0, 2], radius 1, edge bevel radius 0.2.
     // Body wall at radius 1 over y in [0.2, 1.8]; caps of radius 0.8 at y = 0 and y = 2;
@@ -76,5 +79,33 @@ class BeveledCylinderTest : StringSpec({
         bbox.q.x shouldBeGreaterThan 1.0 - 1e-9
         bbox.q.y shouldBeGreaterThan 2.0 - 1e-9
         bbox.q.z shouldBeGreaterThan 1.0 - 1e-9
+    }
+
+    "beveled cylinders with equal fields are equal and share a hashCode" {
+        val a = BeveledCylinder(0.0, 2.0, 1.0, 0.2)
+        val b = BeveledCylinder(0.0, 2.0, 1.0, 0.2)
+
+        a shouldBe b
+        a.hashCode() shouldBe b.hashCode()
+    }
+
+    "beveled cylinders differing in one field are not equal" {
+        val base = BeveledCylinder(0.0, 2.0, 1.0, 0.2)
+
+        base shouldNotBe BeveledCylinder(0.5, 2.0, 1.0, 0.2)
+        base shouldNotBe BeveledCylinder(0.0, 3.0, 1.0, 0.2)
+        base shouldNotBe BeveledCylinder(0.0, 2.0, 2.0, 0.2)
+        base shouldNotBe BeveledCylinder(0.0, 2.0, 1.0, 0.3)
+    }
+
+    "beveled cylinder is not equal to null or to an unrelated type" {
+        val base = BeveledCylinder(0.0, 2.0, 1.0, 0.2)
+
+        base.equals(null) shouldBe false
+        base.equals("cylinder") shouldBe false
+    }
+
+    "beveled cylinder toString names the class" {
+        BeveledCylinder(0.0, 2.0, 1.0, 0.2).toString() shouldContain "BeveledCylinder"
     }
 })

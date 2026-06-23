@@ -1,9 +1,11 @@
 package net.dinkla.raytracer.world.dsl
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.cameras.StereoMode
 import net.dinkla.raytracer.cameras.StereoViewing
@@ -28,6 +30,28 @@ class WorldScopeTest :
             val old = scope.world.ambientLight
             scope.ambientOccluder(Sampler(Constant()), 10)
             scope.world.ambientLight shouldNotBe old
+        }
+
+        // samples(n>0) passes the require guard and sets the view-plane sample count.
+        "samples sets the per-pixel sample count for a positive value" {
+            val scope = WorldScope()
+
+            scope.samples(8)
+
+            scope.world.viewPlane.numSamples shouldBe 8
+        }
+
+        // samples(n<=0) fails the require guard with a descriptive IllegalArgumentException
+        // (the failure branch of `require(n > 0)`).
+        "samples rejects a non-positive count with a descriptive message" {
+            val scope = WorldScope()
+
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    scope.samples(0)
+                }
+
+            ex.message shouldContain "samples must be positive"
         }
 
         "the default camera is a pinhole (no depth of field)" {

@@ -2,6 +2,8 @@ package net.dinkla.raytracer.objects.compound
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
@@ -9,6 +11,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.shouldBeApprox
 
+@Suppress("EqualsNullCall")
 class BowlTest : StringSpec({
     // Bowl: thick hemispherical shell, inner radius 1, outer radius 2, opening upward (lower half).
     val bowl = Bowl(innerRadius = 1.0, outerRadius = 2.0)
@@ -59,5 +62,31 @@ class BowlTest : StringSpec({
         bbox.p.y shouldBeApprox -2.0
         bbox.q.x shouldBeApprox 2.0
         bbox.q.y shouldBeApprox 0.0
+    }
+
+    "bowls with equal fields are equal and share a hashCode" {
+        val a = Bowl(1.0, 2.0)
+        val b = Bowl(1.0, 2.0)
+
+        a shouldBe b
+        a.hashCode() shouldBe b.hashCode()
+    }
+
+    "bowls differing in one field are not equal" {
+        val base = Bowl(1.0, 2.0)
+
+        base shouldNotBe Bowl(0.5, 2.0)
+        base shouldNotBe Bowl(1.0, 3.0)
+    }
+
+    "bowl is not equal to null or to an unrelated type" {
+        val base = Bowl(1.0, 2.0)
+
+        base.equals(null) shouldBe false
+        base.equals("bowl") shouldBe false
+    }
+
+    "bowl toString names the class" {
+        Bowl(1.0, 2.0).toString() shouldContain "Bowl"
     }
 })

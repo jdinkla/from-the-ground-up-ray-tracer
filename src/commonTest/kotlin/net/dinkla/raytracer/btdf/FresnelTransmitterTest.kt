@@ -76,6 +76,28 @@ class FresnelTransmitterTest :
             (kotlin.math.abs(wt.normalize().x) < kotlin.math.abs(incident.x)) shouldBe true
         }
 
+        "transmitting a ray leaving the medium below the critical angle bends it away from the normal" {
+            // Exit branch of sampleF: a ray inside the glass heading up-and-out at 30 degrees (below the
+            // ~41.8 degree critical angle, so a transmitted ray exists). Here wo = -ray.direction has a
+            // negative dot with the +y normal, exercising the flip branch of sampleF and the
+            // cosThetaI < 0 branch of the internal Fresnel computation.
+            val transmitter = FresnelTransmitter(iorIn = 1.5, iorOut = 1.0)
+            val theta = BELOW_CRITICAL_DEG * PI / DEGREES_HALF_TURN
+            val incident = Vector3D(sin(theta), cos(theta), 0.0)
+            val sr =
+                Shade().apply {
+                    normal = Normal.UP
+                    ray = Ray(Point3D.ORIGIN, incident)
+                }
+
+            val wt = transmitter.sampleF(sr, -incident).wt
+
+            // The refracted ray continues outward (still travels upward, away from the medium) and, going
+            // from a denser to a thinner medium, bends away from the normal: larger horizontal deflection.
+            (wt.y > 0.0) shouldBe true
+            (kotlin.math.abs(wt.normalize().x) > kotlin.math.abs(incident.x)) shouldBe true
+        }
+
         "the TIR threshold coincides with reflectance reaching 1.0" {
             // The critical angle ties the BTDF and BRDF together: just inside it some energy is
             // transmitted (reflectance < 1, no TIR); just past it all energy reflects (kr = 1, TIR).

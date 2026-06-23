@@ -54,4 +54,32 @@ class PlaneCheckerTest :
             // well inside the cell -> the ordinary checker colour, not the line
             grouted.colorAt(0.5, 0.5) shouldBe Color.WHITE
         }
+
+        "a point on a cell boundary in z is painted the grout line colour" {
+            val grouted =
+                PlaneChecker(
+                    size = 1.0,
+                    lineWidth = 0.05,
+                    color1 = Color.WHITE,
+                    color2 = Color.BLACK,
+                    lineColor = Color.RED,
+                )
+
+            // x mid-cell (no x-line), z just past the boundary at 1.0 -> the z-axis onLine branch fires.
+            grouted.colorAt(0.5, 1.02) shouldBe Color.RED
+        }
+
+        "with grout enabled a mid-cell point still gets the ordinary checker colour (colour2)" {
+            val grouted =
+                PlaneChecker(
+                    size = 1.0,
+                    lineWidth = 0.05,
+                    color1 = Color.WHITE,
+                    color2 = Color.BLACK,
+                    lineColor = Color.RED,
+                )
+
+            // Both x and z mid-cell so neither onLine fires; floor(1.5)+floor(0.5)=1 (odd) -> colour2.
+            grouted.colorAt(1.5, 0.5) shouldBe Color.BLACK
+        }
     })

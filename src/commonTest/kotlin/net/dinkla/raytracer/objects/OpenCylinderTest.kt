@@ -4,6 +4,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.Shadow
@@ -49,5 +51,47 @@ class OpenCylinderTest : StringSpec({
         val shadow = cylinder.shadowHit(ray)
         shadow.shouldBeInstanceOf<Shadow.Hit>()
         shadow.t shouldBe (1.0 plusOrMinus 1e-3)
+    }
+
+    // From inside the cylinder the smaller root is behind the origin; the larger root (t2) is the
+    // accepted intersection, exercising the second-root branch of both hit and shadowHit.
+    "open cylinder hit from inside takes the larger root" {
+        val ray = Ray(Point3D(0.0, 0.0, 0.0), Vector3D(0.0, 0.0, 1.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        cylinder.hit(ray, sr) shouldBe true
+        sr.t shouldBe (1.0 plusOrMinus 1e-3) // far wall at z = 1
+
+        val shadow = cylinder.shadowHit(ray)
+        shadow.shouldBeInstanceOf<Shadow.Hit>()
+        shadow.t shouldBe (1.0 plusOrMinus 1e-3)
+    }
+
+    "open cylinder rejects a ray below epsilon along both roots" {
+        // Origin on the surface moving outward: both roots are at or behind the surface.
+        val ray = Ray(Point3D(1.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+
+        cylinder.hit(ray, Hit(Double.MAX_VALUE)) shouldBe false
+        cylinder.shadowHit(ray) shouldBe Shadow.None
+    }
+
+    "equal cylinders are equal and share a hash code" {
+        val c1 = OpenCylinder(-1.0, 1.0, 1.0)
+        val c2 = OpenCylinder(-1.0, 1.0, 1.0)
+
+        c1 shouldBe c2
+        c1.hashCode() shouldBe c2.hashCode()
+    }
+
+    "cylinders differing in radius are not equal" {
+        OpenCylinder(-1.0, 1.0, 1.0) shouldNotBe OpenCylinder(-1.0, 1.0, 2.0)
+    }
+
+    "a cylinder is not equal to a non-cylinder value" {
+        OpenCylinder(-1.0, 1.0, 1.0).equals("x") shouldBe false
+    }
+
+    "toString names the class" {
+        OpenCylinder(-1.0, 1.0, 1.0).toString() shouldContain "OpenCylinder"
     }
 })

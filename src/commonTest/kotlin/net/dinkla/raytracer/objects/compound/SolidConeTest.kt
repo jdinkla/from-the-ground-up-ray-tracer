@@ -2,6 +2,8 @@ package net.dinkla.raytracer.objects.compound
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
@@ -9,6 +11,7 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.shouldBeApprox
 
+@Suppress("EqualsNullCall")
 class SolidConeTest : StringSpec({
     // Solid cone: base radius 1 at y = 0, apex at (0, 2, 0), with a base cap facing -y.
     val cone = SolidCone(height = 2.0, radius = 1.0)
@@ -46,5 +49,31 @@ class SolidConeTest : StringSpec({
         bbox.p.y shouldBe 0.0
         bbox.q.x shouldBeApprox 1.0
         bbox.q.y shouldBeApprox 2.0
+    }
+
+    "solid cones with equal fields are equal and share a hashCode" {
+        val a = SolidCone(2.0, 1.0)
+        val b = SolidCone(2.0, 1.0)
+
+        a shouldBe b
+        a.hashCode() shouldBe b.hashCode()
+    }
+
+    "solid cones differing in one field are not equal" {
+        val base = SolidCone(2.0, 1.0)
+
+        base shouldNotBe SolidCone(3.0, 1.0)
+        base shouldNotBe SolidCone(2.0, 2.0)
+    }
+
+    "solid cone is not equal to null or to an unrelated type" {
+        val base = SolidCone(2.0, 1.0)
+
+        base.equals(null) shouldBe false
+        base.equals("cone") shouldBe false
+    }
+
+    "solid cone toString names the class" {
+        SolidCone(2.0, 1.0).toString() shouldContain "SolidCone"
     }
 })

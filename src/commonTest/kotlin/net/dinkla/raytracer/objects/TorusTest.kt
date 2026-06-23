@@ -5,7 +5,10 @@ import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import net.dinkla.raytracer.hits.Hit
+import net.dinkla.raytracer.hits.Shadow
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
@@ -70,5 +73,46 @@ class TorusTest : StringSpec({
         val ray = Ray(Point3D(1.2, 3.0, 0.0), Vector3D(0.0, -1.0, 0.0))
 
         torus.hit(ray, Hit(Double.MAX_VALUE)) shouldBe false
+    }
+
+    "torus shadowHit always reports no occluder" {
+        // The torus deliberately does not cast shadows (shadowHit returns Shadow.None unconditionally).
+        val torus = Torus(a = 2.0, b = 0.5)
+        val ray = Ray(Point3D(0.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+
+        torus.shadowHit(ray) shouldBe Shadow.None
+    }
+
+    "hitF records the same intersection as hit into a Hit" {
+        val torus = Torus(a = 2.0, b = 0.5)
+        val ray = Ray(Point3D(0.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
+        val sr = Hit(Double.MAX_VALUE)
+
+        torus.hitF(ray, sr) shouldBe true
+        sr.t shouldBe (1.5 plusOrMinus 1e-3)
+        sr.normal.x shouldBeLessThan 0.0
+    }
+
+    "hitF returns false when the ray misses the bounding box" {
+        val torus = Torus(a = 2.0, b = 0.5)
+        val ray = Ray(Point3D(0.0, 2.0, 0.0), Vector3D(0.0, 1.0, 0.0))
+
+        torus.hitF(ray, Hit(Double.MAX_VALUE)) shouldBe false
+    }
+
+    "equal tori are equal and share a hash code" {
+        val t1 = Torus(a = 2.0, b = 0.5)
+        val t2 = Torus(a = 2.0, b = 0.5)
+
+        t1 shouldBe t2
+        t1.hashCode() shouldBe t2.hashCode()
+    }
+
+    "tori differing in tube radius are not equal" {
+        Torus(a = 2.0, b = 0.5) shouldNotBe Torus(a = 2.0, b = 0.25)
+    }
+
+    "toString names the class" {
+        Torus(a = 2.0, b = 0.5).toString() shouldContain "Torus"
     }
 })

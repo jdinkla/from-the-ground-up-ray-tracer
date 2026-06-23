@@ -35,4 +35,19 @@ class SphericalMapTest :
             // phi = atan2(0,1) = 0 -> u = 0 -> column 0
             map.getTexelCoordinates(Point3D(0.0, 0.0, 1.0), hres, vres) shouldBe Texel(3, 0)
         }
+
+        "the equatorial direction -x exercises the negative-azimuth wrap" {
+            // phi = atan2(-1, 0) = -pi/2 < 0 -> wrapped to +3pi/2 -> u = 0.75 -> column = floor(7*0.75) = 5.
+            // Without the `phi < 0` correction u would be negative and the column would underflow; this
+            // pins the wrap branch. theta = pi/2 -> v = 0.5 -> row = floor(7*0.5) = 3.
+            map.getTexelCoordinates(Point3D(-1.0, 0.0, 0.0), hres, vres) shouldBe Texel(3, 5)
+        }
+
+        "a hit point off the unit sphere is normalised before mapping (radius cancels)" {
+            // A point at radius 5 along +x maps to the same texel as the unit +x direction.
+            val unit = map.getTexelCoordinates(Point3D(1.0, 0.0, 0.0), hres, vres)
+            val scaled = map.getTexelCoordinates(Point3D(5.0, 0.0, 0.0), hres, vres)
+
+            scaled shouldBe unit
+        }
     })
