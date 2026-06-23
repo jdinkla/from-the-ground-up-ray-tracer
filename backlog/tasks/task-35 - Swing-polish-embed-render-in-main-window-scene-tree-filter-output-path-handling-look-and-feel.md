@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 21:04'
+updated_date: '2026-06-23 21:08'
 labels:
   - swing
   - ui
@@ -60,4 +60,6 @@ AC#4 (look-and-feel): main() now calls UIManager.setLookAndFeel(getSystemLookAnd
 AC#5 (smells): LeftSide no longer extends Component — it is a plain holder composing widgets, exposing component:JPanel and tree:JTree. ImageFrame.kt deleted entirely, so its +22 title-bar height fudge is moot (noted). MagicNumber constants added (OUTPUT_FIELD_COLUMNS, SPLIT_RESIZE_WEIGHT, INITIAL_DIVIDER, SEARCH_BORDER, EMPTY_CANVAS_SIZE).
 
 Verification: 'just test' (= ./gradlew clean check: compile + all tests + detekt) GREEN. ./gradlew build GREEN. ./gradlew swing launched, reached '> Task :swing' (app run-task blocks while GUI alive), stayed up 8s+, log clean — no startup/EDT exception, no stack traces (only the benign Gradle task name :checkKotlinGradlePluginConfigurationErrors matched an 'Error' substring). NOT verifiable headlessly: a human watching the live preview fill in and clicking Cancel — needs the user's eyes (open DoD item).
+
+Post-review cleanup: removed the dead outputField.addActionListener (option a) — outputPath() always re-reads outputField.text directly, so the listener's write to outputDirectory was never observed. The outputDirectory field stays meaningful: it seeds the JFileChooser starting dir and is written by chooseOutputDirectory()/outputPath(); the editable field remains the single source of truth (hand-typed paths still honoured). Re-ran ./gradlew clean check: BUILD SUCCESSFUL (green); only the two pre-existing unrelated unchecked-cast warnings remain.
 <!-- SECTION:NOTES:END -->
