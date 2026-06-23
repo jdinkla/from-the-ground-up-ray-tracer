@@ -1,9 +1,11 @@
 ---
 id: TASK-40
 title: Example scenes for the uncovered geometric primitives
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 19:15'
+updated_date: '2026-06-23 19:19'
 labels:
   - examples
   - coverage
@@ -26,3 +28,13 @@ The TASK-38 scene audit reports 14 geometric objects with zero example scenes. T
 - [ ] #4 ConcavePartSphere and MeshTriangle are either also covered (with a DSL builder added) or explicitly recorded as out-of-scope follow-up in the task notes
 - [ ] #5 Full build stays green: ./gradlew build (compile + test + detekt) passes
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add two example scenes under src/examples (root examples package), small World17-style scale, infinite ground plane + ambient/point lights.
+2. PartObjects.kt covers the partial-sweep family: annulus, partAnnulus, partSphere (center-param builders) + partCylinder, partTorus, openCone (origin-axis -> placed via instance{translate}).
+3. SolidsAndBeveled.kt covers beveledCylinder, beveledWedge, thickRing, solidCone, bowl (instance{translate}) + concaveSphere as a large enclosing sky-dome (its idiomatic use).
+4. ConcavePartSphere + MeshTriangle: no DSL builder; record as out-of-scope follow-up (per AC#4) unless cheap to add.
+5. Verify: ./gradlew audit -> 12 classes leave Uncovered, scenes not Suspect/Failed; render each and eyeball; ./gradlew build green.
+<!-- SECTION:PLAN:END -->
