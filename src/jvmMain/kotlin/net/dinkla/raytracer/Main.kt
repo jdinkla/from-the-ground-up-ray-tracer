@@ -24,7 +24,7 @@ class Main(
 ) : CommandLine(worlds, tracers, renderers, resolutions) {
     override fun render(context: Context) {
         runBlocking {
-            // `world` may be a built-in scene id ("World20.kt") or the path of an external
+            // `world` may be a built-in scene id ("YellowAndRedSphere.kt") or the path of an external
             // *.scene.kts file ("scenes/Sample.scene.kts"); base the output name on the bare file
             // name so a path does not leak directory separators into the PNG path.
             val outputBase = File(world).name

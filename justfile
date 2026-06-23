@@ -1,6 +1,6 @@
 # justfile for from-the-ground-up-ray-tracer — common workflow shortcuts
 # Run `just --list` to see all targets.
-# Render example: just run "--world=World20.kt --tracer=AREA --resolution=1080p"
+# Render example: just run "--world=AreaShadedSpheres.kt --tracer=AREA --resolution=1080p"
 
 # --- Dev ---
 
@@ -57,6 +57,6 @@ swing:
     ./gradlew swing
 
 [group('run')]
-[doc('Render a scene, e.g. just run "--world=World20.kt --tracer=AREA"')]
+[doc('Render a scene, e.g. just run "--world=AreaShadedSpheres.kt --tracer=AREA"')]
 run *ARGS:
     ./gradlew run --args="{{ ARGS }}"
