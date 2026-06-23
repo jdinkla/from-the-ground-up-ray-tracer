@@ -6,11 +6,12 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.objects.arealights.RectangleLight
 import net.dinkla.raytracer.samplers.MultiJittered
 import net.dinkla.raytracer.samplers.Sampler
+import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder.build
 import net.dinkla.raytracer.world.WorldDefinition
 
 object World23 : WorldDefinition {
-    override val id: String = "World23b.kt"
+    override val id: String = "World23.kt"
 
     private const val numSamples = 4
 
@@ -19,6 +20,11 @@ object World23 : WorldDefinition {
             camera(eye = p(0.0, 1.5, 10.0), lookAt = p(0, 1, 0))
 
             ambientLight(color = Color.WHITE, ls = 0.5)
+
+            metadata {
+                description("Area lighting: a rectangle light over a plane and two spheres. Use the AREA tracer.")
+                preferredTracer(Tracers.AREA)
+            }
 
             materials {
                 phong(id = "m1", cd = c(0.1, 0.8, 0.2), ka = 0.25, kd = 0.75, ks = 0.8)
