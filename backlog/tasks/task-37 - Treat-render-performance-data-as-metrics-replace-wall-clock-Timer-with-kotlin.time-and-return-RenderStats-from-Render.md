@@ -3,7 +3,7 @@ id: TASK-37
 title: >-
   Treat render performance data as metrics: replace wall-clock Timer with
   kotlin.time and return RenderStats from Render
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-06-23 12:15'
 updated_date: '2026-06-23 12:23'
