@@ -3,11 +3,11 @@ id: TASK-45
 title: >-
   Surface render-time exceptions: propagate renderer worker-thread failures and
   show a modal error dialog in the Swing app
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:48'
-updated_date: '2026-06-23 22:15'
+updated_date: '2026-06-23 22:17'
 labels:
   - renderer
   - swing
@@ -30,7 +30,7 @@ Repro: in the Swing app, select an area-light scene (e.g. World23.kt) and render
 - [x] #2 ParallelRenderer captures the first worker pixel-loop failure, always releases the master via the barrier (no deadlock), and rethrows it; TASK-34 cancellation still works (no spurious failure on cancel)
 - [x] #3 The other multi-threaded renderers (ForkJoin, both coroutine variants, virtual-threads) are verified to propagate a render-time exception to the caller; any that swallow are fixed
 - [x] #4 Cover-first frozen tests: a renderer driven with a single-ray renderer that throws makes render(film) throw (not hang, not swallow) for ParallelRenderer and the other multi-threaded strategies
-- [ ] #5 The Swing app shows a MODAL error dialog with the real cause message when a render (or PNG export) fails, then returns to the idle UI (Render/PNG re-enabled, preview timer stopped, failed status shown)
+- [x] #5 The Swing app shows a MODAL error dialog with the real cause message when a render (or PNG export) fails, then returns to the idle UI (Render/PNG re-enabled, preview timer stopped, failed status shown)
 - [x] #6 detekt and the full ./gradlew clean check stay green
 <!-- AC:END -->
 
@@ -75,4 +75,12 @@ Robust fix implemented instead:
 Verified by re-running the regression experiment with the deadlock reintroduced and a short 3s deadline: both Parallel worker-failure tests FAILED FAST, all 28 tests completed, suite finished in ~9s (BUILD FAILED, not hung). Reverted the experimental breakage and restored failDeadline=30s.
 
 Final: ./gradlew clean check GREEN, suite completes in ~22s, RendererTest 28 tests / 0 failures. detekt clean (no new findings, no suppressions). Note: making ParallelRenderer workers daemon is a small production change slightly beyond the original wording but directly serves this task's failure-mode hardening and is strictly safer; existing rendering-behavior tests (coverage/equivalence/cancellation) stay green unchanged.
+
+Manager re-verification after the reviewer's PASS + the test-timeout hardening round: confirmed the temporary regression probe is fully reverted (ParallelRenderer.run() has the real try{renderRows()}/catch{workerFailure.compareAndSet}/finally{awaitBarrier()} form), independently re-ran ./gradlew clean check -> BUILD SUCCESSFUL in 16s and the suite COMPLETES (wall clock confirmed, no hang). Accepted the implementer's scope decision to start ParallelRenderer workers as daemon threads: it is required for 'the suite completes on a reintroduced deadlock' to actually hold (a thread parked in CyclicBarrier.await() is non-daemon and would keep the test JVM alive past a Kotest timeout), it is strictly safer, and normal renders are unaffected. Disclosed in the commit message; not pulled into a separate task.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Render-time worker failures now surface out of render(film) for every multi-threaded renderer instead of deadlocking or being swallowed, so the Swing app can show them. ParallelRenderer: workers capture the first pixel-loop failure (AtomicReference, first-write-wins), always reach the barrier via try/finally so the master is released (no deadlock), and the master rethrows it wrapped in IllegalStateException with the original cause; workers are now daemon threads so a leaked/deadlocked worker can never keep the JVM alive. VirtualThreadBlockRenderer: was swallowing (Thread.join does not rethrow) -> captures + rethrows after join. ForkJoin/CoroutineBlock/NaiveCoroutine already propagated; Sequential unchanged. TASK-34 cancellation preserved (cancel breaks the loop normally, records no failure, returns without throwing). Swing reportFailure walks the cause chain to show the meaningful root-cause message (e.g. 'AreaLight needs AreaLighting Tracer') in a modal ERROR dialog for both the render and PNG paths, then restores the idle UI. Cover-first frozen tests drive each multi-threaded strategy with a throwing single-ray renderer and assert render(film) throws, on a daemon driver with a finite deadline so a reintroduced deadlock fails fast instead of hanging the suite. Verified: ./gradlew clean check green and completes (~16s); CLI repro of the wrong-tracer case now fails fast (exit 1, IllegalStateException -> UnsupportedOperationException chain) instead of hanging.
+<!-- SECTION:FINAL_SUMMARY:END -->
