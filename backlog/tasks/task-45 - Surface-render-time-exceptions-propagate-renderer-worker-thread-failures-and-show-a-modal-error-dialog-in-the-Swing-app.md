@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:48'
-updated_date: '2026-06-23 22:00'
+updated_date: '2026-06-23 22:15'
 labels:
   - renderer
   - swing
@@ -63,4 +63,16 @@ VERIFICATION:
 - ./gradlew swing launches with no startup/EDT exception (ran ~18s, log clean, GUI up).
 
 SWING (JaCoCo-excluded, manual-verify only): reportFailure now computes rootCauseMessage(e) walking the cause chain to the deepest non-blank message, prefixed with the root exception simple class name (e.g. 'UnsupportedOperationException: AreaLight needs AreaLighting Tracer'), used for both the status bar and the modal JOptionPane.ERROR_MESSAGE dialog. Both render() and png() paths route failures through reportFailure and their finally blocks restore the idle UI (stop preview timer / clear indeterminate progress, setBusy(false) re-enables Render+PNG) and set a Failed status. The actual modal-dialog appearance during an interactive failing render needs a human at the display (residual manual check).
+
+POST-REVIEW HARDENING (deadlock-regression fail-fast): the new worker-failure tests now bound their runtime so a *reintroduced* deadlock fails fast instead of hanging the suite.
+
+Investigated the coordinator's suggested Kotest .config(timeout=30.seconds) and found it INSUFFICIENT on its own for this failure mode: a thread parked in CyclicBarrier.await() is not interruptible by coroutine cancellation, so when I reintroduced the pre-fix deadlock the Kotest timeout fired but the parked non-daemon master/worker threads kept the test JVM alive and the whole suite still hung (verified: 2min wall-clock, no completion).
+
+Robust fix implemented instead:
+- RendererTest: captureRenderFailure() drives renderer.render(film) on a DAEMON thread and join()s it for failDeadline (30s, ~ms real runtime). If the driver is still alive after the deadline the test FAILS with 'render() did not return within 30s — the renderer deadlocked'. Returns the thrown Throwable so callers assert on it (Parallel tightened to shouldBeInstanceOf<IllegalStateException>; message-preservation test asserts root cause). Kept .config(timeout = failDeadline) as a coarser backstop.
+- ParallelRenderer: render workers are now started as DAEMON threads (Thread(aWorker).apply { isDaemon = true }) so a leaked/stuck worker can never keep the JVM or a CI test process alive. VirtualThreadBlockRenderer's workers are virtual threads (always daemon) — no change needed.
+
+Verified by re-running the regression experiment with the deadlock reintroduced and a short 3s deadline: both Parallel worker-failure tests FAILED FAST, all 28 tests completed, suite finished in ~9s (BUILD FAILED, not hung). Reverted the experimental breakage and restored failDeadline=30s.
+
+Final: ./gradlew clean check GREEN, suite completes in ~22s, RendererTest 28 tests / 0 failures. detekt clean (no new findings, no suppressions). Note: making ParallelRenderer workers daemon is a small production change slightly beyond the original wording but directly serves this task's failure-mode hardening and is strictly safer; existing rendering-behavior tests (coverage/equivalence/cancellation) stay green unchanged.
 <!-- SECTION:NOTES:END -->
