@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:58'
-updated_date: '2026-06-23 21:03'
+updated_date: '2026-06-23 21:04'
 labels:
   - swing
   - ui
@@ -31,8 +31,6 @@ Lower-priority quality-of-life improvements for the Swing desktop app, surfaced 
 - [x] #5 Code smells addressed: LeftSide no longer extends Component as a mere holder; the ImageFrame title-bar height fudge is removed or justified
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -48,4 +46,18 @@ Lower-priority quality-of-life improvements for the Swing desktop app, surfaced 
 
 <!-- SECTION:NOTES:BEGIN -->
 Partial overlap already landed in TASK-33: AC#4's combo labelling (Tracer/Renderer/Resolution labels) and selecting the default renderer by Renderer.PARALLEL.ordinal (not magic index 2) are DONE. Remaining for AC#4 here: apply the system look-and-feel. ACs #1 (embed render in main window), #2 (scene-tree filter), #3 (output-path handling), #5 (LeftSide/ImageFrame smells) are untouched.
+
+TASK-35 implemented in ui/swing/** only (no renderer-core/example changes).
+
+AC#1 (embed render in main window): removed the floating ImageFrame; the live preview is now an embedded ImageCanvas held by the controller, hosted in a JScrollPane in the right inner split-pane of the main window. ImageCanvas gained a settable 'image' var so each render installs its fresh SwingFilm.image and the canvas is reused (no window pile-up). startInteractiveRender now does previewCanvas.image = film.image and the javax.swing.Timer repaints previewCanvas (was imageFrame.repaint()). TASK-33/34 flow preserved: Render -> off-EDT launch on Dispatchers.Default -> startInteractiveRender builds world off-EDT then on Swing installs image + starts Timer(150ms) -> Timer reads SwingFilm.renderedPixels/totalPixels (AtomicLong) to drive progressBar + status/elapsed and repaints the embedded canvas live -> Render.render(film,renderer,token) runs off-EDT -> on success repaint+100% on EDT, save PNG; token.isCancelled handled; CancellationException caught before generic Exception; NonCancellable finally stops Timer + setBusy(false) restores idle UI. Cancel (onCancel) still flips token + cancels job.
+
+AC#2 (scene-tree filter): LeftSide now has a Search JTextField above the JTree; a DocumentListener filters the file-name list case-insensitively and rebuilds the tree model (expanding rows), so a scene is quick to find. Tree-selection -> source load unchanged.
+
+AC#3 (output path): added an editable 'Output:' JTextField + 'Choose…' JFileChooser (DIRECTORIES_ONLY). Default is a predictable renders/ folder under user.dir (created via mkdirs), replacing the hardcoded '../'. Both the interactive-render PNG save and the PNG-button path now write via outputPath(name); the field is read on the EDT.
+
+AC#4 (look-and-feel): main() now calls UIManager.setLookAndFeel(getSystemLookAndFeelClassName()) inside SwingUtilities.invokeLater (on the EDT) before constructing the UI, wrapped in runCatching to fall back gracefully. (Combo labelling + Renderer.PARALLEL.ordinal default already landed in TASK-33.)
+
+AC#5 (smells): LeftSide no longer extends Component — it is a plain holder composing widgets, exposing component:JPanel and tree:JTree. ImageFrame.kt deleted entirely, so its +22 title-bar height fudge is moot (noted). MagicNumber constants added (OUTPUT_FIELD_COLUMNS, SPLIT_RESIZE_WEIGHT, INITIAL_DIVIDER, SEARCH_BORDER, EMPTY_CANVAS_SIZE).
+
+Verification: 'just test' (= ./gradlew clean check: compile + all tests + detekt) GREEN. ./gradlew build GREEN. ./gradlew swing launched, reached '> Task :swing' (app run-task blocks while GUI alive), stayed up 8s+, log clean — no startup/EDT exception, no stack traces (only the benign Gradle task name :checkKotlinGradlePluginConfigurationErrors matched an 'Error' substring). NOT verifiable headlessly: a human watching the live preview fill in and clicking Cancel — needs the user's eyes (open DoD item).
 <!-- SECTION:NOTES:END -->
