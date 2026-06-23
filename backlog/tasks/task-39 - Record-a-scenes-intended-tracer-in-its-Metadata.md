@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 19:06'
-updated_date: '2026-06-23 20:25'
+updated_date: '2026-06-23 20:32'
 labels:
   - examples
   - tooling
@@ -21,12 +21,14 @@ Several example scenes only render correctly with a specific tracer, but that in
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Scene Metadata can carry an optional preferred tracer (referencing the existing Tracers enum), set via the MetadataScope DSL; scenes that set nothing behave exactly as today (no behavior change for existing scenes).
-- [ ] #2 At least the clearly tracer-coupled scenes declare their intended tracer (e.g. MultipleObjects.kt -> MULTIPLE_OBJECTS, the lights/area scenes -> AREA, CornellBox.kt -> path tracing).
+- [x] #1 Scene Metadata can carry an optional preferred tracer (referencing the existing Tracers enum), set via the MetadataScope DSL; scenes that set nothing behave exactly as today (no behavior change for existing scenes).
+- [x] #2 At least the clearly tracer-coupled scenes declare their intended tracer (e.g. MultipleObjects.kt -> MULTIPLE_OBJECTS, the lights/area scenes -> AREA, CornellBox.kt -> path tracing).
 - [ ] #3 The TASK-38 audit renders each scene with its declared tracer when present (falling back to its current heuristic otherwise), so those scenes no longer appear as false SUSPECT near-black renders.
-- [ ] #4 The --tracer CLI flag still overrides any scene hint; the metadata hint is a default, not a lock.
-- [ ] #5 Testable core (reading/defaulting the hint, audit tracer selection from it) covered by frozen unit tests; DSL/scene wiring in examples verified by rerunning ./gradlew audit and confirming the affected scenes are no longer flagged. Full build incl. detekt stays green.
+- [x] #4 The --tracer CLI flag still overrides any scene hint; the metadata hint is a default, not a lock.
+- [x] #5 Testable core (reading/defaulting the hint, audit tracer selection from it) covered by frozen unit tests; DSL/scene wiring in examples verified by rerunning ./gradlew audit and confirming the affected scenes are no longer flagged. Full build incl. detekt stays green.
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
