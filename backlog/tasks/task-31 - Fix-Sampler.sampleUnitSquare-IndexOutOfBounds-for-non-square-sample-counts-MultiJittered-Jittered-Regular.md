@@ -3,9 +3,11 @@ id: TASK-31
 title: >-
   Fix Sampler.sampleUnitSquare IndexOutOfBounds for non-square sample counts
   (MultiJittered/Jittered/Regular)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 21:31'
+updated_date: '2026-06-23 20:12'
 labels:
   - bug
   - samplers
