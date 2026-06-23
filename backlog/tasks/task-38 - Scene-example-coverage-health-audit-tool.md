@@ -1,7 +1,7 @@
 ---
 id: TASK-38
 title: Scene/example coverage & health audit tool
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 18:29'
