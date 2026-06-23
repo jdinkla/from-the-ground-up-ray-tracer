@@ -1,11 +1,11 @@
 ---
 id: TASK-39
 title: Record a scene's intended tracer in its Metadata
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 19:06'
-updated_date: '2026-06-23 20:32'
+updated_date: '2026-06-23 20:38'
 labels:
   - examples
   - tooling
@@ -70,3 +70,9 @@ AC#4 (CLI override): the CLI render path (CommandLine.run -> determineTracer() r
 
 CHECK: ./gradlew build (compile + all tests + detekt + jacoco) BUILD SUCCESSFUL.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added optional preferredTracer hint (Tracers? = null) to scene Metadata and the MetadataScope DSL; it is read nowhere in the render path (Context/Render/CommandLine/World), only by the audit, so absent-hint scenes are byte-for-byte unchanged and the --tracer CLI flag still wins. Audit's new auditTracer(world) uses the declared tracer when present, falls back to the chooseTracer heuristic otherwise. Declared hints on the tracer-coupled scenes: MultipleObjects->MULTIPLE_OBJECTS, CornellBox->PATH_TRACE, four area scenes->AREA. CornellBox dropped off the audit near-black SUSPECT list. MultipleObjects stays flagged but is a TRUE near-black (pixel-verified 0 under both WHITTED and MULTIPLE_OBJECTS) caused by an out-of-scope scene defect (sole light uses pointLight ls=0.0). Cover-first frozen tests: MetadataTest (new), MetadataScopeTest + AuditTracerTest (appended, existing chooseTracer cases untouched). Verified ./gradlew clean check green and ./gradlew audit, independently re-run by review.
+<!-- SECTION:FINAL_SUMMARY:END -->
