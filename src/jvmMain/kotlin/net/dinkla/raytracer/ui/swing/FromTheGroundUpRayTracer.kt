@@ -424,10 +424,31 @@ class FromTheGroundUpRayTracer :
     private suspend fun reportFailure(e: Exception) {
         Logger.info(e.message ?: "an exception occurred")
         Logger.error(e.stackTraceToString())
+        // The renderers wrap the original failure (e.g. an incompatible tracer raising
+        // UnsupportedOperationException) in an IllegalStateException, so the top-level message is a
+        // generic "renderer aborted". Walk the cause chain to the real cause so the dialog shows the
+        // meaningful reason (e.g. "AreaLight needs AreaLighting Tracer") rather than the wrapper.
+        val message = rootCauseMessage(e)
         withContext(Dispatchers.Swing) {
-            setStatus("Failed: ${e.message}")
-            dialog(e.message, "Exception occurred", JOptionPane.ERROR_MESSAGE)
+            setStatus("Failed: $message")
+            dialog(message, "Exception occurred", JOptionPane.ERROR_MESSAGE)
         }
+    }
+
+    /**
+     * Returns the deepest non-blank message in the cause chain, prefixed with the root exception's
+     * simple class name so the dialog identifies the failure even when a message is terse. Falls back
+     * to the class name alone when every message in the chain is null or blank.
+     */
+    private fun rootCauseMessage(e: Throwable): String {
+        var current: Throwable = e
+        var message: String? = current.message
+        while (current.cause != null && current.cause !== current) {
+            current = current.cause!!
+            current.message?.takeUnless { it.isBlank() }?.let { message = it }
+        }
+        val rootType = current::class.simpleName ?: e::class.simpleName ?: "Error"
+        return message?.takeUnless { it.isBlank() }?.let { "$rootType: $it" } ?: rootType
     }
 
     private fun setBusy(

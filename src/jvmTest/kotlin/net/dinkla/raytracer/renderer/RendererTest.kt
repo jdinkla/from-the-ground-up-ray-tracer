@@ -5,12 +5,15 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.types.shouldBeInstanceOf
 import net.dinkla.raytracer.cameras.IColorCorrector
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Resolution
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
+import kotlin.time.Duration.Companion.seconds
 
 private class RecordingFilm(
     override val resolution: Resolution,
@@ -37,6 +40,32 @@ private class StubSingleRayRenderer(
         r: Int,
         c: Int,
     ): Color = color
+}
+
+/**
+ * A single-ray renderer that throws after [failAfter] successful shades, modelling a render-time failure
+ * such as the incompatible-tracer mismatch (TASK-45): every pixel shade throws
+ * `UnsupportedOperationException: AreaLight needs AreaLighting Tracer`. Used to prove a renderer surfaces
+ * a worker-thread failure out of `render(film)` instead of hanging (ParallelRenderer's deadlocked barrier)
+ * or swallowing it (VirtualThreadBlockRenderer's non-rethrowing `Thread.join`). The counter is atomic
+ * because the parallel renderers call [render] from many threads. [failAfter] = 0 throws on the very first
+ * shade.
+ */
+private class ThrowingSingleRayRenderer(
+    private val failAfter: Int = 0,
+    private val message: String = "AreaLight needs AreaLighting Tracer",
+) : ISingleRayRenderer {
+    private val shaded = AtomicInteger(0)
+
+    override fun render(
+        r: Int,
+        c: Int,
+    ): Color {
+        if (shaded.getAndIncrement() >= failAfter) {
+            throw UnsupportedOperationException(message)
+        }
+        return Color.WHITE
+    }
 }
 
 /**
@@ -376,4 +405,119 @@ class RendererTest : StringSpec({
 
         written shouldBeLessThan total
     }
+
+    // ---------------------------------------------------------------------------------------
+    // TASK-45 — a render-time worker failure must surface out of render(film), not hang or be
+    // swallowed. The single-ray renderer throws (modelling an incompatible tracer/scene), and we
+    // assert render(film) re-throws so the Swing coroutine's catch can report it. Against the old
+    // code ParallelRenderer DEADLOCKED on its barrier (the failing worker never reached await) and
+    // VirtualThreadBlockRenderer SWALLOWED the failure (Thread.join does not rethrow), so render
+    // returned a half-filled film. ForkJoin/coroutine variants already propagated via
+    // RecursiveAction.join / structured concurrency; these tests pin that too.
+    // ---------------------------------------------------------------------------------------
+
+    // 32x32 is divisible by every renderer's block/thread grid (1, 8, 32, 4-quarters), so the
+    // failure path is exercised the same way for each strategy.
+    val failResolution = Resolution(width = 32, height = 32)
+
+    // Finite wall-clock budget for a failing render to surface. The real run is ~milliseconds, so 30s
+    // is generous headroom that cannot cause flakiness. It exists purely so a *reintroduced* deadlock
+    // (the very bug these tests guard against — ParallelRenderer's worker dying before the barrier) is
+    // caught and FAILS FAST rather than hanging. A Kotest `.config(timeout)` is not enough on its own:
+    // a thread parked in CyclicBarrier.await() is not interruptible by coroutine cancellation, so the
+    // suite would still hang. Instead we drive render() on a DAEMON thread and join it with this
+    // deadline; if it does not return in time the test fails, and because the driver (and, for
+    // ParallelRenderer, the render workers) are daemon, a leaked deadlocked thread never keeps the test
+    // JVM alive. `.config(timeout)` below is a second, coarser backstop.
+    val failDeadline = 30.seconds
+
+    // Runs renderer.render(film) on a daemon thread and joins for [failDeadline]. Returns the throwable
+    // render() threw, or null if it returned normally. Throws (failing the test) if render() neither
+    // returned nor threw within the deadline — i.e. it deadlocked.
+    fun captureRenderFailure(
+        makeRenderer: (ISingleRayRenderer, IColorCorrector) -> IRenderer,
+        message: String = "AreaLight needs AreaLighting Tracer",
+    ): Throwable? {
+        val film = RecordingFilm(failResolution)
+        val renderer = makeRenderer(ThrowingSingleRayRenderer(failAfter = 0, message = message), IdentityCorrector)
+        val thrown = AtomicReference<Throwable?>(null)
+        val driver =
+            Thread {
+                try {
+                    renderer.render(film)
+                } catch (e: Throwable) { // record any failure type so the caller can assert on it
+                    thrown.set(e)
+                }
+            }.apply { isDaemon = true }
+        driver.start()
+        driver.join(failDeadline.inWholeMilliseconds)
+        if (driver.isAlive) {
+            error("render() did not return within $failDeadline — the renderer deadlocked")
+        }
+        return thrown.get()
+    }
+
+    "parallel renderer surfaces a worker render-time failure instead of deadlocking"
+        .config(timeout = failDeadline) {
+            // Tightened to IllegalStateException: ParallelRenderer always wraps the worker failure
+            // before rethrowing it, so the wrapper type is guaranteed (the original cause is asserted
+            // separately below).
+            captureRenderFailure(::ParallelRenderer).shouldBeInstanceOf<IllegalStateException>()
+        }
+
+    "fork-join renderer surfaces a worker render-time failure"
+        .config(timeout = failDeadline) {
+            captureRenderFailure(::ForkJoinRenderer).shouldBeInstanceOf<Throwable>()
+        }
+
+    "coroutine block renderer surfaces a worker render-time failure"
+        .config(timeout = failDeadline) {
+            captureRenderFailure(::CoroutineBlockRenderer).shouldBeInstanceOf<Throwable>()
+        }
+
+    "naive coroutine renderer surfaces a worker render-time failure"
+        .config(timeout = failDeadline) {
+            captureRenderFailure(::NaiveCoroutineRenderer).shouldBeInstanceOf<Throwable>()
+        }
+
+    "virtual thread renderer surfaces a worker render-time failure instead of swallowing it"
+        .config(timeout = failDeadline) {
+            captureRenderFailure(::VirtualThreadBlockRenderer).shouldBeInstanceOf<Throwable>()
+        }
+
+    "parallel renderer preserves the original failure message so the UI can show the real cause"
+        .config(timeout = failDeadline) {
+            val ex = captureRenderFailure(::ParallelRenderer, message = "AreaLight needs AreaLighting Tracer")
+
+            ex.shouldBeInstanceOf<IllegalStateException>()
+            rootCauseMessageOf(ex) shouldContain "AreaLight needs AreaLighting Tracer"
+        }
+
+    "parallel renderer does not report a spurious failure when a render is cancelled" {
+        // Cancellation breaks the worker loop normally (no failure recorded); the master must return
+        // without throwing even though no full image was produced. A StubSingleRayRenderer never
+        // throws, so any throw here would be a spurious failure from the cancellation path.
+        val token = AtomicCancellationToken()
+        val film = CancellingFilm(cancelResolution, cancelAfter, token)
+        val renderer = ParallelRenderer(StubSingleRayRenderer(Color.WHITE), IdentityCorrector)
+
+        renderer.render(film, token)
+
+        film.pixelsWritten shouldBeLessThan totalPixels
+    }
 })
+
+// Walks the cause chain to the deepest non-null message so a wrapped failure still exposes the real
+// reason (mirrors the Swing reportFailure root-cause logic). Falls back to the simple class name when
+// every message is null/blank.
+private fun rootCauseMessageOf(t: Throwable): String {
+    var current: Throwable = t
+    var message = current.message
+    while (current.cause != null && current.cause !== current) {
+        current = current.cause!!
+        if (!current.message.isNullOrBlank()) {
+            message = current.message
+        }
+    }
+    return message?.takeUnless { it.isBlank() } ?: current::class.simpleName.orEmpty()
+}

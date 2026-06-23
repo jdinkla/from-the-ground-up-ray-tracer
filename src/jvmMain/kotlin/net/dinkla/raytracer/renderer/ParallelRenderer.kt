@@ -5,6 +5,7 @@ import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.utilities.Logger
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
+import java.util.concurrent.atomic.AtomicReference
 
 class ParallelRenderer(
     private val render: ISingleRayRenderer,
@@ -15,6 +16,11 @@ class ParallelRenderer(
     private var worker: Array<Worker?>
     private var barrier: CyclicBarrier?
     private var cancellation: CancellationToken = NoCancellation
+
+    // The first pixel-loop failure thrown by any worker (e.g. an incompatible tracer raising
+    // UnsupportedOperationException). First write wins via compareAndSet; the master rethrows it after
+    // the barrier so render(film) fails fast with the original cause instead of deadlocking (TASK-45).
+    private val workerFailure = AtomicReference<Throwable?>(null)
 
     init {
         numThreads = 16
@@ -27,17 +33,31 @@ class ParallelRenderer(
         cancellation: CancellationToken,
     ) {
         this.cancellation = cancellation
+        workerFailure.set(null)
         createWorkers(film)
         barrier = CyclicBarrier(numThreads + 1)
         parallel = numThreads > 1
         for (aWorker in worker) {
             aWorker?.film = film
-            Thread(aWorker).start()
+            // Daemon so an unexpected stuck worker can never keep the JVM (or a CI test process) alive:
+            // these threads are owned entirely by this render() call and must not outlive it.
+            Thread(aWorker).apply { isDaemon = true }.start()
         }
+        awaitWorkers(film)
+    }
+
+    /**
+     * Blocks on the barrier until every worker arrives, then surfaces any worker pixel-loop failure.
+     * Each worker reaches the barrier even after failing (its `finally`), so the master is released
+     * cleanly instead of deadlocking; a recorded failure is then rethrown with the original cause
+     * attached so `render(film)` fails fast. A cancelled render records nothing, so this returns
+     * normally (cancelled, no throw).
+     */
+    private fun awaitWorkers(film: IFilm) {
         try {
             barrier?.await()
         } catch (e: InterruptedException) {
-            // Restore the interrupt flag (we are consuming the exception) and surface the
+            // Restore the interrupt flag (we are consuming the exception); the throw below surfaces the
             // failure instead of returning a half-rendered film.
             Thread.currentThread().interrupt()
             throw IllegalStateException(
@@ -52,6 +72,20 @@ class ParallelRenderer(
                 "ParallelRenderer aborted: a worker failed before completing the render " +
                     "for resolution ${film.resolution}",
                 e,
+            )
+        }
+        // Every worker reached the barrier (the finally in Worker.run guarantees it even after a
+        // failure), so the master is released cleanly. Surface any recorded pixel-loop failure with the
+        // original cause attached; a cancelled render records nothing, so this returns normally.
+        rethrowWorkerFailure(film)
+    }
+
+    private fun rethrowWorkerFailure(film: IFilm) {
+        workerFailure.get()?.let { failure ->
+            throw IllegalStateException(
+                "ParallelRenderer aborted: a worker failed while rendering " +
+                    "resolution ${film.resolution}",
+                failure,
             )
         }
     }
@@ -85,12 +119,28 @@ class ParallelRenderer(
     ) : Runnable {
         var film: IFilm? = null
 
+        // Broad catch is deliberate: a pixel shade can fail in many unrelated ways (an incompatible
+        // tracer raising UnsupportedOperationException, arithmetic, IO). We must not let the throwable
+        // escape run(), or this worker would die before the barrier and deadlock the master. Instead we
+        // record the first failure and always reach the barrier in the finally; the master rethrows it.
+        @Suppress("TooGenericExceptionCaught")
         override fun run() {
-            var count = 0
+            try {
+                renderRows()
+            } catch (e: Throwable) {
+                // First failure wins; later workers' failures are dropped. Record before the finally so
+                // the master sees it once the barrier releases.
+                workerFailure.compareAndSet(null, e)
+            } finally {
+                awaitBarrier()
+            }
+        }
+
+        private fun renderRows() {
             var r = yStart
             while (r < yEnd) {
                 // Poll once per row so a cancelled render stops this worker's CPU work promptly; the
-                // worker still reaches the barrier below so the master is released cleanly.
+                // worker still reaches the barrier in the finally so the master is released cleanly.
                 if (cancellation.isCancelled) {
                     break
                 }
@@ -100,9 +150,11 @@ class ParallelRenderer(
                     film?.setPixel(c, r, color)
                     c += 1
                 }
-                count++
                 r += 1
             }
+        }
+
+        private fun awaitBarrier() {
             try {
                 barrier?.await()
             } catch (e: InterruptedException) {
