@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 21:31'
-updated_date: '2026-06-23 20:15'
+updated_date: '2026-06-23 20:18'
 labels:
   - bug
   - samplers
@@ -24,9 +24,9 @@ Discovered during TASK-30 (independently confirmed by review): Sampler.sampleUni
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Sampler.sampleUnitSquare returns a valid sample in [0,1)^2 for every generator (MultiJittered/Jittered/Regular/NRooks/PureRandom) across non-square numSamples and numSets > sqrt(numSamples), with no IndexOutOfBounds
-- [ ] #2 MultiJittered/Jittered/Regular generate the number of points sampleUnitSquare expects (or sampleUnitSquare indexes by the actual count); MultiJittered per-set stride corrected
-- [ ] #3 Cover-first tests across generators x non-square counts x set counts; existing sampler-dependent behavior (AmbientOccluder, AreaLight, path tracing) unaffected; full suite + detekt green
+- [x] #1 Sampler.sampleUnitSquare returns a valid sample in [0,1)^2 for every generator (MultiJittered/Jittered/Regular/NRooks/PureRandom) across non-square numSamples and numSets > sqrt(numSamples), with no IndexOutOfBounds
+- [x] #2 MultiJittered/Jittered/Regular generate the number of points sampleUnitSquare expects (or sampleUnitSquare indexes by the actual count); MultiJittered per-set stride corrected
+- [x] #3 Cover-first tests across generators x non-square counts x set counts; existing sampler-dependent behavior (AmbientOccluder, AreaLight, path tracing) unaffected; full suite + detekt green
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -34,3 +34,18 @@ Discovered during TASK-30 (independently confirmed by review): Sampler.sampleUni
 <!-- SECTION:PLAN:BEGIN -->
 1. Read Sampler + generators (MultiJittered/Jittered/Regular/NRooks/PureRandom) and Sampler indexing math. 2. Cover-first: add SamplerIndexingTest exercising sampleUnitSquare/Disk/Hemisphere/Sphere for all generators x non-square numSamples x numSets>sqrt(n); confirm it FAILS (IndexOutOfBounds) before fix. 3. Fix Sampler to derive per-set stride from the actual generated sample count (samples.size/numSets) instead of the requested numSamples, so it works for every generator. 4. Fix MultiJittered per-set stride bug (p*numSets -> p*n*n) and its exact allocation. 5. Run new test green, then full ./gradlew build (existing sampler-dependent tests + detekt).
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Fixed TASK-31. Root cause: Sampler indexed by the *requested* numSamples per set, but the sqrt-based generators (MultiJittered/Jittered/Regular) emit only floor(sqrt(numSamples))^2 points per set -> IndexOutOfBounds for non-square numSamples. MultiJittered had a second bug: per-set stride used p*numSets instead of p*n*n, overlapping the sets, and it allocated an off-by-one extra origin slot (numSets*n*n+1).
+
+Approach (least invasive, generator-agnostic):
+- Sampler.kt: derive samplesPerSet = samples.size / numSets from the ACTUAL generated count and use it everywhere it used numSamples (modulo stride, jump = Random.int(numSets)*samplesPerSet, shuffledIndices length+values). NRooks/PureRandom (exactly numSamples/set) are unchanged. Also fixed mapSamplesToSphere (iterated 0 until numSamples*numSets indexing samples[j] -> overran) to iterate samples.indices, and mapSamplesToHemiSphere capacity hint to samples.size.
+- MultiJittered.kt: per-set stride p*numSets -> p*samplesPerSet (=p*n*n); allocate exactly numSets*n*n (no +1 origin slot).
+- MultiJitteredTest.kt: updated the two assertions that pinned the buggy count (numSets*n*n+1 -> numSets*n*n; small case 2*2*2+1 -> 2*2*2). These pinned the off-by-one defect being fixed, so the change is the intended behavior change, not a refactor regression.
+
+Cover-first: added SamplerIndexingTest (commonTest) exercising sampleUnitSquare/UnitDisk/Hemisphere/Sphere for all 5 generators x 5 (non-square numSamples, numSets>sqrt) configs, 2000 draws each (100 tests). Confirmed it FAILED first (58/100 IndexOutOfBounds across MultiJittered/Jittered/Regular; NRooks/PureRandom passed), then PASSED after the fix.
+
+Verification: ./gradlew build green; just test (clean check, incl. detekt) green. Sampler-dependent tests pass unchanged: AmbientOccluderTest, EnvironmentLightTest, RectangleLightTest, DiskLightTest, ThinLensTest, WorldScopeTest (default lens = MultiJittered 2500/10), GlossySpecularTest, AuditTracerTest. Manual render (coverage-excluded glue): just run --world=World58.kt (thin-lens DoF via MultiJittered 2500/10) renders a coherent image, not black/garbage.
+<!-- SECTION:NOTES:END -->
