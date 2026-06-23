@@ -1,7 +1,7 @@
 ---
 id: TASK-41
 title: 'Lens coverage: FishEye and Spherical cameras (DSL + scenes)'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 19:15'
