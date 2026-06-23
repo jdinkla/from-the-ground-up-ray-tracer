@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:48'
-updated_date: '2026-06-23 21:58'
+updated_date: '2026-06-23 22:00'
 labels:
   - renderer
   - swing
@@ -26,13 +26,15 @@ Repro: in the Swing app, select an area-light scene (e.g. World23.kt) and render
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Selecting an incompatible tracer for a scene (e.g. WHITTED on an area-light scene) no longer hangs or only prints to stderr: render(film) throws promptly with the original cause, and the renderer does not deadlock on the barrier
-- [ ] #2 ParallelRenderer captures the first worker pixel-loop failure, always releases the master via the barrier (no deadlock), and rethrows it; TASK-34 cancellation still works (no spurious failure on cancel)
-- [ ] #3 The other multi-threaded renderers (ForkJoin, both coroutine variants, virtual-threads) are verified to propagate a render-time exception to the caller; any that swallow are fixed
-- [ ] #4 Cover-first frozen tests: a renderer driven with a single-ray renderer that throws makes render(film) throw (not hang, not swallow) for ParallelRenderer and the other multi-threaded strategies
+- [x] #1 Selecting an incompatible tracer for a scene (e.g. WHITTED on an area-light scene) no longer hangs or only prints to stderr: render(film) throws promptly with the original cause, and the renderer does not deadlock on the barrier
+- [x] #2 ParallelRenderer captures the first worker pixel-loop failure, always releases the master via the barrier (no deadlock), and rethrows it; TASK-34 cancellation still works (no spurious failure on cancel)
+- [x] #3 The other multi-threaded renderers (ForkJoin, both coroutine variants, virtual-threads) are verified to propagate a render-time exception to the caller; any that swallow are fixed
+- [x] #4 Cover-first frozen tests: a renderer driven with a single-ray renderer that throws makes render(film) throw (not hang, not swallow) for ParallelRenderer and the other multi-threaded strategies
 - [ ] #5 The Swing app shows a MODAL error dialog with the real cause message when a render (or PNG export) fails, then returns to the idle UI (Render/PNG re-enabled, preview timer stopped, failed status shown)
-- [ ] #6 detekt and the full ./gradlew clean check stay green
+- [x] #6 detekt and the full ./gradlew clean check stay green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
