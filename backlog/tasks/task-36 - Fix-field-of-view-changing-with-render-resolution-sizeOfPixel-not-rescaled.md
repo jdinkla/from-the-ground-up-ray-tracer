@@ -1,7 +1,7 @@
 ---
 id: TASK-36
 title: Fix field-of-view changing with render resolution (sizeOfPixel not rescaled)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 11:58'
