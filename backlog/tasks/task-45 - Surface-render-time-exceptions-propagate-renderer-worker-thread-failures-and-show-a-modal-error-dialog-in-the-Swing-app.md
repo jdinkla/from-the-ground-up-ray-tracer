@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:48'
-updated_date: '2026-06-23 21:48'
+updated_date: '2026-06-23 21:50'
 labels:
   - renderer
   - swing
@@ -33,3 +33,14 @@ Repro: in the Swing app, select an area-light scene (e.g. World23.kt) and render
 - [ ] #5 The Swing app shows a MODAL error dialog with the real cause message when a render (or PNG export) fails, then returns to the idle UI (Render/PNG re-enabled, preview timer stopped, failed status shown)
 - [ ] #6 detekt and the full ./gradlew clean check stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first: add ThrowingSingleRayRenderer fake (throws on render(r,c) after N pixels) to RendererTest; add 'render(film) throws' tests for Parallel, ForkJoin, a coroutine variant, NaiveCoroutine, VirtualThread. Confirm Parallel hangs + VirtualThread swallows against current code (bounded run / reasoning).
+2. Fix ParallelRenderer: AtomicReference<Throwable> failure field; worker wraps pixel loop in try/catch(Throwable) storing first failure via compareAndSet, try/FINALLY always reaches barrier.await(); cancellation break = normal exit, no failure. Master after barrier.await() rethrows captured failure (original message/cause preserved). Drop barrier.reset() worker path in favour of always-reach-barrier.
+3. Fix VirtualThreadBlockRenderer: capture first worker failure in AtomicReference, join all, then rethrow (Thread.join swallows otherwise).
+4. Confirm ForkJoin/Coroutine/NaiveCoroutine propagate (structured concurrency / RecursiveAction.join rethrow) — tests assert this; no code change expected.
+5. Swing: reportFailure walks cause chain to root cause for dialog/status message (handle null/blank top message); apply to png() path too (already uses reportFailure). JaCoCo-excluded -> manual verify.
+6. Verify: gradlew clean check green; CLI fail-fast with World23.kt + WHITTED + PARALLEL no longer hangs; gradlew swing launches cleanly.
+<!-- SECTION:PLAN:END -->
