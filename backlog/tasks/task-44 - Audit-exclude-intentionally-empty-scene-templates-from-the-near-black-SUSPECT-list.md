@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:45'
+updated_date: '2026-06-24 09:46'
 labels:
   - audit
   - tooling
@@ -28,3 +28,9 @@ Surfaced during TASK-39: the TASK-38 audit flags Template.kt as a near-black SUS
 - [ ] #2 Genuine near-black scenes are still flagged (the exclusion is scoped to templates/by-design-empty scaffolding, not a blanket mute)
 - [ ] #3 Testable core (suspect-selection/exclusion predicate) covered by frozen cover-first tests; verified by rerunning ./gradlew audit; full build incl. detekt green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Choose Metadata opt-out (mirrors preferredTracer): add intentionallyEmpty: Boolean = false to Metadata + MetadataScope (commonMain) with cover-first tests. 2. Carry the flag into the audit's suspect-selection: add excludedFromNearBlack to SceneAuditResult, populated by SceneAuditor.auditOne from world.metadata.intentionallyEmpty. 3. Filter it out in AuditReport.suspects(). 4. Cover-first frozen tests in AuditReportTest: template excluded, genuine non-template near-black still flagged. 5. Annotate Template.kt (examples, excluded) with metadata { intentionallyEmpty = true }. 6. Verify: ./gradlew audit (Template.kt gone), ./gradlew clean check green.
+<!-- SECTION:PLAN:END -->
