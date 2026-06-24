@@ -35,3 +35,9 @@ Discovered during TASK-43 (MultipleObjects.kt rendered ~100% near-black). The co
 <!-- SECTION:PLAN:BEGIN -->
 1. Cover-first: add frozen tests to WorldScopeTest pinning the surviving color factories — c(Double,Double,Double), c(Double), c(hex), and cInt(Int,Int,Int) (0-255). These pin the API that survives the change. 2. Remove the redundant/ambiguous c(Int,Int,Int) overload from WorldScope (keep cInt as the explicit 0-255 path), so bare-int c(1,0,0) becomes a COMPILE ERROR rather than silent ~1/255 near-black. 3. Migrate all 30 trap call sites (all use only 0/1 values) from c(1,0,0)-style to c(1.0,0.0,0.0)-style, producing the author's intended pure colors. 4. Update WorldScope KDoc referencing c/cInt. 5. Verify: ./gradlew clean check green + detekt clean; ./gradlew audit shows the migrated scenes go from near-black SUSPECT to correct (never the reverse).
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+INVESTIGATION: c(Int,Int,Int) and cInt(Int,Int,Int) are byte-for-byte identical (both divide by 255). cInt already exists as the explicit, intended 0-255 factory (used 14x in World74/World74kdt with genuine 0-255 values like cInt(111,148,205)). ALL 30 c(Int,Int,Int) literal call sites use only 0/1 values => every one is the trap (author wanted pure color, got ~1/255 near-black). ZERO legitimate 0-255 c(Int,...) literal uses exist. detekt does NOT scan src/examples (build.gradle.kts source set list), so a custom detekt rule (option c) cannot see the trap. CHOSE option (b): remove the ambiguous overload, keep cInt; migrate the 30 trap sites to Double literals. Rationale: it is the root fix (compile error, not after-the-fact warning), completes the cInt design intent already in the codebase, bounded known blast radius.
+<!-- SECTION:NOTES:END -->
