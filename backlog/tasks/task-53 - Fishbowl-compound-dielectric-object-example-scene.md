@@ -1,9 +1,11 @@
 ---
 id: TASK-53
 title: 'Fishbowl: compound dielectric object + example scene'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:24'
+updated_date: '2026-06-24 11:08'
 labels:
   - book-coverage
   - examples
