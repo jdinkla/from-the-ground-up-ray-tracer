@@ -1,9 +1,11 @@
 ---
 id: TASK-47
 title: Path-traced refractive caustics (transparency in the path tracer)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:23'
+updated_date: '2026-06-24 08:42'
 labels:
   - book-coverage
   - global-illumination
