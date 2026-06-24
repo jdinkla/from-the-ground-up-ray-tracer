@@ -8,7 +8,14 @@ updated_date: '2026-06-24 22:39'
 labels:
   - tech-debt
   - documentation
-dependencies: []
+dependencies:
+  - TASK-58
+  - TASK-59
+  - TASK-60
+  - TASK-61
+  - TASK-62
+  - TASK-63
+  - TASK-64
 references:
   - TECH_DEBT_REPORT.md
 priority: high
