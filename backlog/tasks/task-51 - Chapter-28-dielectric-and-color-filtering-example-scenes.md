@@ -32,8 +32,6 @@ The Dielectric material (ch. 28: Fresnel + Beer-Lambert color filtering, nestabl
 - [x] #4 Each scene auto-registers, renders without errors with a non-black background, and is verified manually by rendering (examples/** coverage-excluded); detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -58,3 +56,13 @@ Verification: rendered each at 720p WHITTED, all non-black/coherent/effect visib
 
 CHECK: ./gradlew clean check (just test) -> BUILD SUCCESSFUL (detekt + all tests green). Two pre-existing unchecked-cast warnings (PlyReader.kt, GridStructuresTest.kt) unrelated to this change.
 <!-- SECTION:NOTES:END -->
+
+## Comments
+
+<!-- COMMENTS:BEGIN -->
+author: @claude
+created: 2026-06-24 10:35
+---
+AC#1 needs a decision. The three nested Dielectric spheres are implemented and the nested structure + per-medium tints render, but at the DSL's only available recursion depth (default 5) the innermost sphere reads black because the straight-through ray crosses 6 dielectric boundaries and is truncated at the 6th. Verified that maxDepth>=10-15 fixes it (mauve core + floor visible through the stack). Options: (a) accept the depth-5 nested render with the documented dark core as 'good enough' for AC#1; or (b) authorize a small maxDepth(n) DSL hook on WorldScope (sets ViewPlane.maximalRecursionDepth, relax its private setter) + a cover-first ViewPlaneTest assertion, then set NestedTransparentSpheres to maxDepth ~12. (b) is the only way to literally satisfy 'inner spheres show through correctly', but it is a commonMain production change beyond this task's 'add example scenes' scope.
+---
+<!-- COMMENTS:END -->
