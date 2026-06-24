@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:44'
+updated_date: '2026-06-24 09:01'
 labels:
   - book-coverage
   - global-illumination
@@ -26,11 +26,13 @@ Transparent and Dielectric materials work only with the Whitted tracer; neither 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Transparent.pathShade (and/or Dielectric.pathShade) spawns the reflected and transmitted bounces through world.tracer.trace(ray, depth+1), handles total internal reflection via the BTDF isTir test, and for Dielectric applies the cfIn/cfOut Beer-Lambert attenuation, consistent with the Whitted shade
-- [ ] #2 A new auto-discovered example scene reproduces book Figure 28.42: a red transparent sphere and a rectangle lit by an area/emissive light, with a visible caustic on the rectangle, using preferredTracer(PATH_TRACE)
-- [ ] #3 A transparent/dielectric object rendered with PATH_TRACE is no longer black and refracts the scene behind it
-- [ ] #4 pathShade logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the example scene is verified manually (expect noise; the book uses 256 samples/pixel)
+- [x] #1 Transparent.pathShade (and/or Dielectric.pathShade) spawns the reflected and transmitted bounces through world.tracer.trace(ray, depth+1), handles total internal reflection via the BTDF isTir test, and for Dielectric applies the cfIn/cfOut Beer-Lambert attenuation, consistent with the Whitted shade
+- [x] #2 A new auto-discovered example scene reproduces book Figure 28.42: a red transparent sphere and a rectangle lit by an area/emissive light, with a visible caustic on the rectangle, using preferredTracer(PATH_TRACE)
+- [x] #3 A transparent/dielectric object rendered with PATH_TRACE is no longer black and refracts the scene behind it
+- [x] #4 pathShade logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the example scene is verified manually (expect noise; the book uses 256 samples/pixel)
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
