@@ -1,11 +1,11 @@
 ---
 id: TASK-50
 title: Chapter 27 simple-transparency example scenes
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:17'
+updated_date: '2026-06-24 10:20'
 labels:
   - book-coverage
   - examples
@@ -62,3 +62,9 @@ Verification: rendered each at 720p with --tracer=WHITTED; all non-black, cohere
 
 CHECK: ./gradlew clean check -> BUILD SUCCESSFUL (detekt + all tests green). Two pre-existing unchecked-cast warnings (PlyReader.kt, GridStructuresTest.kt) unrelated to this change.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added five auto-discovered Chapter 27 simple-transparency example scenes under src/examples/.../materials/transparent/ (no production code touched): AirBubbleInWater.kt (transparent sphere relative eta 0.75 -> mirror TIR ring from outside, Fig 27.15; this codebase's Transparent.shade follows Listing 27.4 verbatim so TIR is a full mirror ring, not the book's deliberately-incorrect dark-ring variant), ReflectiveAndTransparentSpheres.kt (glass sphere with Listing 27.5 params ks=0.5/exp=2000/ior=1.5/kr=0.1/kt=0.9 + mirror sphere over a checker plane, Figs 27.12/27.13), TransparentTorus.kt (glass torus, black strips, Fig 27.29), TransparentEllipsoid.kt (non-uniformly Instance-scaled sphere, Figs 27.24/27.28), and TransparentCompoundObjects.kt (solidCylinder + thickRing + bowl all showing inside-surface TIR, Fig 27.19). All preferredTracer WHITTED, maxDepth 5, non-black backdrop. Verified by manager self-review: ./gradlew clean check green (detekt), ./gradlew audit health-renders all 87 scenes with all five new scenes auto-registered, non-black (suspect list empty), and none in the failed list (only pre-existing World61 missing-ply). Committed 38905b7.
+<!-- SECTION:FINAL_SUMMARY:END -->
