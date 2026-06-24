@@ -3,9 +3,11 @@ id: TASK-43
 title: >-
   Fix MultipleObjects.kt: zero-intensity light (ls=0.0) and off-camera objects
   render it 100% black
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 21:31'
+updated_date: '2026-06-24 09:34'
 labels:
   - examples
   - bug
