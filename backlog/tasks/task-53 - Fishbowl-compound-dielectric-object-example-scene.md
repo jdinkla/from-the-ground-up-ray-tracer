@@ -32,8 +32,6 @@ The book models a spherical fishbowl as a compound of part objects (book section
 - [x] #3 Reusable geometry/assembly logic in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -44,3 +42,19 @@ The book models a spherical fishbowl as a compound of part objects (book section
 5. Add FishBowlScene example (examples/materials/dielectric): checker plane, three dielectrics + filter colours, maxDepth(high, Fig 28.41), preferredTracer(WHITTED), optional fish, non-black background. Double colour literals only.
 6. Render --world=FishBowlScene.kt --tracer=WHITTED --resolution=720p; confirm non-black, refraction + colour filtering visible; clean up PNG. just test green.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented FishBowl as a reusable compound in commonMain (objects/compound/FishBowl.kt), modelled per Suffern §28.8 (Figs 28.39/28.41) as boundary surfaces (not a solid water blob in a glass shell). Five part surfaces grouped by the two media each separates, each carrying its own Dielectric: glass-air {outer PartSphere theta in [openingAngle, PI]; inner ConcavePartSphere above water theta in [openingAngle, thetaWater]; quarter-PartTorus rim instanced to the opening height}; water-glass {submerged inner PartSphere theta in [thetaWater, PI]}; water-air {flat water-surface Disk radius sqrt(innerRadius^2 - waterY^2) at y=waterY}. thetaWater = acos(waterY/innerRadius). The three materials are passed to the constructor and assigned per part via a private addPart() that sets material directly on the part, bypassing Compound.material's single-material propagation (which would collapse all three to one). Mirrors GlassOfWater (TASK-52) exactly. Confirmed real constructor signatures of PartSphere/ConcavePartSphere(center,radius,phiMin,phiMax,thetaMin,thetaMax), PartTorus(a,b,phiMin,phiMax), Disk(center,radius,normal), Compound (objects list). The same normal-orientation design note from GlassOfWater applies: Dielectric re-derives the relative index from sign of n.wo per hit, so correct iorIn/iorOut per boundary drives the optics, not the part's convex/concave normal sign (so the task's 'convex part sphere for water-glass' is fine optically).
+
+DSL: added ObjectsScope.fishBowl(glassAir, waterAir, waterGlass, geometry...) that resolves the three material ids and adds the compound via the no-material add() path so per-part materials survive. The default openingAngle is shared via FishBowl.Companion.DEFAULT_OPENING_ANGLE so DSL and constructor stay in sync (no duplicated magic number).
+
+Scene: src/examples/.../dielectric/FishBowlScene.kt (id FishBowlScene.kt) over a green/white checker plane with a submerged Matte fish sphere; preferredTracer(WHITTED), maxDepth(15) (TASK-51 setter, Fig 28.41 high depth), bright far wall (non-black background), Double colour literals throughout.
+
+Cover-first tests (commonMain, frozen):
+- FishBowlTest (objects/compound, 14 cases): five surfaces; the three materials present (never collapsed); 3/1/1 counts per boundary (glass-air/water-glass/water-air); horizontal equator ray -> outer glass hit (t=3, +x normal, glassAir); axial down ray (top open) -> water surface (t=4.2, UP, waterAir); below ray -> outer glass bottom (t=3, DOWN, glassAir); bbox spans +/- outerRadius; wide-miss; equals/hashCode/inequality/null/type/toString. Confirmed RED (FishBowl unresolved) then GREEN.
+- ObjectsScopeTest: new case verifying fishBowl(...) builds a single FishBowl whose parts retain all three distinct materials (the single-material-collapse guard at the DSL seam).
+
+Verification: RED->GREEN cover-first confirmed. Rendered --world=FishBowlScene.kt --tracer=WHITTED --resolution=720p (1280x720, 163s): non-black, coherent spherical glass bowl open at the top on a checker floor; water surface band clearly visible with the checker refracted/magnified and bent below it; submerged fish refracted and displaced through water+glass; two filter tints (faint green glass region above, blue-green water below); TIR/reflection visible on the water surface. PNG cleaned up (pre-existing Jun 23 PNGs untouched). just test (= ./gradlew clean check) green; detekt clean; the two remaining warnings (PlyReader unchecked cast, GridStructuresTest unchecked casts) are pre-existing and unrelated.
+<!-- SECTION:NOTES:END -->
