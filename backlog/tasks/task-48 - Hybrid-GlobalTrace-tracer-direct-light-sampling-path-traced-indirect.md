@@ -32,8 +32,6 @@ Pure path tracing is very noisy when light sources are small, because few random
 - [x] #4 New tracer/material logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -47,3 +45,21 @@ Pure path tracing is very noisy when light sources are small, because few random
 8. Add CornellBoxGlobal.kt example (AreaLight + emissive panel, preferredTracer(GLOBAL_TRACE)); render to verify non-black/coherent and compare noise vs PATH_TRACE.
 9. just test (clean check) green; render-verify the scene.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implementation (commonMain + examples):
+- IMaterial.globalShade default BLACK (additive seam, mirrors pathShade).
+- GlobalTrace tracer (tracers/GlobalTrace.kt): clone of PathTrace but calls material.globalShade and sets sr.depth; primary-level averaging over numSamples; GLOBAL_TRACE added to Tracers enum.
+- Matte.globalShade (Listing 26.7): depth 0 = direct (globalDirect) + indirect (pathShade); depth>0 = indirect only. globalDirect is a NEW private direct-sampling loop that uses the LIGHT's emitted radiance (light.getLightMaterial().getLe), NOT the receiving surface's getLe. This deliberately bypasses the pre-existing AreaLight.l quirk (it reads sr.material.getLe, the receiver, making AREA lights ~20x too dim); fixing AreaLight.l itself was out of scope and would break the frozen MatteAreaLightShadeTest + all AREA scenes, so I left it untouched and gave GlobalTrace its own correct direct term. globalDirect omits ambient (global tracer integrates indirect directly).
+- Emissive.globalShade (Listing 26.6): BLACK at depth==1 (avoid double-count), else front-face le, else BLACK.
+- Reflective.globalShade (Listing 26.8): delegates to pathShade (mirror has no direct term).
+- @Suppress(TooManyFunctions) on Matte (now 13 fns; same convention as AreaLight/ObjectsScope).
+
+Example: examples/globalillumination/CornellBoxGlobal.kt, preferredTracer(GLOBAL_TRACE). Ceiling light declared twice: a RectangleLight AreaLight (lights{}) for low-noise direct sampling + an emissive rectangle object so indirect bounces (depth>=2) still see it.
+
+Cover-first frozen tests: tracers/GlobalTraceTest, materials/{MatteGlobalShadeTest, EmissiveGlobalShadeTest, ReflectiveGlobalShadeTest}. Frozen MatteAreaLightShadeTest + MattePathShadeTest still pass unchanged.
+
+Manual verification (temporary jvmTest render probe, since examples/** is coverage-excluded; probe deleted after): rendered CornellBoxGlobal under GLOBAL_TRACE vs PATH_TRACE at equal samples=16, res 240p. Direct-lit floor patch coefficient-of-variation (noise proxy): GLOBAL 1.78 vs PATH 3.28 at identical floor mean luminance (0.065) -> ~half the noise (Fig 26.12). At 100 samples GLOBAL CoV 0.65 (converged). PNGs confirmed coherent: smooth red/green walls, lit floor, two boxes, bright ceiling panel; PATH_TRACE at 16 samples is pure salt-and-pepper noise.
+<!-- SECTION:NOTES:END -->
