@@ -26,12 +26,12 @@ object World27 : WorldDefinition {
             }
 
             materials {
-                reflective(id = "m1", ks = 1.0, cd = c(1, 1, 1), ka = 0.25, kd = 0.9, exp = 1.0)
+                reflective(id = "m1", ks = 1.0, cd = c(1.0, 1.0, 1.0), ka = 0.25, kd = 0.9, exp = 1.0)
                 reflective(id = "m2", ks = 0.5, cd = c(0.1, 0.7, 0.3), ka = 0.25, kd = 0.75, exp = 10.0)
-                reflective(id = "m3", ks = 0.5, cd = c(1, 1, 0), ka = 0.25, kd = 0.75, exp = 50.0)
-                reflective(id = "m4", ks = 0.1, cd = c(1, 0, 0), ka = 0.25, kd = 0.75, exp = 3.0)
+                reflective(id = "m3", ks = 0.5, cd = c(1.0, 1.0, 0.0), ka = 0.25, kd = 0.75, exp = 50.0)
+                reflective(id = "m4", ks = 0.1, cd = c(1.0, 0.0, 0.0), ka = 0.25, kd = 0.75, exp = 3.0)
                 reflective(id = "m5", ks = 0.5, cd = c(0.0, 0.5, 1.0), ka = 0.25, kd = 0.75, exp = 10.0)
-                matte(id = "black", cd = c(0, 0, 0))
+                matte(id = "black", cd = c(0.0, 0.0, 0.0))
             }
 
             objects {

@@ -32,7 +32,9 @@ import net.dinkla.raytracer.world.World
  *
  * Besides the structural blocks ([camera], [ambientLight], [lights], [materials], [objects],
  * [metadata]) it offers terse constructor shorthands — `p`/`v`/`n` for points/vectors/normals and
- * `c`/`cInt` for colours — so scenes read compactly. See `README.md` for a full example.
+ * `c` (linear `0.0..1.0`) / `cInt` (0-255 byte values) for colours — so scenes read compactly. See
+ * `README.md` for a full example. Note there is intentionally no `c(Int, Int, Int)` overload (TASK-55);
+ * see [cInt] for why.
  */
 @Suppress("TooManyFunctions")
 class WorldScope {
@@ -72,12 +74,16 @@ class WorldScope {
         blue: Double,
     ) = Color(red, green, blue)
 
-    fun c(
-        red: Int,
-        green: Int,
-        blue: Int,
-    ): Color = Color(red / 255.0, green / 255.0, blue / 255.0)
-
+    /**
+     * Builds a colour from 0-255 (8-bit) channels by dividing each by 255 — the explicit, unambiguous
+     * way to write a colour from RGB byte values (e.g. `cInt(111, 148, 205)`).
+     *
+     * There is deliberately **no** `c(Int, Int, Int)` overload (TASK-55): bare integer literals like
+     * `c(1, 0, 0)` would have bound to it and silently yielded `Color(1/255, 0, 0)` ~ 1/255 brightness —
+     * a near-black surface with no error — when the author meant pure red. Removing that overload turns
+     * the trap into a compile error: write `c(1.0, 0.0, 0.0)` for a linear pure colour, or `cInt(...)`
+     * for 0-255 byte values.
+     */
     fun cInt(
         red: Int,
         green: Int,

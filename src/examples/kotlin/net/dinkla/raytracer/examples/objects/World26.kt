@@ -24,7 +24,7 @@ object World26 : WorldDefinition {
             }
 
             materials {
-                matte(id = "m1", cd = c(1, 1, 0), ka = 0.75, kd = 0.75)
+                matte(id = "m1", cd = c(1.0, 1.0, 0.0), ka = 0.75, kd = 0.75)
                 matte(id = "m2", cd = c(1.0), ka = 0.75, kd = 0.75)
             }
 

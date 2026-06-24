@@ -33,7 +33,7 @@ object Bunny : WorldDefinition {
 
             materials {
                 reflective(id = "gray", cd = c(1.0), ka = 0.5, kd = 0.5)
-                phong(id = "yellow", cd = c(1, 1, 0), ka = 0.5, kd = 0.5, ks = 0.25, exp = 4.0)
+                phong(id = "yellow", cd = c(1.0, 1.0, 0.0), ka = 0.5, kd = 0.5, ks = 0.25, exp = 4.0)
                 phong(id = "orange", cd = c(1.0, 0.5, 0.0), ka = 0.5, kd = 0.25, ks = 0.55, exp = 2.0)
                 phong(id = "chocolate", cd = c(0.5647, 0.1294, 0.0), ka = 0.5, kd = 0.25, ks = 0.55, exp = 2.0)
             }

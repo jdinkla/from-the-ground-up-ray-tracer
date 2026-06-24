@@ -20,6 +20,39 @@ import net.dinkla.raytracer.samplers.Sampler
 
 class WorldScopeTest :
     StringSpec({
+        // Cover-first (TASK-55): pin the colour factories that survive removing the ambiguous
+        // c(Int,Int,Int) overload. The Double path is the linear-colour default; cInt(...) is the
+        // explicit 0-255 path. These freeze the contract so the trap-overload removal is a pure API
+        // change, not a behaviour change for the surviving factories.
+        "c(Double,Double,Double) builds a linear-space colour from its components verbatim" {
+            val scope = WorldScope()
+
+            scope.c(1.0, 0.0, 0.0) shouldBe Color(1.0, 0.0, 0.0)
+        }
+
+        "c(Double) builds a grey colour with all three channels equal" {
+            val scope = WorldScope()
+
+            scope.c(0.5) shouldBe Color(0.5, 0.5, 0.5)
+        }
+
+        "cInt builds a colour by dividing each 0-255 channel by 255" {
+            val scope = WorldScope()
+
+            scope.cInt(255, 0, 0) shouldBe Color(1.0, 0.0, 0.0)
+            scope.cInt(111, 148, 205) shouldBe Color(111 / 255.0, 148 / 255.0, 205 / 255.0)
+        }
+
+        // The trap was that bare-int c(1,0,0) bound to a 0-255 overload yielding ~1/255 brightness.
+        // After TASK-55 the only way to express a 0-255 colour is the explicit cInt(...), and a
+        // pure-red literal is written c(1.0,0.0,0.0) — far brighter than the trap's ~1/255 result.
+        "the explicit 0-255 path of a small triple stays near-black, unlike the Double pure colour" {
+            val scope = WorldScope()
+
+            scope.cInt(1, 0, 0) shouldBe Color(1 / 255.0, 0.0, 0.0)
+            scope.c(1.0, 0.0, 0.0) shouldNotBe scope.cInt(1, 0, 0)
+        }
+
         "ambientLight" {
             val scope = WorldScope()
             val old = scope.world.ambientLight

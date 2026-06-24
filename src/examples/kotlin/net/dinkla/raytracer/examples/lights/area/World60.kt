@@ -30,7 +30,7 @@ object World60 : WorldDefinition {
             ambientLight(color = Color.WHITE, ls = 1.0)
 
             materials {
-                phong(id = "green", cd = c(0, 1, 0), ka = 0.0, kd = 0.75, ks = 0.25, exp = 10.0)
+                phong(id = "green", cd = c(0.0, 1.0, 0.0), ka = 0.0, kd = 0.75, ks = 0.25, exp = 10.0)
                 matte(id = "gray", cd = c(0.5, 0.5, 0.5), ka = 0.25, kd = 0.75)
                 emissive(id = "emissive", ce = c(1.0, 0.0, 1.0), le = 1.0)
             }
