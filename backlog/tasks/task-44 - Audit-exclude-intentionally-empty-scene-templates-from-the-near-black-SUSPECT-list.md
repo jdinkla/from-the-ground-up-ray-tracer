@@ -3,11 +3,11 @@ id: TASK-44
 title: >-
   Audit: exclude intentionally-empty scene templates from the near-black SUSPECT
   list
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:51'
+updated_date: '2026-06-24 09:55'
 labels:
   - audit
   - tooling
@@ -52,3 +52,9 @@ Cover-first tests (frozen): AuditReportTest gains 'excludes an intentionally-emp
 
 Verification: ./gradlew audit -> Suspect renders section now 'No scene rendered (near-)black above the threshold' (Template.kt gone; World61.kt missing-ply and StereoSpheres.kt stereo entries unchanged). ./gradlew clean check -> BUILD SUCCESSFUL (tests + detekt green); two pre-existing unchecked-cast warnings in PlyReader.kt/GridStructuresTest.kt are unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a Metadata opt-out (intentionallyEmpty, default false, mirroring TASK-39's preferredTracer) so a scene can declare itself black-by-design. Wired it through the audit: Metadata.intentionallyEmpty -> SceneAuditResult.excludedFromNearBlack -> AuditReport.suspects() filterNot, so opted-out scenes are dropped before the near-black threshold test. Template.kt now opts out. Chose the Metadata route over a name convention/ignore-list because it is explicit, self-documenting and travels with the scene. Cover-first frozen tests added at both layers (AuditReportTest predicate + SceneAuditorTest wiring through the real DSL, plus Metadata/MetadataScope field tests); the suspect tests feed a non-opted-out near-black input and assert it is STILL flagged, proving the exclusion is scoped (essential since TASK-43 emptied the live genuine-near-black set). Verified: ./gradlew clean check green, reviewer PASS (confirmed tests fail if filterNot removed, default keeps existing scenes checked, detekt baseline untouched), ./gradlew audit now reports 'No scene rendered (near-)black above the threshold'. Committed a384e79.
+<!-- SECTION:FINAL_SUMMARY:END -->
