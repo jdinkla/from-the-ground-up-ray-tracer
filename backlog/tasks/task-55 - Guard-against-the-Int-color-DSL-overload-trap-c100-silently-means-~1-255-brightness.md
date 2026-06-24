@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 11:21'
-updated_date: '2026-06-24 13:12'
+updated_date: '2026-06-24 13:17'
 labels:
   - tooling
   - dsl
@@ -25,10 +25,12 @@ Discovered during TASK-43 (MultipleObjects.kt rendered ~100% near-black). The co
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A clear mechanism prevents or flags the c(Int,Int,Int) near-black trap (detekt/lint rule, overload rename/disambiguation, or an audit warning) so authors cannot silently get ~1/255 colors from c(1,0,0)
-- [ ] #2 Existing intended 0-255 color uses are preserved or migrated; no existing scene changes its rendered output unintentionally
-- [ ] #3 Testable core covered by frozen cover-first tests; detekt and the full build stay green
+- [x] #1 A clear mechanism prevents or flags the c(Int,Int,Int) near-black trap (detekt/lint rule, overload rename/disambiguation, or an audit warning) so authors cannot silently get ~1/255 colors from c(1,0,0)
+- [x] #2 Existing intended 0-255 color uses are preserved or migrated; no existing scene changes its rendered output unintentionally
+- [x] #3 Testable core covered by frozen cover-first tests; detekt and the full build stay green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
