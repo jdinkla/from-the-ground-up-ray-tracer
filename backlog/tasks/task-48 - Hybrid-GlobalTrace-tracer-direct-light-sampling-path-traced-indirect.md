@@ -1,9 +1,11 @@
 ---
 id: TASK-48
 title: 'Hybrid GlobalTrace tracer: direct light sampling + path-traced indirect'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:23'
+updated_date: '2026-06-24 09:07'
 labels:
   - book-coverage
   - global-illumination
