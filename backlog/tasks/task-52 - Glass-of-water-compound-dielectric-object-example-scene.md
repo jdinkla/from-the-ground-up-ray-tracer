@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:50'
+updated_date: '2026-06-24 10:56'
 labels:
   - book-coverage
   - examples
@@ -27,10 +27,12 @@ The book models a glass of water as a compound of dielectric boundaries (book se
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A GlassOfWater compound object is added from the existing part primitives, with correctly oriented normals and three Dielectric materials for the glass-air, water-air and water-glass boundaries plus filter colors
-- [ ] #2 A new example scene renders the glass of water (optionally with a Matte straw) over a checker plane at a high max recursion depth (book Figure 28.38), showing refraction, TIR on the water surface and color filtering; a straw appears to bend at the water line
-- [ ] #3 Reusable geometry/assembly logic that lands in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
+- [x] #1 A GlassOfWater compound object is added from the existing part primitives, with correctly oriented normals and three Dielectric materials for the glass-air, water-air and water-glass boundaries plus filter colors
+- [x] #2 A new example scene renders the glass of water (optionally with a Matte straw) over a checker plane at a high max recursion depth (book Figure 28.38), showing refraction, TIR on the water surface and color filtering; a straw appears to bend at the water line
+- [x] #3 Reusable geometry/assembly logic that lands in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
