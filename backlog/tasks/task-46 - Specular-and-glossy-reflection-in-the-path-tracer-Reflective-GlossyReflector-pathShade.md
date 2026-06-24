@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:37'
+updated_date: '2026-06-24 08:38'
 labels:
   - book-coverage
   - global-illumination
@@ -32,10 +32,8 @@ The PATH_TRACE tracer (Suffern ch. 26) currently produces global illumination on
 - [x] #2 GlossyReflector.pathShade does the equivalent using GlossySpecular.sampleF (book exercise 26.9)
 - [x] #3 A reflective object rendered with the PATH_TRACE tracer is no longer black; rendering a GI scene (e.g. CornellBox variant) with a mirror shows reflections
 - [x] #4 A new auto-discovered example scene demonstrates a reflective caustic: matte plane + emissive sphere + flat mirror (book Figure 26.8) with preferredTracer(PATH_TRACE); optionally a concave cylindrical reflector for the cardioid caustic (Figure 26.9)
-- [ ] #5 The two pathShade overrides (commonMain) are covered by frozen unit tests per the cover-first rule and specs/testing.md; detekt and the full build stay green; the example scene is verified manually by rendering
+- [x] #5 The two pathShade overrides (commonMain) are covered by frozen unit tests per the cover-first rule and specs/testing.md; detekt and the full build stay green; the example scene is verified manually by rendering
 <!-- AC:END -->
-
-
 
 ## Implementation Plan
 
@@ -53,4 +51,16 @@ The PATH_TRACE tracer (Suffern ch. 26) currently produces global illumination on
 
 <!-- SECTION:NOTES:BEGIN -->
 Cover-first: added ReflectivePathShadeTest + GlossyReflectorPathShadeTest. Confirmed the 'weights' assertions FAIL against current code. Correction to the task description: Reflective/GlossyReflector do NOT fall back to the BLACK default — they extend Phong->Matte and currently inherit Matte.pathShade (a diffuse cosine bounce), so a mirror under PATH_TRACE renders as a diffuse grey surface, not black, and specular-to-diffuse transport/caustics are still absent. The fix (override pathShade in both) is the same.
+
+Implementation complete.
+Production (commonMain):
+- Reflective.pathShade (Listing 26.5): samples PerfectSpecular.sampleF, traces reflected ray at depth+1, returns sample.color*incoming*(n.wi); BLACK when no tracer. Since sampleF gives color=cr*(kr/|n.wi|), pdf=1, the weight collapses to cr*kr*incoming (geometry retained, pdf=1 -- unlike Matte's cosine bounce).
+- GlossyReflector.pathShade (exercise 26.9): delegates to the existing glossyReflection() private method, which already computes color*incoming*(n.wi)/pdf == cr*kr*incoming.
+Both previously inherited Matte.pathShade (a diffuse bounce), so they overrode it now.
+
+Tests (commonTest, cover-first, frozen): ReflectivePathShadeTest, GlossyReflectorPathShadeTest. The 'weights' assertions were confirmed RED before the override and GREEN after, unchanged. Each pins the analytic weight (direction-independent despite random glossy sampling) plus depth+1 recursion and the null-tracer BLACK fallback.
+
+Example scene (examples/**, coverage-excluded -> manual verify): ReflectiveCaustic.kt (Fig 26.8) = matte floor + emissive sphere + flat vertical mirror, preferredTracer(PATH_TRACE). Rendered at 720p/FORK_JOIN/PATH_TRACE in ~7s: non-black and coherent -- emissive sphere visible, its reflection visible in the mirror (so the specular bounce is followed), and the floor catches the warm caustic glow. Expected Monte-Carlo grain (100 spp, no AA).
+
+Verification: ./gradlew clean check GREEN (detekt + all tests). Two pre-existing unchecked-cast compile warnings (PlyReader.kt, GridStructuresTest.kt) are unrelated to this change.
 <!-- SECTION:NOTES:END -->
