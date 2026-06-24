@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:07'
+updated_date: '2026-06-24 10:09'
 labels:
   - book-coverage
   - examples
@@ -32,3 +32,14 @@ The Transparent material (ch. 27, PerfectSpecular BRDF + PerfectTransmitter BTDF
 - [ ] #4 Transparent compound objects: a solid cylinder, a thick ring and a hemispherical bowl, all showing total internal reflection off their inside surfaces (book Figure 27.19)
 - [ ] #5 Each scene auto-registers (classgraph), renders without errors at a sensible max recursion depth with a non-black background, and is verified manually by rendering (examples/** coverage-excluded); detekt and the full build stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Study book Ch.27 figures (read PDF) + existing transparent/dielectric scenes (TransparentSpheres, World35/71, GlassSphere) for DSL conventions: transparent(ior,ks,kt,kr,exp), checker floor via svMatte+PlaneChecker, backdrop plane for non-black background, preferredTracer(WHITTED), default maxDepth=5.
+2. Add AirBubbleInWater.kt (AC#1): transparent sphere ior=0.75, kr=0.1 -> dark TIR ring (Fig 27.15a); red sphere behind, teal backdrop, white checker floor.
+3. Add ReflectiveAndTransparentSpheres.kt (AC#2): glass sphere ks=0.5/exp=2000/ior=1.5/kr=0.1/kt=0.9 + a reflective sphere over a checker plane (Fig 27.12/27.13).
+4. Add TransparentTorus.kt (AC#3a): torus ior=1.5 with a red sphere inside, black strips (Fig 27.29). Add TransparentEllipsoid.kt (AC#3b): scaled Sphere via Instance, ior=0.75 (Fig 27.24/27.28).
+5. Add TransparentCompoundObjects.kt (AC#4): solidCylinder + thickRing + bowl, ior=1.5, red spheres behind, TIR off inside surfaces (Fig 27.19).
+6. Render each scene at 720p WHITTED, confirm non-black/coherent/effect visible; clean up PNGs. Run ./gradlew clean check (detekt). Record notes.
+<!-- SECTION:PLAN:END -->
