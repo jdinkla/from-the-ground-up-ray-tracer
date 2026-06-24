@@ -65,6 +65,19 @@ class GlossyReflector(
     ): Color = super.areaLightShade(world, sr) + glossyReflection(world, sr)
 
     /**
+     * Path-tracing shade (Suffern ch. 26 exercise 26.9): the glossy analogue of [Reflective.pathShade].
+     * A glossy reflector in the path tracer carries no direct term — it returns only its glossy
+     * reflection ([GlossySpecular.sampleF]): importance-sample a direction within the Phong lobe around
+     * the mirror direction, trace it one level deeper, and weight by `color * (n . wi) / pdf`, which
+     * reduces to `cr * kr * incoming` (the lobe term and pdf cancel). This is exactly the existing
+     * [glossyReflection] contribution.
+     */
+    override fun pathShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color = glossyReflection(world, sr)
+
+    /**
      * The glossy-reflection contribution: importance-sample a direction within the Phong lobe around
      * the mirror direction, trace it one level deeper, and weight by `color * (n . wi) / pdf` — which
      * reduces to `cr * kr * incoming`. Returns black when the sample faces away from the surface, has a

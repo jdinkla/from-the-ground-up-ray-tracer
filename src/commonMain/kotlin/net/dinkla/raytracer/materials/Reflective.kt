@@ -40,6 +40,29 @@ class Reflective(
         return L + c2
     }
 
+    /**
+     * Path-tracing shade (Suffern ch. 26, Listing 26.5): a mirror in the path tracer carries no direct
+     * term — it samples the single perfect-specular direction ([PerfectSpecular.sampleF]), traces that
+     * reflected ray one level deeper, and returns the incoming radiance weighted by `f * (n . wi)`.
+     *
+     * `sampleF` returns `color = cr * (kr / |n . wi|)` and `pdf = 1`, so for the reflected direction
+     * (`n . wi > 0`) the weight collapses to `cr * kr * incoming` — the lobe geometry cancels and the
+     * pdf is unit, unlike the cosine-weighted diffuse bounce in [Matte.pathShade]. Returns black when
+     * the world has no tracer to recurse through.
+     */
+    override fun pathShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
+        val wo = -sr.ray.direction
+        val sample = reflectiveBRDF.sampleF(sr, wo)
+        val nDotWi = sr.normal dot sample.wi
+        val tracer = world.tracer ?: return Color.BLACK
+        val reflectedRay = Ray(sr.hitPoint, sample.wi)
+        val incoming = tracer.trace(reflectedRay, sr.depth + 1)
+        return (sample.color * incoming) * nDotWi
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other != null && other is Reflective) {
             return super.equals(other) && reflectiveBRDF == other.reflectiveBRDF
