@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 11:21'
-updated_date: '2026-06-24 13:11'
+updated_date: '2026-06-24 13:12'
 labels:
   - tooling
   - dsl
@@ -29,3 +29,9 @@ Discovered during TASK-43 (MultipleObjects.kt rendered ~100% near-black). The co
 - [ ] #2 Existing intended 0-255 color uses are preserved or migrated; no existing scene changes its rendered output unintentionally
 - [ ] #3 Testable core covered by frozen cover-first tests; detekt and the full build stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first: add frozen tests to WorldScopeTest pinning the surviving color factories — c(Double,Double,Double), c(Double), c(hex), and cInt(Int,Int,Int) (0-255). These pin the API that survives the change. 2. Remove the redundant/ambiguous c(Int,Int,Int) overload from WorldScope (keep cInt as the explicit 0-255 path), so bare-int c(1,0,0) becomes a COMPILE ERROR rather than silent ~1/255 near-black. 3. Migrate all 30 trap call sites (all use only 0/1 values) from c(1,0,0)-style to c(1.0,0.0,0.0)-style, producing the author's intended pure colors. 4. Update WorldScope KDoc referencing c/cInt. 5. Verify: ./gradlew clean check green + detekt clean; ./gradlew audit shows the migrated scenes go from near-black SUSPECT to correct (never the reverse).
+<!-- SECTION:PLAN:END -->
