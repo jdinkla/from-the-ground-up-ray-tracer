@@ -3,11 +3,11 @@ id: TASK-55
 title: >-
   Guard against the Int-color DSL overload trap (c(1,0,0) silently means ~1/255
   brightness)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 11:21'
-updated_date: '2026-06-24 13:17'
+updated_date: '2026-06-24 13:23'
 labels:
   - tooling
   - dsl
@@ -47,3 +47,9 @@ AC#2 JUDGMENT CALL flagged for reviewer: the 30 migrated sites were ALL the trap
 
 VERIFICATION: ./gradlew clean check = BUILD SUCCESSFUL (compile incl. examples srcDir, all tests, detekt all green; only pre-existing PlyReader/GridStructuresTest unchecked-cast warnings). ./gradlew audit = no new near-black, no new build failures.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Removed the ambiguous c(Int,Int,Int) DSL color overload from WorldScope (option b), so bare-int color literals like c(1,0,0) now FAIL TO COMPILE instead of silently producing ~1/255 near-black — a compile-time guard, the strongest option, and the root cause of TASK-43. The explicit cInt(Int,Int,Int) 0-255 factory already existed and remains as the documented 0-255 path (its legitimate uses in World74/World74kdt untouched). Investigation justified the choice: c() and cInt() were byte-identical, ALL 30 c(Int,Int,Int) literal call sites used only 0/1 args (every one was the trap, zero legitimate 0-255 literal uses), and detekt does not scan src/examples so a custom rule (option c) could not see the trap. Migrated all 30 sites across 10 example scenes (Bunny, DepthOfFieldDemo/Sharp, World58/60/27/16/26/30/28) from c(i,j,k) to c(i.0,j.0,k.0) so each renders the author's intended pure color (e.g. World28's material literally named 'red' now renders pure red). Added cover-first frozen WorldScopeTest cases pinning the surviving factories (c(Double..), c(Double), cInt, and that the 0-255 small-triple stays near-black). Verified: ./gradlew clean check + detekt green; reviewer PASS (confirmed overload removal complete via green build + zero remaining trap grep, all migrations are c(i.0,..) not cInt (so the bug is fixed not preserved), legitimate cInt uses untouched, judgment call sound); ./gradlew audit identical to baseline with no near-black scene. The appearance change to the 10 migrated scenes is the intended bug fix, not drift. Committed 5375fdf.
+<!-- SECTION:FINAL_SUMMARY:END -->
