@@ -35,6 +35,7 @@ import net.dinkla.raytracer.objects.beveled.BeveledWedge
 import net.dinkla.raytracer.objects.compound.Bowl
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.GlassOfWater
 import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.compound.ThickRing
@@ -142,6 +143,47 @@ class ObjectsScope(
         b: Vector3D = Vector3D.UP,
         c: Vector3D = Vector3D.FORWARD,
     ) = Box(p0, a, b, c).add(material)
+
+    /**
+     * Adds a glass of water (Suffern §28.7): a [GlassOfWater] compound whose boundary surfaces carry
+     * three separate dielectric materials — [glassAir], [waterGlass] and [waterAir] — resolved from
+     * the materials block by id. Unlike the other shape adders this object is added with its per-part
+     * materials intact (it is *not* re-assigned a single material), because each boundary must keep the
+     * dielectric describing the two media it separates. The geometry parameters match
+     * [GlassOfWater]'s constructor and default to a unit-sized glass.
+     */
+    @SuppressWarnings("LongParameterList")
+    fun glassOfWater(
+        glassAir: String,
+        waterGlass: String,
+        waterAir: String,
+        bottomY: Double = 0.0,
+        innerBottomY: Double = 0.2,
+        waterY: Double = 1.4,
+        topY: Double = 2.0,
+        innerRadius: Double = 0.9,
+        outerRadius: Double = 1.0,
+        meniscusRadius: Double = 0.06,
+    ) {
+        val glass =
+            GlassOfWater(
+                glassAir = requireMaterial(glassAir),
+                waterGlass = requireMaterial(waterGlass),
+                waterAir = requireMaterial(waterAir),
+                bottomY = bottomY,
+                innerBottomY = innerBottomY,
+                waterY = waterY,
+                topY = topY,
+                innerRadius = innerRadius,
+                outerRadius = outerRadius,
+                meniscusRadius = meniscusRadius,
+            )
+        glass.add()
+    }
+
+    /** Resolves [id] in [materials], throwing a clear error when the material was never declared. */
+    private fun requireMaterial(id: String): IMaterial =
+        requireNotNull(materials[id]) { "Material '$id' not found in materials map" }
 
     /** Adds a flat disk of the given [radius] centred at [center] facing [normal]. */
     fun disk(

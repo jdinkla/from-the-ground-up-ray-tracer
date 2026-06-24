@@ -35,6 +35,7 @@ import net.dinkla.raytracer.objects.beveled.BeveledWedge
 import net.dinkla.raytracer.objects.compound.Bowl
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.GlassOfWater
 import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
 import net.dinkla.raytracer.objects.compound.ThickRing
@@ -389,6 +390,29 @@ internal class ObjectsScopeTest :
             scope.objects.size shouldBe 1
             scope.objects[0].shouldBeInstanceOf<Bowl>()
             scope.objects[0] as Bowl shouldBe expected
+        }
+
+        "should handle glassOfWater keeping each boundary's own dielectric material" {
+            // given: three distinct materials, one per boundary, so a single-material collapse is visible.
+            val glassAirM = Matte(Color(0.1, 0.1, 0.1))
+            val waterGlassM = Matte(Color(0.2, 0.2, 0.2))
+            val waterAirM = Matte(Color(0.3, 0.3, 0.3))
+            val materialsById =
+                mapOf(
+                    "glassAir" to glassAirM,
+                    "waterGlass" to waterGlassM,
+                    "waterAir" to waterAirM,
+                )
+            val scope = ObjectsScope(materialsById, Compound())
+
+            // when
+            scope.glassOfWater(glassAir = "glassAir", waterGlass = "waterGlass", waterAir = "waterAir")
+
+            // then: a single GlassOfWater whose parts retain all three materials (not propagated to one).
+            scope.objects.size shouldBe 1
+            scope.objects[0].shouldBeInstanceOf<GlassOfWater>()
+            val glass = scope.objects[0] as GlassOfWater
+            glass.objects.map { it.material }.toSet() shouldBe setOf(glassAirM, waterGlassM, waterAirM)
         }
 
         "should handle box" {
