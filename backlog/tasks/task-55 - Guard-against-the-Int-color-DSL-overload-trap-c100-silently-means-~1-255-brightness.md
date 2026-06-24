@@ -30,8 +30,6 @@ Discovered during TASK-43 (MultipleObjects.kt rendered ~100% near-black). The co
 - [x] #3 Testable core covered by frozen cover-first tests; detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -42,4 +40,10 @@ Discovered during TASK-43 (MultipleObjects.kt rendered ~100% near-black). The co
 
 <!-- SECTION:NOTES:BEGIN -->
 INVESTIGATION: c(Int,Int,Int) and cInt(Int,Int,Int) are byte-for-byte identical (both divide by 255). cInt already exists as the explicit, intended 0-255 factory (used 14x in World74/World74kdt with genuine 0-255 values like cInt(111,148,205)). ALL 30 c(Int,Int,Int) literal call sites use only 0/1 values => every one is the trap (author wanted pure color, got ~1/255 near-black). ZERO legitimate 0-255 c(Int,...) literal uses exist. detekt does NOT scan src/examples (build.gradle.kts source set list), so a custom detekt rule (option c) cannot see the trap. CHOSE option (b): remove the ambiguous overload, keep cInt; migrate the 30 trap sites to Double literals. Rationale: it is the root fix (compile error, not after-the-fact warning), completes the cInt design intent already in the codebase, bounded known blast radius.
+
+IMPLEMENTED option (b). Files changed: (1) WorldScope.kt — removed the redundant/ambiguous c(Int,Int,Int) overload (kept cInt as the explicit 0-255 path); now bare-int c(1,0,0) is a COMPILE ERROR, not silent ~1/255 near-black. Updated class + cInt KDoc to document the trap and the fix. (2) WorldScopeTest.kt — cover-first frozen tests pinning the surviving factories: 'c(Double,Double,Double) builds a linear-space colour from its components verbatim', 'c(Double) builds a grey colour with all three channels equal', 'cInt builds a colour by dividing each 0-255 channel by 255', 'the explicit 0-255 path of a small triple stays near-black, unlike the Double pure colour'. These passed against the UNREFACTORED code before the overload was removed. (3) 30 trap call sites migrated across 10 scene files (Bunny, DepthOfFieldDemo, DepthOfFieldDemoSharp, World58, World60, World27, World16, World26, World30, World28): each c(i,i,i) with 0/1 args -> c(i.0,i.0,i.0), producing the author's intended pure colour. cInt 0-255 uses (World74/World74kdt) untouched.
+
+AC#2 JUDGMENT CALL flagged for reviewer: the 30 migrated sites were ALL the trap (every literal used only 0/1) and were rendering near-black surfaces. Migrating fixes them to the manifest intended colour (e.g. World28 material 'red' now renders pure red, not near-black). So those scenes' surfaces DO change output — but this is the intended bug fix (the TASK-43 root cause), not unintended drift. No scene went the other way (correct->black). Verified via ./gradlew audit: identical to baseline — 'No scene rendered (near-)black above the threshold'; only pre-existing World61.kt missing-mesh failure remains. Manually rendered World28 at 720p (examples is a coverage-excluded zone): coherent image, the previously-near-black red sphere now vivid pure red.
+
+VERIFICATION: ./gradlew clean check = BUILD SUCCESSFUL (compile incl. examples srcDir, all tests, detekt all green; only pre-existing PlyReader/GridStructuresTest unchecked-cast warnings). ./gradlew audit = no new near-black, no new build failures.
 <!-- SECTION:NOTES:END -->
