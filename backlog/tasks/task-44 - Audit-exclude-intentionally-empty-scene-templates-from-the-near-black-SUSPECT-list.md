@@ -3,9 +3,11 @@ id: TASK-44
 title: >-
   Audit: exclude intentionally-empty scene templates from the near-black SUSPECT
   list
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-23 21:31'
+updated_date: '2026-06-24 09:45'
 labels:
   - audit
   - tooling
