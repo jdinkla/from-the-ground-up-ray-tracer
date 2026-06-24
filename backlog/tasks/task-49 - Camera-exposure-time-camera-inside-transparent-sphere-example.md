@@ -1,11 +1,11 @@
 ---
 id: TASK-49
 title: Camera exposure time + camera-inside-transparent-sphere example
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 10:02'
+updated_date: '2026-06-24 10:06'
 labels:
   - book-coverage
   - cameras
@@ -66,3 +66,9 @@ Tests (cover-first, frozen):
 
 Verification: 'just test' (./gradlew clean check, tests+detekt+jacoco) green. Manually rendered InsideTransparentSphere.kt via 'just run --world=InsideTransparentSphere.kt --tracer=WHITTED --resolution=720p': at exposureTime=1/eta^2 the interior view (refracted/curved checker floor + ring of spheres seen through the enclosing sphere) reads at normal brightness; a control render with exposureTime temporarily forced to 1.0 is visibly washed out (blown-out whites, over-saturated colours), confirming the compensation works end-to-end. Verification PNGs removed afterwards. Two pre-existing compiler warnings (PlyReader.kt unchecked cast, GridStructuresTest.kt) are unrelated to this change.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a Camera.exposureTime property (Suffern's exposure_time, default 1.0) that scales the radiance per primary ray, applied once at the shared single-ray renderer seam (SimpleSingleRayRenderer multiplies the traced color; SampledSingleRayRenderer multiplies the post-average pixel mean), threaded from camera through Context (both branches) and StereoRender so every camera/lens type honours it with no per-lens duplication. Default 1.0 is an exact IEEE identity no-op (Color*1.0), so existing scenes render byte-identically. Exposed exposureTime in the DSL camera(...) block. Added auto-discovered example InsideTransparentSphere.kt: camera inside a diamond-IOR (2.42) Dielectric sphere looking out at a ring of 8 spheres on a checker plane (book Fig 28.34, WHITTED), exposureTime=1/eta^2 (~0.17) so the (eta_in/eta_out)^2 radiance scaling does not wash out the interior view. Frozen cover-first tests on Camera default and both renderers (default no-op + scaling). Verified: ./gradlew clean check green, reviewer PASS (confirmed no-op identity, single scalar multiply in the right place, tests pin behavior, detekt baseline untouched), scene rendered legibly while a control at exposureTime=1.0 was visibly washed out. Committed 3ea5937. Follow-up nit: thinLensCamera/fishEyeCamera/sphericalCamera DSL helpers don't yet expose exposureTime (out of scope; renderer seam still honours it for any camera).
+<!-- SECTION:FINAL_SUMMARY:END -->
