@@ -3,11 +3,11 @@ id: TASK-46
 title: >-
   Specular and glossy reflection in the path tracer (Reflective/GlossyReflector
   pathShade)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:38'
+updated_date: '2026-06-24 08:42'
 labels:
   - book-coverage
   - global-illumination
@@ -64,3 +64,9 @@ Example scene (examples/**, coverage-excluded -> manual verify): ReflectiveCaust
 
 Verification: ./gradlew clean check GREEN (detekt + all tests). Two pre-existing unchecked-cast compile warnings (PlyReader.kt, GridStructuresTest.kt) are unrelated to this change.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added pathShade overrides to Reflective (PerfectSpecular.sampleF, book Listing 26.5) and GlossyReflector (GlossySpecular.sampleF via existing glossyReflection, exercise 26.9), so reflective/glossy surfaces follow specular bounces under the PATH_TRACE tracer instead of inheriting Matte's diffuse bounce. Added frozen cover-first tests (ReflectivePathShadeTest, GlossyReflectorPathShadeTest) that pin the new behavior, and an auto-discovered example scene ReflectiveCaustic.kt (matte floor + emissive sphere + flat mirror, book Fig 26.8, preferredTracer PATH_TRACE). Verified: ./gradlew clean check green (detekt + tests), reviewer PASS, and scene rendered non-black at 720p showing the mirror reflection of the emissive sphere. Committed 22396c5.
+<!-- SECTION:FINAL_SUMMARY:END -->
