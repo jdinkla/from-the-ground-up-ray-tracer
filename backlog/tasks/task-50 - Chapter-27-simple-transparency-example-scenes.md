@@ -1,9 +1,11 @@
 ---
 id: TASK-50
 title: Chapter 27 simple-transparency example scenes
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:24'
+updated_date: '2026-06-24 10:07'
 labels:
   - book-coverage
   - examples
