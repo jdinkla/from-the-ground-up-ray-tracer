@@ -3,9 +3,11 @@ id: TASK-54
 title: >-
   Fix AreaLight.l reading the receiving surface's getLe instead of the light's
   own emitted radiance (AREA lights ~20x too dim)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 11:21'
+updated_date: '2026-06-24 12:53'
 labels:
   - bug
   - lights
