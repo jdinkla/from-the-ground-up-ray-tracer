@@ -113,19 +113,23 @@ class WorldScope {
     /**
      * Sets the camera as a [Pinhole] lens looking from [eye] towards [lookAt] with the given [up]
      * vector. [d] is the view-plane distance (focal length); larger [d] narrows the field of view.
+     * [exposureTime] (default `1.0`) scales the radiance of every primary ray — reduce it to keep an
+     * interior view through a dense transparent medium from washing out (Suffern §28.6.3); at the
+     * default it leaves the image unchanged.
      */
     fun camera(
         d: Double = 1.0,
         eye: Point3D = Point3D(5.0, 50.0, 50.0),
         lookAt: Point3D = Point3D.ORIGIN,
         up: Vector3D = Vector3D.UP,
+        exposureTime: Double = 1.0,
     ) {
         camera =
             Camera({ eye, uvw ->
                 val p = Pinhole(viewPlane, eye, uvw)
                 p.d = d
                 p
-            }, eye, lookAt, up)
+            }, eye, lookAt, up).apply { this.exposureTime = exposureTime }
     }
 
     /**

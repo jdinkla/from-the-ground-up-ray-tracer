@@ -102,6 +102,27 @@ class SampledSingleRayRendererTest : StringSpec({
         result shouldBeApprox color
     }
 
+    "leaves the averaged colour unchanged at the default exposureTime of 1.0" {
+        // The exposureTime default must be a no-op so anti-aliased scenes are byte-identical (AC#1).
+        val color = Color(0.2, 0.4, 0.6)
+        val renderer = SampledSingleRayRenderer(CountingLens(), ConstantTracer(color), numSamples = 16)
+
+        val result = renderer.render(r = 3, c = 7)
+
+        result shouldBeApprox color
+    }
+
+    "scales the averaged radiance by a reduced exposureTime" {
+        // A constant tracer averages back to its colour, then exposureTime = 0.5 halves every channel.
+        val color = Color(0.8, 0.4, 0.2)
+        val renderer =
+            SampledSingleRayRenderer(CountingLens(), ConstantTracer(color), numSamples = 16, exposureTime = 0.5)
+
+        val result = renderer.render(r = 3, c = 7)
+
+        result shouldBeApprox Color(0.4, 0.2, 0.1)
+    }
+
     "casts exactly numSamples rays per pixel" {
         val tracer = ConstantTracer(Color.WHITE)
         val renderer = SampledSingleRayRenderer(CountingLens(), tracer, numSamples = 9)

@@ -67,4 +67,24 @@ class SimpleSingleRayRendererTest : StringSpec({
         color shouldBe Color.BLACK
         tracer.lastDepth shouldBe -1 // tracer was never invoked
     }
+
+    "leaves the traced colour unchanged at the default exposureTime of 1.0" {
+        // The exposureTime default must be a no-op so every existing scene is byte-identical (AC#1).
+        val tracer = RecordingTracer(Color(0.2, 0.4, 0.6))
+        val renderer = SimpleSingleRayRenderer(FixedLens(ray), tracer)
+
+        val color = renderer.render(r = 3, c = 7)
+
+        color shouldBeApprox Color(0.2, 0.4, 0.6)
+    }
+
+    "scales the traced radiance by a reduced exposureTime" {
+        // exposureTime = 0.25 darkens every channel uniformly: 0.8 * 0.25 = 0.2, etc.
+        val tracer = RecordingTracer(Color(0.8, 0.4, 0.2))
+        val renderer = SimpleSingleRayRenderer(FixedLens(ray), tracer, exposureTime = 0.25)
+
+        val color = renderer.render(r = 3, c = 7)
+
+        color shouldBeApprox Color(0.2, 0.1, 0.05)
+    }
 })

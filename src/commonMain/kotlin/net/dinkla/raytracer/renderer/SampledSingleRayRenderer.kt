@@ -16,7 +16,10 @@ import net.dinkla.raytracer.tracers.Tracer
  * [SimpleSingleRayRenderer].
  *
  * [numSamples] is the per-pixel sample count (driven by the scene's `ViewPlane.numSamples`); [sampler]
- * supplies the in-pixel jitter and must be built with a matching sample count.
+ * supplies the in-pixel jitter and must be built with a matching sample count. [exposureTime]
+ * (default `1.0`) scales the radiance per primary ray — the camera's
+ * [exposureTime][net.dinkla.raytracer.cameras.Camera.exposureTime]; applied to the per-pixel mean it
+ * scales every sample's contribution uniformly, so at the default it is a no-op.
  *
  * The default in-pixel sampler uses the [NRooks] generator deliberately: it produces exactly
  * `numSamples` stratified points per set for *any* positive sample count. The `sqrt`-based generators
@@ -30,6 +33,7 @@ class SampledSingleRayRenderer(
     private val tracer: Tracer,
     private val numSamples: Int,
     private val sampler: Sampler = Sampler(NRooks, numSamples, DEFAULT_NUM_SETS),
+    private val exposureTime: Double = 1.0,
 ) : ISingleRayRenderer {
     init {
         require(numSamples > 0) { "numSamples must be positive, was $numSamples" }
@@ -48,7 +52,9 @@ class SampledSingleRayRenderer(
             val ray = lens.getRaySampled(r, c, sp) ?: continue
             color.plus(tracer.trace(ray, 0))
         }
-        return color.average
+        // exposureTime scales the per-pixel mean; applied after averaging it scales every sample's
+        // radiance uniformly (default 1.0 is a no-op, leaving existing scenes byte-identical).
+        return color.average * exposureTime
     }
 
     companion object {

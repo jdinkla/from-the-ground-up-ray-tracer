@@ -62,7 +62,7 @@ internal object StereoRender {
         context: Context,
         resolution: Resolution,
     ): ColorGridFilm {
-        val singleRayRenderer = SimpleSingleRayRenderer(camera.lens, tracer)
+        val singleRayRenderer = SimpleSingleRayRenderer(camera.lens, tracer, camera.exposureTime)
         val renderer = context.renderer(singleRayRenderer, world.viewPlane)
         val image = ColorGridFilm(resolution)
         renderer.render(image)

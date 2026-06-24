@@ -23,4 +23,10 @@ class CameraTest :
             c.uvw.v shouldBe Vector3D(0.0, 1.0, 0.0)
             c.uvw.w shouldBe Vector3D(0.0, 0.0, 1.0)
         }
+
+        "defaults exposureTime to 1.0 so existing scenes are unaffected" {
+            val c = Camera({ eye, uvw -> Pinhole(ViewPlane(), eye, uvw) })
+
+            c.exposureTime shouldBe 1.0
+        }
     })

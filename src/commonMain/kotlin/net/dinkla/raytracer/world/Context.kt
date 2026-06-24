@@ -40,10 +40,11 @@ class Context(
         theRealTracer: Tracer,
     ): ISingleRayRenderer {
         val numSamples = world.viewPlane.numSamples
+        val exposureTime = world.camera.exposureTime
         return if (numSamples > 1) {
-            SampledSingleRayRenderer(world.camera.lens, theRealTracer, numSamples)
+            SampledSingleRayRenderer(world.camera.lens, theRealTracer, numSamples, exposureTime = exposureTime)
         } else {
-            SimpleSingleRayRenderer(world.camera.lens, theRealTracer)
+            SimpleSingleRayRenderer(world.camera.lens, theRealTracer, exposureTime)
         }
     }
 }
