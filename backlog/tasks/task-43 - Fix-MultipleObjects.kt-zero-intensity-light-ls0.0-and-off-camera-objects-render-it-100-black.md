@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:35'
+updated_date: '2026-06-24 09:40'
 labels:
   - examples
   - bug
@@ -39,3 +39,9 @@ Surfaced by the TASK-38 audit and confirmed during TASK-39: MultipleObjects.kt r
 4. Run ./gradlew audit; confirm MultipleObjects.kt drops off the near-black SUSPECT list.
 5. Run ./gradlew clean check (just test); confirm green incl. detekt.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Root cause confirmed via a throwaway diagnostic (since removed): the true near-black cause was NOT primarily the zero-intensity light or framing, but an integer/float color-overload bug. The scene wrote materials as c(1,0,0)/c(0,1,0)/c(0,0,1) with Int literals, which bind to the c(Int,Int,Int) DSL overload (0-255, divides by 255) -> Color(0,0,0.00392), i.e. ~1/255 brightness. Diagnostic showed a sphere hit shading to Color(0,0,0.00297). Fix: write colors as Double literals c(1.0,0.0,0.0) etc. so they bind to the c(Double,Double,Double) overload (0.0-1.0). Also: the original pointLight had ls=0.0 (zero intensity, DSL default) and sat at p(3,3,1) among/behind the spheres -> gave it ls=3.0 and moved it to p(100,100,200) (front/above) so visible faces are diffusely lit. Reframed camera to eye=p(40,30,250)/lookAt=p(40,20,0) d=2000 to center all three spheres (the original eye=p(0,0,200)/lookAt=p(50,0,0) did frame them, but off-center and small). Verified by rendering at 720p with MULTIPLE_OBJECTS: coherent image of red/green/blue diffuse spheres, maxChannel=214, ~10.9% lit.
+<!-- SECTION:NOTES:END -->
