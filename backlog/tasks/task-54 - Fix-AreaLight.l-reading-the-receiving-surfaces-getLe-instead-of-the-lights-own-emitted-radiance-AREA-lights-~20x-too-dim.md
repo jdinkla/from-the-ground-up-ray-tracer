@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 11:21'
-updated_date: '2026-06-24 12:54'
+updated_date: '2026-06-24 12:59'
 labels:
   - bug
   - lights
@@ -25,8 +25,8 @@ Discovered during TASK-48 (hybrid GlobalTrace tracer). AreaLight.l computes the 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 AreaLight.l returns the AREA light emitter's own emitted radiance (its material getLe), not the receiving surface's getLe
-- [ ] #2 The previously-frozen MatteAreaLightShadeTest is updated to the corrected expected radiance (this is a documented behavior change, not a refactor) and any other affected area-lighting tests are updated consistently
+- [x] #1 AreaLight.l returns the AREA light emitter's own emitted radiance (its material getLe), not the receiving surface's getLe
+- [x] #2 The previously-frozen MatteAreaLightShadeTest is updated to the corrected expected radiance (this is a documented behavior change, not a refactor) and any other affected area-lighting tests are updated consistently
 - [ ] #3 AREA example scenes (e.g. AreaShadedSpheres) are re-rendered and confirmed correctly exposed (not blown out / not over-dim); detekt and the full build stay green
 <!-- AC:END -->
 
@@ -35,3 +35,9 @@ Discovered during TASK-48 (hybrid GlobalTrace tracer). AreaLight.l computes the 
 <!-- SECTION:PLAN:BEGIN -->
 1. Read AreaLight.l, AreaLight emitter (getLightMaterial), Matte.globalDirect/areaLightShade, Emissive.getLe, affected tests. 2. Fix AreaLight.l to return getLightMaterial().getLe(sr) (emitter's own le) instead of sr.material.getLe (receiver) — mirror Matte.globalDirect. 3. Update MatteAreaLightShadeTest: it left AreaLight.material=null (would now throw); assign an Emissive emitter and recompute expected le=ce*ls independently (with comment on corrected physics). Keep AreaLightTest's l-test intent correct. 4. Re-render AreaShadedSpheres + run ./gradlew audit; confirm no AREA scene near-black/blown-out. Clean up my PNGs. 5. ./gradlew clean check green.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Fixed AreaLight.l to return getLightMaterial().getLe(sr) (emitter's own le) instead of sr.material.getLe (receiver). Removed the now-unused 'world' param from the 3-arg l(sr, sample) — detekt UnusedParameter is active — and updated its 4 callers (Matte, Phong, SvMatte, SvPhong). Updated characterization tests that constructed AreaLight without a material (would now throw on getLightMaterial): MatteAreaLightShadeTest, AreaLightTest, PhongTest, SvMatteTest, SvPhongTest. Derived expected values independently: emitter Le = ce*ls. MatteGlobalShadeTest already used the correct emitter pattern (globalDirect) — unchanged.
+<!-- SECTION:NOTES:END -->
