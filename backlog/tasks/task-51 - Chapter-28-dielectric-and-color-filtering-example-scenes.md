@@ -1,11 +1,11 @@
 ---
 id: TASK-51
 title: Chapter 28 dielectric and color-filtering example scenes
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:42'
+updated_date: '2026-06-24 10:47'
 labels:
   - book-coverage
   - examples
@@ -80,3 +80,9 @@ created: 2026-06-24 10:35
 AC#1 needs a decision. The three nested Dielectric spheres are implemented and the nested structure + per-medium tints render, but at the DSL's only available recursion depth (default 5) the innermost sphere reads black because the straight-through ray crosses 6 dielectric boundaries and is truncated at the 6th. Verified that maxDepth>=10-15 fixes it (mauve core + floor visible through the stack). Options: (a) accept the depth-5 nested render with the documented dark core as 'good enough' for AC#1; or (b) authorize a small maxDepth(n) DSL hook on WorldScope (sets ViewPlane.maximalRecursionDepth, relax its private setter) + a cover-first ViewPlaneTest assertion, then set NestedTransparentSpheres to maxDepth ~12. (b) is the only way to literally satisfy 'inner spheres show through correctly', but it is a commonMain production change beyond this task's 'add example scenes' scope.
 ---
 <!-- COMMENTS:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added three auto-discovered Chapter 28 Dielectric example scenes under src/examples/.../materials/dielectric/: NestedTransparentSpheres.kt (three concentric Dielectric spheres with correct boundaries glass-air 1.5/1.0, diamond-glass 2.42/1.5, water-diamond 1.33/2.42 and per-medium Beer-Lambert cfIn filters, Fig 28.15), ColorFilteringCylinders.kt (overlapping CMY filter cylinders over white, subtractive Venn mixing, Fig 28.8), TransparentGlassBox.kt (Dielectric AlignedBox at iorIn 1.5 > sqrt(2) with side-face TIR mirroring and path-length green tint, Figs 28.20/28.22). To satisfy AC#1's 'HIGH max recursion depth' literally (the nested stack's 6 boundaries exceed the default depth 5, leaving a black core), added a minimal WorldScope.maxDepth(n) DSL setter mirroring the existing samples(n) view-plane setter; ViewPlane.maximalRecursionDepth's setter relaxed private->internal, default (5) unchanged so all existing scenes render byte-identically. NestedTransparentSpheres uses maxDepth(12) and the mauve inner sphere now resolves with the floor visible through the full stack. Cover-first frozen tests added to WorldScopeTest (set N -> depth N; default stays 5; maxDepth(0) throws). Verified: ./gradlew clean check green (detekt + tests), reviewer PASS (confirmed no regression, no existing scene calls maxDepth, tests pin behavior, detekt baseline untouched), ./gradlew audit registers all three non-black with empty suspect list. Committed b7241c0. (Manager decision: authorized the maxDepth DSL hook as in-scope book-coverage work rather than accept a black-core nested render.)
+<!-- SECTION:FINAL_SUMMARY:END -->
