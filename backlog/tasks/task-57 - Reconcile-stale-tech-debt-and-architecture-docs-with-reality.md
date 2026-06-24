@@ -4,6 +4,7 @@ title: Reconcile stale tech-debt and architecture docs with reality
 status: To Do
 assignee: []
 created_date: '2026-06-24 22:35'
+updated_date: '2026-06-24 22:39'
 labels:
   - tech-debt
   - documentation
@@ -34,4 +35,5 @@ Do NOT add a fourth tech-debt doc: fold TECH_DEBT_REPORT.md into the consolidati
 - [ ] #4 The false-positive 'unpinned deps / no versions.toml' risk is corrected to describe refreshVersions as the deliberate mechanism
 - [ ] #5 No new duplicate tech-debt document is left behind; TECH_DEBT_REPORT.md content is folded into the consolidated docs rather than kept as a standalone fourth doc
 - [ ] #6 Build stays green (./gradlew clean check)
+- [ ] #7 When TECH_DEBT_REPORT.md is removed or folded in, the --ref TECH_DEBT_REPORT.md links on TASK-58 through TASK-64 are either re-pointed to the surviving consolidated doc/anchor or dropped, so none dangle
 <!-- AC:END -->
