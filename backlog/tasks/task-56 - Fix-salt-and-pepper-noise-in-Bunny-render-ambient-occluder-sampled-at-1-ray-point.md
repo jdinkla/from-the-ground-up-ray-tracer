@@ -39,3 +39,15 @@ This change lives in examples/** which JaCoCo excludes (per CLAUDE.md), so verif
 - [x] #3 The point-light hard shadow and overall composition are unchanged; only the ambient noise is removed
 - [x] #4 Verified manually by re-rendering (examples/** is coverage-excluded; no unit test added) and the new render path is noted in the task
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Fix: Bunny.kt:28 ambientOccluder numSamples 1 -> 64 (single line; examples/** is JaCoCo-excluded, so no unit test). Verified by re-render: ./gradlew run --args="--world=Bunny.kt --tracer=WHITTED --renderer=FORK_JOIN --resolution=480p". New render: renders/20260624170029_Bunny.png. Salt-and-pepper black dropouts are gone on both the bunny surface and the floor; AO now reads as smooth soft darkening in the recesses; point-light hard shadow and composition unchanged. Cost note: render took ~342s at 480p (AO drove ~14.5M shadow rays vs. a handful at numSamples=1) — consistent with the scene's 'This can take longer' comment. Not committed (left for the usual commit/work-board flow).
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Raised Bunny.kt ambient-occluder numSamples from 1 to 64. Root cause was a binary AO estimate (ratio = 1 - numHits/numSamples with a single sample) producing scattered fully-black pixels on the bunny and floor. Verified by re-rendering at 480p (renders/20260624170029_Bunny.png): noise eliminated, point-light shadow and composition intact.
+<!-- SECTION:FINAL_SUMMARY:END -->
