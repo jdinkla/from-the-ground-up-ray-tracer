@@ -3,9 +3,11 @@ id: TASK-55
 title: >-
   Guard against the Int-color DSL overload trap (c(1,0,0) silently means ~1/255
   brightness)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 11:21'
+updated_date: '2026-06-24 13:11'
 labels:
   - tooling
   - dsl
