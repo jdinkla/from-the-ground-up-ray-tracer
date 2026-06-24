@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:48'
+updated_date: '2026-06-24 10:50'
 labels:
   - book-coverage
   - examples
@@ -31,3 +31,13 @@ The book models a glass of water as a compound of dielectric boundaries (book se
 - [ ] #2 A new example scene renders the glass of water (optionally with a Matte straw) over a checker plane at a high max recursion depth (book Figure 28.38), showing refraction, TIR on the water surface and color filtering; a straw appears to bend at the water line
 - [ ] #3 Reusable geometry/assembly logic that lands in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add GlassOfWater compound in commonMain (objects/compound/) assembled from PartCylinder/Disk/Annulus/PartTorus part surfaces; constructor takes the three Dielectric materials (glass-air, water-air, water-glass) and assigns each per-part, overriding Compound's single-material propagation. Boundaries per Suffern 28.7: glass-air {top annulus, outer convex wall, inner concave wall above water, bottom disk}; water-glass {inner convex wall below water, cavity bottom disk}; water-air {water-surface disk}; plus quarter-torus meniscus.
+2. Cover-first frozen unit test (GlassOfWaterTest, StringSpec) for assembly invariants: part count, bounding box extents, per-boundary material assignment, representative hits (t + normal) on outer wall / water surface / bottom, equals/hashCode/toString.
+3. Add a glassOfWater DSL method to ObjectsScope taking the three material ids, building GlassOfWater and adding it via the no-material add() path (so per-part materials survive).
+4. Add example scene GlassOfWater.kt under examples/materials/dielectric: checker plane, three dielectric materials + filter colors, optional Matte straw instance crossing the water line, maxDepth(12), preferredTracer(WHITTED), non-black background. Double color literals only.
+5. Run ./gradlew test for new test; render scene at 720p WHITTED, confirm refraction/TIR/color-filtering/bending straw; clean up PNGs. Then ./gradlew clean check (just test) green.
+<!-- SECTION:PLAN:END -->
