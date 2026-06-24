@@ -1,11 +1,11 @@
 ---
 id: TASK-48
 title: 'Hybrid GlobalTrace tracer: direct light sampling + path-traced indirect'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 09:25'
+updated_date: '2026-06-24 09:33'
 labels:
   - book-coverage
   - global-illumination
@@ -63,3 +63,9 @@ Cover-first frozen tests: tracers/GlobalTraceTest, materials/{MatteGlobalShadeTe
 
 Manual verification (temporary jvmTest render probe, since examples/** is coverage-excluded; probe deleted after): rendered CornellBoxGlobal under GLOBAL_TRACE vs PATH_TRACE at equal samples=16, res 240p. Direct-lit floor patch coefficient-of-variation (noise proxy): GLOBAL 1.78 vs PATH 3.28 at identical floor mean luminance (0.065) -> ~half the noise (Fig 26.12). At 100 samples GLOBAL CoV 0.65 (converged). PNGs confirmed coherent: smooth red/green walls, lit floor, two boxes, bright ceiling panel; PATH_TRACE at 16 samples is pure salt-and-pepper noise.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a hybrid GLOBAL_TRACE tracer (Suffern ch. 26): new GlobalTrace.kt + GLOBAL_TRACE entry in the Tracers enum. It computes direct illumination by sampling the lights at the first hit (depth 0) and path-traces the indirect bounces, giving far less noise than pure PATH_TRACE for small lights. Added globalShade to Matte (Listing 26.7), Emissive (26.6, returns BLACK at depth 1 to avoid double-counting direct light) and Reflective (26.8), with an additive BLACK default on IMaterial. Matte.globalDirect uses the light's own emitted radiance (light.getLightMaterial().getLe), independent of the pre-existing AreaLight.l receiver-reading quirk (left out of scope per a follow-up). Added an auto-discovered CornellBoxGlobal.kt scene (preferredTracer GLOBAL_TRACE) and frozen cover-first tests (GlobalTraceTest, Matte/Emissive/ReflectiveGlobalShadeTest). Verified: ./gradlew clean check green; reviewer PASS (empirically mutated globalShade to confirm tests pin behavior; confirmed purely additive, no regressions, detekt baseline untouched); scene rendered coherent with measured floor-noise CoV 1.78 GLOBAL vs 3.28 PATH at equal samples=16. Committed 6f043fd.
+<!-- SECTION:FINAL_SUMMARY:END -->
