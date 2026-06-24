@@ -1,11 +1,11 @@
 ---
 id: TASK-47
 title: Path-traced refractive caustics (transparency in the path tracer)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 09:02'
+updated_date: '2026-06-24 09:06'
 labels:
   - book-coverage
   - global-illumination
@@ -63,3 +63,9 @@ Manual verification (rendered, PATH_TRACE / FORK_JOIN / 720p, ~33s): a bright co
 
 Full check: just test (./gradlew clean check) GREEN — all tests + detekt. The two compiler warnings (PlyReader.kt, GridStructuresTest.kt unchecked casts) are pre-existing and unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added pathShade overrides to Transparent and Dielectric so transparency works under the PATH_TRACE tracer (previously inherited IMaterial's default BLACK pathShade). Each spawns reflected + transmitted bounces via world.tracer.trace(ray, depth+1), handles total internal reflection via the BTDF isTir test, and Dielectric applies cfIn/cfOut Beer-Lambert attenuation, mirroring each material's Whitted shade (same approach as TASK-46). PathTrace.kt was extended to report the nearest hit distance through the Tracer WrappedDouble overload so the Beer-Lambert path length is correct under path tracing; reviewer confirmed this change is purely additive and does not regress Matte/Emissive/Reflective/GlossyReflector path tracing. Added frozen cover-first tests (TransparentPathShadeTest, DielectricPathShadeTest) and an auto-discovered example scene RefractiveCaustic.kt (book Fig 28.42, preferredTracer PATH_TRACE). Verified: ./gradlew clean check green, reviewer PASS, scene rendered showing a visible refractive caustic on the floor (Monte-Carlo noise expected). Committed 776a0b9.
+<!-- SECTION:FINAL_SUMMARY:END -->
