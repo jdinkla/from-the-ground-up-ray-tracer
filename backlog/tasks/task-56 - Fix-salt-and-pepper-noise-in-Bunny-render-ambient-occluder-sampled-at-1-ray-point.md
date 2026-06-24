@@ -3,9 +3,10 @@ id: TASK-56
 title: >-
   Fix salt-and-pepper noise in Bunny render (ambient occluder sampled at 1
   ray/point)
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-06-24 16:56'
+updated_date: '2026-06-24 16:59'
 labels:
   - bug
 dependencies: []
