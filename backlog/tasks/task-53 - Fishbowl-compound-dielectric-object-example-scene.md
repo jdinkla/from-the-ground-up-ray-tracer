@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 11:08'
+updated_date: '2026-06-24 11:14'
 labels:
   - book-coverage
   - examples
@@ -27,10 +27,12 @@ The book models a spherical fishbowl as a compound of part objects (book section
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A FishBowl compound object is added from the existing part primitives with correctly oriented normals and the three Dielectric boundary materials
-- [ ] #2 A new example scene renders the fishbowl with water over a plane at a high max recursion depth (book Figure 28.41), optionally containing a simple fish/object; refraction and color filtering are visible
-- [ ] #3 Reusable geometry/assembly logic in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
+- [x] #1 A FishBowl compound object is added from the existing part primitives with correctly oriented normals and the three Dielectric boundary materials
+- [x] #2 A new example scene renders the fishbowl with water over a plane at a high max recursion depth (book Figure 28.41), optionally containing a simple fish/object; refraction and color filtering are visible
+- [x] #3 Reusable geometry/assembly logic in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
