@@ -3,11 +3,11 @@ id: TASK-43
 title: >-
   Fix MultipleObjects.kt: zero-intensity light (ls=0.0) and off-camera objects
   render it 100% black
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:42'
+updated_date: '2026-06-24 09:44'
 labels:
   - examples
   - bug
@@ -47,3 +47,9 @@ Root cause confirmed via a throwaway diagnostic (since removed): the true near-b
 
 Verified: ./gradlew audit -> MultipleObjects.kt no longer on the near-black SUSPECT list (only Template.kt remains; World61.kt/StereoSpheres are pre-existing missing-mesh/stereo, unrelated). ./gradlew clean check (just test) BUILD SUCCESSFUL incl. detekt. Manual render at 720p with MULTIPLE_OBJECTS tracer shows a coherent red/green/blue diffuse-sphere image (maxChannel=214, ~10.9% pixels lit). Files changed: only src/examples/.../examples/tracers/MultipleObjects.kt (JaCoCo-excluded scene content; no unit test added per cover-first exception). Throwaway diagnostic test used during investigation was removed before final check.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Fixed MultipleObjects.kt rendering 100% near-black. Root cause was deeper than the task hypothesis: the matte colors used Int literals (c(1, 0, 0)) which bind to the c(Int,Int,Int) 0-255 DSL overload (/255), so cd was ~1/255 bright and every surface shaded near-black. Rewrote them as Double literals (c(1.0,0.0,0.0)). Also fixed the zero-intensity point light (was ls=0.0 default, now ls=3.0 moved in front of the spheres) and reframed the camera to center all three spheres. Example scene (JaCoCo-excluded), so no unit test per the cover-first exception. Verified by manager self-review: ./gradlew audit confirms MultipleObjects.kt is no longer on the near-black SUSPECT list (only the intentionally-empty Template.kt remains, which is TASK-44's subject); ./gradlew clean check green; scene renders three coherent diffuse-lit red/green/blue spheres (maxChannel 214, ~11% pixels lit). Committed dde3b9e. Note: the Int-color overload trap is a footgun other scenes could hit.
+<!-- SECTION:FINAL_SUMMARY:END -->
