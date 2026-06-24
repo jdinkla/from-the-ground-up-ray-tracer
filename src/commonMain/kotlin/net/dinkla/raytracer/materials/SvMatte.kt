@@ -97,7 +97,7 @@ open class SvMatte(
         val nDotWi = wi dot sr.normal
         if (nDotWi <= 0 || isInShadow(world, sr, wi, light, sample)) return null
         val f = diffuseBRDF.f(sr, wo, wi)
-        val l = light.l(world, sr, sample)
+        val l = light.l(sr, sample)
         val f1 = light.G(sr, sample) / light.pdf(sr)
         return (f * l) * nDotWi * f1
     }

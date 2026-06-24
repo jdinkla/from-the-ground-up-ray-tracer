@@ -20,9 +20,9 @@ import net.dinkla.raytracer.tracers.Tracer
 import net.dinkla.raytracer.world.IWorld
 
 /**
- * Characterization tests for [Matte.areaLightShade] (the AREA-lighting path), pinning the exact
- * colour produced before the TASK-11 nesting refactor. The scenario is built so every sampled
- * direction is identical and the geometry terms collapse to 1.0, making the output hand-computable:
+ * Characterization tests for [Matte.areaLightShade] (the AREA-lighting path). The scenario is built
+ * so every sampled direction is identical and the geometry terms collapse to 1.0, making the output
+ * hand-computable:
  *
  *  - hit point at the origin, surface normal straight up
  *  - the light source always samples the point (0,1,0) one unit above, so wi = (0,1,0)
@@ -31,6 +31,13 @@ import net.dinkla.raytracer.world.IWorld
  *
  * Then per sample T = (diffuse.f * Le) * nDotWi * 1, and with all samples equal the accumulator's
  * average equals T. The expected colour is L_ambient + T.
+ *
+ * TASK-54 behaviour change (NOT a refactor): [AreaLight.l] now returns the **light emitter's own**
+ * radiance (`getLightMaterial().getLe` = the panel's `ce * ls`), as Suffern ch. 18 prescribes,
+ * instead of the receiving Matte's `getLe` (`cd * kd`). The light is therefore given an explicit
+ * [Emissive] emitter whose radiance is deliberately distinct from the receiver's `cd*kd`, and the
+ * expected per-sample term uses that emitter radiance `Le = ce * ls`. The previous frozen value
+ * (which read the receiver's `cd*kd`) pinned the historical bug and is intentionally superseded.
  */
 internal class MatteAreaLightShadeTest :
     StringSpec({
@@ -38,6 +45,12 @@ internal class MatteAreaLightShadeTest :
         // Source one unit straight above the origin; normal faces back down toward the surface.
         val samplePoint = Point3D(0.0, 1.0, 0.0)
         val sourceNormal = Normal.DOWN
+
+        // The area-light emitter's own radiance Le = ce * ls = (0.4,0.5,0.6) * 2.0 = (0.8,1.0,1.2).
+        // Chosen distinct from the receiver Matte's getLe (cd*kd = (1.0,0.9,0.8)*0.2 = (0.2,0.18,0.16))
+        // so the test genuinely pins that AreaLight.l reads the EMITTER's Le, not the receiver's.
+        val emitter = Emissive(Color(0.4, 0.5, 0.6), ls = 2.0)
+        val emitterLe = Color(0.4, 0.5, 0.6) * 2.0
 
         fun fakeSource(): ILightSource =
             object : ILightSource {
@@ -87,7 +100,10 @@ internal class MatteAreaLightShadeTest :
 
         "area light shade sums ambient and the averaged diffuse contribution" {
             val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
-            val light = AreaLight(shadows = true).apply { source = fakeSource() }
+            val light = AreaLight(shadows = true).apply {
+                source = fakeSource()
+                material = emitter
+            }
             val sr = fakeShade(matte)
             val world = fakeWorld(listOf(light))
 
@@ -95,16 +111,18 @@ internal class MatteAreaLightShadeTest :
 
             // L_ambient = (cd*ka) * (white*1.0) = cd*ka
             val ambient = Ex.cd * Ex.ka
-            // per sample: f = cd*(kd*INV_PI); Le = cd*kd; nDotWi = 1; G/pdf = 1
+            // per sample: f = cd*(kd*INV_PI); Le = EMITTER's ce*ls = emitterLe (TASK-54); nDotWi = 1; G/pdf = 1
             val f = Ex.cd * (Ex.kd * INV_PI)
-            val le = Ex.cd * Ex.kd
-            val perSample = (f * le)
+            val perSample = (f * emitterLe)
             result shouldBeApprox (ambient + perSample)
         }
 
         "area light shade returns only ambient when every sample is shadowed" {
             val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
-            val light = AreaLight(shadows = true).apply { source = fakeSource() }
+            val light = AreaLight(shadows = true).apply {
+                source = fakeSource()
+                material = emitter
+            }
             val sr = fakeShade(matte)
             val world = fakeWorld(listOf(light), shadowed = true)
 
@@ -129,7 +147,10 @@ internal class MatteAreaLightShadeTest :
         // true branch), so every sample contributes exactly as in the happy path.
         "area light shade skips the shadow test for a non-shadowing light" {
             val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
-            val light = AreaLight(shadows = false).apply { source = fakeSource() }
+            val light = AreaLight(shadows = false).apply {
+                source = fakeSource()
+                material = emitter
+            }
             val sr = fakeShade(matte)
             // shadowed = true would normally darken; with shadows off it must be ignored.
             val world = fakeWorld(listOf(light), shadowed = true)
@@ -138,15 +159,17 @@ internal class MatteAreaLightShadeTest :
 
             val ambient = Ex.cd * Ex.ka
             val f = Ex.cd * (Ex.kd * INV_PI)
-            val le = Ex.cd * Ex.kd
-            val perSample = (f * le)
+            val perSample = (f * emitterLe)
             result shouldBeApprox (ambient + perSample)
         }
 
         "area light shade drops samples whose direction faces away from the surface" {
             val matte = Matte(Ex.cd, Ex.ka, Ex.kd)
             // Surface normal points down while the light is above => nDotWi < 0 for every sample.
-            val light = AreaLight(shadows = true).apply { source = fakeSource() }
+            val light = AreaLight(shadows = true).apply {
+                source = fakeSource()
+                material = emitter
+            }
             val sr = fakeShade(matte).apply { normal = Normal.DOWN }
             val world = fakeWorld(listOf(light))
 

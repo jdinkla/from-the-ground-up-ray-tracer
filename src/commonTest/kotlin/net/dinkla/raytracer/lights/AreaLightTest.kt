@@ -8,6 +8,7 @@ import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.materials.Emissive
 import net.dinkla.raytracer.materials.IMaterial
+import net.dinkla.raytracer.materials.Matte
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.math.Ray
@@ -104,14 +105,19 @@ internal class AreaLightTest :
             sample.nDotD shouldBeApprox 1.0
         }
 
-        "l returns the material radiance when the sample faces the surface (nDotD > 0)" {
+        // TASK-54: l must read the LIGHT EMITTER's own radiance (getLightMaterial().getLe), not the
+        // receiving surface's getLe. The receiver here is a Matte with a deliberately different getLe
+        // (cd*kd = (0.5,0.5,0.5)*0.5 = (0.25,0.25,0.25)), so the WHITE result can only come from the
+        // light's Emissive(WHITE, 1.0) emitter — pinning the corrected emitter-radiance source.
+        "l returns the light emitter's radiance when the sample faces the surface (nDotD > 0)" {
             val light = areaLight()
-            val sr = shade(emissive)
+            val receiver = Matte(Color(0.5, 0.5, 0.5), ka = 0.25, kd = 0.5)
+            val sr = shade(receiver)
             val sample = light.getSamples(sr).first()
 
-            val radiance = light.l(world(shadowed = false), sr, sample)
+            val radiance = light.l(sr, sample)
 
-            // Emissive(WHITE, 1.0).getLe = WHITE.
+            // Emissive(WHITE, 1.0).getLe = WHITE; the receiver Matte's getLe (0.25,...) is NOT read.
             radiance shouldBeApprox Color.WHITE
         }
 
@@ -125,7 +131,7 @@ internal class AreaLightTest :
             sample.lightNormal = Normal.UP // -normal = (0,-1,0)
             sample.wi = Vector3D(0.0, 1.0, 0.0) // dot = -1 <= 0
 
-            val radiance = light.l(world(shadowed = false), sr, sample)
+            val radiance = light.l(sr, sample)
 
             radiance shouldBeApprox Color.BLACK
         }

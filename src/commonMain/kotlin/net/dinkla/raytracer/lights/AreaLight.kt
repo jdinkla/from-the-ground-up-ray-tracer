@@ -31,13 +31,21 @@ class AreaLight(
             }
     }
 
+    /**
+     * The radiance arriving at the shading point from this area-light sample (Suffern ch. 18,
+     * `AreaLight::L`). When the sample faces the surface (`nDotD > 0`) it is the **light emitter's
+     * own** emitted radiance — `getLightMaterial().getLe(sr)`, i.e. the panel's `ce * ls` — not the
+     * receiving surface's `getLe`. Reading the receiver's `getLe` (the historical bug fixed in
+     * TASK-54) made AREA lights far too dim, because a diffuse/specular receiver returns only
+     * `cd*kd` / `cs*ks`, a fraction of the emitter's intensity. This mirrors [Matte.globalDirect]'s
+     * `light.getLightMaterial().getLe` read.
+     */
     fun l(
-        world: IWorld,
         sr: IShade,
         sample: Sample,
     ): Color =
         if (sample.nDotD > 0) {
-            sr.material?.getLe(sr) ?: world.backgroundColor
+            getLightMaterial().getLe(sr)
         } else {
             Color.BLACK
         }

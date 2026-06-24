@@ -126,9 +126,10 @@ internal class PhongTest :
         // area-light shade ----------------------------------------------------
 
         "area light shade adds the averaged diffuse-plus-specular contribution to ambient when lit" {
-            // ks/cs set so the area light's emitted radiance getLe = cs*ks is non-zero.
+            // TASK-54: the incoming radiance is the LIGHT emitter's own getLe (here Emissive() = WHITE),
+            // not the receiver Phong's cs*ks; a non-zero emitter is enough to exceed the ambient floor.
             val phong = Phong(Ex.cd, Ex.ka, Ex.kd, Ex.exp, Ex.ks, Ex.cs)
-            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove() }
+            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove(); material = Emissive() }
 
             val result = phong.areaLightShade(world(listOf(light)), shade(phong))
 

@@ -89,7 +89,7 @@ open class SvPhong(
                     if (!inShadow) {
                         val fd = diffuseBRDF.f(sr, wo, wi)
                         val fs = specularBRDF.f(sr, wo, wi)
-                        val l = light.l(world, sr, sample)
+                        val l = light.l(sr, sample)
                         val f1 = light.G(sr, sample) / light.pdf(sr)
                         accumulator + (fd + fs) * l * nDotWi * f1
                     }

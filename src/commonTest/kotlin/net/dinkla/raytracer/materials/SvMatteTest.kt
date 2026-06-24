@@ -128,14 +128,17 @@ internal class SvMatteTest :
 
         "area light shade sums ambient and the averaged diffuse contribution" {
             val svMatte = SvMatte(texture(), Ex.ka, Ex.kd)
-            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove() }
+            // TASK-54: Le is the LIGHT emitter's own getLe = ce*ls = (0.4,0.5,0.6)*2 = (0.8,1.0,1.2),
+            // not the receiver SvMatte's getLe (cd*kd). Chosen distinct so this pins the emitter source.
+            val emitter = Emissive(Color(0.4, 0.5, 0.6), ls = 2.0)
+            val emitterLe = Color(0.4, 0.5, 0.6) * 2.0
+            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove(); material = emitter }
 
             val result = svMatte.areaLightShade(world(listOf(light)), shade(svMatte))
 
-            // per sample: f = cd*(kd*INV_PI); Le = cd*kd; nDotWi = 1; G/pdf = 1
+            // per sample: f = cd*(kd*INV_PI); Le = emitterLe; nDotWi = 1; G/pdf = 1
             val f = Ex.cd * (Ex.kd * INV_PI)
-            val le = Ex.cd * Ex.kd
-            result shouldBeApprox (ambient + (f * le))
+            result shouldBeApprox (ambient + (f * emitterLe))
         }
 
         "area light shade returns only ambient when every sample is shadowed" {

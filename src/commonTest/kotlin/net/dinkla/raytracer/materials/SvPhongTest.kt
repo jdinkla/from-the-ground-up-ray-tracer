@@ -124,9 +124,10 @@ internal class SvPhongTest :
         // area-light shade ----------------------------------------------------
 
         "area light shade adds the averaged diffuse-plus-specular contribution to ambient when lit" {
-            // ks/cs non-zero so the area light's emitted radiance getLe = cs*ks is non-zero.
+            // TASK-54: the incoming radiance is the LIGHT emitter's own getLe (here Emissive() = WHITE),
+            // not the receiver SvPhong's cs*ks; a non-zero emitter is enough to exceed the ambient floor.
             val svPhong = SvPhong(texture(), Ex.ka, Ex.kd).apply { ks = Ex.ks; cs = Ex.cs; exp = Ex.exp }
-            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove() }
+            val light = AreaLight(shadows = true).apply { source = downwardSourceAbove(); material = Emissive() }
 
             val result = svPhong.areaLightShade(world(listOf(light)), shade(svPhong))
 
