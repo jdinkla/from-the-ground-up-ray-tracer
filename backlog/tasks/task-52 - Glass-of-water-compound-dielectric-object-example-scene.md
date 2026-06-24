@@ -32,8 +32,6 @@ The book models a glass of water as a compound of dielectric boundaries (book se
 - [x] #3 Reusable geometry/assembly logic that lands in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -43,3 +41,19 @@ The book models a glass of water as a compound of dielectric boundaries (book se
 4. Add example scene GlassOfWater.kt under examples/materials/dielectric: checker plane, three dielectric materials + filter colors, optional Matte straw instance crossing the water line, maxDepth(12), preferredTracer(WHITTED), non-black background. Double color literals only.
 5. Run ./gradlew test for new test; render scene at 720p WHITTED, confirm refraction/TIR/color-filtering/bending straw; clean up PNGs. Then ./gradlew clean check (just test) green.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented GlassOfWater as a reusable compound in commonMain (objects/compound/GlassOfWater.kt), modelled per Suffern §28.7 as boundary surfaces (not a solid water cylinder in a ring). Eight part surfaces grouped by the two media each separates, each carrying its own Dielectric: glass-air {top Annulus, outer PartCylinder, upper inner PartCylinder above water, bottom Disk}; water-glass {lower inner PartCylinder below water, cavity-floor Disk}; water-air {water-surface Disk + quarter-PartTorus meniscus instanced to the water height}. The three materials are passed to the constructor and assigned per part via a private addPart() that sets material directly on the part, deliberately bypassing Compound.material's single-material propagation (which would collapse all three to one). Project part primitives self-orient their normal toward the ray, so the book's hand-made convex/concave normal distinction is produced automatically; the dielectric still selects the correct medium per hit from the sign of n·wo, so the per-boundary iorIn/iorOut is what makes the optics right.
+
+DSL: added ObjectsScope.glassOfWater(glassAir, waterGlass, waterAir, geometry...) that resolves the three material ids and adds the compound via the no-material add() path so the per-part materials survive (the standard add(material) path would override them).
+
+Scene: src/examples/.../dielectric/GlassOfWaterScene.kt (id GlassOfWaterScene.kt) over a blue/white checker plane with a red Matte straw instanced (rotated 14deg about Z, slid sideways) crossing the water line; preferredTracer(WHITTED), maxDepth(12) (TASK-51 setter), bright far wall (non-black background), Double colour literals throughout.
+
+Cover-first tests (commonMain, frozen):
+- GlassOfWaterTest (objects/compound): eight surfaces; the three materials present (never collapsed); 4/2/2 counts per boundary; outer-wall hit (t, +x normal); axial ray meets water surface (t=1.6, UP, waterAir material); below-ray meets glass bottom (t=1.0, DOWN, glassAir material); bbox spans outer radius + full height; wide-miss; equals/hashCode/inequality/null/type/toString.
+- ObjectsScopeTest: new case verifying glassOfWater(...) builds a single GlassOfWater whose parts retain all three distinct materials (the single-material-collapse guard at the DSL seam).
+
+Verification: ./gradlew test (new classes) green; rendered --world=GlassOfWaterScene.kt --tracer=WHITTED --resolution=720p — non-black, coherent: refraction of the checker through glass+water, a clear TIR/reflection band at the water surface, two distinct Beer's-law filter tints (green glass above, blue-green water below), and the red straw visibly bent/offset at the water line. PNG cleaned up. just test (= ./gradlew clean check) green; the two remaining warnings (PlyReader unchecked cast, GridStructuresTest unchecked cast) are pre-existing and unrelated.
+<!-- SECTION:NOTES:END -->
