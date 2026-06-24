@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:42'
+updated_date: '2026-06-24 08:44'
 labels:
   - book-coverage
   - global-illumination
@@ -31,3 +31,14 @@ Transparent and Dielectric materials work only with the Whitted tracer; neither 
 - [ ] #3 A transparent/dielectric object rendered with PATH_TRACE is no longer black and refracts the scene behind it
 - [ ] #4 pathShade logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the example scene is verified manually (expect noise; the book uses 256 samples/pixel)
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first: write frozen unit tests for Transparent.pathShade and Dielectric.pathShade (commonTest) using the fake IWorld/Tracer seams from TASK-46 tests. Assert reflected+transmitted bounces are spawned via tracer.trace(depth+1), TIR is handled (only reflected ray), and Dielectric applies cfIn/cfOut Beer-Lambert. Run them red against the default Color.BLACK pathShade.
+2. PathTrace: override trace(ray, tmin, depth) to set tmin.value=sr.t (mirroring Whitted) so Dielectric's Beer-Lambert distance is correct under PATH_TRACE; cover with a frozen PathTrace test.
+3. Implement Transparent.pathShade: spawn reflected + transmitted bounces via world.tracer.trace(ray, depth+1), handle isTir (only reflected), no direct Phong term — mirroring the non-super.shade part of Transparent.shade.
+4. Implement Dielectric.pathShade: reuse fresnelContribution (Fresnel reflected/transmitted, TIR, Beer-Lambert) without the super.shade direct term — mirroring Reflective.pathShade dropping the direct term.
+5. Add auto-discovered example scene RefractiveCaustic.kt (examples/globalillumination) reproducing Fig 28.42: red transparent sphere + rectangle + emissive area light, preferredTracer(PATH_TRACE).
+6. Run ./gradlew clean check (just test): all tests + detekt green. Render the scene to verify non-black, refracts behind, coherent.
+<!-- SECTION:PLAN:END -->
