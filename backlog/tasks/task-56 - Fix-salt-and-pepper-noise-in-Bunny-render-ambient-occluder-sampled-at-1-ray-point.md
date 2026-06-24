@@ -6,7 +6,7 @@ title: >-
 status: In Progress
 assignee: []
 created_date: '2026-06-24 16:56'
-updated_date: '2026-06-24 16:59'
+updated_date: '2026-06-24 17:07'
 labels:
   - bug
 dependencies: []
@@ -34,8 +34,8 @@ This change lives in examples/** which JaCoCo excludes (per CLAUDE.md), so verif
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Bunny.kt ambient occluder numSamples is raised from 1 to a value consistent with the other AO scenes (>= ~16; recommended ~64)
-- [ ] #2 A fresh Bunny render shows no scattered fully-black pixels on the bunny surface or the floor plane (ambient occlusion reads as smooth soft shadowing)
-- [ ] #3 The point-light hard shadow and overall composition are unchanged; only the ambient noise is removed
-- [ ] #4 Verified manually by re-rendering (examples/** is coverage-excluded; no unit test added) and the new render path is noted in the task
+- [x] #1 Bunny.kt ambient occluder numSamples is raised from 1 to a value consistent with the other AO scenes (>= ~16; recommended ~64)
+- [x] #2 A fresh Bunny render shows no scattered fully-black pixels on the bunny surface or the floor plane (ambient occlusion reads as smooth soft shadowing)
+- [x] #3 The point-light hard shadow and overall composition are unchanged; only the ambient noise is removed
+- [x] #4 Verified manually by re-rendering (examples/** is coverage-excluded; no unit test added) and the new render path is noted in the task
 <!-- AC:END -->
