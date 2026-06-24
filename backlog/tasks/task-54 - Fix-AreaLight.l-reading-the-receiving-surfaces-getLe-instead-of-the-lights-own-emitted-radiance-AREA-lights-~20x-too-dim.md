@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 11:21'
-updated_date: '2026-06-24 12:59'
+updated_date: '2026-06-24 13:03'
 labels:
   - bug
   - lights
@@ -27,7 +27,7 @@ Discovered during TASK-48 (hybrid GlobalTrace tracer). AreaLight.l computes the 
 <!-- AC:BEGIN -->
 - [x] #1 AreaLight.l returns the AREA light emitter's own emitted radiance (its material getLe), not the receiving surface's getLe
 - [x] #2 The previously-frozen MatteAreaLightShadeTest is updated to the corrected expected radiance (this is a documented behavior change, not a refactor) and any other affected area-lighting tests are updated consistently
-- [ ] #3 AREA example scenes (e.g. AreaShadedSpheres) are re-rendered and confirmed correctly exposed (not blown out / not over-dim); detekt and the full build stay green
+- [x] #3 AREA example scenes (e.g. AreaShadedSpheres) are re-rendered and confirmed correctly exposed (not blown out / not over-dim); detekt and the full build stay green
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -40,4 +40,6 @@ Discovered during TASK-48 (hybrid GlobalTrace tracer). AreaLight.l computes the 
 
 <!-- SECTION:NOTES:BEGIN -->
 Fixed AreaLight.l to return getLightMaterial().getLe(sr) (emitter's own le) instead of sr.material.getLe (receiver). Removed the now-unused 'world' param from the 3-arg l(sr, sample) — detekt UnusedParameter is active — and updated its 4 callers (Matte, Phong, SvMatte, SvPhong). Updated characterization tests that constructed AreaLight without a material (would now throw on getLightMaterial): MatteAreaLightShadeTest, AreaLightTest, PhongTest, SvMatteTest, SvPhongTest. Derived expected values independently: emitter Le = ce*ls. MatteGlobalShadeTest already used the correct emitter pattern (globalDirect) — unchanged.
+
+Verification: ./gradlew clean check is green (only pre-existing Unchecked-cast warnings in PlyReader/GridStructuresTest, unrelated). ./gradlew audit: 'No scene rendered (near-)black above the threshold' for all 8 AREA scenes (only pre-existing World61.kt fails on missing Bunny4K.ply download). Rendered AreaShadedSpheres at 720p with AREA tracer: per-channel mean ~0.33-0.35 (was ~0.22-0.23 pre-fix), 1.1% blown-out, well-exposed — spheres visibly brighter/more vividly lit, not washed out. Render kept in session scratchpad; no PNG left in the parent workspace (pre-existing dated PNGs untouched).
 <!-- SECTION:NOTES:END -->
