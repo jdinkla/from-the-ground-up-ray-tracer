@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:40'
+updated_date: '2026-06-24 10:42'
 labels:
   - book-coverage
   - examples
@@ -32,8 +32,6 @@ The Dielectric material (ch. 28: Fresnel + Beer-Lambert color filtering, nestabl
 - [x] #4 Each scene auto-registers, renders without errors with a non-black background, and is verified manually by rendering (examples/** coverage-excluded); detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -57,6 +55,20 @@ AC#1 DEPTH LIMITATION (decision needed): at the default maxDepth=5 the straight-
 Verification: rendered each at 720p WHITTED, all non-black/coherent/effect visible. ./gradlew audit health-renders: all 3 auto-registered (classgraph), Suspect (near-black) list EMPTY, Failed list EMPTY (90 scenes total). PNGs cleaned up from parent workspace dir.
 
 CHECK: ./gradlew clean check (just test) -> BUILD SUCCESSFUL (detekt + all tests green). Two pre-existing unchecked-cast warnings (PlyReader.kt, GridStructuresTest.kt) unrelated to this change.
+
+AC#1 RESOLVED per coordinator decision (option b): added a minimal maxDepth(n) DSL hook and set NestedTransparentSpheres to maxDepth(12). All four ACs now literally met.
+
+Production changes (commonMain):
+- ViewPlane.kt: relaxed maximalRecursionDepth's setter from 'private set' to 'internal set' (the minimal relaxation so only the render core/DSL can raise it; read-only from outside the module). Default stays 5 - existing scenes byte-identical. Added KDoc.
+- WorldScope.kt: added fun maxDepth(n: Int) mirroring samples(n) exactly: require(n > 0) { "maxDepth must be positive, was $n" }; viewPlane.maximalRecursionDepth = n.
+
+Test (commonTest, cover-first - RED before, GREEN after):
+- WorldScopeTest.kt: 3 frozen tests next to the existing samples() tests: 'maxDepth sets the maximal recursion depth for a positive value' (maxDepth(12) -> viewPlane.maximalRecursionDepth == 12), 'a fresh world keeps the default maximal recursion depth of 5' (default unchanged), 'maxDepth rejects a non-positive depth with a descriptive message' (maxDepth(0) throws IllegalArgumentException containing 'maxDepth must be positive'). Confirmed RED (Unresolved reference 'maxDepth') before the production change, GREEN after. Existing ViewPlaneTest 'exposes the documented defaults' (maximalRecursionDepth shouldBe 5) still passes unchanged.
+
+Scene change:
+- NestedTransparentSpheres.kt: added maxDepth(12) in the DSL body and updated the recursion-depth docstring paragraph. Re-rendered 720p/WHITTED: the mauve inner sphere now resolves and the checker floor shows through the full 3-shell stack - no black core (matches the depth-15 diagnostic render). The other two scenes are unchanged.
+
+CHECK: ./gradlew clean check (just test) -> BUILD SUCCESSFUL (detekt + all tests green, incl. new maxDepth tests). Two pre-existing unchecked-cast warnings (PlyReader.kt, GridStructuresTest.kt) unrelated. audit health-renders: all 3 scenes auto-registered, Suspect (near-black) list EMPTY; only pre-existing World61.kt fails (missing Bunny4K.ply resource). PNGs cleaned up.
 <!-- SECTION:NOTES:END -->
 
 ## Comments
