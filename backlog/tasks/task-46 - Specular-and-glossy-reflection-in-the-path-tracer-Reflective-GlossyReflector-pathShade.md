@@ -3,9 +3,11 @@ id: TASK-46
 title: >-
   Specular and glossy reflection in the path tracer (Reflective/GlossyReflector
   pathShade)
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:23'
+updated_date: '2026-06-24 08:31'
 labels:
   - book-coverage
   - global-illumination
