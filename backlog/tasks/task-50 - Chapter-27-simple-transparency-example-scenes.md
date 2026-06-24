@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:16'
+updated_date: '2026-06-24 10:17'
 labels:
   - book-coverage
   - examples
@@ -33,8 +33,6 @@ The Transparent material (ch. 27, PerfectSpecular BRDF + PerfectTransmitter BTDF
 - [x] #5 Each scene auto-registers (classgraph), renders without errors at a sensible max recursion depth with a non-black background, and is verified manually by rendering (examples/** coverage-excluded); detekt and the full build stay green
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -45,3 +43,22 @@ The Transparent material (ch. 27, PerfectSpecular BRDF + PerfectTransmitter BTDF
 5. Add TransparentCompoundObjects.kt (AC#4): solidCylinder + thickRing + bowl, ior=1.5, red spheres behind, TIR off inside surfaces (Fig 27.19).
 6. Render each scene at 720p WHITTED, confirm non-black/coherent/effect visible; clean up PNGs. Run ./gradlew clean check (detekt). Record notes.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented 5 new auto-discovered WorldDefinition scenes under src/examples/kotlin/net/dinkla/raytracer/examples/materials/transparent/ (coverage-excluded; verified by rendering, no unit tests per the cover-first exception for examples/**).
+
+Files added:
+- AirBubbleInWater.kt (AC#1, Fig 27.15): transparent sphere, relative eta=0.75, kr=0.1, kt=0.9 -> TIR from the outside reads as a mirror ring (NOTE: this codebase's Transparent.shade follows Suffern Listing 27.4 exactly, where TIR does FULL mirror reflection 'l += cr' ignoring kr; so it reproduces Fig 27.15(b) mirror ring, not the (a) dark ring which came from the book's 'incorrect' kr-on-TIR variant. AC wording 'dark/mirror ring' is satisfied). Red sphere behind, teal backdrop plane, white checker floor.
+- ReflectiveAndTransparentSpheres.kt (AC#2, Figs 27.12/27.13): glass sphere with exact Listing 27.5 params (ks=0.5, exp=2000, ior=1.5, kr=0.1, kt=0.9) beside a reflective mirror sphere over a checker plane. Checker is refracted/inverted through glass; bright TIR rim + central dark disk visible.
+- TransparentTorus.kt (AC#3a, Fig 27.29): glass torus (ior=1.5) instanced and rotated 90deg about x to stand it up, red sphere in the hole; black strips visible at top.
+- TransparentEllipsoid.kt (AC#3b, Figs 27.24/27.28): unit Sphere scaled (2.2,1.1,1.1) via Instance, eta=0.75; flattened ellipsoid with refracted red sphere, silhouette TIR strip + elongated highlights.
+- TransparentCompoundObjects.kt (AC#4, Fig 27.19): solidCylinder + thickRing (stood up) + bowl, all ior=1.5, red spheres behind/inside; all three show TIR dark regions on inside surfaces.
+
+DSL notes: no DSL hook exists for background or maxDepth. Non-black background achieved with a matte backdrop plane (established convention, cf. TransparentSpheres 'sky' plane, GlassSphere 'back' plane). World default ViewPlane.maximalRecursionDepth=5 is already a sensible depth for transparency (book uses max_depth=5 for Fig 27.13c) -> no override needed. All Double color literals (c(...)) to avoid the Int-overload trap. preferredTracer(WHITTED) on each.
+
+Verification: rendered each at 720p with --tracer=WHITTED; all non-black, coherent, effect visible (see per-scene render report). PNGs cleaned up from parent workspace dir.
+
+CHECK: ./gradlew clean check -> BUILD SUCCESSFUL (detekt + all tests green). Two pre-existing unchecked-cast warnings (PlyReader.kt, GridStructuresTest.kt) unrelated to this change.
+<!-- SECTION:NOTES:END -->
