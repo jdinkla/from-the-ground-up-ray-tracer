@@ -1,9 +1,11 @@
 ---
 id: TASK-51
 title: Chapter 28 dielectric and color-filtering example scenes
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:24'
+updated_date: '2026-06-24 10:22'
 labels:
   - book-coverage
   - examples
