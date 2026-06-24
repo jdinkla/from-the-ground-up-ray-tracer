@@ -1,11 +1,11 @@
 ---
 id: TASK-53
 title: 'Fishbowl: compound dielectric object + example scene'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 11:14'
+updated_date: '2026-06-24 11:19'
 labels:
   - book-coverage
   - examples
@@ -58,3 +58,9 @@ Cover-first tests (commonMain, frozen):
 
 Verification: RED->GREEN cover-first confirmed. Rendered --world=FishBowlScene.kt --tracer=WHITTED --resolution=720p (1280x720, 163s): non-black, coherent spherical glass bowl open at the top on a checker floor; water surface band clearly visible with the checker refracted/magnified and bent below it; submerged fish refracted and displaced through water+glass; two filter tints (faint green glass region above, blue-green water below); TIR/reflection visible on the water surface. PNG cleaned up (pre-existing Jun 23 PNGs untouched). just test (= ./gradlew clean check) green; detekt clean; the two remaining warnings (PlyReader unchecked cast, GridStructuresTest unchecked casts) are pre-existing and unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a reusable FishBowl compound (commonMain, objects/compound/FishBowl.kt) modelling Suffern section 28.8's spherical fishbowl as an open-topped glass sphere partly filled with water: five boundary surfaces grouped 3/1/1 by the media each separates (glass-air = outer PartSphere + inner-above ConcavePartSphere + PartTorus rim ring; water-glass = submerged inner PartSphere; water-air = flat Disk water surface), each part carrying its own Dielectric material (glass-air iorIn 1.5, water-air iorIn 1.33, water-glass iorIn 1.33/iorOut 1.5) plus filter colors. Set per-part in the constructor, bypassing Compound's single-material propagation; added a parallel fishBowl(...) DSL adder (ObjectsScope) preserving them via the no-material add path, mirroring TASK-52's GlassOfWater. Added example FishBowlScene.kt (checker plane, submerged Matte fish, maxDepth(15), WHITTED) and frozen cover-first tests (FishBowlTest: 5 parts, 3/1/1 boundary counts, three distinct materials not collapsed, hit-based normal/orientation invariants for an open-topped bowl, bbox, miss, equals/hashCode/toString; plus an ObjectsScopeTest DSL case). Verified: ./gradlew clean check green, reviewer PASS (purely additive DSL change, materials retained, hit assertions hand-verified against primitive math, detekt baseline untouched), ./gradlew audit registers FishBowlScene non-black, and the 720p render shows refraction/magnification of the checker through the curved glass, a TIR water-surface band, two Beer's-law tints, and the displaced submerged fish (Fig 28.41). Committed dc4e83d.
+<!-- SECTION:FINAL_SUMMARY:END -->
