@@ -15,18 +15,18 @@ object MultipleObjects : WorldDefinition {
                 preferredTracer(Tracers.MULTIPLE_OBJECTS)
             }
 
-            camera(d = 750.0, eye = p(0, 0, 200), lookAt = p(50, 0, 0))
+            camera(d = 2000.0, eye = p(40, 30, 250), lookAt = p(40, 20, 0))
 
             ambientLight(ls = 0.5)
 
             lights {
-                pointLight(location = p(3, 3, 1))
+                pointLight(location = p(100, 100, 200), ls = 3.0)
             }
 
             materials {
-                matte(id = "m1", cd = c(1, 0, 0))
-                matte(id = "m2", cd = c(0, 1, 0))
-                matte(id = "m3", cd = c(0, 0, 1))
+                matte(id = "m1", cd = c(1.0, 0.0, 0.0))
+                matte(id = "m2", cd = c(0.0, 1.0, 0.0))
+                matte(id = "m3", cd = c(0.0, 0.0, 1.0))
             }
 
             objects {
