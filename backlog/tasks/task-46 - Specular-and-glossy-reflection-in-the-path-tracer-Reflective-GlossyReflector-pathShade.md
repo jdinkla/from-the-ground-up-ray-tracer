@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:32'
+updated_date: '2026-06-24 08:34'
 labels:
   - book-coverage
   - global-illumination
@@ -46,3 +46,9 @@ The PATH_TRACE tracer (Suffern ch. 26) currently produces global illumination on
 6. Render the scene (just run) to confirm non-black/coherent output (examples are coverage-excluded -> manual verify).
 7. Run ./gradlew clean check (just test) and ensure detekt+build green.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Cover-first: added ReflectivePathShadeTest + GlossyReflectorPathShadeTest. Confirmed the 'weights' assertions FAIL against current code. Correction to the task description: Reflective/GlossyReflector do NOT fall back to the BLACK default — they extend Phong->Matte and currently inherit Matte.pathShade (a diffuse cosine bounce), so a mirror under PATH_TRACE renders as a diffuse grey surface, not black, and specular-to-diffuse transport/caustics are still absent. The fix (override pathShade in both) is the same.
+<!-- SECTION:NOTES:END -->
