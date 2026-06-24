@@ -25,7 +25,7 @@ object Bunny : WorldDefinition {
 
             camera(d = 2000.0, eye = p(0, 1, 10), lookAt = p(0.0, 1.0, 0.0))
 
-            ambientOccluder(sampler = sampler, numSamples = 1)
+            ambientOccluder(sampler = sampler, numSamples = 16)
 
             lights {
                 pointLight(location = p(0, 5, 5), ls = 1.0)
