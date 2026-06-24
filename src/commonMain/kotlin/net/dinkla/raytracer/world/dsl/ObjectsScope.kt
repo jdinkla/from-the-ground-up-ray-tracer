@@ -35,6 +35,7 @@ import net.dinkla.raytracer.objects.beveled.BeveledWedge
 import net.dinkla.raytracer.objects.compound.Bowl
 import net.dinkla.raytracer.objects.compound.Box
 import net.dinkla.raytracer.objects.compound.Compound
+import net.dinkla.raytracer.objects.compound.FishBowl
 import net.dinkla.raytracer.objects.compound.GlassOfWater
 import net.dinkla.raytracer.objects.compound.SolidCone
 import net.dinkla.raytracer.objects.compound.SolidCylinder
@@ -179,6 +180,37 @@ class ObjectsScope(
                 meniscusRadius = meniscusRadius,
             )
         glass.add()
+    }
+
+    /**
+     * Adds a fishbowl (Suffern §28.8): a [FishBowl] compound — a glass sphere open at the top and partly
+     * filled with water — whose boundary surfaces carry three separate dielectric materials, [glassAir],
+     * [waterAir] and [waterGlass], resolved from the materials block by id. Like [glassOfWater] (and
+     * unlike the other shape adders) it is added with its per-part materials intact (it is *not*
+     * re-assigned a single material), because each boundary must keep the dielectric describing the two
+     * media it separates. The geometry parameters match [FishBowl]'s constructor.
+     */
+    @SuppressWarnings("LongParameterList")
+    fun fishBowl(
+        glassAir: String,
+        waterAir: String,
+        waterGlass: String,
+        innerRadius: Double = 1.85,
+        outerRadius: Double = 2.0,
+        waterY: Double = 0.8,
+        openingAngle: Double = FishBowl.DEFAULT_OPENING_ANGLE,
+    ) {
+        val bowl =
+            FishBowl(
+                glassAir = requireMaterial(glassAir),
+                waterAir = requireMaterial(waterAir),
+                waterGlass = requireMaterial(waterGlass),
+                innerRadius = innerRadius,
+                outerRadius = outerRadius,
+                waterY = waterY,
+                openingAngle = openingAngle,
+            )
+        bowl.add()
     }
 
     /** Resolves [id] in [materials], throwing a clear error when the material was never declared. */
