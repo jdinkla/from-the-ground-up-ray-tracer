@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:40'
+updated_date: '2026-06-24 09:42'
 labels:
   - examples
   - bug
@@ -25,10 +25,12 @@ Surfaced by the TASK-38 audit and confirmed during TASK-39: MultipleObjects.kt r
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 MultipleObjects.kt renders a visibly non-black image with its declared MULTIPLE_OBJECTS tracer (point light given non-zero intensity and/or camera reframed so objects are in view)
-- [ ] #2 The scene no longer appears on the ./gradlew audit near-black SUSPECT list; full build incl. detekt stays green
-- [ ] #3 Verified manually by rendering the scene (excluded zone): output is coherent, not black
+- [x] #1 MultipleObjects.kt renders a visibly non-black image with its declared MULTIPLE_OBJECTS tracer (point light given non-zero intensity and/or camera reframed so objects are in view)
+- [x] #2 The scene no longer appears on the ./gradlew audit near-black SUSPECT list; full build incl. detekt stays green
+- [x] #3 Verified manually by rendering the scene (excluded zone): output is coherent, not black
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
