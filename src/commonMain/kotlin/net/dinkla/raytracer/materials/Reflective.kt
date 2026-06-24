@@ -63,6 +63,19 @@ class Reflective(
         return (sample.color * incoming) * nDotWi
     }
 
+    /**
+     * Hybrid global-illumination shade (Suffern ch. 26, Listing 26.8) used by
+     * [net.dinkla.raytracer.tracers.GlobalTrace]. A perfect mirror carries **no** direct light term in
+     * the hybrid tracer — it only forwards the specular bounce, exactly as in [pathShade] — so this
+     * delegates to it. Whatever the reflected ray reaches (a directly-lit diffuse surface, an emitter)
+     * already obeys the radiance-flow rules through its own `globalShade`, so the mirror needs no
+     * depth-dependent special case.
+     */
+    override fun globalShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color = pathShade(world, sr)
+
     override fun equals(other: Any?): Boolean {
         if (other != null && other is Reflective) {
             return super.equals(other) && reflectiveBRDF == other.reflectiveBRDF

@@ -9,4 +9,5 @@ enum class Tracers(
     AREA({ w -> AreaLighting(w) }),
     MULTIPLE_OBJECTS({ w -> MultipleObjects(w) }),
     PATH_TRACE({ w -> PathTrace(w) }),
+    GLOBAL_TRACE({ w -> GlobalTrace(w) }),
 }
