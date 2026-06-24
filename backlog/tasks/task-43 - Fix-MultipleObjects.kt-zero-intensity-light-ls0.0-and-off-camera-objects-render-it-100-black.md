@@ -30,8 +30,6 @@ Surfaced by the TASK-38 audit and confirmed during TASK-39: MultipleObjects.kt r
 - [x] #3 Verified manually by rendering the scene (excluded zone): output is coherent, not black
 <!-- AC:END -->
 
-
-
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
@@ -46,4 +44,6 @@ Surfaced by the TASK-38 audit and confirmed during TASK-39: MultipleObjects.kt r
 
 <!-- SECTION:NOTES:BEGIN -->
 Root cause confirmed via a throwaway diagnostic (since removed): the true near-black cause was NOT primarily the zero-intensity light or framing, but an integer/float color-overload bug. The scene wrote materials as c(1,0,0)/c(0,1,0)/c(0,0,1) with Int literals, which bind to the c(Int,Int,Int) DSL overload (0-255, divides by 255) -> Color(0,0,0.00392), i.e. ~1/255 brightness. Diagnostic showed a sphere hit shading to Color(0,0,0.00297). Fix: write colors as Double literals c(1.0,0.0,0.0) etc. so they bind to the c(Double,Double,Double) overload (0.0-1.0). Also: the original pointLight had ls=0.0 (zero intensity, DSL default) and sat at p(3,3,1) among/behind the spheres -> gave it ls=3.0 and moved it to p(100,100,200) (front/above) so visible faces are diffusely lit. Reframed camera to eye=p(40,30,250)/lookAt=p(40,20,0) d=2000 to center all three spheres (the original eye=p(0,0,200)/lookAt=p(50,0,0) did frame them, but off-center and small). Verified by rendering at 720p with MULTIPLE_OBJECTS: coherent image of red/green/blue diffuse spheres, maxChannel=214, ~10.9% lit.
+
+Verified: ./gradlew audit -> MultipleObjects.kt no longer on the near-black SUSPECT list (only Template.kt remains; World61.kt/StereoSpheres are pre-existing missing-mesh/stereo, unrelated). ./gradlew clean check (just test) BUILD SUCCESSFUL incl. detekt. Manual render at 720p with MULTIPLE_OBJECTS tracer shows a coherent red/green/blue diffuse-sphere image (maxChannel=214, ~10.9% pixels lit). Files changed: only src/examples/.../examples/tracers/MultipleObjects.kt (JaCoCo-excluded scene content; no unit test added per cover-first exception). Throwaway diagnostic test used during investigation was removed before final check.
 <!-- SECTION:NOTES:END -->
