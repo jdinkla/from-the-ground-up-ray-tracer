@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 09:58'
+updated_date: '2026-06-24 10:02'
 labels:
   - book-coverage
   - cameras
@@ -26,10 +26,10 @@ The book renders views from inside a transparent sphere/ellipsoid (book section 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Camera gains an exposureTime property (default 1.0) that multiplies the radiance returned per primary ray; existing scenes are unaffected at the default
-- [ ] #2 exposureTime is configurable from the scene DSL camera block
-- [ ] #3 A new auto-discovered example scene places the camera inside a transparent (Dielectric) sphere or ellipsoid with a surrounding environment (ring of spheres + checker plane, book Figure 28.34) using a reduced exposureTime so the interior view is not washed out
-- [ ] #4 Camera/exposure logic (commonMain/jvmMain) is covered by a frozen unit test where applicable (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
+- [x] #1 Camera gains an exposureTime property (default 1.0) that multiplies the radiance returned per primary ray; existing scenes are unaffected at the default
+- [x] #2 exposureTime is configurable from the scene DSL camera block
+- [x] #3 A new auto-discovered example scene places the camera inside a transparent (Dielectric) sphere or ellipsoid with a surrounding environment (ring of spheres + checker plane, book Figure 28.34) using a reduced exposureTime so the interior view is not washed out
+- [x] #4 Camera/exposure logic (commonMain/jvmMain) is covered by a frozen unit test where applicable (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -42,3 +42,27 @@ The book renders views from inside a transparent sphere/ellipsoid (book section 
 5. Add auto-discovered example scene (camera inside a Dielectric sphere, ring of spheres + checker plane, Fig 28.34) with reduced exposureTime and preferredTracer WHITTED. Verify by rendering.
 6. just test (./gradlew clean check) green; render the new scene and confirm interior not washed out.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Approach: added a single shared exposureTime seam rather than per-lens code.
+
+Files changed:
+- commonMain/cameras/Camera.kt: new 'var exposureTime: Double = 1.0' (the multiplier per primary ray, documented with the 1/eta^2 rationale).
+- commonMain/renderer/SimpleSingleRayRenderer.kt: new exposureTime ctor param (default 1.0); multiplies the traced colour (tracer.trace(ray,0) * exposureTime).
+- commonMain/renderer/SampledSingleRayRenderer.kt: new exposureTime ctor param (default 1.0); applied to the per-pixel mean (color.average * exposureTime) so it scales every sample uniformly.
+- commonMain/world/Context.kt: threads world.camera.exposureTime into both single-ray renderers.
+- commonMain/world/StereoRender.kt: threads camera.exposureTime into SimpleSingleRayRenderer so stereo honours it too.
+- commonMain/world/dsl/WorldScope.kt: camera(...) gains an exposureTime param (default 1.0) applied via Camera(...).apply { this.exposureTime = ... }.
+- examples/.../materials/dielectric/InsideTransparentSphere.kt: new auto-discovered scene 'InsideTransparentSphere.kt' (camera at centre of a diamond-IOR=2.42 dielectric sphere, ring of 8 Phong spheres on a checker plane, preferredTracer WHITTED, exposureTime = 1/2.42^2 ~= 0.17).
+
+Why this seam: every camera/lens type (Pinhole/ThinLens/FishEye/Spherical) produces its per-ray colour through ISingleRayRenderer, so multiplying there makes ALL camera types honour exposureTime with one change and no per-lens duplication. Default 1.0 is a no-op, so existing scenes are byte-identical.
+
+Tests (cover-first, frozen):
+- CameraTest: 'defaults exposureTime to 1.0 so existing scenes are unaffected'.
+- SimpleSingleRayRendererTest: default 1.0 leaves colour unchanged; exposureTime=0.25 scales radiance (0.8/0.4/0.2 -> 0.2/0.1/0.05).
+- SampledSingleRayRendererTest: default 1.0 unchanged; exposureTime=0.5 halves the averaged radiance.
+
+Verification: 'just test' (./gradlew clean check, tests+detekt+jacoco) green. Manually rendered InsideTransparentSphere.kt via 'just run --world=InsideTransparentSphere.kt --tracer=WHITTED --resolution=720p': at exposureTime=1/eta^2 the interior view (refracted/curved checker floor + ring of spheres seen through the enclosing sphere) reads at normal brightness; a control render with exposureTime temporarily forced to 1.0 is visibly washed out (blown-out whites, over-saturated colours), confirming the compensation works end-to-end. Verification PNGs removed afterwards. Two pre-existing compiler warnings (PlyReader.kt unchecked cast, GridStructuresTest.kt) are unrelated to this change.
+<!-- SECTION:NOTES:END -->
