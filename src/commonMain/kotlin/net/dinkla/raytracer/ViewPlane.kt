@@ -30,8 +30,16 @@ class ViewPlane : IColorCorrector {
 
     private var showOutOfGamutForDebugging: Boolean = false
 
+    /**
+     * Maximum recursion depth for the tracer (reflection/refraction bounces). Defaults to `5`, which
+     * suits every scene that does not nest transparent media. Deeply nested dielectrics (e.g. three
+     * concentric glass shells) need a higher limit so the innermost transmitted rays reach a surface
+     * instead of being truncated to the background; set it from the scene DSL via
+     * [net.dinkla.raytracer.world.dsl.WorldScope.maxDepth]. The setter is `internal` so only the
+     * render core (the DSL) can raise it; from outside the module it is read-only.
+     */
     var maximalRecursionDepth: Int = 5
-        private set
+        internal set
 
     /**
      * Number of primary samples cast per pixel. `1` (the default) means a single ray through the

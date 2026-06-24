@@ -238,6 +238,19 @@ class WorldScope {
         viewPlane.numSamples = n
     }
 
+    /**
+     * Sets the tracer's maximal recursion depth (reflection/refraction bounces). The default of `5`
+     * (left unchanged unless this is called, so every existing scene renders identically) suits most
+     * scenes, but deeply nested transparent media — e.g. concentric
+     * [net.dinkla.raytracer.materials.Dielectric] shells — need a higher limit so the innermost
+     * transmitted rays reach a surface instead of being truncated to the background. [n] must be
+     * positive.
+     */
+    fun maxDepth(n: Int) {
+        require(n > 0) { "maxDepth must be positive, was $n" }
+        viewPlane.maximalRecursionDepth = n
+    }
+
     /** Sets a uniform [Ambient] ambient light of the given [color] scaled by intensity [ls]. */
     fun ambientLight(
         color: Color = Color.WHITE,

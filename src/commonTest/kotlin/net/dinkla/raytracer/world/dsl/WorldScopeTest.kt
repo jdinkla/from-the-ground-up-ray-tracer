@@ -43,6 +43,34 @@ class WorldScopeTest :
             scope.world.viewPlane.numSamples shouldBe 8
         }
 
+        // maxDepth(n) sets the view-plane maximal recursion depth, mirroring the samples(n) path.
+        "maxDepth sets the maximal recursion depth for a positive value" {
+            val scope = WorldScope()
+
+            scope.maxDepth(12)
+
+            scope.world.viewPlane.maximalRecursionDepth shouldBe 12
+        }
+
+        // The default (untouched) recursion depth stays 5, so every existing scene renders byte-identically.
+        "a fresh world keeps the default maximal recursion depth of 5" {
+            val scope = WorldScope()
+
+            scope.world.viewPlane.maximalRecursionDepth shouldBe 5
+        }
+
+        // maxDepth(n<=0) fails the require guard with a descriptive IllegalArgumentException.
+        "maxDepth rejects a non-positive depth with a descriptive message" {
+            val scope = WorldScope()
+
+            val ex =
+                shouldThrow<IllegalArgumentException> {
+                    scope.maxDepth(0)
+                }
+
+            ex.message shouldContain "maxDepth must be positive"
+        }
+
         // samples(n<=0) fails the require guard with a descriptive IllegalArgumentException
         // (the failure branch of `require(n > 0)`).
         "samples rejects a non-positive count with a descriptive message" {
