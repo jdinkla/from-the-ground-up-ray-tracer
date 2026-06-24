@@ -73,6 +73,23 @@ class Dielectric(
     ): Color = super.areaLightShade(world, sr) + fresnelContribution(world, sr)
 
     /**
+     * Path-tracing shade (Suffern ch. 28 §28.9). A dielectric in the path tracer carries no direct
+     * (Phong) term — it returns only the Fresnel-weighted reflected + transmitted radiance, with total
+     * internal reflection and Beer's-law colored attenuation, i.e. exactly the [fresnelContribution]
+     * the Whitted [shade] already trusts (the global-illumination analogue, mirroring how
+     * [net.dinkla.raytracer.materials.Reflective.pathShade] drops the direct term).
+     *
+     * The Beer's-law attenuation needs the traced path length, which the path tracer reports through
+     * the [net.dinkla.raytracer.tracers.Tracer] `WrappedDouble` overload (see
+     * [net.dinkla.raytracer.tracers.PathTrace]). This transport is what carries light refracted through
+     * the object onto another surface — a refractive caustic, which only path tracing can render.
+     */
+    override fun pathShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color = fresnelContribution(world, sr)
+
+    /**
      * The reflected + transmitted radiance (Fresnel-weighted, Beer's-law attenuated, with TIR
      * handling), independent of the direct-lighting model. Added on top of the Phong/area-light
      * direct term by [shade] / [areaLightShade].

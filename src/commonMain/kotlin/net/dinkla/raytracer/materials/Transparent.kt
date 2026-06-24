@@ -84,6 +84,44 @@ class Transparent : Phong {
         return l
     }
 
+    /**
+     * Path-tracing shade (Suffern ch. 28 §28.9, the global-illumination analogue of [shade]). A
+     * transparent surface in the path tracer carries no direct (Phong) term — it spawns the
+     * perfect-specular reflected ray and the perfect-transmitter transmitted ray one level deeper,
+     * exactly the reflected/transmitted block of the Whitted [shade] minus `super.shade`. Under total
+     * internal reflection ([PerfectTransmitter.isTir]) there is no transmitted ray and all energy
+     * reflects, so only the reflected radiance is added (matching [shade]). This is what lets the path
+     * tracer carry light refracted through the object onto another surface — a refractive caustic.
+     * Returns black when the world has no tracer to recurse through.
+     */
+    override fun pathShade(
+        world: IWorld,
+        sr: IShade,
+    ): Color {
+        val tracer = world.tracer ?: return Color.BLACK
+        var l = Color.BLACK
+        val wo = sr.ray.direction.times(-1.0)
+        val brdf = reflectiveBRDF.sampleF(sr, wo)
+        // trace reflected ray
+        val reflectedRay = Ray(sr.hitPoint, brdf.wi)
+        val cr = tracer.trace(reflectedRay, sr.depth + 1)
+        if (specularBTDF.isTir(sr)) {
+            l += cr
+        } else {
+            // reflected
+            val cfr = abs(sr.normal dot brdf.wi)
+            l += (brdf.color * cr) * cfr
+
+            // trace transmitted ray
+            val btdf = specularBTDF.sampleF(sr, wo)
+            val transmittedRay = Ray(sr.hitPoint, btdf.wt)
+            val ct = tracer.trace(transmittedRay, sr.depth + 1)
+            val cft = abs(sr.normal dot btdf.wt)
+            l += (btdf.color * ct) * cft
+        }
+        return l
+    }
+
     override fun equals(other: Any?): Boolean =
         this.equals<Transparent>(other) { a, b ->
             a.diffuseBRDF == b.diffuseBRDF &&
