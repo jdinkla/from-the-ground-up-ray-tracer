@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 09:07'
+updated_date: '2026-06-24 09:09'
 labels:
   - book-coverage
   - global-illumination
@@ -31,3 +31,17 @@ Pure path tracing is very noisy when light sources are small, because few random
 - [ ] #3 An example Cornell-box scene rendered with GLOBAL_TRACE shows markedly less noise in the direct illumination than the same scene under PATH_TRACE at equal samples (book Figure 26.12)
 - [ ] #4 New tracer/material logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Add globalShade to IMaterial (default BLACK) following book Fig 26.11 radiance-flow rules.
+2. Matte.globalShade (Listing 26.7): at sr.depth==0 add direct area-light sampling (areaLightShade) + one indirect path bounce; deeper bounces only the indirect path term (reuse pathShade body).
+3. Emissive.globalShade (Listing 26.6): return BLACK when sr.depth==1 (avoid double count), else front-face test -> le, else BLACK.
+4. Optional Reflective.globalShade (Listing 26.8): same as pathShade (mirror has no direct term).
+5. GlobalTrace tracer: mirror PathTrace but call material.globalShade and set sr.depth; primary-level averaging over numSamples.
+6. Add GLOBAL_TRACE to Tracers enum.
+7. Cover-first frozen unit tests (commonMain seams): GlobalTraceTest, MatteGlobalShadeTest, EmissiveGlobalShadeTest, ReflectiveGlobalShadeTest, using existing fake IWorld/Tracer/light seams.
+8. Add CornellBoxGlobal.kt example (AreaLight + emissive panel, preferredTracer(GLOBAL_TRACE)); render to verify non-black/coherent and compare noise vs PATH_TRACE.
+9. just test (clean check) green; render-verify the scene.
+<!-- SECTION:PLAN:END -->
