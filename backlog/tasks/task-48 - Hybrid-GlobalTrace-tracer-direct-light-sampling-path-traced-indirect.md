@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 09:09'
+updated_date: '2026-06-24 09:25'
 labels:
   - book-coverage
   - global-illumination
@@ -26,11 +26,13 @@ Pure path tracing is very noisy when light sources are small, because few random
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A new GLOBAL_TRACE entry in the Tracers enum maps to a tracer that returns direct illumination by sampling the lights at the first bounce and path-traced indirect illumination for deeper bounces, without counting direct light twice
-- [ ] #2 Matte and Emissive (and optionally Reflective) gain a globalShade method following book Listings 26.6 to 26.8
-- [ ] #3 An example Cornell-box scene rendered with GLOBAL_TRACE shows markedly less noise in the direct illumination than the same scene under PATH_TRACE at equal samples (book Figure 26.12)
-- [ ] #4 New tracer/material logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
+- [x] #1 A new GLOBAL_TRACE entry in the Tracers enum maps to a tracer that returns direct illumination by sampling the lights at the first bounce and path-traced indirect illumination for deeper bounces, without counting direct light twice
+- [x] #2 Matte and Emissive (and optionally Reflective) gain a globalShade method following book Listings 26.6 to 26.8
+- [x] #3 An example Cornell-box scene rendered with GLOBAL_TRACE shows markedly less noise in the direct illumination than the same scene under PATH_TRACE at equal samples (book Figure 26.12)
+- [x] #4 New tracer/material logic (commonMain) is covered by frozen unit tests (cover-first, specs/testing.md); detekt and the full build stay green; the scene is verified manually
 <!-- AC:END -->
+
+
 
 ## Implementation Plan
 
