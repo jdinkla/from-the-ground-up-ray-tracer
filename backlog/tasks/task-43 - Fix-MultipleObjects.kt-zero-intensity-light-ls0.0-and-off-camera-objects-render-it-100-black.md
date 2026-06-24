@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-23 21:31'
-updated_date: '2026-06-24 09:34'
+updated_date: '2026-06-24 09:35'
 labels:
   - examples
   - bug
@@ -29,3 +29,13 @@ Surfaced by the TASK-38 audit and confirmed during TASK-39: MultipleObjects.kt r
 - [ ] #2 The scene no longer appears on the ./gradlew audit near-black SUSPECT list; full build incl. detekt stays green
 - [ ] #3 Verified manually by rendering the scene (excluded zone): output is coherent, not black
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Confirm root cause: pointLight DSL defaults ls=0.0, so the scene's only non-ambient light is zero-intensity; verify camera framing via render.
+2. Minimal scene-content fix: give the point light a non-zero ls (matching the YellowAndRedSphere/VariousObjects convention), and reframe camera if objects fall outside the frame.
+3. Render MultipleObjects.kt with MULTIPLE_OBJECTS tracer; confirm output is coherent and non-black (inspect PNG pixel stats).
+4. Run ./gradlew audit; confirm MultipleObjects.kt drops off the near-black SUSPECT list.
+5. Run ./gradlew clean check (just test); confirm green incl. detekt.
+<!-- SECTION:PLAN:END -->
