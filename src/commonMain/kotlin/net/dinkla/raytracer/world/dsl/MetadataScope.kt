@@ -19,9 +19,16 @@ class MetadataScope {
      */
     var preferredTracer: Tracers? = null
 
+    /**
+     * Whether this scene is an intentionally-empty template or by-design-empty scaffolding. Setting it
+     * `true` opts the scene out of the audit's near-black SUSPECT list (it is black by design, not
+     * broken). Defaults to `false`, so real scenes are still checked.
+     */
+    var intentionallyEmpty: Boolean = false
+
     /** The [Metadata] built from the fields set so far. */
     val metadata: Metadata
-        get() = Metadata(id, title, description, preferredTracer)
+        get() = Metadata(id, title, description, preferredTracer, intentionallyEmpty)
 
     /** Sets the scene [id]. */
     fun id(id: String) {
@@ -41,5 +48,10 @@ class MetadataScope {
     /** Declares the [tracer] this scene is designed for (a hint, not a lock; see [preferredTracer]). */
     fun preferredTracer(tracer: Tracers) {
         this.preferredTracer = tracer
+    }
+
+    /** Marks this scene as an intentionally-empty template, opting it out of the near-black audit. */
+    fun intentionallyEmpty() {
+        this.intentionallyEmpty = true
     }
 }

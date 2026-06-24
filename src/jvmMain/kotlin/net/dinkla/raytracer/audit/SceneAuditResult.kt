@@ -20,10 +20,17 @@ sealed interface RenderStatus {
 
 /**
  * Everything the audit learned about one scene: the production classes it [used] (empty when the
- * scene failed to build) and the [render] health outcome.
+ * scene failed to build), the [render] health outcome, and whether the scene opted out of near-black
+ * detection ([excludedFromNearBlack]) because it is an intentionally-empty template/scaffolding.
  */
 data class SceneAuditResult(
     val sceneId: String,
     val used: Map<Category, Set<String>>,
     val render: RenderStatus,
+    /**
+     * `true` when the scene declared itself intentionally empty
+     * ([net.dinkla.raytracer.world.Metadata.intentionallyEmpty]); such scenes are black by design and
+     * are kept off the near-black SUSPECT list. Defaults to `false` so every ordinary scene is checked.
+     */
+    val excludedFromNearBlack: Boolean = false,
 )

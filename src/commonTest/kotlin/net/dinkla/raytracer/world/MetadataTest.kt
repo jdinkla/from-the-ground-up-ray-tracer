@@ -18,4 +18,16 @@ class MetadataTest :
 
             metadata.preferredTracer shouldBe Tracers.AREA
         }
+
+        "metadata built without the flag is not intentionallyEmpty (today's behaviour)" {
+            val metadata = Metadata(id = "Scene.kt")
+
+            metadata.intentionallyEmpty shouldBe false
+        }
+
+        "metadata records that it was constructed as intentionallyEmpty" {
+            val metadata = Metadata(id = "Template.kt", intentionallyEmpty = true)
+
+            metadata.intentionallyEmpty shouldBe true
+        }
     })

@@ -34,7 +34,12 @@ class SceneAuditor(
             // Inspect before rendering: inspection reads the authored, pre-initialize() tree, while the
             // render mutates the world (initialize() builds acceleration cells).
             val used = inspect(world)
-            SceneAuditResult(definition.id, used, renderStatus(world))
+            SceneAuditResult(
+                definition.id,
+                used,
+                renderStatus(world),
+                excludedFromNearBlack = world.metadata.intentionallyEmpty,
+            )
         } catch (e: Throwable) {
             SceneAuditResult(definition.id, emptyMap(), RenderStatus.Failed(describe(e)))
         }

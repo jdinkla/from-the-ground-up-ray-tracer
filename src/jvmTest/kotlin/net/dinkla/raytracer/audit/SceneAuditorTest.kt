@@ -10,12 +10,20 @@ import net.dinkla.raytracer.world.WorldDefinition
 private fun sceneThat(
     theId: String,
     failsToBuild: Boolean = false,
+    intentionallyEmpty: Boolean = false,
 ): WorldDefinition =
     object : WorldDefinition {
         override val id: String = theId
 
         override fun world(): World =
-            if (failsToBuild) error("cannot build $theId") else Builder.build { camera() }
+            if (failsToBuild) {
+                error("cannot build $theId")
+            } else {
+                Builder.build {
+                    camera()
+                    if (intentionallyEmpty) metadata { intentionallyEmpty() }
+                }
+            }
     }
 
 class SceneAuditorTest : StringSpec({
@@ -46,5 +54,27 @@ class SceneAuditorTest : StringSpec({
         val sphere = model.multiplicity.getValue(Category.GEOMETRY).single()
         sphere.simpleName shouldBe "Sphere"
         sphere.sceneIds shouldContainExactly listOf("ok.kt")
+    }
+
+    "keeps an intentionally-empty 100%-black scene off the suspect list but flags a genuine one" {
+        // Both scenes render fully black; only the genuine (non-template) one is a suspect.
+        val auditor =
+            SceneAuditor(
+                buildWorld = { it.world() },
+                inspect = { emptyMap() },
+                renderStatus = { RenderStatus.Rendered(1.0) },
+            )
+
+        val model =
+            auditor.audit(
+                listOf(
+                    sceneThat("Template.kt", intentionallyEmpty = true),
+                    sceneThat("Broken.kt"),
+                ),
+                catalog,
+                0.999,
+            )
+
+        model.suspects.map { it.sceneId } shouldContainExactly listOf("Broken.kt")
     }
 })

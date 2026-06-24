@@ -1,6 +1,7 @@
 package net.dinkla.raytracer.audit
 
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 
@@ -38,6 +39,29 @@ class AuditReportTest : StringSpec({
     "flags only renders at or above the suspect threshold" {
         model.suspects.map { it.sceneId } shouldContainExactly listOf("s2.kt")
         model.suspects.first().nearBlackFraction shouldBe 1.0
+    }
+
+    "excludes an intentionally-empty template from the near-black suspect list" {
+        val results =
+            listOf(
+                SceneAuditResult("Template.kt", emptyMap(), RenderStatus.Rendered(1.0), excludedFromNearBlack = true),
+            )
+
+        val model = AuditReport.build(catalog, results, suspectThreshold = 0.999)
+
+        model.suspects.shouldBeEmpty()
+    }
+
+    "still flags a genuine near-black scene that did not opt out" {
+        val results =
+            listOf(
+                SceneAuditResult("Template.kt", emptyMap(), RenderStatus.Rendered(1.0), excludedFromNearBlack = true),
+                SceneAuditResult("Broken.kt", emptyMap(), RenderStatus.Rendered(1.0), excludedFromNearBlack = false),
+            )
+
+        val model = AuditReport.build(catalog, results, suspectThreshold = 0.999)
+
+        model.suspects.map { it.sceneId } shouldContainExactly listOf("Broken.kt")
     }
 
     "separates build/render failures from black images" {

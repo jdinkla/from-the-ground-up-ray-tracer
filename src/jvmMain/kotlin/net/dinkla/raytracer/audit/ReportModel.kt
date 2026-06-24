@@ -84,11 +84,14 @@ object AuditReport {
                 .sortedWith(compareByDescending<Multiplicity> { it.count }.thenBy { it.simpleName })
         }
 
+    // Intentionally-empty templates/scaffolding (excludedFromNearBlack) are black by design, so they
+    // are dropped before the threshold test — only genuine scenes can become near-black suspects.
     private fun suspects(
         results: List<SceneAuditResult>,
         threshold: Double,
     ): List<Suspect> =
         results
+            .filterNot { it.excludedFromNearBlack }
             .mapNotNull { r -> (r.render as? RenderStatus.Rendered)?.let { r.sceneId to it.nearBlackFraction } }
             .filter { it.second >= threshold }
             .map { Suspect(it.first, it.second) }

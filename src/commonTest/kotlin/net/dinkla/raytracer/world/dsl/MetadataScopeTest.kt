@@ -45,4 +45,28 @@ class MetadataScopeTest :
 
             scope.metadata.preferredTracer shouldBe Tracers.PATH_TRACE
         }
+
+        "a scene that declares nothing is not intentionallyEmpty (today's default)" {
+            val scope = MetadataScope()
+
+            scope.id("someId")
+
+            scope.metadata.intentionallyEmpty shouldBe false
+        }
+
+        "the intentionallyEmpty setter marks the scene" {
+            val scope = MetadataScope()
+
+            scope.intentionallyEmpty()
+
+            scope.metadata.intentionallyEmpty shouldBe true
+        }
+
+        "the intentionallyEmpty property can be assigned directly" {
+            val scope = MetadataScope()
+
+            scope.intentionallyEmpty = true
+
+            scope.metadata.intentionallyEmpty shouldBe true
+        }
     })

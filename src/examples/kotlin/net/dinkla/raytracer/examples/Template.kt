@@ -9,5 +9,11 @@ object Template : WorldDefinition {
 
     override fun world(): World =
         Builder.build {
+            // Black by design: this is an empty starting point for new scenes, not a defect. Opt out
+            // of the audit's near-black SUSPECT list so it stays a high-signal list of real problems.
+            metadata {
+                id = "Template.kt"
+                intentionallyEmpty = true
+            }
         }
 }
