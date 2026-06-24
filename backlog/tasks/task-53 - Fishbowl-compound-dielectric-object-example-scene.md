@@ -31,3 +31,14 @@ The book models a spherical fishbowl as a compound of part objects (book section
 - [ ] #2 A new example scene renders the fishbowl with water over a plane at a high max recursion depth (book Figure 28.41), optionally containing a simple fish/object; refraction and color filtering are visible
 - [ ] #3 Reusable geometry/assembly logic in commonMain is covered by frozen unit tests (cover-first, specs/testing.md); the scene (examples/**) is verified manually by rendering; detekt and the full build stay green
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Confirm constructor signatures of PartSphere/ConcavePartSphere/PartTorus/Disk/Compound (done). Mirror GlassOfWater/Bowl precedents.
+2. Cover-first: write frozen FishBowlTest (StringSpec) for assembly invariants (5 parts; glass-air=3/water-glass=1/water-air=1; three distinct materials not collapsed; hit-based t+normal+material on outer glass equator, water surface disk, outer glass bottom; bbox = +/- outerRadius; wide-miss; equals/hashCode/toString). Confirm RED.
+3. Add FishBowl compound in commonMain objects/compound/: glass sphere shell (outerRadius/innerRadius) with a top opening (theta in [thetaOpening, PI]) and water level waterY. Parts: outer PartSphere (glass-air), inner ConcavePartSphere above water (glass-air), PartTorus rim (glass-air), inner PartSphere below water (water-glass), water-surface Disk (water-air). Each part carries its own Dielectric via addPart() bypassing Compound single-material propagation. Confirm GREEN.
+4. Add ObjectsScope.fishBowl(...) DSL adder via no-material add() path (preserves three materials); cover at the DSL seam in ObjectsScopeTest.
+5. Add FishBowlScene example (examples/materials/dielectric): checker plane, three dielectrics + filter colours, maxDepth(high, Fig 28.41), preferredTracer(WHITTED), optional fish, non-black background. Double colour literals only.
+6. Render --world=FishBowlScene.kt --tracer=WHITTED --resolution=720p; confirm non-black, refraction + colour filtering visible; clean up PNG. just test green.
+<!-- SECTION:PLAN:END -->
