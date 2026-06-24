@@ -1,9 +1,11 @@
 ---
 id: TASK-49
 title: Camera exposure time + camera-inside-transparent-sphere example
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 08:23'
+updated_date: '2026-06-24 09:56'
 labels:
   - book-coverage
   - cameras
