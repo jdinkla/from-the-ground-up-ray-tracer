@@ -1,11 +1,11 @@
 ---
 id: TASK-52
 title: 'Glass of water: compound dielectric object + example scene'
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:24'
-updated_date: '2026-06-24 10:56'
+updated_date: '2026-06-24 11:04'
 labels:
   - book-coverage
   - examples
@@ -57,3 +57,9 @@ Cover-first tests (commonMain, frozen):
 
 Verification: ./gradlew test (new classes) green; rendered --world=GlassOfWaterScene.kt --tracer=WHITTED --resolution=720p — non-black, coherent: refraction of the checker through glass+water, a clear TIR/reflection band at the water surface, two distinct Beer's-law filter tints (green glass above, blue-green water below), and the red straw visibly bent/offset at the water line. PNG cleaned up. just test (= ./gradlew clean check) green; the two remaining warnings (PlyReader unchecked cast, GridStructuresTest unchecked cast) are pre-existing and unrelated.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Added a reusable GlassOfWater compound (commonMain, objects/compound/GlassOfWater.kt) modelling Suffern section 28.7's glass of water as eight dielectric boundary surfaces grouped 4/2/2 by the two media each separates (glass-air = annulus + concave PartCylinder + convex PartCylinder + bottom Disk; water-glass = convex PartCylinder + Disk; water-air = water-surface Disk + quarter-PartTorus meniscus), each part carrying its own Dielectric material (glass-air iorIn 1.5, water-air iorIn 1.33, water-glass iorIn 1.33/iorOut 1.5) plus filter colors. Per-boundary materials are set per-part in the constructor and deliberately bypass Compound's single-material propagation; added a glassOfWater(...) DSL adder (ObjectsScope) that preserves them via the no-material add path. Design note: the part primitives don't all handcraft convex/concave normals, but the optics are still correct because Dielectric's Fresnel terms re-derive the relative index from the sign of n.wo per hit, so correct iorIn/iorOut per boundary is what matters (reviewer independently confirmed this is physically sound). Added example GlassOfWaterScene.kt (checker plane, bending Matte straw, maxDepth(12), WHITTED) and frozen cover-first tests (GlassOfWaterTest: 8 parts, 4/2/2 boundary counts, three distinct materials not collapsed, hit-based normal/orientation invariants, bbox, equals/hashCode/toString; plus an ObjectsScopeTest DSL case). Verified: ./gradlew clean check green, reviewer PASS (purely additive DSL change, no regression, detekt baseline untouched), ./gradlew audit registers the scene non-black, and the 720p render shows refraction, a TIR band at the water surface, two Beer's-law tints, and the straw bending at the water line. Committed 0444ec1.
+<!-- SECTION:FINAL_SUMMARY:END -->
