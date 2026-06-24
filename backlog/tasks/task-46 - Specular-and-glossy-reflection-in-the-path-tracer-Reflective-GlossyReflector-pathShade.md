@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 08:23'
-updated_date: '2026-06-24 08:31'
+updated_date: '2026-06-24 08:32'
 labels:
   - book-coverage
   - global-illumination
@@ -34,3 +34,15 @@ The PATH_TRACE tracer (Suffern ch. 26) currently produces global illumination on
 - [ ] #4 A new auto-discovered example scene demonstrates a reflective caustic: matte plane + emissive sphere + flat mirror (book Figure 26.8) with preferredTracer(PATH_TRACE); optionally a concave cylindrical reflector for the cardioid caustic (Figure 26.9)
 - [ ] #5 The two pathShade overrides (commonMain) are covered by frozen unit tests per the cover-first rule and specs/testing.md; detekt and the full build stay green; the example scene is verified manually by rendering
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Cover-first: write frozen tests ReflectivePathShadeTest + GlossyReflectorPathShadeTest in src/commonTest (mirror MattePathShadeTest/EmissivePathShadeTest), using a fake IWorld/Tracer that records the recursion depth and returns a fixed incoming colour; pin the analytic per-sample weight (PerfectSpecular: kr/abs(n.wi) * (n.wi) = kr with pdf=1; GlossySpecular: color*(n.wi)/pdf reduces to cs*ks). Confirm they FAIL first (default pathShade returns BLACK).
+2. Implement Reflective.pathShade: sample PerfectSpecular.sampleF(sr,wo), trace reflected ray at depth+1, return sample.color*incoming*(n.wi), guarding tracer==null -> BLACK (book Listing 26.5).
+3. Implement GlossyReflector.pathShade: delegate to existing glossyReflection(world,sr) (already exactly the path-shade form per exercise 26.9).
+4. Confirm tests pass; verify they are unchanged from the cover-first version.
+5. Add auto-discovered example scene ReflectiveCaustic.kt (matte plane + emissive sphere + flat mirror, Fig 26.8) under examples/globalillumination with preferredTracer(PATH_TRACE).
+6. Render the scene (just run) to confirm non-black/coherent output (examples are coverage-excluded -> manual verify).
+7. Run ./gradlew clean check (just test) and ensure detekt+build green.
+<!-- SECTION:PLAN:END -->
