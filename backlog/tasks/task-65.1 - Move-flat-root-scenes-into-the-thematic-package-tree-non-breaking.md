@@ -1,9 +1,10 @@
 ---
 id: TASK-65.1
 title: Move flat root scenes into the thematic package tree (non-breaking)
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-06-25 21:15'
+updated_date: '2026-06-25 21:26'
 labels: []
 dependencies: []
 parent_task_id: TASK-65
