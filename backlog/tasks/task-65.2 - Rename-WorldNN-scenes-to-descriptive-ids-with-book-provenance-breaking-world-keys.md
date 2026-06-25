@@ -6,7 +6,7 @@ title: >-
 status: In Progress
 assignee: []
 created_date: '2026-06-25 21:16'
-updated_date: '2026-06-25 22:26'
+updated_date: '2026-06-25 22:29'
 labels: []
 dependencies:
   - TASK-65.1
@@ -48,3 +48,15 @@ Examples/** is coverage-excluded, so verify manually: after renaming, render a s
 - [ ] #4 All in-repo references to old WorldNN.kt ids (README, docs, code defaults, audit tooling) are updated; repo grep for 'World\d+\.kt' is clean
 - [ ] #5 ./gradlew clean check is green and a sample of renamed scenes renders correctly under their new --world= keys
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Dedup investigation (diffed all suspected pairs). NO true duplicates to delete:
+- World33 vs World80: same RGB-sphere layout but different reflectivity (World33 diffuse+reflective kd=1; World80 pure mirror kd=0, varying kr). Distinct scenes.
+- World32 vs World32b: same instanced smooth-triangle geometry; World32 phong, World32b reflective. Distinct.
+- World71 vs World71b: 71b is a reduced variant of 71. Distinct.
+- World66b vs SpheresOnABlackMirror: same receding-spheres layout but World66b uses 3 colored directional lights + blue mirror + ambient 0.0. Distinct.
+- World74 vs World74kdt: TRULY identical except Acceleration.GRID vs KDTREE -> a deliberate grid/kd-tree pair; keep both, name as a pair.
+Also: World60 metadata is description('does not work') -> known-broken scene, needs a decision. World61 loads the bunny via a Windows path 'resources\\Bunny4K.ply' (backslash) -> latent portability bug, out of scope (follow-up). Several WorldNN are imported by FQN in BuilderTest (e.g. World17, World23) -> their imports must be updated on rename.
+<!-- SECTION:NOTES:END -->
