@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.basics
 
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World

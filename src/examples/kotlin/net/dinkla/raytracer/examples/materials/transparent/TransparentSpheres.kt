@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.materials.transparent
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder

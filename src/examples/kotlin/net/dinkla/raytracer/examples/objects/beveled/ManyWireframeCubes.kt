@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.objects.beveled
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.world.Builder

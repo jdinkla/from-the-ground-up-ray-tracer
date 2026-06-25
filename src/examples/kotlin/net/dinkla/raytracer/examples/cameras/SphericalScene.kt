@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.cameras
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
@@ -10,13 +10,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Coverage example (TASK-40/41) for the [net.dinkla.raytracer.cameras.lenses.FishEye] lens (Suffern
- * ch. 11). The camera sits at the centre of a ring of coloured spheres with `maxPsi = 180°`, so the
- * full surrounding sphere is mapped into the circular fisheye image (centre = straight ahead, rim =
- * directly behind); the frame corners fall outside the image circle and stay background.
+ * Coverage example (TASK-40/41) for the [net.dinkla.raytracer.cameras.lenses.Spherical] panoramic lens
+ * (Suffern ch. 11). The camera sits at the centre of a ring of coloured spheres with `maxLambda = 180°`
+ * / `maxPsi = 90°`, unrolling the full 360°×180° surroundings across the frame: the ring spreads evenly
+ * along the width, ground fills the lower band and sky the upper. Unlike [FishEyeScene] every pixel maps
+ * to a ray, so there is no circular vignette.
  */
-object FishEyeScene : WorldDefinition {
-    override val id: String = "FishEyeScene.kt"
+object SphericalScene : WorldDefinition {
+    override val id: String = "SphericalScene.kt"
 
     private const val RING_COUNT = 12
     private const val RING_RADIUS = 20.0
@@ -24,7 +25,12 @@ object FishEyeScene : WorldDefinition {
 
     override fun world() =
         Builder.build {
-            fishEyeCamera(maxPsi = 180.0, eye = p(0.0, EYE_HEIGHT, 0.0), lookAt = p(0.0, EYE_HEIGHT, -1.0))
+            sphericalCamera(
+                maxLambda = 180.0,
+                maxPsi = 90.0,
+                eye = p(0.0, EYE_HEIGHT, 0.0),
+                lookAt = p(0.0, EYE_HEIGHT, -1.0),
+            )
 
             ambientLight(color = Color.WHITE, ls = 0.5)
 

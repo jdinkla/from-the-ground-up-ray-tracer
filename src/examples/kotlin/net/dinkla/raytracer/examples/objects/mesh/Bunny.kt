@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.objects.mesh
 
 import net.dinkla.raytracer.math.Normal
 import net.dinkla.raytracer.math.Point3D

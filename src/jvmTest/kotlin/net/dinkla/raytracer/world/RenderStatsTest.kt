@@ -5,7 +5,7 @@ import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.colors.Color
-import net.dinkla.raytracer.examples.YellowAndRedSphere
+import net.dinkla.raytracer.examples.basics.YellowAndRedSphere
 import net.dinkla.raytracer.films.IFilm
 import net.dinkla.raytracer.renderer.CancellationToken
 import net.dinkla.raytracer.renderer.IRenderer

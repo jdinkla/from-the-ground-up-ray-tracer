@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples
+package net.dinkla.raytracer.examples.lights.environment
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.materials.Emissive
