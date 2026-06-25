@@ -6,7 +6,7 @@ title: >-
 status: In Progress
 assignee: []
 created_date: '2026-06-25 21:16'
-updated_date: '2026-06-25 22:29'
+updated_date: '2026-06-25 22:32'
 labels: []
 dependencies:
   - TASK-65.1
@@ -47,6 +47,7 @@ Examples/** is coverage-excluded, so verify manually: after renaming, render a s
 - [ ] #3 test/ package is removed; identified duplicates (e.g. World33/World80, World74/World74kdt) are resolved, not blindly renamed twice
 - [ ] #4 All in-repo references to old WorldNN.kt ids (README, docs, code defaults, audit tooling) are updated; repo grep for 'World\d+\.kt' is clean
 - [ ] #5 ./gradlew clean check is green and a sample of renamed scenes renders correctly under their new --world= keys
+- [ ] #6 World60 (-> TwoAreaLightsAndSpheres.kt): the 'does not work' cause is diagnosed and fixed, verified by a render (approved scope expansion 2026-06-26)
 <!-- AC:END -->
 
 ## Implementation Notes
@@ -59,4 +60,6 @@ Dedup investigation (diffed all suspected pairs). NO true duplicates to delete:
 - World66b vs SpheresOnABlackMirror: same receding-spheres layout but World66b uses 3 colored directional lights + blue mirror + ambient 0.0. Distinct.
 - World74 vs World74kdt: TRULY identical except Acceleration.GRID vs KDTREE -> a deliberate grid/kd-tree pair; keep both, name as a pair.
 Also: World60 metadata is description('does not work') -> known-broken scene, needs a decision. World61 loads the bunny via a Windows path 'resources\\Bunny4K.ply' (backslash) -> latent portability bug, out of scope (follow-up). Several WorldNN are imported by FQN in BuilderTest (e.g. World17, World23) -> their imports must be updated on rename.
+
+Approved name table (24 scenes) + decision to FIX World60 rather than drop/keep-broken. Proposed ids recorded in the conversation; executing the rename now.
 <!-- SECTION:NOTES:END -->
