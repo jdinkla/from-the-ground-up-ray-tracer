@@ -4,7 +4,7 @@ title: Move flat root scenes into the thematic package tree (non-breaking)
 status: In Progress
 assignee: []
 created_date: '2026-06-25 21:15'
-updated_date: '2026-06-25 21:26'
+updated_date: '2026-06-25 21:29'
 labels: []
 dependencies: []
 parent_task_id: TASK-65
@@ -36,8 +36,18 @@ Note: examples/** is JaCoCo/coverage-excluded glue, so per CLAUDE.md verify manu
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 All ~20 listed root scenes moved to the mapped subpackages; objects/mesh, lights/environment, and basics packages created
-- [ ] #2 Each moved scene keeps its exact id string; no --world= key changes in this subtask
-- [ ] #3 Root examples package contains only Worlds.kt, Template.kt, ExampleForGithub.kt (plus the remaining WorldNN scenes, which the rename subtask handles)
-- [ ] #4 ./gradlew clean check is green and a spot-check render of at least one moved scene (e.g. --world=Bunny.kt) still resolves and renders
+- [x] #1 All ~20 listed root scenes moved to the mapped subpackages; objects/mesh, lights/environment, and basics packages created
+- [x] #2 Each moved scene keeps its exact id string; no --world= key changes in this subtask
+- [x] #3 Root examples package contains only Worlds.kt, Template.kt, ExampleForGithub.kt (plus the remaining WorldNN scenes, which the rename subtask handles)
+- [x] #4 ./gradlew clean check is green and a spot-check render of at least one moved scene (e.g. --world=Bunny.kt) still resolves and renders
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Moved 19 flat root scenes into the thematic tree via git mv + line-1 package rewrite (ids/--world= keys untouched). New packages created: basics (YellowAndRedSphere, YellowAndOrangeSphere, YellowSpheres), objects/mesh (Bunny), lights/environment (EnvironmentLightScene). ManyWireframeCubes confirmed as objects/beveled (beveledBox isWiredFrame=true; the grid{} is just the accel container).
+
+Found + fixed compile-time FQN imports of moved scenes in tests: BuilderTest (AmbientOccludedSphere, InstanceExample, TransparentSpheres, VariousObjects, YellowAndRedSphere) and RenderStatsTest (YellowAndRedSphere); re-sorted import block. Other hits (CommandLine default, Render help text, README) reference the unchanged id string, not the package.
+
+Root examples package now holds only Worlds.kt, Template.kt, ExampleForGithub.kt (kept by design). ./gradlew clean check green (detekt + tests; pre-existing unchecked-cast warnings unrelated). Discovery+render verified: --world=YellowAndRedSphere.kt rendered from its new basics package in 447ms; artifact cleaned up.
+<!-- SECTION:NOTES:END -->
