@@ -3,9 +3,10 @@ id: TASK-65.2
 title: >-
   Rename WorldNN scenes to descriptive ids with book provenance (breaking
   --world= keys)
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-06-25 21:16'
+updated_date: '2026-06-25 22:26'
 labels: []
 dependencies:
   - TASK-65.1
