@@ -1,9 +1,10 @@
 ---
 id: TASK-65
 title: 'Reorganize the example scenes: thematic packages + descriptive scene ids'
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-06-25 21:15'
+updated_date: '2026-06-25 22:49'
 labels: []
 dependencies: []
 ordinal: 68000
@@ -28,7 +29,13 @@ Split into two subtasks by risk: non-breaking package moves vs the breaking Worl
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 All example scenes live in a thematic subpackage; the root examples package retains only infrastructure (Worlds.kt), the scene Template, and the README hero scene (ExampleForGithub)
-- [ ] #2 No scene named WorldNN remains; the test/ package is gone
-- [ ] #3 Full check is green (./gradlew clean check) and every scene is still discoverable + renderable after the reorg
+- [x] #1 All example scenes live in a thematic subpackage; the root examples package retains only infrastructure (Worlds.kt), the scene Template, and the README hero scene (ExampleForGithub)
+- [x] #2 No scene named WorldNN remains; the test/ package is gone
+- [x] #3 Full check is green (./gradlew clean check) and every scene is still discoverable + renderable after the reorg
 <!-- AC:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Reorganized all example scenes. 65.1: moved 19 flat root scenes into the thematic tree (+ basics/objects.mesh/lights.environment), non-breaking. 65.2: renamed 24 WorldNN scenes to descriptive ids with KDoc provenance, removed test/, fixed the broken World60 area-light scene. Root examples package now holds only Worlds.kt, Template.kt, ExampleForGithub.kt; no WorldNN scenes remain; build green and all scenes discoverable/renderable.
+<!-- SECTION:FINAL_SUMMARY:END -->
