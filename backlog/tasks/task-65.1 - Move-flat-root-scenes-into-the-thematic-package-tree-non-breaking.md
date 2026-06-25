@@ -1,10 +1,10 @@
 ---
 id: TASK-65.1
 title: Move flat root scenes into the thematic package tree (non-breaking)
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-06-25 21:15'
-updated_date: '2026-06-25 21:29'
+updated_date: '2026-06-25 21:30'
 labels: []
 dependencies: []
 parent_task_id: TASK-65
@@ -51,3 +51,9 @@ Found + fixed compile-time FQN imports of moved scenes in tests: BuilderTest (Am
 
 Root examples package now holds only Worlds.kt, Template.kt, ExampleForGithub.kt (kept by design). ./gradlew clean check green (detekt + tests; pre-existing unchecked-cast warnings unrelated). Discovery+render verified: --world=YellowAndRedSphere.kt rendered from its new basics package in 447ms; artifact cleaned up.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Moved 19 flat root example scenes into the thematic package tree (git mv + line-1 package rewrite; scene ids / --world= keys unchanged). Added packages: basics, objects/mesh, lights/environment. Fixed the only compile-time fallout — FQN scene imports in BuilderTest + RenderStatsTest. Root examples package now holds only Worlds.kt, Template.kt, ExampleForGithub.kt. Verified: ./gradlew clean check green, and --world=YellowAndRedSphere.kt still discovered + rendered from its new basics package.
+<!-- SECTION:FINAL_SUMMARY:END -->
