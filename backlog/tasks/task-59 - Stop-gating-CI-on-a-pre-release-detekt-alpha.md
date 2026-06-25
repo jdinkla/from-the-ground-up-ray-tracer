@@ -1,31 +1,36 @@
 ---
 id: TASK-59
-title: Stop gating CI on a pre-release detekt alpha
+title: >-
+  Document why detekt 2.0-alpha is required (Kotlin 2.3 / JDK 25) and track the
+  move to detekt 2.0 stable
 status: To Do
 assignee: []
 created_date: '2026-06-24 22:36'
+updated_date: '2026-06-25 07:43'
 labels:
   - tech-debt
-  - build
   - detekt
+  - documentation
 dependencies: []
 references:
   - TECH_DEBT_REPORT.md
-priority: medium
+priority: low
 ordinal: 62000
 ---
 
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-versions.properties pins plugin.dev.detekt=2.0.0-alpha.5. The entire check/CI quality gate depends on an alpha build of the static-analysis plugin. Rule sets, defaults, and baseline semantics can change between alphas, so a routine refreshVersions bump can silently alter what passes or break the build. This is a build-reproducibility and operational risk. See TECH_DEBT_REPORT.md section P2 #3.
+versions.properties:33 pins plugin.dev.detekt=2.0.0-alpha.5 (plugin id dev.detekt, build.gradle.kts:3). An earlier review framed this as a build-reproducibility risk and recommended pinning to a stable detekt. That recommendation is INFEASIBLE and is corrected here.
 
-Locations: versions.properties:33 (plugin.dev.detekt=2.0.0-alpha.5); build.gradle.kts:3 (id("dev.detekt")).
+Verified against this repo: the project is on Kotlin 2.3.0 (versions.properties: version.kotlin=2.3.0) with jvmToolchain(25). The legacy stable detekt line (1.23.x, plugin id io.gitlab.arturbosch.detekt) supports only older Kotlin/JDK combinations and does not support Kotlin 2.3 / JDK 25; the detekt 2.0 line (plugin id dev.detekt), currently pre-release, is the line that targets modern Kotlin 2.3+/JDK 25. Substituting detekt 1.23.x stable would break the build. The alpha is therefore required by the current toolchain, not gratuitous.
+
+This is consequently a documentation/guard task, not a build risk: record why the alpha is intentional so a future refreshVersions bump or well-meaning 'pin to stable' change does not regress the build, and track the upgrade to detekt 2.0 stable once it ships. See TECH_DEBT_REPORT.md section P2 #3 (premise corrected).
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 detekt is pinned to the latest stable release, OR a short documented rationale explains why the 2.0 alpha is required
-- [ ] #2 If the alpha is kept, the upgrade to a stable detekt is tracked as a follow-up
-- [ ] #3 ./gradlew clean check is green after the change
+- [ ] #1 A short comment near id("dev.detekt") in build.gradle.kts and/or near plugin.dev.detekt in versions.properties explains the detekt 2.0 alpha is intentional and required by Kotlin 2.3 / JDK 25, and that detekt 1.23.x stable must NOT be substituted
+- [ ] #2 A note or mechanism is in place to revisit and upgrade to detekt 2.0 once it reaches stable
+- [ ] #3 ./gradlew clean check stays green
 <!-- AC:END -->
