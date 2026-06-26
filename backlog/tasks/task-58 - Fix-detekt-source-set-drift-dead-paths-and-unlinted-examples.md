@@ -1,9 +1,11 @@
 ---
 id: TASK-58
 title: 'Fix detekt source-set drift: dead paths and unlinted examples'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:36'
+updated_date: '2026-06-26 20:50'
 labels:
   - tech-debt
   - build
