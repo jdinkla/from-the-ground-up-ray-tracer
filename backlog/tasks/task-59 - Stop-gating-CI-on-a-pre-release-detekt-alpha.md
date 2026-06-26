@@ -3,10 +3,11 @@ id: TASK-59
 title: >-
   Document why detekt 2.0-alpha is required (Kotlin 2.3 / JDK 25) and track the
   move to detekt 2.0 stable
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:36'
-updated_date: '2026-06-25 07:43'
+updated_date: '2026-06-26 20:46'
 labels:
   - tech-debt
   - detekt
