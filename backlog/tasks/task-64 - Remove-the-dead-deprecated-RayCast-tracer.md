@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:37'
-updated_date: '2026-06-26 20:43'
+updated_date: '2026-06-26 20:44'
 labels:
   - tech-debt
 dependencies: []
@@ -25,7 +25,13 @@ Locations: src/commonMain/.../tracers/RayCast.kt:12; tracers/Tracers.kt (no RAY_
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 RayCast.kt and its pinning test RayCastTest.kt are removed, OR a one-line comment is added to RayCast.kt explaining why it is kept as a deliberate tombstone
-- [ ] #2 The Tracers enum and any references remain consistent (no dangling references)
-- [ ] #3 ./gradlew clean check is green
+- [x] #1 RayCast.kt and its pinning test RayCastTest.kt are removed, OR a one-line comment is added to RayCast.kt explaining why it is kept as a deliberate tombstone
+- [x] #2 The Tracers enum and any references remain consistent (no dangling references)
+- [x] #3 ./gradlew clean check is green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Removed RayCast.kt and RayCastTest.kt (dead code: not in Tracers enum, only referenced by its self-forbidding test). Grep confirmed no other references. ./gradlew clean check green.
+<!-- SECTION:NOTES:END -->
