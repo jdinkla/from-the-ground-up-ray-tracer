@@ -113,6 +113,9 @@ complexity:
   LongMethod:
     active: true
     allowedLines: 60
+    # examples/** scene builders (world() { ... }) are long by nature: a flat declarative list of
+    # objects/materials/lights. Splitting them adds indirection without clarity. See TASK-58.
+    excludes: ['**/examples/**']
   LongParameterList:
     active: true
     allowedFunctionParameters: 5
@@ -669,7 +672,9 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts']
+    # examples/** are declarative scene definitions: literal 3D coordinates, colours, and sizes
+    # ARE the data. Naming each would obscure, not clarify. See TASK-58 (relaxed subset for scene DSLs).
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts', '**/examples/**']
     ignoreNumbers:
       - '-1'
       - '0'
@@ -693,6 +698,9 @@ style:
   MaxLineLength:
     active: true
     maxLineLength: 120
+    # examples/** scene definitions have wide single-statement constructor calls (positions, colours).
+    # See TASK-58 (relaxed subset for scene DSLs).
+    excludes: ['**/examples/**']
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false

@@ -104,5 +104,6 @@ detekt {
         "src/jvmMain/kotlin",
         "src/commonTest/kotlin",
         "src/jvmTest/kotlin",
+        "src/examples/kotlin",
     )
 }
