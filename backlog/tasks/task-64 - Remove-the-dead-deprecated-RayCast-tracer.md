@@ -5,12 +5,12 @@ status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:37'
-updated_date: '2026-06-26 20:44'
+updated_date: '2026-06-26 21:36'
 labels:
   - tech-debt
 dependencies: []
 references:
-  - TECH_DEBT_REPORT.md
+  - docs/arc42/11_risks_and_technical_debt.md
 priority: low
 ordinal: 67000
 ---
