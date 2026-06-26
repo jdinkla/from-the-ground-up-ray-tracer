@@ -31,7 +31,13 @@ This is consequently a documentation/guard task, not a build risk: record why th
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A short comment near id("dev.detekt") in build.gradle.kts and/or near plugin.dev.detekt in versions.properties explains the detekt 2.0 alpha is intentional and required by Kotlin 2.3 / JDK 25, and that detekt 1.23.x stable must NOT be substituted
-- [ ] #2 A note or mechanism is in place to revisit and upgrade to detekt 2.0 once it reaches stable
-- [ ] #3 ./gradlew clean check stays green
+- [x] #1 A short comment near id("dev.detekt") in build.gradle.kts and/or near plugin.dev.detekt in versions.properties explains the detekt 2.0 alpha is intentional and required by Kotlin 2.3 / JDK 25, and that detekt 1.23.x stable must NOT be substituted
+- [x] #2 A note or mechanism is in place to revisit and upgrade to detekt 2.0 once it reaches stable
+- [x] #3 ./gradlew clean check stays green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Added explanatory comments at build.gradle.kts plugins block (durable; refreshVersions never edits it) and above plugin.dev.detekt in versions.properties, stating the detekt 2.0 alpha is required for Kotlin 2.3/JDK 25 and 1.23.x stable must not be substituted. Created TASK-67 as the tracking mechanism to upgrade to detekt 2.0 stable once it ships; referenced from the comment. clean check green.
+<!-- SECTION:NOTES:END -->
