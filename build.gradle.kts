@@ -37,6 +37,12 @@ repositories {
 
 kotlin {
     jvmToolchain(25)
+    // The Kotlin core compiles warning-clean (TASK-61 removed the last unchecked-cast warnings), so
+    // promote warnings to errors: a new compiler warning now fails the build instead of accumulating
+    // invisibly. See TASK-68.
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
     sourceSets["main"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["main"].kotlin.srcDir("src/jvmMain/kotlin")
     sourceSets["main"].kotlin.srcDir("src/examples/kotlin")
