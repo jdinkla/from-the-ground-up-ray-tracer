@@ -1,7 +1,7 @@
 ---
 id: TASK-61
 title: Fix unchecked-cast compiler warnings (PlyReader + GridStructuresTest)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:36'
