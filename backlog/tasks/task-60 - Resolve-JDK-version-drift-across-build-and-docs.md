@@ -1,9 +1,11 @@
 ---
 id: TASK-60
 title: Resolve JDK version drift across build and docs
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:36'
+updated_date: '2026-06-26 20:47'
 labels:
   - tech-debt
   - documentation
