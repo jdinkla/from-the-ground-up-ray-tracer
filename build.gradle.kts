@@ -1,5 +1,9 @@
 plugins {
     kotlin("jvm")
+    // detekt 2.0 (plugin id `dev.detekt`) is intentionally a pre-release (alpha) — see versions.properties.
+    // It is the only detekt line that supports Kotlin 2.3 / JDK 25 (this project's toolchain).
+    // Do NOT substitute detekt 1.23.x stable (plugin id `io.gitlab.arturbosch.detekt`): it predates
+    // Kotlin 2.3 / JDK 25 and would break the build. Track the move to detekt 2.0 stable: TASK-67.
     id("dev.detekt")
     jacoco
     idea
