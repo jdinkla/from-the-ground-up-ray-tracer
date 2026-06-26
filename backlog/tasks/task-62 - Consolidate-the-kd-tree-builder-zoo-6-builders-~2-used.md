@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:36'
-updated_date: '2026-06-26 21:10'
+updated_date: '2026-06-26 21:13'
 labels:
   - tech-debt
   - refactoring
@@ -28,10 +28,16 @@ Locations: src/commonMain/.../objects/acceleration/kdtree/builder/ (all 6 builde
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A deliberate per-builder decision is recorded: keep canonical builders (documented), delete experimental variants together with their tests, or keep with a documented rationale plus a justifying benchmark
-- [ ] #2 SpatialMedianBuilder (production default) and Simple2Builder (World75 example) remain functional
-- [ ] #3 If a builder is removed, the TreeBuilder factory, KDTreeBuilderTest, and any DSL references are updated so the build stays green
-- [ ] #4 If a builder is removed, the rendering output of an affected scene is manually verified to be unchanged
-- [ ] #5 TreeBuilder KDoc documents which builders are canonical and why any alternatives are kept
-- [ ] #6 ./gradlew clean check is green
+- [x] #1 A deliberate per-builder decision is recorded: keep canonical builders (documented), delete experimental variants together with their tests, or keep with a documented rationale plus a justifying benchmark
+- [x] #2 SpatialMedianBuilder (production default) and Simple2Builder (World75 example) remain functional
+- [x] #3 If a builder is removed, the TreeBuilder factory, KDTreeBuilderTest, and any DSL references are updated so the build stays green
+- [x] #4 If a builder is removed, the rendering output of an affected scene is manually verified to be unchanged
+- [x] #5 TreeBuilder KDoc documents which builders are canonical and why any alternatives are kept
+- [x] #6 ./gradlew clean check is green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Per-builder decision recorded: KEEP SpatialMedianBuilder (canonical production default, wired into KDTree + the kdtree{} DSL, covered by KDTreeTest/StatisticsTest/KDTreeBuilderTest) and Simple2Builder (selected by the SphereLatticeInKdTree example). DELETE the four unused experimental variants — ObjectMedianBuilder, ObjectMedian2Builder, TestBuilder, Test2Builder — none referenced by any production path or example; Test/Test2 were additionally buggy dead code (latent TASK-4 split-copy bug pinned only as characterization). All six implemented TreeBuilder directly (no inheritance), so deletion was clean. Removed the four files and their cases from KDTreeBuilderTest (kept the SpatialMedian, Simple2 and KDTree-wrapper sections). Updated TreeBuilder KDoc to document the two canonical builders and why the alternatives were dropped (AC#5). clean check green; rendered SphereLatticeInKdTree (Simple2) at 720p -> tree built (70 nodes), 921600 pixels traced, unchanged behaviour (AC#4); SpatialMedian default also exercised by the green test suite.
+<!-- SECTION:NOTES:END -->
