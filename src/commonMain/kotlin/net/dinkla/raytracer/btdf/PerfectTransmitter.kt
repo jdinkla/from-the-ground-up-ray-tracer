@@ -11,17 +11,6 @@ data class PerfectTransmitter(
     var ior: Double = 1.0,
     var kt: Double = 1.0,
 ) : BTDF {
-    override fun f(
-        sr: IShade,
-        wo: Vector3D,
-        wi: Vector3D,
-    ): Color = throw UnsupportedOperationException("PerfectTransmitter does not support f")
-
-    override fun rho(
-        sr: IShade,
-        wo: Vector3D,
-    ): Color = throw UnsupportedOperationException("PerfectTransmitter does not support rho")
-
     override fun sampleF(
         sr: IShade,
         wo: Vector3D,

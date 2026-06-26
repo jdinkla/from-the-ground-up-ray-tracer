@@ -21,17 +21,6 @@ data class FresnelTransmitter(
     var iorIn: Double = 1.0,
     var iorOut: Double = 1.0,
 ) : BTDF {
-    override fun f(
-        sr: IShade,
-        wo: Vector3D,
-        wi: Vector3D,
-    ): Color = throw UnsupportedOperationException("FresnelTransmitter does not support f")
-
-    override fun rho(
-        sr: IShade,
-        wo: Vector3D,
-    ): Color = throw UnsupportedOperationException("FresnelTransmitter does not support rho")
-
     /**
      * The Fresnel transmittance `kt = 1 - kr` and the transmitted direction. The caller must not
      * invoke this when [isTir] is true: under total internal reflection there is no transmitted ray
