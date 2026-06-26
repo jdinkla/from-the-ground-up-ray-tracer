@@ -4,6 +4,7 @@ title: Upgrade to detekt 2.0 stable once it ships
 status: To Do
 assignee: []
 created_date: '2026-06-26 20:46'
+updated_date: '2026-06-26 21:40'
 labels:
   - tech-debt
   - detekt
@@ -25,3 +26,9 @@ build.gradle.kts pins the detekt 2.0 line (plugin id dev.detekt) at a pre-releas
 - [ ] #2 The 'alpha is intentional / do not pin to 1.23.x' comments are updated or removed as appropriate
 - [ ] #3 ./gradlew clean check is green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-06-26: ran ./gradlew refreshVersions to check — plugin.dev.detekt shows NO newer version available (still 2.0.0-alpha.5, no # available= hints), i.e. detekt 2.0 stable has not shipped yet. Task remains blocked on that external release; not actionable now. Bumping to a non-existent stable would break the build.
+<!-- SECTION:NOTES:END -->
