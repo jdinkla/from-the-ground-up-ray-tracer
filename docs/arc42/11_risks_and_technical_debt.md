@@ -36,7 +36,7 @@ This chapter documents technical risks and accumulated technical debt identified
 | **KorIM (korim)** | Low | Third-party image library from Soywiz/Korlibs ecosystem; less mainstream than alternatives | Monitor for breaking changes; consider fallback to standard ImageIO for JVM |
 | **Logback Classic** | Low | Mature logging framework, well-maintained | Keep updated for security patches |
 | **Clikt** | Low | CLI parsing library from AJ Alt; well-maintained | Current risk minimal |
-| **ClassGraph** | Low | Reflection/classpath scanning; used for dynamic world discovery | Ensure version compatibility with Java 21 |
+| **ClassGraph** | Low | Reflection/classpath scanning; used for dynamic world discovery | Ensure version compatibility with Java 25 |
 | **Kotest** | Low | Testing framework; actively maintained | Keep updated |
 | **Kotlin Coroutines** | Low | Official JetBrains library | Low risk; follow Kotlin version compatibility |
 

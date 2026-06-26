@@ -4,7 +4,7 @@ This chapter documents the key architectural decisions made in the ray tracer pr
 
 ---
 
-## ADR-1: Kotlin as Primary Language with JVM 21 Target
+## ADR-1: Kotlin as Primary Language with JVM 25 Target
 
 **Status:** Accepted
 
@@ -12,7 +12,7 @@ This chapter documents the key architectural decisions made in the ray tracer pr
 The ray tracer was originally implemented in Java with a Groovy DSL (pre-2018). As the codebase evolved, the need arose for better type safety, null safety, and a more expressive syntax for the scene description DSL. The project required modern concurrency features while maintaining access to the mature Java ecosystem for image processing and parallel execution.
 
 **Decision:**
-Migrate from Java/Groovy to Kotlin targeting JVM 21, using Kotlin 2.2.x. The project leverages:
+Migrate from Java/Groovy to Kotlin targeting JVM 25, using Kotlin 2.3.x. The project leverages:
 - Kotlin's type-safe builder pattern for the DSL
 - Null safety to prevent runtime NullPointerExceptions in complex ray-object intersections
 - Extension functions and sealed classes for cleaner geometric object hierarchies
@@ -22,7 +22,7 @@ Migrate from Java/Groovy to Kotlin targeting JVM 21, using Kotlin 2.2.x. The pro
 - **Positive:** Compile-time null safety eliminates an entire class of runtime errors in geometric calculations. The DSL syntax (`Builder.build { camera(...) objects { sphere(...) } }`) is significantly more readable than the previous Groovy implementation.
 - **Positive:** Access to Java 21 Virtual Threads enables lightweight concurrency without coroutine overhead for certain rendering strategies.
 - **Negative:** Kotlin Multiplatform was attempted (2022-2023) but abandoned due to API instability. The project retains the `commonMain`/`jvmMain` structure for potential future multiplatform support.
-- **Neutral:** Requires JDK 21+ runtime, limiting deployment to modern Java environments.
+- **Neutral:** Requires JDK 25+ runtime, limiting deployment to modern Java environments.
 
 ---
 
@@ -228,7 +228,7 @@ class SphereTest : StringSpec({
 
 | Decision | Primary Driver | Key Trade-off |
 |----------|---------------|---------------|
-| Kotlin + JVM 21 | Type safety, modern concurrency | No multiplatform deployment |
+| Kotlin + JVM 25 | Type safety, modern concurrency | No multiplatform deployment |
 | Six Renderer Strategies | Performance experimentation | Maintenance complexity |
 | Type-Safe DSL | Compile-time error detection | String-based material IDs |
 | Pluggable Acceleration | Scene-appropriate optimization | Manual selection required |

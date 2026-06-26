@@ -4,7 +4,7 @@
 
 ### Purpose
 
-The **From the Ground Up Ray Tracer** is a photorealistic 3D rendering engine implemented in Kotlin. It generates high-quality images by simulating the physical behavior of light as it interacts with virtual objects, materials, and light sources. The project originated as a learning exercise based on Kevin Suffern's book "Ray Tracing from the Ground Up" (2010) and has evolved through multiple technology iterations (Java → Groovy → Kotlin) into a modern, idiomatic Kotlin implementation targeting JVM 21.
+The **From the Ground Up Ray Tracer** is a photorealistic 3D rendering engine implemented in Kotlin. It generates high-quality images by simulating the physical behavior of light as it interacts with virtual objects, materials, and light sources. The project originated as a learning exercise based on Kevin Suffern's book "Ray Tracing from the Ground Up" (2010) and has evolved through multiple technology iterations (Java → Groovy → Kotlin) into a modern, idiomatic Kotlin implementation targeting JVM 25.
 
 ### Problem Domain
 
@@ -52,4 +52,4 @@ The system is designed as an educational and experimental ray tracer that demons
 | **Learners/Students** | Developers studying ray tracing concepts or Kotlin programming patterns | Clear mapping between code and ray tracing theory from Suffern's book; readable DSL examples demonstrating various rendering techniques; well-documented 56 example scenes organized by feature (materials, lighting, acceleration) |
 | **Contributors** | Potential open-source contributors (project is Apache 2.0 licensed on GitHub) | Consistent code style enforced by Detekt; CI pipeline with automated builds and test reports; clear package organization following ray tracing domain concepts |
 | **Kotlin Enthusiasts** | Developers interested in Kotlin language features (DSLs, coroutines, operator overloading) | Idiomatic Kotlin patterns: type-safe builder DSL using scope receivers, operator overloading for vector/point arithmetic (`+`, `-`, `*`, `dot`), coroutine-based rendering, data classes for value types |
-| **Performance Researchers** | Those benchmarking different parallelization strategies on JVM 21 | Six rendering strategies for comparison (sequential baseline through virtual threads); configurable resolution scaling; acceleration structure options for controlled experiments |
+| **Performance Researchers** | Those benchmarking different parallelization strategies on JVM 25 | Six rendering strategies for comparison (sequential baseline through virtual threads); configurable resolution scaling; acceleration structure options for controlled experiments |

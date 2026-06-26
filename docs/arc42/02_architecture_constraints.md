@@ -6,7 +6,7 @@ This chapter describes the constraints that influenced the architectural decisio
 
 | Constraint | Explanation |
 |------------|-------------|
-| **Kotlin/JVM 21** | The project uses Kotlin as the sole programming language, targeting JVM 21 as specified in `build.gradle.kts` via `jvmToolchain(21)`. This determines the available language features and runtime capabilities. |
+| **Kotlin/JVM 25** | The project uses Kotlin as the sole programming language, targeting JVM 25 as specified in `build.gradle.kts` via `jvmToolchain(25)`. This determines the available language features and runtime capabilities. |
 | **Gradle Build System** | Gradle is the build tool with version 9.2.0, using the Kotlin DSL for build configuration. Dependencies are managed through Maven Central with version catalogs. |
 | **Kotlinx Coroutines** | Asynchronous rendering operations rely on `kotlinx.coroutines.core`, constraining concurrent execution patterns to Kotlin's coroutine model. |
 | **Korim Image Library** | Image processing and output use the `korim` library from Korlibs, which determines supported image formats and rendering pipeline capabilities. |
@@ -21,7 +21,7 @@ This chapter describes the constraints that influenced the architectural decisio
 | Constraint | Explanation |
 |------------|-------------|
 | **Apache License 2.0** | The project is licensed under Apache License 2.0, which permits commercial use, modification, and distribution while requiring preservation of copyright notices and disclaimers. Contributors must accept these licensing terms. |
-| **GitHub Actions CI** | Continuous integration runs on Ubuntu with JDK 21 (Temurin distribution). All pull requests to `main` must pass the Gradle build, and failed test reports are uploaded as artifacts. |
+| **GitHub Actions CI** | Continuous integration runs on Ubuntu with JDK 25 (Temurin distribution). All pull requests to `main` must pass the Gradle build, and failed test reports are uploaded as artifacts. |
 | **Dependency Submission** | The CI pipeline automatically submits dependency graphs to GitHub for security vulnerability tracking, requiring all dependencies to be declared through Gradle. |
 | **Single Main Branch** | The workflow triggers on pushes and pull requests to the `main` branch only, indicating a trunk-based development model. |
 | **JDK Distribution** | CI enforces Temurin (Eclipse Adoptium) as the JDK distribution, ensuring consistent build behavior across development and CI environments. |

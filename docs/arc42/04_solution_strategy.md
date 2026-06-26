@@ -7,7 +7,7 @@ I have generated the arc42 Chapter 4: Solution Strategy document. Here's a summa
 The document `/Volumes/JD/repositories/from-the-ground-up-ray-tracer/docs/arc42/04_solution_strategy.md` covers:
 
 ### 4.1 Technology Decisions
-A comprehensive table documenting 11 key technology choices (Kotlin/JVM 21, Coroutines, Gradle, Korim, Clikt, ClassGraph, Detekt, JaCoCo, Kotest, Logback) with rationale for each selection. Also includes a trade-offs section discussing JVM-only vs. Multiplatform and Coroutines vs. Project Loom decisions.
+A comprehensive table documenting 11 key technology choices (Kotlin/JVM 25, Coroutines, Gradle, Korim, Clikt, ClassGraph, Detekt, JaCoCo, Kotest, Logback) with rationale for each selection. Also includes a trade-offs section discussing JVM-only vs. Multiplatform and Coroutines vs. Project Loom decisions.
 
 ### 4.2 Top-level Decomposition
 - Identifies the system as a **domain-driven monolith** with packages organized around ray tracing concepts

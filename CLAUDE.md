@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A ray tracer in Kotlin, a port of the C++ code from Kevin Suffern's *Ray Tracing from
-the Ground Up* (A K Peters, 2007), refactored toward an object-functional style. JVM-only, JDK 21.
+the Ground Up* (A K Peters, 2007), refactored toward an object-functional style. JVM-only, JDK 25.
 
 **Lineage.** Suffern's C++ → a **Java** port (extended with concurrency/parallelism — the source
 of the several parallel renderers) → a **Kotlin** port done in **2018–2020**, which is this

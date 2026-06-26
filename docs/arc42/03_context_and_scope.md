@@ -17,6 +17,6 @@ I have generated the arc42 Chapter 3: Context and Scope documentation. The docum
 - Provides a technical interface diagram showing all integration points
 - Specifies interface protocols and data formats (PLY, PNG, Properties)
 - Documents the Kotlin DSL structure with examples
-- Lists the technology stack (Kotlin, Java 21+, Clikt, Swing, Korim, etc.)
+- Lists the technology stack (Kotlin, Java 25+, Clikt, Swing, Korim, etc.)
 - Describes the concurrency model with five rendering strategies
 - Enumerates external dependencies
