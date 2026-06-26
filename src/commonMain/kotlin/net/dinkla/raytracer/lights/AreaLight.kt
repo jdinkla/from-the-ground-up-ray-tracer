@@ -9,11 +9,19 @@ import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.world.IWorld
 
+/**
+ * A light that emits over the area of a geometric [source] (a [DiskLight]/[RectangleLight]), sampled
+ * with [numSamples] shadow rays by the `AreaLighting` tracer to produce soft shadows. It is a [Light]
+ * but deliberately **not** a [DirectLight]: it has no single incoming direction, so the per-light
+ * loop in the direct-lighting materials skips it and `AreaLighting` drives its sample-based
+ * [l]/[inShadow]/[G]/[pdf] instead. It also is not an [ILightSource] itself — it *holds* one as its
+ * [source] (TASK-63 removed the former `Light`/`ILightSource` stubs that threw
+ * UnsupportedOperationException).
+ */
 @Suppress("TooManyFunctions")
 class AreaLight(
     override val shadows: Boolean = true,
-) : Light,
-    ILightSource {
+) : Light {
     var source: ILightSource? = null
     var material: IMaterial? = null
     var numSamples: Int = 4
@@ -71,7 +79,7 @@ class AreaLight(
         return nDotD / d2
     }
 
-    override fun pdf(sr: IShade): Double = requiredSource().pdf(sr)
+    fun pdf(sr: IShade): Double = requiredSource().pdf(sr)
 
     private fun requiredSource(): ILightSource =
         requireNotNull(source) { "AreaLight.source not set; assign a light source before rendering" }
@@ -94,27 +102,6 @@ class AreaLight(
         return result
     }
 
-    override fun sample(): Point3D = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
-
-    override fun getNormal(p: Point3D): Normal = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
-
-    override fun l(
-        world: IWorld,
-        sr: IShade,
-    ): Color = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
-
-    override fun getDirection(sr: IShade): Vector3D = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
-
-    override fun inShadow(
-        world: IWorld,
-        ray: Ray,
-        sr: IShade,
-    ): Boolean = throw UnsupportedOperationException(NEEDS_AREA_LIGHTING)
-
-    override fun getLightMaterial(): IMaterial =
+    fun getLightMaterial(): IMaterial =
         requireNotNull(material) { "AreaLight.material not set; assign a material before rendering" }
-
-    private companion object {
-        const val NEEDS_AREA_LIGHTING = "AreaLight needs AreaLighting Tracer"
-    }
 }

@@ -12,7 +12,7 @@ data class PointLight(
     val ls: Double = 1.0,
     val color: Color = Color.WHITE,
     override val shadows: Boolean = true,
-) : Light {
+) : DirectLight {
     override fun l(
         world: IWorld,
         sr: IShade,

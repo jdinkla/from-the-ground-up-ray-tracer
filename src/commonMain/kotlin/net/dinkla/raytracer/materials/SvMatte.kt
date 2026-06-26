@@ -5,6 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.AreaLight
+import net.dinkla.raytracer.lights.DirectLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.math.Vector3D
 import net.dinkla.raytracer.textures.Texture
@@ -52,7 +53,7 @@ open class SvMatte(
     ): Color {
         val wo = -sr.ray.direction
         var radiance = getAmbientColor(world, sr, wo)
-        for (light in world.lights) {
+        for (light in world.lights.filterIsInstance<DirectLight>()) {
             val wi = light.getDirection(sr)
             val nDotWi = wi dot sr.normal
             if (nDotWi > 0) {

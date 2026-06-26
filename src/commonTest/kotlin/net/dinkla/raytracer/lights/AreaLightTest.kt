@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.lights
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.colors.Color
@@ -168,16 +167,4 @@ internal class AreaLightTest :
             light.getLightMaterial() shouldBe emissive
         }
 
-        "the direct-lighting overrides are unsupported for an area light" {
-            val light = areaLight()
-            val sr = shade(emissive)
-            val w = world(shadowed = false)
-            val ray = Ray(Point3D.ORIGIN, Vector3D(0.0, 1.0, 0.0))
-
-            shouldThrow<UnsupportedOperationException> { light.sample() }
-            shouldThrow<UnsupportedOperationException> { light.getNormal(Point3D.ORIGIN) }
-            shouldThrow<UnsupportedOperationException> { light.l(w, sr) }
-            shouldThrow<UnsupportedOperationException> { light.getDirection(sr) }
-            shouldThrow<UnsupportedOperationException> { light.inShadow(w, ray, sr) }
-        }
     })

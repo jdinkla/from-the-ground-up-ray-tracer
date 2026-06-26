@@ -10,7 +10,7 @@ import net.dinkla.raytracer.world.IWorld
 
 class EnvironmentLight(
     override val shadows: Boolean = true,
-) : Light {
+) : DirectLight {
     var sampler: Sampler? = null
     var material: IMaterial? = null
     private var u: Vector3D = Vector3D.ZERO

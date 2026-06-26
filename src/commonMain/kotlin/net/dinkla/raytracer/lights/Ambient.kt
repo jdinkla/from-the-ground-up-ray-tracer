@@ -11,7 +11,7 @@ open class Ambient(
     var ls: Double = 1.0,
     var color: Color = Color.WHITE,
     override val shadows: Boolean = true,
-) : Light {
+) : DirectLight {
     override fun l(
         world: IWorld,
         sr: IShade,

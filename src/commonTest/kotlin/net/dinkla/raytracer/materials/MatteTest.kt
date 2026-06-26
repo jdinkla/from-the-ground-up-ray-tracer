@@ -8,6 +8,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IHit
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.Ambient
+import net.dinkla.raytracer.lights.DirectLight
 import net.dinkla.raytracer.lights.Light
 import net.dinkla.raytracer.math.MathUtils.INV_PI
 import net.dinkla.raytracer.math.Normal
@@ -25,7 +26,7 @@ private class FakeLight(
     private val direction: Vector3D,
     override val shadows: Boolean,
     private val occluded: Boolean,
-) : Light {
+) : DirectLight {
     override fun l(
         world: IWorld,
         sr: IShade,

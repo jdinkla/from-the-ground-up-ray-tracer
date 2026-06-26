@@ -5,6 +5,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.colors.ColorAccumulator
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.lights.AreaLight
+import net.dinkla.raytracer.lights.DirectLight
 import net.dinkla.raytracer.math.Ray
 import net.dinkla.raytracer.textures.Texture
 import net.dinkla.raytracer.utilities.equals
@@ -49,7 +50,7 @@ open class SvPhong(
     ): Color {
         val wo = -sr.ray.direction
         var radiance = getAmbientColor(world, sr, wo)
-        for (light in world.lights) {
+        for (light in world.lights.filterIsInstance<DirectLight>()) {
             val wi = light.getDirection(sr)
             val nDotWi = sr.normal dot wi
             if (nDotWi > 0) {
