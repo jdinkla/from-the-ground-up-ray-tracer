@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:35'
-updated_date: '2026-06-26 21:36'
+updated_date: '2026-06-26 21:37'
 labels:
   - tech-debt
   - documentation
@@ -37,11 +37,17 @@ Do NOT add a fourth tech-debt doc: fold TECH_DEBT_REPORT.md into the consolidati
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 docs/arc42/11_risks_and_technical_debt.md is rewritten to the current measured state: coverage figures, !! count, and the Grid/SparseGrid and ParallelRenderer items reflect their resolved status
-- [ ] #2 TECH_DEBT.md is reduced to a pointer at the Backlog (the real source of truth) or removed entirely
-- [ ] #3 gemini.md is refreshed (no longer describes a multi-platform project) or removed
-- [ ] #4 The false-positive 'unpinned deps / no versions.toml' risk is corrected to describe refreshVersions as the deliberate mechanism
-- [ ] #5 No new duplicate tech-debt document is left behind; TECH_DEBT_REPORT.md content is folded into the consolidated docs rather than kept as a standalone fourth doc
-- [ ] #6 Build stays green (./gradlew clean check)
-- [ ] #7 When TECH_DEBT_REPORT.md is removed or folded in, the --ref TECH_DEBT_REPORT.md links on TASK-58 through TASK-64 are either re-pointed to the surviving consolidated doc/anchor or dropped, so none dangle
+- [x] #1 docs/arc42/11_risks_and_technical_debt.md is rewritten to the current measured state: coverage figures, !! count, and the Grid/SparseGrid and ParallelRenderer items reflect their resolved status
+- [x] #2 TECH_DEBT.md is reduced to a pointer at the Backlog (the real source of truth) or removed entirely
+- [x] #3 gemini.md is refreshed (no longer describes a multi-platform project) or removed
+- [x] #4 The false-positive 'unpinned deps / no versions.toml' risk is corrected to describe refreshVersions as the deliberate mechanism
+- [x] #5 No new duplicate tech-debt document is left behind; TECH_DEBT_REPORT.md content is folded into the consolidated docs rather than kept as a standalone fourth doc
+- [x] #6 Build stays green (./gradlew clean check)
+- [x] #7 When TECH_DEBT_REPORT.md is removed or folded in, the --ref TECH_DEBT_REPORT.md links on TASK-58 through TASK-64 are either re-pointed to the surviving consolidated doc/anchor or dropped, so none dangle
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Reconciled the doc set to current measured reality. (1) Rewrote docs/arc42/11 to the green state: ~91% instr / ~89% branch coverage (was 51%/38%), 1 !! operator in the coverage-excluded Swing UI (was '70+'), Grid/SparseGrid duplication resolved via GridTraversal.kt (TASK-2/3), ParallelRenderer error handling resolved (TASK-5); added a 'recently resolved' table referencing TASK-58..64 so onboarders don't redo finished work. (2) Reduced TECH_DEBT.md to a pointer at arc42/11 + the Backlog. (3) Refreshed gemini.md: removed the stale 'Kotlin multi-platform project' claim, now describes the JVM-only + vestigial-source-sets reality. (4) Corrected the 'unpinned deps / no versions.toml' false positive to describe refreshVersions as the deliberate mechanism. (5) No fourth tech-debt doc: folded TECH_DEBT_REPORT.md content into arc42/11 and removed the standalone file (all its P1-P3 items were TASK-57..64, now done). (7) Re-pointed the References field on TASK-57..64 from TECH_DEBT_REPORT.md to docs/arc42/11_risks_and_technical_debt.md (no dangling refs). clean check green.
+<!-- SECTION:NOTES:END -->
