@@ -100,8 +100,6 @@ application {
 detekt {
     config.setFrom("detekt-config.yml")
     source.setFrom(
-        "src/main/java",
-        "src/main/kotlin",
         "src/commonMain/kotlin",
         "src/jvmMain/kotlin",
         "src/commonTest/kotlin",
