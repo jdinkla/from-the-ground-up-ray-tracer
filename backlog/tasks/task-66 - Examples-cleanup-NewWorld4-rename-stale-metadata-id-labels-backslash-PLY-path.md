@@ -3,7 +3,7 @@ id: TASK-66
 title: >-
   Examples cleanup: NewWorld4 rename, stale metadata id labels, backslash PLY
   path
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-26 20:37'
