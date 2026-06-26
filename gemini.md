@@ -17,5 +17,9 @@ This is a ray tracer written in Kotlin, based on the book "Ray Tracing from the 
 
 *   The project uses Gradle for building and dependency management.
 *   Code style is enforced by `detekt` using the configuration in `detekt-config.yml`.
-*   The project is structured as a Kotlin multi-platform project, with the main logic in `src/commonMain/kotlin`.
+*   This is a **JVM-only** project (`kotlin("jvm")`, JDK 25). The `src` tree uses
+    Kotlin-Multiplatform-style source sets (`commonMain`/`jvmMain`/`examples`) as a vestige of an
+    abandoned multiplatform experiment — they are wired up manually in `build.gradle.kts`. Treat
+    `commonMain` as the platform-independent rendering core and `jvmMain` as JVM-specific I/O, the
+    Swing UI, and the parallel renderers. (See `CLAUDE.md` for the authoritative description.)
 *   A DSL is used for defining scenes, located in `src/commonMain/kotlin/net/dinkla/raytracer/world/dsl`.
