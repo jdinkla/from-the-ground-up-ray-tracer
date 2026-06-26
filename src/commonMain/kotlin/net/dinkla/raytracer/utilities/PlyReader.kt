@@ -44,7 +44,10 @@ class PlyReader(
             handleLine(line)
         }
         if (isSmooth) {
-            mesh.computeMeshNormals(compound.objects as ArrayList<MeshTriangle>)
+            // Only MeshTriangles are ever added on this path; filterIsInstance is a type-safe
+            // replacement for the former `as ArrayList<MeshTriangle>` unchecked cast (order preserved,
+            // so the face indices in vertexFaces still line up). See TASK-61.
+            mesh.computeMeshNormals(compound.objects.filterIsInstance<MeshTriangle>())
         }
         return Ply(numVerticesOrig, numFacesOrig, compound)
     }

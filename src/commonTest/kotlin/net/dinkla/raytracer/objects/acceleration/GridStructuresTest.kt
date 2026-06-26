@@ -1,7 +1,6 @@
 package net.dinkla.raytracer.objects.acceleration
 
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.maps.shouldContainKey
 import io.kotest.matchers.shouldBe
 import net.dinkla.raytracer.hits.Hit
 import net.dinkla.raytracer.hits.IHit
@@ -257,7 +256,7 @@ class GridStructuresTest : StringSpec({
         sparse.initialize()
 
         val field = SparseGrid::class.java.getDeclaredField("cellsX").apply { isAccessible = true }
-        val cells = field.get(sparse) as Map<Int, Any>
+        val cells = field.get(sparse) as Map<*, *>
         cells.values.any { it is Compound } shouldBe true
 
         val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
@@ -417,8 +416,8 @@ class GridStructuresTest : StringSpec({
         sparse.initialize()
 
         val field = SparseGrid::class.java.getDeclaredField("cellsX").apply { isAccessible = true }
-        val cells = field.get(sparse) as Map<Int, Any>
-        cells.shouldContainKey(0)
+        val cells = field.get(sparse) as Map<*, *>
+        cells.keys.any { it == 0 } shouldBe true
 
         val ray = Ray(Point3D(-1.0, 0.5, 0.5), Vector3D(1.0, 0.0, 0.0))
         val sr = Hit(Double.MAX_VALUE)

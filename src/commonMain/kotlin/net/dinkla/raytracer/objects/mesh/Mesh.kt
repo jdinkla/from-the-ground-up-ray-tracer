@@ -18,7 +18,7 @@ class Mesh {
 
     var material: IMaterial? = null
 
-    fun computeMeshNormals(objects: ArrayList<MeshTriangle>) {
+    fun computeMeshNormals(objects: List<MeshTriangle>) {
         normals.ensureCapacity(vertices.size)
 
         for (index in vertices.indices) {
