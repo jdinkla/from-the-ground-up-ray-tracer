@@ -20,7 +20,7 @@ object AreaShadedSpheres : WorldDefinition {
             sampler2.mapSamplesToUnitDisk()
 
             metadata {
-                id("World66 with area")
+                id("AreaShadedSpheres")
                 description("Use area tracer")
                 preferredTracer(Tracers.AREA)
             }

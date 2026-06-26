@@ -10,13 +10,17 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object NewWorld4 : WorldDefinition {
-    override val id: String = "NewWorld4.kt"
+/**
+ * An emissive [DiskLight] area light overhead illuminating yellow matte aligned boxes, demonstrating
+ * area lighting from a disk-shaped emitter. Formerly NewWorld4.kt.
+ */
+object DiskAreaLight : WorldDefinition {
+    override val id: String = "DiskAreaLight.kt"
 
     override fun world(): World =
         Builder.build {
             metadata {
-                id("New World 4 - emissive")
+                id("DiskAreaLight")
             }
 
             camera(d = 1000.0, eye = p(-5.0, 1.5, -5.0), lookAt = p(0.5, 0.5, 0.0))

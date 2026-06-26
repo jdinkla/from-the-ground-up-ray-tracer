@@ -9,7 +9,7 @@ object TwoSpheresSinkIntoPlane : WorldDefinition {
     override fun world() =
         Builder.build {
             metadata {
-                id("World6")
+                id("TwoSpheresSinkIntoPlane")
                 description("reflective")
             }
 

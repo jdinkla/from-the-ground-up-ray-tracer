@@ -44,7 +44,7 @@ object AmbientOccludedBunny : WorldDefinition {
                 val green = this.materials["mirror"]!!
                 val stanfordBunny =
                     Ply.fromFile(
-                        fileName = "resources\\Bunny4K.ply",
+                        fileName = "resources/Bunny4K.ply",
                         isSmooth = true,
                         type = Acceleration.GRID,
                         material = green,

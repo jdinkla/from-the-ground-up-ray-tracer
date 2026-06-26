@@ -10,8 +10,8 @@ object YellowAndOrangeSphere : WorldDefinition {
     override fun world(): World =
         Builder.build {
             metadata {
-                id("World 10")
-                title("World 10")
+                id("YellowAndOrangeSphere")
+                title("Yellow and Orange Sphere")
                 description("This should describe the world.")
             }
 
