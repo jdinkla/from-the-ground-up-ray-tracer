@@ -1,9 +1,11 @@
 ---
 id: TASK-68
 title: Enable allWarningsAsErrors for the Kotlin core now that it is warning-clean
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-26 20:56'
+updated_date: '2026-06-26 21:38'
 labels:
   - tech-debt
   - build
