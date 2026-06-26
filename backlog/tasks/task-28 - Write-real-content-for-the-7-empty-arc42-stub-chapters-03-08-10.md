@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-22 16:28'
-updated_date: '2026-06-26 21:05'
+updated_date: '2026-06-26 21:09'
 labels:
   - docs
 dependencies: []
@@ -21,7 +21,13 @@ Discovered during TASK-16: arc42 chapters 03_context_and_scope, 04_solution_stra
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Each of chapters 03,04,05,06,07,08,10 contains genuine arc42 content for its section (or an explicit, honest placeholder if intentionally out of scope) — no LLM generation-postamble or stale absolute-path references remain
-- [ ] #2 Content is consistent with the actual codebase and the existing real chapters (01/02/09/11) and glossary
-- [ ] #3 No generation-preamble/postamble artifacts remain anywhere under docs/arc42/ (completes TASK-16 AC#1 for these 7 chapters)
+- [x] #1 Each of chapters 03,04,05,06,07,08,10 contains genuine arc42 content for its section (or an explicit, honest placeholder if intentionally out of scope) — no LLM generation-postamble or stale absolute-path references remain
+- [x] #2 Content is consistent with the actual codebase and the existing real chapters (01/02/09/11) and glossary
+- [x] #3 No generation-preamble/postamble artifacts remain anywhere under docs/arc42/ (completes TASK-16 AC#1 for these 7 chapters)
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Authored genuine arc42 content for all 7 stub chapters (03 Context & Scope, 04 Solution Strategy, 05 Building Block View, 06 Runtime View, 07 Deployment View, 08 Crosscutting Concepts, 10 Quality Requirements), replacing the generation-postamble summaries and stale /Volumes/JD/... path references. Content grounded in a survey of the actual codebase (package tree, Renderer/Tracers/Resolution enums, lenses, samplers, Main/CommandLine/Render flow, justfile, bin scripts, CI workflow) and kept consistent with chapters 01/02/09. Deliberately avoided transcribing the stale coverage/!!-count figures still in ch.11 (TASK-57's job); ch.10 points to the live JaCoCo/Detekt reports as the authoritative metrics instead. Verified no 'I have generated / here is the summary / /Volumes/JD' artifacts remain in the 7 chapters (the only 'Generated with arc42-ai' lines are the README's attribution footer, not a stub artifact). Markdown-only; no build impact.
+<!-- SECTION:NOTES:END -->
