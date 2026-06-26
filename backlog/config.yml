@@ -9,7 +9,7 @@ default_editor: "code"
 auto_open_browser: true
 default_port: 6420
 remote_operations: true
-auto_commit: true
+auto_commit: false
 filesystem_only: false
 bypass_git_hooks: true
 check_active_branches: true
