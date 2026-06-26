@@ -18,20 +18,18 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.shouldBeApprox
 
 /**
- * Coverage-focused tests for the KDTree [TreeBuilder] family (TASK-6, AC#2).
+ * Coverage-focused tests for the surviving KDTree [TreeBuilder] family (TASK-6, AC#2; consolidated
+ * in TASK-62). Only the two builders the codebase actually uses are kept:
+ * [SpatialMedianBuilder] (the production default wired into [KDTree] and the `kdtree { }` DSL) and
+ * [Simple2Builder] (selected by the `SphereLatticeInKdTree` example). The four unused experimental
+ * variants (ObjectMedian/ObjectMedian2 and the buggy Test/Test2 builders) were removed together with
+ * their tests.
  *
- * Two notes on what these tests assert and why:
- *
- *  - Many builder tests drive the built tree at the [Node] level (`tree.root!!.hit(...)`) to assert the
- *    resolved distance/normal/object directly on the populated [Hit]. As of TASK-27 the [KDTree] wrapper
- *    also propagates that record back through its public `hit`/`shadowHit` (it previously discarded the
- *    inner result); the wrapper-level tests at the end of this file pin that corrected write-back.
- *
- *  - [TestBuilder] and [Test2Builder] are dead code carrying a latent bug (TASK-4): their
- *    `calcSplit` passes `.toMutableList()` *copies* into `splitByAxis`, so the real out-params stay
- *    empty and the tree they build is degenerate (an inner node whose leaves hold no objects).
- *    The tests below **pin that actual broken behaviour** as a characterization — they are NOT a
- *    claim of correctness, and the bug must not be "fixed" under this coverage task.
+ * Note: many builder tests drive the built tree at the [Node] level (`tree.root!!.hit(...)`) to assert
+ * the resolved distance/normal/object directly on the populated [Hit]. As of TASK-27 the [KDTree]
+ * wrapper also propagates that record back through its public `hit`/`shadowHit` (it previously
+ * discarded the inner result); the wrapper-level tests at the end of this file pin that corrected
+ * write-back.
  */
 
 /** Eight unit spheres spaced along +x; their centres lie on the x-axis at 0, 2, 4, …, 14. */
@@ -122,69 +120,6 @@ class KDTreeBuilderTest : StringSpec({
         (sr.geometricObject as Sphere).center shouldBeApprox Point3D(4.0, 4.0, 0.0)
     }
 
-    // ---- ObjectMedianBuilder: largest-axis split around the object median ------------------------
-
-    "ObjectMedian builds an inner node and resolves a node-level hit to the nearest sphere" {
-        val tree = builtTree(ObjectMedianBuilder())
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeTrue()
-        (sr.geometricObject as Sphere).center shouldBeApprox Point3D.ORIGIN
-        sr.t shouldBeApprox 9.5
-    }
-
-    "ObjectMedian collapses to a leaf below the minimum children threshold" {
-        val tree = builtTree(ObjectMedianBuilder(), lineOfSpheres(3))
-
-        root(tree).shouldBeInstanceOf<Leaf>()
-    }
-
-    "ObjectMedian picks the widest axis as the split axis (y then z extents dominate)" {
-        // Spheres spread far along z, less along y, least along x -> split heuristic chooses Z.
-        val spread =
-            listOf(
-                Sphere(Point3D(0.0, 0.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 1.0, 4.0), 0.5),
-                Sphere(Point3D(0.0, 2.0, 8.0), 0.5),
-                Sphere(Point3D(0.0, 3.0, 12.0), 0.5),
-                Sphere(Point3D(0.0, 4.0, 16.0), 0.5),
-            )
-        val tree = builtTree(ObjectMedianBuilder(), spread)
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-
-        val ray = Ray(Point3D(0.0, 0.0, -10.0), Vector3D(0.0, 0.0, 1.0))
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(ray, sr).shouldBeTrue()
-        (sr.geometricObject as Sphere).center shouldBeApprox Point3D.ORIGIN
-    }
-
-    "ObjectMedian splits on the y axis when y is the widest extent" {
-        // Spheres spread furthest along y -> the widest-axis heuristic picks Y, exercising the
-        // Axis.Y partition/voxel branch (the x line-of-spheres case already covers Axis.X).
-        val spread =
-            listOf(
-                Sphere(Point3D(0.0, 0.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 4.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 8.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 12.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 16.0, 0.0), 0.5),
-            )
-        val tree = builtTree(ObjectMedianBuilder(), spread)
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-
-        val ray = Ray(Point3D(0.0, -10.0, 0.0), Vector3D(0.0, 1.0, 0.0))
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(ray, sr).shouldBeTrue()
-        (sr.geometricObject as Sphere).center shouldBeApprox Point3D.ORIGIN
-    }
-
     // ---- Simple2Builder: scores x/y/z mid-plane splits, picks the least-overlapping one ----------
 
     "Simple2 builds an inner node whose node-level hit lands on a sphere along the line" {
@@ -239,159 +174,6 @@ class KDTreeBuilderTest : StringSpec({
         val tree = builtTree(Simple2Builder(), coincident)
 
         root(tree).shouldBeInstanceOf<Leaf>()
-    }
-
-    // ---- ObjectMedian2Builder: weighted median search over multiple candidate splits -------------
-
-    "ObjectMedian2 builds an inner node and resolves a node-level hit to the nearest sphere" {
-        val tree = builtTree(ObjectMedian2Builder())
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeTrue()
-        (sr.geometricObject as Sphere).center shouldBeApprox Point3D.ORIGIN
-        sr.t shouldBeApprox 9.5
-    }
-
-    "ObjectMedian2 collapses to a leaf below the minimum children threshold" {
-        val tree = builtTree(ObjectMedian2Builder(), lineOfSpheres(3))
-
-        root(tree).shouldBeInstanceOf<Leaf>()
-    }
-
-    "ObjectMedian2 selects the y axis for a y-widest spread and resolves a +y ray" {
-        // Spread furthest along y -> the per-axis weight comparison picks Y, taking select()'s Axis.Y arm.
-        val spread =
-            listOf(
-                Sphere(Point3D(0.0, 0.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 4.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 8.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 12.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 16.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 20.0, 0.0), 0.5),
-            )
-        val tree = builtTree(ObjectMedian2Builder(), spread)
-
-        root(tree).shouldBeInstanceOf<InnerNode>()
-        // InnerNode.hit returns the first child hit front-to-back, not the globally nearest, so pin
-        // only the geometric invariant: a +y ray strikes one of the on-axis (x=z=0) spheres.
-        val ray = Ray(Point3D(0.0, -10.0, 0.0), Vector3D(0.0, 1.0, 0.0))
-        val sr = Hit(Double.MAX_VALUE)
-        root(tree).hit(ray, sr).shouldBeTrue()
-        val sphere = sr.geometricObject.shouldBeInstanceOf<Sphere>()
-        sphere.center.x shouldBeApprox 0.0
-        sphere.center.z shouldBeApprox 0.0
-    }
-
-    "ObjectMedian2 selects the z axis for a z-widest spread and resolves a +z ray" {
-        // Spread furthest along z -> select()'s Axis.Z arm.
-        val spread =
-            listOf(
-                Sphere(Point3D(0.0, 0.0, 0.0), 0.5),
-                Sphere(Point3D(0.0, 0.0, 4.0), 0.5),
-                Sphere(Point3D(0.0, 0.0, 8.0), 0.5),
-                Sphere(Point3D(0.0, 0.0, 12.0), 0.5),
-                Sphere(Point3D(0.0, 0.0, 16.0), 0.5),
-                Sphere(Point3D(0.0, 0.0, 20.0), 0.5),
-            )
-        val tree = builtTree(ObjectMedian2Builder(), spread)
-
-        root(tree).shouldBeInstanceOf<InnerNode>()
-        val ray = Ray(Point3D(0.0, 0.0, -10.0), Vector3D(0.0, 0.0, 1.0))
-        val sr = Hit(Double.MAX_VALUE)
-        root(tree).hit(ray, sr).shouldBeTrue()
-        val sphere = sr.geometricObject.shouldBeInstanceOf<Sphere>()
-        sphere.center.x shouldBeApprox 0.0
-        sphere.center.y shouldBeApprox 0.0
-    }
-
-    "ObjectMedian2 falls back to a leaf when no split separates fully overlapping objects" {
-        // Four coincident spheres can never be split (every plane keeps all on one side), so the
-        // median attempt and every retry leave isFound false -> the node-path leaf fallback fires.
-        val coincident = List(4) { Sphere(Point3D(0.0, 0.0, 0.0), 0.5) }
-        val tree = builtTree(ObjectMedian2Builder(), coincident)
-
-        root(tree).shouldBeInstanceOf<Leaf>()
-        root(tree).size() shouldBe 4
-    }
-
-    // ---- TestBuilder & Test2Builder: dead code, latent bug pinned (TASK-4) -----------------------
-
-    "TestBuilder builds a degenerate inner node holding no objects (latent TASK-4 bug, pinned)" {
-        // calcSplit copies the out-lists with .toMutableList(), so splitByAxis fills throwaway
-        // copies and the real left/right object lists stay empty. Expected-correct behaviour would
-        // be a populated tree that resolves the ray; this pins the current broken output instead.
-        val tree = builtTree(TestBuilder())
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-        node.size() shouldBe 0 // no objects survive into the leaves
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeFalse() // degenerate tree cannot hit anything
-    }
-
-    "Test2Builder builds a degenerate inner node holding no objects (latent TASK-4 bug, pinned)" {
-        val tree = builtTree(Test2Builder())
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-        node.size() shouldBe 0
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeFalse()
-    }
-
-    "TestBuilder still returns a leaf for an object set below the minimum children threshold" {
-        // The leaf path predates the buggy split logic, so a small set is handled correctly.
-        val tree = builtTree(TestBuilder(), lineOfSpheres(2))
-
-        root(tree).shouldBeInstanceOf<Leaf>()
-    }
-
-    "Test2Builder still returns a leaf for an object set below the minimum children threshold" {
-        val tree = builtTree(Test2Builder(), lineOfSpheres(3))
-
-        root(tree).shouldBeInstanceOf<Leaf>()
-    }
-
-    "TestBuilder scores candidate planes across all three axes for a 3D spread (latent bug pinned)" {
-        // A lattice spread on x, y and z makes each per-axis probe (x(Axis.X/Y/Z, 3)) score distinct
-        // candidates and run the isLess cascade across all arms. The TASK-4 bug still yields an empty
-        // inner node, so we pin the degenerate behaviour rather than claim correctness.
-        val lattice =
-            buildList {
-                for (xi in 0..1) for (yi in 0..1) for (zi in 0..1) {
-                    add(Sphere(Point3D(xi * 6.0, yi * 6.0, zi * 6.0), 0.5))
-                }
-            }
-        val tree = builtTree(TestBuilder(), lattice)
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-        node.size() shouldBe 0
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeFalse()
-    }
-
-    "Test2Builder scores clipped-face candidates across all three axes for a 3D spread (latent bug pinned)" {
-        val lattice =
-            buildList {
-                for (xi in 0..1) for (yi in 0..1) for (zi in 0..1) {
-                    add(Sphere(Point3D(xi * 6.0, yi * 6.0, zi * 6.0), 0.5))
-                }
-            }
-        val tree = builtTree(Test2Builder(), lattice)
-
-        val node = root(tree)
-        node.shouldBeInstanceOf<InnerNode>()
-        node.size() shouldBe 0
-
-        val sr = Hit(Double.MAX_VALUE)
-        node.hit(rayAlongLine(), sr).shouldBeFalse()
     }
 
     // ---- KDTree wrapper public contract ----------------------------------------------------------
