@@ -1,9 +1,11 @@
 ---
 id: TASK-62
 title: 'Consolidate the kd-tree builder zoo (6 builders, ~2 used)'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:36'
+updated_date: '2026-06-26 21:10'
 labels:
   - tech-debt
   - refactoring
