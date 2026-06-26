@@ -1,9 +1,11 @@
 ---
 id: TASK-64
 title: Remove the dead deprecated RayCast tracer
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:37'
+updated_date: '2026-06-26 20:43'
 labels:
   - tech-debt
 dependencies: []
