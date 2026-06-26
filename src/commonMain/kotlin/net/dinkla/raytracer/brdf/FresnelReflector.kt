@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.brdf
 
-import net.dinkla.raytracer.brdf.BRDF.Sample
+import net.dinkla.raytracer.brdf.SamplingBRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Vector3D
@@ -14,6 +14,9 @@ import kotlin.math.sqrt
  * about the surface normal; the colour returned by [sampleF] is white scaled by `kr / |n·wi|` so the
  * `n·wi` factor in the caller's recursion cancels, exactly mirroring [PerfectSpecular].
  *
+ * Like [PerfectSpecular] it is a [SamplingBRDF] only: a delta reflector has no evaluable `f` and no
+ * bihemispherical reflectance `rho` (see TASK-63).
+ *
  * [iorIn] is the index of refraction on the side the normal points to (the medium the ray came
  * from when entering), [iorOut] on the other side. Suffern's `FresnelReflector` carries both so the
  * same object serves rays entering and leaving the medium; which ratio applies is decided per hit
@@ -22,18 +25,7 @@ import kotlin.math.sqrt
 data class FresnelReflector(
     var iorIn: Double = 1.0,
     var iorOut: Double = 1.0,
-) : BRDF {
-    override fun f(
-        sr: IShade,
-        wo: Vector3D,
-        wi: Vector3D,
-    ): Color = throw UnsupportedOperationException("FresnelReflector does not support f")
-
-    override fun rho(
-        sr: IShade,
-        wo: Vector3D,
-    ): Color = throw UnsupportedOperationException("FresnelReflector does not support rho")
-
+) : SamplingBRDF {
     /**
      * The Fresnel reflectance `kr` at this hit: the fraction of energy reflected, averaged over the
      * two polarizations (Suffern's exact, non-Schlick form). At normal incidence this reduces to

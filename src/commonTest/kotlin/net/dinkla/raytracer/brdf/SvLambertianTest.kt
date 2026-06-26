@@ -63,12 +63,6 @@ internal class SvLambertianTest :
             inWhiteCell shouldNotBe inRedCell
         }
 
-        "sampleF is not supported" {
-            shouldThrow<UnsupportedOperationException> {
-                SvLambertian(kd = Ex.kd, cd = ConstantColor(Ex.cd)).sampleF(shadeAt(Point3D.ORIGIN), wo)
-            }
-        }
-
         "a diffuse coefficient outside [0,1] is rejected" {
             shouldThrow<IllegalArgumentException> {
                 SvLambertian(kd = 1.5, cd = ConstantColor(Ex.cd))

@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.brdf
 
-import net.dinkla.raytracer.brdf.BRDF.Sample
+import net.dinkla.raytracer.brdf.SamplingBRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.MathUtils.INV_PI
@@ -23,7 +23,9 @@ import net.dinkla.raytracer.samplers.Sampler
 data class Lambertian(
     var kd: Double = 1.0,
     var cd: Color = Color.WHITE,
-) : BRDF {
+) : BRDF,
+    SamplingBRDF,
+    ReflectanceBRDF {
     /**
      * Cosine-weighted hemisphere sampler (`exp = 1` gives a `cos(theta)` density), used only by
      * [sampleF]. Declared outside the primary constructor so it stays out of the data-class identity.

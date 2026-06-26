@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.brdf
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -63,12 +62,6 @@ internal class GlossySpecularTest :
             val wo = Vector3D(0.0, -1.0, 0.0)
 
             brdf.f(shadeUp(), wo, wi) shouldBeApprox Color.BLACK
-        }
-
-        "rho is not supported" {
-            shouldThrow<UnsupportedOperationException> {
-                GlossySpecular().rho(shadeUp(), Vector3D.UP)
-            }
         }
 
         "two GlossySpeculars with the same reflectance are equal and share a hash code" {

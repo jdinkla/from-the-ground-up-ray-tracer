@@ -1,6 +1,6 @@
 package net.dinkla.raytracer.brdf
 
-import net.dinkla.raytracer.brdf.BRDF.Sample
+import net.dinkla.raytracer.brdf.SamplingBRDF.Sample
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IShade
 import net.dinkla.raytracer.math.Vector3D
@@ -13,7 +13,8 @@ data class GlossySpecular(
     var cs: Color = Color.WHITE,
     var exp: Double = 5.0,
     val sampler: Sampler = Sampler(),
-) : BRDF {
+) : BRDF,
+    SamplingBRDF {
     override fun f(
         sr: IShade,
         wo: Vector3D,
@@ -62,11 +63,6 @@ data class GlossySpecular(
         val phongLobe = (wi dot r).pow(exp)
         return Sample(wi = wi, pdf = phongLobe * nDotWi, color = cs * (ks * phongLobe))
     }
-
-    override fun rho(
-        sr: IShade,
-        wo: Vector3D,
-    ): Color = throw UnsupportedOperationException("GlossySpecular does not support rho")
 
     override fun equals(other: Any?): Boolean {
         if (other != null && other is GlossySpecular) {
