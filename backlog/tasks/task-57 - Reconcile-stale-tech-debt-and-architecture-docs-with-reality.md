@@ -1,7 +1,7 @@
 ---
 id: TASK-57
 title: Reconcile stale tech-debt and architecture docs with reality
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:35'
