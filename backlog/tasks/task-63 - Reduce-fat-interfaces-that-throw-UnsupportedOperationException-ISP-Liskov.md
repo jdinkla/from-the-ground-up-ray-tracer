@@ -1,7 +1,7 @@
 ---
 id: TASK-63
 title: Reduce fat interfaces that throw UnsupportedOperationException (ISP/Liskov)
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:37'
