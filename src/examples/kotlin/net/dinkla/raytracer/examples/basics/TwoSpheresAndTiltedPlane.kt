@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.test
+package net.dinkla.raytracer.examples.basics
 
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.math.Normal
@@ -6,15 +6,18 @@ import net.dinkla.raytracer.math.Point3D
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World5 : WorldDefinition {
-    override val id: String = "World5.kt"
+/**
+ * A yellow and a red sphere partially occluded by a tilted green plane. Formerly World5.kt.
+ */
+object TwoSpheresAndTiltedPlane : WorldDefinition {
+    override val id: String = "TwoSpheresAndTiltedPlane.kt"
 
     override fun world() =
         Builder.build {
             metadata {
-                id("World5")
+                id("TwoSpheresAndTiltedPlane")
                 title("Yellow and red sphere partially covered by a green plane")
-                description("SomeDescription")
+                description("A yellow and a red sphere partially occluded by a tilted green plane.")
             }
 
             camera(d = 500.0, eye = p(0, 100, 200), lookAt = p(0, 0, 0))

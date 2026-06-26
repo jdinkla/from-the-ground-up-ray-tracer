@@ -10,8 +10,12 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 val sph1 = Sphere(radius = 0.25)
 
-object World26 : WorldDefinition {
-    override val id: String = "World26.kt"
+/**
+ * A unit sphere turned into an ellipsoid by a non-uniform-scale instance transform, demonstrating affine
+ * instancing. Formerly World26.kt.
+ */
+object InstancedEllipsoid : WorldDefinition {
+    override val id: String = "InstancedEllipsoid.kt"
 
     override fun world(): World =
         Builder.build {

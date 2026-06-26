@@ -8,8 +8,12 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World31 : WorldDefinition {
-    override val id: String = "World31.kt"
+/**
+ * Flat and smooth triangles instanced and rotated, with small red/green/blue spheres. Demonstrates triangle
+ * primitives and instancing. Formerly World31.kt.
+ */
+object InstancedTrianglesAndSpheres : WorldDefinition {
+    override val id: String = "InstancedTrianglesAndSpheres.kt"
 
     override fun world(): World =
         Builder.build {

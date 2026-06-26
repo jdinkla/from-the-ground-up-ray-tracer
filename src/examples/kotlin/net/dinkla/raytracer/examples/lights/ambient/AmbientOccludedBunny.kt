@@ -13,8 +13,12 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 const val NUM_AMBIENT_SAMPLES = 4
 
-object World61 : WorldDefinition {
-    override val id: String = "World61.kt"
+/**
+ * A Stanford-bunny mesh lit by an ambient occluder above a plane, demonstrating ambient occlusion. Formerly
+ * World61.kt.
+ */
+object AmbientOccludedBunny : WorldDefinition {
+    override val id: String = "AmbientOccludedBunny.kt"
 
     override fun world() =
         Builder.build {

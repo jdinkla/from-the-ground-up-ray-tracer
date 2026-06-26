@@ -9,8 +9,12 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World17 : WorldDefinition {
-    override val id: String = "World17.kt"
+/**
+ * Reflective open/solid cylinders, aligned boxes and a sphere (yellow, blue and magenta mirror materials), several
+ * placed via instances over a white plane. Demonstrates specular reflection. Formerly World17.kt.
+ */
+object ReflectiveCylindersAndBoxes : WorldDefinition {
+    override val id: String = "ReflectiveCylindersAndBoxes.kt"
 
     override fun world(): World =
         Builder.build {

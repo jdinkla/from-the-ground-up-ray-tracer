@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.test
+package net.dinkla.raytracer.examples.objects
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Point3D
@@ -8,8 +8,11 @@ import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 import kotlin.math.sqrt
 
-object World28 : WorldDefinition {
-    override val id: String = "World28.kt"
+/**
+ * Four rectangle instances arranged in a rotated pinwheel with two spheres. Formerly World28.kt.
+ */
+object RotatedRectangles : WorldDefinition {
+    override val id: String = "RotatedRectangles.kt"
 
     override fun world(): World =
         Builder.build {

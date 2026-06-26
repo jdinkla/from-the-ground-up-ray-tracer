@@ -9,8 +9,12 @@ import net.dinkla.raytracer.world.repeat3
 const val NUM = 3
 const val NUM2 = NUM / 2
 
-object World75 : WorldDefinition {
-    override val id: String = "World75.kt"
+/**
+ * A 3x3x3 lattice of Phong spheres built inside a kd-tree (Simple2Builder), lit by three point lights. The kd-tree
+ * acceleration structure is not from Suffern's book (see CLAUDE.md). Formerly World75.kt.
+ */
+object SphereLatticeInKdTree : WorldDefinition {
+    override val id: String = "SphereLatticeInKdTree.kt"
 
     override fun world(): World =
         Builder.build {

@@ -1,4 +1,4 @@
-package net.dinkla.raytracer.examples.test
+package net.dinkla.raytracer.examples.acceleration
 
 import net.dinkla.raytracer.math.Axis
 import net.dinkla.raytracer.math.Normal
@@ -7,8 +7,12 @@ import net.dinkla.raytracer.utilities.Ply
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World74kdt : WorldDefinition {
-    override val id: String = "World74kdt.kt"
+/**
+ * A row of five Stanford-bunny meshes accelerated by a kd-tree. Pairs with BunnyRowGrid, the same scene built with
+ * a uniform grid; the kd-tree is not from Suffern's book (see CLAUDE.md). Formerly World74kdt.kt.
+ */
+object BunnyRowKdTree : WorldDefinition {
+    override val id: String = "BunnyRowKdTree.kt"
 
     override fun world() =
         Builder.build {

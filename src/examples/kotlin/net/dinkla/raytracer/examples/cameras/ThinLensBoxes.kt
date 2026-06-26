@@ -14,8 +14,12 @@ val samp1: Sampler by lazy {
     }
 }
 
-object World58 : WorldDefinition {
-    override val id: String = "World58.kt"
+/**
+ * A thin-lens camera (Suffern ch. 10) focused on the middle of three receding boxes. Renders sharp on the
+ * single-ray path; see DepthOfFieldDemo for the sampled-aperture blur. Formerly World58.kt.
+ */
+object ThinLensBoxes : WorldDefinition {
+    override val id: String = "ThinLensBoxes.kt"
 
     override fun world(): World =
         Builder.build {

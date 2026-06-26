@@ -10,8 +10,11 @@ import net.dinkla.raytracer.tracers.Tracers
 import net.dinkla.raytracer.world.Builder.build
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World23 : WorldDefinition {
-    override val id: String = "World23.kt"
+/**
+ * A rectangle area light over a plane and two spheres; render with the AREA tracer. Formerly World23.kt.
+ */
+object AreaLitSpheres : WorldDefinition {
+    override val id: String = "AreaLitSpheres.kt"
 
     private const val numSamples = 4
 

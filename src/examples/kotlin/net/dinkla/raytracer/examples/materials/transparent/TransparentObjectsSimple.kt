@@ -5,8 +5,12 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World71b : WorldDefinition {
-    override val id: String = "World71b.kt"
+/**
+ * A reduced transparency scene: a clear sphere over reflective boxes. The fuller variant is
+ * TransparentSpheresAndReflectiveBoxes. Formerly World71b.kt.
+ */
+object TransparentObjectsSimple : WorldDefinition {
+    override val id: String = "TransparentObjectsSimple.kt"
 
     override fun world(): World =
         Builder.build {

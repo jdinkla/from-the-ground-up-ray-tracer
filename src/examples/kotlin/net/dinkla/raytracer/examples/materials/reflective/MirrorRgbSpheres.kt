@@ -5,8 +5,12 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World80 : WorldDefinition {
-    override val id: String = "World80.kt"
+/**
+ * Three red/green/blue spheres as near-pure mirrors (low diffuse, varying reflectance) on a grey plane. The
+ * diffuse-plus-reflective variant is ReflectiveRgbSpheres. Formerly World80.kt.
+ */
+object MirrorRgbSpheres : WorldDefinition {
+    override val id: String = "MirrorRgbSpheres.kt"
 
     override fun world(): World =
         Builder.build {

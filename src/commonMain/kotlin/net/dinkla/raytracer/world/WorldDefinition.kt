@@ -7,7 +7,7 @@ package net.dinkla.raytracer.world
  * central list to edit.
  */
 interface WorldDefinition {
-    /** The scene's unique key, conventionally its file name (e.g. `"World48.kt"`). */
+    /** The scene's unique key, conventionally its file name (e.g. `"Bunny.kt"`). */
     val id: String
 
     /** Builds the [World] for this scene, typically via the `Builder.build { ... }` DSL. */

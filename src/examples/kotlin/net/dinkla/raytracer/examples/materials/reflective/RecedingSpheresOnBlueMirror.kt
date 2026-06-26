@@ -1,10 +1,14 @@
-package net.dinkla.raytracer.examples.test
+package net.dinkla.raytracer.examples.materials.reflective
 
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World66b : WorldDefinition {
-    override val id: String = "World66b.kt"
+/**
+ * A line of spheres receding into the distance over a blue mirror plane, lit by three coloured directional lights.
+ * Sibling of SpheresOnABlackMirror. Formerly World66b.kt.
+ */
+object RecedingSpheresOnBlueMirror : WorldDefinition {
+    override val id: String = "RecedingSpheresOnBlueMirror.kt"
 
     override fun world() =
         Builder.build {

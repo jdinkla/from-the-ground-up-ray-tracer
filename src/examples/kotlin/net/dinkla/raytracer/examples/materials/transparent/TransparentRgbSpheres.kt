@@ -6,8 +6,12 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World35 : WorldDefinition {
-    override val id: String = "World35.kt"
+/**
+ * Three coloured transparent spheres (ior 1.02) and a clear glass sphere (ior 1.5) with a red backdrop box,
+ * demonstrating dielectric transparency. Formerly World35.kt.
+ */
+object TransparentRgbSpheres : WorldDefinition {
+    override val id: String = "TransparentRgbSpheres.kt"
 
     override fun world(): World =
         Builder.build {

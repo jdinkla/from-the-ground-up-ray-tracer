@@ -144,7 +144,7 @@ private val worldMap: Map<String, WorldDefinition> by lazy {
 }
 ```
 
-Worlds are then selectable via CLI: `--world=World66.kt`
+Worlds are then selectable via CLI: `--world=Bunny.kt`
 
 **Consequences:**
 - **Positive:** Adding a new scene requires only creating a new class implementing `WorldDefinition`. No registration needed.

@@ -25,9 +25,9 @@ Run the different versions with
 $ ./gradlew build
 $ ./gradlew swing
 $ ./gradlew run --args="--world=AreaShadedSpheres.kt --tracer=AREA --renderer=FORK_JOIN --resolution=1080p"
-$ ./gradlew run --args="--world=World66b.kt --renderer=FORK_JOIN --resolution=720p"
-$ ./gradlew run --args="--world=World66b.kt --renderer=PARALLEL --resolution=1080p"
-$ ./gradlew run --args="--world=World74.kt --renderer=COROUTINE --resolution=2160p"
+$ ./gradlew run --args="--world=RecedingSpheresOnBlueMirror.kt --renderer=FORK_JOIN --resolution=720p"
+$ ./gradlew run --args="--world=RecedingSpheresOnBlueMirror.kt --renderer=PARALLEL --resolution=1080p"
+$ ./gradlew run --args="--world=BunnyRowGrid.kt --renderer=COROUTINE --resolution=2160p"
 ```
 
 ![Rendered image](https://jdinkla.github.io/images/FromTheGroundUpRaytracerGUI.webp)
@@ -52,7 +52,7 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDef
 
-object World48 : WorldDef {
+object BasicExample : WorldDef {
 
     override fun world() = Builder.build {
 

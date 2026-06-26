@@ -10,10 +10,10 @@ import net.dinkla.raytracer.world.WorldDefinition
 
 /**
  * Depth-of-field demo (TASK-30, verifying TASK-26 end-to-end). Geometry, lighting and camera are
- * [World58]'s — three boxes receding from the camera, the [thinLensCamera] focal plane (`f = 74`) set
+ * [ThinLensBoxes]'s — three boxes receding from the camera, the [thinLensCamera] focal plane (`f = 74`) set
  * on the middle (green) box — but this scene adds `samples(64)` and a wider aperture so the *sampled*
  * render path runs. Only that path averages many lens samples per pixel, so the near (red) and far
- * (yellow) boxes blur while the focal (green) box stays sharp. Rendering [World58] itself (no
+ * (yellow) boxes blur while the focal (green) box stays sharp. Rendering [ThinLensBoxes] itself (no
  * `samples(...)`) is the single-ray control: every box is sharp because the lens-centre ray ignores
  * the aperture.
  */

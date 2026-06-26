@@ -4,8 +4,12 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World71 : WorldDefinition {
-    override val id: String = "World71.kt"
+/**
+ * Coloured transparent spheres together with reflective boxes and clear glass spheres. The reduced variant is
+ * TransparentObjectsSimple. Formerly World71.kt.
+ */
+object TransparentSpheresAndReflectiveBoxes : WorldDefinition {
+    override val id: String = "TransparentSpheresAndReflectiveBoxes.kt"
 
     override fun world() =
         Builder.build {

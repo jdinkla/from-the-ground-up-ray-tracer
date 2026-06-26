@@ -3,12 +3,12 @@ package net.dinkla.raytracer.ui
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-private val worldIds = setOf("YellowAndRedSphere.kt", "World20.kt")
+private val worldIds = setOf("YellowAndRedSphere.kt", "Bunny.kt")
 
 class CommandLineTest :
     StringSpec({
         "a known built-in scene id is an acceptable --world value" {
-            isAcceptableWorldArg("World20.kt", worldIds, fileExists = { false }) shouldBe true
+            isAcceptableWorldArg("Bunny.kt", worldIds, fileExists = { false }) shouldBe true
         }
 
         "an existing file path is an acceptable --world value even when it is not a known id" {

@@ -9,8 +9,8 @@ import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.examples.acceleration.SpheresInNestedGrids
 import net.dinkla.raytracer.examples.basics.YellowAndRedSphere
 import net.dinkla.raytracer.examples.lights.ambient.AmbientOccludedSphere
-import net.dinkla.raytracer.examples.lights.area.World23
-import net.dinkla.raytracer.examples.materials.reflective.World17
+import net.dinkla.raytracer.examples.lights.area.AreaLitSpheres
+import net.dinkla.raytracer.examples.materials.reflective.ReflectiveCylindersAndBoxes
 import net.dinkla.raytracer.examples.materials.transparent.TransparentSpheres
 import net.dinkla.raytracer.examples.objects.InstanceExample
 import net.dinkla.raytracer.examples.objects.VariousObjects
@@ -119,14 +119,14 @@ class BuilderTest :
             w.ambientLight.shouldBeInstanceOf<AmbientOccluder>()
         }
 
-        "should build example world 17" {
-            val w = World17.world()
+        "should build ReflectiveCylindersAndBoxes" {
+            val w = ReflectiveCylindersAndBoxes.world()
             w.size() shouldBe 10
             w.lights.size shouldBe 2
         }
 
-        "should build example world 23 - area lighting" {
-            val w = World23.world()
+        "should build AreaLitSpheres - area lighting" {
+            val w = AreaLitSpheres.world()
             w.size() shouldBe 3
             w.lights.size shouldBe 1
         }

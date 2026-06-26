@@ -6,8 +6,11 @@ import net.dinkla.raytracer.world.Builder
 import net.dinkla.raytracer.world.World
 import net.dinkla.raytracer.world.WorldDefinition
 
-object World16 : WorldDefinition {
-    override val id: String = "World16.kt"
+/**
+ * A single open cylinder standing on a plane. Formerly World16.kt.
+ */
+object OpenCylinderOnPlane : WorldDefinition {
+    override val id: String = "OpenCylinderOnPlane.kt"
 
     override fun world(): World =
         Builder.build {
