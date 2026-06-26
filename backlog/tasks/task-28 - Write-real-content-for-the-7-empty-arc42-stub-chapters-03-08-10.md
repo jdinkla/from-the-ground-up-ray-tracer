@@ -1,9 +1,11 @@
 ---
 id: TASK-28
 title: 'Write real content for the 7 empty arc42 stub chapters (03-08, 10)'
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-22 16:28'
+updated_date: '2026-06-26 21:05'
 labels:
   - docs
 dependencies: []
