@@ -1,6 +1,5 @@
 package net.dinkla.raytracer.tracers
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.IHit
@@ -113,11 +112,14 @@ internal class MultipleObjectsTest :
             color shouldBeApprox Color.YELLOW
         }
 
-        "the tmin overload is unsupported" {
+        "the tmin overload delegates to the two-argument trace (TASK-63)" {
+            // MultipleObjects no longer overrides the tmin-reporting trace to throw; it inherits
+            // Tracer's default, which ignores tmin and delegates to trace(ray, depth). The result is
+            // therefore identical to the two-argument call: the hit material's shade colour.
             val tracer = MultipleObjects(world(doesHit = true, material = constantMaterial(Color.GREEN)))
 
-            shouldThrow<UnsupportedOperationException> {
-                tracer.trace(ray, WrappedDouble.createMax(), depth = 0)
-            }
+            val color = tracer.trace(ray, WrappedDouble.createMax(), depth = 0)
+
+            color shouldBeApprox Color.GREEN
         }
     })

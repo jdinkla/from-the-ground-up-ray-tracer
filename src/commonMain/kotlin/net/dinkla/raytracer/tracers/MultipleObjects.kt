@@ -3,7 +3,6 @@ package net.dinkla.raytracer.tracers
 import net.dinkla.raytracer.colors.Color
 import net.dinkla.raytracer.hits.Shade
 import net.dinkla.raytracer.math.Ray
-import net.dinkla.raytracer.math.WrappedDouble
 import net.dinkla.raytracer.world.IWorld
 
 class MultipleObjects(
@@ -22,9 +21,8 @@ class MultipleObjects(
         }
     }
 
-    override fun trace(
-        ray: Ray,
-        tmin: WrappedDouble,
-        depth: Int,
-    ): Color = throw UnsupportedOperationException("MultipleObjects.trace")
+    // The tmin-reporting trace variant is intentionally not overridden: MultipleObjects exposes no
+    // nearest-hit distance, so it inherits Tracer's default (delegate to the two-argument trace).
+    // It previously threw UnsupportedOperationException, a fat-interface stub no caller exercised
+    // (TASK-63).
 }
