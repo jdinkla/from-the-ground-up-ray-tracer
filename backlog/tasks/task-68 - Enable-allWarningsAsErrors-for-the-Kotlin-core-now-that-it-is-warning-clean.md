@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-26 20:56'
-updated_date: '2026-06-26 21:38'
+updated_date: '2026-06-26 21:39'
 labels:
   - tech-debt
   - build
@@ -22,6 +22,12 @@ TASK-61 removed the last compiler warnings (the unchecked casts in PlyReader and
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 allWarningsAsErrors is enabled for the Kotlin core (commonMain/jvmMain at minimum)
-- [ ] #2 ./gradlew clean check is green with the flag on
+- [x] #1 allWarningsAsErrors is enabled for the Kotlin core (commonMain/jvmMain at minimum)
+- [x] #2 ./gradlew clean check is green with the flag on
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Enabled compilerOptions { allWarningsAsErrors.set(true) } in the kotlin{} block of build.gradle.kts, applying to all source sets (commonMain/jvmMain/examples + tests). clean check green with the flag on — the core is warning-clean (TASK-61 removed the last unchecked-cast warnings). The residual 'WARNING: sun.misc.Unsafe' lines are JVM-runtime notices from the Kotlin compiler daemon, not Kotlin compile warnings, so they are unaffected. A new compiler warning will now fail the build.
+<!-- SECTION:NOTES:END -->
