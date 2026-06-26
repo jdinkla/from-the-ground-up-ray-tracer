@@ -1,10 +1,11 @@
 ---
 id: TASK-57
 title: Reconcile stale tech-debt and architecture docs with reality
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-24 22:35'
-updated_date: '2026-06-24 22:39'
+updated_date: '2026-06-26 21:33'
 labels:
   - tech-debt
   - documentation
