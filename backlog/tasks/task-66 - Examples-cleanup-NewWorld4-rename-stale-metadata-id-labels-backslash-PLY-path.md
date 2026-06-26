@@ -3,9 +3,11 @@ id: TASK-66
 title: >-
   Examples cleanup: NewWorld4 rename, stale metadata id labels, backslash PLY
   path
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - '@claude'
 created_date: '2026-06-26 20:37'
+updated_date: '2026-06-26 20:59'
 labels: []
 dependencies: []
 ordinal: 71000
