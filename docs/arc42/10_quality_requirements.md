@@ -1,34 +1,48 @@
 # 10. Quality Requirements
 
-I have created the arc42 Chapter 10: Quality Requirements document. Here's a summary of what it covers:
+This chapter refines the five quality goals of [Chapter 1](01_introduction_and_goals.md) into
+concrete, testable scenarios and lists the measures that protect them.
 
-**10.1 Quality Requirements Overview**
-- Maps the five quality goals from Chapter 1 to ISO 25010 categories
-- Provides a hierarchical diagram showing how the system addresses each quality characteristic
+## 10.1 Quality tree
 
-**10.2 Quality Scenarios** - 16 detailed scenarios across five categories:
-- **Performance Efficiency (PE-1 to PE-4)**: Parallel rendering scaling, acceleration structure performance, memory management
-- **Maintainability (MA-1 to MA-4)**: Adding new primitives/materials, test regression detection, static analysis enforcement
-- **Functional Correctness (FC-1 to FC-4)**: Ray-sphere intersection precision, BRDF calculations, polynomial solving, normal interpolation
-- **Usability (US-1 to US-4)**: DSL learnability, CLI operability, helper function verbosity reduction
-- **Reliability (RE-1 to RE-3)**: Configuration validation, exception handling, graceful degradation
+```
+Quality
+├── Performance efficiency   (goal 1)  -> parallel renderers, acceleration structures
+├── Modifiability            (goal 2)  -> strategy interfaces, self-registering scenes, DSL
+├── Functional correctness   (goal 3)  -> math value types, K_EPSILON, characterization tests
+├── Usability                (goal 4)  -> declarative DSL, helper functions, CLI + GUI
+└── Maintainability          (goal 5)  -> Detekt + JaCoCo + Kotest, cover-first rule
+```
 
-Each scenario includes specific measures and references to evidence in the codebase.
+## 10.2 Quality scenarios
 
-**10.3 Quality Tree**
-- Hierarchical decomposition of quality attributes
-- Traces scenarios back to quality goals
-- Includes prioritization matrix (business priority, technical risk, implementation cost)
+| # | Goal | Scenario | Response measure |
+|---|------|----------|------------------|
+| **PE-1** | Performance | A scene is rendered with `SEQUENTIAL` and then `FORK_JOIN`/`PARALLEL`/`VIRTUAL` on a multi-core machine | The parallel renderers reduce wall-clock time versus sequential while producing the same image |
+| **PE-2** | Performance | A scene with thousands of objects or a dense mesh is rendered | A spatial acceleration structure (Grid/SparseGrid/KDTree) keeps intersection cost sub-linear in object count |
+| **PE-3** | Performance | A large PLY model is loaded | Loading respects a sanity bound and fails fast (`PlyLimitExceededException`) rather than exhausting the heap |
+| **MO-1** | Modifiability | A new geometric primitive is added | It is implemented by satisfying `IGeometricObject`; no change to tracers or renderers is required |
+| **MO-2** | Modifiability | A new example scene is added | Creating one `WorldDefinition` object registers it automatically (ClassGraph); no list is edited |
+| **FC-1** | Correctness | A ray grazes a surface tangentially | `K_EPSILON` tolerances prevent self-shadowing and spurious/near-tangent hits |
+| **FC-2** | Correctness | A previously working algorithm is refactored | A frozen characterization test pins the prior behaviour and must stay green and unmodified |
+| **US-1** | Usability | A newcomer writes a first scene | The `Builder.build { }` DSL plus helper functions (`p()`, `v()`, `c()`) let them describe the scene declaratively, guided by the example scenes |
+| **US-2** | Usability | A user requests an invalid option | The CLI fails fast, naming the bad value and listing valid options (e.g. resolution ids) |
+| **MA-1** | Maintainability | A change introduces a style/complexity violation or lowers the bar | `./gradlew check` (Detekt + tests) fails in local build and CI before merge |
 
-**10.4 Quality Assurance Measures**
-- Automated quality gates (Kotest, JaCoCo, Detekt, GitHub Actions)
-- Detekt rule category breakdown with specific thresholds
-- Test coverage analysis by package with priorities from TECH_DEBT.md
-- CI pipeline configuration details
+## 10.3 Quality assurance measures
 
-**10.5 Quality Risks and Mitigations**
-- Floating-point precision, thread synchronization, memory management risks
-- Specific mitigations referencing actual code patterns (K_EPSILON, CyclicBarrier, SparseGrid)
+| Measure | Tool | Gate |
+|---------|------|------|
+| Unit & characterization tests | Kotest (JUnit 5 platform) | `./gradlew test` / `check` |
+| Coverage tracking | JaCoCo (HTML/XML in `build/reports/jacoco`) | runs after `test`; excludes `examples/**`, CLI entry point, Swing UI |
+| Static analysis | Detekt (`detekt-config.yml`) | part of `check`; relaxed subset for scene DSLs |
+| Continuous integration | GitHub Actions (JDK 25) | `./gradlew build` on every push/PR to `main` |
+| Manual render verification | CLI / Swing | for coverage-excluded zones (scenes, CLI glue, GUI) |
 
-**10.6 Quality Metrics Summary**
-- Current values vs targets for coverage, complexity, and code style metrics
+## 10.4 Notes on measurement
+
+Coverage and static-analysis figures evolve with the codebase; the **authoritative current
+values** are the generated JaCoCo and Detekt reports, not a number transcribed into prose. This
+chapter therefore states *which gates exist and what they protect* rather than fixed metric
+values. The open risks and accepted debt are tracked in
+[Chapter 11](11_risks_and_technical_debt.md) and in the project's Backlog.
