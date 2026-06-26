@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@claude'
 created_date: '2026-06-24 22:36'
-updated_date: '2026-06-26 20:50'
+updated_date: '2026-06-26 20:52'
 labels:
   - tech-debt
   - build
@@ -31,9 +31,15 @@ Land this as two independently-green steps: (1) remove the two non-existent path
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 The non-existent src/main/java and src/main/kotlin paths are removed from the detekt source configuration
-- [ ] #2 A decision is made and implemented on whether src/examples/kotlin is linted by detekt (recommended: yes)
-- [ ] #3 If examples are linted, surfaced violations are either fixed or deliberately baselined (a relaxed rule subset for scene DSLs is acceptable and documented)
-- [ ] #4 The two sub-steps (remove dead paths; lint examples) each leave the build green on their own, not only at the end
-- [ ] #5 ./gradlew detekt and ./gradlew clean check are green
+- [x] #1 The non-existent src/main/java and src/main/kotlin paths are removed from the detekt source configuration
+- [x] #2 A decision is made and implemented on whether src/examples/kotlin is linted by detekt (recommended: yes)
+- [x] #3 If examples are linted, surfaced violations are either fixed or deliberately baselined (a relaxed rule subset for scene DSLs is acceptable and documented)
+- [x] #4 The two sub-steps (remove dead paths; lint examples) each leave the build green on their own, not only at the end
+- [x] #5 ./gradlew detekt and ./gradlew clean check are green
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Step 1 (committed separately): removed non-existent src/main/java and src/main/kotlin from detekt source config. Step 2: added src/examples/kotlin to detekt source. That surfaced 1501 issues, all in three rules inappropriate for declarative scene DSLs: 1474 MagicNumber, 18 MaxLineLength, 9 LongMethod. Implemented the recommended relaxed subset: added '**/examples/**' to the excludes of MagicNumber, LongMethod, and MaxLineLength in detekt-config.yml, each with an inline rationale comment referencing this task. Examples are now linted for all OTHER rules (and are clean). ./gradlew detekt and clean check both green.
+<!-- SECTION:NOTES:END -->
