@@ -52,7 +52,7 @@ class KDTreeTest : StringSpec({
 
     "initialize with a small object set whose ideal depth differs from the builder's still builds a usable tree" {
         // n = 8 + floor(1.3*log2(8)) = 8 + 3 = 11, which differs from the default maxDepth (15),
-        // exercising the "ideal maxDepth != configured" warning branch in initialize().
+        // exercising the "ideal maxDepth != configured" diagnostic (debug-log) branch in initialize().
         val tree = built(lineOfSpheres(8))
 
         val ray = Ray(Point3D(-10.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))
@@ -62,7 +62,7 @@ class KDTreeTest : StringSpec({
 
     "initialize with an object count whose ideal depth equals the builder's maxDepth builds a usable tree" {
         // 50 spheres: n = 8 + floor(1.3*log2(50)) = 8 + 7 = 15 == default maxDepth, taking the
-        // complementary branch where no warning is logged.
+        // complementary branch where nothing is logged.
         val tree = built(lineOfSpheres(50))
 
         val ray = Ray(Point3D(-10.0, 0.0, 0.0), Vector3D(1.0, 0.0, 0.0))

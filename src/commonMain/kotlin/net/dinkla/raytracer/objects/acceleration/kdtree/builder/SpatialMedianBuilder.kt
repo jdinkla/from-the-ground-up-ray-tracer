@@ -9,7 +9,6 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.utilities.Logger
 
 /**
  * The default [TreeBuilder]: splits each voxel at its **spatial median** — the geometric midpoint of
@@ -111,10 +110,6 @@ class SpatialMedianBuilder : TreeBuilder {
             }
         }
 
-        Logger.info(
-            "Splitting " + objects.size + " objects into " + objectsL.size + " and " +
-                objectsR.size + " objects at " + split + " with depth " + depth,
-        )
         val splitValue = requireNotNull(split) { "split must be computed for an inner node at depth $depth" }
         val left = build(objectsL, voxelL, depth + 1)
         val right = build(objectsR, voxelR, depth + 1)

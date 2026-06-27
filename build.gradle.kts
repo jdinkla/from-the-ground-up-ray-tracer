@@ -22,7 +22,9 @@ dependencies {
     // Dispatchers.Swing for the desktop UI: keeps the CPU render off the Event Dispatch Thread
     // while every Swing component touch hops back onto it (TASK-33).
     implementation(KotlinX.coroutines.swing)
-    implementation("ch.qos.logback:logback-classic:_")
+    // Kermit: Kotlin-native multiplatform logging that backs utilities.Logger (replaced the
+    // hand-rolled println logger and an unused logback-classic dependency; see TASK-70).
+    implementation("co.touchlab:kermit:_")
     implementation("com.soywiz.korlibs.korim:korim:_")
     implementation("com.github.ajalt.clikt:clikt:_")
     implementation("io.github.classgraph:classgraph:_")

@@ -34,11 +34,10 @@ class KDTree(
         super.initialize()
         val n = 8 + (1.3 * (ln(objects.size.toDouble()) / ln(2.0))).toInt()
         if (n != builder.maxDepth) {
-            Logger.warn("Ideal maxDepth = " + n + ", but set to " + builder.maxDepth)
+            Logger.debug("Ideal maxDepth = " + n + ", but set to " + builder.maxDepth)
         }
         //        builder.setMaxDepth(n);
         root = builder.build(this, boundingBox)
-        Statistics.print(this)
     }
 
     /**

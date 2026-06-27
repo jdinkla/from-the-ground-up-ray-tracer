@@ -9,7 +9,6 @@ import net.dinkla.raytracer.objects.acceleration.kdtree.KDTree
 import net.dinkla.raytracer.objects.acceleration.kdtree.Leaf
 import net.dinkla.raytracer.objects.acceleration.kdtree.Node
 import net.dinkla.raytracer.utilities.Counter
-import net.dinkla.raytracer.utilities.Logger
 import kotlin.math.abs
 
 /**
@@ -18,9 +17,9 @@ import kotlin.math.abs
  * too many objects (`L + R > 1.5·n`) it gives up and makes a leaf instead.
  *
  * Quirk preserved from the original: while the *partition* uses the winning axis, the [InnerNode]'s
- * stored split value and the log message always use `mid.z` (the z midpoint), because the original
- * code reused one `split` variable across the x/y/z scan and the z scan ran last. The traversal axis
- * still comes from `Axis.fromInt(depth)`, so this is a cosmetic/recorded value, not the partition.
+ * stored split value always uses `mid.z` (the z midpoint), because the original code reused one
+ * `split` variable across the x/y/z scan and the z scan ran last. The traversal axis still comes from
+ * `Axis.fromInt(depth)`, so this is a cosmetic/recorded value, not the partition.
  */
 class Simple2Builder : TreeBuilder {
     override var maxDepth = 10
@@ -55,7 +54,7 @@ class Simple2Builder : TreeBuilder {
         val candidateZ = scanAxis(objects, voxel, Axis.Z, mid.z)
 
         // The original scanned x, y, z in sequence reusing one `split` variable, so the value used
-        // for the node and the log is always the last axis scanned (z), regardless of which wins.
+        // for the node is always the last axis scanned (z), regardless of which wins.
         val split = mid.z
         val n = objects.size
 
@@ -66,10 +65,6 @@ class Simple2Builder : TreeBuilder {
         return if (objectsL.size + objectsR.size > n * 1.5) {
             Leaf(objects)
         } else {
-            Logger.info(
-                "Splitting " + objects.size + " objects into " + objectsL.size + " and " +
-                    objectsR.size + " objects at " + split + " with depth " + depth,
-            )
             val left = build(objectsL, best.voxelL, depth + 1)
             val right = build(objectsR, best.voxelR, depth + 1)
             InnerNode(left, right, voxel, split, Axis.fromInt(depth))
